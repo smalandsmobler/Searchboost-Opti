@@ -12,7 +12,7 @@ export interface AbicartConfig {
 export interface JsonRpcRequest {
   jsonrpc: '2.0';
   method: string;
-  params?: Record<string, unknown>;
+  params?: any[]; // Abicart uses array params, not object
   id: number | string;
 }
 

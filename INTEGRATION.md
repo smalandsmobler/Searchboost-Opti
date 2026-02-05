@@ -53,18 +53,52 @@ PORT=3000
 BASE_URL=https://babylovesgrowth.se
 
 # Abicart API Configuration
-ABICART_API_URL=https://api.abicart.se/v1/
-ABICART_API_KEY=din_api_nyckel_här
+ABICART_API_URL=https://admin.abicart.se/backend/jsonrpc/v1
+ABICART_API_KEY=din_auth_token_här
 ABICART_SHOP_ID=din_butiks_id_här
 ```
 
 ### 3. Skaffa Abicart API Credentials
 
-1. Logga in på [Abicart Admin](https://admin.abicart.se/)
-2. Gå till **Inställningar** → **API**
-3. Skapa ny API-nyckel
-4. Kopiera API-nyckeln och butiks-ID:t
-5. Lägg till dem i din `.env` fil
+**Steg 1: Skapa gratis demokonto**
+
+För att använda Abicart API behöver du först skapa ett **gratis demokonto**:
+
+1. Gå till [Abicart](https://www.abicart.com/)
+2. Skapa ett gratis demokonto
+3. Du får tillgång till en testbutik där du kan skapa artiklar och blogginlägg
+
+**Steg 2: Få API-token**
+
+Det finns två typer av tokens i Abicart:
+
+1. **Temporär token (24h)** - För testning:
+   ```javascript
+   // Använd Admin.login för att få en 24h token
+   method: "Admin.login"
+   params: ["användarnamn", "lösenord"]
+   ```
+
+2. **Persistent token** - För produktion:
+   ```javascript
+   // Använd AuthToken.create för att skapa en persistent token
+   method: "AuthToken.create"
+   // Denna kan bara anropas från en session autentiserad via Admin.login
+   ```
+
+**Steg 3: Konfigurera credentials**
+
+När du har din token:
+1. Lägg till token i `.env` filen som `ABICART_API_KEY`
+2. Lägg till ditt shop ID som `ABICART_SHOP_ID`
+
+**API Endpoint:**
+```
+https://admin.abicart.se/backend/jsonrpc/v1/
+```
+
+**Autentisering:**
+Abicart använder context-baserad autentisering där auth token skickas som GET parameter eller cookie, inte via Bearer header.
 
 ## Användning
 
