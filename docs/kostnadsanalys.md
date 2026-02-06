@@ -30,9 +30,10 @@
 | Web scraping/crawling | Hämta sidor för SEO-analys | 0 SEK (eget) |
 | Google Search Console API | Sökdata (gratis med konto) | 0 SEK |
 | Google PageSpeed Insights API | Prestationsdata | 0 SEK (gratisnivå) |
+| Rankings API | Sökranking-data | 0 SEK (gratis trial 3 veckor) |
 | Tredjepartsdata (Ahrefs/SEMrush API) | Valfritt, avancerad analys | 1 000–3 000 SEK |
 
-**Notering:** Grundfunktionaliteten kräver inga betalda API:er. Tredjepartsverktyg är valfria tillägg.
+**Notering:** Grundfunktionaliteten kräver inga betalda API:er. Rankings API ingår gratis i 3 veckor — utvärdera under trial innan beslut om fortsatt prenumeration. Tredjepartsverktyg är valfria tillägg.
 
 ## 3. Utvecklingskostnad
 
