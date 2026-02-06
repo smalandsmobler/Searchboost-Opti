@@ -4,6 +4,8 @@ import rateLimit from 'express-rate-limit';
 import uploadRouter from './routes/upload';
 import serankingRouter from './routes/seranking';
 import rankmathRouter from './routes/rankmath';
+import googleadsRouter from './routes/googleads';
+import socialRouter from './routes/social';
 import { apiKeyAuth } from './middleware/auth';
 
 export function createApp() {
@@ -27,6 +29,8 @@ export function createApp() {
   app.use('/upload', apiKeyAuth, uploadRouter);
   app.use('/seranking', apiKeyAuth, serankingRouter);
   app.use('/rankmath', apiKeyAuth, rankmathRouter);
+  app.use('/googleads', apiKeyAuth, googleadsRouter);
+  app.use('/social', apiKeyAuth, socialRouter);
 
   // Error handler for multer errors (Express requires all 4 params)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

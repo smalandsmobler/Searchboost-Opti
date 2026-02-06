@@ -103,6 +103,45 @@
       </div>
       <div id="rankmathResult" class="result" style="display:none"></div>
     </div>
+
+    <!-- GOOGLE ADS -->
+    <div class="card">
+      <h2>Google Ads</h2>
+      <button onclick="apiCall('/googleads/campaigns', 'googleadsResult')">Kampanjer</button>
+      <button onclick="apiCall('/googleads/campaigns/metrics', 'googleadsResult')">Metrics (30 dgr)</button>
+      <button onclick="apiCall('/googleads/ads', 'googleadsResult')">Annonser</button>
+      <div style="margin-top:12px">
+        <label>Kampanj-ID</label>
+        <input type="text" id="campaignId" placeholder="t.ex. 12345678">
+        <button onclick="apiCall('/googleads/campaigns/' + document.getElementById('campaignId').value + '/keywords', 'googleadsResult')">Nyckelord</button>
+      </div>
+      <div id="googleadsResult" class="result" style="display:none"></div>
+    </div>
+
+    <!-- FACEBOOK / INSTAGRAM -->
+    <div class="card">
+      <h2>Facebook / Instagram</h2>
+      <button onclick="apiCall('/social/facebook/insights', 'metaResult')">FB Insights</button>
+      <button onclick="apiCall('/social/facebook/posts', 'metaResult')">FB Inlägg</button>
+      <button onclick="apiCall('/social/instagram/account', 'metaResult')">IG Konto</button>
+      <div style="margin-top:12px">
+        <label>Instagram Konto-ID</label>
+        <input type="text" id="igAccountId" placeholder="t.ex. 17841400...">
+        <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/media', 'metaResult')">IG Media</button>
+        <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/insights', 'metaResult')">IG Insights</button>
+      </div>
+      <div id="metaResult" class="result" style="display:none"></div>
+    </div>
+
+    <!-- LINKEDIN -->
+    <div class="card">
+      <h2>LinkedIn</h2>
+      <button onclick="apiCall('/social/linkedin/organization', 'linkedinResult')">Organisation</button>
+      <button onclick="apiCall('/social/linkedin/followers', 'linkedinResult')">Följare</button>
+      <button onclick="apiCall('/social/linkedin/stats', 'linkedinResult')">Statistik</button>
+      <button onclick="apiCall('/social/linkedin/posts', 'linkedinResult')">Inlägg</button>
+      <div id="linkedinResult" class="result" style="display:none"></div>
+    </div>
   </div>
 
   <script>
@@ -206,6 +245,19 @@
 
     async function rankMathCall(endpoint) {
       const result = document.getElementById('rankmathResult');
+      result.style.display = 'block';
+      result.textContent = 'Hämtar...';
+      try {
+        const res = await fetch(getBase() + endpoint, { headers: getHeaders() });
+        const data = await res.json();
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (err) {
+        result.textContent = 'Fel: ' + err.message;
+      }
+    }
+
+    async function apiCall(endpoint, resultId) {
+      const result = document.getElementById(resultId);
       result.style.display = 'block';
       result.textContent = 'Hämtar...';
       try {
