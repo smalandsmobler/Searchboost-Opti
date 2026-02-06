@@ -1,92 +1,81 @@
-# seo-mcp-server
+# Babylovesgrowth
 
-An MCP (Model Context Protocol) server that provides SEO analysis tools for AI assistants. Enables LLMs to perform keyword research, on-page SEO audits, meta tag analysis, and more through a standardized tool interface.
+En app för att följa ditt barns tillväxt och utveckling — vikt, längd, huvudomfång, milstolpar och dagliga rutiner.
 
-## Features
+## Funktioner
 
-- **On-Page SEO Audit** — Analyze pages for title tags, meta descriptions, headings, and content structure
-- **Keyword Analysis** — Extract keyword density, check placement, and suggest improvements
-- **Meta Tag Validation** — Verify Open Graph, Twitter Cards, and structured data markup
-- **Link Analysis** — Check internal/external links, anchor text, and broken links
-- **Performance Hints** — Flag common performance issues affecting SEO (image sizes, render-blocking resources)
-- **Sitemap & Robots.txt Validation** — Parse and validate sitemap.xml and robots.txt files
+- Registrera vikt, längd och huvudomfång över tid
+- Logga utvecklingsmilstolpar (första leendet, krypa, gå, prata)
+- Visualisera tillväxtkurvor mot WHO-percentiler
+- Följa matning, sömn och blöjbyten
+- Exportera data för att dela med BVC/barnläkare
 
-## Getting Started
+## Kom igång
 
-### Prerequisites
+### Förutsättningar
 
-- Node.js (v18 or higher)
+- Node.js v18+
 - npm
 
 ### Installation
 
 ```bash
-git clone https://github.com/smalandsmobler/seo-mcp-server.git
-cd seo-mcp-server
+git clone https://github.com/smalandsmobler/Babylovesgrowth.git
+cd Babylovesgrowth
 npm install
 ```
 
-### Running the Server
+### Starta servern
 
 ```bash
 npm start
 ```
 
-### Connecting to an MCP Client
+Servern startar på `http://localhost:3000`.
 
-Add the server to your MCP client configuration:
+### API-endpoints
 
-```json
-{
-  "mcpServers": {
-    "seo": {
-      "command": "node",
-      "args": ["src/index.js"],
-      "cwd": "/path/to/seo-mcp-server"
-    }
-  }
-}
-```
+| Metod | Endpoint | Beskrivning |
+|-------|----------|-------------|
+| GET | `/api/babies` | Lista alla barn |
+| POST | `/api/babies` | Lägg till nytt barn |
+| GET | `/api/babies/:id` | Hämta barn med ID |
+| POST | `/api/babies/:id/growth` | Registrera tillväxtdata |
+| GET | `/api/babies/:id/growth` | Hämta tillväxthistorik |
+| POST | `/api/babies/:id/milestones` | Logga milstolpe |
+| GET | `/api/babies/:id/milestones` | Hämta milstolpar |
+| GET | `/api/babies/:id/growth/chart` | Tillväxtkurva med percentiler |
 
-## Available Tools
-
-| Tool | Description |
-|------|-------------|
-| `analyze_page_seo` | Run a full on-page SEO audit for a given URL |
-| `check_meta_tags` | Validate meta tags, Open Graph, and Twitter Card data |
-| `analyze_keywords` | Analyze keyword density and placement on a page |
-| `check_links` | Audit internal and external links on a page |
-| `validate_sitemap` | Parse and validate a sitemap.xml file |
-| `validate_robots` | Parse and validate a robots.txt file |
-
-## Project Structure
+## Projektstruktur
 
 ```
-seo-mcp-server/
+Babylovesgrowth/
 ├── README.md
 ├── LICENSE
 ├── CONTRIBUTING.md
-├── .gitignore
 ├── package.json
 ├── src/
-│   ├── index.js          # MCP server entry point
-│   ├── tools/            # Tool implementations
-│   │   ├── analyzePage.js
-│   │   ├── checkMeta.js
-│   │   ├── analyzeKeywords.js
-│   │   ├── checkLinks.js
-│   │   ├── validateSitemap.js
-│   │   └── validateRobots.js
-│   └── utils/            # Shared utilities
-│       ├── fetcher.js
-│       └── parser.js
-└── tests/                # Test files
+│   ├── index.js              # Express-server
+│   ├── routes/
+│   │   ├── babies.js         # Baby CRUD
+│   │   ├── growth.js         # Tillväxtdata
+│   │   └── milestones.js     # Milstolpar
+│   ├── models/
+│   │   ├── Baby.js
+│   │   ├── Growth.js
+│   │   └── Milestone.js
+│   └── data/
+│       └── who-percentiles.js  # WHO-tillväxtdata
+├── docs/
+│   ├── kostnadsanalys.md
+│   └── forutsattningar.md
+└── tests/
 ```
 
-## Contributing
+## Bidra
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute to this project.
+Se [CONTRIBUTING.md](CONTRIBUTING.md) för riktlinjer.
 
-## License
+## Licens
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT — se [LICENSE](LICENSE).

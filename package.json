@@ -1,22 +1,24 @@
 {
-  "name": "seo-mcp-server",
+  "name": "babylovesgrowth",
   "version": "0.1.0",
-  "description": "An MCP server providing SEO analysis tools for AI assistants",
+  "description": "Baby growth tracker — vikt, längd, milstolpar och tillväxtkurvor",
   "type": "module",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
     "test": "node --test tests/"
   },
   "keywords": [
-    "mcp",
-    "seo",
-    "model-context-protocol",
-    "ai-tools"
+    "baby",
+    "growth",
+    "tracker",
+    "health",
+    "percentiles"
   ],
   "author": "smalandsmobler",
   "license": "MIT",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0"
+    "express": "^4.18.0"
   }
 }

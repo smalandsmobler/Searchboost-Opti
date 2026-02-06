@@ -1,48 +1,49 @@
-# Contributing to seo-mcp-server
+# Bidra till Babylovesgrowth
 
-Thank you for your interest in contributing! Here's how to get started.
+Tack för ditt intresse att bidra! Så här kommer du igång.
 
-## How to Contribute
+## Hur du bidrar
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Make your changes
-4. Run the tests (`npm test`)
-5. Commit your changes (`git commit -m "Add my feature"`)
-6. Push to your branch (`git push origin feature/my-feature`)
-7. Open a Pull Request
+1. Forka repot
+2. Skapa en feature-branch (`git checkout -b feature/min-funktion`)
+3. Gör dina ändringar
+4. Kör testerna (`npm test`)
+5. Committa (`git commit -m "Lägg till min funktion"`)
+6. Pusha (`git push origin feature/min-funktion`)
+7. Öppna en Pull Request
 
-## Development Setup
+## Utvecklingsmiljö
 
 ```bash
-git clone https://github.com/smalandsmobler/seo-mcp-server.git
-cd seo-mcp-server
+git clone https://github.com/smalandsmobler/Babylovesgrowth.git
+cd Babylovesgrowth
 npm install
+npm run dev   # Startar med --watch
 ```
 
-## Adding a New Tool
+## Lägga till en ny route
 
-1. Create a new file in `src/tools/`
-2. Implement the tool following the existing pattern
-3. Register the tool in `src/index.js`
-4. Add tests in `tests/`
+1. Skapa en ny fil i `src/routes/`
+2. Skapa tillhörande modell i `src/models/`
+3. Registrera routen i `src/index.js`
+4. Lägg till tester i `tests/`
 
-## Code Style
+## Kodstil
 
-- Use ES module syntax (`import`/`export`)
-- Follow existing naming conventions
-- Keep functions focused and small
+- ES-moduler (`import`/`export`)
+- Följ befintliga namnkonventioner
+- Håll funktioner fokuserade och små
 
-## Reporting Bugs
+## Rapportera buggar
 
-Open an issue with:
-- A clear description of the bug
-- Steps to reproduce
-- Expected vs actual behavior
+Öppna ett issue med:
+- Tydlig beskrivning av buggen
+- Steg för att återskapa
+- Förväntat vs faktiskt beteende
 
-## Suggesting Features
+## Föreslå funktioner
 
-Open an issue describing:
-- The use case
-- Proposed behavior
-- Any alternatives considered
+Öppna ett issue som beskriver:
+- Användningsfallet
+- Föreslagen funktionalitet
+- Eventuella alternativ
