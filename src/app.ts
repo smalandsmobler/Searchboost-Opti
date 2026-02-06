@@ -21,7 +21,7 @@ export function createApp() {
   app.use(express.static(path.join(__dirname, 'public')));
 
   app.get('/api/health', (_req, res) => {
-    res.json({ message: 'Hello from Babylovesgrowth!', status: 'ok' });
+    res.json({ message: 'Searchboost OPTI', status: 'ok' });
   });
 
   app.use(express.json());

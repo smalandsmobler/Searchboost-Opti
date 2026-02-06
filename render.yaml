@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: babylovesgrowth
+    name: searchboost-opti
     runtime: node
     buildCommand: npm install && npm run build
     startCommand: npm start
