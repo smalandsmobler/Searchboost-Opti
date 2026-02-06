@@ -56,6 +56,20 @@ describe('POST /upload', () => {
     expect(res.body.error).toBe('File not found');
   });
 
+  it('lists uploaded files', async () => {
+    const testFilePath = path.join(__dirname, 'fixtures', 'test-image.png');
+    await request(app).post('/upload').attach('file', testFilePath);
+
+    const res = await request(app).get('/upload');
+
+    expect(res.status).toBe(200);
+    expect(res.body.files).toBeInstanceOf(Array);
+    expect(res.body.files.length).toBeGreaterThan(0);
+    expect(res.body.files[0]).toHaveProperty('filename');
+    expect(res.body.files[0]).toHaveProperty('size');
+    expect(res.body.files[0]).toHaveProperty('uploadedAt');
+  });
+
   it('rejects files with disallowed mime types', async () => {
     const testFilePath = path.join(__dirname, 'fixtures', 'test-file.txt');
 

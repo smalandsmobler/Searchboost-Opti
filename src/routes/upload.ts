@@ -46,6 +46,20 @@ const upload = multer({
 
 const router = Router();
 
+router.get('/', (_req: Request, res: Response) => {
+  const files = fs.readdirSync(UPLOADS_DIR).map((filename) => {
+    const filePath = path.join(UPLOADS_DIR, filename);
+    const stats = fs.statSync(filePath);
+    return {
+      filename,
+      size: stats.size,
+      uploadedAt: stats.mtime,
+    };
+  });
+
+  res.json({ files });
+});
+
 router.get('/:filename', (req: Request, res: Response) => {
   const filename = path.basename(req.params.filename);
   const filePath = path.join(UPLOADS_DIR, filename);
