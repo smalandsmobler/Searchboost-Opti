@@ -3,8 +3,10 @@ import { AbicartClient } from './services/abicart.client';
 import { BlogService } from './services/blog.service';
 import { AutoPublisher } from './services/auto-publisher.service';
 import { SEOService } from './services/seo.service';
+import { MCPService } from './services/mcp.service';
 import { createBlogRouter } from './routes/blog.routes';
 import { createSEORouter } from './routes/seo.routes';
+import { createMCPRouter } from './routes/mcp.routes';
 
 export function createApp() {
   const app = express();
@@ -18,9 +20,16 @@ export function createApp() {
     res.json({
       message: 'Welcome to Babylovesgrowth API',
       version: '2.0.0',
+      features: {
+        abicart: 'Smålandsmöbler Blog Platform',
+        mcp: 'Multi-Platform SEO via seo-mcp-server',
+        autopublish: 'Daily auto-publishing',
+        seo: 'Advanced SEO analytics',
+      },
       endpoints: {
         blog: '/api/blog',
         seo: '/api/seo',
+        mcp: '/api/mcp',
         publish: '/api/publish',
         health: '/health',
       },
@@ -56,6 +65,26 @@ export function createApp() {
     serankingApiKey: process.env.SERANKING_API_KEY,
   });
 
+  // Initialize MCP Service
+  const mcpService = new MCPService({
+    serverCommand: process.env.MCP_SERVER_COMMAND || 'node',
+    serverArgs: process.env.MCP_SERVER_ARGS?.split(',') || [],
+    enabled: process.env.ENABLE_MCP === 'true',
+  });
+
+  // Connect to MCP server if enabled
+  if (process.env.ENABLE_MCP === 'true') {
+    mcpService
+      .connect()
+      .then(() => {
+        console.log('✅ MCP Service connected and ready!');
+      })
+      .catch((err) => {
+        console.error('⚠️  MCP Service failed to connect:', err.message);
+        console.log('   Continuing without MCP support...');
+      });
+  }
+
   // Initialize Auto-Publisher
   const autoPublisher = new AutoPublisher(blogService);
 
@@ -74,6 +103,9 @@ export function createApp() {
 
   // SEO routes
   app.use('/api/seo', createSEORouter(blogService, seoService, baseUrl));
+
+  // MCP routes
+  app.use('/api/mcp', createMCPRouter(mcpService));
 
   // Auto-publisher management routes
   app.post('/api/publish/now', async (_req, res) => {
