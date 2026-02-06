@@ -96,6 +96,14 @@
                 <option value="1500">Google Ads setup</option>
                 <option value="2000">Social media setup</option>
                 <option value="800">Månadsrapport (Looker Studio)</option>
+                <option disabled>── Kategoristruktur ──</option>
+                <option value="5000">Kategoristruktur-omläggning (komplett)</option>
+                <option value="3000">URL-struktur optimering</option>
+                <option value="1500">301-redirects paket (upp till 50 st)</option>
+                <option value="2000">Intern länkstruktur</option>
+                <option value="1200">Sitemap-omstrukturering</option>
+                <option value="3500">Taxonomi & tagg-optimering</option>
+                <option value="2500">Breadcrumb-struktur</option>
                 <option value="0">Anpassad (ange pris)</option>
               </select>
             </div>
@@ -118,7 +126,7 @@
           <div class="price-row">
             <div>
               <label>Marginal (%)</label>
-              <input type="number" id="margin" value="70" min="0" max="200" style="width:100px" onchange="updateQuote()">
+              <input type="number" id="margin" value="50" min="0" max="200" style="width:100px" onchange="updateQuote()">
             </div>
           </div>
         </div>
@@ -300,6 +308,14 @@
             <option value="1500">Google Ads setup</option>
             <option value="2000">Social media setup</option>
             <option value="800">Månadsrapport (Looker Studio)</option>
+            <option disabled>── Kategoristruktur ──</option>
+            <option value="5000">Kategoristruktur-omläggning (komplett)</option>
+            <option value="3000">URL-struktur optimering</option>
+            <option value="1500">301-redirects paket (upp till 50 st)</option>
+            <option value="2000">Intern länkstruktur</option>
+            <option value="1200">Sitemap-omstrukturering</option>
+            <option value="3500">Taxonomi & tagg-optimering</option>
+            <option value="2500">Breadcrumb-struktur</option>
             <option value="0">Anpassad (ange pris)</option>
           </select>
         </div>
@@ -344,7 +360,7 @@
         totalCost += Number(priceInput.value) * qty;
       });
 
-      const margin = Number(document.getElementById('margin').value) || 70;
+      const margin = Number(document.getElementById('margin').value) || 50;
       const totalPrice = Math.round(totalCost * (1 + margin / 100));
       const profit = totalPrice - totalCost;
 
