@@ -46,8 +46,10 @@ const upload = multer({
 
 const router = Router();
 
-router.get('/', (_req: Request, res: Response) => {
-  const files = fs.readdirSync(UPLOADS_DIR).map((filename) => {
+router.get('/', (req: Request, res: Response) => {
+  const { type } = req.query;
+
+  let files = fs.readdirSync(UPLOADS_DIR).map((filename) => {
     const filePath = path.join(UPLOADS_DIR, filename);
     const stats = fs.statSync(filePath);
     return {
@@ -57,7 +59,12 @@ router.get('/', (_req: Request, res: Response) => {
     };
   });
 
-  res.json({ files });
+  if (typeof type === 'string') {
+    const ext = type.startsWith('.') ? type : `.${type}`;
+    files = files.filter((f) => f.filename.endsWith(ext));
+  }
+
+  res.json({ count: files.length, files });
 });
 
 router.get('/:filename', (req: Request, res: Response) => {
@@ -70,6 +77,19 @@ router.get('/:filename', (req: Request, res: Response) => {
   }
 
   res.download(filePath);
+});
+
+router.delete('/:filename', (req: Request, res: Response) => {
+  const filename = path.basename(req.params.filename);
+  const filePath = path.join(UPLOADS_DIR, filename);
+
+  if (!fs.existsSync(filePath)) {
+    res.status(404).json({ error: 'File not found' });
+    return;
+  }
+
+  fs.unlinkSync(filePath);
+  res.json({ message: 'File deleted successfully' });
 });
 
 router.post('/', upload.single('file'), (req: Request, res: Response) => {

@@ -1,14 +1,24 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import uploadRouter from './routes/upload';
+import { apiKeyAuth } from './middleware/auth';
 
 export function createApp() {
   const app = express();
+
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100,
+    message: { error: 'Too many requests, try again later' },
+  });
+
+  app.use(limiter);
 
   app.get('/', (_req, res) => {
     res.json({ message: 'Hello from Babylovesgrowth!' });
   });
 
-  app.use('/upload', uploadRouter);
+  app.use('/upload', apiKeyAuth, uploadRouter);
 
   // Error handler for multer errors (Express requires all 4 params)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
