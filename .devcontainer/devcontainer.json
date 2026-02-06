@@ -1,0 +1,42 @@
+{
+  "name": "Babylovesgrowth Development",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:18",
+
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "streetsidesoftware.code-spell-checker",
+        "eamodio.gitlens",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "eslint.validate": ["javascript", "typescript"],
+        "typescript.tsdk": "node_modules/typescript/lib"
+      }
+    }
+  },
+
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "Babylovesgrowth API",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "npm install && npm run build",
+
+  "postStartCommand": "echo '🚀 Babylovesgrowth Ready! Run: npm run dev'",
+
+  "remoteUser": "node"
+}
