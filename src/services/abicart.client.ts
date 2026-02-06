@@ -171,4 +171,51 @@ export class AbicartClient {
 
     return this.request('Article.list', [selection, options]);
   }
+
+  /**
+   * Create or update a blog article using Article.set
+   * Example: Article.set(uid, {"name": "Blog Title", "text": "Content..."})
+   *
+   * @param uid - Article UID (null for new article, or existing UID to update)
+   * @param data - Article data to set
+   */
+  async createOrUpdateBlogArticle(uid: string | number | null, data: {
+    name: string;
+    text: string;
+    description?: string;
+    metaDescription?: string;
+    metaKeywords?: string;
+    visible?: boolean;
+    articleType?: string;
+    [key: string]: any;
+  }) {
+    // Set article type to blog if not specified
+    const articleData = {
+      ...data,
+      articleType: data.articleType || 'blog',
+      visible: data.visible !== undefined ? data.visible : true,
+    };
+
+    return this.request('Article.set', [uid, articleData]);
+  }
+
+  /**
+   * Delete a blog article
+   * Example: Article.delete(uid)
+   *
+   * @param uid - Article UID to delete
+   */
+  async deleteBlogArticle(uid: string | number) {
+    return this.request('Article.delete', [uid]);
+  }
+
+  /**
+   * Validate article data before creating/updating
+   * Example: Article.validate({"name": "Title", "text": "Content"})
+   *
+   * @param data - Article data to validate
+   */
+  async validateBlogArticle(data: Record<string, any>) {
+    return this.request('Article.validate', [data]);
+  }
 }

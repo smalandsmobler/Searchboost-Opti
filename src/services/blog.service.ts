@@ -125,6 +125,108 @@ export class BlogService {
   }
 
   /**
+   * Create a new blog post
+   */
+  async createBlogPost(data: {
+    title: string;
+    content: string;
+    excerpt?: string;
+    metaDescription?: string;
+    metaKeywords?: string;
+    author?: string;
+    tags?: string[];
+    visible?: boolean;
+  }): Promise<AbicartBlogPost> {
+    try {
+      // Prepare article data for Abicart
+      const articleData = {
+        name: data.title,
+        text: data.content,
+        description: data.excerpt || this.generateExcerpt(data.content),
+        metaDescription:
+          data.metaDescription || this.generateExcerpt(data.content, 160),
+        metaKeywords: data.metaKeywords || data.tags?.join(', ') || '',
+        visible: data.visible !== undefined ? data.visible : true,
+        articleType: 'blog',
+      };
+
+      // Create new article (uid = null for new)
+      const result = await this.abicartClient.createOrUpdateBlogArticle(
+        null,
+        articleData
+      );
+
+      // Clear cache after creating
+      this.clearCache();
+
+      return this.transformBlogPost(result) as AbicartBlogPost;
+    } catch (error) {
+      throw new Error(
+        `Failed to create blog post: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
+    }
+  }
+
+  /**
+   * Update an existing blog post
+   */
+  async updateBlogPost(
+    uid: string | number,
+    data: {
+      title?: string;
+      content?: string;
+      excerpt?: string;
+      metaDescription?: string;
+      metaKeywords?: string;
+      visible?: boolean;
+    }
+  ): Promise<AbicartBlogPost> {
+    try {
+      // Prepare update data
+      const updateData: any = {};
+
+      if (data.title) updateData.name = data.title;
+      if (data.content) updateData.text = data.content;
+      if (data.excerpt) updateData.description = data.excerpt;
+      if (data.metaDescription)
+        updateData.metaDescription = data.metaDescription;
+      if (data.metaKeywords) updateData.metaKeywords = data.metaKeywords;
+      if (data.visible !== undefined) updateData.visible = data.visible;
+
+      // Update article
+      const result = await this.abicartClient.createOrUpdateBlogArticle(
+        uid,
+        updateData
+      );
+
+      // Clear cache after updating
+      this.clearCache();
+
+      return this.transformBlogPost(result) as AbicartBlogPost;
+    } catch (error) {
+      throw new Error(
+        `Failed to update blog post: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
+    }
+  }
+
+  /**
+   * Delete a blog post
+   */
+  async deleteBlogPost(uid: string | number): Promise<void> {
+    try {
+      await this.abicartClient.deleteBlogArticle(uid);
+
+      // Clear cache after deleting
+      this.clearCache();
+    } catch (error) {
+      throw new Error(
+        `Failed to delete blog post: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
+    }
+  }
+
+  /**
    * Clear cache (useful for manual refresh)
    */
   clearCache(): void {
