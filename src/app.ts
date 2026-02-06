@@ -2,7 +2,9 @@ import express from 'express';
 import { AbicartClient } from './services/abicart.client';
 import { BlogService } from './services/blog.service';
 import { AutoPublisher } from './services/auto-publisher.service';
+import { SEOService } from './services/seo.service';
 import { createBlogRouter } from './routes/blog.routes';
+import { createSEORouter } from './routes/seo.routes';
 
 export function createApp() {
   const app = express();
@@ -15,9 +17,11 @@ export function createApp() {
   app.get('/', (_req, res) => {
     res.json({
       message: 'Welcome to Babylovesgrowth API',
-      version: '1.0.0',
+      version: '2.0.0',
       endpoints: {
         blog: '/api/blog',
+        seo: '/api/seo',
+        publish: '/api/publish',
         health: '/health',
       },
     });
@@ -45,6 +49,13 @@ export function createApp() {
   const blogService = new BlogService(abicartClient);
   const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
+  // Initialize SEO Service
+  const seoService = new SEOService({
+    gscApiKey: process.env.GSC_API_KEY || '',
+    siteUrl: process.env.GSC_SITE_URL || baseUrl,
+    serankingApiKey: process.env.SERANKING_API_KEY,
+  });
+
   // Initialize Auto-Publisher
   const autoPublisher = new AutoPublisher(blogService);
 
@@ -60,6 +71,9 @@ export function createApp() {
 
   // Blog routes
   app.use('/api/blog', createBlogRouter(blogService, baseUrl));
+
+  // SEO routes
+  app.use('/api/seo', createSEORouter(blogService, seoService, baseUrl));
 
   // Auto-publisher management routes
   app.post('/api/publish/now', async (_req, res) => {
