@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: babylovesgrowth
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3000"
+      - key: SERANKING_API_KEY
+        sync: false
+      - key: RANKMATH_API_KEY
+        sync: false
+      - key: WP_SITE_URL
+        value: https://smalandskontorsmobler.se
+      - key: API_KEY
+        sync: false
