@@ -14,148 +14,346 @@
     .card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; }
     .card h2 { margin-top: 0; }
     label { display: block; color: #94a3b8; font-size: 0.85em; margin-bottom: 4px; margin-top: 12px; }
-    input[type="text"], input[type="file"], select { width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #e2e8f0; font-size: 0.9em; }
+    input[type="text"], input[type="number"], input[type="password"], input[type="file"], select, textarea { width: 100%; padding: 8px 12px; background: #0f172a; border: 1px solid #475569; border-radius: 6px; color: #e2e8f0; font-size: 0.9em; }
+    textarea { min-height: 80px; font-family: inherit; resize: vertical; }
     button { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-size: 0.9em; margin-top: 12px; }
     button:hover { background: #3b82f6; }
     button.danger { background: #dc2626; }
     button.danger:hover { background: #ef4444; }
+    button.success { background: #16a34a; }
+    button.success:hover { background: #22c55e; }
     .result { background: #0f172a; border: 1px solid #334155; border-radius: 6px; padding: 12px; margin-top: 12px; font-family: monospace; font-size: 0.8em; white-space: pre-wrap; max-height: 300px; overflow-y: auto; }
     .file-list { list-style: none; }
     .file-list li { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #334155; }
     .file-list li:last-child { border-bottom: none; }
     .file-actions button { margin-left: 8px; padding: 4px 10px; font-size: 0.8em; margin-top: 0; }
-    .status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
-    .status.ok { background: #166534; color: #4ade80; }
-    .status.err { background: #7f1d1d; color: #fca5a5; }
     .env-bar { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: end; flex-wrap: wrap; }
     .env-bar label { margin: 0; }
     .env-bar input { width: 200px; }
     .env-bar button { margin-top: 0; }
-    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+    .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; justify-content: center; align-items: center; z-index: 1000; }
+    .login-box { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 40px; width: 360px; text-align: center; }
+    .login-box h1 { margin-bottom: 4px; }
+    .login-box .subtitle { margin-bottom: 24px; }
+    .login-box input { margin-top: 8px; }
+    .login-box button { width: 100%; margin-top: 16px; }
+    .login-error { color: #fca5a5; font-size: 0.85em; margin-top: 8px; display: none; }
+    .price-row { display: flex; gap: 12px; align-items: end; }
+    .price-row > div { flex: 1; }
+    .price-summary { background: #0f172a; border: 1px solid #334155; border-radius: 8px; padding: 16px; margin-top: 16px; }
+    .price-summary .total { font-size: 1.4em; color: #4ade80; font-weight: bold; }
+    .price-summary .cost { font-size: 0.9em; color: #64748b; }
+    @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } .price-row { flex-direction: column; } }
   </style>
 </head>
 <body>
-  <h1>Searchboost OPTI</h1>
-  <p class="subtitle">SEO Dashboard - smalandskontorsmobler.se</p>
 
-  <div class="env-bar">
-    <div>
-      <label>API-nyckel (valfri)</label>
-      <input type="text" id="apiKey" placeholder="Din API-nyckel">
-    </div>
-    <div>
-      <label>API Base URL</label>
-      <input type="text" id="baseUrl" value="http://localhost:3000">
+  <!-- LOGIN SCREEN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h1>Searchboost OPTI</h1>
+      <p class="subtitle">Logga in</p>
+      <label>Lösenord</label>
+      <input type="password" id="loginPassword" placeholder="Ange lösenord" onkeydown="if(event.key==='Enter')doLogin()">
+      <button onclick="doLogin()">Logga in</button>
+      <div class="login-error" id="loginError">Fel lösenord</div>
     </div>
   </div>
 
-  <div class="grid">
-    <!-- UPLOAD -->
-    <div class="card">
-      <h2>Filuppladdning</h2>
-      <label>Välj fil (bild eller PDF, max 5 MB)</label>
-      <input type="file" id="fileInput" accept="image/*,.pdf">
-      <button onclick="uploadFile()">Ladda upp</button>
-      <div id="uploadResult" class="result" style="display:none"></div>
-    </div>
+  <!-- MAIN DASHBOARD (hidden until login) -->
+  <div id="dashboard" style="display:none">
+    <h1>Searchboost OPTI</h1>
+    <p class="subtitle">SEO Dashboard</p>
 
-    <!-- FILES -->
-    <div class="card">
-      <h2>Uppladdade filer</h2>
-      <button onclick="listFiles()">Uppdatera lista</button>
-      <select id="filterType" style="width:auto; display:inline; margin-left:8px">
-        <option value="">Alla typer</option>
-        <option value="png">PNG</option>
-        <option value="jpg">JPG</option>
-        <option value="pdf">PDF</option>
-        <option value="gif">GIF</option>
-        <option value="webp">WebP</option>
-      </select>
-      <ul id="fileList" class="file-list" style="margin-top:12px"></ul>
-    </div>
-
-    <!-- SE RANKING -->
-    <div class="card">
-      <h2>SE Ranking</h2>
-      <button onclick="seRankingCall('/seranking/account')">Konto</button>
-      <button onclick="seRankingCall('/seranking/sites')">Sajter</button>
-      <div style="margin-top:12px">
-        <label>Sajt-ID (för detaljer)</label>
-        <input type="text" id="siteId" placeholder="t.ex. 12345">
-        <button onclick="seRankingCall('/seranking/sites/' + document.getElementById('siteId').value + '/keywords')">Nyckelord</button>
-        <button onclick="seRankingCall('/seranking/sites/' + document.getElementById('siteId').value + '/rankings')">Rankings</button>
-        <button onclick="seRankingCall('/seranking/sites/' + document.getElementById('siteId').value + '/audit')">Audit</button>
-        <button onclick="seRankingCall('/seranking/sites/' + document.getElementById('siteId').value + '/competitors')">Konkurrenter</button>
+    <div class="env-bar">
+      <div>
+        <label>API Base URL</label>
+        <input type="text" id="baseUrl" value="">
       </div>
-      <div id="serankingResult" class="result" style="display:none"></div>
+      <button onclick="window.location.reload()">Logga ut</button>
     </div>
 
-    <!-- RANKMATH -->
-    <div class="card">
-      <h2>RankMath / WordPress</h2>
-      <button onclick="rankMathCall('/rankmath/posts')">Inlägg</button>
-      <button onclick="rankMathCall('/rankmath/pages')">Sidor</button>
-      <button onclick="rankMathCall('/rankmath/health')">Hälsostatus</button>
-      <div style="margin-top:12px">
-        <label>Inläggs-ID (för SEO-meta)</label>
-        <input type="text" id="postId" placeholder="t.ex. 42">
-        <button onclick="rankMathCall('/rankmath/posts/' + document.getElementById('postId').value + '/seo')">Hämta SEO</button>
+    <div class="grid">
+      <!-- PRISKALKYLATOR -->
+      <div class="card" style="grid-column: 1 / -1;">
+        <h2>Priskalkylator</h2>
+        <p style="color:#94a3b8; font-size:0.85em; margin-bottom:12px">Beräkna kundpris direkt. Ditt inköpspris + marginal = kundpris.</p>
+        <div id="quoteItems">
+          <div class="price-row" data-row="0">
+            <div>
+              <label>Tjänst</label>
+              <select onchange="updateQuote()">
+                <option value="">Välj...</option>
+                <option value="500">Undersida (enkel)</option>
+                <option value="1200">Undersida (avancerad)</option>
+                <option value="800">Lokal landningssida</option>
+                <option value="2500">Landningssida (premium)</option>
+                <option value="3000">SEO-audit + åtgärdsplan</option>
+                <option value="1500">Nyckelordsanalys (ABC)</option>
+                <option value="2000">Teknisk SEO-optimering</option>
+                <option value="1000">Meta-titlar & beskrivningar (10 sidor)</option>
+                <option value="4000">Innehållsstrategi (3 mån)</option>
+                <option value="1500">Google Ads setup</option>
+                <option value="2000">Social media setup</option>
+                <option value="800">Månadsrapport (Looker Studio)</option>
+                <option value="0">Anpassad (ange pris)</option>
+              </select>
+            </div>
+            <div>
+              <label>Antal</label>
+              <input type="number" value="1" min="1" style="width:80px" onchange="updateQuote()">
+            </div>
+            <div>
+              <label>Inköpspris (kr)</label>
+              <input type="number" value="0" style="width:120px" onchange="updateQuote()">
+            </div>
+            <div style="flex:none">
+              <button class="danger" onclick="removeQuoteRow(this)" style="padding:8px 12px">X</button>
+            </div>
+          </div>
+        </div>
+        <button onclick="addQuoteRow()">+ Lägg till rad</button>
+
+        <div style="margin-top:16px">
+          <div class="price-row">
+            <div>
+              <label>Marginal (%)</label>
+              <input type="number" id="margin" value="70" min="0" max="200" style="width:100px" onchange="updateQuote()">
+            </div>
+          </div>
+        </div>
+
+        <div class="price-summary" id="priceSummary">
+          <div class="cost">Ditt inköpspris: <span id="totalCost">0</span> kr</div>
+          <div class="total">Kundpris: <span id="totalPrice">0</span> kr</div>
+          <div style="color:#94a3b8; font-size:0.8em; margin-top:4px">Din vinst: <span id="totalProfit">0</span> kr</div>
+        </div>
       </div>
-      <div id="rankmathResult" class="result" style="display:none"></div>
-    </div>
 
-    <!-- GOOGLE ADS -->
-    <div class="card">
-      <h2>Google Ads</h2>
-      <button onclick="apiCall('/googleads/campaigns', 'googleadsResult')">Kampanjer</button>
-      <button onclick="apiCall('/googleads/campaigns/metrics', 'googleadsResult')">Metrics (30 dgr)</button>
-      <button onclick="apiCall('/googleads/ads', 'googleadsResult')">Annonser</button>
-      <div style="margin-top:12px">
-        <label>Kampanj-ID</label>
-        <input type="text" id="campaignId" placeholder="t.ex. 12345678">
-        <button onclick="apiCall('/googleads/campaigns/' + document.getElementById('campaignId').value + '/keywords', 'googleadsResult')">Nyckelord</button>
+      <!-- UPLOAD -->
+      <div class="card">
+        <h2>Filuppladdning</h2>
+        <label>Välj fil (bild eller PDF, max 5 MB)</label>
+        <input type="file" id="fileInput" accept="image/*,.pdf">
+        <button onclick="uploadFile()">Ladda upp</button>
+        <div id="uploadResult" class="result" style="display:none"></div>
       </div>
-      <div id="googleadsResult" class="result" style="display:none"></div>
-    </div>
 
-    <!-- FACEBOOK / INSTAGRAM -->
-    <div class="card">
-      <h2>Facebook / Instagram</h2>
-      <button onclick="apiCall('/social/facebook/insights', 'metaResult')">FB Insights</button>
-      <button onclick="apiCall('/social/facebook/posts', 'metaResult')">FB Inlägg</button>
-      <button onclick="apiCall('/social/instagram/account', 'metaResult')">IG Konto</button>
-      <div style="margin-top:12px">
-        <label>Instagram Konto-ID</label>
-        <input type="text" id="igAccountId" placeholder="t.ex. 17841400...">
-        <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/media', 'metaResult')">IG Media</button>
-        <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/insights', 'metaResult')">IG Insights</button>
+      <!-- FILES -->
+      <div class="card">
+        <h2>Uppladdade filer</h2>
+        <button onclick="listFiles()">Uppdatera lista</button>
+        <select id="filterType" style="width:auto; display:inline; margin-left:8px">
+          <option value="">Alla typer</option>
+          <option value="png">PNG</option>
+          <option value="jpg">JPG</option>
+          <option value="pdf">PDF</option>
+          <option value="gif">GIF</option>
+          <option value="webp">WebP</option>
+        </select>
+        <ul id="fileList" class="file-list" style="margin-top:12px"></ul>
       </div>
-      <div id="metaResult" class="result" style="display:none"></div>
-    </div>
 
-    <!-- LINKEDIN -->
-    <div class="card">
-      <h2>LinkedIn</h2>
-      <button onclick="apiCall('/social/linkedin/organization', 'linkedinResult')">Organisation</button>
-      <button onclick="apiCall('/social/linkedin/followers', 'linkedinResult')">Följare</button>
-      <button onclick="apiCall('/social/linkedin/stats', 'linkedinResult')">Statistik</button>
-      <button onclick="apiCall('/social/linkedin/posts', 'linkedinResult')">Inlägg</button>
-      <div id="linkedinResult" class="result" style="display:none"></div>
+      <!-- SE RANKING -->
+      <div class="card">
+        <h2>SE Ranking</h2>
+        <button onclick="apiCall('/seranking/account', 'serankingResult')">Konto</button>
+        <button onclick="apiCall('/seranking/sites', 'serankingResult')">Sajter</button>
+        <div style="margin-top:12px">
+          <label>Sajt-ID</label>
+          <input type="text" id="siteId" placeholder="t.ex. 12345">
+          <button onclick="apiCall('/seranking/sites/' + document.getElementById('siteId').value + '/keywords', 'serankingResult')">Nyckelord</button>
+          <button onclick="apiCall('/seranking/sites/' + document.getElementById('siteId').value + '/rankings', 'serankingResult')">Rankings</button>
+          <button onclick="apiCall('/seranking/sites/' + document.getElementById('siteId').value + '/audit', 'serankingResult')">Audit</button>
+          <button onclick="apiCall('/seranking/sites/' + document.getElementById('siteId').value + '/competitors', 'serankingResult')">Konkurrenter</button>
+        </div>
+        <div id="serankingResult" class="result" style="display:none"></div>
+      </div>
+
+      <!-- RANKMATH -->
+      <div class="card">
+        <h2>RankMath / WordPress</h2>
+        <button onclick="apiCall('/rankmath/posts', 'rankmathResult')">Inlägg</button>
+        <button onclick="apiCall('/rankmath/pages', 'rankmathResult')">Sidor</button>
+        <button onclick="apiCall('/rankmath/health', 'rankmathResult')">Hälsostatus</button>
+        <div style="margin-top:12px">
+          <label>Inläggs-ID</label>
+          <input type="text" id="postId" placeholder="t.ex. 42">
+          <button onclick="apiCall('/rankmath/posts/' + document.getElementById('postId').value + '/seo', 'rankmathResult')">Hämta SEO</button>
+        </div>
+        <div id="rankmathResult" class="result" style="display:none"></div>
+      </div>
+
+      <!-- GOOGLE ADS -->
+      <div class="card">
+        <h2>Google Ads</h2>
+        <button onclick="apiCall('/googleads/campaigns', 'googleadsResult')">Kampanjer</button>
+        <button onclick="apiCall('/googleads/campaigns/metrics', 'googleadsResult')">Metrics (30 dgr)</button>
+        <button onclick="apiCall('/googleads/ads', 'googleadsResult')">Annonser</button>
+        <div style="margin-top:12px">
+          <label>Kampanj-ID</label>
+          <input type="text" id="campaignId" placeholder="t.ex. 12345678">
+          <button onclick="apiCall('/googleads/campaigns/' + document.getElementById('campaignId').value + '/keywords', 'googleadsResult')">Nyckelord</button>
+        </div>
+        <div id="googleadsResult" class="result" style="display:none"></div>
+      </div>
+
+      <!-- FACEBOOK / INSTAGRAM -->
+      <div class="card">
+        <h2>Facebook / Instagram</h2>
+        <button onclick="apiCall('/social/facebook/insights', 'metaResult')">FB Insights</button>
+        <button onclick="apiCall('/social/facebook/posts', 'metaResult')">FB Inlägg</button>
+        <button onclick="apiCall('/social/instagram/account', 'metaResult')">IG Konto</button>
+        <div style="margin-top:12px">
+          <label>Instagram Konto-ID</label>
+          <input type="text" id="igAccountId" placeholder="t.ex. 17841400...">
+          <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/media', 'metaResult')">IG Media</button>
+          <button onclick="apiCall('/social/instagram/' + document.getElementById('igAccountId').value + '/insights', 'metaResult')">IG Insights</button>
+        </div>
+        <div id="metaResult" class="result" style="display:none"></div>
+      </div>
+
+      <!-- LINKEDIN -->
+      <div class="card">
+        <h2>LinkedIn</h2>
+        <button onclick="apiCall('/social/linkedin/organization', 'linkedinResult')">Organisation</button>
+        <button onclick="apiCall('/social/linkedin/followers', 'linkedinResult')">Följare</button>
+        <button onclick="apiCall('/social/linkedin/stats', 'linkedinResult')">Statistik</button>
+        <button onclick="apiCall('/social/linkedin/posts', 'linkedinResult')">Inlägg</button>
+        <div id="linkedinResult" class="result" style="display:none"></div>
+      </div>
     </div>
   </div>
 
   <script>
+    let apiKey = '';
+
+    function doLogin() {
+      const pw = document.getElementById('loginPassword').value;
+      if (!pw) return;
+
+      apiKey = pw;
+      fetch(getBase() + '/api/health', { headers: { 'x-api-key': pw } })
+        .then(r => {
+          if (r.ok) {
+            document.getElementById('loginOverlay').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            sessionStorage.setItem('opti_key', pw);
+            listFiles();
+          } else {
+            document.getElementById('loginError').style.display = 'block';
+          }
+        })
+        .catch(() => {
+          // No API_KEY set on server - allow login with any password
+          document.getElementById('loginOverlay').style.display = 'none';
+          document.getElementById('dashboard').style.display = 'block';
+          listFiles();
+        });
+    }
+
+    // Auto-login if session exists
+    (function() {
+      const saved = sessionStorage.getItem('opti_key');
+      if (saved) {
+        apiKey = saved;
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        setTimeout(listFiles, 100);
+      }
+    })();
+
     function getHeaders() {
       const headers = {};
-      const apiKey = document.getElementById('apiKey').value;
       if (apiKey) headers['x-api-key'] = apiKey;
       return headers;
     }
 
     function getBase() {
-      return document.getElementById('baseUrl').value.replace(/\/$/, '');
+      const el = document.getElementById('baseUrl');
+      if (el && el.value) return el.value.replace(/\/$/, '');
+      return window.location.origin;
     }
 
+    // ---- QUOTE CALCULATOR ----
+    let rowCount = 1;
+
+    function addQuoteRow() {
+      const container = document.getElementById('quoteItems');
+      const row = document.createElement('div');
+      row.className = 'price-row';
+      row.dataset.row = rowCount++;
+      row.innerHTML = `
+        <div>
+          <label>Tjänst</label>
+          <select onchange="updateQuote()">
+            <option value="">Välj...</option>
+            <option value="500">Undersida (enkel)</option>
+            <option value="1200">Undersida (avancerad)</option>
+            <option value="800">Lokal landningssida</option>
+            <option value="2500">Landningssida (premium)</option>
+            <option value="3000">SEO-audit + åtgärdsplan</option>
+            <option value="1500">Nyckelordsanalys (ABC)</option>
+            <option value="2000">Teknisk SEO-optimering</option>
+            <option value="1000">Meta-titlar & beskrivningar (10 sidor)</option>
+            <option value="4000">Innehållsstrategi (3 mån)</option>
+            <option value="1500">Google Ads setup</option>
+            <option value="2000">Social media setup</option>
+            <option value="800">Månadsrapport (Looker Studio)</option>
+            <option value="0">Anpassad (ange pris)</option>
+          </select>
+        </div>
+        <div>
+          <label>Antal</label>
+          <input type="number" value="1" min="1" style="width:80px" onchange="updateQuote()">
+        </div>
+        <div>
+          <label>Inköpspris (kr)</label>
+          <input type="number" value="0" style="width:120px" onchange="updateQuote()">
+        </div>
+        <div style="flex:none">
+          <button class="danger" onclick="removeQuoteRow(this)" style="padding:8px 12px">X</button>
+        </div>
+      `;
+      container.appendChild(row);
+    }
+
+    function removeQuoteRow(btn) {
+      const rows = document.querySelectorAll('#quoteItems .price-row');
+      if (rows.length > 1) {
+        btn.closest('.price-row').remove();
+        updateQuote();
+      }
+    }
+
+    function updateQuote() {
+      const rows = document.querySelectorAll('#quoteItems .price-row');
+      let totalCost = 0;
+
+      rows.forEach(row => {
+        const select = row.querySelector('select');
+        const qtyInput = row.querySelectorAll('input[type="number"]')[0];
+        const priceInput = row.querySelectorAll('input[type="number"]')[1];
+        const selectedPrice = Number(select.value) || 0;
+        const qty = Number(qtyInput.value) || 1;
+
+        if (selectedPrice > 0 && Number(priceInput.value) === 0) {
+          priceInput.value = selectedPrice;
+        }
+
+        totalCost += Number(priceInput.value) * qty;
+      });
+
+      const margin = Number(document.getElementById('margin').value) || 70;
+      const totalPrice = Math.round(totalCost * (1 + margin / 100));
+      const profit = totalPrice - totalCost;
+
+      document.getElementById('totalCost').textContent = totalCost.toLocaleString('sv-SE');
+      document.getElementById('totalPrice').textContent = totalPrice.toLocaleString('sv-SE');
+      document.getElementById('totalProfit').textContent = profit.toLocaleString('sv-SE');
+    }
+
+    // ---- FILE UPLOAD ----
     async function uploadFile() {
       const input = document.getElementById('fileInput');
       const result = document.getElementById('uploadResult');
@@ -183,6 +381,7 @@
 
     async function listFiles() {
       const list = document.getElementById('fileList');
+      if (!list) return;
       const type = document.getElementById('filterType').value;
       const url = getBase() + '/upload' + (type ? '?type=' + type : '');
 
@@ -230,32 +429,7 @@
       }
     }
 
-    async function seRankingCall(endpoint) {
-      const result = document.getElementById('serankingResult');
-      result.style.display = 'block';
-      result.textContent = 'Hämtar...';
-      try {
-        const res = await fetch(getBase() + endpoint, { headers: getHeaders() });
-        const data = await res.json();
-        result.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        result.textContent = 'Fel: ' + err.message;
-      }
-    }
-
-    async function rankMathCall(endpoint) {
-      const result = document.getElementById('rankmathResult');
-      result.style.display = 'block';
-      result.textContent = 'Hämtar...';
-      try {
-        const res = await fetch(getBase() + endpoint, { headers: getHeaders() });
-        const data = await res.json();
-        result.textContent = JSON.stringify(data, null, 2);
-      } catch (err) {
-        result.textContent = 'Fel: ' + err.message;
-      }
-    }
-
+    // ---- GENERIC API CALL ----
     async function apiCall(endpoint, resultId) {
       const result = document.getElementById(resultId);
       result.style.display = 'block';
@@ -268,9 +442,6 @@
         result.textContent = 'Fel: ' + err.message;
       }
     }
-
-    // Load file list on page load
-    listFiles();
   </script>
 </body>
 </html>
