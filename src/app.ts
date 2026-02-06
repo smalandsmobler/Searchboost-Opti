@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import rateLimit from 'express-rate-limit';
 import uploadRouter from './routes/upload';
 import serankingRouter from './routes/seranking';
@@ -15,9 +16,10 @@ export function createApp() {
   });
 
   app.use(limiter);
+  app.use(express.static(path.join(__dirname, 'public')));
 
-  app.get('/', (_req, res) => {
-    res.json({ message: 'Hello from Babylovesgrowth!' });
+  app.get('/api/health', (_req, res) => {
+    res.json({ message: 'Hello from Babylovesgrowth!', status: 'ok' });
   });
 
   app.use(express.json());
