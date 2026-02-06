@@ -37,6 +37,25 @@ describe('POST /upload', () => {
     expect(res.body.error).toBe('No file provided');
   });
 
+  it('downloads an uploaded file', async () => {
+    const testFilePath = path.join(__dirname, 'fixtures', 'test-image.png');
+
+    const uploadRes = await request(app).post('/upload').attach('file', testFilePath);
+    const { filename } = uploadRes.body.file;
+
+    const downloadRes = await request(app).get(`/upload/${filename}`);
+
+    expect(downloadRes.status).toBe(200);
+    expect(downloadRes.headers['content-disposition']).toContain(filename);
+  });
+
+  it('returns 404 for non-existent file', async () => {
+    const res = await request(app).get('/upload/does-not-exist.png');
+
+    expect(res.status).toBe(404);
+    expect(res.body.error).toBe('File not found');
+  });
+
   it('rejects files with disallowed mime types', async () => {
     const testFilePath = path.join(__dirname, 'fixtures', 'test-file.txt');
 

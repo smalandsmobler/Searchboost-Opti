@@ -46,6 +46,18 @@ const upload = multer({
 
 const router = Router();
 
+router.get('/:filename', (req: Request, res: Response) => {
+  const filename = path.basename(req.params.filename);
+  const filePath = path.join(UPLOADS_DIR, filename);
+
+  if (!fs.existsSync(filePath)) {
+    res.status(404).json({ error: 'File not found' });
+    return;
+  }
+
+  res.download(filePath);
+});
+
 router.post('/', upload.single('file'), (req: Request, res: Response) => {
   if (!req.file) {
     res.status(400).json({ error: 'No file provided' });
