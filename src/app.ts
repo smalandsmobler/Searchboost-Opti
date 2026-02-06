@@ -1,6 +1,7 @@
 import express from 'express';
 import rateLimit from 'express-rate-limit';
 import uploadRouter from './routes/upload';
+import serankingRouter from './routes/seranking';
 import { apiKeyAuth } from './middleware/auth';
 
 export function createApp() {
@@ -18,7 +19,10 @@ export function createApp() {
     res.json({ message: 'Hello from Babylovesgrowth!' });
   });
 
+  app.use(express.json());
+
   app.use('/upload', apiKeyAuth, uploadRouter);
+  app.use('/seranking', apiKeyAuth, serankingRouter);
 
   // Error handler for multer errors (Express requires all 4 params)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
