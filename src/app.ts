@@ -4,9 +4,11 @@ import { BlogService } from './services/blog.service';
 import { AutoPublisher } from './services/auto-publisher.service';
 import { SEOService } from './services/seo.service';
 import { MCPService } from './services/mcp.service';
+import { BabyLoveGrowthWebhookService } from './services/babylovegrowth-webhook.service';
 import { createBlogRouter } from './routes/blog.routes';
 import { createSEORouter } from './routes/seo.routes';
 import { createMCPRouter } from './routes/mcp.routes';
+import { createWebhookRouter } from './routes/webhook.routes';
 
 export function createApp() {
   const app = express();
@@ -31,6 +33,7 @@ export function createApp() {
         seo: '/api/seo',
         mcp: '/api/mcp',
         publish: '/api/publish',
+        webhook: '/api/webhook',
         health: '/health',
       },
     });
@@ -98,6 +101,9 @@ export function createApp() {
     autoPublisher.start(cronSchedule);
   }
 
+  // Initialize Webhook Service
+  const webhookService = new BabyLoveGrowthWebhookService(blogService);
+
   // Blog routes
   app.use('/api/blog', createBlogRouter(blogService, baseUrl));
 
@@ -106,6 +112,9 @@ export function createApp() {
 
   // MCP routes
   app.use('/api/mcp', createMCPRouter(mcpService));
+
+  // Webhook routes (for receiving posts from babylovesgrowth.ai)
+  app.use('/api/webhook', createWebhookRouter(webhookService));
 
   // Auto-publisher management routes
   app.post('/api/publish/now', async (_req, res) => {
