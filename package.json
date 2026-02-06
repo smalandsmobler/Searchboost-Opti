@@ -1,0 +1,22 @@
+{
+  "name": "seo-mcp-server",
+  "version": "0.1.0",
+  "description": "An MCP server providing SEO analysis tools for AI assistants",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test tests/"
+  },
+  "keywords": [
+    "mcp",
+    "seo",
+    "model-context-protocol",
+    "ai-tools"
+  ],
+  "author": "smalandsmobler",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  }
+}
