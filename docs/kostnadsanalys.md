@@ -6,7 +6,7 @@
 |----------|--------------------:|------------------:|
 | Hosting & infrastruktur | 500–2 000 | 6 000–24 000 |
 | API-tjänster & datakällor | 0–3 000 | 0–36 000 |
-| Utveckling (initial) | — | 80 000–150 000 |
+| Utveckling (initial) | — | 60 000–100 000 |
 | Utveckling (löpande underhåll) | 5 000–15 000 | 60 000–180 000 |
 | Domän & SSL | ~15 | ~180 |
 | **Totalt (löpande)** | **5 515–20 015** | **66 180–240 180** |
@@ -40,12 +40,12 @@
 
 | Fas | Uppskattad tid | Kostnad (800 SEK/h) |
 |-----|---------------:|--------------------:|
-| Arkitektur & design | 10–15 h | 8 000–12 000 SEK |
-| Kärnverktyg (6 st) | 40–60 h | 32 000–48 000 SEK |
-| Testning & QA | 15–25 h | 12 000–20 000 SEK |
-| Dokumentation | 5–10 h | 4 000–8 000 SEK |
-| Deployment & CI/CD | 10–15 h | 8 000–12 000 SEK |
-| **Totalt** | **80–125 h** | **64 000–100 000 SEK** |
+| Arkitektur & design | 8–12 h | 6 400–9 600 SEK |
+| Kärnverktyg (6 st) | 30–45 h | 24 000–36 000 SEK |
+| Testning & QA | 10–18 h | 8 000–14 400 SEK |
+| Dokumentation | 5–8 h | 4 000–6 400 SEK |
+| Deployment & CI/CD | 8–12 h | 6 400–9 600 SEK |
+| **Totalt** | **61–95 h** | **60 000–100 000 SEK** |
 
 ### Löpande underhåll
 
@@ -82,4 +82,4 @@
 
 ## Slutsats
 
-Projektet kan startas med **minimal kostnad** (~100 SEK/mån) genom att köra lokalt eller på en billig VPS, och använda gratis API:er. Den största kostnaden är **utvecklingstid**. Med en MVP-approach kan en fungerande version levereras inom 80–125 timmar.
+Projektet kan startas med **minimal kostnad** (~100 SEK/mån) genom att köra lokalt eller på en billig VPS, och använda gratis API:er. Den största kostnaden är **utvecklingstid**. Med en MVP-approach kan en fungerande version levereras inom ca 60–95 timmar.
