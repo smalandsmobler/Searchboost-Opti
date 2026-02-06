@@ -1,0 +1,35 @@
+KATEGORI,POST,DETALJER,KOSTNAD_MÅNAD_SEK,KOSTNAD_ÅR_SEK,NOTERING
+AI-Innehåll,babylovesgrowth.ai Professional,30 blogginlägg/mån,530,6360,AI-generering + SEO
+Hosting,AWS EC2 t3.small,2 vCPU 2GB RAM,184,2208,Application server
+Hosting,AWS EBS Storage,20GB SSD,22,264,Persistent storage
+Hosting,AWS Data Transfer,~10GB/mån utgående,11,132,Network costs
+APIs,Claude API (Anthropic),~50k tokens/dag,162,1944,SEO-analys + keyword research
+APIs,Google Search Console,1000 requests/dag,0,0,Free tier
+APIs,Abicart API,Ingår i abonnemang,0,0,Redan betald
+Underhåll,System underhåll,4h/mån à 800 SEK/h,3200,38400,Bugfixar + övervakning
+Underhåll,Feature updates,2h/mån à 800 SEK/h,1600,19200,Nya funktioner
+Engångskostnad,Initial utveckling,40h à 800 SEK/h,32000,0,Betalas en gång
+TOTALT_MÅNAD,,,5709,68508,
+TOTALT_ÅR,,,68508,68508,Exkl. engångskostnad
+ENGÅNGSKOSTNAD,,,32000,32000,Första månaden
+TOTAL_FÖRSTA_ÅRET,,,100508,100508,Inkl. engångskostnad
+
+JÄMFÖRELSE,,,,,
+Manuell process,135h/mån à 800 SEK/h,,108000,1296000,Innan automation
+Automatiserad process,7.5h/mån à 800 SEK/h + system,,6692,80304,Med MCP-system
+BESPARING_MÅNAD,,,101308,1215696,
+BESPARING_PROCENT,,,%94,%94,
+
+ROI_ANALYS,,,,,
+Initial investering,,,100508,100508,Första månaden
+Månadsbesparing,,,101308,1215696,
+Break-even månader,,,0.99,0.99,~1 månad (30 dagar)
+Break-even dagar,,,10,10,
+ROI År 1 procent,,,1671%,1671%,
+Besparing 3 år,,,3615088,3615088,
+
+TIDSBESPARING,,,,,
+Manuell tid per månad,135 timmar,,,1620 timmar/år,
+Automatiserad tid per månad,7.5 timmar,,,90 timmar/år,
+Tidsbesparing per månad,127.5 timmar,,,1530 timmar/år,
+Tidsbesparing procent,%95,%95,%95,%95,
