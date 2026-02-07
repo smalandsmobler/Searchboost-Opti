@@ -4,6 +4,7 @@ const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { BigQuery } = require('@google-cloud/bigquery');
 const Anthropic = require('@anthropic-ai/sdk');
 const axios = require('axios');
+const fs = require('fs');
 
 const app = express();
 app.use(express.json());
@@ -49,10 +50,12 @@ let bqDataset = null;
 
 async function getBigQuery() {
   if (bqClient) return { bq: bqClient, dataset: bqDataset };
-  const creds = JSON.parse(await getParam('/seo-mcp/bigquery/credentials'));
+  const wifConfig = await getParam('/seo-mcp/bigquery/credentials');
   const projectId = await getParam('/seo-mcp/bigquery/project-id');
   bqDataset = await getParam('/seo-mcp/bigquery/dataset');
-  bqClient = new BigQuery({ projectId, credentials: creds });
+  fs.writeFileSync('/tmp/wif-config.json', wifConfig);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
+  bqClient = new BigQuery({ projectId });
   return { bq: bqClient, dataset: bqDataset };
 }
 

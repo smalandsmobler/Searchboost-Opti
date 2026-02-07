@@ -5,6 +5,7 @@
 const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { BigQuery } = require('@google-cloud/bigquery');
+const fs = require('fs');
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
@@ -16,10 +17,12 @@ async function getParam(name) {
 }
 
 async function getBigQuery() {
-  const creds = JSON.parse(await getParam('/seo-mcp/bigquery/credentials'));
+  const wifConfig = await getParam('/seo-mcp/bigquery/credentials');
   const projectId = await getParam('/seo-mcp/bigquery/project-id');
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
-  return { bq: new BigQuery({ projectId, credentials: creds }), dataset };
+  fs.writeFileSync('/tmp/wif-config.json', wifConfig);
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
+  return { bq: new BigQuery({ projectId }), dataset };
 }
 
 function buildReportHTML(optimizations, queueStats, weekLabel) {

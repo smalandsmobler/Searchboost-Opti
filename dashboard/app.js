@@ -3,7 +3,7 @@
 
 const API_BASE = window.location.hostname === 'localhost'
   ? 'http://localhost:3000'
-  : 'https://api.opti.searchboost.se'; // Update with actual API URL
+  : 'http://51.21.116.7:3000';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
