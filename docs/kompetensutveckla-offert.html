@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Åtgärdsplan – kompetensutveckla.se | Searchboost</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --brand: #e91e8c;
+      --brand-dark: #c4176f;
+      --brand-light: #fce4f0;
+      --dark: #1a1a2e;
+      --text: #2d2d3f;
+      --text-light: #5a5a72;
+      --border: #e2e2ea;
+      --bg: #ffffff;
+      --bg-light: #f7f7fa;
+      --green: #10b981;
+      --green-light: #d1fae5;
+      --red: #ef4444;
+      --red-light: #fee2e2;
+      --orange: #f59e0b;
+      --orange-light: #fef3c7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER BAR */
+    .header-bar {
+      background: var(--brand);
+      padding: 20px 48px;
+      text-align: right;
+    }
+    .header-bar .brand {
+      font-size: 1.3em;
+      font-weight: 800;
+      color: var(--bg);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* FOOTER BAR */
+    .footer-bar {
+      background: var(--brand);
+      padding: 16px 48px;
+      text-align: right;
+      margin-top: 48px;
+    }
+    .footer-bar .brand {
+      font-size: 1.1em;
+      font-weight: 800;
+      color: var(--bg);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* PAGE CONTENT */
+    .page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 48px;
+    }
+
+    /* TITLE SECTION */
+    .title-section {
+      margin-bottom: 40px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--border);
+    }
+    .title-section h1 {
+      font-size: 1.8em;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .title-section .meta {
+      color: var(--text-light);
+      font-size: 0.9em;
+    }
+    .title-section .meta strong {
+      color: var(--text);
+    }
+
+    /* SECTION HEADINGS */
+    h2 {
+      font-size: 1.35em;
+      font-weight: 700;
+      color: var(--dark);
+      margin: 40px 0 16px;
+    }
+    h3 {
+      font-size: 1.05em;
+      font-weight: 600;
+      color: var(--text);
+      margin: 28px 0 12px;
+    }
+
+    /* PRIORITY LABELS */
+    .priority {
+      display: block;
+      padding: 8px 16px;
+      font-size: 0.85em;
+      font-weight: 700;
+      color: var(--bg);
+      margin: 28px 0 16px;
+      border-radius: 4px;
+    }
+    .priority-high { background: var(--brand); }
+    .priority-medium { background: var(--brand); opacity: 0.75; }
+    .priority-long { background: var(--brand); opacity: 0.55; }
+
+    /* BULLET LISTS */
+    ul {
+      margin: 0 0 20px 20px;
+    }
+    ul li {
+      margin-bottom: 6px;
+      font-size: 0.92em;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* PARAGRAPHS */
+    p {
+      margin-bottom: 16px;
+      font-size: 0.92em;
+      color: var(--text);
+    }
+    p.intro {
+      font-size: 0.95em;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* COMPARISON TABLE */
+    .table-wrap {
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+    }
+    th {
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-light);
+      background: var(--bg-light);
+      border-bottom: 2px solid var(--border);
+      font-size: 0.85em;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    .url-old {
+      color: var(--red);
+      text-decoration: line-through;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    .url-new {
+      color: var(--green);
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.78em;
+      font-weight: 600;
+    }
+    .tag-red { background: var(--red-light); color: var(--red); }
+    .tag-green { background: var(--green-light); color: #059669; }
+    .tag-orange { background: var(--orange-light); color: #d97706; }
+
+    /* STRUCTURE TREE */
+    .tree-box {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.82em;
+      line-height: 1.9;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+    .tree-box .hub { color: var(--brand); font-weight: bold; }
+    .tree-box .folder { color: var(--brand-dark); font-weight: bold; }
+    .tree-box .page { color: var(--text); }
+    .tree-box .note { color: var(--text-light); font-style: italic; }
+
+    /* PRICING TABLE */
+    .pricing-table {
+      margin: 20px 0;
+      border: 2px solid var(--brand);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .pricing-table th {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      border-bottom: 2px solid var(--brand);
+    }
+    .pricing-table td { padding: 12px 16px; }
+    .pricing-table tr.total td {
+      font-weight: 700;
+      font-size: 1em;
+      background: var(--brand-light);
+      color: var(--dark);
+      border-top: 2px solid var(--brand);
+    }
+
+    /* ROI HIGHLIGHT */
+    .roi-box {
+      background: var(--bg-light);
+      border-left: 4px solid var(--brand);
+      padding: 20px 24px;
+      margin: 24px 0;
+      border-radius: 0 8px 8px 0;
+    }
+    .roi-box .big-number {
+      font-size: 1.8em;
+      font-weight: 800;
+      color: var(--brand);
+      line-height: 1;
+    }
+    .roi-box p {
+      margin: 4px 0 0;
+      color: var(--text-light);
+    }
+
+    /* CONCLUSION */
+    .conclusion {
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border);
+    }
+    .conclusion h2 { margin-top: 0; }
+    .conclusion p {
+      font-size: 0.92em;
+      line-height: 1.8;
+    }
+
+    /* CONTACT BOX */
+    .contact-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-top: 32px;
+      gap: 40px;
+    }
+    .contact-text {
+      flex: 1;
+    }
+    .contact-info {
+      text-align: right;
+      min-width: 220px;
+    }
+    .contact-info .brand-name {
+      color: var(--brand);
+      font-weight: 800;
+      font-size: 1em;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .contact-info p {
+      font-size: 0.85em;
+      color: var(--text-light);
+      margin-bottom: 2px;
+    }
+    .contact-info strong {
+      color: var(--text);
+    }
+
+    /* PRINT */
+    @media print {
+      body { font-size: 11pt; }
+      .header-bar, .footer-bar { padding: 14px 32px; }
+      .page { padding: 32px; }
+      h2 { break-after: avoid; }
+      .tree-box, .pricing-table, .table-wrap { break-inside: avoid; }
+    }
+
+    @media (max-width: 768px) {
+      .page { padding: 24px 16px; }
+      .header-bar, .footer-bar { padding: 14px 20px; }
+      .contact-box { flex-direction: column; }
+      .contact-info { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header-bar">
+    <span class="brand">SEARCHBOOST</span>
+  </div>
+
+  <div class="page">
+
+    <!-- TITLE -->
+    <div class="title-section">
+      <h1>Åtgärdsplan: kompetensutveckla.se</h1>
+      <p class="meta">
+        <strong>Kund:</strong> Kompetensutveckla i Sundsvall AB &nbsp;|&nbsp;
+        <strong>Sajt:</strong> kompetensutveckla.se &nbsp;|&nbsp;
+        <strong>System:</strong> WordPress + EduAdmin &nbsp;|&nbsp;
+        <strong>Datum:</strong> Februari 2026
+      </p>
+    </div>
+
+    <!-- INTRO -->
+    <p class="intro">
+      <strong>kompetensutveckla.se</strong> har mycket stark affärspotential tack vare sitt breda utbildningsutbud, starka varumärke och tydliga kommersiella intentioner. Samtidigt är webbplatsens största utmaning dess kategoristruktur. Utbildningsformatet (webb/fysisk) styr kategorierna istället för ämnesområdet, vilket skapar intern konkurrens, duplicerade URL:er och försvårar för Google att förstå sajtens hierarki. Därutöver finns ett stort bibliotek av checklistor, mallar och föreskrifter som inte indexeras — hundratals potentiella sökningar per dag som inte fångas upp.
+    </p>
+
+    <!-- IDENTIFIERADE HUVUDPROBLEM -->
+    <h2>Identifierade huvudproblem</h2>
+
+    <ul>
+      <li>Kategoristrukturen bygger på utbildningsformat (webb/fysisk) istället för ämne — Google kan inte förstå sajtens hierarki.</li>
+      <li>Samma kurs finns på flera URL:er som konkurrerar med varandra (BAM: 4+ sidor, SAM: 2 sidor, BAS P/U: 2 sidor).</li>
+      <li>Filter-URL:er under <code>/kurser-2/</code> skapar duplicerat innehåll inom kategorier.</li>
+      <li>Ett stort antal PDFer, checklistor och mallar saknar optimerade landningssidor och indexeras inte.</li>
+      <li>Kunskapsmaterial ligger begravt 3-4 nivåer ner (<code>/vara-tjanster/arbetsmiljoarbete/rutiner/</code>).</li>
+      <li>Duplicerade sidor för checklistor (<code>/rutiner-checklistor-och-mallar/</code> vs <code>/vara-tjanster/.../rutiner/</code>).</li>
+      <li>Canonical-hantering saknas mellan duplicerade kurs-URL:er.</li>
+      <li>Intern länkning via befintligt plugin täcker bara A/B-nyckelord — kunskapsbanken länkas aldrig.</li>
+      <li>Regex-buggar i nuvarande internal linker-plugin kan skapa länkar inuti befintliga &lt;a&gt;-taggar.</li>
+      <li>Schema markup för kurser (Course, CourseInstance) saknas — inga rich snippets i sökresultat.</li>
+      <li>Breadcrumb-strukturen speglar den platta URL-hierarkin och ger ingen SEO-nytta.</li>
+      <li>Ingen lead-fångst på nedladdningsbart material — trafik utan konvertering.</li>
+    </ul>
+
+    <!-- URL-JÄMFÖRELSE -->
+    <h2>Nuvarande vs ny URL-struktur</h2>
+    <p>Varje kurs får EN URL. Formatet (IRL/Online) blir ett filter på sidan — inte en separat URL.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Kurs</th>
+            <th>Nuvarande URL(er)</th>
+            <th>Ny URL</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>BAM</strong></td>
+            <td><span class="url-old">/bam-utbildning/</span><br><span class="url-old">/bam-utbildning-online/</span><br><span class="url-old">/kurser-2/bam-battre-arbetsmiljo-2-dagar/</span></td>
+            <td><span class="url-new">/utbildningar/arbetsmiljo/bam/</span></td>
+            <td><span class="tag tag-red">3 → 1</span></td>
+          </tr>
+          <tr>
+            <td><strong>SAM</strong></td>
+            <td><span class="url-old">/sam-utbildning/</span><br><span class="url-old">/sam-systematiskt-arbetsmiljoarbete/</span></td>
+            <td><span class="url-new">/utbildningar/arbetsmiljo/sam/</span></td>
+            <td><span class="tag tag-red">2 → 1</span></td>
+          </tr>
+          <tr>
+            <td><strong>BAS P/U</strong></td>
+            <td><span class="url-old">/bas-p-och-bas-u/</span><br><span class="url-old">/bas-u-bas-p-utbildning-online/</span></td>
+            <td><span class="url-new">/utbildningar/sakerhet/bas-p-bas-u/</span></td>
+            <td><span class="tag tag-red">2 → 1</span></td>
+          </tr>
+          <tr>
+            <td><strong>Säkra Lyft</strong></td>
+            <td><span class="url-old">/webbutbildningar/webbutbildningar-sakerhet/sakra-lyft/</span></td>
+            <td><span class="url-new">/utbildningar/sakerhet/sakra-lyft/</span></td>
+            <td><span class="tag tag-orange">Djup → ytlig</span></td>
+          </tr>
+          <tr>
+            <td><strong>Checklistor</strong></td>
+            <td><span class="url-old">/vara-tjanster/arbetsmiljoarbete/rutiner/</span><br><span class="url-old">/rutiner-checklistor-och-mallar/</span></td>
+            <td><span class="url-new">/kunskapsbank/checklistor/</span></td>
+            <td><span class="tag tag-red">Duplicerat → 1</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- NY STRUKTUR -->
+    <h2>Ny sajtarkitektur</h2>
+
+    <h3>Utbildningar (kurshub)</h3>
+    <div class="tree-box">
+      <span class="hub">/utbildningar/</span> <span class="note">← HUB: alla kurser</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/arbetsmiljo/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/bam/</span> <span class="note">← BAM (alla format: IRL + Online)</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/sam/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/skyddsombud/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/sakerhet/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/bas-p-bas-u/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/sakra-lyft/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/slutna-utrymmen/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/elsakerhet/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/esa-instruerad/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/vag-transport/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/arbete-pa-vag-1/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/arbete-pa-vag-2/</span><br>
+      &nbsp;&nbsp;└── <span class="folder">/asbest/</span>
+    </div>
+
+    <h3>Kunskapsbank (lead-hub)</h3>
+    <div class="tree-box">
+      <span class="hub">/kunskapsbank/</span> <span class="note">← HUB: gratis material + lead-fångst</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/checklistor/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/riskbedomning/</span> <span class="note">← ~1 500 sökningar/mån</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/skyddsrond/</span> <span class="note">← ~900 sökningar/mån</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/brandskydd/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/mallar/</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <span class="page">/arbetsmiljoplan/</span> <span class="note">← ~600 sökningar/mån</span><br>
+      &nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <span class="page">/riskbedomning/</span><br>
+      &nbsp;&nbsp;├── <span class="folder">/foreskrifter/</span> <span class="note">← AFS-dokument</span><br>
+      &nbsp;&nbsp;└── <span class="folder">/guider/</span> <span class="note">← Fördjupningsartiklar</span>
+    </div>
+
+    <!-- ÅTGÄRDSPLAN -->
+    <h2>Åtgärdsplan</h2>
+
+    <div class="priority priority-high">Hög prioritet</div>
+    <ul>
+      <li>Strukturera om kategorier i EduAdmin: ämnesområde som huvudkategori (Arbetsmiljö, Säkerhet, Elsäkerhet, Väg &amp; Transport, Asbest) istället för utbildningsformat.</li>
+      <li>Konsolidera duplicerade kurs-URL:er (BAM: 3→1, SAM: 2→1, BAS P/U: 2→1) med 301-redirects.</li>
+      <li>Implementera format (IRL/Online/Hybrid) som filter/tagg på varje kurssida — inte separata URL:er.</li>
+      <li>Konfigurera EduAdmin WordPress-plugin med nya kategori-sluggar och hierarkisk struktur.</li>
+      <li>Säkerställ att alla 301-redirects pekar korrekt (se fullständig redirect-lista i teknisk bilaga).</li>
+      <li>Verifiera att kursbokningar via EduAdmin fungerar korrekt efter flytt.</li>
+    </ul>
+
+    <div class="priority priority-medium">Medelhög prioritet</div>
+    <ul>
+      <li>Skapa kunskapsbank (<code>/kunskapsbank/</code>) med optimerade landningssidor för varje PDF/checklista/mall.</li>
+      <li>Implementera lead-fångstformulär på alla kunskapssidor (namn, e-post, företag → PDF till e-post).</li>
+      <li>Uppdatera internal linker-plugin: fixa regex-buggar, lägg till C-nyckelord (long tail), aktivera cross-hub-länkning.</li>
+      <li>Optimera meta-titlar och beskrivningar för alla nya URL:er.</li>
+      <li>Förbättra intern länkning mellan kurshub ↔ kunskapsbank (varje kurs länkar till relevant checklista och vice versa).</li>
+      <li>Implementera breadcrumbs med Schema markup (BreadcrumbList) som speglar ny hierarki.</li>
+    </ul>
+
+    <div class="priority priority-long">Långsiktig förbättring</div>
+    <ul>
+      <li>Implementera Schema markup för kurser (Course + CourseInstance med pris, format, längd) — ger rich snippets.</li>
+      <li>Bygga e-postautomation: PDF-nedladdning → uppföljningsmejl dag 3 med kursrekommendation.</li>
+      <li>Skapa redaktionellt innehåll kopplat till kunskapsbanken (guider, fördjupningsartiklar).</li>
+      <li>Inför löpande teknisk SEO-uppföljning via Search Console för att monitorera indexering och redirects.</li>
+      <li>Utvärdera facetterad navigation ur SEO-perspektiv vid eventuell expansion av kursutbudet.</li>
+    </ul>
+
+    <!-- INVESTERING -->
+    <h2>Investering</h2>
+
+    <div class="pricing-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Tjänst</th>
+            <th style="text-align:right">Pris (exkl. moms)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Kategoristruktur-omläggning (EduAdmin + WP)</td>
+            <td style="text-align:right">3 500 kr</td>
+          </tr>
+          <tr>
+            <td>URL-struktur + 301-redirects</td>
+            <td style="text-align:right">2 500 kr</td>
+          </tr>
+          <tr>
+            <td>Taxonomi, taggar &amp; breadcrumbs</td>
+            <td style="text-align:right">2 500 kr</td>
+          </tr>
+          <tr>
+            <td>Kunskapsbank setup (10 landningssidor)</td>
+            <td style="text-align:right">3 000 kr</td>
+          </tr>
+          <tr>
+            <td>Intern länkning (uppdaterat plugin)</td>
+            <td style="text-align:right">1 500 kr</td>
+          </tr>
+          <tr>
+            <td>Lead-fångst formulär + automation</td>
+            <td style="text-align:right">2 000 kr</td>
+          </tr>
+          <tr class="total">
+            <td>Totalt</td>
+            <td style="text-align:right">15 000 kr</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ROI -->
+    <h2>Förväntat resultat</h2>
+    <p>Konservativ uppskattning baserad på nuvarande trafik och branschsnitt för konvertering, inom 3–6 månader.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Mätvärde</th>
+            <th>Nuvarande</th>
+            <th>Efter migrering</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Organisk trafik</td>
+            <td>Baslinjen</td>
+            <td><strong>+1 800–3 000 besök/mån</strong></td>
+          </tr>
+          <tr>
+            <td>Indexerade kunskapssidor</td>
+            <td>~0</td>
+            <td><strong>10–20 sidor</strong></td>
+          </tr>
+          <tr>
+            <td>Leads via PDF-nedladdning</td>
+            <td>0</td>
+            <td><strong>130–385/mån</strong></td>
+          </tr>
+          <tr>
+            <td>Extra kursbokningar</td>
+            <td>0</td>
+            <td><strong>+20–40/mån</strong></td>
+          </tr>
+          <tr>
+            <td>Extra intäkt</td>
+            <td>0</td>
+            <td><strong>100 000–200 000 kr/mån</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="roi-box">
+      <div class="big-number">ROI: &lt;1 vecka</div>
+      <p>Med +30 extra bokningar per månad betalar sig investeringen på 15 000 kr inom första veckan.</p>
+    </div>
+
+    <!-- TIDSPLAN -->
+    <h2>Tidsplan</h2>
+    <p>Allt arbete sker i en staging-miljö. Ni godkänner innan något går live.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Vecka</th>
+            <th>Steg</th>
+            <th>Ansvarig</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>V1</strong></td>
+            <td>SEO-audit, nyckelordsanalys, kartlägga alla kurser, ny kategoristruktur i EduAdmin (staging)</td>
+            <td>Searchboost + kund (API-nyckel)</td>
+          </tr>
+          <tr>
+            <td><strong>V2</strong></td>
+            <td>Kunskapsbank-sidor, 301-redirects, uppdaterat internal linker-plugin, taxonomi &amp; breadcrumbs</td>
+            <td>Searchboost</td>
+          </tr>
+          <tr>
+            <td><strong>V3</strong></td>
+            <td>Schema markup, lead-formulär, e-postautomation, testning av alla redirects och kursbokningar</td>
+            <td>Searchboost</td>
+          </tr>
+          <tr>
+            <td><strong>V4</strong></td>
+            <td>Kund godkänner staging → push till produktion → monitorering startar</td>
+            <td>Searchboost + kund</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VAD VI BEHÖVER -->
+    <h2>Vad vi behöver från er</h2>
+    <ul>
+      <li><strong>EduAdmin API-nyckel</strong> — för att strukturera om kategorier. Kontakta MultiNet Interactive eller kolla under Inställningar i ert EduAdmin.</li>
+      <li><strong>WordPress admin-access (staging)</strong> — vi gör alla ändringar säkert i en testmiljö först.</li>
+      <li><strong>Lista på alla aktiva kurser</strong> — så vi kan mappa varje kurs till rätt ny kategori.</li>
+      <li><strong>Befintliga PDFer, checklistor &amp; mallar</strong> — vi skapar optimerade landningssidor för varje dokument.</li>
+      <li><strong>E-postverktyg</strong> — Mailchimp, ActiveCampaign eller liknande för lead-automation.</li>
+    </ul>
+
+    <!-- SAMMANFATTANDE SLUTSATS -->
+    <div class="conclusion">
+      <h2>Sammanfattande slutsats</h2>
+
+      <div class="contact-box">
+        <div class="contact-text">
+          <p>
+            <strong>kompetensutveckla.se</strong> har mycket stark affärspotential tack vare sitt breda kursutbud, etablerade varumärke och tydliga kommersiella intentioner. Samtidigt är webbplatsens största utmaning dess kategoristruktur och outnyttjade kunskapsmaterial.
+          </p>
+          <p>
+            Den nuvarande strukturen — där utbildningsformat styr kategorierna och samma kurs finns på flera URL:er — skapar intern konkurrens som försvagar positioneringen i Google. Samtidigt ligger hundratals checklistor, mallar och föreskrifter begravda djupt i hierarkin utan optimerade landningssidor, trots att de matchar söktermer med tusentals sökningar per månad.
+          </p>
+          <p>
+            Genom att ta kontroll över kategoristrukturen, konsolidera duplicerade URL:er och skapa en kunskapsbank med lead-fångst kan webbplatsen avsevärt förbättra sin organiska synlighet. Med rätt struktur finns mycket goda möjligheter att dominera sökresultaten inom arbetsmiljöutbildningar och samtidigt förbättra både crawlbudget och konvertering. Investeringen på 15 000 kr beräknas vara betald inom den första veckan.
+          </p>
+        </div>
+
+        <div class="contact-info">
+          <div class="brand-name">SEARCHBOOST</div>
+          <p><strong>Medierådgivare:</strong></p>
+          <p>Mikael Larsson</p>
+          <p>0760-19 49 05</p>
+          <p>mikael@searchboost.se</p>
+          <p>www.searchboost.se</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-bar">
+    <span class="brand">SEARCHBOOST</span>
+  </div>
+
+</body>
+</html>
