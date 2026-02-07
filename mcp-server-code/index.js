@@ -8,6 +8,12 @@ const fs = require('fs');
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
