@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Searchboost Opti — SEO Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <h1 class="logo">Searchboost <span>Opti</span></h1>
+      <nav class="nav">
+        <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
+        <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
+        <a href="#" class="nav-link" data-view="queue">Arbetsflöde</a>
+        <a href="#" class="nav-link" data-view="reports">Rapporter</a>
+      </nav>
+      <div class="header-status">
+        <span class="status-dot"></span>
+        <span id="status-text">Ansluter...</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Overview -->
+    <section id="view-overview" class="view active">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-customers">—</div>
+          <div class="stat-label">Kunder</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-optimizations">—</div>
+          <div class="stat-label">Optimeringar (7d)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-queue">—</div>
+          <div class="stat-label">I arbetskö</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-score">—</div>
+          <div class="stat-label">Snitt SEO-score</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2 class="card-title">Senaste optimeringar</h2>
+          <div id="recent-optimizations" class="card-body">
+            <p class="empty">Laddar...</p>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="card-title">Kunder</h2>
+          <div id="customer-list" class="card-body">
+            <p class="empty">Laddar...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Optimizations -->
+    <section id="view-optimizations" class="view">
+      <div class="card">
+        <h2 class="card-title">Alla optimeringar</h2>
+        <div id="all-optimizations" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Queue -->
+    <section id="view-queue" class="view">
+      <div class="card">
+        <h2 class="card-title">Arbetskö</h2>
+        <div id="work-queue" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Reports -->
+    <section id="view-reports" class="view">
+      <div class="card">
+        <h2 class="card-title">Veckorapporter</h2>
+        <div id="reports-list" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Searchboost Opti — Semi-autonom SEO-optimering | searchboost.se</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

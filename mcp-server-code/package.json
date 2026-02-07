@@ -1,0 +1,19 @@
+{
+  "name": "seo-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for Semi-Autonomous SEO System - Searchboost.se",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "@aws-sdk/client-ssm": "^3.709.0",
+    "@aws-sdk/client-ses": "^3.709.0",
+    "@google-cloud/bigquery": "^7.9.0",
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "axios": "^1.7.9",
+    "express": "^4.21.2"
+  }
+}
