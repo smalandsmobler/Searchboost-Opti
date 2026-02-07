@@ -1,5 +1,5 @@
 const express = require('express');
-const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
+const { SSMClient, GetParameterCommand, GetParametersByPathCommand, PutParameterCommand } = require('@aws-sdk/client-ssm');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { BigQuery } = require('@google-cloud/bigquery');
 const Anthropic = require('@anthropic-ai/sdk');
@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, X-Api-Key');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
@@ -529,6 +529,107 @@ app.post('/api/optimize-metadata', async (req, res) => {
     const result = await optimizeMetadata(site, postId, keyword);
     res.json(result);
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Onboarding: Register new customer ──
+app.post('/api/onboard', async (req, res) => {
+  try {
+    // Verify API key
+    const apiKey = req.headers['x-api-key'];
+    const validKey = await getParam('/seo-mcp/onboard/api-key').catch(() => null);
+    if (!validKey || apiKey !== validKey) {
+      return res.status(401).json({ error: 'Ogiltig API-nyckel' });
+    }
+
+    const {
+      company_name, contact_person, contact_email,
+      wordpress_url, wordpress_username, wordpress_app_password,
+      gsc_property, ga_property_id, google_ads_id, meta_pixel_id
+    } = req.body;
+
+    // Validate required fields
+    if (!company_name || !contact_email || !wordpress_url || !wordpress_username || !wordpress_app_password) {
+      return res.status(400).json({ error: 'Saknade obligatoriska fält' });
+    }
+
+    // Generate siteId from domain
+    const domain = new URL(wordpress_url).hostname.replace(/^www\./, '');
+    const siteId = domain.replace(/\./g, '-');
+
+    // Check if customer already exists
+    const existingSites = await getWordPressSites();
+    if (existingSites.find(s => s.id === siteId)) {
+      return res.status(409).json({ error: `Kunden ${domain} finns redan registrerad` });
+    }
+
+    // Save WordPress credentials to SSM
+    const ssmParams = [
+      { name: `/seo-mcp/wordpress/${siteId}/url`, value: wordpress_url.replace(/\/$/, '') },
+      { name: `/seo-mcp/wordpress/${siteId}/username`, value: wordpress_username },
+      { name: `/seo-mcp/wordpress/${siteId}/app-password`, value: wordpress_app_password },
+    ];
+
+    // Save integration data
+    const integrations = [
+      { name: `/seo-mcp/integrations/${siteId}/company-name`, value: company_name },
+      { name: `/seo-mcp/integrations/${siteId}/contact-person`, value: contact_person || '' },
+      { name: `/seo-mcp/integrations/${siteId}/contact-email`, value: contact_email },
+    ];
+    if (gsc_property) integrations.push({ name: `/seo-mcp/integrations/${siteId}/gsc-property`, value: gsc_property });
+    if (ga_property_id) integrations.push({ name: `/seo-mcp/integrations/${siteId}/ga-property-id`, value: ga_property_id });
+    if (google_ads_id) integrations.push({ name: `/seo-mcp/integrations/${siteId}/google-ads-id`, value: google_ads_id });
+    if (meta_pixel_id) integrations.push({ name: `/seo-mcp/integrations/${siteId}/meta-pixel-id`, value: meta_pixel_id });
+
+    // Write all parameters
+    for (const p of [...ssmParams, ...integrations]) {
+      await ssm.send(new PutParameterCommand({
+        Name: p.name,
+        Value: p.value,
+        Type: 'SecureString',
+        Overwrite: false
+      }));
+    }
+
+    // Clear cache so new customer shows up immediately
+    for (const key of Object.keys(paramCache)) {
+      if (key.includes('/seo-mcp/wordpress/')) delete paramCache[key];
+    }
+
+    // Test WordPress connection
+    let wpConnectionTest = 'ok';
+    try {
+      const site = { id: siteId, url: wordpress_url.replace(/\/$/, ''), username: wordpress_username, 'app-password': wordpress_app_password };
+      await wpApi(site, 'GET', '/posts?per_page=1');
+    } catch (wpErr) {
+      wpConnectionTest = `failed: ${wpErr.message}`;
+    }
+
+    // Create Trello card for new customer
+    try {
+      const boardId = await getParam('/seo-mcp/trello/board-id');
+      const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
+      const firstList = lists[0];
+      await createTrelloCard(
+        firstList.id,
+        `Ny kund: ${company_name}`,
+        `**Företag:** ${company_name}\n**Kontakt:** ${contact_person || '-'}\n**E-post:** ${contact_email}\n**Webb:** ${wordpress_url}\n**WP-anslutning:** ${wpConnectionTest}\n**Google Ads:** ${google_ads_id || '-'}\n**Meta Pixel:** ${meta_pixel_id || '-'}\n**Registrerad:** ${new Date().toISOString()}`
+      );
+    } catch (trelloErr) {
+      console.error('Trello card creation failed:', trelloErr.message);
+    }
+
+    console.log(`[ONBOARD] New customer registered: ${company_name} (${siteId})`);
+
+    res.json({
+      success: true,
+      siteId,
+      wpConnectionTest,
+      message: `${company_name} har registrerats! Site ID: ${siteId}`
+    });
+  } catch (err) {
+    console.error('[ONBOARD] Error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
