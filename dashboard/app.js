@@ -3,6 +3,7 @@
 
 const API_BASE = '';
 const PW_HASH = '-9pkod';
+const VALID_USERS = ['fk0v1o', 'cyt5oy']; // mikael@searchboost.se, web.searchboost@gmail.com
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
@@ -17,10 +18,12 @@ function simpleHash(str) {
 }
 
 function doLogin() {
+  const user = document.getElementById('loginUsername').value.trim().toLowerCase();
   const pw = document.getElementById('loginPassword').value;
-  if (!pw) return;
-  const hash = simpleHash(pw);
-  if (hash === PW_HASH) {
+  if (!user || !pw) return;
+  const userHash = simpleHash(user);
+  const pwHash = simpleHash(pw);
+  if (VALID_USERS.includes(userHash) && pwHash === PW_HASH) {
     sessionStorage.setItem('opti_auth', '1');
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appShell').style.display = 'block';
@@ -34,6 +37,7 @@ function doLogout() {
   sessionStorage.removeItem('opti_auth');
   document.getElementById('appShell').style.display = 'none';
   document.getElementById('loginOverlay').style.display = '';
+  document.getElementById('loginUsername').value = '';
   document.getElementById('loginPassword').value = '';
   document.getElementById('loginError').style.display = 'none';
 }

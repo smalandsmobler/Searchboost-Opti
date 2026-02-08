@@ -585,6 +585,10 @@ footer {
   margin-bottom: 28px;
 }
 
+.login-box input + input {
+  margin-top: 12px;
+}
+
 .login-box input {
   width: 100%;
   padding: 12px 16px;
