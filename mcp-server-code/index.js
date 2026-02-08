@@ -176,6 +176,85 @@ async function seRankingApi(endpoint) {
   return res.data;
 }
 
+// ── Google Search Console API helper ──
+let gscAuth = null;
+
+async function getGscAuth() {
+  if (gscAuth) return gscAuth;
+  // Ensure credentials file is written (same as BigQuery)
+  await getBigQuery();
+  const { GoogleAuth } = require('google-auth-library');
+  gscAuth = new GoogleAuth({
+    keyFile: '/tmp/wif-config.json',
+    scopes: ['https://www.googleapis.com/auth/webmasters.readonly']
+  });
+  return gscAuth;
+}
+
+async function gscSearchAnalytics(siteUrl, keywords, days = 7) {
+  const auth = await getGscAuth();
+  const client = await auth.getClient();
+  const token = await client.getAccessToken();
+
+  // GSC property URL format: must match exactly what's in GSC
+  const encodedSiteUrl = encodeURIComponent(siteUrl);
+
+  const endDate = new Date();
+  const startDate = new Date();
+  startDate.setDate(startDate.getDate() - days);
+
+  const body = {
+    startDate: startDate.toISOString().split('T')[0],
+    endDate: endDate.toISOString().split('T')[0],
+    dimensions: ['query'],
+    rowLimit: 500
+  };
+
+  // If we have specific keywords, filter for them
+  if (keywords && keywords.length > 0) {
+    // GSC doesn't support OR-filter for multiple keywords easily,
+    // so we fetch all and filter client-side
+  }
+
+  const res = await axios.post(
+    `https://www.googleapis.com/webmasters/v3/sites/${encodedSiteUrl}/searchAnalytics/query`,
+    body,
+    { headers: { 'Authorization': `Bearer ${token.token || token}` } }
+  );
+
+  return res.data.rows || [];
+}
+
+// ── Parse ABC keywords from Trello card description ──
+function parseAbcKeywords(description) {
+  if (!description) return { A: [], B: [], C: [], all: [] };
+
+  const result = { A: [], B: [], C: [], all: [] };
+  const lines = description.split('\n');
+
+  for (const line of lines) {
+    const matchA = line.match(/^A\s*[=:]\s*(.+)/i);
+    const matchB = line.match(/^B\s*[=:]\s*(.+)/i);
+    const matchC = line.match(/^C\s*[=:]\s*(.+)/i);
+
+    if (matchA) {
+      const words = matchA[1].split(',').map(w => w.trim()).filter(Boolean);
+      result.A.push(...words);
+      result.all.push(...words.map(w => ({ keyword: w, category: 'A' })));
+    } else if (matchB) {
+      const words = matchB[1].split(',').map(w => w.trim()).filter(Boolean);
+      result.B.push(...words);
+      result.all.push(...words.map(w => ({ keyword: w, category: 'B' })));
+    } else if (matchC) {
+      const words = matchC[1].split(',').map(w => w.trim()).filter(Boolean);
+      result.C.push(...words);
+      result.all.push(...words.map(w => ({ keyword: w, category: 'C' })));
+    }
+  }
+
+  return result;
+}
+
 // ══════════════════════════════════════════
 // MCP TOOLS — SEO Operations
 // ══════════════════════════════════════════
@@ -624,81 +703,148 @@ app.get('/api/customers/:id/rankings', async (req, res) => {
     const site = sites.find(s => s.id === customerId);
     if (!site) return res.status(404).json({ error: 'Kund hittades inte' });
 
-    // Check if SE Ranking is configured
-    const apiKey = await getParam('/seo-mcp/seranking/api-key').catch(() => null);
-    if (!apiKey) return res.json({ rankings: [], error: 'SE Ranking ej konfigurerat' });
-
-    // Find matching SE Ranking project by domain
-    const domain = site.url.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-    let allProjects;
+    // 1. Get ABC keywords from Trello
+    let abcKeywords = { A: [], B: [], C: [], all: [] };
+    let trelloCardFound = false;
     try {
-      allProjects = await seRankingApi('/sites');
-    } catch (seErr) {
-      const status = seErr.response?.status;
-      if (status === 403 || status === 401) {
-        return res.json({ rankings: [], error: 'SE Ranking API-nyckel ogiltig eller utgången. Uppdatera i SSM.' });
+      const boardId = await getParam('/seo-mcp/trello/board-id');
+      const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
+      const customerList = lists.find(l =>
+        l.name.toLowerCase().includes(customerId.toLowerCase())
+      );
+      if (customerList) {
+        const cards = await trelloApi('GET', `/lists/${customerList.id}/cards`, { fields: 'name,desc' });
+        // Find card with ABC keywords (look for A=, B=, C= pattern)
+        const abcCard = cards.find(c => c.desc && /[ABC]\s*[=:]/i.test(c.desc));
+        if (abcCard) {
+          abcKeywords = parseAbcKeywords(abcCard.desc);
+          trelloCardFound = true;
+        }
       }
-      throw seErr;
-    }
-    if (!allProjects || !Array.isArray(allProjects)) {
-      return res.json({ rankings: [], error: 'Kunde inte hämta SE Ranking-projekt' });
+    } catch (trelloErr) {
+      console.error('Trello ABC fetch error:', trelloErr.message);
     }
 
-    const project = allProjects.find(p =>
-      p.name && (p.name.includes(domain) || domain.includes(p.name.replace(/www\./, '')))
-    );
+    // 2. Get GSC data
+    // Determine GSC property URL
+    let gscProperty = null;
+    try {
+      gscProperty = await getParam(`/seo-mcp/integrations/${customerId}/gsc-property`);
+    } catch (e) { /* not set */ }
 
-    if (!project) {
-      return res.json({ rankings: [], projects: allProjects.map(p => p.name), error: `Inget SE Ranking-projekt matchar ${domain}` });
+    // Default: derive from site URL
+    if (!gscProperty) {
+      gscProperty = site.url.replace(/\/$/, '') + '/';
+      // Ensure https:// prefix
+      if (!gscProperty.startsWith('http')) gscProperty = 'https://' + gscProperty;
     }
 
-    // Get search engines for the project
-    const engines = await seRankingApi(`/sites/${project.id}/search-engines`);
-    const engineId = engines?.[0]?.site_engine_id;
+    let gscRows = [];
+    try {
+      gscRows = await gscSearchAnalytics(gscProperty, abcKeywords.all.map(k => k.keyword));
+    } catch (gscErr) {
+      console.error('GSC API error:', gscErr.response?.data?.error?.message || gscErr.message);
+      // If property not accessible, try with/without trailing slash and www
+      if (gscErr.response?.status === 403 || gscErr.response?.status === 404) {
+        // Try alternative URL formats
+        const altUrls = [];
+        const baseUrl = site.url.replace(/\/$/, '');
+        if (!baseUrl.includes('www.')) {
+          altUrls.push(baseUrl.replace('https://', 'https://www.') + '/');
+        } else {
+          altUrls.push(baseUrl.replace('https://www.', 'https://') + '/');
+        }
+        altUrls.push('sc-domain:' + baseUrl.replace(/https?:\/\/(www\.)?/, ''));
 
-    // Get today's positions
-    const today = new Date().toISOString().split('T')[0];
-    let posUrl = `/sites/${project.id}/positions?date_from=${today}&date_to=${today}&with_landing_pages=1`;
-    if (engineId) posUrl += `&site_engine_id=${engineId}`;
-
-    const positions = await seRankingApi(posUrl);
-
-    // Flatten and sort alphabetically
-    let keywords = [];
-    if (Array.isArray(positions)) {
-      for (const group of positions) {
-        if (group.keywords && Array.isArray(group.keywords)) {
-          for (const kw of group.keywords) {
-            const latestPos = kw.positions?.[0]?.pos || null;
-            const change = kw.positions?.[0]?.change || 0;
-            keywords.push({
-              keyword: kw.name,
-              position: latestPos,
-              change: Number(change),
-              volume: kw.volume || null,
-              landing_page: kw.landing_pages?.[0]?.page || null
-            });
-          }
+        for (const altUrl of altUrls) {
+          try {
+            gscRows = await gscSearchAnalytics(altUrl, []);
+            gscProperty = altUrl;
+            break;
+          } catch (e) { /* try next */ }
         }
       }
     }
 
-    // Sort A-Ö
-    keywords.sort((a, b) => a.keyword.localeCompare(b.keyword, 'sv'));
+    // 3. Build lookup from GSC data: keyword -> { position, clicks, impressions, ctr }
+    const gscMap = {};
+    for (const row of gscRows) {
+      const query = row.keys[0].toLowerCase();
+      gscMap[query] = {
+        position: Math.round(row.position * 10) / 10,
+        clicks: row.clicks || 0,
+        impressions: row.impressions || 0,
+        ctr: Math.round((row.ctr || 0) * 1000) / 10
+      };
+    }
 
-    // Stats summary
-    const inTop3 = keywords.filter(k => k.position && k.position <= 3).length;
-    const inTop10 = keywords.filter(k => k.position && k.position <= 10).length;
-    const inTop30 = keywords.filter(k => k.position && k.position <= 30).length;
+    // 4. Combine: ABC keywords with GSC positions
+    const today = new Date().toISOString().split('T')[0];
+    let rankings = [];
+
+    if (abcKeywords.all.length > 0) {
+      // Show ABC keywords with their GSC data
+      for (const kw of abcKeywords.all) {
+        const gscData = gscMap[kw.keyword.toLowerCase()] || null;
+        rankings.push({
+          keyword: kw.keyword,
+          category: kw.category,
+          position: gscData?.position || null,
+          clicks: gscData?.clicks || 0,
+          impressions: gscData?.impressions || 0,
+          ctr: gscData?.ctr || 0
+        });
+      }
+    } else {
+      // No ABC keywords — show top GSC keywords sorted by impressions
+      const topGsc = gscRows
+        .sort((a, b) => (b.impressions || 0) - (a.impressions || 0))
+        .slice(0, 50);
+      for (const row of topGsc) {
+        rankings.push({
+          keyword: row.keys[0],
+          category: null,
+          position: Math.round(row.position * 10) / 10,
+          clicks: row.clicks || 0,
+          impressions: row.impressions || 0,
+          ctr: Math.round((row.ctr || 0) * 1000) / 10
+        });
+      }
+    }
+
+    // Sort: ABC categories first (A, B, C), then alphabetically within each
+    rankings.sort((a, b) => {
+      if (a.category && b.category) {
+        if (a.category !== b.category) return a.category.localeCompare(b.category);
+        return a.keyword.localeCompare(b.keyword, 'sv');
+      }
+      if (a.category) return -1;
+      if (b.category) return 1;
+      return a.keyword.localeCompare(b.keyword, 'sv');
+    });
+
+    // Stats
+    const withPos = rankings.filter(k => k.position);
+    const inTop3 = withPos.filter(k => k.position <= 3).length;
+    const inTop10 = withPos.filter(k => k.position <= 10).length;
+    const inTop30 = withPos.filter(k => k.position <= 30).length;
 
     res.json({
-      project: { id: project.id, name: project.name },
+      source: 'gsc',
+      gsc_property: gscProperty,
+      trello_keywords: trelloCardFound,
       date: today,
-      stats: { total: keywords.length, top3: inTop3, top10: inTop10, top30: inTop30 },
-      rankings: keywords
+      stats: {
+        total: rankings.length,
+        top3: inTop3,
+        top10: inTop10,
+        top30: inTop30,
+        abc: { A: abcKeywords.A.length, B: abcKeywords.B.length, C: abcKeywords.C.length }
+      },
+      rankings
     });
   } catch (err) {
-    console.error('SE Ranking error:', err.message);
+    console.error('Rankings error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });

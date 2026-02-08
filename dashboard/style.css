@@ -788,6 +788,38 @@ footer {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+.ranking-source {
+  color: var(--gray-500);
+  font-size: 0.8rem;
+  margin: -8px 0 12px 0;
+}
+
+.rank-cat {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.cat-a {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.cat-b {
+  background: rgba(234, 179, 8, 0.2);
+  color: var(--yellow);
+}
+
+.cat-c {
+  background: rgba(156, 163, 175, 0.2);
+  color: var(--gray-400);
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 768px) {

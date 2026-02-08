@@ -359,7 +359,7 @@ async function showCustomerDetail(customerId, customerUrl) {
     qEl.innerHTML = '<p class="empty">Ingen aktiv arbetskö.</p>';
   }
 
-  // Load SE Ranking positions (async, don't block)
+  // Load GSC + Trello keyword positions (async, don't block)
   loadRankings(customerId);
 }
 
@@ -377,36 +377,47 @@ async function loadRankings(customerId) {
   $('#detail-stat-keywords').textContent = rankData.stats?.total ?? '—';
 
   if (rankData.rankings?.length > 0) {
+    const abcInfo = rankData.stats?.abc;
+    const abcSummary = abcInfo && (abcInfo.A || abcInfo.B || abcInfo.C)
+      ? `<span class="tag tag--high">A: ${abcInfo.A}</span>
+         <span class="tag tag--metadata">B: ${abcInfo.B}</span>
+         <span class="tag tag--content">C: ${abcInfo.C}</span>`
+      : '';
+    const sourceLabel = rankData.trello_keywords
+      ? 'ABC-ord från Trello + GSC-positioner'
+      : 'Topp sökord från Google Search Console';
+
     rankEl.innerHTML = `
       <div class="ranking-summary">
+        ${abcSummary}
         <span class="tag tag--links">Topp 3: ${rankData.stats.top3}</span>
         <span class="tag tag--schema">Topp 10: ${rankData.stats.top10}</span>
-        <span class="tag tag--content">Topp 30: ${rankData.stats.top30}</span>
         <span class="detail-badge">${rankData.date}</span>
       </div>
+      <p class="ranking-source">${sourceLabel} (senaste 7 dagar)</p>
       <table class="data-table">
         <thead>
           <tr>
             <th>Sökord</th>
+            ${rankData.trello_keywords ? '<th>Klass</th>' : ''}
             <th>Position</th>
-            <th>Förändring</th>
-            <th>Volym</th>
+            <th>Klick</th>
+            <th>Visningar</th>
+            <th>CTR</th>
           </tr>
         </thead>
         <tbody>
           ${rankData.rankings.map(r => {
             const posClass = !r.position ? '' : r.position <= 3 ? 'rank-top3' : r.position <= 10 ? 'rank-top10' : r.position <= 30 ? 'rank-top30' : '';
-            const changeHtml = r.change > 0
-              ? `<span class="rank-up">+${r.change}</span>`
-              : r.change < 0
-              ? `<span class="rank-down">${r.change}</span>`
-              : '<span class="rank-same">—</span>';
+            const catClass = r.category === 'A' ? 'cat-a' : r.category === 'B' ? 'cat-b' : r.category === 'C' ? 'cat-c' : '';
             return `
               <tr>
                 <td><strong>${r.keyword}</strong></td>
+                ${rankData.trello_keywords ? `<td><span class="rank-cat ${catClass}">${r.category || '—'}</span></td>` : ''}
                 <td><span class="rank-pos ${posClass}">${r.position ?? '—'}</span></td>
-                <td>${changeHtml}</td>
-                <td>${r.volume ?? '—'}</td>
+                <td>${r.clicks || 0}</td>
+                <td>${r.impressions || 0}</td>
+                <td>${r.ctr ? r.ctr + '%' : '—'}</td>
               </tr>
             `;
           }).join('')}
@@ -414,7 +425,7 @@ async function loadRankings(customerId) {
       </table>
     `;
   } else {
-    rankEl.innerHTML = '<p class="empty">Inga sökord konfigurerade i SE Ranking för denna kund.</p>';
+    rankEl.innerHTML = '<p class="empty">Inga sökord hittades. Lägg till ABC-ord i Trello eller verifiera GSC-åtkomst.</p>';
   }
 
 // Back button
