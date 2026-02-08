@@ -2,21 +2,24 @@
 // Connects to MCP server API on EC2
 
 const API_BASE = '';
-const PW_HASH = '673cb61cf1b13d3fe1eff9c0d71727ff8bd215b31397d80e4a08afae52e45c76';
+const PW_HASH = '-9pkod';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
 
 // ── Auth ──────────────────────────────────────────────────────
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+function simpleHash(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = ((h << 5) - h + str.charCodeAt(i)) | 0;
+  }
+  return h.toString(36);
 }
 
-async function doLogin() {
+function doLogin() {
   const pw = document.getElementById('loginPassword').value;
   if (!pw) return;
-  const hash = await sha256(pw);
+  const hash = simpleHash(pw);
   if (hash === PW_HASH) {
     sessionStorage.setItem('opti_auth', '1');
     document.getElementById('loginOverlay').style.display = 'none';
