@@ -3,7 +3,7 @@
 
 const API_BASE = '';
 const PW_HASH = '-9pkod';
-const VALID_USERS = ['fk0v1o', 'cyt5oy']; // mikael@searchboost.se, web.searchboost@gmail.com
+const VALID_USERS = ['-wum12h', '-bu8xhi']; // mikael.searchboost@gmail.com, searcboost.web@gmail.com
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
