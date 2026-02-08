@@ -117,14 +117,19 @@ async function rankMathApi(site, endpoint) {
   return res.data;
 }
 
-// ── BigQuery logging ──
+// ── BigQuery logging (uses DML INSERT for sandbox compatibility) ──
 async function logOptimization(entry) {
   try {
     const { bq, dataset } = await getBigQuery();
-    await bq.dataset(dataset).table('seo_optimization_log').insert([{
-      timestamp: new Date().toISOString(),
-      ...entry
-    }]);
+    const row = { timestamp: new Date().toISOString(), ...entry };
+    const cols = Object.keys(row);
+    const vals = cols.map(c => {
+      const v = row[c];
+      if (v === null || v === undefined) return 'NULL';
+      return `'${String(v).replace(/'/g, "\\'")}'`;
+    });
+    const sql = `INSERT INTO \`${dataset}.seo_optimization_log\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
+    await bq.query(sql);
   } catch (err) {
     console.error('BigQuery log error:', err.message);
   }
@@ -133,12 +138,20 @@ async function logOptimization(entry) {
 async function addToWorkQueue(task) {
   try {
     const { bq, dataset } = await getBigQuery();
-    await bq.dataset(dataset).table('seo_work_queue').insert([{
+    const row = {
       queue_id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       created_at: new Date().toISOString(),
       status: 'pending',
       ...task
-    }]);
+    };
+    const cols = Object.keys(row);
+    const vals = cols.map(c => {
+      const v = row[c];
+      if (v === null || v === undefined) return 'NULL';
+      return `'${String(v).replace(/'/g, "\\'")}'`;
+    });
+    const sql = `INSERT INTO \`${dataset}.seo_work_queue\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
+    await bq.query(sql);
   } catch (err) {
     console.error('BigQuery queue error:', err.message);
   }
