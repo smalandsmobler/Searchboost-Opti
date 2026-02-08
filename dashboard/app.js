@@ -156,19 +156,20 @@ async function loadOverview() {
     recentEl.innerHTML = '<p class="empty">Inga optimeringar \u00e4n. Systemet startar n\u00e4r WordPress-sites \u00e4r konfigurerade.</p>';
   }
 
-  // Customers
+  // Customers (clickable)
   const custEl = $('#customer-list');
   if (customers?.customers?.length > 0) {
     custEl.innerHTML = customers.customers.map(c => {
       const initials = c.url.replace(/https?:\/\/(www\.)?/, '').substring(0, 2).toUpperCase();
       const domain = c.url.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
       return `
-        <div class="customer-item">
+        <div class="customer-item customer-item--clickable" onclick="showCustomerDetail('${c.id}', '${c.url}')">
           <div class="customer-avatar">${initials}</div>
           <div class="customer-info">
             <div class="customer-name">${c.id}</div>
             <div class="customer-url">${domain}</div>
           </div>
+          <div class="customer-arrow">&rsaquo;</div>
         </div>
       `;
     }).join('');
@@ -273,6 +274,98 @@ async function loadView(view) {
     case 'reports': return loadReports();
   }
 }
+
+// ── Customer Detail ───────────────────────────────────────────
+
+async function showCustomerDetail(customerId, customerUrl) {
+  // Switch to detail view
+  $$('.nav-link').forEach(l => l.classList.remove('active'));
+  $$('.view').forEach(v => v.classList.remove('active'));
+  $('#view-customer-detail').classList.add('active');
+
+  const initials = customerUrl.replace(/https?:\/\/(www\.)?/, '').substring(0, 2).toUpperCase();
+  const domain = customerUrl.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+  $('#detail-avatar').textContent = initials;
+  $('#detail-name').textContent = customerId;
+  $('#detail-url').textContent = domain;
+  $('#detail-integrations').innerHTML = '<span class="tag tag--pending">Laddar...</span>';
+  $('#detail-stat-opts').textContent = '—';
+  $('#detail-stat-queue').textContent = '—';
+  $('#detail-stat-types').textContent = '—';
+  $('#detail-optimizations').innerHTML = '<p class="empty">Laddar...</p>';
+  $('#detail-queue').innerHTML = '<p class="empty">Laddar...</p>';
+
+  const data = await api(`/api/customers/${customerId}/stats`);
+  if (!data) {
+    $('#detail-integrations').innerHTML = '<span class="tag tag--high">Kunde inte hämta data</span>';
+    return;
+  }
+
+  // Integrations badges
+  const c = data.customer;
+  const badges = [];
+  if (c['company-name']) badges.push(`<span class="detail-badge">${c['company-name']}</span>`);
+  if (c['contact-email']) badges.push(`<span class="detail-badge">${c['contact-email']}</span>`);
+  if (c['gsc-property']) badges.push(`<span class="tag tag--links">GSC</span>`);
+  else badges.push(`<span class="tag tag--content">GSC saknas</span>`);
+  if (c['ga-property-id']) badges.push(`<span class="tag tag--links">GA4</span>`);
+  else badges.push(`<span class="tag tag--content">GA4 saknas</span>`);
+  if (c['google-ads-id']) badges.push(`<span class="tag tag--schema">Ads</span>`);
+  if (c['meta-pixel-id']) badges.push(`<span class="tag tag--metadata">Meta</span>`);
+  $('#detail-integrations').innerHTML = badges.join(' ');
+
+  // Stats
+  $('#detail-stat-opts').textContent = data.stats.total_optimizations;
+  $('#detail-stat-queue').textContent = data.stats.queue_items;
+  $('#detail-stat-types').textContent = data.stats.by_type?.length || 0;
+
+  // Optimizations list
+  const optEl = $('#detail-optimizations');
+  if (data.optimizations?.length > 0) {
+    optEl.innerHTML = data.optimizations.map(opt => `
+      <div class="list-item">
+        <div class="list-item-left">
+          <div class="list-item-title">${opt.optimization_type?.replace(/_/g, ' ') || '—'}</div>
+          <div class="list-item-sub">${opt.page_url || opt.site_url || '—'} &middot; ${timeAgo(opt.timestamp)}</div>
+        </div>
+        <div class="list-item-right">
+          <span class="tag tag--${typeTag(opt.optimization_type)}">${opt.optimization_type}</span>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    optEl.innerHTML = '<p class="empty">Inga optimeringar de senaste 30 dagarna.</p>';
+  }
+
+  // Queue list
+  const qEl = $('#detail-queue');
+  if (data.queue?.length > 0) {
+    qEl.innerHTML = data.queue.map(task => `
+      <div class="list-item">
+        <div class="list-item-left">
+          <div class="list-item-title">${task.task_type?.replace(/_/g, ' ') || '—'}</div>
+          <div class="list-item-sub">${task.page_url || '—'}</div>
+        </div>
+        <div class="list-item-right">
+          <span class="tag tag--${severityTag(task.priority)}">${task.priority}</span>
+          <span class="tag tag--${task.status}">${task.status}</span>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    qEl.innerHTML = '<p class="empty">Ingen aktiv arbetskö.</p>';
+  }
+}
+
+// Back button
+document.getElementById('back-to-overview')?.addEventListener('click', (e) => {
+  e.preventDefault();
+  $$('.view').forEach(v => v.classList.remove('active'));
+  $('#view-overview').classList.add('active');
+  $$('.nav-link').forEach(l => l.classList.remove('active'));
+  $('[data-view="overview"]').classList.add('active');
+});
 
 // ── Init ──────────────────────────────────────────────────────
 if (sessionStorage.getItem('opti_auth') === '1') {

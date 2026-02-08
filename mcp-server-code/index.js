@@ -530,6 +530,90 @@ app.get('/api/reports', async (req, res) => {
   }
 });
 
+// Dashboard API: Get per-customer stats (last 30 days)
+app.get('/api/customers/:id/stats', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+
+    // Get customer info from SSM
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site) return res.status(404).json({ error: 'Kund hittades inte' });
+
+    // Get integration data from SSM
+    let integrations = {};
+    try {
+      const intParams = [];
+      let nextToken;
+      do {
+        const r = await ssm.send(new GetParametersByPathCommand({
+          Path: `/seo-mcp/integrations/${customerId}/`, Recursive: true, WithDecryption: true,
+          ...(nextToken ? { NextToken: nextToken } : {})
+        }));
+        intParams.push(...(r.Parameters || []));
+        nextToken = r.NextToken;
+      } while (nextToken);
+      for (const p of intParams) {
+        const key = p.Name.split('/').pop();
+        integrations[key] = p.Value;
+      }
+    } catch (e) { /* no integrations */ }
+
+    // Get optimizations from BigQuery (last 30 days)
+    let optimizations = [];
+    let queueItems = [];
+    let optimizationsByType = [];
+    try {
+      const { bq, dataset } = await getBigQuery();
+      const [optRows] = await bq.query({
+        query: `SELECT * FROM \`${dataset}.seo_optimization_log\`
+                WHERE customer_id = @customerId
+                AND timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+                ORDER BY timestamp DESC`,
+        params: { customerId }
+      });
+      optimizations = optRows || [];
+
+      const [typeRows] = await bq.query({
+        query: `SELECT optimization_type, COUNT(*) as count
+                FROM \`${dataset}.seo_optimization_log\`
+                WHERE customer_id = @customerId
+                AND timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+                GROUP BY optimization_type ORDER BY count DESC`,
+        params: { customerId }
+      });
+      optimizationsByType = typeRows || [];
+
+      const [qRows] = await bq.query({
+        query: `SELECT * FROM \`${dataset}.seo_work_queue\`
+                WHERE customer_id = @customerId
+                ORDER BY priority DESC LIMIT 10`,
+        params: { customerId }
+      });
+      queueItems = qRows || [];
+    } catch (bqErr) {
+      console.error('BigQuery stats error:', bqErr.message);
+    }
+
+    res.json({
+      customer: {
+        id: site.id,
+        url: site.url,
+        ...integrations
+      },
+      stats: {
+        total_optimizations: optimizations.length,
+        by_type: optimizationsByType,
+        queue_items: queueItems.length
+      },
+      optimizations,
+      queue: queueItems
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Trigger a site analysis
 app.post('/api/analyze', async (req, res) => {
   try {
