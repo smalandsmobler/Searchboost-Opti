@@ -559,6 +559,7 @@ async function loadRankings(customerId) {
   } else {
     rankEl.innerHTML = '<p class="empty">Inga sökord hittades. Lägg till ABC-ord i Trello eller verifiera GSC-åtkomst.</p>';
   }
+}
 
 // Back button
 document.getElementById('back-to-overview')?.addEventListener('click', (e) => {
