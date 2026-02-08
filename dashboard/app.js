@@ -1,7 +1,7 @@
 // Searchboost Opti — Dashboard App
 // Connects to MCP server API on EC2
 
-const API_BASE = 'http://51.21.116.7:3000';
+const API_BASE = '';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
