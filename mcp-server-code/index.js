@@ -265,6 +265,7 @@ async function bqInsert(table, row) {
   const vals = cols.map(c => {
     const v = row[c];
     if (v === null || v === undefined) return 'NULL';
+    if (typeof v === 'number') return String(v);
     return `'${String(v).replace(/'/g, "\\'")}'`;
   });
   const sql = `INSERT INTO \`${dataset}.${table}\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
