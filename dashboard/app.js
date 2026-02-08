@@ -64,9 +64,9 @@ $$('.nav-link').forEach(link => {
 });
 
 // ── API Fetch with error handling ─────────────────────────────
-async function api(endpoint) {
+async function api(endpoint, options) {
   try {
-    const res = await fetch(`${API_BASE}${endpoint}`);
+    const res = await fetch(`${API_BASE}${endpoint}`, options || undefined);
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
     return await res.json();
   } catch (err) {
@@ -405,6 +405,7 @@ async function showCustomerDetail(customerId, customerUrl) {
         <div class="list-item-right">
           <span class="tag tag--${severityTag(task.priority)}">${task.priority}</span>
           <span class="tag tag--${task.status}">${task.status}</span>
+          ${task.source ? `<span class="source-badge source-badge--${task.source}">${task.source === 'manual' ? 'Manuell' : task.source}</span>` : ''}
         </div>
       </div>
     `).join('');
@@ -417,6 +418,9 @@ async function showCustomerDetail(customerId, customerUrl) {
 
   // Load pipeline data (contract info, action plan)
   loadCustomerPipeline(customerId);
+
+  // Init manual input forms
+  initManualForms(customerId);
 }
 
 async function loadCustomerPipeline(customerId) {
@@ -482,6 +486,7 @@ async function loadCustomerPipeline(customerId) {
                 <span class="plan-task-desc">${t.task_description}</span>
                 <span class="tag tag--${typeTag(t.task_type)}">${t.task_type.replace(/_/g, ' ')}</span>
                 <span class="tag tag--${t.estimated_effort === 'auto' ? 'links' : 'content'}">${t.estimated_effort}</span>
+                ${t.source ? `<span class="source-badge source-badge--${t.source}">${t.source === 'manual' ? 'Manuell' : t.source === 'auto' ? 'Auto' : t.source}</span>` : ''}
               </div>
             `).join('')}
           </div>
@@ -558,6 +563,304 @@ async function loadRankings(customerId) {
     `;
   } else {
     rankEl.innerHTML = '<p class="empty">Inga sökord hittades. Lägg till ABC-ord i Trello eller verifiera GSC-åtkomst.</p>';
+  }
+}
+
+// ── Manual Input Forms ──────────────────────────────────────
+
+let _currentCustomerId = null;
+
+function switchTab(btn) {
+  const tabId = btn.dataset.tab;
+  btn.closest('.manual-input-card').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.closest('.manual-input-card').querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function addAuditIssueRow() {
+  const container = document.getElementById('audit-issues');
+  const row = document.createElement('div');
+  row.className = 'issue-row';
+  row.innerHTML = `
+    <input type="text" class="form-input issue-url" placeholder="Sida (URL)">
+    <select class="form-select issue-type">
+      <option value="thin_content">Tunt innehåll</option>
+      <option value="missing_title">Titel saknas/dålig</option>
+      <option value="missing_meta">Meta saknas</option>
+      <option value="missing_h1">H1 saknas</option>
+      <option value="missing_alt">Alt-text saknas</option>
+      <option value="slow_speed">Långsam laddning</option>
+      <option value="missing_schema">Schema saknas</option>
+      <option value="broken_links">Trasiga länkar</option>
+      <option value="duplicate_content">Duplicerat innehåll</option>
+      <option value="other">Övrigt</option>
+    </select>
+    <select class="form-select issue-severity">
+      <option value="high">Hög</option>
+      <option value="medium" selected>Medel</option>
+      <option value="low">Låg</option>
+    </select>
+    <input type="number" class="form-input issue-priority" placeholder="Prio" min="1" max="10" value="5" style="width:60px">
+    <input type="text" class="form-input issue-desc" placeholder="Beskrivning">
+    <button class="btn-small btn-remove" onclick="this.parentElement.remove()">×</button>
+  `;
+  container.appendChild(row);
+}
+
+function initKeywordRows() {
+  const tiers = [{ id: 'kw-a-rows', tier: 'A', count: 5 }, { id: 'kw-b-rows', tier: 'B', count: 5 }, { id: 'kw-c-rows', tier: 'C', count: 10 }];
+  for (const t of tiers) {
+    const container = document.getElementById(t.id);
+    container.innerHTML = '';
+    for (let i = 0; i < t.count; i++) {
+      const row = document.createElement('div');
+      row.className = 'kw-row';
+      row.innerHTML = `
+        <span class="kw-num">${t.tier}${i + 1}</span>
+        <input type="text" class="form-input kw-word" placeholder="Sökord">
+        <input type="number" class="form-input kw-vol" placeholder="Sökvolym" style="width:90px">
+        <input type="number" class="form-input kw-diff" placeholder="Svårighet" style="width:90px" min="0" max="100">
+      `;
+      container.appendChild(row);
+    }
+  }
+}
+
+function addPlanTaskRow(month) {
+  const container = document.getElementById(`plan-month-${month}-rows`);
+  const row = document.createElement('div');
+  row.className = 'plan-task-row';
+  row.innerHTML = `
+    <input type="text" class="form-input plan-desc" placeholder="Åtgärd">
+    <select class="form-select plan-type">
+      <option value="content_creation">Innehåll</option>
+      <option value="meta_optimization">Meta</option>
+      <option value="technical_fix">Teknisk fix</option>
+      <option value="link_building">Länkbygge</option>
+      <option value="schema_markup">Schema</option>
+      <option value="speed_optimization">Hastighet</option>
+      <option value="keyword_mapping">Nyckelord</option>
+      <option value="other">Övrigt</option>
+    </select>
+    <input type="text" class="form-input plan-keyword" placeholder="Nyckelord" style="width:120px">
+    <input type="text" class="form-input plan-url" placeholder="Sida (URL)" style="width:160px">
+    <select class="form-select plan-effort">
+      <option value="manual">Manuell</option>
+      <option value="auto">Auto</option>
+    </select>
+    <button class="btn-small btn-remove" onclick="this.parentElement.remove()">×</button>
+  `;
+  container.appendChild(row);
+}
+
+async function saveManualAudit() {
+  const statusEl = document.getElementById('audit-save-status');
+  statusEl.textContent = 'Sparar...';
+  statusEl.className = 'save-status saving';
+
+  const summary = document.getElementById('audit-summary').value.trim();
+  const issueRows = document.querySelectorAll('#audit-issues .issue-row');
+  const issues = [];
+  issueRows.forEach(row => {
+    const url = row.querySelector('.issue-url').value.trim();
+    const type = row.querySelector('.issue-type').value;
+    const severity = row.querySelector('.issue-severity').value;
+    const priority = parseInt(row.querySelector('.issue-priority').value) || 5;
+    const desc = row.querySelector('.issue-desc').value.trim();
+    if (url || desc) {
+      issues.push({ url, problem_type: type, severity, priority, description: desc });
+    }
+  });
+
+  const result = await api(`/api/customers/${_currentCustomerId}/manual-audit`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ summary, issues })
+  });
+
+  if (result?.success) {
+    statusEl.textContent = 'Sparat!';
+    statusEl.className = 'save-status saved';
+    loadAuditData(_currentCustomerId);
+  } else {
+    statusEl.textContent = result?.error || 'Fel vid sparande';
+    statusEl.className = 'save-status error';
+  }
+}
+
+async function saveManualKeywords() {
+  const statusEl = document.getElementById('kw-save-status');
+  statusEl.textContent = 'Sparar...';
+  statusEl.className = 'save-status saving';
+
+  const phase = document.querySelector('input[name="kw-phase"]:checked').value;
+  const keywords = [];
+  const tiers = [{ id: 'kw-a-rows', tier: 'A' }, { id: 'kw-b-rows', tier: 'B' }, { id: 'kw-c-rows', tier: 'C' }];
+
+  for (const t of tiers) {
+    const rows = document.querySelectorAll(`#${t.id} .kw-row`);
+    rows.forEach(row => {
+      const word = row.querySelector('.kw-word').value.trim();
+      if (word) {
+        keywords.push({
+          keyword: word,
+          tier: t.tier,
+          phase,
+          monthly_search_volume: parseInt(row.querySelector('.kw-vol').value) || null,
+          keyword_difficulty: parseInt(row.querySelector('.kw-diff').value) || null
+        });
+      }
+    });
+  }
+
+  if (!keywords.length) {
+    statusEl.textContent = 'Ange minst ett nyckelord';
+    statusEl.className = 'save-status error';
+    return;
+  }
+
+  const result = await api(`/api/customers/${_currentCustomerId}/keywords`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ keywords })
+  });
+
+  if (result?.success) {
+    statusEl.textContent = `Sparat ${result.inserted} nyckelord!`;
+    statusEl.className = 'save-status saved';
+  } else {
+    statusEl.textContent = result?.error || 'Fel vid sparande';
+    statusEl.className = 'save-status error';
+  }
+}
+
+async function saveManualPlan() {
+  const statusEl = document.getElementById('plan-save-status');
+  statusEl.textContent = 'Sparar...';
+  statusEl.className = 'save-status saving';
+
+  const tasks = [];
+  for (let month = 1; month <= 3; month++) {
+    const rows = document.querySelectorAll(`#plan-month-${month}-rows .plan-task-row`);
+    rows.forEach(row => {
+      const desc = row.querySelector('.plan-desc').value.trim();
+      if (desc) {
+        tasks.push({
+          month,
+          description: desc,
+          task_type: row.querySelector('.plan-type').value,
+          keyword: row.querySelector('.plan-keyword').value.trim(),
+          target_url: row.querySelector('.plan-url').value.trim(),
+          effort: row.querySelector('.plan-effort').value
+        });
+      }
+    });
+  }
+
+  if (!tasks.length) {
+    statusEl.textContent = 'Ange minst en åtgärd';
+    statusEl.className = 'save-status error';
+    return;
+  }
+
+  const result = await api(`/api/customers/${_currentCustomerId}/manual-action-plan`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ tasks })
+  });
+
+  if (result?.success) {
+    statusEl.textContent = `Sparat ${result.tasks_added} åtgärder!`;
+    statusEl.className = 'save-status saved';
+    loadCustomerPipeline(_currentCustomerId);
+  } else {
+    statusEl.textContent = result?.error || 'Fel vid sparande';
+    statusEl.className = 'save-status error';
+  }
+}
+
+async function autoGeneratePlan() {
+  const statusEl = document.getElementById('plan-save-status');
+  statusEl.textContent = 'Genererar...';
+  statusEl.className = 'save-status saving';
+
+  const result = await api(`/api/customers/${_currentCustomerId}/action-plan`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+
+  if (result?.success) {
+    statusEl.textContent = `Genererat ${result.tasks_created} åtgärder!`;
+    statusEl.className = 'save-status saved';
+    loadCustomerPipeline(_currentCustomerId);
+  } else {
+    statusEl.textContent = result?.error || 'Fel vid generering';
+    statusEl.className = 'save-status error';
+  }
+}
+
+async function loadAuditData(customerId) {
+  const existingEl = document.getElementById('audit-existing');
+  const auditData = await api(`/api/customers/${customerId}/audit`);
+  if (auditData?.summary) {
+    existingEl.style.display = '';
+    existingEl.innerHTML = `
+      <div class="audit-summary-box">
+        <strong>Sparad analys:</strong>
+        <pre class="audit-pre">${auditData.summary}</pre>
+      </div>
+    `;
+    document.getElementById('audit-summary').value = auditData.summary;
+  } else {
+    existingEl.style.display = 'none';
+  }
+}
+
+function initManualForms(customerId) {
+  _currentCustomerId = customerId;
+  // Init keyword rows
+  initKeywordRows();
+  // Init with 2 starter rows for audit issues
+  document.getElementById('audit-issues').innerHTML = '';
+  addAuditIssueRow();
+  addAuditIssueRow();
+  // Init with 2 starter rows per month for plan
+  for (let m = 1; m <= 3; m++) {
+    document.getElementById(`plan-month-${m}-rows`).innerHTML = '';
+    addPlanTaskRow(m);
+    addPlanTaskRow(m);
+  }
+  // Clear statuses
+  document.querySelectorAll('.save-status').forEach(el => { el.textContent = ''; el.className = 'save-status'; });
+  document.getElementById('audit-summary').value = '';
+  // Load existing audit data
+  loadAuditData(customerId);
+  // Load existing keywords into form
+  loadExistingKeywords(customerId);
+}
+
+async function loadExistingKeywords(customerId) {
+  const kwData = await api(`/api/customers/${customerId}/keywords`);
+  if (!kwData?.keywords?.length) return;
+  const tierMap = { A: 'kw-a-rows', B: 'kw-b-rows', C: 'kw-c-rows' };
+  const counters = { A: 0, B: 0, C: 0 };
+  for (const kw of kwData.keywords) {
+    const tier = kw.tier || 'C';
+    const containerId = tierMap[tier];
+    if (!containerId) continue;
+    const rows = document.querySelectorAll(`#${containerId} .kw-row`);
+    const idx = counters[tier]++;
+    if (idx < rows.length) {
+      rows[idx].querySelector('.kw-word').value = kw.keyword || '';
+      if (kw.monthly_search_volume) rows[idx].querySelector('.kw-vol').value = kw.monthly_search_volume;
+      if (kw.keyword_difficulty) rows[idx].querySelector('.kw-diff').value = kw.keyword_difficulty;
+    }
+  }
+  if (kwData.keywords[0]?.phase) {
+    const radio = document.querySelector(`input[name="kw-phase"][value="${kwData.keywords[0].phase}"]`);
+    if (radio) radio.checked = true;
   }
 }
 

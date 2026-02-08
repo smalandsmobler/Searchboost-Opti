@@ -284,7 +284,7 @@ async function ensurePipelineTables() {
         service_type STRING, monthly_amount_sek INT64, contract_start_date DATE,
         contract_end_date DATE, contract_status STRING, audit_meeting_date TIMESTAMP,
         startup_meeting_date TIMESTAMP, created_at TIMESTAMP, updated_at TIMESTAMP,
-        trello_card_id STRING`
+        trello_card_id STRING, audit_summary STRING`
     },
     {
       name: 'customer_keywords',
@@ -298,7 +298,7 @@ async function ensurePipelineTables() {
       schema: `plan_id STRING NOT NULL, customer_id STRING NOT NULL, created_at TIMESTAMP,
         month_number INT64, task_type STRING, task_description STRING, target_url STRING,
         target_keyword STRING, priority INT64, status STRING, work_queue_id STRING,
-        completed_at TIMESTAMP, estimated_effort STRING`
+        completed_at TIMESTAMP, estimated_effort STRING, source STRING`
     }
   ];
   for (const t of tables) {
@@ -309,6 +309,23 @@ async function ensurePipelineTables() {
         console.log(`Creating table ${t.name}...`);
         await bq.query(`CREATE TABLE \`${dataset}.${t.name}\` (${t.schema})`);
         console.log(`Table ${t.name} created.`);
+      }
+    }
+  }
+
+  // Add missing columns to existing tables
+  const alterColumns = [
+    { table: 'customer_pipeline', column: 'audit_summary', type: 'STRING' },
+    { table: 'action_plans', column: 'source', type: 'STRING' },
+    { table: 'seo_work_queue', column: 'source', type: 'STRING' }
+  ];
+  for (const col of alterColumns) {
+    try {
+      await bq.query(`SELECT ${col.column} FROM \`${dataset}.${col.table}\` LIMIT 1`);
+    } catch (e) {
+      if (e.message && e.message.includes('Unrecognized name')) {
+        console.log(`Adding column ${col.column} to ${col.table}...`);
+        await bq.query(`ALTER TABLE \`${dataset}.${col.table}\` ADD COLUMN ${col.column} ${col.type}`);
       }
     }
   }
@@ -1272,6 +1289,121 @@ app.post('/api/customers/:id/action-plan/activate-month', async (req, res) => {
     }
 
     res.json({ success: true, customer_id: customerId, month_number, queued });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Manual audit endpoint ──
+app.post('/api/customers/:id/manual-audit', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { summary, issues } = req.body;
+    if (!summary && (!issues || !issues.length)) {
+      return res.status(400).json({ error: 'Ange minst en analys-sammanfattning eller issues' });
+    }
+    const { bq, dataset } = await getBigQuery();
+
+    // Save audit summary to customer_pipeline
+    if (summary) {
+      try {
+        await bq.query({
+          query: `UPDATE \`${dataset}.customer_pipeline\` SET audit_summary = @summary, updated_at = CURRENT_TIMESTAMP() WHERE customer_id = @customerId`,
+          params: { summary, customerId }
+        });
+      } catch (e) {
+        // If audit_summary column doesn't exist yet, add it
+        if (e.message && e.message.includes('Unrecognized name: audit_summary')) {
+          await bq.query(`ALTER TABLE \`${dataset}.customer_pipeline\` ADD COLUMN audit_summary STRING`);
+          await bq.query({
+            query: `UPDATE \`${dataset}.customer_pipeline\` SET audit_summary = @summary, updated_at = CURRENT_TIMESTAMP() WHERE customer_id = @customerId`,
+            params: { summary, customerId }
+          });
+        } else throw e;
+      }
+    }
+
+    // Save issues to seo_work_queue with source='manual'
+    let issueCount = 0;
+    if (issues && issues.length) {
+      for (const issue of issues) {
+        await addToWorkQueue({
+          customer_id: customerId,
+          task_type: issue.problem_type || 'audit_issue',
+          page_url: issue.url || '',
+          priority: issue.priority || 5,
+          description: issue.description || '',
+          severity: issue.severity || 'medium',
+          source: 'manual'
+        });
+        issueCount++;
+      }
+    }
+
+    res.json({ success: true, customer_id: customerId, summary_saved: !!summary, issues_added: issueCount });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Manual action plan endpoint ──
+app.post('/api/customers/:id/manual-action-plan', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { tasks } = req.body;
+    if (!tasks || !tasks.length) {
+      return res.status(400).json({ error: 'Ange minst en åtgärd' });
+    }
+    const now = new Date().toISOString();
+    let inserted = 0;
+
+    for (const task of tasks) {
+      await bqInsert('action_plans', {
+        plan_id: `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+        customer_id: customerId,
+        created_at: now,
+        month_number: task.month || 1,
+        task_type: task.task_type || 'manual_task',
+        task_description: task.description || '',
+        target_url: task.target_url || '',
+        target_keyword: task.keyword || '',
+        priority: task.priority || 5,
+        status: 'planned',
+        estimated_effort: task.effort || 'manual',
+        source: 'manual'
+      });
+      inserted++;
+    }
+
+    res.json({ success: true, customer_id: customerId, tasks_added: inserted });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Get audit summary endpoint ──
+app.get('/api/customers/:id/audit', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+
+    // Get audit summary from pipeline
+    let summary = null;
+    try {
+      const [rows] = await bq.query({
+        query: `SELECT audit_summary FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @customerId`,
+        params: { customerId }
+      });
+      if (rows.length > 0) summary = rows[0].audit_summary;
+    } catch (e) { /* column may not exist yet */ }
+
+    // Get manual audit issues from work queue
+    const [issues] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.seo_work_queue\` WHERE customer_id = @customerId AND source = 'manual' ORDER BY created_at DESC`,
+      params: { customerId }
+    });
+
+    res.json({ customer_id: customerId, summary, issues: issues || [] });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

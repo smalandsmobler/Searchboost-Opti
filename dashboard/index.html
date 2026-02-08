@@ -172,6 +172,82 @@
       </div>
       <div id="detail-contract-bar" class="contract-bar" style="display:none"></div>
       <div id="detail-budget-bar" class="budget-bar" style="display:none"></div>
+
+      <!-- Manual Input Section -->
+      <div class="card manual-input-card" style="margin-bottom: 24px">
+        <h2 class="card-title">Manuell inmatning</h2>
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="tab-audit" onclick="switchTab(this)">SEO-analys</button>
+          <button class="tab-btn" data-tab="tab-keywords" onclick="switchTab(this)">Nyckelord (ABC)</button>
+          <button class="tab-btn" data-tab="tab-plan" onclick="switchTab(this)">Åtgärdsplan</button>
+        </div>
+
+        <!-- Tab 1: SEO Audit -->
+        <div id="tab-audit" class="tab-content active">
+          <div id="audit-existing" class="audit-existing" style="display:none"></div>
+          <label class="form-label">Analys-sammanfattning (fritext från SE Ranking)</label>
+          <textarea id="audit-summary" class="form-textarea" rows="6" placeholder="Klistra in analysen här..."></textarea>
+          <label class="form-label" style="margin-top:12px">Sidspecifika problem</label>
+          <div id="audit-issues" class="issue-rows"></div>
+          <button class="btn-small btn-add" onclick="addAuditIssueRow()">+ Lägg till rad</button>
+          <div style="margin-top:16px">
+            <button class="btn-primary" onclick="saveManualAudit()">Spara analys</button>
+            <span id="audit-save-status" class="save-status"></span>
+          </div>
+        </div>
+
+        <!-- Tab 2: Keywords ABC -->
+        <div id="tab-keywords" class="tab-content">
+          <div class="form-row">
+            <label class="form-label">Fas:</label>
+            <label class="radio-label"><input type="radio" name="kw-phase" value="initial" checked> Initial (från kund)</label>
+            <label class="radio-label"><input type="radio" name="kw-phase" value="final"> Final (efter uppstartsmöte)</label>
+          </div>
+          <div class="kw-group">
+            <h4>A-ord (5 st) — Huvudnyckelord</h4>
+            <div id="kw-a-rows"></div>
+          </div>
+          <div class="kw-group">
+            <h4>B-ord (5 st) — Sekundära</h4>
+            <div id="kw-b-rows"></div>
+          </div>
+          <div class="kw-group">
+            <h4>C-ord (10 st) — Långsvans</h4>
+            <div id="kw-c-rows"></div>
+          </div>
+          <div style="margin-top:16px">
+            <button class="btn-primary" onclick="saveManualKeywords()">Spara nyckelord</button>
+            <span id="kw-save-status" class="save-status"></span>
+          </div>
+        </div>
+
+        <!-- Tab 3: Action Plan -->
+        <div id="tab-plan" class="tab-content">
+          <div id="plan-tasks-input">
+            <div class="plan-month-group">
+              <h4>Månad 1 — Grundarbete</h4>
+              <div id="plan-month-1-rows"></div>
+              <button class="btn-small btn-add" onclick="addPlanTaskRow(1)">+ Lägg till åtgärd</button>
+            </div>
+            <div class="plan-month-group">
+              <h4>Månad 2 — Tillväxt</h4>
+              <div id="plan-month-2-rows"></div>
+              <button class="btn-small btn-add" onclick="addPlanTaskRow(2)">+ Lägg till åtgärd</button>
+            </div>
+            <div class="plan-month-group">
+              <h4>Månad 3 — Förfining</h4>
+              <div id="plan-month-3-rows"></div>
+              <button class="btn-small btn-add" onclick="addPlanTaskRow(3)">+ Lägg till åtgärd</button>
+            </div>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:12px; align-items:center">
+            <button class="btn-primary" onclick="saveManualPlan()">Spara åtgärdsplan</button>
+            <button class="btn-secondary" onclick="autoGeneratePlan()">Auto-generera från audit + nyckelord</button>
+            <span id="plan-save-status" class="save-status"></span>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="margin-bottom: 24px">
         <h2 class="card-title">Sökordspositioner (GSC + ABC-ord)</h2>
         <div id="detail-rankings" class="card-body">
