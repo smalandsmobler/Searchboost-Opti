@@ -156,10 +156,11 @@ async function loadOverview() {
     recentEl.innerHTML = '<p class="empty">Inga optimeringar \u00e4n. Systemet startar n\u00e4r WordPress-sites \u00e4r konfigurerade.</p>';
   }
 
-  // Customers (clickable)
+  // Customers (clickable, sorted alphabetically)
   const custEl = $('#customer-list');
   if (customers?.customers?.length > 0) {
-    custEl.innerHTML = customers.customers.map(c => {
+    const sorted = [...customers.customers].sort((a, b) => a.id.localeCompare(b.id, 'sv'));
+    custEl.innerHTML = sorted.map(c => {
       const initials = c.url.replace(/https?:\/\/(www\.)?/, '').substring(0, 2).toUpperCase();
       const domain = c.url.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
       return `
@@ -292,9 +293,11 @@ async function showCustomerDetail(customerId, customerUrl) {
   $('#detail-integrations').innerHTML = '<span class="tag tag--pending">Laddar...</span>';
   $('#detail-stat-opts').textContent = '—';
   $('#detail-stat-queue').textContent = '—';
-  $('#detail-stat-types').textContent = '—';
+  $('#detail-stat-top10').textContent = '—';
+  $('#detail-stat-keywords').textContent = '—';
   $('#detail-optimizations').innerHTML = '<p class="empty">Laddar...</p>';
   $('#detail-queue').innerHTML = '<p class="empty">Laddar...</p>';
+  $('#detail-rankings').innerHTML = '<p class="empty">Laddar positioner...</p>';
 
   const data = await api(`/api/customers/${customerId}/stats`);
   if (!data) {
@@ -308,11 +311,10 @@ async function showCustomerDetail(customerId, customerUrl) {
   if (c['company-name']) badges.push(`<span class="detail-badge">${c['company-name']}</span>`);
   if (c['contact-email']) badges.push(`<span class="detail-badge">${c['contact-email']}</span>`);
   if (c['gsc-property']) badges.push(`<span class="tag tag--links">GSC</span>`);
-  else badges.push(`<span class="tag tag--content">GSC saknas</span>`);
   if (c['ga-property-id']) badges.push(`<span class="tag tag--links">GA4</span>`);
-  else badges.push(`<span class="tag tag--content">GA4 saknas</span>`);
   if (c['google-ads-id']) badges.push(`<span class="tag tag--schema">Ads</span>`);
   if (c['meta-pixel-id']) badges.push(`<span class="tag tag--metadata">Meta</span>`);
+  if (!badges.length) badges.push(`<span class="tag tag--content">Ingen integrationsdata</span>`);
   $('#detail-integrations').innerHTML = badges.join(' ');
 
   // Stats
@@ -356,7 +358,64 @@ async function showCustomerDetail(customerId, customerUrl) {
   } else {
     qEl.innerHTML = '<p class="empty">Ingen aktiv arbetskö.</p>';
   }
+
+  // Load SE Ranking positions (async, don't block)
+  loadRankings(customerId);
 }
+
+async function loadRankings(customerId) {
+  const rankEl = $('#detail-rankings');
+  const rankData = await api(`/api/customers/${customerId}/rankings`);
+
+  if (!rankData || rankData.error) {
+    rankEl.innerHTML = `<p class="empty">${rankData?.error || 'Kunde inte hämta positioner.'}</p>`;
+    return;
+  }
+
+  // Update stats
+  $('#detail-stat-top10').textContent = rankData.stats?.top10 ?? '—';
+  $('#detail-stat-keywords').textContent = rankData.stats?.total ?? '—';
+
+  if (rankData.rankings?.length > 0) {
+    rankEl.innerHTML = `
+      <div class="ranking-summary">
+        <span class="tag tag--links">Topp 3: ${rankData.stats.top3}</span>
+        <span class="tag tag--schema">Topp 10: ${rankData.stats.top10}</span>
+        <span class="tag tag--content">Topp 30: ${rankData.stats.top30}</span>
+        <span class="detail-badge">${rankData.date}</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Sökord</th>
+            <th>Position</th>
+            <th>Förändring</th>
+            <th>Volym</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${rankData.rankings.map(r => {
+            const posClass = !r.position ? '' : r.position <= 3 ? 'rank-top3' : r.position <= 10 ? 'rank-top10' : r.position <= 30 ? 'rank-top30' : '';
+            const changeHtml = r.change > 0
+              ? `<span class="rank-up">+${r.change}</span>`
+              : r.change < 0
+              ? `<span class="rank-down">${r.change}</span>`
+              : '<span class="rank-same">—</span>';
+            return `
+              <tr>
+                <td><strong>${r.keyword}</strong></td>
+                <td><span class="rank-pos ${posClass}">${r.position ?? '—'}</span></td>
+                <td>${changeHtml}</td>
+                <td>${r.volume ?? '—'}</td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
+  } else {
+    rankEl.innerHTML = '<p class="empty">Inga sökord konfigurerade i SE Ranking för denna kund.</p>';
+  }
 
 // Back button
 document.getElementById('back-to-overview')?.addEventListener('click', (e) => {

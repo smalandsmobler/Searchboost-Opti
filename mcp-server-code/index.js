@@ -614,6 +614,86 @@ app.get('/api/customers/:id/stats', async (req, res) => {
   }
 });
 
+// Dashboard API: Get SE Ranking positions for a customer
+app.get('/api/customers/:id/rankings', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+
+    // Get customer URL from SSM
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site) return res.status(404).json({ error: 'Kund hittades inte' });
+
+    // Check if SE Ranking is configured
+    const apiKey = await getParam('/seo-mcp/seranking/api-key').catch(() => null);
+    if (!apiKey) return res.json({ rankings: [], error: 'SE Ranking ej konfigurerat' });
+
+    // Find matching SE Ranking project by domain
+    const domain = site.url.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+    const allProjects = await seRankingApi('/sites');
+    if (!allProjects || !Array.isArray(allProjects)) {
+      return res.json({ rankings: [], error: 'Kunde inte hämta SE Ranking-projekt' });
+    }
+
+    const project = allProjects.find(p =>
+      p.name && (p.name.includes(domain) || domain.includes(p.name.replace(/www\./, '')))
+    );
+
+    if (!project) {
+      return res.json({ rankings: [], projects: allProjects.map(p => p.name), error: `Inget SE Ranking-projekt matchar ${domain}` });
+    }
+
+    // Get search engines for the project
+    const engines = await seRankingApi(`/sites/${project.id}/search-engines`);
+    const engineId = engines?.[0]?.site_engine_id;
+
+    // Get today's positions
+    const today = new Date().toISOString().split('T')[0];
+    let posUrl = `/sites/${project.id}/positions?date_from=${today}&date_to=${today}&with_landing_pages=1`;
+    if (engineId) posUrl += `&site_engine_id=${engineId}`;
+
+    const positions = await seRankingApi(posUrl);
+
+    // Flatten and sort alphabetically
+    let keywords = [];
+    if (Array.isArray(positions)) {
+      for (const group of positions) {
+        if (group.keywords && Array.isArray(group.keywords)) {
+          for (const kw of group.keywords) {
+            const latestPos = kw.positions?.[0]?.pos || null;
+            const change = kw.positions?.[0]?.change || 0;
+            keywords.push({
+              keyword: kw.name,
+              position: latestPos,
+              change: Number(change),
+              volume: kw.volume || null,
+              landing_page: kw.landing_pages?.[0]?.page || null
+            });
+          }
+        }
+      }
+    }
+
+    // Sort A-Ö
+    keywords.sort((a, b) => a.keyword.localeCompare(b.keyword, 'sv'));
+
+    // Stats summary
+    const inTop3 = keywords.filter(k => k.position && k.position <= 3).length;
+    const inTop10 = keywords.filter(k => k.position && k.position <= 10).length;
+    const inTop30 = keywords.filter(k => k.position && k.position <= 30).length;
+
+    res.json({
+      project: { id: project.id, name: project.name },
+      date: today,
+      stats: { total: keywords.length, top3: inTop3, top10: inTop10, top30: inTop30 },
+      rankings: keywords
+    });
+  } catch (err) {
+    console.error('SE Ranking error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Trigger a site analysis
 app.post('/api/analyze', async (req, res) => {
   try {

@@ -751,6 +751,43 @@ footer {
   transform: translateX(4px);
 }
 
+/* ── Rankings ──────────────────────────────────────────────── */
+
+.ranking-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.rank-pos {
+  font-weight: 700;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+}
+
+.rank-top3 { color: #22c55e; text-shadow: 0 0 8px rgba(34, 197, 94, 0.4); }
+.rank-top10 { color: #4ade80; }
+.rank-top30 { color: var(--yellow); }
+
+.rank-up {
+  color: var(--green);
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.rank-down {
+  color: var(--red);
+  font-weight: 600;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.rank-same {
+  color: var(--gray-500);
+  font-family: 'IBM Plex Mono', monospace;
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
