@@ -69,8 +69,9 @@ function sb_onboard_handler() {
     );
 
     $response = wp_remote_post($api_url, array(
-        'timeout' => 30,
-        'headers' => array(
+        'timeout'   => 30,
+        'sslverify' => false,
+        'headers'   => array(
             'Content-Type' => 'application/json',
             'X-Api-Key'    => $api_key,
         ),
@@ -92,10 +93,77 @@ function sb_onboard_handler() {
     }
 }
 
+// Enqueue script via wp_footer when shortcode is present
+add_action('wp_footer', function() {
+    global $sb_onboard_form_rendered;
+    if (empty($sb_onboard_form_rendered)) return;
+    ?>
+    <script>
+    function sbSubmitForm() {
+        var form = document.getElementById('sb-onboard-form');
+        var btn = document.getElementById('sb-submit-btn');
+        var errBox = document.getElementById('sb-error-box');
+        errBox.style.display = 'none';
+        form.querySelectorAll('.sb-error').forEach(function(el) { el.classList.remove('sb-error'); });
+        var fields = {};
+        var valid = true;
+        form.querySelectorAll('input').forEach(function(input) {
+            fields[input.name] = input.value.trim();
+            if (input.required && !input.value.trim()) {
+                input.classList.add('sb-error');
+                valid = false;
+            }
+        });
+        if (fields.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.contact_email)) {
+            form.querySelector('[name="contact_email"]').classList.add('sb-error');
+            valid = false;
+        }
+        if (fields.wordpress_url && !/^https?:\/\/.+/.test(fields.wordpress_url)) {
+            form.querySelector('[name="wordpress_url"]').classList.add('sb-error');
+            valid = false;
+        }
+        if (!valid) {
+            errBox.textContent = 'Fyll i alla obligatoriska fält korrekt.';
+            errBox.style.display = 'block';
+            return;
+        }
+        btn.disabled = true;
+        btn.textContent = 'Skickar...';
+        var formData = new FormData();
+        formData.append('action', 'sb_onboard');
+        formData.append('nonce', '<?php echo wp_create_nonce("sb_onboard_nonce"); ?>');
+        for (var k in fields) { formData.append(k, fields[k]); }
+        fetch('<?php echo admin_url("admin-ajax.php"); ?>', { method: 'POST', body: formData })
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+            if (res.success) {
+                form.style.display = 'none';
+                document.getElementById('sb-success').style.display = 'block';
+                window.scrollTo({ top: document.getElementById('sb-success').offsetTop - 100, behavior: 'smooth' });
+            } else {
+                errBox.textContent = res.data || 'Något gick fel. Försök igen.';
+                errBox.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Skicka uppgifter';
+            }
+        })
+        .catch(function() {
+            errBox.textContent = 'Nätverksfel. Kontrollera din internetanslutning.';
+            errBox.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Skicka uppgifter';
+        });
+    }
+    </script>
+    <?php
+});
+
 // Shortcode
 add_shortcode('searchboost_uppstart', 'sb_onboarding_form');
 
 function sb_onboarding_form() {
+    global $sb_onboard_form_rendered;
+    $sb_onboard_form_rendered = true;
     ob_start();
     ?>
     <style>
@@ -273,81 +341,7 @@ function sb_onboarding_form() {
         <p style="margin-top:20px;color:#666;">Ni får ett bekräftelsemail till den angivna e-postadressen.</p>
     </div>
 
-    <script>
-    function sbSubmitForm() {
-        const form = document.getElementById('sb-onboard-form');
-        const btn = document.getElementById('sb-submit-btn');
-        const errBox = document.getElementById('sb-error-box');
-
-        // Clear errors
-        errBox.style.display = 'none';
-        form.querySelectorAll('.sb-error').forEach(el => el.classList.remove('sb-error'));
-
-        // Collect data
-        const fields = {};
-        let valid = true;
-        form.querySelectorAll('input').forEach(input => {
-            fields[input.name] = input.value.trim();
-            if (input.required && !input.value.trim()) {
-                input.classList.add('sb-error');
-                valid = false;
-            }
-        });
-
-        // Validate email
-        if (fields.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.contact_email)) {
-            form.querySelector('[name="contact_email"]').classList.add('sb-error');
-            valid = false;
-        }
-
-        // Validate URL
-        if (fields.wordpress_url && !/^https?:\/\/.+/.test(fields.wordpress_url)) {
-            form.querySelector('[name="wordpress_url"]').classList.add('sb-error');
-            valid = false;
-        }
-
-        if (!valid) {
-            errBox.textContent = 'Fyll i alla obligatoriska fält korrekt.';
-            errBox.style.display = 'block';
-            return;
-        }
-
-        // Submit
-        btn.disabled = true;
-        btn.textContent = 'Skickar...';
-
-        const formData = new FormData();
-        formData.append('action', 'sb_onboard');
-        formData.append('nonce', '<?php echo wp_create_nonce("sb_onboard_nonce"); ?>');
-        for (const [k, v] of Object.entries(fields)) {
-            formData.append(k, v);
-        }
-
-        fetch('<?php echo admin_url("admin-ajax.php"); ?>', {
-            method: 'POST',
-            body: formData
-        })
-        .then(r => r.json())
-        .then(res => {
-            if (res.success) {
-                form.style.display = 'none';
-                document.getElementById('sb-success').style.display = 'block';
-                window.scrollTo({ top: document.getElementById('sb-success').offsetTop - 100, behavior: 'smooth' });
-            } else {
-                errBox.textContent = res.data || 'Något gick fel. Försök igen.';
-                errBox.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'Skicka uppgifter';
-            }
-        })
-        .catch(() => {
-            errBox.textContent = 'Nätverksfel. Kontrollera din internetanslutning.';
-            errBox.style.display = 'block';
-            btn.disabled = false;
-            btn.textContent = 'Skicka uppgifter';
-        });
-    }
-    </script>
+    <!-- Script loaded via wp_footer -->
     <?php
     return ob_get_clean();
 }

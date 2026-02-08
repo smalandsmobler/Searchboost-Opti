@@ -597,37 +597,39 @@ app.post('/api/onboard', async (req, res) => {
       if (key.includes('/seo-mcp/wordpress/')) delete paramCache[key];
     }
 
-    // Test WordPress connection
-    let wpConnectionTest = 'ok';
-    try {
-      const site = { id: siteId, url: wordpress_url.replace(/\/$/, ''), username: wordpress_username, 'app-password': wordpress_app_password };
-      await wpApi(site, 'GET', '/posts?per_page=1');
-    } catch (wpErr) {
-      wpConnectionTest = `failed: ${wpErr.message}`;
-    }
-
-    // Create Trello card for new customer
-    try {
-      const boardId = await getParam('/seo-mcp/trello/board-id');
-      const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
-      const firstList = lists[0];
-      await createTrelloCard(
-        firstList.id,
-        `Ny kund: ${company_name}`,
-        `**Företag:** ${company_name}\n**Kontakt:** ${contact_person || '-'}\n**E-post:** ${contact_email}\n**Webb:** ${wordpress_url}\n**WP-anslutning:** ${wpConnectionTest}\n**Google Ads:** ${google_ads_id || '-'}\n**Meta Pixel:** ${meta_pixel_id || '-'}\n**Registrerad:** ${new Date().toISOString()}`
-      );
-    } catch (trelloErr) {
-      console.error('Trello card creation failed:', trelloErr.message);
-    }
-
     console.log(`[ONBOARD] New customer registered: ${company_name} (${siteId})`);
 
+    // Send response immediately — don't block on WP test or Trello
     res.json({
       success: true,
       siteId,
-      wpConnectionTest,
       message: `${company_name} har registrerats! Site ID: ${siteId}`
     });
+
+    // Fire-and-forget: Test WP connection + create Trello card
+    (async () => {
+      let wpConnectionTest = 'ok';
+      try {
+        const site = { id: siteId, url: wordpress_url.replace(/\/$/, ''), username: wordpress_username, 'app-password': wordpress_app_password };
+        await wpApi(site, 'GET', '/posts?per_page=1');
+      } catch (wpErr) {
+        wpConnectionTest = `failed: ${wpErr.message}`;
+      }
+      console.log(`[ONBOARD] WP connection test for ${siteId}: ${wpConnectionTest}`);
+
+      try {
+        const boardId = await getParam('/seo-mcp/trello/board-id');
+        const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
+        const firstList = lists[0];
+        await createTrelloCard(
+          firstList.id,
+          `Ny kund: ${company_name}`,
+          `**Företag:** ${company_name}\n**Kontakt:** ${contact_person || '-'}\n**E-post:** ${contact_email}\n**Webb:** ${wordpress_url}\n**WP-anslutning:** ${wpConnectionTest}\n**Google Ads:** ${google_ads_id || '-'}\n**Meta Pixel:** ${meta_pixel_id || '-'}\n**Registrerad:** ${new Date().toISOString()}`
+        );
+      } catch (trelloErr) {
+        console.error('Trello card creation failed:', trelloErr.message);
+      }
+    })();
   } catch (err) {
     console.error('[ONBOARD] Error:', err.message);
     res.status(500).json({ error: err.message });
