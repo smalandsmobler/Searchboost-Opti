@@ -30,6 +30,7 @@
       </a>
       <nav class="nav">
         <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
+        <a href="#" class="nav-link" data-view="pipeline">Pipeline</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
         <a href="#" class="nav-link" data-view="queue">Arbetsflöde</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
@@ -76,6 +77,34 @@
           <div id="customer-list" class="card-body">
             <p class="empty">Laddar...</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pipeline -->
+    <section id="view-pipeline" class="view">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="pipe-stat-prospects">—</div>
+          <div class="stat-label">Prospekt</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pipe-stat-active">—</div>
+          <div class="stat-label">Aktiva avtal</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pipe-stat-mrr">—</div>
+          <div class="stat-label">MRR (kr)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pipe-stat-total">—</div>
+          <div class="stat-label">Totalt</div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">Kanban — Kundpipeline</h2>
+        <div id="pipeline-kanban" class="pipeline-kanban">
+          <p class="empty">Laddar...</p>
         </div>
       </div>
     </section>
@@ -141,9 +170,17 @@
           <div class="stat-label">Sökord</div>
         </div>
       </div>
+      <div id="detail-contract-bar" class="contract-bar" style="display:none"></div>
+      <div id="detail-budget-bar" class="budget-bar" style="display:none"></div>
       <div class="card" style="margin-bottom: 24px">
         <h2 class="card-title">Sökordspositioner (GSC + ABC-ord)</h2>
         <div id="detail-rankings" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom: 24px">
+        <h2 class="card-title">Åtgärdsplan (3 månader)</h2>
+        <div id="detail-action-plan" class="card-body">
           <p class="empty">Laddar...</p>
         </div>
       </div>

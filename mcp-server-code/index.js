@@ -258,6 +258,74 @@ function parseAbcKeywords(description) {
   return result;
 }
 
+// ── Generic BigQuery DML insert helper ──
+async function bqInsert(table, row) {
+  const { bq, dataset } = await getBigQuery();
+  const cols = Object.keys(row);
+  const vals = cols.map(c => {
+    const v = row[c];
+    if (v === null || v === undefined) return 'NULL';
+    return `'${String(v).replace(/'/g, "\\'")}'`;
+  });
+  const sql = `INSERT INTO \`${dataset}.${table}\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
+  await bq.query(sql);
+}
+
+// ── Ensure pipeline tables exist ──
+async function ensurePipelineTables() {
+  const { bq, dataset } = await getBigQuery();
+  const tables = [
+    {
+      name: 'customer_pipeline',
+      schema: `customer_id STRING NOT NULL, company_name STRING, contact_person STRING,
+        contact_email STRING, website_url STRING, stage STRING NOT NULL,
+        stage_updated_at TIMESTAMP, prospect_notes STRING, initial_traffic_trend STRING,
+        service_type STRING, monthly_amount_sek INT64, contract_start_date DATE,
+        contract_end_date DATE, contract_status STRING, audit_meeting_date TIMESTAMP,
+        startup_meeting_date TIMESTAMP, created_at TIMESTAMP, updated_at TIMESTAMP,
+        trello_card_id STRING`
+    },
+    {
+      name: 'customer_keywords',
+      schema: `id STRING NOT NULL, customer_id STRING NOT NULL, keyword STRING NOT NULL,
+        tier STRING NOT NULL, phase STRING NOT NULL, monthly_search_volume INT64,
+        keyword_difficulty INT64, current_position INT64, target_url STRING,
+        created_at TIMESTAMP, updated_at TIMESTAMP`
+    },
+    {
+      name: 'action_plans',
+      schema: `plan_id STRING NOT NULL, customer_id STRING NOT NULL, created_at TIMESTAMP,
+        month_number INT64, task_type STRING, task_description STRING, target_url STRING,
+        target_keyword STRING, priority INT64, status STRING, work_queue_id STRING,
+        completed_at TIMESTAMP, estimated_effort STRING`
+    }
+  ];
+  for (const t of tables) {
+    try {
+      await bq.query(`SELECT 1 FROM \`${dataset}.${t.name}\` LIMIT 1`);
+    } catch (e) {
+      if (e.message && e.message.includes('Not found')) {
+        console.log(`Creating table ${t.name}...`);
+        await bq.query(`CREATE TABLE \`${dataset}.${t.name}\` (${t.schema})`);
+        console.log(`Table ${t.name} created.`);
+      }
+    }
+  }
+}
+
+// ── Budget tier helpers ──
+const TIER_LIMITS = {
+  basic:    { auto_tasks_per_month: 15, manual_tasks_per_month: 0,  content_creation: false, schema_markup: false },
+  standard: { auto_tasks_per_month: 30, manual_tasks_per_month: 5,  content_creation: false, schema_markup: true },
+  premium:  { auto_tasks_per_month: 50, manual_tasks_per_month: 10, content_creation: true,  schema_markup: true }
+};
+
+function getContractTier(monthlyAmount) {
+  if (!monthlyAmount || monthlyAmount <= 5000) return 'basic';
+  if (monthlyAmount <= 10000) return 'standard';
+  return 'premium';
+}
+
 // ══════════════════════════════════════════
 // MCP TOOLS — SEO Operations
 // ══════════════════════════════════════════
@@ -607,6 +675,602 @@ app.get('/api/reports', async (req, res) => {
       query: `SELECT * FROM \`${dataset}.weekly_reports\` ORDER BY email_sent_at DESC LIMIT 10`
     });
     res.json({ reports: rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════
+// PIPELINE API — Customer lifecycle
+// ══════════════════════════════════════════
+
+// GET /api/pipeline — Pipeline overview grouped by stage
+app.get('/api/pipeline', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.customer_pipeline\` ORDER BY updated_at DESC`
+    });
+    const grouped = {};
+    for (const r of rows) {
+      if (!grouped[r.stage]) grouped[r.stage] = [];
+      grouped[r.stage].push(r);
+    }
+    // Calculate MRR from active contracts
+    const active = grouped.active || [];
+    const mrr = active.reduce((sum, c) => sum + (c.monthly_amount_sek || 0), 0);
+    res.json({ pipeline: grouped, summary: { total: rows.length, mrr, active: active.length } });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/prospects — Add a new prospect
+app.post('/api/prospects', async (req, res) => {
+  try {
+    const { company_name, website_url, contact_person, contact_email, prospect_notes, initial_traffic_trend } = req.body;
+    if (!company_name || !website_url) {
+      return res.status(400).json({ error: 'company_name och website_url krävs' });
+    }
+    const domain = new URL(website_url).hostname.replace(/^www\./, '');
+    const customerId = domain.replace(/\./g, '-');
+    const now = new Date().toISOString();
+
+    await ensurePipelineTables();
+    await bqInsert('customer_pipeline', {
+      customer_id: customerId,
+      company_name,
+      contact_person: contact_person || null,
+      contact_email: contact_email || null,
+      website_url,
+      stage: 'prospect',
+      stage_updated_at: now,
+      prospect_notes: prospect_notes || null,
+      initial_traffic_trend: initial_traffic_trend || null,
+      service_type: null,
+      monthly_amount_sek: null,
+      contract_start_date: null,
+      contract_end_date: null,
+      contract_status: null,
+      audit_meeting_date: null,
+      startup_meeting_date: null,
+      created_at: now,
+      updated_at: now,
+      trello_card_id: null
+    });
+
+    res.json({ success: true, customer_id: customerId, stage: 'prospect' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// PATCH /api/customers/:id/stage — Advance customer through pipeline
+app.patch('/api/customers/:id/stage', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { stage, service_type, monthly_amount_sek, contract_start_date, audit_meeting_date, startup_meeting_date } = req.body;
+
+    if (!stage) return res.status(400).json({ error: 'stage krävs' });
+
+    const validStages = ['prospect', 'audit', 'proposal', 'contract', 'active', 'completed', 'churned'];
+    if (!validStages.includes(stage)) {
+      return res.status(400).json({ error: `Ogiltigt steg. Tillåtna: ${validStages.join(', ')}` });
+    }
+
+    // Validate contract stage requires extra fields
+    if (stage === 'contract' && (!service_type || !monthly_amount_sek || !contract_start_date)) {
+      return res.status(400).json({ error: 'contract-steg kräver service_type, monthly_amount_sek, contract_start_date' });
+    }
+
+    const { bq, dataset } = await getBigQuery();
+    const now = new Date().toISOString();
+
+    // Build SET clause dynamically
+    const updates = [`stage = '${stage}'`, `stage_updated_at = '${now}'`, `updated_at = '${now}'`];
+
+    if (service_type) updates.push(`service_type = '${service_type}'`);
+    if (monthly_amount_sek) {
+      updates.push(`monthly_amount_sek = ${monthly_amount_sek}`);
+      updates.push(`contract_status = 'active'`);
+    }
+    if (contract_start_date) {
+      updates.push(`contract_start_date = '${contract_start_date}'`);
+      // Calculate end date: start + 3 months
+      const start = new Date(contract_start_date);
+      start.setMonth(start.getMonth() + 3);
+      updates.push(`contract_end_date = '${start.toISOString().split('T')[0]}'`);
+    }
+    if (audit_meeting_date) updates.push(`audit_meeting_date = '${audit_meeting_date}'`);
+    if (startup_meeting_date) updates.push(`startup_meeting_date = '${startup_meeting_date}'`);
+    if (stage === 'completed') updates.push(`contract_status = 'completed'`);
+    if (stage === 'churned') updates.push(`contract_status = 'cancelled'`);
+
+    await bq.query(`UPDATE \`${dataset}.customer_pipeline\` SET ${updates.join(', ')} WHERE customer_id = '${customerId}'`);
+
+    // Set contract tier in SSM if amount provided
+    if (monthly_amount_sek) {
+      const tier = getContractTier(monthly_amount_sek);
+      try {
+        await ssm.send(new PutParameterCommand({
+          Name: `/seo-mcp/integrations/${customerId}/contract-tier`,
+          Value: tier,
+          Type: 'String',
+          Overwrite: true
+        }));
+      } catch (e) { console.error('SSM contract-tier error:', e.message); }
+    }
+
+    res.json({ success: true, customer_id: customerId, stage });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/migrate-to-pipeline — Migrate existing SSM customer
+app.post('/api/customers/:id/migrate-to-pipeline', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site) return res.status(404).json({ error: 'Kund hittades inte i SSM' });
+
+    // Get integration data
+    let integrations = {};
+    try {
+      const intParams = [];
+      let nextToken;
+      do {
+        const r = await ssm.send(new GetParametersByPathCommand({
+          Path: `/seo-mcp/integrations/${customerId}/`, Recursive: true, WithDecryption: true,
+          ...(nextToken ? { NextToken: nextToken } : {})
+        }));
+        intParams.push(...(r.Parameters || []));
+        nextToken = r.NextToken;
+      } while (nextToken);
+      for (const p of intParams) {
+        const key = p.Name.split('/').pop();
+        integrations[key] = p.Value;
+      }
+    } catch (e) { /* no integrations */ }
+
+    await ensurePipelineTables();
+    const now = new Date().toISOString();
+    await bqInsert('customer_pipeline', {
+      customer_id: customerId,
+      company_name: integrations['company-name'] || customerId,
+      contact_person: integrations['contact-person'] || null,
+      contact_email: integrations['contact-email'] || null,
+      website_url: site.url,
+      stage: 'active',
+      stage_updated_at: now,
+      prospect_notes: null,
+      initial_traffic_trend: null,
+      service_type: req.body.service_type || 'seo',
+      monthly_amount_sek: req.body.monthly_amount_sek || null,
+      contract_start_date: req.body.contract_start_date || null,
+      contract_end_date: null,
+      contract_status: 'active',
+      audit_meeting_date: null,
+      startup_meeting_date: null,
+      created_at: now,
+      updated_at: now,
+      trello_card_id: null
+    });
+
+    res.json({ success: true, customer_id: customerId, stage: 'active' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════
+// KEYWORD API — ABC keyword management
+// ══════════════════════════════════════════
+
+// POST /api/customers/:id/keywords — Add keywords (batch)
+app.post('/api/customers/:id/keywords', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { phase, keywords } = req.body;
+    if (!phase || !keywords || !Array.isArray(keywords)) {
+      return res.status(400).json({ error: 'phase och keywords[] krävs' });
+    }
+    if (!['initial', 'final'].includes(phase)) {
+      return res.status(400).json({ error: 'phase måste vara initial eller final' });
+    }
+
+    await ensurePipelineTables();
+    const now = new Date().toISOString();
+    let inserted = 0;
+
+    for (const kw of keywords) {
+      if (!kw.keyword || !kw.tier) continue;
+      const id = `kw-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await bqInsert('customer_keywords', {
+        id,
+        customer_id: customerId,
+        keyword: kw.keyword.trim().toLowerCase(),
+        tier: kw.tier.toUpperCase(),
+        phase,
+        monthly_search_volume: kw.monthly_search_volume || null,
+        keyword_difficulty: kw.keyword_difficulty || null,
+        current_position: kw.current_position || null,
+        target_url: kw.target_url || null,
+        created_at: now,
+        updated_at: now
+      });
+      inserted++;
+    }
+
+    res.json({ success: true, customer_id: customerId, phase, inserted });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/keywords — Get keywords with analysis data
+app.get('/api/customers/:id/keywords', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const phase = req.query.phase || 'both';
+    const { bq, dataset } = await getBigQuery();
+
+    let query;
+    if (phase === 'both') {
+      query = `SELECT * FROM \`${dataset}.customer_keywords\` WHERE customer_id = @customerId ORDER BY tier, keyword`;
+    } else {
+      query = `SELECT * FROM \`${dataset}.customer_keywords\` WHERE customer_id = @customerId AND phase = @phase ORDER BY tier, keyword`;
+    }
+
+    const [rows] = await bq.query({ query, params: { customerId, phase } });
+    const byTier = { A: [], B: [], C: [] };
+    for (const r of rows) {
+      if (byTier[r.tier]) byTier[r.tier].push(r);
+    }
+
+    res.json({
+      customer_id: customerId,
+      total: rows.length,
+      by_tier: { A: byTier.A.length, B: byTier.B.length, C: byTier.C.length },
+      keywords: rows
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/keywords/analyze — Run keyword analysis with GSC
+app.post('/api/customers/:id/keywords/analyze', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+
+    // Get final keywords (or initial if no final)
+    const [kwRows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.customer_keywords\`
+              WHERE customer_id = @customerId
+              ORDER BY CASE WHEN phase = 'final' THEN 0 ELSE 1 END, tier, keyword`,
+      params: { customerId }
+    });
+
+    if (kwRows.length === 0) {
+      return res.status(404).json({ error: 'Inga nyckelord finns för denna kund' });
+    }
+
+    // Get GSC property
+    let gscProperty = null;
+    try {
+      gscProperty = await getParam(`/seo-mcp/integrations/${customerId}/gsc-property`);
+    } catch (e) {
+      const sites = await getWordPressSites();
+      const site = sites.find(s => s.id === customerId);
+      if (site) gscProperty = site.url.replace(/\/$/, '') + '/';
+    }
+
+    // Fetch GSC data
+    let gscRows = [];
+    if (gscProperty) {
+      try {
+        gscRows = await gscSearchAnalytics(gscProperty, kwRows.map(k => k.keyword), 28);
+      } catch (e) {
+        console.error('GSC analyze error:', e.message);
+      }
+    }
+
+    // Build GSC lookup
+    const gscMap = {};
+    for (const row of gscRows) {
+      gscMap[row.keys[0].toLowerCase()] = {
+        position: Math.round(row.position * 10) / 10,
+        clicks: row.clicks || 0,
+        impressions: row.impressions || 0
+      };
+    }
+
+    // Update keywords with GSC data
+    const results = [];
+    for (const kw of kwRows) {
+      const gsc = gscMap[kw.keyword.toLowerCase()];
+      if (gsc) {
+        await bq.query({
+          query: `UPDATE \`${dataset}.customer_keywords\`
+                  SET current_position = ${Math.round(gsc.position)},
+                      monthly_search_volume = ${Math.round(gsc.impressions / 28 * 30)},
+                      updated_at = '${new Date().toISOString()}'
+                  WHERE id = '${kw.id}'`
+        });
+        results.push({ ...kw, current_position: Math.round(gsc.position), estimated_volume: Math.round(gsc.impressions / 28 * 30), clicks_28d: gsc.clicks });
+      } else {
+        results.push({ ...kw, current_position: null, estimated_volume: null, clicks_28d: 0 });
+      }
+    }
+
+    res.json({ customer_id: customerId, gsc_property: gscProperty, analyzed: results.length, keywords: results });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════
+// ACTION PLAN API — 3-month plans
+// ══════════════════════════════════════════
+
+// POST /api/customers/:id/action-plan — Generate 3-month action plan
+app.post('/api/customers/:id/action-plan', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+
+    // Get pipeline data
+    const [pipeRows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @customerId LIMIT 1`,
+      params: { customerId }
+    });
+    const pipeline = pipeRows[0];
+    const tier = pipeline ? getContractTier(pipeline.monthly_amount_sek) : 'basic';
+    const limits = TIER_LIMITS[tier];
+
+    // Get keywords (prefer final, fallback to initial)
+    const [kwRows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.customer_keywords\`
+              WHERE customer_id = @customerId
+              ORDER BY CASE WHEN phase = 'final' THEN 0 ELSE 1 END, tier, keyword`,
+      params: { customerId }
+    });
+    const aWords = kwRows.filter(k => k.tier === 'A');
+    const bWords = kwRows.filter(k => k.tier === 'B');
+    const cWords = kwRows.filter(k => k.tier === 'C');
+
+    // Get audit issues from work queue
+    const [queueRows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.seo_work_queue\`
+              WHERE customer_id = @customerId AND status = 'pending'
+              ORDER BY priority DESC`,
+      params: { customerId }
+    });
+
+    await ensurePipelineTables();
+    const now = new Date().toISOString();
+    const planTasks = [];
+    let priority = 100;
+
+    // ── MONTH 1: Foundation ──
+    // Fix critical audit issues
+    for (const issue of queueRows.slice(0, Math.min(queueRows.length, limits.auto_tasks_per_month))) {
+      const ctx = issue.context_data ? JSON.parse(issue.context_data) : {};
+      const canAuto = ['short_title', 'long_title', 'missing_h1', 'no_internal_links'].includes(issue.task_type);
+      planTasks.push({
+        month: 1, task_type: issue.task_type,
+        desc: `Fixa ${issue.task_type.replace(/_/g, ' ')}: ${ctx.title || issue.page_url}`,
+        url: issue.page_url,
+        keyword: aWords[0]?.keyword || null,
+        priority: priority--,
+        effort: canAuto ? 'auto' : 'manual'
+      });
+    }
+    // Optimize A-word pages
+    for (const kw of aWords) {
+      if (kw.target_url) {
+        planTasks.push({
+          month: 1, task_type: 'metadata_optimization',
+          desc: `Optimera title/description för A-ord: ${kw.keyword}`,
+          url: kw.target_url, keyword: kw.keyword,
+          priority: priority--, effort: 'auto'
+        });
+      }
+    }
+
+    // ── MONTH 2: Growth ──
+    // B-word optimization
+    for (const kw of bWords) {
+      planTasks.push({
+        month: 2, task_type: 'metadata_optimization',
+        desc: `Optimera title/description för B-ord: ${kw.keyword}`,
+        url: kw.target_url || null, keyword: kw.keyword,
+        priority: priority--, effort: 'auto'
+      });
+    }
+    // Internal link clusters for A-words
+    for (const kw of aWords) {
+      planTasks.push({
+        month: 2, task_type: 'internal_linking',
+        desc: `Bygg internlänkskluster kring A-ord: ${kw.keyword}`,
+        url: kw.target_url || null, keyword: kw.keyword,
+        priority: priority--, effort: 'auto'
+      });
+    }
+    // Schema markup (standard/premium only)
+    if (limits.schema_markup) {
+      planTasks.push({
+        month: 2, task_type: 'schema_markup',
+        desc: 'Lägg till FAQ/Organisation-schema på nyckelsidor',
+        url: null, keyword: null,
+        priority: priority--, effort: 'hybrid'
+      });
+    }
+
+    // ── MONTH 3: Refinement ──
+    // C-word optimization
+    for (const kw of cWords) {
+      planTasks.push({
+        month: 3, task_type: 'metadata_optimization',
+        desc: `Optimera för C-ord: ${kw.keyword}`,
+        url: kw.target_url || null, keyword: kw.keyword,
+        priority: priority--, effort: 'auto'
+      });
+    }
+    // Re-audit
+    planTasks.push({
+      month: 3, task_type: 'technical_fix',
+      desc: 'Re-audit: jämför före/efter för alla optimerade sidor',
+      url: null, keyword: null,
+      priority: priority--, effort: 'auto'
+    });
+    // End-of-contract report
+    planTasks.push({
+      month: 3, task_type: 'manual_review',
+      desc: 'Slutrapport + förnyelseförslag',
+      url: null, keyword: null,
+      priority: priority--, effort: 'manual'
+    });
+
+    // Insert all plan tasks to BigQuery
+    for (const t of planTasks) {
+      const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await bqInsert('action_plans', {
+        plan_id: planId,
+        customer_id: customerId,
+        created_at: now,
+        month_number: t.month,
+        task_type: t.task_type,
+        task_description: t.desc,
+        target_url: t.url,
+        target_keyword: t.keyword,
+        priority: t.priority,
+        status: 'planned',
+        work_queue_id: null,
+        completed_at: null,
+        estimated_effort: t.effort
+      });
+    }
+
+    // Group for response
+    const byMonth = { 1: [], 2: [], 3: [] };
+    for (const t of planTasks) {
+      byMonth[t.month].push(t);
+    }
+
+    res.json({
+      customer_id: customerId,
+      tier,
+      limits,
+      total_tasks: planTasks.length,
+      plan: byMonth
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/action-plan — View plan with progress
+app.get('/api/customers/:id/action-plan', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.action_plans\`
+              WHERE customer_id = @customerId
+              ORDER BY month_number, priority DESC`,
+      params: { customerId }
+    });
+
+    if (rows.length === 0) {
+      return res.json({ customer_id: customerId, plan: null, message: 'Ingen åtgärdsplan skapad ännu' });
+    }
+
+    const byMonth = {};
+    for (const r of rows) {
+      const m = r.month_number;
+      if (!byMonth[m]) byMonth[m] = { tasks: [], completed: 0, total: 0 };
+      byMonth[m].tasks.push(r);
+      byMonth[m].total++;
+      if (r.status === 'completed') byMonth[m].completed++;
+    }
+
+    // Get budget usage for current month
+    let budgetUsed = 0;
+    try {
+      const [pipeRows] = await bq.query({
+        query: `SELECT monthly_amount_sek, contract_start_date FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @customerId LIMIT 1`,
+        params: { customerId }
+      });
+      if (pipeRows[0]) {
+        const tier = getContractTier(pipeRows[0].monthly_amount_sek);
+        const limits = TIER_LIMITS[tier];
+        const [countRows] = await bq.query({
+          query: `SELECT COUNT(*) as cnt FROM \`${dataset}.action_plans\`
+                  WHERE customer_id = @customerId AND status = 'completed'
+                  AND completed_at >= TIMESTAMP_TRUNC(CURRENT_TIMESTAMP(), MONTH)`,
+          params: { customerId }
+        });
+        budgetUsed = countRows[0]?.cnt || 0;
+        res.json({
+          customer_id: customerId,
+          tier,
+          budget: { used: budgetUsed, limit: limits.auto_tasks_per_month },
+          plan: byMonth
+        });
+        return;
+      }
+    } catch (e) { /* continue without budget */ }
+
+    res.json({ customer_id: customerId, plan: byMonth });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/action-plan/activate-month — Queue a month's tasks
+app.post('/api/customers/:id/action-plan/activate-month', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { month_number } = req.body;
+    if (!month_number) return res.status(400).json({ error: 'month_number krävs' });
+
+    const { bq, dataset } = await getBigQuery();
+
+    // Get planned auto tasks for this month
+    const [tasks] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.action_plans\`
+              WHERE customer_id = @customerId AND month_number = @month
+              AND status = 'planned' AND estimated_effort = 'auto'
+              ORDER BY priority DESC`,
+      params: { customerId, month: month_number }
+    });
+
+    let queued = 0;
+    for (const task of tasks) {
+      const queueId = `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      await addToWorkQueue({
+        customer_id: customerId,
+        priority: task.priority,
+        task_type: task.task_type,
+        page_url: task.target_url || '',
+        context_data: JSON.stringify({
+          action_plan_id: task.plan_id,
+          keyword: task.target_keyword,
+          description: task.task_description
+        })
+      });
+
+      // Update plan status
+      await bq.query(`UPDATE \`${dataset}.action_plans\` SET status = 'queued', work_queue_id = '${queueId}' WHERE plan_id = '${task.plan_id}'`);
+      queued++;
+    }
+
+    res.json({ success: true, customer_id: customerId, month_number, queued });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -975,6 +1639,35 @@ app.post('/api/onboard', async (req, res) => {
         console.error(`[ONBOARD] BigQuery log failed for ${siteId}:`, bqErr.message);
       }
 
+      // 1b. Upsert customer_pipeline row
+      try {
+        await ensurePipelineTables();
+        const now = new Date().toISOString();
+        // Check if customer exists in pipeline (e.g. added as prospect earlier)
+        const { bq, dataset } = await getBigQuery();
+        const [existing] = await bq.query({
+          query: `SELECT customer_id FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @customerId LIMIT 1`,
+          params: { customerId: siteId }
+        });
+        if (existing.length > 0) {
+          // Update existing pipeline entry to active
+          await bq.query(`UPDATE \`${dataset}.customer_pipeline\` SET stage = 'active', stage_updated_at = '${now}', updated_at = '${now}', contract_status = 'active', website_url = '${wordpress_url}', company_name = '${company_name.replace(/'/g, "\\'")}', contact_email = '${contact_email}' WHERE customer_id = '${siteId}'`);
+        } else {
+          // Create new pipeline entry
+          await bqInsert('customer_pipeline', {
+            customer_id: siteId, company_name, contact_person: contact_person || null,
+            contact_email, website_url: wordpress_url, stage: 'active',
+            stage_updated_at: now, prospect_notes: null, initial_traffic_trend: null,
+            service_type: null, monthly_amount_sek: null, contract_start_date: null,
+            contract_end_date: null, contract_status: 'active', audit_meeting_date: null,
+            startup_meeting_date: null, created_at: now, updated_at: now, trello_card_id: null
+          });
+        }
+        console.log(`[ONBOARD] Pipeline updated for ${siteId}`);
+      } catch (pipeErr) {
+        console.error(`[ONBOARD] Pipeline update failed for ${siteId}:`, pipeErr.message);
+      }
+
       // 2. Test WP connection
       let wpConnectionTest = 'ok';
       try {
@@ -1058,13 +1751,24 @@ module.exports = {
   addToWorkQueue,
   trelloApi,
   createTrelloCard,
-  wpApi
+  wpApi,
+  bqInsert,
+  ensurePipelineTables,
+  getContractTier,
+  TIER_LIMITS
 };
 
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`SEO MCP Server listening on port ${PORT}`);
   console.log(`Region: ${REGION}`);
   console.log(`Health: http://localhost:${PORT}/health`);
+  // Ensure pipeline tables exist on startup
+  try {
+    await ensurePipelineTables();
+    console.log('Pipeline tables verified.');
+  } catch (e) {
+    console.error('Pipeline table init error:', e.message);
+  }
 });

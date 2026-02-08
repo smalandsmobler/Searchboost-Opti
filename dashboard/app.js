@@ -123,7 +123,14 @@ async function loadOverview() {
   $('#stat-customers').textContent = customers?.customers?.length || '0';
   $('#stat-optimizations').textContent = optimizations?.optimizations?.length || '0';
   $('#stat-queue').textContent = queue?.queue?.length || '0';
-  $('#stat-score').textContent = '—';
+
+  // Load pipeline MRR for overview
+  const pipeData = await api('/api/pipeline');
+  const mrr = pipeData?.summary?.mrr || 0;
+  $('#stat-score').textContent = mrr > 0 ? mrr.toLocaleString('sv-SE') + ' kr' : '—';
+  // Update label
+  const scoreLabel = $('#stat-score')?.closest('.stat-card')?.querySelector('.stat-label');
+  if (scoreLabel && mrr > 0) scoreLabel.textContent = 'MRR';
 
   // Update status
   const dot = $('.status-dot');
@@ -266,10 +273,56 @@ async function loadReports() {
   }
 }
 
+// ── Pipeline view ─────────────────────────────────────────────
+async function loadPipeline() {
+  const data = await api('/api/pipeline');
+  const kanban = $('#pipeline-kanban');
+
+  // Stats
+  const stages = data?.pipeline || {};
+  const summary = data?.summary || {};
+  $('#pipe-stat-prospects').textContent = (stages.prospect || []).length;
+  $('#pipe-stat-active').textContent = summary.active || 0;
+  $('#pipe-stat-mrr').textContent = summary.mrr ? summary.mrr.toLocaleString('sv-SE') : '0';
+  $('#pipe-stat-total').textContent = summary.total || 0;
+
+  const stageOrder = [
+    { key: 'prospect', label: 'Prospekt', color: '#6b7280' },
+    { key: 'audit', label: 'Analys', color: '#f59e0b' },
+    { key: 'proposal', label: 'Förslag', color: '#8b5cf6' },
+    { key: 'contract', label: 'Kontrakt', color: '#3b82f6' },
+    { key: 'active', label: 'Aktiv', color: '#10b981' },
+    { key: 'completed', label: 'Avslutad', color: '#6b7280' }
+  ];
+
+  kanban.innerHTML = stageOrder.map(s => {
+    const items = stages[s.key] || [];
+    return `
+      <div class="kanban-col">
+        <div class="kanban-header" style="border-color:${s.color}">
+          <span class="kanban-title">${s.label}</span>
+          <span class="kanban-count">${items.length}</span>
+        </div>
+        <div class="kanban-cards">
+          ${items.length > 0 ? items.map(c => `
+            <div class="kanban-card" onclick="showCustomerDetail('${c.customer_id}', '${c.website_url || ''}')">
+              <div class="kanban-card-name">${c.company_name || c.customer_id}</div>
+              <div class="kanban-card-url">${c.website_url ? new URL(c.website_url).hostname : ''}</div>
+              ${c.service_type ? `<span class="tag tag--links">${c.service_type}</span>` : ''}
+              ${c.monthly_amount_sek ? `<span class="tag tag--schema">${c.monthly_amount_sek.toLocaleString('sv-SE')} kr</span>` : ''}
+            </div>
+          `).join('') : '<div class="kanban-empty">Inga</div>'}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
 // ── View router ───────────────────────────────────────────────
 async function loadView(view) {
   switch (view) {
     case 'overview': return loadOverview();
+    case 'pipeline': return loadPipeline();
     case 'optimizations': return loadOptimizations();
     case 'queue': return loadQueue();
     case 'reports': return loadReports();
@@ -361,6 +414,85 @@ async function showCustomerDetail(customerId, customerUrl) {
 
   // Load GSC + Trello keyword positions (async, don't block)
   loadRankings(customerId);
+
+  // Load pipeline data (contract info, action plan)
+  loadCustomerPipeline(customerId);
+}
+
+async function loadCustomerPipeline(customerId) {
+  // Contract info bar
+  const contractBar = $('#detail-contract-bar');
+  const budgetBar = $('#detail-budget-bar');
+  const planEl = $('#detail-action-plan');
+
+  const pipeData = await api('/api/pipeline');
+  let customer = null;
+  if (pipeData?.pipeline) {
+    for (const stage of Object.values(pipeData.pipeline)) {
+      const found = stage.find(c => c.customer_id === customerId);
+      if (found) { customer = found; break; }
+    }
+  }
+
+  if (customer && (customer.service_type || customer.monthly_amount_sek)) {
+    const daysLeft = customer.contract_end_date
+      ? Math.max(0, Math.ceil((new Date(customer.contract_end_date) - Date.now()) / 86400000))
+      : null;
+    contractBar.style.display = '';
+    contractBar.innerHTML = `
+      <span class="contract-item"><strong>Tjänst:</strong> ${customer.service_type || '—'}</span>
+      <span class="contract-item"><strong>Belopp:</strong> ${customer.monthly_amount_sek ? customer.monthly_amount_sek.toLocaleString('sv-SE') + ' kr/mån' : '—'}</span>
+      <span class="contract-item"><strong>Period:</strong> ${customer.contract_start_date || '—'} — ${customer.contract_end_date || '—'}</span>
+      ${daysLeft !== null ? `<span class="contract-item"><strong>Dagar kvar:</strong> ${daysLeft}</span>` : ''}
+      <span class="tag tag--${customer.stage === 'active' ? 'links' : 'content'}">${customer.stage}</span>
+    `;
+  } else {
+    contractBar.style.display = 'none';
+  }
+
+  // Action plan
+  const planData = await api(`/api/customers/${customerId}/action-plan`);
+  if (planData?.plan && Object.keys(planData.plan).length > 0) {
+    // Budget bar
+    if (planData.budget) {
+      budgetBar.style.display = '';
+      const pct = Math.min(100, Math.round(planData.budget.used / planData.budget.limit * 100));
+      budgetBar.innerHTML = `
+        <div class="budget-label">Budget denna månad: ${planData.budget.used} / ${planData.budget.limit} åtgärder (${planData.tier})</div>
+        <div class="budget-track"><div class="budget-fill" style="width:${pct}%"></div></div>
+      `;
+    }
+
+    let html = '';
+    for (const [month, data] of Object.entries(planData.plan)) {
+      const completed = data.completed || 0;
+      const total = data.total || 0;
+      const pct = total > 0 ? Math.round(completed / total * 100) : 0;
+      html += `
+        <div class="plan-month">
+          <div class="plan-month-header">
+            <h3>Månad ${month}</h3>
+            <span class="plan-progress">${completed}/${total} (${pct}%)</span>
+          </div>
+          <div class="budget-track"><div class="budget-fill" style="width:${pct}%"></div></div>
+          <div class="plan-tasks">
+            ${(data.tasks || []).map(t => `
+              <div class="plan-task plan-task--${t.status}">
+                <span class="plan-task-status">${t.status === 'completed' ? '✅' : t.status === 'queued' ? '🔄' : '📋'}</span>
+                <span class="plan-task-desc">${t.task_description}</span>
+                <span class="tag tag--${typeTag(t.task_type)}">${t.task_type.replace(/_/g, ' ')}</span>
+                <span class="tag tag--${t.estimated_effort === 'auto' ? 'links' : 'content'}">${t.estimated_effort}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+    planEl.innerHTML = html;
+  } else {
+    planEl.innerHTML = '<p class="empty">Ingen åtgärdsplan skapad ännu.</p>';
+    budgetBar.style.display = 'none';
+  }
 }
 
 async function loadRankings(customerId) {

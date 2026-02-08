@@ -820,6 +820,203 @@ footer {
   color: var(--gray-400);
 }
 
+/* ── Pipeline Kanban ──────────────────────────────────────── */
+
+.pipeline-kanban {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  min-height: 200px;
+}
+
+.kanban-col {
+  min-width: 180px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-header {
+  border-top: 3px solid var(--gray-500);
+  padding: 10px 12px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--dark-surface);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.kanban-title {
+  font-weight: 600;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+.kanban-count {
+  font-size: 0.72rem;
+  background: var(--dark-border);
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: var(--gray-700);
+}
+
+.kanban-cards {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: rgba(255,255,255,0.01);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  border: 1px solid var(--dark-border);
+  border-top: none;
+}
+
+.kanban-card {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kanban-card:hover {
+  border-color: var(--pink);
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+
+.kanban-card-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+
+.kanban-card-url {
+  font-size: 0.72rem;
+  color: var(--gray-500);
+  margin-bottom: 6px;
+}
+
+.kanban-empty {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ── Contract bar ────────────────────────────────────────── */
+
+.contract-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(16,185,129,0.06));
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: var(--radius-sm);
+}
+
+.contract-item {
+  font-size: 0.85rem;
+  color: var(--gray-700);
+}
+.contract-item strong {
+  color: var(--white);
+}
+
+/* ── Budget bar ──────────────────────────────────────────── */
+
+.budget-bar {
+  margin-bottom: 16px;
+  padding: 12px 20px;
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-sm);
+}
+
+.budget-label {
+  font-size: 0.82rem;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+
+.budget-track {
+  height: 8px;
+  background: var(--dark-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.budget-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--neon-blue));
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+/* ── Action plan ─────────────────────────────────────────── */
+
+.plan-month {
+  margin-bottom: 20px;
+}
+
+.plan-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.plan-month-header h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  margin: 0;
+}
+
+.plan-progress {
+  font-size: 0.78rem;
+  color: var(--gray-500);
+}
+
+.plan-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.plan-task {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--dark-surface);
+  border-radius: 6px;
+  border: 1px solid var(--dark-border);
+  font-size: 0.82rem;
+}
+
+.plan-task--completed {
+  opacity: 0.6;
+}
+
+.plan-task-status {
+  flex-shrink: 0;
+}
+
+.plan-task-desc {
+  flex: 1;
+  color: var(--gray-700);
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
@@ -831,6 +1028,9 @@ footer {
   .stat-value { font-size: 2rem; }
   .detail-header { flex-direction: column; text-align: center; }
   .detail-integrations { justify-content: center; }
+  .pipeline-kanban { flex-direction: column; }
+  .kanban-col { min-width: unset; }
+  .contract-bar { flex-direction: column; gap: 8px; }
 }
 
 @media (max-width: 480px) {
