@@ -630,7 +630,16 @@ app.get('/api/customers/:id/rankings', async (req, res) => {
 
     // Find matching SE Ranking project by domain
     const domain = site.url.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-    const allProjects = await seRankingApi('/sites');
+    let allProjects;
+    try {
+      allProjects = await seRankingApi('/sites');
+    } catch (seErr) {
+      const status = seErr.response?.status;
+      if (status === 403 || status === 401) {
+        return res.json({ rankings: [], error: 'SE Ranking API-nyckel ogiltig eller utgången. Uppdatera i SSM.' });
+      }
+      throw seErr;
+    }
     if (!allProjects || !Array.isArray(allProjects)) {
       return res.json({ rankings: [], error: 'Kunde inte hämta SE Ranking-projekt' });
     }
