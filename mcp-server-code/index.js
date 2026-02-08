@@ -451,14 +451,18 @@ Ge förslag på svenska:
   });
 
   // Log to Trello
-  const boardId = await getParam('/seo-mcp/trello/board-id');
-  const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
-  const siteList = lists.find(l => l.name.toLowerCase().includes(site.id)) || lists[0];
-  await createTrelloCard(
-    siteList.id,
-    `Metadata: ${result.title.substring(0, 40)}...`,
-    `**Typ:** Metadata-optimering\n**Sida:** ${post.link}\n**Keyword:** ${targetKeyword}\n**Ändring:** ${result.reasoning}`
-  );
+  try {
+    const boardId = await getParam('/seo-mcp/trello/board-id');
+    const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
+    const doneList = lists.find(l => l.name.toLowerCase().includes('done')) || lists[0];
+    await createTrelloCard(
+      doneList.id,
+      `SEO: ${site.id} — Metadata: ${result.title.substring(0, 30)}...`,
+      `**Typ:** Metadata-optimering\n**Kund:** ${site.id}\n**Sida:** ${post.link}\n**Keyword:** ${targetKeyword}\n**Ändring:** ${result.reasoning}`
+    );
+  } catch (trelloErr) {
+    console.error('Trello card error:', trelloErr.message);
+  }
 
   return result;
 }
@@ -1503,23 +1507,23 @@ app.get('/api/customers/:id/rankings', async (req, res) => {
     const site = sites.find(s => s.id === customerId);
     if (!site) return res.status(404).json({ error: 'Kund hittades inte' });
 
-    // 1. Get ABC keywords from Trello
+    // 1. Get ABC keywords from Trello (search all lists for card matching customer)
     let abcKeywords = { A: [], B: [], C: [], all: [] };
     let trelloCardFound = false;
     try {
       const boardId = await getParam('/seo-mcp/trello/board-id');
-      const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
-      const customerList = lists.find(l =>
-        l.name.toLowerCase().includes(customerId.toLowerCase())
-      );
-      if (customerList) {
-        const cards = await trelloApi('GET', `/lists/${customerList.id}/cards`, { fields: 'name,desc' });
-        // Find card with ABC keywords (look for A=, B=, C= pattern)
-        const abcCard = cards.find(c => c.desc && /[ABC]\s*[=:]/i.test(c.desc));
-        if (abcCard) {
-          abcKeywords = parseAbcKeywords(abcCard.desc);
-          trelloCardFound = true;
-        }
+      // Search all cards on the board for one matching this customer
+      const allCards = await trelloApi('GET', `/boards/${boardId}/cards`, { fields: 'name,desc' });
+      const custLower = customerId.toLowerCase().replace(/-/g, '');
+      const abcCard = allCards.find(c => {
+        const nameLower = c.name.toLowerCase().replace(/[^a-zåäö0-9]/g, '');
+        const matchesName = nameLower.includes(custLower) || custLower.includes(nameLower.replace(/\.\w+$/, ''));
+        const hasAbc = c.desc && /[ABC]\s*[=:]/i.test(c.desc);
+        return matchesName && hasAbc;
+      });
+      if (abcCard) {
+        abcKeywords = parseAbcKeywords(abcCard.desc);
+        trelloCardFound = true;
       }
     } catch (trelloErr) {
       console.error('Trello ABC fetch error:', trelloErr.message);
@@ -1842,8 +1846,8 @@ app.post('/api/onboard', async (req, res) => {
 
         const boardId = await getParam('/seo-mcp/trello/board-id');
         const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
-        const firstList = lists[0];
-        await createTrelloCard(firstList.id, `Ny kund: ${company_name}`, desc);
+        const onboardList = lists.find(l => l.name.toLowerCase().includes('on-boarding') || l.name.toLowerCase().includes('onboarding')) || lists[0];
+        await createTrelloCard(onboardList.id, `Ny kund: ${company_name}`, desc);
         console.log(`[ONBOARD] Trello card created for ${siteId}`);
       } catch (trelloErr) {
         console.error('[ONBOARD] Trello card creation failed:', trelloErr.message);
