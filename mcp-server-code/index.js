@@ -219,7 +219,10 @@ async function gscSearchAnalytics(siteUrl, keywords, days = 7) {
   const res = await axios.post(
     `https://www.googleapis.com/webmasters/v3/sites/${encodedSiteUrl}/searchAnalytics/query`,
     body,
-    { headers: { 'Authorization': `Bearer ${token.token || token}` } }
+    { headers: {
+      'Authorization': `Bearer ${token.token || token}`,
+      'x-goog-user-project': 'seo-aouto'
+    } }
   );
 
   return res.data.rows || [];
