@@ -9,6 +9,19 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- LOGIN -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <img src="https://searchboost.se/wp-content/uploads/2025/10/seachboost.logo_.png" alt="Searchboost" class="login-logo">
+      <h1>Opti</h1>
+      <p class="login-sub">SEO Dashboard</p>
+      <input type="password" id="loginPassword" placeholder="Lösenord" onkeydown="if(event.key==='Enter')doLogin()">
+      <button onclick="doLogin()">Logga in</button>
+      <div class="login-error" id="loginError">Fel lösenord</div>
+    </div>
+  </div>
+
+  <div id="appShell" style="display:none">
   <header class="header">
     <div class="header-inner">
       <a href="/" class="logo-link">
@@ -24,6 +37,7 @@
       <div class="header-status">
         <span class="status-dot"></span>
         <span id="status-text">Ansluter...</span>
+        <button class="btn-logout" onclick="doLogout()">Logga ut</button>
       </div>
     </div>
   </header>
@@ -101,6 +115,7 @@
     <p>Searchboost Opti — Semi-autonom SEO-optimering | searchboost.se</p>
   </footer>
 
+  </div><!-- /appShell -->
   <script src="app.js"></script>
 </body>
 </html>

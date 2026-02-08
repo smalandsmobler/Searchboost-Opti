@@ -2,9 +2,46 @@
 // Connects to MCP server API on EC2
 
 const API_BASE = '';
+const PW_HASH = '673cb61cf1b13d3fe1eff9c0d71727ff8bd215b31397d80e4a08afae52e45c76';
 
 const $ = (sel) => document.querySelector(sel);
 const $$ = (sel) => document.querySelectorAll(sel);
+
+// ── Auth ──────────────────────────────────────────────────────
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function doLogin() {
+  const pw = document.getElementById('loginPassword').value;
+  if (!pw) return;
+  const hash = await sha256(pw);
+  if (hash === PW_HASH) {
+    sessionStorage.setItem('opti_auth', '1');
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('appShell').style.display = 'block';
+    loadOverview();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  sessionStorage.removeItem('opti_auth');
+  document.getElementById('appShell').style.display = 'none';
+  document.getElementById('loginOverlay').style.display = '';
+  document.getElementById('loginPassword').value = '';
+  document.getElementById('loginError').style.display = 'none';
+}
+
+// Auto-login if session exists
+(function() {
+  if (sessionStorage.getItem('opti_auth') === '1') {
+    document.getElementById('loginOverlay').style.display = 'none';
+    document.getElementById('appShell').style.display = 'block';
+  }
+})();
 
 // ── Navigation ────────────────────────────────────────────────
 $$('.nav-link').forEach(link => {
@@ -231,10 +268,13 @@ async function loadView(view) {
 }
 
 // ── Init ──────────────────────────────────────────────────────
-loadOverview();
+if (sessionStorage.getItem('opti_auth') === '1') {
+  loadOverview();
+}
 
 // Auto-refresh every 30 seconds
 setInterval(() => {
+  if (sessionStorage.getItem('opti_auth') !== '1') return;
   const activeView = $('.nav-link.active')?.dataset.view || 'overview';
   loadView(activeView);
 }, 30000);

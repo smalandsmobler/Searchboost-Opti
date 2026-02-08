@@ -541,6 +541,114 @@ footer {
   font-family: 'IBM Plex Mono', monospace;
 }
 
+/* ── Login ─────────────────────────────────────────────────── */
+
+.login-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.login-box {
+  background: var(--dark-card);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius);
+  padding: 48px 40px;
+  width: 360px;
+  text-align: center;
+  box-shadow: var(--shadow-glow);
+}
+
+.login-logo {
+  height: 40px;
+  mix-blend-mode: screen;
+  filter: brightness(1.15);
+  margin-bottom: 8px;
+}
+
+.login-box h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.login-sub {
+  color: var(--gray-500);
+  font-size: 0.85rem;
+  margin-bottom: 28px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  font-size: 0.9rem;
+  font-family: 'IBM Plex Sans', sans-serif;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.login-box input:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 12px var(--pink-glow);
+}
+
+.login-box button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: linear-gradient(135deg, var(--pink), var(--pink-light));
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px var(--pink-glow);
+}
+
+.login-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px var(--pink-glow), 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.login-error {
+  color: var(--red);
+  font-size: 0.82rem;
+  margin-top: 12px;
+  display: none;
+}
+
+/* ── Logout button ────────────────────────────────────────── */
+
+.btn-logout {
+  background: none;
+  border: 1px solid var(--gray-300);
+  color: var(--gray-500);
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-left: 12px;
+}
+
+.btn-logout:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 
 @media (max-width: 768px) {
