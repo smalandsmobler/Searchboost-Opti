@@ -38,11 +38,18 @@ async function getParam(name) {
 }
 
 async function getWordPressSites() {
-  const res = await ssm.send(new GetParametersByPathCommand({
-    Path: '/seo-mcp/wordpress/', Recursive: true, WithDecryption: true
-  }));
+  const allParams = [];
+  let nextToken;
+  do {
+    const res = await ssm.send(new GetParametersByPathCommand({
+      Path: '/seo-mcp/wordpress/', Recursive: true, WithDecryption: true,
+      ...(nextToken ? { NextToken: nextToken } : {})
+    }));
+    allParams.push(...(res.Parameters || []));
+    nextToken = res.NextToken;
+  } while (nextToken);
   const sites = {};
-  for (const p of res.Parameters) {
+  for (const p of allParams) {
     const parts = p.Name.split('/');
     const siteId = parts[3]; // e.g. site1
     const key = parts[4];    // url, username, app-password
