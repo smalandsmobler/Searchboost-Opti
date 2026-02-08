@@ -563,20 +563,17 @@ footer {
   box-shadow: var(--shadow-glow);
 }
 
-.login-logo {
-  height: 40px;
-  mix-blend-mode: screen;
-  filter: brightness(1.15);
-  margin-bottom: 8px;
-}
-
 .login-box h1 {
   font-size: 1.6rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.login-box h1 .login-brand {
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  margin-bottom: 4px;
 }
 
 .login-sub {
