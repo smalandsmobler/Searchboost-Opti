@@ -606,8 +606,32 @@ app.post('/api/onboard', async (req, res) => {
       message: `${company_name} har registrerats! Site ID: ${siteId}`
     });
 
-    // Fire-and-forget: Test WP connection + create Trello card
+    // Fire-and-forget: Log to BigQuery, test WP connection, create Trello card
     (async () => {
+      // 1. Log to BigQuery so customer appears in dashboard immediately
+      try {
+        await logOptimization({
+          customer_id: siteId,
+          site_url: wordpress_url,
+          optimization_type: 'customer_onboarding',
+          page_url: wordpress_url,
+          before_state: JSON.stringify({ status: 'new' }),
+          after_state: JSON.stringify({
+            company_name, contact_email, contact_person: contact_person || null,
+            gsc_property: gsc_property || null,
+            ga_property_id: ga_property_id || null,
+            google_ads_id: google_ads_id || null,
+            meta_pixel_id: meta_pixel_id || null
+          }),
+          claude_reasoning: 'Ny kund registrerad via onboarding-formuläret',
+          impact_estimate: 'N/A'
+        });
+        console.log(`[ONBOARD] BigQuery logged for ${siteId}`);
+      } catch (bqErr) {
+        console.error(`[ONBOARD] BigQuery log failed for ${siteId}:`, bqErr.message);
+      }
+
+      // 2. Test WP connection
       let wpConnectionTest = 'ok';
       try {
         const site = { id: siteId, url: wordpress_url.replace(/\/$/, ''), username: wordpress_username, 'app-password': wordpress_app_password };
@@ -617,17 +641,42 @@ app.post('/api/onboard', async (req, res) => {
       }
       console.log(`[ONBOARD] WP connection test for ${siteId}: ${wpConnectionTest}`);
 
+      // 3. Create Trello card with filled/missing fields
       try {
+        const filled = [];
+        const missing = [];
+
+        filled.push(`- Företagsnamn: ${company_name}`);
+        if (contact_person) filled.push(`- Kontaktperson: ${contact_person}`);
+        else missing.push('- Kontaktperson');
+        filled.push(`- E-post: ${contact_email}`);
+        filled.push(`- WordPress URL: ${wordpress_url}`);
+        filled.push(`- WP-användare: ${wordpress_username}`);
+        filled.push(`- WP App-lösenord: ****`);
+        filled.push(`- WP-anslutning: ${wpConnectionTest}`);
+
+        if (gsc_property) filled.push(`- Google Search Console: ${gsc_property}`);
+        else missing.push('- Google Search Console');
+        if (ga_property_id) filled.push(`- Google Analytics: ${ga_property_id}`);
+        else missing.push('- Google Analytics');
+        if (google_ads_id) filled.push(`- Google Ads: ${google_ads_id}`);
+        else missing.push('- Google Ads');
+        if (meta_pixel_id) filled.push(`- Meta Pixel: ${meta_pixel_id}`);
+        else missing.push('- Meta Pixel');
+
+        let desc = `✅ **Ifyllt:**\n${filled.join('\n')}`;
+        if (missing.length > 0) {
+          desc += `\n\n❌ **Saknas:**\n${missing.join('\n')}`;
+        }
+        desc += `\n\n📅 Registrerad: ${new Date().toISOString()}`;
+
         const boardId = await getParam('/seo-mcp/trello/board-id');
         const lists = await trelloApi('GET', `/boards/${boardId}/lists`);
         const firstList = lists[0];
-        await createTrelloCard(
-          firstList.id,
-          `Ny kund: ${company_name}`,
-          `**Företag:** ${company_name}\n**Kontakt:** ${contact_person || '-'}\n**E-post:** ${contact_email}\n**Webb:** ${wordpress_url}\n**WP-anslutning:** ${wpConnectionTest}\n**Google Ads:** ${google_ads_id || '-'}\n**Meta Pixel:** ${meta_pixel_id || '-'}\n**Registrerad:** ${new Date().toISOString()}`
-        );
+        await createTrelloCard(firstList.id, `Ny kund: ${company_name}`, desc);
+        console.log(`[ONBOARD] Trello card created for ${siteId}`);
       } catch (trelloErr) {
-        console.error('Trello card creation failed:', trelloErr.message);
+        console.error('[ONBOARD] Trello card creation failed:', trelloErr.message);
       }
     })();
   } catch (err) {
