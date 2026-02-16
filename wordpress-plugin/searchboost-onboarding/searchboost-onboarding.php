@@ -66,6 +66,7 @@ function sb_onboard_handler() {
         'ga_property_id'         => sanitize_text_field($_POST['ga_property_id'] ?? ''),
         'google_ads_id'          => sanitize_text_field($_POST['google_ads_id'] ?? ''),
         'meta_pixel_id'          => sanitize_text_field($_POST['meta_pixel_id'] ?? ''),
+        'gtm_id'                => sanitize_text_field($_POST['gtm_id'] ?? ''),
     );
 
     $response = wp_remote_post($api_url, array(
@@ -228,13 +229,21 @@ function sb_onboarding_form() {
                 <button type="button" class="sb-guide-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Visa guide</button>
             </h3>
             <div class="sb-guide">
-                <strong>Så skapar du ett app-lösenord:</strong>
+                <strong>Alternativ 1 — Lägg till oss som ny användare:</strong>
+                <ol>
+                    <li>Logga in på er WordPress-webbplats</li>
+                    <li>Gå till <strong>Användare</strong> i adminpanelen och välj <strong>Lägg till ny</strong></li>
+                    <li>Ange vår e-postadress <strong>web@searchboost.se</strong> och ge kontot rollen <strong>Administratör</strong></li>
+                    <li>Klicka på <strong>Lägg till användare</strong></li>
+                </ol>
+                <strong>Alternativ 2 — Skapa ett app-lösenord:</strong>
                 <ol>
                     <li>Logga in i WordPress → Användare → Din profil</li>
                     <li>Scrolla ner till "Applikationslösenord"</li>
                     <li>Skriv "Searchboost" som namn och klicka "Lägg till"</li>
                     <li>Kopiera lösenordet som visas (det visas bara en gång!)</li>
                 </ol>
+                <p style="margin-top:8px;font-size:0.85em;color:#888;">Har ni frågor eller fastnar på något steg? Tveka inte att kontakta oss — vi hjälper gärna till!</p>
             </div>
             <p class="sb-desc">Vi behöver ett app-lösenord för att kunna optimera er webbplats.</p>
             <div class="sb-row sb-full">
@@ -263,13 +272,18 @@ function sb_onboarding_form() {
                 <button type="button" class="sb-guide-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Visa guide</button>
             </h3>
             <div class="sb-guide">
-                <strong>Lägg till oss i Search Console:</strong>
+                <strong>Lägg till oss som ny användare med administratörsrättigheter:</strong>
+                <p style="margin:6px 0;font-size:0.88em;color:#555;">Om ni inte har ett Google Search Console-konto sedan tidigare eller vill ta bort det nuvarande kontot så kan vi lösa hela processen — ni behöver inte följa guiden nedan.</p>
                 <ol>
-                    <li>Gå till <a href="https://search.google.com/search-console" target="_blank">Google Search Console</a></li>
-                    <li>Välj er property → Inställningar → Användare och behörigheter</li>
-                    <li>Klicka "Lägg till användare" och ange vår e-post</li>
-                    <li>Välj behörighet "Full" och spara</li>
+                    <li>Logga in på <a href="https://search.google.com/search-console/" target="_blank">search.google.com/search-console</a></li>
+                    <li>Klicka på <strong>Inställningar</strong> längst ner till vänster</li>
+                    <li>Klicka på <strong>Användare och behörigheter</strong></li>
+                    <li>Klicka på <strong>Lägg till användare</strong></li>
+                    <li>Fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Välj <strong>Fullständig</strong></li>
+                    <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
+                <p style="margin-top:8px;font-size:0.85em;color:#888;">Har ni frågor eller fastnar på något steg? Tveka inte att kontakta oss — vi hjälper gärna till!</p>
             </div>
             <p class="sb-desc">Valfritt — hjälper oss övervaka er synlighet i Google.</p>
             <div class="sb-row sb-full">
@@ -287,18 +301,59 @@ function sb_onboarding_form() {
                 <button type="button" class="sb-guide-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Visa guide</button>
             </h3>
             <div class="sb-guide">
-                <strong>Hitta ert GA4 Property ID:</strong>
+                <strong>Lägg till oss som administratör i Google Analytics:</strong>
+                <p style="margin:6px 0;font-size:0.88em;color:#555;">Om ni inte har ett Google Analytics-konto sedan tidigare kan vi lösa hela processen åt er.</p>
                 <ol>
-                    <li>Gå till <a href="https://analytics.google.com" target="_blank">Google Analytics</a></li>
+                    <li>Logga in på <a href="https://analytics.google.com" target="_blank">analytics.google.com</a></li>
+                    <li>Klicka på <strong>kugghjulet</strong> längst ner till vänster</li>
+                    <li>Klicka på <strong>Åtkomsthantering för konton</strong></li>
+                    <li>Klicka på <strong>+</strong> längst upp till höger</li>
+                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Välj <strong>Administratör</strong></li>
+                    <li>Klicka <strong>Lägg till</strong></li>
+                </ol>
+                <strong style="display:block;margin-top:12px;">Hitta ert GA4 Property ID:</strong>
+                <ol>
                     <li>Klicka på kugghjulet (Admin) → Property → Property-information</li>
                     <li>Kopiera Property ID (börjar med G-)</li>
                 </ol>
+                <p style="margin-top:8px;font-size:0.85em;color:#888;">Har ni frågor eller fastnar på något steg? Tveka inte att kontakta oss — vi hjälper gärna till!</p>
             </div>
             <p class="sb-desc">Valfritt — ger insikt om besökarnas beteende.</p>
             <div class="sb-row sb-full">
                 <div class="sb-field">
                     <label>GA4 Property ID</label>
                     <input type="text" name="ga_property_id" placeholder="G-XXXXXXXXXX" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Google Tag Manager -->
+        <div class="sb-section">
+            <h3>
+                <span class="sb-icon">🏷️</span> Google Tag Manager
+                <button type="button" class="sb-guide-toggle" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='block'?'none':'block'">Visa guide</button>
+            </h3>
+            <div class="sb-guide">
+                <strong>Lägg till oss som administratör i Google Tag Manager:</strong>
+                <p style="margin:6px 0;font-size:0.88em;color:#555;">Saknar ni ett GTM-konto eller vill börja om från början? Ingen fara, vi kan sätta upp allt åt er.</p>
+                <ol>
+                    <li>Logga in på <a href="https://tagmanager.google.com" target="_blank">tagmanager.google.com</a></li>
+                    <li>Klicka på <strong>Administratör</strong></li>
+                    <li>Välj <strong>Användarhantering</strong> under Konto-kolumnen</li>
+                    <li>Klicka på <strong>+</strong> och välj <strong>Lägg till nya användare</strong></li>
+                    <li>Ange: <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Välj behörighet — <strong>Administratör</strong> ger full åtkomst</li>
+                    <li>Klicka <strong>Bjud in</strong></li>
+                </ol>
+                <p style="margin-top:8px;font-size:0.85em;color:#888;">Har ni frågor eller fastnar på något steg? Tveka inte att kontakta oss — vi hjälper gärna till!</p>
+            </div>
+            <p class="sb-desc">Valfritt — med GTM kan vi lägga till spårning och taggar utan att ändra er kod.</p>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>GTM Container-ID</label>
+                    <input type="text" name="gtm_id" placeholder="GTM-XXXXXXX" />
+                    <div class="sb-hint">Hittas uppe till höger i Tag Manager (format: GTM-XXXXXXX)</div>
                 </div>
             </div>
         </div>

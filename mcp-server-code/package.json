@@ -9,12 +9,16 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
-    "@aws-sdk/client-ssm": "^3.709.0",
     "@aws-sdk/client-ses": "^3.709.0",
+    "@aws-sdk/client-ssm": "^3.709.0",
     "@google-cloud/bigquery": "^7.9.0",
-    "google-auth-library": "^9.14.0",
+    "@marp-team/marp-cli": "^4.2.3",
     "@modelcontextprotocol/sdk": "^1.0.4",
     "axios": "^1.7.9",
-    "express": "^4.21.2"
+    "bcryptjs": "^3.0.3",
+    "express": "^4.21.2",
+    "google-auth-library": "^9.14.0",
+    "jsonwebtoken": "^9.0.3",
+    "puppeteer": "^24.37.2"
   }
 }

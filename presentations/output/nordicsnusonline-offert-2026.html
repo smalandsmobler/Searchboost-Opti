@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nordic Snus Online — SEO-offert | Searchboost</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sb-pink: #e91e8c;
+      --sb-cyan: #00d4ff;
+      --sb-green: #00e676;
+      --sb-purple: #7c4dff;
+      --sb-dark: #0a0a1a;
+      --sb-card: #111128;
+      --sb-card-border: #1a1a3e;
+      --sb-text: #e0e0e0;
+      --sb-text-muted: #888;
+    }
+    .reveal { font-family: 'Inter', -apple-system, sans-serif; font-size: 22px; color: var(--sb-text); }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { background: var(--sb-dark); padding: 40px 60px; }
+    .reveal .slides section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 20% 80%, rgba(233,30,140,0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 20%, rgba(0,212,255,0.06) 0%, transparent 50%),
+                  radial-gradient(ellipse at 50% 50%, rgba(124,77,255,0.03) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+    .reveal .slides section > * { position: relative; z-index: 1; }
+
+    .slide-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--sb-card-border); }
+    .slide-header .brand { display: flex; align-items: center; gap: 10px; }
+    .slide-header .brand .logo-icon { width: 28px; height: 28px; background: linear-gradient(135deg, var(--sb-pink), var(--sb-purple)); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .slide-header .brand-text { font-weight: 700; font-size: 14px; letter-spacing: 1px; text-transform: uppercase; }
+    .slide-header .brand-text span { color: var(--sb-pink); }
+    .slide-header .meta { font-size: 12px; color: var(--sb-text-muted); text-align: right; }
+    .slide-header .meta .date { color: var(--sb-cyan); font-weight: 600; }
+
+    .tag { display: inline-block; padding: 4px 14px; border-radius: 4px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .tag-pink { background: rgba(233,30,140,0.15); color: var(--sb-pink); }
+    .tag-cyan { background: rgba(0,212,255,0.15); color: var(--sb-cyan); }
+    .tag-green { background: rgba(0,230,118,0.15); color: var(--sb-green); }
+    .tag-purple { background: rgba(124,77,255,0.15); color: var(--sb-purple); }
+
+    .reveal h1 { font-size: 2.8em; font-weight: 800; color: #fff; line-height: 1.1; margin: 0 0 20px 0; }
+    .reveal h1 .accent { color: var(--sb-pink); }
+    .reveal h2 { font-size: 1.8em; font-weight: 700; color: #fff; margin: 0 0 25px 0; }
+    .reveal h3 { font-size: 1.1em; font-weight: 600; color: #fff; margin: 0 0 8px 0; }
+    .subtitle { font-size: 1.1em; color: var(--sb-text-muted); max-width: 600px; line-height: 1.5; }
+
+    .accent-lines { display: flex; gap: 6px; margin: 20px 0; }
+    .accent-lines .line { height: 3px; width: 40px; border-radius: 2px; }
+    .accent-lines .line:nth-child(1) { background: var(--sb-pink); }
+    .accent-lines .line:nth-child(2) { background: var(--sb-cyan); }
+    .accent-lines .line:nth-child(3) { background: var(--sb-green); }
+
+    .footer-tags { position: absolute; bottom: 40px; left: 60px; display: flex; gap: 20px; font-size: 12px; font-weight: 600; }
+    .footer-tags span::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+    .footer-tags .t1::before { background: var(--sb-pink); }
+    .footer-tags .t2::before { background: var(--sb-cyan); }
+    .footer-tags .t3::before { background: var(--sb-green); }
+
+    .presenter { position: absolute; bottom: 40px; right: 60px; font-size: 11px; color: var(--sb-text-muted); text-align: right; }
+    .presenter strong { display: block; color: #fff; font-size: 12px; }
+
+    .cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cards-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .cards-grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .card { background: var(--sb-card); border: 1px solid var(--sb-card-border); border-radius: 12px; padding: 18px; }
+    .card p { font-size: 13px; color: var(--sb-text-muted); line-height: 1.5; margin: 6px 0; }
+
+    .stat-card { background: var(--sb-card); border: 1px solid var(--sb-card-border); border-radius: 12px; padding: 20px 16px; text-align: center; }
+    .stat-card .icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 20px; }
+    .stat-card .icon.pink { background: rgba(233,30,140,0.15); }
+    .stat-card .icon.cyan { background: rgba(0,212,255,0.15); }
+    .stat-card .icon.green { background: rgba(0,230,118,0.15); }
+    .stat-card .icon.purple { background: rgba(124,77,255,0.15); }
+    .stat-card .number { font-size: 1.8em; font-weight: 800; line-height: 1; margin-bottom: 6px; }
+    .stat-card .number.pink { color: var(--sb-pink); }
+    .stat-card .number.cyan { color: var(--sb-cyan); }
+    .stat-card .number.green { color: var(--sb-green); }
+    .stat-card .number.purple { color: var(--sb-purple); }
+    .stat-card .label { font-weight: 600; font-size: 14px; color: #fff; }
+    .stat-card .detail { font-size: 11px; color: var(--sb-text-muted); margin-top: 4px; }
+
+    .problem-list { list-style: none; padding: 0; margin: 0; }
+    .problem-list li { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--sb-card-border); }
+    .problem-list li:last-child { border-bottom: none; }
+    .problem-list .severity { min-width: 8px; height: 8px; border-radius: 50%; margin-top: 7px; }
+    .severity.critical { background: #ff1744; }
+    .severity.warning { background: #ff9100; }
+    .severity.info { background: var(--sb-cyan); }
+    .problem-list .text strong { color: #fff; display: block; margin-bottom: 3px; }
+    .problem-list .text span { font-size: 13px; color: var(--sb-text-muted); }
+
+    /* Pricing specific */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+    .pricing-card { background: var(--sb-card); border: 1px solid var(--sb-card-border); border-radius: 16px; padding: 30px; position: relative; overflow: hidden; }
+    .pricing-card.featured { border-color: var(--sb-pink); }
+    .pricing-card.featured::after { content: 'REKOMMENDERAS'; position: absolute; top: 16px; right: -30px; background: var(--sb-pink); color: #fff; font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 4px 36px; transform: rotate(45deg); }
+    .pricing-card .price { font-size: 2.2em; font-weight: 800; color: #fff; margin: 12px 0 4px; }
+    .pricing-card .price .unit { font-size: 0.35em; font-weight: 500; color: var(--sb-text-muted); }
+    .pricing-card .period { font-size: 13px; color: var(--sb-text-muted); margin-bottom: 20px; }
+    .pricing-card ul { list-style: none; padding: 0; margin: 0; }
+    .pricing-card ul li { padding: 8px 0; font-size: 14px; color: var(--sb-text); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px; }
+    .pricing-card ul li::before { content: '✓'; color: var(--sb-green); font-weight: 700; font-size: 13px; }
+
+    /* Timeline */
+    .timeline { margin-top: 10px; }
+    .timeline-item { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--sb-card-border); }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-month { min-width: 100px; font-weight: 700; font-size: 14px; }
+    .timeline-month.pink { color: var(--sb-pink); }
+    .timeline-month.cyan { color: var(--sb-cyan); }
+    .timeline-month.green { color: var(--sb-green); }
+    .timeline-month.purple { color: var(--sb-purple); }
+    .timeline-desc { font-size: 14px; color: var(--sb-text-muted); line-height: 1.5; }
+    .timeline-desc strong { color: #fff; }
+
+    /* CPO table */
+    .cpo-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+    .cpo-table th { text-align: left; font-size: 12px; font-weight: 600; color: var(--sb-text-muted); padding: 10px 14px; border-bottom: 1px solid var(--sb-card-border); text-transform: uppercase; letter-spacing: 1px; }
+    .cpo-table td { padding: 12px 14px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .cpo-table tr:last-child td { border-bottom: none; }
+    .cpo-table .highlight { color: var(--sb-green); font-weight: 700; }
+
+    /* CTA */
+    .cta-box { background: linear-gradient(135deg, rgba(233,30,140,0.1), rgba(0,212,255,0.1)); border: 1px solid rgba(233,30,140,0.3); border-radius: 16px; padding: 40px; text-align: center; margin-top: 20px; }
+    .cta-box h2 { text-align: center; }
+    .cta-box p { text-align: center; max-width: 500px; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Framsida -->
+      <section>
+        <div class="slide-header">
+          <div class="brand">
+            <div class="logo-icon">S</div>
+            <div class="brand-text">Search<span>boost</span></div>
+          </div>
+          <div class="meta">
+            <div class="date">FEBRUARI 2026</div>
+            <div>SEO-offert</div>
+          </div>
+        </div>
+
+        <h1>Nordic Snus <span class="accent">Online</span></h1>
+        <div class="accent-lines">
+          <div class="line"></div>
+          <div class="line"></div>
+          <div class="line"></div>
+        </div>
+        <p class="subtitle">SEO-strategi & prissättning — Två alternativ för att ta tillbaka era Google-positioner</p>
+
+        <div class="footer-tags">
+          <span class="t1">266 produkter</span>
+          <span class="t2">48 varumärken</span>
+          <span class="t3">26 000+ sökningar/mån</span>
+        </div>
+        <div class="presenter">
+          <strong>Mikael Larsson</strong>
+          mikael@searchboost.se
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Nuläge -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">NULÄGE</div></div>
+        </div>
+
+        <span class="tag tag-pink">Var ni står idag</span>
+        <h2>Sajten motarbetar sig själv</h2>
+
+        <div class="cards-grid cards-grid-4" style="margin-bottom: 20px;">
+          <div class="stat-card">
+            <div class="icon pink">📉</div>
+            <div class="number pink">62</div>
+            <div class="label">SEO-poäng</div>
+            <div class="detail">av 100</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon cyan">🚫</div>
+            <div class="number cyan">600+</div>
+            <div class="label">Blockerade sidor</div>
+            <div class="detail">noindex/nofollow</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon purple">⚔️</div>
+            <div class="number purple">242</div>
+            <div class="label">Metadata-problem</div>
+            <div class="detail">titlar & descriptions</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon green">🔗</div>
+            <div class="number green">41</div>
+            <div class="label">Trasiga bilder</div>
+            <div class="detail">4XX-status</div>
+          </div>
+        </div>
+
+        <p style="color: var(--sb-text-muted); font-size: 14px;">Ni hade bra positioner i somras. Googles core update i augusti 2025 slog hårt mot sajter med duplicerat innehåll och tekniska problem. Allt går att fixa — innehållet finns redan.</p>
+      </section>
+
+      <!-- SLIDE 3: Problemen -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">ANALYS</div></div>
+        </div>
+
+        <span class="tag tag-cyan">Varför ni tappade positioner</span>
+        <h2>3 huvudproblem</h2>
+
+        <ul class="problem-list">
+          <li>
+            <div class="severity critical"></div>
+            <div class="text">
+              <strong>Keyword-kannibalisering — era egna sidor slåss mot varandra</strong>
+              <span>"Vit portion", "Vitt snus", "Portionssnus" och "Snus" visar överlappande produkter. Google vet inte vilken sida som ska ranka — så ingen av dem gör det.</span>
+            </div>
+          </li>
+          <li>
+            <div class="severity critical"></div>
+            <div class="text">
+              <strong>600+ sidor osynliga för Google</strong>
+              <span>Massiv användning av noindex/nofollow gömmer sidor ni vill ska synas. Filter-URL:er skapar tusentals skräpsidor som späder ut ert SEO-värde.</span>
+            </div>
+          </li>
+          <li>
+            <div class="severity warning"></div>
+            <div class="text">
+              <strong>Metadata-kaos på 242+ sidor</strong>
+              <span>För långa titlar, duplicerade descriptions, emojis i titlar, HTML-entiteter som visas som kod. Google uppfattar sajten som oprofessionell.</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SLIDE 4: Möjligheten -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">POTENTIAL</div></div>
+        </div>
+
+        <span class="tag tag-green">Varför det är värt det</span>
+        <h2>Google Ads = blockerat. SEO = enda vägen.</h2>
+
+        <div class="cards-grid" style="margin-bottom: 20px;">
+          <div class="card">
+            <h3>🚫 Ingen betald annonsering</h3>
+            <p>Google förbjuder ALL annonsering för tobak/snus. Inga Ads, ingen Shopping. Det gäller alla — er OCH era konkurrenter. Den som vinner organisk sökning vinner allt.</p>
+          </div>
+          <div class="card">
+            <h3>🔍 26 000+ sökningar/mån</h3>
+            <p>"Köpa snus online" ~8 000, "billigt snus" ~4 000, "vitt snus" ~3 500, "ZYN snus" ~2 500. Alla söker — ni behöver bara synas.</p>
+          </div>
+          <div class="card">
+            <h3>🔄 Repeat-kunder</h3>
+            <p>Snus köps varje månad. En ny organisk kund = inte en order, utan 12+ ordrar per år. Livstidsvärdet per kund är mycket högre än snittordern.</p>
+          </div>
+          <div class="card">
+            <h3>📈 Ni har rankat förut</h3>
+            <p>Google vet att er sajt är relevant. Det går snabbare att ta tillbaka positioner än att bygga från noll. Problemen är tekniska — inte innehållsmässiga.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Vad vi gör -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">ÅTGÄRDER</div></div>
+        </div>
+
+        <span class="tag tag-purple">Vad som ingår</span>
+        <h2>Komplett SEO-sanering</h2>
+
+        <div class="cards-grid">
+          <div class="card">
+            <h3>🧹 Teknisk sanering</h3>
+            <p>Rensa noindex/nofollow, fixa canonical-taggar, städa filter-URL:er, åtgärda 4XX-fel. Google ser hela sajten igen.</p>
+          </div>
+          <div class="card">
+            <h3>✏️ Metadata-optimering</h3>
+            <p>Nya titlar och descriptions på 242+ sidor. Professionella, sökoptimerade, rätt längd. Automatiserat via AI.</p>
+          </div>
+          <div class="card">
+            <h3>🗂️ Kategoristruktur</h3>
+            <p>Konsolidera överlappande kategorier. En tydlig hierarki: Snus → Portionssnus / Vitt snus / Lössnus. Slut på kannibalisering.</p>
+          </div>
+          <div class="card">
+            <h3>📊 Veckorapporter</h3>
+            <p>Varje vecka: vad vi gjort, positionsförändringar, trafik. Full transparens — ni ser exakt vad som händer.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Tidslinje -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">TIDSLINJE</div></div>
+        </div>
+
+        <span class="tag tag-cyan">Förväntade resultat</span>
+        <h2>Från fix till försäljning</h2>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-month pink">Månad 1–2</div>
+            <div class="timeline-desc"><strong>Teknisk sanering</strong> — noindex bort, canonical fixat, metadata optimerad. Synligt i GSC direkt. Inga extra ordrar ännu men grunden läggs.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-month cyan">Månad 2–4</div>
+            <div class="timeline-desc"><strong>Positioner rör sig</strong> — Google omindexerar, 600+ sidor blir synliga. Första trafikökningarna. Uppskattning: <strong>20–50 extra ordrar/mån</strong>.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-month green">Månad 4–6</div>
+            <div class="timeline-desc"><strong>Core update-recovery</strong> — nästa Google core update slår igenom. Med ren sajt rankar ni igen. Uppskattning: <strong>50–150 extra ordrar/mån</strong>.</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-month purple">Månad 7–12</div>
+            <div class="timeline-desc"><strong>Tillväxtfas</strong> — varumärkessidor rankar, content driver trafik, repeat-kunder ackumuleras. Uppskattning: <strong>150–400+ extra ordrar/mån</strong>.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Prissättning -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">PRISSÄTTNING</div></div>
+        </div>
+
+        <span class="tag tag-green">Två alternativ</span>
+        <h2>Välj det som passar er bäst</h2>
+
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <span class="tag tag-cyan">Alternativ 1</span>
+            <h3>Fast pris</h3>
+            <div class="price">8 000 <span class="unit">kr/mån</span></div>
+            <div class="period">3 månaders avtal</div>
+            <ul>
+              <li>Teknisk SEO-sanering</li>
+              <li>Metadata-optimering 242+ sidor</li>
+              <li>Canonical & noindex-fix</li>
+              <li>Kategorikonsolidering</li>
+              <li>Automatisk veckooptimering</li>
+              <li>Veckorapporter</li>
+              <li>Fast kostnad — inga överraskningar</li>
+            </ul>
+          </div>
+          <div class="pricing-card featured">
+            <span class="tag tag-pink">Alternativ 2</span>
+            <h3>CPO-deal</h3>
+            <div class="price">5 000 <span class="unit">kr/mån + 10 kr/order</span></div>
+            <div class="period">6 månaders avtal</div>
+            <ul>
+              <li>Samma jobb som alternativ 1</li>
+              <li>Lägre fast kostnad</li>
+              <li>Ni betalar mer när det ger resultat</li>
+              <li>Mäts via GA4 — full transparens</li>
+              <li>Baseline sätts dag 1</li>
+              <li>Vi tjänar ihop — delad risk</li>
+            </ul>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--sb-text-muted); margin-top: 16px; text-align: center;">Alla priser exkl. moms</p>
+      </section>
+
+      <!-- SLIDE 8: CPO räkneexempel -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">RÄKNEEXEMPEL</div></div>
+        </div>
+
+        <span class="tag tag-pink">Alternativ 2 i praktiken</span>
+        <h2>CPO-deal — vad det kostar</h2>
+
+        <table class="cpo-table">
+          <thead>
+            <tr>
+              <th>Organiska ordrar/mån</th>
+              <th>Bas</th>
+              <th>CPO (10 kr × ordrar)</th>
+              <th>Total kostnad</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>50 ordrar</td>
+              <td>5 000 kr</td>
+              <td>500 kr</td>
+              <td class="highlight">5 500 kr</td>
+            </tr>
+            <tr>
+              <td>150 ordrar</td>
+              <td>5 000 kr</td>
+              <td>1 500 kr</td>
+              <td class="highlight">6 500 kr</td>
+            </tr>
+            <tr>
+              <td>300 ordrar</td>
+              <td>5 000 kr</td>
+              <td>3 000 kr</td>
+              <td class="highlight">8 000 kr</td>
+            </tr>
+            <tr>
+              <td>500 ordrar</td>
+              <td>5 000 kr</td>
+              <td>5 000 kr</td>
+              <td class="highlight">10 000 kr</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="color: var(--sb-text-muted); font-size: 14px; margin-top: 20px;">Ni betalar bara mer om det ger resultat. Lägre risk för er — högre potential för oss båda.</p>
+      </section>
+
+      <!-- SLIDE 9: CTA -->
+      <section>
+        <div class="slide-header">
+          <div class="brand"><div class="logo-icon">S</div><div class="brand-text">Search<span>boost</span></div></div>
+          <div class="meta"><div class="date">NÄSTA STEG</div></div>
+        </div>
+
+        <div class="cta-box">
+          <h2>Redo att ta tillbaka era positioner?</h2>
+          <div class="accent-lines" style="justify-content: center;">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+          <p class="subtitle" style="max-width: 500px; margin: 20px auto;">
+            26 000+ sökningar varje månad. Era konkurrenter kan inte köra Google Ads — den som vinner SEO vinner allt. Ni har produkterna, vi fixar synligheten.
+          </p>
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+          <p style="color: #fff; font-size: 16px; font-weight: 600;">Mikael Larsson</p>
+          <p style="color: var(--sb-text-muted); font-size: 14px;">mikael@searchboost.se</p>
+          <p style="color: var(--sb-cyan); font-size: 14px; font-weight: 600;">searchboost.se</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      controls: true,
+      progress: true,
+      center: false,
+      transition: 'fade',
+      width: 1200,
+      height: 700
+    });
+  </script>
+</body>
+</html>

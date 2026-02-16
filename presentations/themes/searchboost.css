@@ -1,0 +1,206 @@
+/* @theme searchboost */
+
+@import 'default';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --sb-pink: #e91e8c;
+  --sb-dark: #0e0c19;
+  --sb-gray: #1a1a2e;
+  --sb-light: #f8f9fa;
+  --sb-text: #333;
+  --sb-muted: #999;
+  --sb-green: #10b981;
+  --sb-red: #ef4444;
+  --sb-yellow: #f59e0b;
+  --sb-blue: #3b82f6;
+  --sb-cyan: #00d4ff;
+}
+
+section {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: white;
+  color: var(--sb-text);
+  padding: 60px 70px;
+}
+
+/* Dark slides */
+section.dark {
+  background: var(--sb-dark);
+  color: white;
+}
+
+section.dark h1, section.dark h2, section.dark h3 {
+  color: white;
+}
+
+/* Cover slide */
+section.cover {
+  background: linear-gradient(135deg, var(--sb-dark) 0%, var(--sb-gray) 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+section.cover h1 {
+  color: white;
+  font-size: 2.8em;
+  font-weight: 800;
+  margin-bottom: 0.2em;
+  line-height: 1.1;
+}
+
+section.cover h2 {
+  color: var(--sb-pink);
+  font-size: 1.4em;
+  font-weight: 400;
+  margin-top: 0;
+}
+
+section.cover p {
+  color: rgba(255,255,255,0.6);
+  font-size: 0.9em;
+}
+
+/* Pink accent slides */
+section.accent {
+  background: var(--sb-pink);
+  color: white;
+}
+
+section.accent h1, section.accent h2 {
+  color: white;
+}
+
+/* Headers */
+h1 {
+  color: var(--sb-dark);
+  font-weight: 700;
+  font-size: 2.2em;
+  border-bottom: 3px solid var(--sb-pink);
+  padding-bottom: 12px;
+  margin-bottom: 0.6em;
+}
+
+h2 {
+  color: var(--sb-dark);
+  font-weight: 600;
+  font-size: 1.5em;
+  margin-bottom: 0.4em;
+}
+
+h3 {
+  color: var(--sb-muted);
+  font-weight: 500;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85em;
+  margin: 16px 0;
+}
+
+th {
+  background: var(--sb-light);
+  color: var(--sb-muted);
+  font-size: 0.75em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 2px solid var(--sb-pink);
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+tr:hover td {
+  background: #fdf2f8;
+}
+
+/* Strong in tables = pink */
+td strong {
+  color: var(--sb-pink);
+  font-weight: 700;
+}
+
+/* Lists */
+ul, ol {
+  font-size: 0.95em;
+  line-height: 1.8;
+}
+
+li {
+  margin-bottom: 4px;
+}
+
+/* KPI grid helper */
+section.kpi {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-content: flex-start;
+}
+
+/* Blockquote as callout */
+blockquote {
+  background: var(--sb-light);
+  border-left: 4px solid var(--sb-pink);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-size: 0.9em;
+  color: var(--sb-text);
+}
+
+blockquote strong {
+  color: var(--sb-pink);
+}
+
+/* Code blocks */
+code {
+  background: var(--sb-light);
+  color: var(--sb-pink);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+
+/* Footer */
+section::after {
+  content: '';
+}
+
+/* Scoped header line for pages */
+header {
+  color: var(--sb-muted);
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+footer {
+  color: var(--sb-muted);
+  font-size: 0.65em;
+}
+
+/* Utility: pink text */
+em {
+  color: var(--sb-pink);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Image styling */
+img {
+  border-radius: 8px;
+}

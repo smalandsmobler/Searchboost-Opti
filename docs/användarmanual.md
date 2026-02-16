@@ -21,7 +21,7 @@
 
 ## 1. Inloggning
 
-**URL:** http://51.21.116.7 eller https://opti.searchboost.se
+**URL:** http://51.21.116.7 eller https://opti.searchboost.nu
 
 **Inloggningsuppgifter:**
 - `mikael.searchboost@gmail.com` / Opti0195
@@ -94,7 +94,7 @@ När kunden signerar:
 3. Systemet beräknar automatiskt slutdatum (3 månader) och tier
 
 ### Steg 8: Onboarding
-Skicka kunden till onboarding-formuläret på searchboost.se/uppstart:
+Skicka kunden till onboarding-formuläret på searchboost.nu/uppstart:
 - WordPress-uppgifter (URL, username, app-password)
 - Google Search Console property
 - Google Analytics (valfritt)
@@ -245,7 +245,7 @@ Lambda-funktionen `seo-weekly-report`:
 ## 7. Onboarding av ny kund
 
 ### WordPress-plugin
-En custom WP-plugin (`Searchboost Onboarding`) installeras på searchboost.se.
+En custom WP-plugin (`Searchboost Onboarding`) installeras på searchboost.nu.
 
 **Shortcode:** `[searchboost_uppstart]`
 

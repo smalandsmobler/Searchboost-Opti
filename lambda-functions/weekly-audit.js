@@ -17,18 +17,62 @@ async function getParam(name) {
 }
 
 async function getWordPressSites() {
-  const res = await ssm.send(new GetParametersByPathCommand({
+  // Hämta från gamla sökvägen /seo-mcp/wordpress/
+  const wpRes = await ssm.send(new GetParametersByPathCommand({
     Path: '/seo-mcp/wordpress/', Recursive: true, WithDecryption: true
   }));
   const sites = {};
-  for (const p of res.Parameters) {
+  for (const p of (wpRes.Parameters || [])) {
     const parts = p.Name.split('/');
     const siteId = parts[3];
     const key = parts[4];
     if (!sites[siteId]) sites[siteId] = { id: siteId };
     sites[siteId][key] = p.Value;
   }
-  return Object.values(sites).filter(s => s.url);
+
+  // Hämta från nya sökvägen /seo-mcp/integrations/ (wp-url, wp-username, wp-app-password)
+  let intToken;
+  const intParams = [];
+  do {
+    const intRes = await ssm.send(new GetParametersByPathCommand({
+      Path: '/seo-mcp/integrations/', Recursive: true, WithDecryption: true,
+      ...(intToken ? { NextToken: intToken } : {})
+    }));
+    intParams.push(...(intRes.Parameters || []));
+    intToken = intRes.NextToken;
+  } while (intToken);
+
+  for (const p of intParams) {
+    // /seo-mcp/integrations/{siteId}/wp-app-password → siteId, wp-app-password
+    const match = p.Name.match(/\/seo-mcp\/integrations\/([^/]+)\/(wp-.+)/);
+    if (!match) continue;
+    const [, siteId, wpKey] = match;
+    if (!sites[siteId]) sites[siteId] = { id: siteId };
+    // Mappa wp-app-password → app-password, wp-username → username
+    const key = wpKey.replace('wp-', '');
+    // Bara överskrid om gammal sökväg har placeholder
+    if (!sites[siteId][key] || sites[siteId][key] === 'placeholder') {
+      sites[siteId][key] = p.Value;
+    }
+  }
+
+  // Hämta URL från wordpress/ om den inte finns
+  for (const siteId of Object.keys(sites)) {
+    if (!sites[siteId].url) {
+      // Försök hämta från /seo-mcp/wordpress/{siteId}/url
+      try {
+        const urlParam = await ssm.send(new GetParameterCommand({ Name: `/seo-mcp/wordpress/${siteId}/url` }));
+        sites[siteId].url = urlParam.Parameter.Value;
+      } catch (e) { /* URL saknas */ }
+    }
+  }
+
+  const all = Object.values(sites);
+  const valid = all.filter(s => s.url && s.username && s.username !== 'placeholder' && s['app-password'] && s['app-password'] !== 'placeholder');
+  const skipped = all.filter(s => s.url && (!s.username || s.username === 'placeholder' || !s['app-password'] || s['app-password'] === 'placeholder'));
+  console.log(`Found ${valid.length} WordPress sites with valid credentials`);
+  if (skipped.length > 0) console.log(`Skipped ${skipped.length} sites missing credentials: ${skipped.map(s => s.id).join(', ')}`);
+  return valid;
 }
 
 async function wpApi(site, endpoint) {
@@ -128,8 +172,17 @@ exports.handler = async (event) => {
         processed_at: null
       }));
 
+      // Batch INSERT — alla items i en enda query för snabbhet
       if (queueItems.length > 0) {
-        await bq.dataset(dataset).table('seo_work_queue').insert(queueItems);
+        const valueRows = queueItems.map(item => {
+          const esc = (s) => (s || '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+          return `('${esc(item.queue_id)}', '${esc(item.customer_id)}', '${esc(site.url)}', '${esc(item.task_type)}', '${esc(item.page_url)}', '${esc(item.context_data)}', ${item.priority || 5}, 'pending', CURRENT_TIMESTAMP())`;
+        });
+        await bq.query({
+          query: `INSERT INTO \`${dataset}.seo_work_queue\` (queue_id, customer_id, site_url, task_type, page_url, context_data, priority, status, created_at)
+                  VALUES ${valueRows.join(',\n')}`
+        });
+        console.log(`  Inserted ${queueItems.length} items to work queue`);
       }
 
       allResults.push({

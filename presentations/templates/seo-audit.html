@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{company_name}} — SEO-analys | Searchboost</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sb-pink: #e91e8c;
+      --sb-cyan: #00d4ff;
+      --sb-green: #00e676;
+      --sb-purple: #7c4dff;
+      --sb-dark: #0a0a1a;
+      --sb-card: #111128;
+      --sb-card-border: #1a1a3e;
+      --sb-text: #e0e0e0;
+      --sb-text-muted: #888;
+    }
+
+    .reveal {
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 22px;
+      color: var(--sb-text);
+    }
+
+    .reveal .slides {
+      text-align: left;
+    }
+
+    .reveal .slides section {
+      background: var(--sb-dark);
+      padding: 40px 60px;
+    }
+
+    /* Background mesh effect */
+    .reveal .slides section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse at 20% 80%, rgba(233,30,140,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(0,212,255,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(124,77,255,0.03) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .reveal .slides section > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Header bar */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--sb-card-border);
+    }
+
+    .slide-header .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .slide-header .brand .logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--sb-pink), var(--sb-purple));
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .slide-header .brand-text {
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .slide-header .brand-text span {
+      color: var(--sb-pink);
+    }
+
+    .slide-header .meta {
+      font-size: 12px;
+      color: var(--sb-text-muted);
+      text-align: right;
+    }
+
+    .slide-header .meta .date {
+      color: var(--sb-cyan);
+      font-weight: 600;
+    }
+
+    /* Section tags */
+    .tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .tag-pink { background: rgba(233,30,140,0.15); color: var(--sb-pink); }
+    .tag-cyan { background: rgba(0,212,255,0.15); color: var(--sb-cyan); }
+    .tag-green { background: rgba(0,230,118,0.15); color: var(--sb-green); }
+    .tag-purple { background: rgba(124,77,255,0.15); color: var(--sb-purple); }
+
+    /* Headings */
+    .reveal h1 {
+      font-size: 2.8em;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      margin: 0 0 20px 0;
+    }
+
+    .reveal h1 .accent {
+      color: var(--sb-pink);
+    }
+
+    .reveal h2 {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 25px 0;
+    }
+
+    .reveal h3 {
+      font-size: 1.1em;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 8px 0;
+    }
+
+    /* Subtitle */
+    .subtitle {
+      font-size: 1.1em;
+      color: var(--sb-text-muted);
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    /* Accent lines */
+    .accent-lines {
+      display: flex;
+      gap: 6px;
+      margin: 20px 0;
+    }
+
+    .accent-lines .line {
+      height: 3px;
+      width: 40px;
+      border-radius: 2px;
+    }
+
+    .accent-lines .line:nth-child(1) { background: var(--sb-pink); }
+    .accent-lines .line:nth-child(2) { background: var(--sb-cyan); }
+    .accent-lines .line:nth-child(3) { background: var(--sb-green); }
+
+    /* Footer tags */
+    .footer-tags {
+      position: absolute;
+      bottom: 40px;
+      left: 60px;
+      display: flex;
+      gap: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .footer-tags span::before {
+      content: '';
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 8px;
+    }
+
+    .footer-tags .t1::before { background: var(--sb-pink); }
+    .footer-tags .t2::before { background: var(--sb-cyan); }
+    .footer-tags .t3::before { background: var(--sb-green); }
+
+    .presenter {
+      position: absolute;
+      bottom: 40px;
+      right: 60px;
+      font-size: 11px;
+      color: var(--sb-text-muted);
+      text-align: right;
+    }
+
+    .presenter strong {
+      display: block;
+      color: #fff;
+      font-size: 12px;
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .cards-grid-4 {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .cards-grid-3 {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .card {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-card-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .card-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+
+    .card-number.pink { background: var(--sb-pink); }
+    .card-number.cyan { background: var(--sb-cyan); }
+    .card-number.green { background: var(--sb-green); }
+    .card-number.purple { background: var(--sb-purple); }
+
+    .card p {
+      font-size: 13px;
+      color: var(--sb-text-muted);
+      line-height: 1.5;
+      margin: 6px 0;
+    }
+
+    .card .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--sb-text-muted);
+    }
+
+    /* Stat cards */
+    .stat-card {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-card-border);
+      border-radius: 12px;
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .stat-card .icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      font-size: 20px;
+    }
+
+    .stat-card .icon.pink { background: rgba(233,30,140,0.15); }
+    .stat-card .icon.cyan { background: rgba(0,212,255,0.15); }
+    .stat-card .icon.green { background: rgba(0,230,118,0.15); }
+    .stat-card .icon.purple { background: rgba(124,77,255,0.15); }
+
+    .stat-card .number {
+      font-size: 1.8em;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-card .number.pink { color: var(--sb-pink); }
+    .stat-card .number.cyan { color: var(--sb-cyan); }
+    .stat-card .number.green { color: var(--sb-green); }
+    .stat-card .number.purple { color: var(--sb-purple); }
+
+    .stat-card .label {
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff;
+    }
+
+    .stat-card .detail {
+      font-size: 11px;
+      color: var(--sb-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Problem list */
+    .problem-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .problem-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--sb-card-border);
+    }
+
+    .problem-list li:last-child { border-bottom: none; }
+
+    .problem-list .severity {
+      min-width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-top: 7px;
+    }
+
+    .severity.critical { background: #ff1744; }
+    .severity.warning { background: #ff9100; }
+    .severity.info { background: var(--sb-cyan); }
+
+    .problem-list .text strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .problem-list .text span {
+      font-size: 13px;
+      color: var(--sb-text-muted);
+    }
+
+    /* ROI section */
+    .roi-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+
+    .roi-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--sb-card-border);
+    }
+
+    .roi-item .label-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .roi-item .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .roi-item .value {
+      font-size: 1.1em;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .roi-item .unit {
+      font-size: 12px;
+      color: var(--sb-text-muted);
+    }
+
+    /* Big number banner */
+    .big-banner {
+      display: flex;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .big-banner .primary {
+      flex: 2;
+      background: linear-gradient(135deg, rgba(0,230,118,0.15), rgba(0,212,255,0.08));
+      border: 1px solid rgba(0,230,118,0.2);
+      padding: 20px 30px;
+    }
+
+    .big-banner .secondary {
+      flex: 1;
+      background: var(--sb-card);
+      border: 1px solid var(--sb-card-border);
+      padding: 20px 30px;
+      text-align: center;
+    }
+
+    .big-banner .big-number {
+      font-size: 1.8em;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .big-banner .big-label {
+      font-size: 11px;
+      color: var(--sb-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .big-banner .roi-number {
+      font-size: 1.8em;
+      font-weight: 900;
+      color: var(--sb-green);
+    }
+
+    /* Pricing grid */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .pricing-card {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-card-border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .pricing-card .icon-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .pricing-card h3 {
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .pricing-card p {
+      font-size: 12px;
+      color: var(--sb-text-muted);
+      margin: 0 0 10px 0;
+      line-height: 1.4;
+    }
+
+    .pricing-card .price {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .pricing-card .price.pink { color: var(--sb-pink); }
+    .pricing-card .price.cyan { color: var(--sb-cyan); }
+    .pricing-card .price.green { color: var(--sb-green); }
+
+    .total-box {
+      background: var(--sb-card);
+      border: 2px solid var(--sb-cyan);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .total-box .total-label {
+      font-size: 12px;
+      color: var(--sb-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .total-box .total-price {
+      font-size: 2.0em;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .total-box .total-sub {
+      font-size: 12px;
+      color: var(--sb-text-muted);
+    }
+
+    .total-box .timeline {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--sb-card-border);
+    }
+
+    .total-box .timeline .time-value {
+      font-size: 1.6em;
+      font-weight: 800;
+      color: var(--sb-cyan);
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+      padding: 0;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 13px;
+    }
+
+    .checklist li::before {
+      content: '✓';
+      color: var(--sb-green);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* Comparison */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .comparison .col {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-card-border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .comparison .col-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .comparison .dot-red { color: #ff1744; }
+    .comparison .dot-green { color: var(--sb-green); }
+
+    /* Timeline */
+    .timeline-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .timeline-step {
+      text-align: center;
+      flex: 1;
+      position: relative;
+    }
+
+    .timeline-step::after {
+      content: '→';
+      position: absolute;
+      right: -10px;
+      top: 12px;
+      color: var(--sb-text-muted);
+      font-size: 18px;
+    }
+
+    .timeline-step:last-child::after { display: none; }
+
+    .timeline-step .step-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 16px;
+    }
+
+    .timeline-step .step-label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .timeline-step .step-desc {
+      font-size: 11px;
+      color: var(--sb-text-muted);
+      margin-top: 4px;
+    }
+
+    /* CTA slide */
+    .cta-center {
+      text-align: center;
+      padding-top: 60px;
+    }
+
+    .cta-center h1 {
+      font-size: 2.2em;
+    }
+
+    .cta-contact {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .cta-contact .item {
+      text-align: center;
+    }
+
+    .cta-contact .item .icon-box {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 22px;
+    }
+
+    .cta-contact .item .value {
+      font-weight: 600;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .cta-contact .item .label {
+      font-size: 11px;
+      color: var(--sb-text-muted);
+    }
+
+    /* Print/PDF styles */
+    @media print {
+      .reveal .slides section {
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- SLIDE 1: Framsida -->
+      <section>
+        <div class="slide-header">
+          <div class="brand">
+            <div class="logo-icon">S</div>
+            <div class="brand-text">Search<span>boost</span> <small style="font-weight:400;font-size:11px;color:var(--sb-text-muted)">DIGITAL TRANSFORMATION</small></div>
+          </div>
+          <div class="meta">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px">SEO-ANALYS</div>
+            <div class="date">{{date}}</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 60px;">
+          <span class="tag tag-pink">SEO-ANALYS</span>
+          <h1>{{company_name}}<span class="accent">.se</span></h1>
+          <div class="accent-lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+          </div>
+          <p class="subtitle">{{subtitle}}</p>
+        </div>
+
+        <div class="footer-tags">
+          <span class="t1">SEO-OPTIMERING</span>
+          <span class="t2">KONVERTERING</span>
+          <span class="t3">TILLVÄXT</span>
+        </div>
+        <div class="presenter">
+          PRESENTERAR
+          <strong>Searchboost Team</strong>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Översikt / Agenda -->
+      <section>
+        <span class="tag tag-cyan">AGENDA</span>
+        <h2>Översikt</h2>
+        <div class="accent-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+
+        <div class="cards-grid">
+          <div class="card">
+            <div class="card-number pink">01</div>
+            <h3>Nuvarande Situation</h3>
+            <p>{{agenda_1_desc}}</p>
+            <div class="card-meta">📊 {{agenda_1_meta}}</div>
+          </div>
+          <div class="card">
+            <div class="card-number cyan">02</div>
+            <h3>Identifierade Problem</h3>
+            <p>{{agenda_2_desc}}</p>
+            <div class="card-meta">⚠️ {{agenda_2_meta}}</div>
+          </div>
+          <div class="card">
+            <div class="card-number green">03</div>
+            <h3>Vår Lösning</h3>
+            <p>{{agenda_3_desc}}</p>
+            <div class="card-meta">🎯 {{agenda_3_meta}}</div>
+          </div>
+          <div class="card">
+            <div class="card-number purple">04</div>
+            <h3>Implementering &amp; ROI</h3>
+            <p>{{agenda_4_desc}}</p>
+            <div class="card-meta">🚀 {{agenda_4_meta}}</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Kapitel — Nuvarande Situation -->
+      <section>
+        <div style="margin-top: 80px;">
+          <span class="tag tag-pink">KAPITEL 01</span>
+          <h1>Nuvarande<br>Situation</h1>
+          <div class="accent-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+          <p class="subtitle">{{chapter_1_subtitle}}</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Innehållsöversikt / Siffror -->
+      <section>
+        <span class="tag tag-cyan">INNEHÅLLSÖVERSIKT</span>
+        <h2>{{company_name}} — Imponerande Omfattning</h2>
+
+        <div class="cards-grid cards-grid-4" style="margin-bottom: 20px;">
+          <div class="stat-card">
+            <div class="icon pink">📄</div>
+            <div class="number pink">{{stat_pages}}</div>
+            <div class="label">Indexerade Sidor</div>
+            <div class="detail">Google-indexerade URL:er</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon cyan">📝</div>
+            <div class="number cyan">{{stat_articles}}</div>
+            <div class="label">{{stat_articles_label}}</div>
+            <div class="detail">{{stat_articles_detail}}</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon green">📥</div>
+            <div class="number green">{{stat_extra1}}</div>
+            <div class="label">{{stat_extra1_label}}</div>
+            <div class="detail">{{stat_extra1_detail}}</div>
+          </div>
+          <div class="stat-card">
+            <div class="icon purple">📍</div>
+            <div class="number purple">{{stat_extra2}}</div>
+            <div class="label">{{stat_extra2_label}}</div>
+            <div class="detail">{{stat_extra2_detail}}</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>🔍 Kärnproblemet</h3>
+          <p>{{core_problem}}</p>
+
+          <div class="comparison">
+            <div class="col">
+              <div class="col-header"><span class="dot-red">🔴</span> Nuvarande</div>
+              <p style="font-size:13px;color:var(--sb-text-muted)">{{comparison_current}}</p>
+            </div>
+            <div class="col">
+              <div class="col-header"><span class="dot-green">🟢</span> Optimal</div>
+              <p style="font-size:13px;color:var(--sb-text-muted)">{{comparison_optimal}}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Kapitel — Problem -->
+      <section>
+        <div style="margin-top: 80px;">
+          <span class="tag tag-cyan">KAPITEL 02</span>
+          <h1>Identifierade<br>Problem</h1>
+          <div class="accent-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+          <p class="subtitle">{{chapter_2_subtitle}}</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 6: Problemlista -->
+      <section>
+        <span class="tag tag-pink">TEKNISK ANALYS</span>
+        <h2>Kritiska SEO-problem</h2>
+
+        <div class="cards-grid">
+          <div class="card">
+            <h3>🔴 Kritiska problem</h3>
+            <ul class="problem-list">
+              {{#critical_problems}}
+              <li>
+                <div class="severity critical"></div>
+                <div class="text">
+                  <strong>{{title}}</strong>
+                  <span>{{description}}</span>
+                </div>
+              </li>
+              {{/critical_problems}}
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🟡 Förbättringsområden</h3>
+            <ul class="problem-list">
+              {{#warning_problems}}
+              <li>
+                <div class="severity warning"></div>
+                <div class="text">
+                  <strong>{{title}}</strong>
+                  <span>{{description}}</span>
+                </div>
+              </li>
+              {{/warning_problems}}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: Kapitel — Lösning -->
+      <section>
+        <div style="margin-top: 80px;">
+          <span class="tag tag-green">KAPITEL 03</span>
+          <h1>Vår Lösning</h1>
+          <div class="accent-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+          <p class="subtitle">{{chapter_3_subtitle}}</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: Åtgärdsplan -->
+      <section>
+        <span class="tag tag-green">ÅTGÄRDSPLAN</span>
+        <h2>3-Månaders SEO-plan</h2>
+
+        <div class="cards-grid cards-grid-3">
+          <div class="card" style="border-top: 3px solid var(--sb-pink);">
+            <h3 style="color:var(--sb-pink)">Månad 1</h3>
+            <p style="font-weight:600;color:#fff">{{month1_title}}</p>
+            <ul class="checklist">
+              {{#month1_tasks}}
+              <li>{{.}}</li>
+              {{/month1_tasks}}
+            </ul>
+          </div>
+          <div class="card" style="border-top: 3px solid var(--sb-cyan);">
+            <h3 style="color:var(--sb-cyan)">Månad 2</h3>
+            <p style="font-weight:600;color:#fff">{{month2_title}}</p>
+            <ul class="checklist">
+              {{#month2_tasks}}
+              <li>{{.}}</li>
+              {{/month2_tasks}}
+            </ul>
+          </div>
+          <div class="card" style="border-top: 3px solid var(--sb-green);">
+            <h3 style="color:var(--sb-green)">Månad 3</h3>
+            <p style="font-weight:600;color:#fff">{{month3_title}}</p>
+            <ul class="checklist">
+              {{#month3_tasks}}
+              <li>{{.}}</li>
+              {{/month3_tasks}}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 9: Kapitel — ROI -->
+      <section>
+        <div style="margin-top: 80px;">
+          <span class="tag tag-purple">KAPITEL 04</span>
+          <h1>Implementering<br>&amp; ROI</h1>
+          <div class="accent-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+          <p class="subtitle">{{chapter_4_subtitle}}</p>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: ROI-beräkning -->
+      <section>
+        <span class="tag tag-green">ROI-ANALYS</span>
+        <h2>Vad Ni Tjänar — Konservativ Beräkning</h2>
+
+        <div class="roi-grid">
+          <div class="card">
+            <h3>💰 Intäktsberäkning</h3>
+            {{#roi_items}}
+            <div class="roi-item">
+              <div class="label-group">
+                <div class="dot" style="background:{{color}}"></div>
+                <div>
+                  <strong style="color:#fff;font-size:14px">{{label}}</strong>
+                  <div style="font-size:11px;color:var(--sb-text-muted)">{{detail}}</div>
+                </div>
+              </div>
+              <div>
+                <span class="value">{{value}}</span>
+                <span class="unit">{{unit}}</span>
+              </div>
+            </div>
+            {{/roi_items}}
+          </div>
+          <div class="card">
+            <h3>✅ Ytterligare Fördelar</h3>
+            <ul class="checklist">
+              {{#roi_benefits}}
+              <li>{{.}}</li>
+              {{/roi_benefits}}
+            </ul>
+          </div>
+        </div>
+
+        <div class="big-banner">
+          <div class="primary">
+            <div class="big-label">Extra Intäkt per År</div>
+            <div class="big-number">~{{roi_yearly}} kr</div>
+          </div>
+          <div class="primary" style="flex:1;text-align:right;">
+            <div class="big-label">per månad</div>
+            <div class="big-number" style="color:var(--sb-cyan)">~{{roi_monthly}} kr</div>
+          </div>
+          <div class="secondary">
+            <div class="big-label">ROI på investering</div>
+            <div class="roi-number">{{roi_multiplier}}x</div>
+            <div style="font-size:11px;color:var(--sb-text-muted)">{{roi_calc}}</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 11: Prissättning -->
+      <section>
+        <span class="tag tag-cyan">PRISSÄTTNING</span>
+        <h2>Vad Ingår — {{pricing_package_name}}</h2>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px">
+          <div>
+            <div class="pricing-grid">
+              {{#pricing_items}}
+              <div class="pricing-card">
+                <div class="icon-circle" style="background:rgba({{icon_color}},0.15)">{{icon}}</div>
+                <h3>{{name}}</h3>
+                <p>{{description}}</p>
+                <div class="price {{price_class}}">{{price}}</div>
+              </div>
+              {{/pricing_items}}
+            </div>
+          </div>
+          <div>
+            <div class="total-box">
+              <div class="tag tag-cyan" style="margin-bottom:14px">TOTALPAKET</div>
+              <h3>Allt Inkluderat</h3>
+              <ul class="checklist" style="text-align:left;margin:14px 0">
+                {{#pricing_includes}}
+                <li>{{.}}</li>
+                {{/pricing_includes}}
+              </ul>
+              <div class="total-label">Totalpris</div>
+              <div class="total-price">{{total_price}} kr</div>
+              <div class="total-sub">exkl. moms</div>
+              <div class="timeline">
+                <div class="big-label">Tidsplan</div>
+                <div class="time-value">{{timeline}}</div>
+                <div style="font-size:11px;color:var(--sb-text-muted)">från godkännande</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 12: Nästa Steg / CTA -->
+      <section>
+        <div class="cta-center">
+          <span class="tag tag-pink">NÄSTA STEG</span>
+          <h1>Redo att <span class="accent">växa</span>?</h1>
+          <div class="accent-lines" style="justify-content:center"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+          <p class="subtitle" style="margin:0 auto;text-align:center">Vi hjälper er att synas bättre i Google, öka trafiken och konvertera fler besökare till kunder.</p>
+
+          <div class="cta-contact">
+            <div class="item">
+              <div class="icon-box" style="background:rgba(233,30,140,0.15)">📧</div>
+              <div class="value">mikael@searchboost.nu</div>
+              <div class="label">E-post</div>
+            </div>
+            <div class="item">
+              <div class="icon-box" style="background:rgba(0,212,255,0.15)">🌐</div>
+              <div class="value">searchboost.nu</div>
+              <div class="label">Webbplats</div>
+            </div>
+            <div class="item">
+              <div class="icon-box" style="background:rgba(0,230,118,0.15)">📱</div>
+              <div class="value">{{contact_phone}}</div>
+              <div class="label">Telefon</div>
+            </div>
+          </div>
+
+          <div style="margin-top:50px">
+            <div class="brand" style="justify-content:center">
+              <div class="logo-icon">S</div>
+              <div class="brand-text">Search<span>boost</span></div>
+            </div>
+            <p style="font-size:12px;color:var(--sb-text-muted);margin-top:8px">Digital Transformation & SEO</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      width: 1280,
+      height: 720,
+      margin: 0,
+      transition: 'slide',
+      transitionSpeed: 'fast',
+      controls: true,
+      progress: true,
+      center: false,
+      slideNumber: true
+    });
+  </script>
+</body>
+</html>

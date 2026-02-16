@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Searchboost Opti — SEO Dashboard</title>
+  <title>Opti — SEO Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260216b">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
 </head>
 <body>
   <!-- LOGIN -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
-      <h1><span class="login-brand">Searchboost</span> Opti</h1>
+      <h1><span class="login-brand">Opti</span></h1>
       <p class="login-sub">SEO Dashboard</p>
       <input type="text" id="loginUsername" placeholder="Användarnamn" onkeydown="if(event.key==='Enter')document.getElementById('loginPassword').focus()">
       <input type="password" id="loginPassword" placeholder="Lösenord" onkeydown="if(event.key==='Enter')doLogin()">
@@ -25,17 +26,20 @@
   <header class="header">
     <div class="header-inner">
       <a href="/" class="logo-link">
-        <img src="https://searchboost.se/wp-content/uploads/2025/10/seachboost.logo_.png" alt="Searchboost" class="logo-img">
-        <span class="logo-text">Opti</span>
+        <img src="/assets/searchboost-opti-neon.png" alt="Searchboost OPTI" class="logo-img">
       </a>
       <nav class="nav">
         <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
         <a href="#" class="nav-link" data-view="pipeline">Pipeline</a>
+        <a href="#" class="nav-link nav-sales-only" data-view="consulting" style="display:none">Konsult</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
-        <a href="#" class="nav-link" data-view="queue">Arbetsflöde</a>
+        <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
       </nav>
       <div class="header-status">
+        <select id="salesperson-filter" class="form-select salesperson-select" onchange="filterBySalesperson(this.value)" style="display:none">
+          <option value="">Alla säljare</option>
+        </select>
         <span class="status-dot"></span>
         <span id="status-text">Ansluter...</span>
         <button class="btn-logout" onclick="doLogout()">Logga ut</button>
@@ -46,22 +50,64 @@
   <main class="main">
     <!-- Overview -->
     <section id="view-overview" class="view active">
+      <!-- Sales quick-summary (only visible for sales role) -->
+      <div id="sales-summary" class="sales-summary-row" style="display:none">
+        <div class="sales-card">
+          <div class="sales-card-value sales-card-value--pink" id="sales-pipeline-count">--</div>
+          <div class="sales-card-label">I pipeline</div>
+        </div>
+        <div class="sales-card">
+          <div class="sales-card-value sales-card-value--blue" id="sales-proposals">--</div>
+          <div class="sales-card-label">Offert skickad</div>
+        </div>
+        <div class="sales-card">
+          <div class="sales-card-value sales-card-value--green" id="sales-conversion">--</div>
+          <div class="sales-card-label">Konvertering</div>
+        </div>
+      </div>
+      <!-- Tech system health (only visible for tech role) -->
+      <div id="system-health" class="system-health-row" style="display:none">
+        <div class="health-card health-card--ok" id="health-api">
+          <div class="health-card-title">API</div>
+          <div class="health-card-value">OK</div>
+          <div class="health-card-sub" id="health-api-sub">Ansluten</div>
+        </div>
+        <div class="health-card health-card--ok" id="health-lambda">
+          <div class="health-card-title">Lambda</div>
+          <div class="health-card-value" id="health-lambda-val">--</div>
+          <div class="health-card-sub" id="health-lambda-sub">Senaste korning</div>
+        </div>
+        <div class="health-card health-card--ok" id="health-queue">
+          <div class="health-card-title">Ko</div>
+          <div class="health-card-value" id="health-queue-val">--</div>
+          <div class="health-card-sub">Vantande uppgifter</div>
+        </div>
+        <div class="health-card health-card--ok" id="health-errors">
+          <div class="health-card-title">Fel (7d)</div>
+          <div class="health-card-value" id="health-errors-val">0</div>
+          <div class="health-card-sub" id="health-errors-sub">Inga fel</div>
+        </div>
+      </div>
       <div class="stats-row">
         <div class="stat-card">
-          <div class="stat-value" id="stat-customers">—</div>
-          <div class="stat-label">Kunder</div>
+          <div class="stat-icon">&#x1F465;</div>
+          <div class="stat-value" id="stat-customers">--</div>
+          <div class="stat-label">Aktiva kunder</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-optimizations">—</div>
+          <div class="stat-icon">&#x26A1;</div>
+          <div class="stat-value" id="stat-optimizations">--</div>
           <div class="stat-label">Optimeringar (7d)</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-queue">—</div>
+          <div class="stat-icon">&#x1F4CB;</div>
+          <div class="stat-value" id="stat-queue">--</div>
           <div class="stat-label">I arbetskö</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="stat-score">—</div>
-          <div class="stat-label">Snitt SEO-score</div>
+          <div class="stat-icon">&#x1F4B0;</div>
+          <div class="stat-value" id="stat-score">--</div>
+          <div class="stat-label">MRR (kr)</div>
         </div>
       </div>
 
@@ -74,35 +120,140 @@
         </div>
         <div class="card">
           <h2 class="card-title">Kunder</h2>
+          <input type="text" id="search-customers" class="form-input search-input" placeholder="Sök kund..." oninput="clearTimeout(window._searchDebounce);window._searchDebounce=setTimeout(()=>filterCustomers(this.value),250)">
           <div id="customer-list" class="card-body">
             <p class="empty">Laddar...</p>
           </div>
+        </div>
+      </div>
+
+      <!-- Onboarding Status -->
+      <div class="card" style="margin-top: 24px">
+        <div class="card-title-row">
+          <h2 class="card-title">Onboarding-status</h2>
+          <span id="onboard-summary" class="onboard-summary"></span>
+        </div>
+        <div id="onboarding-table" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Consulting (sales-only) -->
+    <section id="view-consulting" class="view">
+      <div class="card" style="margin-bottom:24px;border:1px solid rgba(219,0,127,0.2);background:linear-gradient(135deg,#12121a 0%,rgba(219,0,127,0.03) 100%)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Mina konsultkunder</h2>
+            <p style="color:#888;margin:0;font-size:13px">Kunder du hanterar direkt -- separata fran Searchboost-pipelinen</p>
+          </div>
+          <button class="btn-primary" onclick="toggleConsultForm()" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">+ Ny konsultkund</button>
+        </div>
+        <!-- Add consulting customer form -->
+        <div id="consult-form" style="display:none;margin-bottom:24px;padding:20px;background:rgba(0,0,0,0.3);border-radius:12px;border:1px solid rgba(255,255,255,0.06)">
+          <div class="form-grid-2">
+            <div><label class="form-label">Foretag *</label><input type="text" id="cf-company" class="form-input" placeholder="Foretagsnamn"></div>
+            <div><label class="form-label">Webbplats *</label><input type="text" id="cf-website" class="form-input" placeholder="https://example.se"></div>
+            <div><label class="form-label">Kontaktperson</label><input type="text" id="cf-contact" class="form-input" placeholder="Namn"></div>
+            <div><label class="form-label">E-post</label><input type="text" id="cf-email" class="form-input" placeholder="email@example.se"></div>
+            <div><label class="form-label">Manatlig budget (kr)</label><input type="number" id="cf-budget" class="form-input" value="5000" step="500"></div>
+            <div><label class="form-label">Rapport-mail (fran)</label><input type="text" id="cf-report-email" class="form-input" placeholder="din@mail.com"></div>
+          </div>
+          <label class="form-label" style="margin-top:12px">Noteringar</label>
+          <textarea id="cf-notes" class="form-textarea" rows="2" placeholder="Valfria anteckningar..."></textarea>
+          <div style="margin-top:16px;display:flex;gap:8px;align-items:center">
+            <button class="btn-primary" onclick="saveConsultCustomer()">Spara konsultkund</button>
+            <button class="btn-secondary" onclick="toggleConsultForm()">Avbryt</button>
+            <span id="consult-save-status" class="save-status"></span>
+          </div>
+        </div>
+        <!-- Consulting stats -->
+        <div class="stats-row" style="margin-bottom:16px">
+          <div class="stat-card">
+            <div class="stat-value" id="consult-stat-count" style="color:var(--neon-pink)">0</div>
+            <div class="stat-label">Konsultkunder</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="consult-stat-mrr" style="color:var(--neon-blue)">0</div>
+            <div class="stat-label">MRR (kr)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="consult-stat-opts" style="color:var(--green)">0</div>
+            <div class="stat-label">Optimeringar (30d)</div>
+          </div>
+        </div>
+        <!-- Customer list -->
+        <div id="consult-customer-list">
+          <p class="empty">Inga konsultkunder annu. Klicka "+ Ny konsultkund" for att lagga till.</p>
         </div>
       </div>
     </section>
 
     <!-- Pipeline -->
     <section id="view-pipeline" class="view">
+      <!-- Domain Analysis Card — The core feature -->
+      <div class="card domain-analysis-card">
+        <div class="domain-analysis-header">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Ny kund -- Analysera domän</h2>
+            <p style="color:#888;margin:0;font-size:13px">Skriv in en domän och få SEO-analys, sammanfattning och kostnadsuppskattning direkt</p>
+          </div>
+        </div>
+        <div class="domain-input-row">
+          <input type="text" id="domain-input" class="form-input domain-input-large" placeholder="example.se">
+          <input type="text" id="domain-company" class="form-input" placeholder="Företagsnamn (valfritt)" style="flex:0.6">
+          <button class="btn-primary btn-analyze" onclick="runDomainAnalysis()">Analysera</button>
+        </div>
+        <div id="analysis-loading" class="analysis-loading" style="display:none">
+          <div class="spinner"></div>
+          <span>Analyserar sajten... (kan ta 15-30 sek)</span>
+        </div>
+        <div id="analysis-result" style="display:none"></div>
+      </div>
+
       <div class="stats-row">
         <div class="stat-card">
-          <div class="stat-value" id="pipe-stat-prospects">—</div>
-          <div class="stat-label">Prospekt</div>
+          <div class="stat-icon">&#x1F4CA;</div>
+          <div class="stat-value" id="pipe-stat-prospects">--</div>
+          <div class="stat-label">I pipeline</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="pipe-stat-active">—</div>
-          <div class="stat-label">Aktiva avtal</div>
+          <div class="stat-icon">&#x2705;</div>
+          <div class="stat-value" id="pipe-stat-active">--</div>
+          <div class="stat-label">Aktiva kunder</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="pipe-stat-mrr">—</div>
+          <div class="stat-icon">&#x1F4B0;</div>
+          <div class="stat-value" id="pipe-stat-mrr">--</div>
           <div class="stat-label">MRR (kr)</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="pipe-stat-total">—</div>
+          <div class="stat-icon">&#x1F310;</div>
+          <div class="stat-value" id="pipe-stat-total">--</div>
           <div class="stat-label">Totalt</div>
         </div>
       </div>
       <div class="card">
-        <h2 class="card-title">Kanban — Kundpipeline</h2>
+        <div class="card-title-row">
+          <h2 class="card-title">Säljpipeline</h2>
+          <button class="btn-small btn-add" id="toggle-prospect-form" onclick="toggleProspectForm()">+ Manuell prospect</button>
+        </div>
+        <div id="prospect-form" class="prospect-form" style="display:none">
+          <div class="form-grid-2">
+            <div><label class="form-label">Företag *</label><input type="text" id="pf-company" class="form-input" placeholder="Företagsnamn"></div>
+            <div><label class="form-label">Webbplats *</label><input type="text" id="pf-website" class="form-input" placeholder="https://example.se"></div>
+            <div><label class="form-label">Kontaktperson</label><input type="text" id="pf-contact" class="form-input" placeholder="Namn"></div>
+            <div><label class="form-label">E-post</label><input type="text" id="pf-email" class="form-input" placeholder="email@example.se"></div>
+          </div>
+          <label class="form-label">Noteringar</label>
+          <textarea id="pf-notes" class="form-textarea" rows="2" placeholder="Valfria anteckningar..."></textarea>
+          <div style="margin-top:12px; display:flex; gap:8px; align-items:center">
+            <button class="btn-primary" onclick="saveProspect()">Spara prospect</button>
+            <button class="btn-secondary" onclick="toggleProspectForm()">Avbryt</button>
+            <span id="prospect-save-status" class="save-status"></span>
+          </div>
+        </div>
+        <input type="text" id="search-pipeline" class="form-input search-input" placeholder="Sök i pipeline..." oninput="clearTimeout(window._pipeDebounce);window._pipeDebounce=setTimeout(()=>filterPipeline(this.value),250)" style="margin-bottom:12px">
         <div id="pipeline-kanban" class="pipeline-kanban">
           <p class="empty">Laddar...</p>
         </div>
@@ -145,33 +296,285 @@
         <a href="#" id="back-to-overview">&larr; Tillbaka</a>
       </div>
       <div class="detail-header" id="detail-header">
-        <div class="detail-avatar" id="detail-avatar">—</div>
+        <div class="detail-avatar" id="detail-avatar">--</div>
         <div class="detail-info">
-          <h2 id="detail-name">—</h2>
-          <p class="detail-url" id="detail-url">—</p>
+          <h2 id="detail-name">--</h2>
+          <p class="detail-url" id="detail-url">--</p>
           <div class="detail-integrations" id="detail-integrations"></div>
         </div>
       </div>
+
+      <!-- NEXT ACTION CARD — Guided workflow -->
+      <div id="next-action-card" class="next-action-card" style="display:none"></div>
+
+      <!-- Analysis Summary — Score + Phone pitch + Cost estimate -->
+      <div id="analysis-summary-card" class="card analysis-summary-card" style="display:none"></div>
+
       <div class="stats-row" id="detail-stats-row">
         <div class="stat-card">
+          <div class="stat-icon">&#x26A1;</div>
           <div class="stat-value" id="detail-stat-opts">0</div>
           <div class="stat-label">Optimeringar (30d)</div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon">&#x1F4CB;</div>
           <div class="stat-value" id="detail-stat-queue">0</div>
           <div class="stat-label">I kö</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="detail-stat-top10">—</div>
+          <div class="stat-icon">&#x1F3AF;</div>
+          <div class="stat-value" id="detail-stat-top10">--</div>
           <div class="stat-label">Topp 10</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="detail-stat-keywords">—</div>
+          <div class="stat-icon">&#x1F50D;</div>
+          <div class="stat-value" id="detail-stat-keywords">--</div>
           <div class="stat-label">Sökord</div>
         </div>
       </div>
+      <!-- Performance Gauges -->
+      <div class="gauge-row" id="gauge-row">
+        <div class="gauge-card">
+          <div class="gauge-chart" id="gauge-mobile"></div>
+          <div class="gauge-label">Mobil</div>
+          <div class="gauge-delta" id="gauge-mobile-delta"></div>
+        </div>
+        <div class="gauge-card">
+          <div class="gauge-chart" id="gauge-desktop"></div>
+          <div class="gauge-label">Desktop</div>
+          <div class="gauge-delta" id="gauge-desktop-delta"></div>
+        </div>
+        <div class="gauge-card">
+          <div class="gauge-chart" id="gauge-seo"></div>
+          <div class="gauge-label">SEO-resa</div>
+          <div class="gauge-delta" id="gauge-seo-delta"></div>
+        </div>
+        <div class="gauge-card">
+          <div class="gauge-chart" id="gauge-position"></div>
+          <div class="gauge-label">Snittposition</div>
+          <div class="gauge-delta" id="gauge-position-delta"></div>
+        </div>
+      </div>
+
+      <!-- Touchpoints (kontaktytor) -->
+      <div class="touchpoints-row" id="touchpoints-row" style="display:none">
+        <div class="touchpoint-card">
+          <div class="touchpoint-icon">TEL</div>
+          <div class="touchpoint-value" id="tp-phone">--</div>
+          <div class="touchpoint-label">Telefon</div>
+          <div class="touchpoint-sparkline" id="tp-phone-spark"></div>
+        </div>
+        <div class="touchpoint-card">
+          <div class="touchpoint-icon">MAIL</div>
+          <div class="touchpoint-value" id="tp-email">--</div>
+          <div class="touchpoint-label">E-post</div>
+          <div class="touchpoint-sparkline" id="tp-email-spark"></div>
+        </div>
+        <div class="touchpoint-card">
+          <div class="touchpoint-icon">FORM</div>
+          <div class="touchpoint-value" id="tp-form">--</div>
+          <div class="touchpoint-label">Formular</div>
+          <div class="touchpoint-sparkline" id="tp-form-spark"></div>
+        </div>
+        <div class="touchpoint-card touchpoint-card--total">
+          <div class="touchpoint-icon">SUM</div>
+          <div class="touchpoint-value" id="tp-total">--</div>
+          <div class="touchpoint-label">Totalt (28d)</div>
+          <div class="touchpoint-sparkline" id="tp-total-spark"></div>
+        </div>
+      </div>
+
+      <!-- AI Analytics Chat -->
+      <div class="card ai-chat-card" id="ai-chat-card" style="display:none">
+        <h3 style="color:#fff;margin:0 0 12px 0">AI Analytics</h3>
+        <div id="ai-chat-messages" class="ai-chat-messages">
+          <div class="ai-chat-hint">Stall en fraga om kundens SEO-data, positioner eller optimeringar.</div>
+        </div>
+        <div class="ai-chat-input-row">
+          <input type="text" id="ai-chat-input" class="form-input" placeholder="Fraga om kundens data..." onkeydown="if(event.key==='Enter')sendAiChat()">
+          <button class="btn-primary" onclick="sendAiChat()">Fraga</button>
+        </div>
+      </div>
+
+      <!-- Ads Dashboard -->
+      <div class="card ads-dashboard-card" id="ads-dashboard-card" style="display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <h3 style="color:#fff;margin:0">Annonsering</h3>
+          <span id="ads-platforms-count" style="color:#888;font-size:12px"></span>
+        </div>
+        <div id="ads-spend-grid" class="ads-spend-grid">
+          <div class="ads-platform-card" data-platform="google_ads">
+            <div class="ads-platform-icon">G</div>
+            <div class="ads-platform-info">
+              <div class="ads-platform-name">Google Ads</div>
+              <div class="ads-platform-spend" id="ads-google-spend">--</div>
+            </div>
+            <div class="ads-platform-metrics">
+              <span id="ads-google-clicks">-- klick</span>
+              <span id="ads-google-conv">-- konv</span>
+            </div>
+          </div>
+          <div class="ads-platform-card" data-platform="meta_ads">
+            <div class="ads-platform-icon" style="background:linear-gradient(135deg,#1877f2,#e91e8c)">M</div>
+            <div class="ads-platform-info">
+              <div class="ads-platform-name">Meta Ads</div>
+              <div class="ads-platform-spend" id="ads-meta-spend">--</div>
+            </div>
+            <div class="ads-platform-metrics">
+              <span id="ads-meta-clicks">-- klick</span>
+              <span id="ads-meta-conv">-- konv</span>
+            </div>
+          </div>
+          <div class="ads-platform-card" data-platform="linkedin_ads">
+            <div class="ads-platform-icon" style="background:#0a66c2">in</div>
+            <div class="ads-platform-info">
+              <div class="ads-platform-name">LinkedIn</div>
+              <div class="ads-platform-spend" id="ads-linkedin-spend">--</div>
+            </div>
+            <div class="ads-platform-metrics">
+              <span id="ads-linkedin-clicks">-- klick</span>
+              <span id="ads-linkedin-conv">-- konv</span>
+            </div>
+          </div>
+          <div class="ads-platform-card" data-platform="tiktok_ads">
+            <div class="ads-platform-icon" style="background:#000;color:#fe2c55">T</div>
+            <div class="ads-platform-info">
+              <div class="ads-platform-name">TikTok</div>
+              <div class="ads-platform-spend" id="ads-tiktok-spend">--</div>
+            </div>
+            <div class="ads-platform-metrics">
+              <span id="ads-tiktok-clicks">-- klick</span>
+              <span id="ads-tiktok-conv">-- konv</span>
+            </div>
+          </div>
+        </div>
+        <div id="ads-total-bar" class="ads-total-bar">
+          <span>Total: <strong id="ads-total-spend">0 kr</strong></span>
+          <span id="ads-total-clicks">0 klick</span>
+          <span id="ads-total-conv">0 konverteringar</span>
+        </div>
+      </div>
+
       <div id="detail-contract-bar" class="contract-bar" style="display:none"></div>
+      <div id="detail-stage-controls" class="stage-controls" style="display:none"></div>
       <div id="detail-budget-bar" class="budget-bar" style="display:none"></div>
+
+      <!-- Cost Estimate Editor -->
+      <div id="cost-editor-card" class="card cost-editor-card" style="display:none">
+        <h3 style="color:#fff;margin:0 0 12px 0">Kostnadsuppskattning</h3>
+        <p style="color:#888;margin:0 0 16px 0;font-size:13px">Justera priset innan du genererar presentationen</p>
+        <div class="cost-editor-row">
+          <div class="cost-editor-total">
+            <label class="form-label">Totalpris (kr/mån)</label>
+            <input type="number" id="cost-total" class="form-input cost-input-large" value="5000" step="500" min="0">
+          </div>
+          <div class="cost-editor-tier">
+            <label class="form-label">Paket</label>
+            <select id="cost-tier" class="form-select">
+              <option value="basic">Basic (t.o.m. 5 000 kr)</option>
+              <option value="standard">Standard (t.o.m. 10 000 kr)</option>
+              <option value="premium">Premium (10 000+ kr)</option>
+            </select>
+          </div>
+        </div>
+        <div id="cost-breakdown" class="cost-breakdown"></div>
+        <div style="margin-top:16px;display:flex;gap:10px">
+          <button class="btn-primary" onclick="generatePresentationWithCost()" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">Generera presentation med detta pris</button>
+          <button class="btn-secondary" onclick="generatePresentation(true)" style="border-color:#00d4ff;color:#00d4ff">AI-genererad (standard pris)</button>
+        </div>
+        <div id="presentation-status" style="display:none;margin-top:12px"></div>
+        <div id="presentation-list" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Order Confirmation Form -->
+      <div id="order-form-card" class="card" style="display:none;margin-bottom:24px">
+        <h3 style="color:#fff;margin:0 0 12px 0">Orderbekräftelse</h3>
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Tjänst</label>
+            <select id="order-service" class="form-select">
+              <option value="seo-basic">SEO Basic</option>
+              <option value="seo-standard" selected>SEO Standard</option>
+              <option value="seo-premium">SEO Premium</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Belopp (kr/mån)</label>
+            <input type="number" id="order-amount" class="form-input" value="5000" step="500">
+          </div>
+          <div>
+            <label class="form-label">Startdatum</label>
+            <input type="date" id="order-start" class="form-input">
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <button class="btn-primary" onclick="confirmOrder()">Bekräfta order</button>
+          <span id="order-save-status" class="save-status"></span>
+        </div>
+      </div>
+
+      <!-- Startup Meeting Form -->
+      <div id="startup-form-card" class="card" style="display:none;margin-bottom:24px">
+        <h3 style="color:#fff;margin:0 0 4px 0">Uppstart med fokus</h3>
+        <p style="color:#888;margin:0 0 16px 0;font-size:13px">Definiera nyckelord och geografiskt upptagningsområde</p>
+        <div class="form-grid-2">
+          <div>
+            <label class="form-label">Geografiskt fokus</label>
+            <input type="text" id="startup-geo" class="form-input" placeholder="t.ex. Jönköping, Småland">
+          </div>
+          <div>
+            <label class="form-label">Mötesdatum</label>
+            <input type="date" id="startup-date" class="form-input">
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <h4 style="color:#fff">ABC-nyckelord</h4>
+          <div class="kw-group">
+            <h5 style="color:#e91e8c">A-ord (Huvudnyckelord)</h5>
+            <div id="startup-kw-a"></div>
+          </div>
+          <div class="kw-group">
+            <h5 style="color:#00d4ff">B-ord (Sekundära)</h5>
+            <div id="startup-kw-b"></div>
+          </div>
+          <div class="kw-group">
+            <h5 style="color:#00e676">C-ord (Långsvans)</h5>
+            <div id="startup-kw-c"></div>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px">
+          <button class="btn-primary" onclick="saveStartupAndGeneratePlan()">Spara & Generera åtgärdsplan</button>
+          <span id="startup-save-status" class="save-status"></span>
+        </div>
+      </div>
+
+      <!-- Activation Card -->
+      <div id="activate-card" class="card" style="display:none;margin-bottom:24px;border:1px solid #10b981">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="color:#10b981;margin:0 0 4px 0">Redo att aktivera!</h3>
+            <p style="color:#888;margin:0;font-size:13px">Starta autonom SEO-optimering för denna kund</p>
+          </div>
+          <button class="btn-primary" onclick="activateCustomer()" style="background:#10b981;font-size:16px;padding:12px 24px">Aktivera</button>
+        </div>
+        <div id="activate-status" style="margin-top:12px"></div>
+      </div>
+
+      <!-- Presentation Generator (fallback for active stages) -->
+      <div id="presentation-card-standalone" class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, #111128 0%, #0a0a1a 100%); border: 1px solid #1a1a3e; display:none">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <h3 style="color:#fff;margin:0 0 4px 0;font-size:16px">Säljpresentation</h3>
+            <p style="color:#888;margin:0;font-size:13px">Generera en reveal.js-presentation med SEO-analys, åtgärdsplan och ROI-beräkning</p>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button class="btn-secondary" onclick="generatePresentation(false)" style="border-color:#00d4ff;color:#00d4ff">Snabb</button>
+            <button class="btn-primary" onclick="generatePresentation(true)" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">AI-genererad</button>
+          </div>
+        </div>
+        <div id="presentation-status-standalone" style="display:none;margin-top:12px"></div>
+        <div id="presentation-list-standalone" style="margin-top:12px"></div>
+      </div>
 
       <!-- Manual Input Section -->
       <div class="card manual-input-card" style="margin-bottom: 24px">
@@ -180,6 +583,8 @@
           <button class="tab-btn active" data-tab="tab-audit" onclick="switchTab(this)">SEO-analys</button>
           <button class="tab-btn" data-tab="tab-keywords" onclick="switchTab(this)">Nyckelord (ABC)</button>
           <button class="tab-btn" data-tab="tab-plan" onclick="switchTab(this)">Åtgärdsplan</button>
+          <button class="tab-btn" data-tab="tab-worklog" onclick="switchTab(this)">Logga arbete</button>
+          <button class="tab-btn" data-tab="tab-credentials" onclick="switchTab(this)">Credentials</button>
         </div>
 
         <!-- Tab 1: SEO Audit -->
@@ -204,15 +609,15 @@
             <label class="radio-label"><input type="radio" name="kw-phase" value="final"> Final (efter uppstartsmöte)</label>
           </div>
           <div class="kw-group">
-            <h4>A-ord (5 st) — Huvudnyckelord</h4>
+            <h4>A-ord (5 st) -- Huvudnyckelord</h4>
             <div id="kw-a-rows"></div>
           </div>
           <div class="kw-group">
-            <h4>B-ord (5 st) — Sekundära</h4>
+            <h4>B-ord (5 st) -- Sekundära</h4>
             <div id="kw-b-rows"></div>
           </div>
           <div class="kw-group">
-            <h4>C-ord (10 st) — Långsvans</h4>
+            <h4>C-ord (10 st) -- Långsvans</h4>
             <div id="kw-c-rows"></div>
           </div>
           <div style="margin-top:16px">
@@ -225,17 +630,17 @@
         <div id="tab-plan" class="tab-content">
           <div id="plan-tasks-input">
             <div class="plan-month-group">
-              <h4>Månad 1 — Grundarbete</h4>
+              <h4>Månad 1 -- Grundarbete</h4>
               <div id="plan-month-1-rows"></div>
               <button class="btn-small btn-add" onclick="addPlanTaskRow(1)">+ Lägg till åtgärd</button>
             </div>
             <div class="plan-month-group">
-              <h4>Månad 2 — Tillväxt</h4>
+              <h4>Månad 2 -- Tillväxt</h4>
               <div id="plan-month-2-rows"></div>
               <button class="btn-small btn-add" onclick="addPlanTaskRow(2)">+ Lägg till åtgärd</button>
             </div>
             <div class="plan-month-group">
-              <h4>Månad 3 — Förfining</h4>
+              <h4>Månad 3 -- Förfining</h4>
               <div id="plan-month-3-rows"></div>
               <button class="btn-small btn-add" onclick="addPlanTaskRow(3)">+ Lägg till åtgärd</button>
             </div>
@@ -245,6 +650,65 @@
             <button class="btn-secondary" onclick="autoGeneratePlan()">Auto-generera från audit + nyckelord</button>
             <span id="plan-save-status" class="save-status"></span>
           </div>
+        </div>
+
+        <!-- Tab 4: Logga arbete -->
+        <div id="tab-worklog" class="tab-content">
+          <div id="worklog-rows"></div>
+          <button class="btn-small btn-add" onclick="addWorklogRow()">+ Lägg till rad</button>
+          <div style="margin-top:16px">
+            <button class="btn-primary" onclick="saveManualWork()">Spara arbetslogg</button>
+            <span id="worklog-save-status" class="save-status"></span>
+          </div>
+        </div>
+
+        <!-- Tab 5: Credentials -->
+        <div id="tab-credentials" class="tab-content">
+          <p style="color:#94a3b8;margin:0 0 16px">Uppdatera WordPress- och GSC-credentials för denna kund. Dessa krävs för automatisk optimering.</p>
+          <div class="form-grid-2">
+            <div>
+              <label class="form-label">WordPress-användarnamn</label>
+              <input type="text" id="cred-wp-user" class="form-input" placeholder="mikael@example.se">
+            </div>
+            <div>
+              <label class="form-label">WordPress App-lösenord</label>
+              <input type="text" id="cred-wp-pass" class="form-input" placeholder="xxxx xxxx xxxx xxxx">
+            </div>
+            <div>
+              <label class="form-label">GSC Property URL</label>
+              <input type="text" id="cred-gsc" class="form-input" placeholder="https://www.example.se/">
+            </div>
+            <div>
+              <label class="form-label">Kontakt-epost</label>
+              <input type="text" id="cred-email" class="form-input" placeholder="kund@example.se">
+            </div>
+          </div>
+          <h3 style="color:#e2e8f0;margin:20px 0 12px;font-size:15px;font-weight:600">Integrationer</h3>
+          <div class="form-grid-2">
+            <div>
+              <label class="form-label">GA4 Property ID</label>
+              <input type="text" id="cred-ga4" class="form-input" placeholder="123456789">
+            </div>
+            <div>
+              <label class="form-label">GTM Container ID</label>
+              <input type="text" id="cred-gtm" class="form-input" placeholder="GTM-XXXXXXX">
+            </div>
+            <div>
+              <label class="form-label">Google Ads ID</label>
+              <input type="text" id="cred-gads" class="form-input" placeholder="123-456-7890">
+            </div>
+            <div>
+              <label class="form-label">Meta Pixel ID</label>
+              <input type="text" id="cred-meta" class="form-input" placeholder="1234567890">
+            </div>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+            <button class="btn-primary" onclick="saveCredentials()">Spara credentials</button>
+            <button class="btn-secondary" onclick="testWpConnection()">Testa WP-anslutning</button>
+            <span id="cred-save-status" class="save-status"></span>
+          </div>
+          <div id="cred-test-result" style="margin-top:12px"></div>
+          <div id="cred-current" style="margin-top:16px"></div>
         </div>
       </div>
 
@@ -278,7 +742,8 @@
   </main>
 
   <footer>
-    <p>Searchboost Opti — Semi-autonom SEO-optimering | searchboost.se</p>
+    <div class="footer-gradient"></div>
+    <p>Opti -- Semi-autonom SEO-optimering</p>
   </footer>
 
   </div><!-- /appShell -->

@@ -1,0 +1,350 @@
+{
+  "_comment": "Searchboost GTM Container Template — Importeras i Google Tag Manager",
+  "_version": "1.0",
+  "_updated": "2026-02-14",
+  "_description": "4 standard-handelser + Google Ads + Meta Pixel + LinkedIn + TikTok-stod",
+
+  "containerName": "Searchboost — {{CUSTOMER_NAME}}",
+
+  "variables": [
+    {
+      "name": "GA4 Measurement ID",
+      "type": "constant",
+      "value": "{{GA4_MEASUREMENT_ID}}",
+      "notes": "G-XXXXXXXXXX — kundens GA4 Measurement ID"
+    },
+    {
+      "name": "Google Ads Conversion ID",
+      "type": "constant",
+      "value": "{{GOOGLE_ADS_CONVERSION_ID}}",
+      "notes": "AW-XXXXXXXXX — kundens Google Ads Conversion ID"
+    },
+    {
+      "name": "Google Ads Conversion Label - Lead",
+      "type": "constant",
+      "value": "{{GOOGLE_ADS_LABEL_LEAD}}",
+      "notes": "Conversion label for lead/formular"
+    },
+    {
+      "name": "Google Ads Conversion Label - Call",
+      "type": "constant",
+      "value": "{{GOOGLE_ADS_LABEL_CALL}}",
+      "notes": "Conversion label for telefonsamtal"
+    },
+    {
+      "name": "Meta Pixel ID",
+      "type": "constant",
+      "value": "{{META_PIXEL_ID}}",
+      "notes": "Facebook/Instagram Pixel ID"
+    },
+    {
+      "name": "LinkedIn Partner ID",
+      "type": "constant",
+      "value": "{{LINKEDIN_PARTNER_ID}}",
+      "notes": "LinkedIn Insight Tag Partner ID"
+    },
+    {
+      "name": "TikTok Pixel ID",
+      "type": "constant",
+      "value": "{{TIKTOK_PIXEL_ID}}",
+      "notes": "TikTok Pixel ID"
+    },
+    {
+      "name": "Click URL",
+      "type": "auto_event_var",
+      "component": "elementUrl",
+      "notes": "Hamtar URL fran klickade element (for tel:/mailto: detection)"
+    },
+    {
+      "name": "Click Text",
+      "type": "auto_event_var",
+      "component": "elementText"
+    },
+    {
+      "name": "Form ID",
+      "type": "auto_event_var",
+      "component": "elementId"
+    },
+    {
+      "name": "Scroll Depth Threshold",
+      "type": "built_in",
+      "builtInType": "scrollDepthThreshold"
+    },
+    {
+      "name": "Page Path",
+      "type": "built_in",
+      "builtInType": "pagePath"
+    },
+    {
+      "name": "Page URL",
+      "type": "built_in",
+      "builtInType": "pageUrl"
+    }
+  ],
+
+  "triggers": [
+    {
+      "name": "Klick — Telefonnummer",
+      "type": "linkClick",
+      "filter": {
+        "variable": "Click URL",
+        "condition": "starts_with",
+        "value": "tel:"
+      },
+      "waitForTags": true,
+      "checkValidation": true,
+      "notes": "Triggas nar nagon klickar pa ett tel:-lank"
+    },
+    {
+      "name": "Klick — E-post",
+      "type": "linkClick",
+      "filter": {
+        "variable": "Click URL",
+        "condition": "starts_with",
+        "value": "mailto:"
+      },
+      "waitForTags": true,
+      "checkValidation": true,
+      "notes": "Triggas nar nagon klickar pa ett mailto:-lank"
+    },
+    {
+      "name": "Formular — Inskickat",
+      "type": "formSubmission",
+      "waitForTags": true,
+      "checkValidation": true,
+      "notes": "Triggas vid alla formularinskickningar"
+    },
+    {
+      "name": "Scroll — 25%",
+      "type": "scrollDepth",
+      "scrollType": "vertical",
+      "threshold": 25,
+      "triggerOnce": true
+    },
+    {
+      "name": "Scroll — 50%",
+      "type": "scrollDepth",
+      "scrollType": "vertical",
+      "threshold": 50,
+      "triggerOnce": true
+    },
+    {
+      "name": "Scroll — 75%",
+      "type": "scrollDepth",
+      "scrollType": "vertical",
+      "threshold": 75,
+      "triggerOnce": true
+    },
+    {
+      "name": "Scroll — 90%",
+      "type": "scrollDepth",
+      "scrollType": "vertical",
+      "threshold": 90,
+      "triggerOnce": true
+    },
+    {
+      "name": "Alla sidor",
+      "type": "pageView",
+      "notes": "Standard pageview — All Pages"
+    },
+    {
+      "name": "Tack-sida (konvertering)",
+      "type": "pageView",
+      "filter": {
+        "variable": "Page Path",
+        "condition": "matches_regex",
+        "value": "(tack|thank|bekraftelse|confirmation|success)"
+      },
+      "notes": "Triggas pa typiska tack-sidor efter formular/kop"
+    }
+  ],
+
+  "tags": {
+    "ga4": [
+      {
+        "name": "GA4 — Konfiguration",
+        "type": "GA4 Configuration",
+        "measurementId": "{{GA4 Measurement ID}}",
+        "trigger": "Alla sidor",
+        "sendPageView": true
+      },
+      {
+        "name": "GA4 — Klick telefon",
+        "type": "GA4 Event",
+        "eventName": "click_phone",
+        "trigger": "Klick — Telefonnummer",
+        "parameters": {
+          "phone_number": "{{Click URL}}",
+          "click_text": "{{Click Text}}",
+          "page_location": "{{Page URL}}"
+        }
+      },
+      {
+        "name": "GA4 — Klick e-post",
+        "type": "GA4 Event",
+        "eventName": "click_email",
+        "trigger": "Klick — E-post",
+        "parameters": {
+          "email_address": "{{Click URL}}",
+          "click_text": "{{Click Text}}",
+          "page_location": "{{Page URL}}"
+        }
+      },
+      {
+        "name": "GA4 — Formular inskickat",
+        "type": "GA4 Event",
+        "eventName": "form_submit",
+        "trigger": "Formular — Inskickat",
+        "parameters": {
+          "form_id": "{{Form ID}}",
+          "page_location": "{{Page URL}}"
+        }
+      },
+      {
+        "name": "GA4 — Scroll-djup",
+        "type": "GA4 Event",
+        "eventName": "scroll_depth",
+        "trigger": ["Scroll — 25%", "Scroll — 50%", "Scroll — 75%", "Scroll — 90%"],
+        "parameters": {
+          "scroll_threshold": "{{Scroll Depth Threshold}}",
+          "page_location": "{{Page URL}}"
+        }
+      },
+      {
+        "name": "GA4 — Konvertering (tack-sida)",
+        "type": "GA4 Event",
+        "eventName": "generate_lead",
+        "trigger": "Tack-sida (konvertering)",
+        "parameters": {
+          "page_location": "{{Page URL}}"
+        }
+      }
+    ],
+
+    "google_ads": [
+      {
+        "name": "Google Ads — Konverteringsspårning (Lead)",
+        "type": "Google Ads Conversion Tracking",
+        "conversionId": "{{Google Ads Conversion ID}}",
+        "conversionLabel": "{{Google Ads Conversion Label - Lead}}",
+        "trigger": ["Formular — Inskickat", "Tack-sida (konvertering)"],
+        "notes": "Rapporterar leads till Google Ads for Smart Bidding"
+      },
+      {
+        "name": "Google Ads — Konverteringsspårning (Samtal)",
+        "type": "Google Ads Conversion Tracking",
+        "conversionId": "{{Google Ads Conversion ID}}",
+        "conversionLabel": "{{Google Ads Conversion Label - Call}}",
+        "trigger": "Klick — Telefonnummer",
+        "notes": "Rapporterar telefonklick som konverteringar"
+      },
+      {
+        "name": "Google Ads — Remarketing",
+        "type": "Google Ads Remarketing",
+        "conversionId": "{{Google Ads Conversion ID}}",
+        "trigger": "Alla sidor",
+        "notes": "Bygger remarketinglistor for alla besokare"
+      }
+    ],
+
+    "meta_pixel": [
+      {
+        "name": "Meta Pixel — Bas",
+        "type": "Custom HTML",
+        "trigger": "Alla sidor",
+        "html": "<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','{{META_PIXEL_ID}}');fbq('track','PageView');</script>",
+        "notes": "Facebook/Instagram/Meta Pixel grundinstallation"
+      },
+      {
+        "name": "Meta Pixel — Lead",
+        "type": "Custom HTML",
+        "trigger": ["Formular — Inskickat", "Tack-sida (konvertering)"],
+        "html": "<script>fbq('track','Lead');</script>",
+        "notes": "Rapporterar leads till Meta Ads"
+      },
+      {
+        "name": "Meta Pixel — Kontakt",
+        "type": "Custom HTML",
+        "trigger": ["Klick — Telefonnummer", "Klick — E-post"],
+        "html": "<script>fbq('track','Contact');</script>",
+        "notes": "Rapporterar kontakthandelser till Meta Ads"
+      }
+    ],
+
+    "linkedin": [
+      {
+        "name": "LinkedIn Insight Tag",
+        "type": "Custom HTML",
+        "trigger": "Alla sidor",
+        "html": "<script type=\"text/javascript\">_linkedin_partner_id=\"{{LINKEDIN_PARTNER_ID}}\";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script><script type=\"text/javascript\">(function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName('script')[0];var b=document.createElement('script');b.type='text/javascript';b.async=true;b.src='https://snap.licdn.com/li.lms-analytics/insight.min.js';s.parentNode.insertBefore(b,s);})(window.lintrk);</script>",
+        "notes": "LinkedIn Insight Tag for B2B-marknadsföring och konverteringsspårning"
+      },
+      {
+        "name": "LinkedIn — Konvertering",
+        "type": "Custom HTML",
+        "trigger": ["Formular — Inskickat", "Tack-sida (konvertering)"],
+        "html": "<script>window.lintrk('track',{conversion_id:0});</script>",
+        "notes": "LinkedIn conversion event — conversion_id sätts per kund"
+      }
+    ],
+
+    "tiktok": [
+      {
+        "name": "TikTok Pixel — Bas",
+        "type": "Custom HTML",
+        "trigger": "Alla sidor",
+        "html": "<script>!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=['page','track','identify','instances','debug','on','off','once','ready','alias','group','enableCookie','disableCookie'],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var i='https://analytics.tiktok.com/i18n/pixel/events.js';ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=i,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};var o=document.createElement('script');o.type='text/javascript',o.async=!0,o.src=i+'?sdkid='+e+'&lib='+t;var a=document.getElementsByTagName('script')[0];a.parentNode.insertBefore(o,a)};ttq.load('{{TIKTOK_PIXEL_ID}}');ttq.page();}(window,document,'ttq');</script>",
+        "notes": "TikTok Pixel for annonsoptimering"
+      },
+      {
+        "name": "TikTok — Lead",
+        "type": "Custom HTML",
+        "trigger": ["Formular — Inskickat", "Tack-sida (konvertering)"],
+        "html": "<script>ttq.track('SubmitForm');</script>"
+      },
+      {
+        "name": "TikTok — Kontakt",
+        "type": "Custom HTML",
+        "trigger": ["Klick — Telefonnummer", "Klick — E-post"],
+        "html": "<script>ttq.track('Contact');</script>"
+      }
+    ],
+
+    "consent_mode": [
+      {
+        "name": "Google Consent Mode v2 — Default",
+        "type": "Custom HTML",
+        "trigger": "Alla sidor",
+        "priority": 999,
+        "html": "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied','analytics_storage':'denied','functionality_storage':'granted','personalization_storage':'denied','security_storage':'granted','wait_for_update':500});</script>",
+        "notes": "Consent Mode v2 — krävs for Google Ads i EU (GDPR). Default: allt denied tills cookie-consent ges."
+      }
+    ]
+  },
+
+  "setup_instructions": {
+    "1_import": "Importera denna konfiguration i GTM: Admin > Container > Import container",
+    "2_variables": "Uppdatera alla {{CUSTOMER_NAME}}, {{GA4_MEASUREMENT_ID}}, etc. med kundens riktiga varden",
+    "3_consent": "Installera cookie-consent-plugin (CookieYes/Complianz) som uppdaterar Consent Mode",
+    "4_test": "Anvand GTM Preview Mode for att verifiera att alla triggers och taggar fungerar",
+    "5_publish": "Publicera containern och verifiera i GA4 Realtime-rapporten",
+    "optional": {
+      "google_ads": "Kraver Google Ads-konto med konverteringsID",
+      "meta_pixel": "Kraver Meta Business Manager med Pixel ID",
+      "linkedin": "Kraver LinkedIn Campaign Manager med Partner ID",
+      "tiktok": "Kraver TikTok Ads Manager med Pixel ID"
+    }
+  },
+
+  "activation_checklist": [
+    "GA4 Measurement ID konfigurerat",
+    "Consent Mode v2 aktivt (GDPR)",
+    "Cookie-consent-banner installerad",
+    "4 standard-handelser verifierade (telefon, e-post, formular, scroll)",
+    "Google Ads konverterings-ID kopplat (om aktuellt)",
+    "Meta Pixel verifierad i Events Manager (om aktuellt)",
+    "LinkedIn Insight Tag verifierad (om aktuellt)",
+    "GTM publicerad (ej bara Preview)",
+    "GA4 Realtime visar sidvisningar"
+  ]
+}

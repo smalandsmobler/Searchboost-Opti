@@ -182,7 +182,7 @@ server {
 | `action_plans` | 3-månaders åtgärdsplaner | Ja (vid startup) |
 
 ### Google Search Console
-- SA tillagd till **searchboost.se** (Fullständig)
+- SA tillagd till **searchboost.nu** (Fullständig)
 - ⚠️ Övriga kunder: SA ej tillagd ännu
 - Varje ny kund-property kräver manuell tillägning av SA
 
@@ -209,7 +209,7 @@ server {
 |---------|--------|--------|
 | Trello API 401 | ⚠️ Väntar | Generera nya credentials på trello.com/app-key |
 | SE Ranking API 403 | ⚠️ Väntar | Nytt API-nyckel / API-addon krävs |
-| GSC: bara searchboost.se | ⚠️ Pågående | Lägg till SA per kund-property manuellt |
+| GSC: bara searchboost.nu | ⚠️ Pågående | Lägg till SA per kund-property manuellt |
 | Dashboard: simple hash-login | Låg prio | Byta till JWT eller OAuth |
 | SSL: self-signed cert | Låg prio | Byta till Let's Encrypt |
 
@@ -254,7 +254,7 @@ server {
 - [ ] SES: production access (inte sandbox)
 
 ### DNS
-- [ ] A-record: opti.searchboost.se → EC2 IP
+- [ ] A-record: opti.searchboost.nu → EC2 IP
 - [ ] SSL-certifikat (self-signed eller Let's Encrypt)
 
 ---
