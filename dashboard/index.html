@@ -32,6 +32,7 @@
         <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
         <a href="#" class="nav-link" data-view="pipeline">Pipeline</a>
         <a href="#" class="nav-link nav-sales-only" data-view="consulting" style="display:none">Konsult</a>
+        <a href="#" class="nav-link nav-sales-only" data-view="prospecting" style="display:none">Prospektering</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
         <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
@@ -185,6 +186,53 @@
         <!-- Customer list -->
         <div id="consult-customer-list">
           <p class="empty">Inga konsultkunder annu. Klicka "+ Ny konsultkund" for att lagga till.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prospektering -->
+    <section id="view-prospecting" class="view">
+      <div class="card" style="margin-bottom:24px;border:1px solid rgba(0,212,255,0.2);background:linear-gradient(135deg,#12121a 0%,rgba(0,212,255,0.03) 100%)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Prospektering</h2>
+            <p style="color:#888;margin:0;font-size:13px">Klistra in domaner for att hitta sajter med dalig SEO -- dina basta prospekt</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <textarea id="prospect-domains" class="form-textarea" rows="4" placeholder="Skriv eller klistra in domaner, en per rad&#10;exempel.se&#10;foretag.com&#10;butik.nu" style="flex:1;resize:vertical;font-family:monospace;font-size:13px"></textarea>
+          <div style="display:flex;flex-direction:column;gap:8px;min-width:160px">
+            <button class="btn-primary" onclick="runProspectAnalysis()" id="prospect-btn" style="background:linear-gradient(135deg,#00d4ff,#7c4dff)">Analysera</button>
+            <div id="prospect-progress" style="display:none;font-size:12px;color:#94a3b8;text-align:center">
+              <div class="spinner" style="margin:0 auto 4px"></div>
+              <span id="prospect-progress-text">Analyserar...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultat -->
+      <div id="prospect-results" style="display:none">
+        <div class="stats-row" style="margin-bottom:24px">
+          <div class="stat-card">
+            <div class="stat-value" id="prosp-stat-total" style="color:var(--neon-blue)">0</div>
+            <div class="stat-label">Analyserade</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="prosp-stat-hot" style="color:var(--neon-pink)">0</div>
+            <div class="stat-label">Heta prospekt</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="prosp-stat-issues" style="color:var(--yellow)">0</div>
+            <div class="stat-label">SEO-problem hittade</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="prosp-stat-4xx" style="color:var(--red)">0</div>
+            <div class="stat-label">Trasiga sidor</div>
+          </div>
+        </div>
+        <div class="card">
+          <div id="prospect-table" class="card-body"></div>
         </div>
       </div>
     </section>

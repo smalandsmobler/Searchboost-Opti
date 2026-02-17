@@ -4390,6 +4390,292 @@ app.get('/api/customers/:id/eduadmin/personnel', async (req, res) => {
   }
 });
 
+// ══════════════════════════════════════════
+// PROSPEKTERING — Massanalys av externa domäner
+// ══════════════════════════════════════════
+
+// Hjälpfunktion: hämta och parsa sitemap
+async function fetchSitemap(domain) {
+  const baseUrl = domain.startsWith('http') ? domain : `https://${domain}`;
+  const origin = new URL(baseUrl).origin;
+  const sitemapUrls = [
+    `${origin}/sitemap.xml`,
+    `${origin}/sitemap_index.xml`,
+    `${origin}/wp-sitemap.xml`
+  ];
+
+  for (const url of sitemapUrls) {
+    try {
+      const { data: xml } = await axios.get(url, { timeout: 8000, headers: { 'User-Agent': 'Searchboost-SEO-Analyzer/1.0' } });
+      // Hämta alla <loc> URLs
+      const locs = [];
+      const locRegex = /<loc>\s*(.*?)\s*<\/loc>/gi;
+      let m;
+      while ((m = locRegex.exec(xml)) !== null) {
+        locs.push(m[1]);
+      }
+
+      // Kolla om det är en sitemap index (innehåller sub-sitemaps)
+      const isIndex = xml.includes('<sitemapindex') || xml.includes('sitemap_index');
+      let allPages = [];
+
+      if (isIndex && locs.length > 0) {
+        // Hämta varje sub-sitemap (max 5 för snabbhet)
+        const subSitemaps = locs.slice(0, 5);
+        for (const subUrl of subSitemaps) {
+          try {
+            const { data: subXml } = await axios.get(subUrl, { timeout: 8000, headers: { 'User-Agent': 'Searchboost-SEO-Analyzer/1.0' } });
+            const subLocs = [];
+            const subRegex = /<loc>\s*(.*?)\s*<\/loc>/gi;
+            let sm;
+            while ((sm = subRegex.exec(subXml)) !== null) {
+              subLocs.push(sm[1]);
+            }
+            allPages.push(...subLocs);
+          } catch { /* ignorera trasiga sub-sitemaps */ }
+        }
+      } else {
+        allPages = locs;
+      }
+
+      return { found: true, url, pageCount: allPages.length, pages: allPages };
+    } catch { /* prova nästa sitemap-URL */ }
+  }
+
+  return { found: false, url: null, pageCount: 0, pages: [] };
+}
+
+// Hjälpfunktion: kolla HTTP-status på en URL
+async function checkUrlStatus(url) {
+  try {
+    const res = await axios.head(url, {
+      timeout: 6000,
+      maxRedirects: 3,
+      validateStatus: () => true,
+      headers: { 'User-Agent': 'Searchboost-SEO-Analyzer/1.0' }
+    });
+    return res.status;
+  } catch {
+    return 0; // Nätverksfel
+  }
+}
+
+// Hjälpfunktion: analysera en enskild domän
+async function analyzeProspectDomain(domain) {
+  const baseUrl = domain.startsWith('http') ? domain : `https://${domain}`;
+  const origin = new URL(baseUrl).origin;
+  const result = {
+    domain: domain.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, ''),
+    url: origin,
+    sitemap: { found: false, pageCount: 0, errors: [] },
+    seo: { title: null, description: null, h1: null, hasSchema: false, score: 0 },
+    issues: [],
+    httpErrors: [],
+    prospectScore: 0
+  };
+
+  // 1. Hämta startsidan
+  let html = '';
+  try {
+    const { data } = await axios.get(origin, {
+      timeout: 10000,
+      headers: { 'User-Agent': 'Searchboost-SEO-Analyzer/1.0' },
+      maxRedirects: 5,
+      validateStatus: (s) => s < 500
+    });
+    html = typeof data === 'string' ? data : '';
+  } catch (err) {
+    result.issues.push({ type: 'critical', text: `Sajten svarar inte: ${err.code || err.message}` });
+    result.prospectScore = 90; // Väldigt bra prospekt — sajten funkar inte ens
+    return result;
+  }
+
+  // 2. Grundläggande SEO-check
+  const titleMatch = html.match(/<title[^>]*>(.*?)<\/title>/is);
+  const descMatch = html.match(/<meta[^>]*name=["']description["'][^>]*content=["'](.*?)["']/is);
+  const h1Match = html.match(/<h1[^>]*>(.*?)<\/h1>/is);
+  const hasSchema = html.includes('application/ld+json');
+  const hasViewport = html.includes('viewport');
+  const hasCanonical = /<link[^>]*rel=["']canonical["']/i.test(html);
+  const hasRobotsMeta = /<meta[^>]*name=["']robots["']/i.test(html);
+
+  result.seo.title = titleMatch ? titleMatch[1].trim() : null;
+  result.seo.description = descMatch ? descMatch[1].trim() : null;
+  result.seo.h1 = h1Match ? h1Match[1].replace(/<[^>]+>/g, '').trim() : null;
+  result.seo.hasSchema = hasSchema;
+
+  let seoScore = 100;
+  if (!result.seo.title) { result.issues.push({ type: 'high', text: 'Saknar <title>-tagg' }); seoScore -= 25; }
+  else if (result.seo.title.length < 20) { result.issues.push({ type: 'medium', text: `Title för kort (${result.seo.title.length} tecken)` }); seoScore -= 10; }
+  else if (result.seo.title.length > 65) { result.issues.push({ type: 'medium', text: `Title för lång (${result.seo.title.length} tecken)` }); seoScore -= 10; }
+
+  if (!result.seo.description) { result.issues.push({ type: 'high', text: 'Saknar meta description' }); seoScore -= 20; }
+  else if (result.seo.description.length < 70) { result.issues.push({ type: 'medium', text: `Meta description för kort (${result.seo.description.length} tecken)` }); seoScore -= 10; }
+  else if (result.seo.description.length > 160) { result.issues.push({ type: 'low', text: `Meta description för lång (${result.seo.description.length} tecken)` }); seoScore -= 5; }
+
+  if (!result.seo.h1) { result.issues.push({ type: 'high', text: 'Saknar H1-rubrik' }); seoScore -= 15; }
+  if (!hasSchema) { result.issues.push({ type: 'medium', text: 'Ingen schema markup (JSON-LD)' }); seoScore -= 10; }
+  if (!hasViewport) { result.issues.push({ type: 'high', text: 'Saknar viewport meta — inte mobilvänlig' }); seoScore -= 15; }
+  if (!hasCanonical) { result.issues.push({ type: 'medium', text: 'Saknar canonical-tagg' }); seoScore -= 10; }
+
+  result.seo.score = Math.max(0, seoScore);
+
+  // 3. Sitemap-analys
+  const sitemap = await fetchSitemap(domain);
+  result.sitemap = {
+    found: sitemap.found,
+    url: sitemap.url,
+    pageCount: sitemap.pageCount
+  };
+
+  if (!sitemap.found) {
+    result.issues.push({ type: 'high', text: 'Ingen sitemap hittad (sitemap.xml, sitemap_index.xml, wp-sitemap.xml)' });
+    seoScore -= 15;
+  }
+
+  // 4. Stickprovskolla sidor från sitemap för 4xx-fel (max 20 slumpmässiga)
+  if (sitemap.pages.length > 0) {
+    const sampled = sitemap.pages.length <= 20
+      ? sitemap.pages
+      : sitemap.pages.sort(() => 0.5 - Math.random()).slice(0, 20);
+
+    const statusChecks = await Promise.allSettled(
+      sampled.map(async (pageUrl) => {
+        const status = await checkUrlStatus(pageUrl);
+        return { url: pageUrl, status };
+      })
+    );
+
+    const errors = [];
+    for (const check of statusChecks) {
+      if (check.status === 'fulfilled') {
+        const { url, status } = check.value;
+        if (status >= 400 || status === 0) {
+          errors.push({ url, status: status || 'timeout' });
+        }
+      }
+    }
+    result.httpErrors = errors;
+
+    if (errors.length > 0) {
+      const ratio = errors.length / sampled.length;
+      result.issues.push({
+        type: ratio > 0.3 ? 'critical' : 'high',
+        text: `${errors.length} av ${sampled.length} testade sidor returnerar fel (4xx/5xx/timeout)`
+      });
+    }
+  }
+
+  // 5. Kolla robots.txt
+  try {
+    const { data: robotsTxt } = await axios.get(`${origin}/robots.txt`, { timeout: 5000 });
+    if (robotsTxt.includes('Disallow: /')) {
+      const lines = robotsTxt.split('\n').filter(l => l.trim().startsWith('Disallow:'));
+      const broadBlocks = lines.filter(l => l.replace('Disallow:', '').trim() === '/');
+      if (broadBlocks.length > 0) {
+        result.issues.push({ type: 'critical', text: 'robots.txt blockerar hela sajten (Disallow: /)' });
+      }
+    }
+    if (!robotsTxt.toLowerCase().includes('sitemap:')) {
+      result.issues.push({ type: 'low', text: 'robots.txt saknar sitemap-referens' });
+    }
+  } catch {
+    result.issues.push({ type: 'low', text: 'Ingen robots.txt hittad' });
+  }
+
+  // 6. Beräkna prospekt-poäng (högre = bättre prospekt för oss)
+  let pScore = 0;
+  // Många sidor men dålig SEO = bra prospekt
+  if (sitemap.pageCount > 50 && seoScore < 60) pScore += 30;
+  else if (sitemap.pageCount > 20 && seoScore < 70) pScore += 20;
+  else if (seoScore < 50) pScore += 15;
+
+  // Saknar grundläggande saker
+  if (!result.seo.title) pScore += 15;
+  if (!result.seo.description) pScore += 15;
+  if (!sitemap.found) pScore += 15;
+  if (!hasSchema) pScore += 5;
+  if (!hasCanonical) pScore += 5;
+
+  // 4xx-fel i sitemap
+  if (result.httpErrors.length > 3) pScore += 20;
+  else if (result.httpErrors.length > 0) pScore += 10;
+
+  // Fler sidor = större potential
+  if (sitemap.pageCount > 100) pScore += 10;
+  else if (sitemap.pageCount > 30) pScore += 5;
+
+  result.prospectScore = Math.min(100, pScore);
+  result.seo.score = Math.max(0, seoScore);
+
+  return result;
+}
+
+// POST /api/prospect/analyze — Massanalys av domänlista
+app.post('/api/prospect/analyze', async (req, res) => {
+  try {
+    const { domains } = req.body;
+    if (!domains || !Array.isArray(domains) || domains.length === 0) {
+      return res.status(400).json({ error: 'Skicka { "domains": ["example.se", "example2.se"] }' });
+    }
+
+    // Max 20 domäner per request
+    const domainList = domains
+      .map(d => d.trim().toLowerCase())
+      .filter(d => d.length > 0)
+      .slice(0, 20);
+
+    console.log(`[Prospektering] Analyserar ${domainList.length} domäner...`);
+
+    // Kör max 5 parallellt för att inte överbelasta
+    const results = [];
+    for (let i = 0; i < domainList.length; i += 5) {
+      const batch = domainList.slice(i, i + 5);
+      const batchResults = await Promise.allSettled(
+        batch.map(d => analyzeProspectDomain(d))
+      );
+      for (const r of batchResults) {
+        if (r.status === 'fulfilled') {
+          results.push(r.value);
+        } else {
+          results.push({
+            domain: batch[results.length - (i > 0 ? results.length : 0)] || 'okänd',
+            error: r.reason?.message || 'Analys misslyckades',
+            prospectScore: 0,
+            issues: [],
+            httpErrors: []
+          });
+        }
+      }
+    }
+
+    // Sortera: bäst prospekt (högst poäng) först
+    results.sort((a, b) => (b.prospectScore || 0) - (a.prospectScore || 0));
+
+    res.json({
+      analyzed: results.length,
+      results
+    });
+  } catch (err) {
+    console.error('Prospekteringsfel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/prospect/analyze?domain=example.se — Analysera en enskild domän
+app.get('/api/prospect/analyze', async (req, res) => {
+  try {
+    const domain = req.query.domain;
+    if (!domain) return res.status(400).json({ error: 'Skicka ?domain=example.se' });
+
+    const result = await analyzeProspectDomain(domain.trim().toLowerCase());
+    res.json(result);
+  } catch (err) {
+    console.error('Prospekteringsfel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
