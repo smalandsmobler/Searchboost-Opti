@@ -923,10 +923,227 @@ async function loadView(view) {
     case 'overview': return loadOverview();
     case 'pipeline': return loadPipeline();
     case 'consulting': return loadConsulting();
+    case 'prospecting': return; // Prospektering laddas on-demand via knapp
     case 'optimizations': return loadOptimizations();
     case 'queue': return loadQueue();
     case 'reports': return loadReports();
   }
+}
+
+// ── Prospektering ─────────────────────────────────────────────
+
+let _prospectResults = [];
+
+async function runProspectAnalysis() {
+  const textarea = document.getElementById('prospect-domains');
+  const btn = document.getElementById('prospect-btn');
+  const progress = document.getElementById('prospect-progress');
+  const progressText = document.getElementById('prospect-progress-text');
+
+  const raw = textarea.value.trim();
+  if (!raw) return;
+
+  // Parsa domäner (en per rad, ignorera tomma rader)
+  const domains = raw.split('\n')
+    .map(d => d.trim().replace(/https?:\/\/(www\.)?/, '').replace(/\/.*$/, ''))
+    .filter(d => d.length > 0 && d.includes('.'));
+
+  if (domains.length === 0) return;
+  if (domains.length > 20) {
+    alert('Max 20 domaner per omgang. Du hade ' + domains.length + '.');
+    return;
+  }
+
+  // Visa progress
+  btn.disabled = true;
+  btn.textContent = 'Analyserar...';
+  progress.style.display = 'block';
+  progressText.textContent = `Analyserar ${domains.length} domaner...`;
+
+  const result = await api('/api/prospect/analyze', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ domains })
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Analysera';
+  progress.style.display = 'none';
+
+  if (!result || !result.results) {
+    alert('Nagot gick fel vid analysen.');
+    return;
+  }
+
+  _prospectResults = result.results;
+  renderProspectResults(result.results);
+}
+
+function renderProspectResults(results) {
+  const container = document.getElementById('prospect-results');
+  const tableEl = document.getElementById('prospect-table');
+  container.style.display = 'block';
+
+  // Uppdatera stats
+  const hot = results.filter(r => r.prospectScore >= 40).length;
+  const totalIssues = results.reduce((sum, r) => sum + (r.issues?.length || 0), 0);
+  const total4xx = results.reduce((sum, r) => sum + (r.httpErrors?.length || 0), 0);
+
+  document.getElementById('prosp-stat-total').textContent = results.length;
+  document.getElementById('prosp-stat-hot').textContent = hot;
+  document.getElementById('prosp-stat-issues').textContent = totalIssues;
+  document.getElementById('prosp-stat-4xx').textContent = total4xx;
+
+  // Bygg tabell
+  let html = `<table style="width:100%;border-collapse:collapse;font-size:13px">
+    <thead>
+      <tr style="border-bottom:1px solid rgba(255,255,255,0.1);text-align:left">
+        <th style="padding:10px 8px;color:#94a3b8">Doman</th>
+        <th style="padding:10px 8px;color:#94a3b8;text-align:center">Sidor</th>
+        <th style="padding:10px 8px;color:#94a3b8;text-align:center">SEO</th>
+        <th style="padding:10px 8px;color:#94a3b8;text-align:center">4xx-fel</th>
+        <th style="padding:10px 8px;color:#94a3b8;text-align:center">Prospekt</th>
+        <th style="padding:10px 8px;color:#94a3b8">Problem</th>
+      </tr>
+    </thead>
+    <tbody>`;
+
+  for (const r of results) {
+    if (r.error) {
+      html += `<tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+        <td style="padding:10px 8px"><a href="https://${r.domain}" target="_blank" style="color:var(--neon-blue);text-decoration:none">${r.domain}</a></td>
+        <td colspan="5" style="padding:10px 8px;color:var(--red)">${r.error}</td>
+      </tr>`;
+      continue;
+    }
+
+    const seoColor = r.seo?.score >= 70 ? 'var(--green)' : r.seo?.score >= 40 ? 'var(--yellow)' : 'var(--red)';
+    const prospColor = r.prospectScore >= 60 ? 'var(--neon-pink)' : r.prospectScore >= 40 ? 'var(--yellow)' : 'var(--gray-500)';
+    const prospLabel = r.prospectScore >= 60 ? 'HET' : r.prospectScore >= 40 ? 'BRA' : r.prospectScore >= 20 ? 'OK' : 'LAG';
+
+    // Top 3 viktigaste problemen
+    const topIssues = (r.issues || []).slice(0, 3);
+    const issueHtml = topIssues.map(i => {
+      const color = i.type === 'critical' ? 'var(--red)' : i.type === 'high' ? '#f97316' : i.type === 'medium' ? 'var(--yellow)' : 'var(--gray-500)';
+      return `<span style="display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(255,255,255,0.05);border:1px solid ${color};color:${color};margin:2px 4px 2px 0">${i.text}</span>`;
+    }).join('');
+
+    const sitemapIcon = r.sitemap?.found ? '&#9989;' : '&#10060;';
+
+    html += `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer" onclick="showProspectDetail(${results.indexOf(r)})">
+      <td style="padding:10px 8px">
+        <a href="https://${r.domain}" target="_blank" style="color:var(--neon-blue);text-decoration:none;font-weight:500" onclick="event.stopPropagation()">${r.domain}</a>
+        <div style="font-size:11px;color:#666;margin-top:2px">${sitemapIcon} Sitemap ${r.sitemap?.found ? '(' + r.sitemap.pageCount + ' URLs)' : 'saknas'}</div>
+      </td>
+      <td style="padding:10px 8px;text-align:center;font-weight:600">${r.sitemap?.pageCount || '?'}</td>
+      <td style="padding:10px 8px;text-align:center"><span style="color:${seoColor};font-weight:700">${r.seo?.score || 0}</span></td>
+      <td style="padding:10px 8px;text-align:center;color:${r.httpErrors?.length > 0 ? 'var(--red)' : 'var(--green)'}; font-weight:600">${r.httpErrors?.length || 0}</td>
+      <td style="padding:10px 8px;text-align:center">
+        <span style="display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.05);color:${prospColor};border:1px solid ${prospColor}">${r.prospectScore} ${prospLabel}</span>
+      </td>
+      <td style="padding:10px 8px;max-width:320px">${issueHtml || '<span style="color:var(--green);font-size:11px">Inga stora problem</span>'}</td>
+    </tr>`;
+  }
+
+  html += '</tbody></table>';
+  tableEl.innerHTML = html;
+}
+
+function showProspectDetail(index) {
+  const r = _prospectResults[index];
+  if (!r) return;
+
+  let detailHtml = `<div style="position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this)this.remove()">
+    <div style="background:var(--dark-card);border:1px solid var(--dark-border);border-radius:16px;padding:32px;max-width:700px;width:90%;max-height:80vh;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h2 style="color:#fff;margin:0">${r.domain}</h2>
+        <button onclick="this.closest('[style*=fixed]').remove()" style="background:none;border:none;color:#888;font-size:20px;cursor:pointer">&times;</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+        <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center">
+          <div style="font-size:24px;font-weight:700;color:var(--neon-blue)">${r.sitemap?.pageCount || '?'}</div>
+          <div style="font-size:11px;color:#888">Sidor i sitemap</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center">
+          <div style="font-size:24px;font-weight:700;color:${r.seo?.score >= 60 ? 'var(--green)' : 'var(--red)'}">${r.seo?.score || 0}</div>
+          <div style="font-size:11px;color:#888">SEO-poang</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.03);padding:12px;border-radius:8px;text-align:center">
+          <div style="font-size:24px;font-weight:700;color:${r.prospectScore >= 40 ? 'var(--neon-pink)' : 'var(--gray-500)'}">${r.prospectScore}</div>
+          <div style="font-size:11px;color:#888">Prospekt-poang</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px">
+        <h3 style="color:#fff;font-size:14px;margin-bottom:8px">SEO-data</h3>
+        <div style="font-size:13px;color:#ccc;line-height:1.8">
+          <div><strong style="color:#888">Title:</strong> ${r.seo?.title || '<span style=color:var(--red)>Saknas</span>'}</div>
+          <div><strong style="color:#888">Description:</strong> ${r.seo?.description || '<span style=color:var(--red)>Saknas</span>'}</div>
+          <div><strong style="color:#888">H1:</strong> ${r.seo?.h1 || '<span style=color:var(--red)>Saknas</span>'}</div>
+          <div><strong style="color:#888">Schema:</strong> ${r.seo?.hasSchema ? '<span style=color:var(--green)>Ja</span>' : '<span style=color:var(--red)>Nej</span>'}</div>
+          <div><strong style="color:#888">Sitemap:</strong> ${r.sitemap?.found ? '<span style=color:var(--green)>' + r.sitemap.url + '</span>' : '<span style=color:var(--red)>Ej hittad</span>'}</div>
+        </div>
+      </div>
+
+      ${r.issues?.length > 0 ? `
+      <div style="margin-bottom:16px">
+        <h3 style="color:#fff;font-size:14px;margin-bottom:8px">Alla problem (${r.issues.length})</h3>
+        ${r.issues.map(i => {
+          const c = i.type === 'critical' ? 'var(--red)' : i.type === 'high' ? '#f97316' : i.type === 'medium' ? 'var(--yellow)' : 'var(--gray-500)';
+          return `<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px;display:flex;gap:8px;align-items:center">
+            <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${c};flex-shrink:0"></span>
+            <span style="color:#ccc">${i.text}</span>
+          </div>`;
+        }).join('')}
+      </div>` : ''}
+
+      ${r.httpErrors?.length > 0 ? `
+      <div>
+        <h3 style="color:#fff;font-size:14px;margin-bottom:8px">Trasiga sidor (${r.httpErrors.length})</h3>
+        ${r.httpErrors.map(e => `
+          <div style="padding:4px 0;font-size:12px;color:#888;word-break:break-all">
+            <span style="color:var(--red);font-weight:600">${e.status}</span> ${e.url}
+          </div>
+        `).join('')}
+      </div>` : ''}
+
+      <div style="margin-top:20px;display:flex;gap:8px">
+        <button onclick="navigator.clipboard.writeText(generateProspectSummary(${index}));this.textContent='Kopierat!';setTimeout(()=>this.textContent='Kopiera sammanfattning',2000)" style="padding:8px 16px;background:linear-gradient(135deg,#00d4ff,#7c4dff);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:13px">Kopiera sammanfattning</button>
+        <a href="https://${r.domain}" target="_blank" style="padding:8px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#fff;text-decoration:none;font-size:13px">Besok sajten</a>
+      </div>
+    </div>
+  </div>`;
+
+  document.body.insertAdjacentHTML('beforeend', detailHtml);
+}
+
+function generateProspectSummary(index) {
+  const r = _prospectResults[index];
+  if (!r) return '';
+
+  let text = `SEO-analys: ${r.domain}\n`;
+  text += `${'='.repeat(40)}\n\n`;
+  text += `Sidor i sitemap: ${r.sitemap?.pageCount || 'Okant'}\n`;
+  text += `SEO-poang: ${r.seo?.score || 0}/100\n`;
+  text += `Prospekt-poang: ${r.prospectScore}/100\n\n`;
+
+  if (r.issues?.length > 0) {
+    text += `Problem:\n`;
+    for (const i of r.issues) {
+      text += `  - [${i.type.toUpperCase()}] ${i.text}\n`;
+    }
+    text += '\n';
+  }
+
+  if (r.httpErrors?.length > 0) {
+    text += `Trasiga sidor:\n`;
+    for (const e of r.httpErrors) {
+      text += `  - ${e.status}: ${e.url}\n`;
+    }
+  }
+
+  return text;
 }
 
 // ── Customer Detail ───────────────────────────────────────────
