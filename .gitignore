@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.claude/
+*.log
+backups/
+tools/feedgen/
+data/seranking-backlinks-dump-2026-02-14.json
+scripts/output/
+data/kompetensutveckla/*.json

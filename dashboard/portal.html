@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Searchboost Opti -- Kundportal</title>
-  <meta name="description" content="Din SEO-dashboard. Se prestanda, sokord, optimeringar och atgardsplan i realtid.">
+  <meta name="description" content="Din SEO-dashboard. Se prestanda, sökord, optimeringar och åtgärdsplan i realtid.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="portal.css">
@@ -12,128 +12,321 @@
 </head>
 <body>
 
-  <!-- ════════════════════════ LOGIN ════════════════════════ -->
+  <!-- ════════════════════════════ LOGIN OVERLAY ════════════════════════════ -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-box">
       <img src="./assets/searchboost-opti-neon.png" alt="Searchboost" class="login-logo">
       <h1><span class="login-brand">Kundportal</span></h1>
-      <p class="login-sub">Logga in for att se din SEO-data</p>
+      <p class="login-sub">Logga in för att se din SEO-data</p>
       <input type="email" id="loginEmail" placeholder="E-postadress" autocomplete="email" onkeydown="if(event.key==='Enter')document.getElementById('loginPassword').focus()">
-      <input type="password" id="loginPassword" placeholder="Losenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')portalLogin()">
+      <input type="password" id="loginPassword" placeholder="Lösenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')portalLogin()">
       <button class="login-btn" onclick="portalLogin()">Logga in</button>
-      <div class="login-error" id="loginError">Fel e-post eller losenord</div>
+      <div class="login-error" id="loginError">Fel e-post eller lösenord</div>
     </div>
   </div>
 
-  <!-- ════════════════════════ APP SHELL ════════════════════ -->
+  <!-- ════════════════════════════ APP SHELL ════════════════════════════ -->
   <div id="appShell" style="display:none">
 
-    <!-- Header -->
-    <header class="portal-header">
-      <div class="header-inner">
-        <a href="portal.html" class="logo-link">
-          <img src="./assets/searchboost-opti-neon.png" alt="Searchboost OPTI" class="logo-img">
+    <!-- ──────────── SIDEBAR ──────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <!-- Logo -->
+        <a href="portal.html" class="sidebar-logo-link">
+          <img src="./assets/searchboost-opti-neon.png" alt="Searchboost OPTI" class="sidebar-logo">
         </a>
-        <div class="header-customer">
-          <div class="header-customer-name" id="headerName">---</div>
-          <div class="header-customer-url" id="headerUrl">---</div>
-        </div>
-        <button class="btn-logout" onclick="portalLogout()">Logga ut</button>
-      </div>
-    </header>
-
-    <!-- Main -->
-    <main class="portal-main">
-
-      <!-- Welcome banner -->
-      <div class="welcome-banner fade-in" id="welcomeBanner">
-        <h2 id="welcomeTitle">Valkomna!</h2>
-        <p>Har ser du en oversikt av SEO-arbetet vi gor for er sajt. Alla siffror uppdateras automatiskt.</p>
-        <div class="welcome-date" id="welcomeDate"></div>
-      </div>
-
-      <!-- ══════ SEKTION 1: Prestanda ══════ -->
-      <h2 class="section-title">Prestanda</h2>
-      <div class="gauge-grid" id="gaugeGrid">
-        <div class="gauge-card">
-          <div class="gauge-chart" id="gauge-mobile"></div>
-          <div class="gauge-label">Mobil hastighet</div>
-          <div class="gauge-delta neutral" id="delta-mobile"></div>
-        </div>
-        <div class="gauge-card">
-          <div class="gauge-chart" id="gauge-desktop"></div>
-          <div class="gauge-label">Desktop hastighet</div>
-          <div class="gauge-delta neutral" id="delta-desktop"></div>
-        </div>
-        <div class="gauge-card">
-          <div class="gauge-chart" id="gauge-seo"></div>
-          <div class="gauge-label">SEO-framsteg</div>
-          <div class="gauge-delta neutral" id="delta-seo"></div>
-        </div>
-        <div class="gauge-card">
-          <div class="gauge-chart" id="gauge-position"></div>
-          <div class="gauge-label">Snittposition</div>
-          <div class="gauge-delta neutral" id="delta-position"></div>
+        <!-- Customer info -->
+        <div class="sidebar-customer">
+          <div class="sidebar-customer-name" id="headerName">---</div>
+          <div class="sidebar-customer-url" id="headerUrl">---</div>
         </div>
       </div>
 
-      <!-- ══════ SEKTION 2: Sokord ══════ -->
-      <div class="card" id="section-keywords">
-        <div class="card-header">
-          <h3>Sokord och positioner</h3>
-        </div>
-        <div id="keywordsSummary" class="card-summary"></div>
-        <div class="card-body" id="keywordsBody">
-          <div class="loading-state"><div class="spinner"></div><span>Hamtar sokord...</span></div>
-        </div>
-      </div>
+      <!-- Navigation -->
+      <nav class="sidebar-nav">
+        <button class="sidebar-nav-item active" data-section="overview" onclick="navigateTo('overview')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          <span>Översikt</span>
+          <span class="sidebar-live-dot" title="Live-data"></span>
+        </button>
 
-      <!-- ══════ SEKTION 3: Optimeringar ══════ -->
-      <div class="card" id="section-optimizations">
-        <div class="card-header">
-          <h3>Utforda optimeringar</h3>
-        </div>
-        <div id="optSummary" class="card-summary"></div>
-        <div class="card-body" id="optimizationsBody">
-          <div class="loading-state"><div class="spinner"></div><span>Hamtar optimeringar...</span></div>
-        </div>
-      </div>
+        <button class="sidebar-nav-item" data-section="keywords" onclick="navigateTo('keywords')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <span>Sökord</span>
+        </button>
 
-      <!-- ══════ SEKTION 4: Atgardsplan ══════ -->
-      <div class="card" id="section-plan">
-        <div class="card-header">
-          <h3>Atgardsplan</h3>
-        </div>
-        <div class="card-body" id="planBody">
-          <div class="loading-state"><div class="spinner"></div><span>Hamtar atgardsplan...</span></div>
-        </div>
-      </div>
+        <button class="sidebar-nav-item" data-section="optimizations" onclick="navigateTo('optimizations')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+          <span>Optimeringar</span>
+        </button>
 
-      <!-- ══════ SEKTION 5: AI-chatt ══════ -->
-      <div class="card" id="section-chat">
-        <div class="card-header">
-          <h3>Fraga om din sajt</h3>
+        <button class="sidebar-nav-item" data-section="plan" onclick="navigateTo('plan')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+          <span>Åtgärdsplan</span>
+        </button>
+
+        <button class="sidebar-nav-item" data-section="chat" onclick="navigateTo('chat')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Fråga AI</span>
+        </button>
+      </nav>
+
+      <!-- Logout at bottom -->
+      <div class="sidebar-bottom">
+        <button class="sidebar-logout" onclick="portalLogout()">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span>Logga ut</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ──────────── MOBILE HAMBURGER ──────────── -->
+    <button class="mobile-hamburger" id="mobileHamburger" onclick="toggleMobileSidebar()" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileSidebar()"></div>
+
+    <!-- ──────────── MAIN CONTENT AREA ──────────── -->
+    <div class="main-wrapper">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <h1 class="topbar-welcome" id="welcomeTitle">Välkomna!</h1>
         </div>
-        <div class="chat-container">
-          <div class="chat-messages" id="chatMessages">
-            <div class="chat-msg chat-msg--bot">Hej! Jag ar din SEO-assistent. Stall en fraga om din sajt, t.ex. "Hur manga sokord ar i topp 10?" eller "Vad har ni optimerat senast?"</div>
+        <div class="topbar-right">
+          <div class="period-selector">
+            <button class="period-btn" data-days="7" onclick="setPeriod(7)">7 dagar</button>
+            <button class="period-btn active" data-days="30" onclick="setPeriod(30)">30 dagar</button>
+            <button class="period-btn" data-days="90" onclick="setPeriod(90)">90 dagar</button>
           </div>
-          <div class="chat-input-row">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Stall en fraga..." onkeydown="if(event.key==='Enter')sendChat()">
-            <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()">Skicka</button>
+          <div class="topbar-updated">
+            Senast uppdaterad: <span id="lastUpdated">--</span>
           </div>
         </div>
-      </div>
+      </header>
 
-    </main>
+      <!-- ════════ MAIN CONTENT ════════ -->
+      <main class="portal-main">
 
-    <!-- Footer -->
-    <footer class="portal-footer">
-      <div class="footer-gradient"></div>
-      <p>Drivs av <a href="https://searchboost.se" target="_blank" rel="noopener">Searchboost</a> -- vi gor er synliga</p>
-    </footer>
+        <!-- ══════ OVERVIEW SECTION (KPI + Gauges) ══════ -->
+        <section class="portal-section active" id="section-overview">
+
+          <!-- Welcome banner (compact) -->
+          <div class="welcome-banner fade-in" id="welcomeBanner">
+            <p>Här ser du en översikt av SEO-arbetet vi gör för er sajt. Alla siffror uppdateras automatiskt.</p>
+            <div class="welcome-date" id="welcomeDate"></div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid" id="kpiGrid">
+            <div class="kpi-card">
+              <div class="kpi-label">Sökord i topp 10</div>
+              <div class="kpi-value" id="kpi-top10">--</div>
+              <div class="kpi-trend" id="kpi-top10-trend"></div>
+              <div class="kpi-sparkline" id="kpi-top10-spark"></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Totala klick</div>
+              <div class="kpi-value" id="kpi-clicks">--</div>
+              <div class="kpi-trend" id="kpi-clicks-trend"></div>
+              <div class="kpi-sparkline" id="kpi-clicks-spark"></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Totala visningar</div>
+              <div class="kpi-value" id="kpi-impressions">--</div>
+              <div class="kpi-trend" id="kpi-impressions-trend"></div>
+              <div class="kpi-sparkline" id="kpi-impressions-spark"></div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">Snittposition</div>
+              <div class="kpi-value" id="kpi-position">--</div>
+              <div class="kpi-trend" id="kpi-position-trend"></div>
+              <div class="kpi-sparkline" id="kpi-position-spark"></div>
+            </div>
+          </div>
+
+          <!-- Gauge Section -->
+          <h2 class="section-title">Prestanda</h2>
+          <div class="gauge-grid" id="gaugeGrid">
+            <div class="gauge-card">
+              <div class="gauge-chart" id="gauge-mobile"></div>
+              <div class="gauge-label">Mobil hastighet</div>
+              <div class="gauge-delta neutral" id="delta-mobile"></div>
+            </div>
+            <div class="gauge-card">
+              <div class="gauge-chart" id="gauge-desktop"></div>
+              <div class="gauge-label">Desktop hastighet</div>
+              <div class="gauge-delta neutral" id="delta-desktop"></div>
+            </div>
+            <div class="gauge-card">
+              <div class="gauge-chart" id="gauge-seo"></div>
+              <div class="gauge-label">SEO-framsteg</div>
+              <div class="gauge-delta neutral" id="delta-seo"></div>
+            </div>
+            <div class="gauge-card">
+              <div class="gauge-chart" id="gauge-position"></div>
+              <div class="gauge-label">Snittposition</div>
+              <div class="gauge-delta neutral" id="delta-position"></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ══════ KEYWORDS SECTION ══════ -->
+        <section class="portal-section" id="section-keywords">
+          <div class="section-header-row">
+            <h2 class="section-title">Sökord och positioner</h2>
+            <div class="section-filter">
+              <input type="text" class="filter-input" id="keywordFilter" placeholder="Filtrera sökord..." oninput="filterKeywords(this.value)">
+            </div>
+          </div>
+          <div id="keywordsSummary" class="card-summary"></div>
+          <div class="card">
+            <div class="card-body" id="keywordsBody">
+              <div class="loading-state"><div class="spinner"></div><span>Hämtar sökord...</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════ OPTIMIZATIONS SECTION ══════ -->
+        <section class="portal-section" id="section-optimizations">
+          <h2 class="section-title">Utförda optimeringar</h2>
+          <div id="optSummary" class="card-summary"></div>
+          <div class="card">
+            <div class="card-body" id="optimizationsBody">
+              <div class="loading-state"><div class="spinner"></div><span>Hämtar optimeringar...</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════ ACTION PLAN SECTION ══════ -->
+        <section class="portal-section" id="section-plan">
+          <h2 class="section-title">Åtgärdsplan</h2>
+          <div class="card">
+            <div class="card-body" id="planBody">
+              <div class="loading-state"><div class="spinner"></div><span>Hämtar åtgärdsplan...</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══════ AI CHAT SECTION ══════ -->
+        <section class="portal-section" id="section-chat">
+          <h2 class="section-title">Fråga om din sajt</h2>
+          <div class="card">
+            <div class="chat-container">
+              <div class="chat-messages" id="chatMessages">
+                <div class="chat-msg chat-msg--bot">Hej! Jag är din SEO-assistent. Ställ en fråga om din sajt, t.ex. "Hur många sökord är i topp 10?" eller "Vad har ni optimerat senast?"</div>
+              </div>
+              <div class="chat-input-row">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ställ en fråga..." onkeydown="if(event.key==='Enter')sendChat()">
+                <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()">Skicka</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- Footer -->
+      <footer class="portal-footer">
+        <div class="footer-gradient"></div>
+        <p>Drivs av <a href="https://searchboost.se" target="_blank" rel="noopener">Searchboost</a> -- vi gör er synliga</p>
+      </footer>
+
+    </div><!-- /main-wrapper -->
 
   </div><!-- /appShell -->
+
+  <!-- ════════════════════════════ INLINE NAV SCRIPT ════════════════════════════ -->
+  <script>
+    // Sidebar navigation — show/hide sections
+    function navigateTo(sectionName) {
+      // Update nav active state
+      document.querySelectorAll('.sidebar-nav-item').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.section === sectionName);
+      });
+
+      // Show/hide sections
+      document.querySelectorAll('.portal-section').forEach(function(sec) {
+        var id = sec.id.replace('section-', '');
+        sec.classList.toggle('active', id === sectionName);
+      });
+
+      // Close mobile sidebar if open
+      var sidebar = document.getElementById('sidebar');
+      if (sidebar.classList.contains('mobile-open')) {
+        toggleMobileSidebar();
+      }
+
+      // Scroll to top
+      document.querySelector('.main-wrapper').scrollTop = 0;
+    }
+
+    // Mobile sidebar toggle
+    function toggleMobileSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('mobileOverlay');
+      var hamburger = document.getElementById('mobileHamburger');
+      sidebar.classList.toggle('mobile-open');
+      overlay.classList.toggle('visible');
+      hamburger.classList.toggle('is-active');
+    }
+
+    // Period selector
+    var _currentPeriod = 30;
+    function setPeriod(days) {
+      _currentPeriod = days;
+      document.querySelectorAll('.period-btn').forEach(function(btn) {
+        btn.classList.toggle('active', parseInt(btn.dataset.days) === days);
+      });
+      // Reload data with new period (if loadDashboard is available)
+      if (typeof loadDashboard === 'function') {
+        loadDashboard();
+      }
+    }
+
+    // Keyword filter
+    function filterKeywords(query) {
+      var rows = document.querySelectorAll('#keywordsBody .data-table tbody tr');
+      var q = query.toLowerCase();
+      rows.forEach(function(row) {
+        var text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    // Update timestamp
+    function updateTimestamp() {
+      var el = document.getElementById('lastUpdated');
+      if (el) {
+        var now = new Date();
+        var h = String(now.getHours()).padStart(2, '0');
+        var m = String(now.getMinutes()).padStart(2, '0');
+        el.textContent = h + ':' + m;
+      }
+    }
+  </script>
 
   <script src="portal.js"></script>
 </body>

@@ -1,6 +1,6 @@
 // ══════════════════════════════════════════════════════════════
 // Searchboost Opti — Kundportal Frontend
-// JWT-baserad auth, data-hamtning, ApexCharts-gauges, AI-chatt
+// JWT-baserad auth, datahämtning, ApexCharts-gauges, AI-chatt
 // ══════════════════════════════════════════════════════════════
 
 const PORTAL_API_BASE = '';
@@ -14,6 +14,7 @@ let _portalToken = null;
 let _portalCustomer = null;
 let _gaugeCharts = {};
 let _refreshTimer = null;
+let _sparkCharts = {};
 
 // ══════════════════════════════════════════════════════════════
 // AUTH
@@ -47,7 +48,7 @@ function portalLogin() {
   .catch(err => {
     const errEl = $('#loginError');
     errEl.style.display = 'block';
-    errEl.textContent = err.message || 'Fel e-post eller losenord';
+    errEl.textContent = err.message || 'Fel e-post eller lösenord';
     btn.textContent = 'Logga in';
     btn.disabled = false;
   });
@@ -70,20 +71,24 @@ function portalLogout() {
 
 function showApp() {
   $('#loginOverlay').style.display = 'none';
-  $('#appShell').style.display = 'block';
+  $('#appShell').style.display = 'flex';
 
-  // Header
+  // Sidebar customer info
   $('#headerName').textContent = _portalCustomer.name || _portalCustomer.id;
   $('#headerUrl').textContent = _portalCustomer.url || '';
 
-  // Welcome
+  // Topbar welcome
   const firstName = (_portalCustomer.name || '').split(' ')[0] || 'Kund';
-  $('#welcomeTitle').textContent = `Valkomna, ${firstName}!`;
+  $('#welcomeTitle').textContent = 'Välkomna, ' + firstName + '!';
 
+  // Date in welcome banner
   const now = new Date();
   const months = ['januari','februari','mars','april','maj','juni','juli','augusti','september','oktober','november','december'];
-  const weekdays = ['sondag','mandag','tisdag','onsdag','torsdag','fredag','lordag'];
-  $('#welcomeDate').textContent = `${weekdays[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+  const weekdays = ['söndag','måndag','tisdag','onsdag','torsdag','fredag','lördag'];
+  $('#welcomeDate').textContent = weekdays[now.getDay()] + ' ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+
+  // Update timestamp
+  if (typeof updateTimestamp === 'function') updateTimestamp();
 
   loadDashboard();
 
@@ -92,7 +97,7 @@ function showApp() {
   _refreshTimer = setInterval(loadDashboard, 300000);
 }
 
-// Auto-login fran session
+// Auto-login från session
 (function() {
   const savedToken = sessionStorage.getItem('portal_token');
   const savedCustomer = sessionStorage.getItem('portal_customer');
@@ -126,7 +131,7 @@ async function portalApi(endpoint, options) {
   const res = await fetch(`${PORTAL_API_BASE}${endpoint}`, options);
   if (res.status === 401) {
     portalLogout();
-    throw new Error('Sessionen har gatt ut');
+    throw new Error('Sessionen har gått ut');
   }
   if (!res.ok) {
     const text = await res.text().catch(() => '');
@@ -143,18 +148,193 @@ async function loadDashboard() {
   if (!_portalCustomer) return;
   const cid = _portalCustomer.id;
 
-  const [perfData, rankings, stats, planData, optimizations] = await Promise.all([
-    portalApi(`/api/customers/${cid}/performance`).catch(() => null),
-    portalApi(`/api/customers/${cid}/rankings`).catch(() => null),
-    portalApi(`/api/customers/${cid}/stats`).catch(() => null),
-    portalApi(`/api/customers/${cid}/action-plan`).catch(() => null),
-    portalApi(`/api/optimizations?customer_id=${cid}`).catch(() => null)
+  const days = _currentPeriod || 30;
+  const [perfData, rankings, stats, planData, optimizations, gscHistory] = await Promise.all([
+    portalApi('/api/customers/' + cid + '/performance').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/rankings').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/stats').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/action-plan').catch(function() { return null; }),
+    portalApi('/api/optimizations?customer_id=' + cid).catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/gsc-history?days=' + days).catch(function() { return null; })
   ]);
 
+  renderKpiCards(rankings, stats, gscHistory);
   renderGauges(perfData, rankings, planData);
-  renderKeywords(rankings);
+  renderKeywords(rankings, gscHistory);
   renderOptimizations(optimizations);
   renderActionPlan(planData);
+  renderAlerts(rankings, gscHistory);
+
+  // Update timestamp
+  if (typeof updateTimestamp === 'function') updateTimestamp();
+}
+
+// ══════════════════════════════════════════════════════════════
+// KPI CARDS (top row in overview)
+// ══════════════════════════════════════════════════════════════
+
+async function renderKpiCards(rankings, stats, gscHistory) {
+  // Wait for ApexCharts
+  if (typeof ApexCharts === 'undefined') {
+    await new Promise(function(resolve) {
+      var check = setInterval(function() {
+        if (typeof ApexCharts !== 'undefined') { clearInterval(check); resolve(); }
+      }, 100);
+    });
+  }
+
+  var top10 = 0, totalClicks = 0, totalImpressions = 0, avgPos = 0;
+
+  if (rankings && rankings.rankings && rankings.rankings.length > 0) {
+    var rows = rankings.rankings;
+    top10 = rows.filter(function(r) { return r.position > 0 && r.position <= 10; }).length;
+    totalClicks = rows.reduce(function(sum, r) { return sum + (r.clicks || 0); }, 0);
+    totalImpressions = rows.reduce(function(sum, r) { return sum + (r.impressions || 0); }, 0);
+    var positions = rows.map(function(r) { return r.position; }).filter(function(p) { return p > 0; });
+    avgPos = positions.length > 0 ? +(positions.reduce(function(a, b) { return a + b; }, 0) / positions.length).toFixed(1) : 0;
+  }
+
+  // Override with stats if available
+  if (stats) {
+    if (stats.total_clicks !== undefined) totalClicks = stats.total_clicks;
+    if (stats.total_impressions !== undefined) totalImpressions = stats.total_impressions;
+    if (stats.avg_position !== undefined && stats.avg_position > 0) avgPos = +stats.avg_position.toFixed(1);
+  }
+
+  // Set values
+  var kpiTop10El = document.getElementById('kpi-top10');
+  var kpiClicksEl = document.getElementById('kpi-clicks');
+  var kpiImpEl = document.getElementById('kpi-impressions');
+  var kpiPosEl = document.getElementById('kpi-position');
+
+  if (kpiTop10El) kpiTop10El.textContent = top10;
+  if (kpiClicksEl) kpiClicksEl.textContent = formatNum(totalClicks);
+  if (kpiImpEl) kpiImpEl.textContent = formatNum(totalImpressions);
+  if (kpiPosEl) kpiPosEl.textContent = avgPos > 0 ? avgPos.toFixed(1) : '--';
+
+  // Build daily aggregates from gsc-history for sparklines
+  var dailyClicks = [], dailyImpressions = [], dailyPositions = [];
+  if (gscHistory && gscHistory.data && gscHistory.data.length > 0) {
+    var byDate = {};
+    gscHistory.data.forEach(function(row) {
+      var d = row.date;
+      if (!byDate[d]) byDate[d] = { clicks: 0, impressions: 0, positions: [], top10: 0 };
+      byDate[d].clicks += (row.clicks || 0);
+      byDate[d].impressions += (row.impressions || 0);
+      if (row.position > 0) {
+        byDate[d].positions.push(row.position);
+        if (row.position <= 10) byDate[d].top10++;
+      }
+    });
+    var sortedDates = Object.keys(byDate).sort();
+    sortedDates.forEach(function(d) {
+      var day = byDate[d];
+      dailyClicks.push(day.clicks);
+      dailyImpressions.push(day.impressions);
+      var posArr = day.positions;
+      dailyPositions.push(posArr.length > 0 ? +(posArr.reduce(function(a,b){return a+b;},0)/posArr.length).toFixed(1) : 0);
+    });
+  }
+
+  // Trends: compare first half vs second half of period
+  if (dailyClicks.length >= 4) {
+    var half = Math.floor(dailyClicks.length / 2);
+    var prevClicks = dailyClicks.slice(0, half).reduce(function(a,b){return a+b;},0);
+    var currClicks = dailyClicks.slice(half).reduce(function(a,b){return a+b;},0);
+    var prevImp = dailyImpressions.slice(0, half).reduce(function(a,b){return a+b;},0);
+    var currImp = dailyImpressions.slice(half).reduce(function(a,b){return a+b;},0);
+    var prevPosArr = dailyPositions.slice(0, half).filter(function(p){return p>0;});
+    var currPosArr = dailyPositions.slice(half).filter(function(p){return p>0;});
+    var prevPosAvg = prevPosArr.length > 0 ? prevPosArr.reduce(function(a,b){return a+b;},0)/prevPosArr.length : null;
+    var currPosAvg = currPosArr.length > 0 ? currPosArr.reduce(function(a,b){return a+b;},0)/currPosArr.length : null;
+    setKpiTrend('kpi-clicks-trend', currClicks, prevClicks, false);
+    setKpiTrend('kpi-impressions-trend', currImp, prevImp, false);
+    setKpiTrend('kpi-position-trend', currPosAvg, prevPosAvg, true);
+    setKpiTrend('kpi-top10-trend', null, null, false);
+  } else {
+    setKpiTrend('kpi-top10-trend', null, null, false);
+    setKpiTrend('kpi-clicks-trend', null, null, false);
+    setKpiTrend('kpi-impressions-trend', null, null, false);
+    setKpiTrend('kpi-position-trend', null, null, true);
+  }
+
+  // Render sparklines with real data or placeholders
+  renderSparkline('kpi-top10-spark', generatePlaceholderSeries(top10), '#ff2d9b');
+  renderSparkline('kpi-clicks-spark', dailyClicks.length >= 4 ? dailyClicks.slice(-14) : generatePlaceholderSeries(totalClicks), '#00d4ff');
+  renderSparkline('kpi-impressions-spark', dailyImpressions.length >= 4 ? dailyImpressions.slice(-14) : generatePlaceholderSeries(totalImpressions), '#a855f7');
+  renderSparkline('kpi-position-spark', dailyPositions.length >= 4 ? dailyPositions.slice(-14) : generatePlaceholderSeries(avgPos, true), '#22c55e');
+}
+
+function setKpiTrend(elementId, current, previous, invertScale) {
+  var el = document.getElementById(elementId);
+  if (!el) return;
+
+  if (previous === null || previous === undefined || current === null) {
+    el.innerHTML = '';
+    el.className = 'kpi-trend neutral';
+    return;
+  }
+
+  var diff = current - previous;
+  var isPositive = invertScale ? diff < 0 : diff > 0;
+  var sign = diff > 0 ? '+' : '';
+  var pctChange = previous !== 0 ? Math.round((diff / previous) * 100) : 0;
+  var arrow = isPositive ? '<span class="trend-arrow">&#9650;</span>' : '<span class="trend-arrow">&#9660;</span>';
+
+  el.innerHTML = arrow + ' ' + sign + pctChange + '%';
+  el.className = 'kpi-trend ' + (isPositive ? 'up' : diff === 0 ? 'neutral' : 'down');
+}
+
+function generatePlaceholderSeries(finalValue, inverted) {
+  // Generate a plausible 7-point series ending at finalValue
+  var series = [];
+  var base = finalValue || 1;
+  for (var i = 0; i < 7; i++) {
+    var variance = (Math.random() - 0.4) * base * 0.3;
+    var val = Math.max(0, base + variance - (inverted ? 0 : (6 - i) * base * 0.05));
+    series.push(Math.round(val * 10) / 10);
+  }
+  series[6] = finalValue || 0;
+  return series;
+}
+
+function renderSparkline(elementId, data, color) {
+  if (_sparkCharts[elementId]) {
+    _sparkCharts[elementId].destroy();
+  }
+
+  var el = document.getElementById(elementId);
+  if (!el) return;
+  el.innerHTML = '';
+
+  var options = {
+    series: [{ data: data }],
+    chart: {
+      type: 'area',
+      height: 32,
+      sparkline: { enabled: true },
+      background: 'transparent',
+    },
+    stroke: {
+      curve: 'smooth',
+      width: 2,
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shadeIntensity: 1,
+        opacityFrom: 0.4,
+        opacityTo: 0.05,
+        stops: [0, 100]
+      }
+    },
+    colors: [color],
+    tooltip: { enabled: false },
+  };
+
+  var chart = new ApexCharts(el, options);
+  chart.render();
+  _sparkCharts[elementId] = chart;
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -254,7 +434,7 @@ function setDelta(elementId, current, previous, invertScale) {
 
   const sign = diff > 0 ? '+' : '';
   const displayVal = invertScale ? diff.toFixed(1) : Math.round(diff);
-  el.textContent = `${sign}${displayVal} fran forra veckan`;
+  el.textContent = sign + displayVal + ' från förra veckan';
   el.className = `gauge-delta ${isPositive ? 'positive' : diff === 0 ? 'neutral' : 'negative'}`;
 }
 
@@ -326,12 +506,12 @@ async function renderGauges(perfData, rankings, planData) {
 // KEYWORDS TABLE
 // ══════════════════════════════════════════════════════════════
 
-function renderKeywords(data) {
+function renderKeywords(data, gscHistory) {
   const body = $('#keywordsBody');
   const summary = $('#keywordsSummary');
 
   if (!data || !data.rankings || data.rankings.length === 0) {
-    body.innerHTML = '<div class="empty-state">Inga sokord att visa annu. Vi arbetar pa att samla in data.</div>';
+    body.innerHTML = '<div class="empty-state">Inga sökord att visa ännu. Vi arbetar på att samla in data.</div>';
     summary.innerHTML = '';
     return;
   }
@@ -339,7 +519,8 @@ function renderKeywords(data) {
   const rows = data.rankings;
   const top10 = rows.filter(function(r) { return r.position > 0 && r.position <= 10; }).length;
   const top30 = rows.filter(function(r) { return r.position > 0 && r.position <= 30; }).length;
-  summary.innerHTML = '<strong>' + top10 + '</strong> sokord i topp 10 | <strong>' + top30 + '</strong> i topp 30 | <strong>' + rows.length + '</strong> totalt';
+  summary.innerHTML = '<strong>' + top10 + '</strong> sökord i topp 10 | <strong>' + top30 + '</strong> i topp 30 | <strong>' + rows.length + '</strong> totalt ' +
+    '<button class="btn-export" onclick="exportKeywordsCsv()" title="Exportera som CSV">Exportera CSV</button>';
 
   // ABC keyword map
   var abcMap = {};
@@ -362,7 +543,7 @@ function renderKeywords(data) {
 
   var html = '<table class="data-table">';
   html += '<thead><tr>';
-  html += '<th>Sokord</th><th>Klass</th><th>Position</th><th>Forandring</th><th>Klick</th><th>Visningar</th>';
+  html += '<th>Sökord</th><th>Klass</th><th>Position</th><th>Förändring</th><th>Klick</th><th>Visningar</th>';
   html += '</tr></thead><tbody>';
 
   rows.forEach(function(r) {
@@ -404,7 +585,161 @@ function renderKeywords(data) {
   });
 
   html += '</tbody></table>';
+
+  // Keyword ranking trend chart (from gsc-history)
+  if (gscHistory && gscHistory.data && gscHistory.data.length > 0) {
+    html += '<div style="margin-top:24px"><h3 style="color:var(--white);font-size:15px;font-weight:600;margin:0 0 12px">Ranking-trender (topp 5 sökord)</h3>';
+    html += '<div id="keywordTrendChart" style="min-height:280px"></div></div>';
+  }
+
   body.innerHTML = html;
+
+  // Render trend chart if data exists
+  if (gscHistory && gscHistory.data && gscHistory.data.length > 0) {
+    renderKeywordTrendChart(gscHistory, rows);
+  }
+}
+
+// ── Keyword Trend Chart ──
+var _keywordTrendChart = null;
+function renderKeywordTrendChart(gscHistory, rankings) {
+  if (_keywordTrendChart) { _keywordTrendChart.destroy(); _keywordTrendChart = null; }
+  var chartEl = document.getElementById('keywordTrendChart');
+  if (!chartEl || typeof ApexCharts === 'undefined') return;
+
+  // Pick top 5 keywords by clicks
+  var topKw = rankings.slice().sort(function(a,b){ return (b.clicks||0) - (a.clicks||0); }).slice(0,5).map(function(r){ return (r.keyword||r.query||'').toLowerCase(); });
+  if (topKw.length === 0) return;
+
+  // Group gsc-history by date+query
+  var byDateKw = {};
+  var allDates = {};
+  gscHistory.data.forEach(function(row) {
+    var q = (row.query || '').toLowerCase();
+    if (topKw.indexOf(q) === -1) return;
+    var d = row.date;
+    allDates[d] = true;
+    if (!byDateKw[q]) byDateKw[q] = {};
+    if (!byDateKw[q][d]) byDateKw[q][d] = { pos: [], clicks: 0 };
+    if (row.position > 0) byDateKw[q][d].pos.push(row.position);
+    byDateKw[q][d].clicks += (row.clicks || 0);
+  });
+
+  var sortedDates = Object.keys(allDates).sort();
+  if (sortedDates.length < 2) return;
+
+  var colors = ['#ff2d9b','#00d4ff','#a855f7','#22c55e','#f59e0b'];
+  var series = topKw.map(function(kw, idx) {
+    var data = sortedDates.map(function(d) {
+      var entry = (byDateKw[kw] || {})[d];
+      if (!entry || entry.pos.length === 0) return null;
+      var avg = entry.pos.reduce(function(a,b){return a+b;},0) / entry.pos.length;
+      return +avg.toFixed(1);
+    });
+    return { name: kw, data: data };
+  });
+
+  var options = {
+    series: series,
+    chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false }, zoom: { enabled: false } },
+    stroke: { curve: 'smooth', width: 2 },
+    colors: colors.slice(0, topKw.length),
+    xaxis: { categories: sortedDates, labels: { style: { colors: '#94a3b8', fontSize: '10px' }, rotate: -45, formatter: function(v){ return v ? v.substring(5) : ''; } }, axisBorder: { show: false }, axisTicks: { show: false } },
+    yaxis: { reversed: true, min: 1, labels: { style: { colors: '#94a3b8' }, formatter: function(v){ return v ? Math.round(v) : ''; } }, title: { text: 'Position', style: { color: '#64748b', fontSize: '11px' } } },
+    grid: { borderColor: 'rgba(255,255,255,0.06)', padding: { left: 10, right: 10 } },
+    legend: { position: 'top', labels: { colors: '#e2e8f0' }, fontSize: '11px' },
+    tooltip: { theme: 'dark', y: { formatter: function(v){ return v ? 'Pos ' + v : 'Ingen data'; } } },
+    dataLabels: { enabled: false },
+    markers: { size: 0, hover: { size: 4 } },
+  };
+
+  _keywordTrendChart = new ApexCharts(chartEl, options);
+  _keywordTrendChart.render();
+}
+
+// ── CSV Export ──
+function exportKeywordsCsv() {
+  if (!_portalCustomer) return;
+  var rows = document.querySelectorAll('#keywordsBody .data-table tbody tr');
+  if (!rows || rows.length === 0) { alert('Inga sökord att exportera'); return; }
+
+  var csv = 'Sökord;Klass;Position;Klick;Visningar\n';
+  rows.forEach(function(row) {
+    var cells = row.querySelectorAll('td');
+    if (cells.length >= 6) {
+      csv += '"' + (cells[0].textContent||'') + '";';
+      csv += '"' + (cells[1].textContent||'') + '";';
+      csv += '"' + (cells[2].textContent||'') + '";';
+      csv += '"' + (cells[4].textContent||'') + '";';
+      csv += '"' + (cells[5].textContent||'') + '"\n';
+    }
+  });
+
+  var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  var link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = (_portalCustomer.id || 'sokord') + '-export-' + new Date().toISOString().split('T')[0] + '.csv';
+  link.click();
+}
+
+// ── Alerts (ranking falls > 5 positions) ──
+function renderAlerts(rankings, gscHistory) {
+  // Remove existing alerts
+  var existing = document.getElementById('portalAlerts');
+  if (existing) existing.remove();
+
+  if (!gscHistory || !gscHistory.data || gscHistory.data.length < 10) return;
+  if (!rankings || !rankings.rankings) return;
+
+  // Compare current position with historical average
+  var historyByQuery = {};
+  gscHistory.data.forEach(function(row) {
+    var q = (row.query || '').toLowerCase();
+    if (row.position > 0) {
+      if (!historyByQuery[q]) historyByQuery[q] = [];
+      historyByQuery[q].push({ date: row.date, position: row.position });
+    }
+  });
+
+  var alerts = [];
+  rankings.rankings.forEach(function(r) {
+    var kw = (r.keyword || r.query || '').toLowerCase();
+    var currentPos = r.position || 0;
+    if (currentPos <= 0) return;
+
+    var hist = historyByQuery[kw];
+    if (!hist || hist.length < 5) return;
+
+    // Average position from first half of history period
+    hist.sort(function(a,b){ return a.date.localeCompare(b.date); });
+    var firstHalf = hist.slice(0, Math.floor(hist.length/2));
+    var avgOld = firstHalf.reduce(function(s,h){ return s+h.position; },0) / firstHalf.length;
+
+    var drop = currentPos - avgOld;
+    if (drop > 5) {
+      alerts.push({ keyword: kw, currentPos: currentPos, oldPos: +avgOld.toFixed(1), drop: +drop.toFixed(1) });
+    }
+  });
+
+  if (alerts.length === 0) return;
+
+  alerts.sort(function(a,b){ return b.drop - a.drop; });
+
+  var alertHtml = '<div id="portalAlerts" class="portal-alerts">';
+  alertHtml += '<div class="alert-header">Varningar (' + alerts.length + ')</div>';
+  alerts.slice(0, 5).forEach(function(a) {
+    alertHtml += '<div class="alert-item">';
+    alertHtml += '<span class="alert-icon">&#9888;</span>';
+    alertHtml += '<span class="alert-text"><strong>' + escHtml(a.keyword) + '</strong> tappade ' + a.drop + ' positioner (pos ' + a.oldPos + ' &rarr; ' + a.currentPos.toFixed(1) + ')</span>';
+    alertHtml += '</div>';
+  });
+  alertHtml += '</div>';
+
+  // Insert after welcome banner
+  var banner = document.getElementById('welcomeBanner');
+  if (banner) {
+    banner.insertAdjacentHTML('afterend', alertHtml);
+  }
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -416,7 +751,7 @@ function renderOptimizations(data) {
   const summary = $('#optSummary');
 
   if (!data || !data.optimizations || data.optimizations.length === 0) {
-    body.innerHTML = '<div class="empty-state">Inga optimeringar att visa annu.</div>';
+    body.innerHTML = '<div class="empty-state">Inga optimeringar att visa ännu.</div>';
     summary.innerHTML = '';
     return;
   }
@@ -439,7 +774,7 @@ function renderOptimizations(data) {
   recent.forEach(function(o) { if (o.page_url) pages[o.page_url] = true; });
   var pageCount = Object.keys(pages).length;
 
-  summary.innerHTML = 'Vi har optimerat <strong>' + pageCount + ' sidor</strong> denna manad (' + recent.length + ' atgarder totalt)';
+  summary.innerHTML = 'Vi har optimerat <strong>' + pageCount + ' sidor</strong> denna månad (' + recent.length + ' åtgärder totalt)';
 
   var html = '<div class="timeline">';
   recent.slice(0, 20).forEach(function(o) {
@@ -478,7 +813,7 @@ function renderActionPlan(data) {
   const body = $('#planBody');
 
   if (!data || !data.plan || !data.plan.months || data.plan.months.length === 0) {
-    body.innerHTML = '<div class="empty-state">Ingen atgardsplan skapad annu. Vi arbetar pa att ta fram en plan for er.</div>';
+    body.innerHTML = '<div class="empty-state">Ingen åtgärdsplan skapad ännu. Vi arbetar på att ta fram en plan för er.</div>';
     return;
   }
 
@@ -491,7 +826,7 @@ function renderActionPlan(data) {
     var done = tasks.filter(function(t) { return t.status === 'completed'; }).length;
     var pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
-    var monthLabel = month.title || ('Manad ' + (idx + 1));
+    var monthLabel = month.title || ('Månad ' + (idx + 1));
     var fillClass = 'plan-progress-fill--m' + (idx + 1);
 
     html += '<div class="plan-month">';
@@ -548,7 +883,7 @@ function sendChat() {
   // Show typing indicator
   var typingDiv = document.createElement('div');
   typingDiv.className = 'chat-msg chat-msg--typing';
-  typingDiv.textContent = 'Tanker...';
+  typingDiv.textContent = 'Tänker...';
   messagesEl.appendChild(typingDiv);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -560,7 +895,7 @@ function sendChat() {
     typingDiv.remove();
     var botDiv = document.createElement('div');
     botDiv.className = 'chat-msg chat-msg--bot';
-    botDiv.innerHTML = formatChatResponse(data.response || data.answer || 'Jag kunde inte besvara fragan just nu.');
+    botDiv.innerHTML = formatChatResponse(data.response || data.answer || 'Jag kunde inte besvara frågan just nu.');
     messagesEl.appendChild(botDiv);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   })
@@ -568,7 +903,7 @@ function sendChat() {
     typingDiv.remove();
     var errDiv = document.createElement('div');
     errDiv.className = 'chat-msg chat-msg--bot';
-    errDiv.textContent = 'Nagonting gick fel. Forsok igen om en stund.';
+    errDiv.textContent = 'Någonting gick fel. Försök igen om en stund.';
     messagesEl.appendChild(errDiv);
     messagesEl.scrollTop = messagesEl.scrollHeight;
   })

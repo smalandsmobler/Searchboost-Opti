@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO Audit — Komplett analys av din webbplats | Searchboost</title>
+  <meta name="description" content="Professionell SEO-audit med teknisk analys, on-page-granskning, content-bedömning, backlink-analys och Core Web Vitals. AI-driven analys med data från Google Search Console. Engångspris 4 900 kr.">
+  <meta name="keywords" content="SEO audit, SEO-analys, webbplatsanalys, teknisk SEO granskning, on-page analys, backlink-analys, Core Web Vitals, SEO rapport, åtgärdsplan SEO, konkurrentanalys SEO">
+  <link rel="canonical" href="{{DOMAIN}}/tjanster/seo-audit-tjanst/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "SEO Audit",
+    "description": "Komplett SEO-audit med teknisk analys, on-page-granskning, content-bedömning, backlink-profil, konkurrentanalys och Core Web Vitals. AI-driven analys med data direkt från Google Search Console. Levereras med åtgärdsplan.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "serviceType": "SEO-analys och audit",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Sverige"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "4900",
+      "priceCurrency": "SEK",
+      "description": "Engångspris för komplett SEO-audit, eller ingår i löpande SEO-paket"
+    }
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "Tjänster", "item": "{{DOMAIN}}/tjanster/" },
+      { "@type": "ListItem", "position": 3, "name": "SEO Audit", "item": "{{DOMAIN}}/tjanster/seo-audit-tjanst/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hur lång tid tar en SEO-audit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En komplett SEO-audit levereras normalt inom 5–7 arbetsdagar. Den tekniska crawlningen och datainhämtningen sker automatiskt under dag 1–2, varefter vår SEO-specialist analyserar resultaten och sammanställer rapporten med åtgärdsplan. Större sajter med tusentals sidor kan ta upp till 10 arbetsdagar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad ingår i en SEO-audit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vår SEO-audit täcker sex huvudområden: teknisk SEO (crawlbarhet, indexering, sajthastighet, Core Web Vitals), on-page SEO (titlar, metabeskrivningar, rubriker, intern länkning), innehållsanalys (kvalitet, relevans, thin content, kannibalisering), backlink-profil (kvalitet, toxiska länkar, anchor-text-distribution), konkurrentanalys (positionsjämförelse, innehållsgap) och en prioriterad åtgärdsplan med tidslinjer."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Behöver jag ge er tillgång till Google Search Console?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vi rekommenderar det starkt. Med GSC-åtkomst får vi tillgång till verklig data om vilka sökord din sajt rankar på, klickfrekvenser, indexeringsstatus och tekniska problem som Google faktiskt rapporterar. Det gör auditen betydligt mer träffsäker. Vi begär enbart läsbehörighet och du kan återkalla åtkomsten när som helst."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad kostar en SEO-audit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En komplett SEO-audit kostar 4 900 kronor som engångsuppdrag. Om du tecknar ett löpande SEO-paket hos oss ingår auditen utan extra kostnad som första steg i samarbetet. Oavsett ingår alltid en skriftlig rapport och en genomgångspresentation där vi går igenom resultaten och åtgärdsplanen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad skiljer er SEO-audit från gratis verktyg?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Gratis verktyg ger en ytlig bild med generiska rekommendationer. Vår audit kombinerar AI-driven analys med manuell expertgranskning och verklig data från Google Search Console. Vi identifierar inte bara problemen utan prioriterar dem efter affärspåverkan och levererar en konkret åtgärdsplan med tidslinjer. Dessutom inkluderar vi en konkurrentanalys och genomgångspresentation som inga gratisverktyg erbjuder."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #0f172a; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0f172a;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a { color: #64748b; text-decoration: none; }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em { color: #db007f; font-style: normal; }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 28px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.3); }
+
+    /* ===== SECTION COMMON ===== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-alt { background: #f8fafc; }
+    .section-alt .section { padding: 64px 24px; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: #64748b;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    /* ===== AUDIT AREAS GRID ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .service-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+    .service-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== DELIVERABLES ===== */
+    .deliverables-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .deliverable-card {
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 36px 32px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .deliverable-card:hover { border-color: #db007f; }
+    .deliverable-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+    .deliverable-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .deliverable-card p {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+    .deliverable-list {
+      list-style: none;
+      text-align: left;
+      margin-top: 16px;
+    }
+    .deliverable-list li {
+      padding: 6px 0;
+      font-size: 0.9rem;
+      color: #475569;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .deliverable-list li::before {
+      content: "\2713";
+      color: #db007f;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== PROCESS STEPS ===== */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      counter-reset: step-counter;
+    }
+    .process-step {
+      text-align: center;
+      counter-increment: step-counter;
+      position: relative;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 0 auto 18px;
+    }
+    .process-step h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .process-step p {
+      font-size: 0.92rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== DIFFERENTIATORS ===== */
+    .diff-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .diff-card {
+      background: linear-gradient(135deg, #fdf2f8, #f0f4ff);
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 28px;
+      text-align: center;
+    }
+    .diff-icon {
+      width: 56px;
+      height: 56px;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .diff-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .diff-card p {
+      font-size: 0.92rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== PRICING HINT ===== */
+    .pricing-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #fdf2f8, #f0f4ff);
+      border: 2px solid #db007f20;
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .pricing-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .pricing-option {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 20px;
+    }
+    .pricing-option.featured {
+      border-color: #db007f;
+      box-shadow: 0 4px 16px rgba(219,0,127,0.15);
+    }
+    .pricing-option-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .pricing-option .pricing-amount {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .pricing-option p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+    .pricing-from {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .pricing-amount {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.2;
+    }
+    .pricing-amount small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #64748b;
+    }
+    .pricing-note {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-top: 16px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto 32px;
+    }
+    .pricing-features li {
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-features li::before {
+      content: "\2713";
+      color: #db007f;
+      font-weight: 700;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 780px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 24px 0;
+    }
+    .faq-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after { content: "\2212"; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 400px;
+      padding-top: 14px;
+    }
+    .faq-answer p {
+      font-size: 0.98rem;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.4); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px 32px;
+      border-top: 1px solid #1e293b;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.6; margin-top: 12px; }
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ===== INTERNAL LINKS BOX ===== */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 20px 24px;
+        border-bottom: 1px solid #e5e7eb;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .hero h1 { font-size: 1.9rem; }
+      .hero { padding: 48px 20px 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .deliverables-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .diff-grid { grid-template-columns: 1fr; }
+      .pricing-box { padding: 32px 24px; }
+      .pricing-options { grid-template-columns: 1fr; }
+      .pricing-amount { font-size: 2.2rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .cta-section h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')" aria-label="Meny">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/tjanster/">Tjänster</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/case-studies/">Resultat</a></li>
+        <li><a href="{{DOMAIN}}/om-oss/">Om oss</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Boka SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a><span>›</span>
+    <a href="{{DOMAIN}}/tjanster/">Tjänster</a><span>›</span>
+    SEO Audit
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">SEO Audit-tjänst</div>
+      <h1>SEO Audit — <em>Komplett analys</em> av din webbplats</h1>
+      <p class="hero-subtitle">En professionell SEO-audit avslöjar exakt vad som hindrar din webbplats från att ranka. Vi granskar teknik, innehåll, backlinks och konkurrenter, och levererar en konkret åtgärdsplan som prioriterar de insatser som ger störst effekt.</p>
+      <a href="{{DOMAIN}}/kontakt/" class="hero-cta">Boka gratis SEO-analys</a>
+    </div>
+  </section>
+
+  <!-- VAD EN SEO-AUDIT INNEHÅLLER -->
+  <div class="section">
+    <h2 class="section-title">Vad en SEO-audit innehåller</h2>
+    <p class="section-subtitle">Vår audit täcker alla aspekter som påverkar din synlighet i sökmotorer. Sex djupgående analyser sammanställda i en lättförståelig rapport.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">&#x2699;&#xFE0F;</div>
+        <h3>Teknisk analys</h3>
+        <p>Vi crawlar hela din sajt och analyserar indexering, crawlbarhet, robots.txt, XML-sitemaps, HTTPS-konfiguration, redirect-kedjor och serverrespons. Tekniska problem är ofta den osynliga bromsklossen som håller tillbaka hela sajten.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F4C4;</div>
+        <h3>On-page SEO</h3>
+        <p>Granskning av sidtitlar, metabeskrivningar, rubrikstruktur (H1-H6), intern länkning, bildoptimering och URL-struktur. Vi identifierar alla sidor som saknar eller har duplicerade metadata och prioriterar dem efter sökvolym.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F4DD;</div>
+        <h3>Innehållsanalys</h3>
+        <p>Vi bedömer kvalitet, relevans och unikhet i ditt innehåll. Vi hittar thin content, nyckelordskannibalisering, innehållsluckor jämfört med konkurrenter och sidor som kan konsolideras för starkare söksynlighet.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F517;</div>
+        <h3>Backlink-profil</h3>
+        <p>Analys av din länkprofil: antal och kvalitet på bakåtlänkar, toxiska länkar som kan skada din ranking, anchor-text-distribution och jämförelse med konkurrenternas länkprofiler. Vi identifierar möjligheter att bygga starkare auktoritet.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F4CA;</div>
+        <h3>Konkurrentanalys</h3>
+        <p>Vi analyserar dina tre till fem viktigaste organiska konkurrenter. Vilka sökord rankar de på som du missar? Hur ser deras innehållsstrategi ut? Var har du fördelar och var behöver du stärka dig?</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x26A1;</div>
+        <h3>Core Web Vitals</h3>
+        <p>Detaljerad analys av Largest Contentful Paint (LCP), Interaction to Next Paint (INP) och Cumulative Layout Shift (CLS). Dessa tre mätvärden påverkar direkt din ranking och användarupplevelse. Vi visar exakt var problemen uppstår.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vad du får levererat</h2>
+      <p class="section-subtitle">En SEO-audit utan handlingsbara rekommendationer är värdelös. Därför levererar vi alltid två saker.</p>
+
+      <div class="deliverables-grid">
+        <div class="deliverable-card">
+          <div class="deliverable-icon">&#x1F4D1;</div>
+          <h3>Komplett SEO-rapport</h3>
+          <p>En detaljerad skriftlig rapport som täcker alla sex analysområden med konkreta fynd, datapunkter och visualiseringar.</p>
+          <ul class="deliverable-list">
+            <li>Teknisk hälsostatus med alla problem listade</li>
+            <li>On-page-analys sida för sida</li>
+            <li>Innehållsbedömning med förbättringsförslag</li>
+            <li>Backlink-översikt med riskbedömning</li>
+            <li>Konkurrentjämförelse med positionsdata</li>
+            <li>Core Web Vitals-mätning per sida</li>
+          </ul>
+        </div>
+        <div class="deliverable-card">
+          <div class="deliverable-icon">&#x1F3AF;</div>
+          <h3>Prioriterad åtgärdsplan</h3>
+          <p>En konkret handlingsplan sorterad efter förväntad effekt och insats, så att du vet exakt var du ska börja.</p>
+          <ul class="deliverable-list">
+            <li>Uppgifter sorterade efter prioritet (hög/medel/låg)</li>
+            <li>Uppskattad effekt per åtgärd</li>
+            <li>Tidslinjer och milstolpar för 3 månader</li>
+            <li>Tydliga instruktioner per uppgift</li>
+            <li>Beroenden markerade mellan uppgifter</li>
+            <li>Genomgångspresentation (30 min videomöte)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="section">
+    <h2 class="section-title">Vår audit-process</h2>
+    <p class="section-subtitle">Från beställning till färdig rapport och presentation. Hela processen tar 5 till 7 arbetsdagar.</p>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-number">1</div>
+        <h3>Crawlning</h3>
+        <p>Vi crawlar hela din webbplats och hämtar data från Google Search Console, Page Speed Insights och våra SEO-verktyg. All data samlas in automatiskt under dag 1 till 2.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">2</div>
+        <h3>AI-analys</h3>
+        <p>Vår AI-drivna plattform analyserar all insamlad data, identifierar mönster och problem samt jämför med branschbenchmarks och dina konkurrenters prestanda.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">3</div>
+        <h3>Expertgranskning</h3>
+        <p>En SEO-specialist granskar AI-analysen, validerar fynden, lägger till kontextuella insikter och sammanställer den prioriterade åtgärdsplanen baserat på din affärslogik.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-number">4</div>
+        <h3>Presentation</h3>
+        <p>Du får rapporten skickad digitalt och vi bokar ett 30-minuters videomöte där vi går igenom alla fynd, besvarar frågor och diskuterar nästa steg.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HUR VI SKILJER OSS -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vad som gör vår audit unik</h2>
+      <p class="section-subtitle">Vi är inte den enda byrån som erbjuder SEO-audits. Men vårt tillvägagångssätt skiljer sig på tre avgörande sätt.</p>
+
+      <div class="diff-grid">
+        <div class="diff-card">
+          <div class="diff-icon">&#x1F916;</div>
+          <h3>AI-driven analys</h3>
+          <p>Vår plattform använder Claude AI för att analysera varje sida på djupet. AI:n identifierar mönster och samband som manuell granskning missar, och genererar optimeringsförslag baserat på tusentals datapunkter.</p>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">&#x1F4C8;</div>
+          <h3>Verklig data från GSC</h3>
+          <p>Vi baserar inte analysen på uppskattningar. Med direkt åtkomst till Google Search Console ser vi exakt vilka sökord du rankar på, vilka sidor som får impressions men inte klick, och var de största möjligheterna finns.</p>
+        </div>
+        <div class="diff-card">
+          <div class="diff-icon">&#x1F504;</div>
+          <h3>Automatisk uppföljning</h3>
+          <p>Om du väljer att gå vidare med ett SEO-paket överförs åtgärdsplanen automatiskt till vår optimeringsplattform. Uppgifterna prioriteras och genomförs systematiskt med löpande rapportering av framsteg.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRISINDIKATION -->
+  <div class="section">
+    <h2 class="section-title">Prisindikation</h2>
+    <p class="section-subtitle">Välj att köpa auditen som engångsuppdrag eller få den inkluderad utan extra kostnad som första steg i ett löpande SEO-samarbete.</p>
+
+    <div class="pricing-box">
+      <div class="pricing-options">
+        <div class="pricing-option">
+          <p class="pricing-option-label">Engångsuppdrag</p>
+          <p class="pricing-amount">4 900 kr</p>
+          <p>Komplett audit med rapport och åtgärdsplan. Perfekt om du vill veta var du står innan du bestämmer dig.</p>
+        </div>
+        <div class="pricing-option featured">
+          <p class="pricing-option-label">Ingår i SEO-paket</p>
+          <p class="pricing-amount">0 kr</p>
+          <p>Auditen ingår som första steg när du tecknar ett löpande SEO-paket. Ingen extra kostnad.</p>
+        </div>
+      </div>
+      <p class="pricing-note">Oavsett alternativ får du alltid samma kompletta audit med skriftlig rapport, prioriterad åtgärdsplan och genomgångspresentation.</p>
+      <ul class="pricing-features">
+        <li>Teknisk analys + on-page-granskning</li>
+        <li>Innehålls- och backlink-analys</li>
+        <li>Konkurrentanalys (3 till 5 konkurrenter)</li>
+        <li>Core Web Vitals-mätning</li>
+        <li>Prioriterad åtgärdsplan (3 månader)</li>
+        <li>30 min genomgångspresentation</li>
+      </ul>
+      <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+    </div>
+  </div>
+
+  <!-- INTERNAL LINKS -->
+  <div class="section">
+    <div class="internal-links">
+      <h3>Lär dig mer om teknisk SEO och rankingfaktorer</h3>
+      <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Guide: Teknisk SEO</a>
+      <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">Guide: Rankingfaktorer</a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vanliga frågor om SEO-audit</h2>
+      <p class="section-subtitle">Svar på de vanligaste frågorna vi får om vår SEO-audit och analysprocess.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Hur lång tid tar en SEO-audit?
+          </div>
+          <div class="faq-answer">
+            <p>En komplett SEO-audit levereras normalt inom 5 till 7 arbetsdagar. Den tekniska crawlningen och datainhämtningen sker automatiskt under dag 1 till 2, varefter vår SEO-specialist analyserar resultaten och sammanställer rapporten med åtgärdsplan. Större sajter med tusentals sidor kan ta upp till 10 arbetsdagar.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad ingår i en SEO-audit?
+          </div>
+          <div class="faq-answer">
+            <p>Vår SEO-audit täcker sex huvudområden: teknisk SEO (crawlbarhet, indexering, sajthastighet, Core Web Vitals), on-page SEO (titlar, metabeskrivningar, rubriker, intern länkning), innehållsanalys (kvalitet, relevans, thin content), backlink-profil (kvalitet, toxiska länkar), konkurrentanalys (positionsjämförelse, innehållsgap) och en prioriterad åtgärdsplan med tidslinjer.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Behöver jag ge er tillgång till Google Search Console?
+          </div>
+          <div class="faq-answer">
+            <p>Vi rekommenderar det starkt. Med GSC-åtkomst får vi tillgång till verklig data om vilka sökord din sajt rankar på, klickfrekvenser, indexeringsstatus och tekniska problem som Google faktiskt rapporterar. Det gör auditen betydligt mer träffsäker. Vi begär enbart läsbehörighet och du kan återkalla åtkomsten när som helst.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad kostar en SEO-audit?
+          </div>
+          <div class="faq-answer">
+            <p>En komplett SEO-audit kostar 4 900 kronor som engångsuppdrag. Om du tecknar ett löpande SEO-paket hos oss ingår auditen utan extra kostnad som första steg i samarbetet. Oavsett alternativ ingår alltid en skriftlig rapport och en genomgångspresentation där vi går igenom resultaten och åtgärdsplanen.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad skiljer er SEO-audit från gratis verktyg?
+          </div>
+          <div class="faq-answer">
+            <p>Gratis verktyg ger en ytlig bild med generiska rekommendationer. Vår audit kombinerar AI-driven analys med manuell expertgranskning och verklig data från Google Search Console. Vi identifierar inte bara problemen utan prioriterar dem efter affärspåverkan och levererar en konkret åtgärdsplan med tidslinjer. Dessutom inkluderar vi en konkurrentanalys och genomgångspresentation som inga gratisverktyg erbjuder.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Vill du veta vad som bromsar din sajt?</h2>
+    <p>Boka en kostnadsfri SEO-analys så ger vi dig en snabb överblick innan du bestämmer dig för en fullständig audit.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="{{DOMAIN}}/" class="nav-logo">Search<span style="color:#fff">boost</span></a>
+        <p>Searchboost hjälper svenska företag att växa genom sökmotoroptimering. Vi kombinerar AI-driven teknik med mänsklig expertis för att leverera mätbara resultat.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tjänster</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/tjanster/lokal-seo/">Lokal SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/e-handel-seo/">E-handel SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/seo-audit-tjanst/">SEO Audit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resurser</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+          <li><a href="{{DOMAIN}}/ordlista/seo-ordlista/">SEO-ordlista</a></li>
+          <li><a href="{{DOMAIN}}/kontakt/">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Searchboost. Alla rättigheter förbehållna.
+    </div>
+  </footer>
+
+</body>
+</html>

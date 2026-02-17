@@ -3,11 +3,11 @@
 
 **Datum:** 2026-02-11
 **Utarbetad av:** Searchboost.se
-**Kontakt:** Mikael Larsson, mikael@searchboost.nu
+**Kontakt:** Mikael Larsson, mikael@searchboost.se
 
 ---
 
-## 1. Executive Summary
+## 1. Sammanfattning
 
 Smålands Kontorsmöbler har en webshop med ~500 produkter på Abicart-plattformen. Sajten syns på Google för 50 sökord men genererar nästan noll klick (7 klick/månad totalt). Domain Rating: 30. Sajten har potential men hålls tillbaka av tre grundproblem:
 
@@ -40,7 +40,7 @@ Smålands Kontorsmöbler har en webshop med ~500 produkter på Abicart-plattform
 
 ### 2.2 Top-sökord — Nuvarande positioner
 
-#### Nära toppen (Quick wins — pos 3-15)
+#### Nära toppen (snabba vinster — pos 3-15)
 | Sökord | Position | Impressions/mån | Klick |
 |--------|----------|-----------------|-------|
 | smålandsmöbler | 2.3 | 18 | 4 |
@@ -241,7 +241,7 @@ Dessa sökord har SÅ låg konkurrens att SMK redan syns — men behöver bättr
 
 ### FAS 1: Akut / Månad 1-2 (Grund)
 
-#### 1.1 Migrera till WooCommerce ⭐ REKOMMENDERAT
+#### 1.1 Migrera till WooCommerce — REKOMMENDERAT
 **Varför:** Abicart ger inte tillräcklig SEO-kontroll. Med WooCommerce + Rank Math får vi:
 - Full meta-title & description per sida
 - Schema markup (Product, FAQ, Organization, BreadcrumbList)
@@ -582,5 +582,113 @@ Se avsnitt 3.1 för fullständig tabell.
 
 ---
 
-*Dokumentet uppdateras löpande. Senast uppdaterad: 2026-02-11*
+---
+
+## 11. Statusuppdatering — Februari 2026
+
+> Uppdaterad: 2026-02-16
+
+### Vad som är gjort
+
+#### WooCommerce-migrering (ny.smalandskontorsmobler.se)
+- **896 produkter importerade** från Abicart (CSV-export)
+- **Tema:** GeneratePress med militärgrön header (#566754), DPJ-inspirerad design
+- **Logo:** svart_alg.png (inverterad vit mot grön header)
+- **Hosting:** Loopia (FTP: smkadmin@ftpcluster.loopia.se)
+- **WP Login:** searchboost / SmkWoo2026!Sb
+
+#### SEO-innehåll
+- **46 av 47 kategori-SEO-texter klara** (kort beskrivning ovanför produkter + lång SEO-text under)
+- **4 bloggartiklar skrivna och publicerade:**
+  1. "Hur väljer man rätt kontorsstol?" (~2000 ord)
+  2. "Höj- och sänkbart skrivbord: Fördelar & tips" (~1500 ord)
+  3. "Kontorsmöbler för små företag" (~1500 ord)
+  4. "Ergonomi på kontoret: 10 tips" (~1500 ord)
+- **llm.txt** live (AI-sökmotorer)
+- **robots.txt** tillåter AI-crawlers (ClaudeBot, OAI-SearchBot, PerplexityBot)
+
+#### Bilder
+- **42 807 bilder nerladdade** från Abicart (0 externa kvar)
+- ~3 700 produkter kopplas fortfarande till bilder (batch-script kör)
+
+#### Teknisk SEO
+- **Rank Math SEO konfigurerat** — Bild-SEO + WooCommerce SEO
+- **mu-plugins:**
+  - smk-lagervara.php (lagervara-badge)
+  - smk-seo-text.php (lång SEO-text under produkter)
+  - smk-homepage.php (anpassad startsida med banners)
+
+#### UX & Konkurrentanalys
+- **8 konkurrenter analyserade** (DPJ, AJ, Kinnarps, IKEA, etc.)
+- **22 konkreta rekommendationer** dokumenterade
+- **4 implementerings-sprintar** planerade
+
+### Kvar att göra — PRIO 1 (brådskande)
+
+| Uppgift | Status | Tidsuppskattning |
+|---------|--------|-----------------|
+| Ta bort "Dinner Style" från 2 banners på startsidan | Väntar | 15 min |
+| Fixa FÄLLBORD-länk (pekar på /skrivbord/ istället för /bord/) | Väntar | 10 min |
+| Uppdatera SEO-text "Bord" (H2: "Skrivbord..." → "Bord...") | Väntar | 10 min |
+| Verifiera alla 6 startsidebanners | Väntar | 20 min |
+
+### Kvar att göra — PRIO 2 (före lansering)
+
+| Uppgift | Status | Tidsuppskattning |
+|---------|--------|-----------------|
+| **Swedbank Pay-integration** | Kunden tecknar avtal (~2 veckor) | 1-2 dagar efter avtal |
+| 301-redirects från Abicart-URL:er | Förberett (~60 mappningar) | 1 timme |
+| Schema markup (Product, FAQ, Organization) | Planerat | 2-3 timmar |
+| Trust signals (USP-bar, betalikoner) | Planerat | 1-2 timmar |
+| Filterpanel (pris, färg, varumärke) | Planerat | 2-3 timmar |
+| Cross-sell/relaterade produkter | Planerat | 1-2 timmar |
+| "Begär offert"-knapp (B2B) | Planerat | 1-2 timmar |
+| Resterande bilder (~3 700 produkter) | Pågår (batch) | Automatiskt |
+
+### Swedbank Pay — Betalningsintegration
+
+- **Metoder:** Kort + Swish + Faktura + Delbetalning
+- **Kostnad:** 1,35-1,85% per korttransaktion + 15-29 kr per faktura
+- **Tidsram:** ~2 veckor (värsta fall)
+- **Uppskattad månadskostnad:** ~2 600 kr vid 30 ordrar á 8 000 kr (1,1% av omsättning)
+
+### Google Ads — Betald trafik
+
+SEO tar tid. Google Ads ger trafik dag 1 efter lansering.
+
+**Upptrappningsplan:**
+
+| Månad | Budget/mån | Fokus |
+|-------|-----------|-------|
+| 1-2 (lansering) | 5 000 kr | Testa sökord, bygga kvalitetspoäng, samla data |
+| 3-4 | 10 000 kr | Skala vinnande kampanjer, lägga till Shopping-annonser |
+| 5-6 | 15 000-20 000 kr | Bredda till fler kategorier, remarketing |
+| 6+ | 25 000 kr | Konkurrenskraftig nivå — full synlighet |
+
+**Varför 25 000 kr?** Kontorsmöbler har hög CPC (15-40 kr/klick). Med 25k/mån får man ~800-1 500 klick — tillräckligt för att synas på de viktigaste sökorden. Under 25k tappar man synlighet mot AJ Produkter, Kinnarps och DPJ som alla kör aggressiv Ads.
+
+**Kampanjstruktur:**
+- **Sök-kampanj 1:** Kontorsmöbler (bred) — kontorsmöbler, kontorsmöbler online, köpa kontorsmöbler
+- **Sök-kampanj 2:** Produktkategorier — kontorsstolar, höj och sänkbart skrivbord, konferensbord
+- **Shopping:** Google Merchant Center-feed med alla produkter
+- **Remarketing:** Besökare som inte köpt → visas annonser i 30 dagar
+
+**Searchboost hanterar:** Kontostruktur, annonstexer, budgivning, optimering, månadsrapport.
+**Arvode:** Ingår i SEO-paketet (Standard/Premium) — ingen extra Ads-avgift.
+
+### Tidplan mot lansering
+
+```
+Vecka 8 (nu):     Designfixar (banners, SEO-text, länkar)
+Vecka 9-10:       Swedbank Pay avtalsteckning + integration
+Vecka 10-11:      Trust signals, filter, B2B-funktioner, schema
+Vecka 11-12:      Test + QA + kundens godkännande
+Vecka 12-13:      DNS-switch → GO LIVE
+```
+
+**Mål: ny.smalandskontorsmobler.se live i mars 2026**
+
+---
+
+*Dokumentet uppdateras löpande. Senast uppdaterad: 2026-02-16*
 *© Searchboost.se — Mikael Larsson*

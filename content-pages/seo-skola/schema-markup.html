@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schema Markup &mdash; Strukturerad data f&ouml;r SEO | Searchboost</title>
+  <meta name="description" content="L&auml;r dig allt om schema markup och strukturerad data f&ouml;r SEO. Guide till JSON-LD, vanliga schema-typer (LocalBusiness, FAQ, Product), implementering i WordPress och testning med Googles Rich Results Test.">
+  <meta name="keywords" content="schema markup, strukturerad data, JSON-LD, rich snippets, schema SEO, LocalBusiness schema, FAQ schema, Product schema, strukturerad data WordPress, Rank Math schema, Google Rich Results Test, schema markup guide 2026">
+  <link rel="canonical" href="{{DOMAIN}}/seo-skola/schema-markup/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Schema Markup &mdash; Strukturerad data f&ouml;r SEO",
+    "description": "L&auml;r dig allt om schema markup och strukturerad data f&ouml;r SEO. Guide till JSON-LD, vanliga schema-typer, implementering i WordPress och testning.",
+    "author": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{DOMAIN}}/seo-skola/schema-markup/"
+    },
+    "image": "{{DOMAIN}}/images/schema-markup.jpg",
+    "wordCount": 2000
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "SEO-skola", "item": "{{DOMAIN}}/seo-skola/" },
+      { "@type": "ListItem", "position": 3, "name": "Schema Markup", "item": "{{DOMAIN}}/seo-skola/schema-markup/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Vad &auml;r schema markup?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Schema markup &auml;r en typ av strukturerad data som du l&auml;gger till i din webbplats HTML-kod f&ouml;r att hj&auml;lpa s&ouml;kmotorer f&ouml;rst&aring; inneh&aring;llet b&auml;ttre. Det anv&auml;nder ett standardiserat vokabul&auml;r fr&aring;n schema.org och kan leda till rich snippets i s&ouml;kresultaten, vilket &ouml;kar synligheten och klickfrekvensen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vilket format ska jag anv&auml;nda f&ouml;r schema markup?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Google rekommenderar JSON-LD (JavaScript Object Notation for Linked Data). Det &auml;r enklast att implementera eftersom det placeras i en script-tagg i sidans head-sektion och inte p&aring;verkar den synliga HTML-koden. JSON-LD &auml;r ocks&aring; l&auml;ttast att underh&aring;lla och fels&ouml;ka."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan schema markup f&ouml;rb&auml;ttra min ranking p&aring; Google?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Schema markup &auml;r inte en direkt rankingfaktor, men det kan indirekt f&ouml;rb&auml;ttra din SEO. Rich snippets &ouml;kar din synlighet i s&ouml;kresultaten och kan &ouml;ka klickfrekvensen (CTR) med upp till 30 procent. H&ouml;gre CTR signalerar till Google att ditt resultat &auml;r relevant, vilket kan p&aring;verka din ranking positivt &ouml;ver tid."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hur testar jag om min schema markup fungerar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Anv&auml;nd Googles Rich Results Test (search.google.com/test/rich-results) f&ouml;r att testa om din strukturerade data &auml;r korrekt och kvalificerar f&ouml;r rich snippets. Du kan ocks&aring; anv&auml;nda Schema Markup Validator (validator.schema.org) f&ouml;r en mer detaljerad validering av din JSON-LD-kod."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Beh&ouml;ver jag kunna koda f&ouml;r att anv&auml;nda schema markup?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nej, om du anv&auml;nder WordPress kan du l&auml;gga till schema markup via SEO-plugins som Rank Math eller Yoast SEO utan att skriva en enda rad kod. F&ouml;r mer avancerade implementeringar kan du anv&auml;nda Googles Structured Data Markup Helper f&ouml;r att generera JSON-LD-kod som du sedan kopierar in p&aring; din sajt."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #1a1a2e; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #1a1a2e;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a { color: #64748b; text-decoration: none; }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em { color: #db007f; font-style: normal; }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      font-size: 14px;
+      color: #64748b;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item { display: flex; align-items: center; gap: 6px; }
+
+    /* ===== TABLE OF CONTENTS ===== */
+    .toc {
+      max-width: 780px;
+      margin: -20px auto 0;
+      padding: 0 24px;
+      position: relative;
+      z-index: 10;
+    }
+    .toc-inner {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 36px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+    .toc-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+    .toc-list {
+      list-style: none;
+      counter-reset: toc-counter;
+    }
+    .toc-list li { counter-increment: toc-counter; margin-bottom: 10px; }
+    .toc-list li:last-child { margin-bottom: 0; }
+    .toc-list a {
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0;
+      transition: color 0.2s;
+    }
+    .toc-list a:hover { color: #db007f; }
+    .toc-list a::before {
+      content: counter(toc-counter);
+      background: #fdf2f8;
+      color: #db007f;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ===== MAIN LAYOUT (ARTICLE + SIDEBAR) ===== */
+    .content-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 24px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ===== ARTICLE BODY ===== */
+    .article-body { max-width: 780px; }
+    .article-body h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 56px 0 20px;
+      line-height: 1.3;
+      scroll-margin-top: 80px;
+    }
+    .article-body h2:first-of-type { margin-top: 0; }
+    .article-body h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 36px 0 14px;
+    }
+    .article-body p { color: #374151; margin-bottom: 18px; line-height: 1.8; }
+    .article-body ul, .article-body ol { margin: 0 0 20px 24px; color: #374151; }
+    .article-body li { margin-bottom: 8px; line-height: 1.7; }
+    .article-body a {
+      color: #db007f;
+      text-decoration: underline;
+      text-decoration-color: #db007f40;
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+    .article-body a:hover { text-decoration-color: #db007f; }
+    .article-body strong { color: #0f172a; font-weight: 600; }
+
+    /* ===== KEY TAKEAWAY BOXES ===== */
+    .key-takeaway {
+      background: linear-gradient(135deg, #fdf2f8, #faf5ff);
+      border-left: 4px solid #db007f;
+      border-radius: 0 14px 14px 0;
+      padding: 28px 32px;
+      margin: 36px 0;
+    }
+    .key-takeaway-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #db007f;
+      margin-bottom: 10px;
+    }
+    .key-takeaway p { color: #475569; margin-bottom: 0; font-size: 1rem; line-height: 1.7; }
+    .key-takeaway strong { color: #0f172a; }
+
+    /* ===== INFO BOX ===== */
+    .info-box {
+      background: #f0f9ff;
+      border-left: 4px solid #00d4ff;
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .info-box p { color: #475569; margin-bottom: 0; }
+    .info-box strong { color: #0f172a; }
+
+    /* ===== BLOCKQUOTE / CALLOUT ===== */
+    .article-body blockquote {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 14px;
+      padding: 32px 36px;
+      margin: 36px 0;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    .article-body blockquote::before {
+      content: '\201C';
+      font-size: 4rem;
+      color: #db007f;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .article-body blockquote p { color: #e2e8f0; margin-bottom: 0; padding-left: 24px; }
+
+    /* ===== CODE BLOCKS ===== */
+    .code-block {
+      background: #0f172a;
+      border-radius: 14px;
+      padding: 28px 32px;
+      margin: 28px 0;
+      overflow-x: auto;
+    }
+    .code-block-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #db007f;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .code-block pre {
+      margin: 0;
+      padding: 0;
+      background: none;
+    }
+    .code-block code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+      white-space: pre;
+      display: block;
+    }
+    .code-block code .key { color: #7dd3fc; }
+    .code-block code .string { color: #86efac; }
+    .code-block code .comment { color: #64748b; font-style: italic; }
+
+    /* ===== SCHEMA TYPE GRID ===== */
+    .pillar-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 32px 0 36px;
+    }
+    .pillar-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    .pillar-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #db007f15, #00d4ff15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 16px;
+    }
+    .pillar-card h4 { font-size: 1.05rem; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
+    .pillar-card p { font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-bottom: 12px; }
+    .pillar-card a { color: #db007f; font-weight: 600; text-decoration: none; font-size: 0.88rem; }
+    .pillar-card a:hover { text-decoration: underline; }
+
+    /* ===== COMPARISON TABLE ===== */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 28px 0 32px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .comparison-table thead { background: #0f172a; }
+    .comparison-table th {
+      padding: 16px 20px;
+      text-align: left;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .comparison-table td {
+      padding: 14px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      color: #374151;
+      font-size: 0.93rem;
+    }
+    .comparison-table tbody tr:nth-child(even) { background: #f8fafc; }
+    .comparison-table tbody tr:last-child td { border-bottom: none; }
+
+    /* ===== TIMELINE / STEPS ===== */
+    .timeline-steps { margin: 32px 0; }
+    .timeline-step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      align-items: flex-start;
+    }
+    .timeline-step:last-child { margin-bottom: 0; }
+    .timeline-step-number {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .timeline-step-content h4 { font-size: 1.05rem; font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+    .timeline-step-content p { color: #475569; font-size: 0.95rem; margin-bottom: 0; line-height: 1.6; }
+
+    /* ===== MYTH BOXES ===== */
+    .myth-block { margin-bottom: 28px; }
+    .myth-box {
+      background: #fef2f2;
+      border-radius: 14px 14px 0 0;
+      padding: 22px 28px;
+      border-left: 4px solid #dc2626;
+    }
+    .myth-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .myth-label-false { color: #dc2626; }
+    .myth-label-true { color: #16a34a; }
+    .myth-box h4 { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 0; }
+    .truth-box {
+      background: #f0fdf4;
+      border-radius: 0 0 14px 14px;
+      padding: 22px 28px;
+      border-left: 4px solid #16a34a;
+    }
+    .truth-box p { color: #374151; margin: 0; font-size: 0.94rem; line-height: 1.7; }
+
+    /* ===== SUMMARY BOX ===== */
+    .summary-box {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border-radius: 16px;
+      padding: 40px 36px;
+      margin: 36px 0;
+    }
+    .summary-box h3 { color: #ffffff; font-size: 1.2rem; margin-bottom: 20px; }
+    .summary-box ul { list-style: none; margin: 0; padding: 0; }
+    .summary-box li {
+      color: #cbd5e1;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 0.95rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .summary-box li:last-child { border-bottom: none; }
+    .summary-check { color: #00d4ff; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar { position: sticky; top: 90px; }
+    .sidebar-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+    }
+    .sidebar-card h4 { font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
+    .sidebar-link {
+      display: block;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: all 0.2s;
+    }
+    .sidebar-link:hover { background: #fdf2f8; color: #db007f; }
+    .sidebar-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .sidebar-cta h4 { color: #ffffff; font-size: 1rem; margin-bottom: 10px; }
+    .sidebar-cta p { color: rgba(255,255,255,0.85); font-size: 0.88rem; margin-bottom: 16px; line-height: 1.5; }
+    .sidebar-cta-btn {
+      display: inline-block;
+      background: #ffffff;
+      color: #db007f;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .sidebar-cta-btn:hover { transform: translateY(-2px); }
+
+    /* ===== RELATED ARTICLES SECTION ===== */
+    .read-more {
+      background: #fdf2f8;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 48px 0 0;
+    }
+    .read-more h3 { font-size: 1.2rem; font-weight: 700; color: #0f172a; margin: 0 0 18px; }
+    .read-more-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .read-more-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-decoration: none;
+      color: #0f172a;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .read-more-link:hover { border-color: #db007f; transform: translateY(-2px); }
+    .read-more-link .link-arrow { color: #db007f; font-weight: 700; margin-left: auto; }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-section {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 70px 24px;
+    }
+    .faq-section-label {
+      color: #db007f;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .faq-section h2 { font-size: 2rem; font-weight: 700; color: #0f172a; margin-bottom: 32px; }
+    .faq-item { border-bottom: 1px solid #e2e8f0; padding: 20px 0; }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-item.open .faq-question::after { content: '\2212'; }
+    .faq-answer { color: #475569; margin-top: 12px; line-height: 1.7; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer a { color: #db007f; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .cta-section h2 { color: #fff; font-size: 2.2rem; margin-bottom: 16px; }
+    .cta-section p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn-white {
+      display: inline-block;
+      background: #fff;
+      color: #db007f;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+    .footer h4 { color: #fff; font-size: 1rem; margin-bottom: 16px; }
+    .footer a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; }
+    .footer a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero { padding: 50px 20px 40px; }
+      .article-body h2 { font-size: 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .toc-inner { padding: 24px 20px; }
+      .pillar-grid { grid-template-columns: 1fr; }
+      .content-layout { grid-template-columns: 1fr; padding: 32px 20px; }
+      .sidebar { position: static; }
+      .comparison-table { font-size: 0.85rem; }
+      .comparison-table th, .comparison-table td { padding: 10px 12px; }
+      .read-more-links { grid-template-columns: 1fr; }
+      .read-more { padding: 24px 20px; }
+      .faq-section { padding: 48px 20px; }
+      .cta-section { padding: 56px 20px; }
+      .cta-section h2 { font-size: 1.7rem; }
+      .hero-meta { gap: 12px; }
+      .key-takeaway { padding: 22px 20px; }
+      .myth-box, .truth-box { padding: 18px 20px; }
+      .code-block { padding: 20px; }
+      .code-block code { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <button class="nav-toggle" aria-label="Meny">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/">Hem</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a>
+    <span>/</span>
+    <a href="{{DOMAIN}}/seo-skola/">SEO-skola</a>
+    <span>/</span>
+    Schema Markup
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge">SEO-skola &mdash; Teknisk SEO</span>
+      <h1><em>Schema Markup</em> &mdash; Strukturerad data f&ouml;r SEO</h1>
+      <p class="hero-subtitle">L&auml;r dig hur strukturerad data hj&auml;lper s&ouml;kmotorer f&ouml;rst&aring; ditt inneh&aring;ll, ger dig rich snippets i s&ouml;kresultaten och &ouml;kar din klickfrekvens. Komplett guide med JSON-LD-exempel.</p>
+      <div class="hero-meta">
+        <span class="hero-meta-item">&#128197; Publicerad 10 februari 2026</span>
+        <span class="hero-meta-item">&#9201; L&auml;stid: ca 10 minuter</span>
+        <span class="hero-meta-item">&#128221; ~2 000 ord</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table of Contents -->
+  <div class="toc">
+    <div class="toc-inner">
+      <div class="toc-title">Inneh&aring;llsf&ouml;rteckning</div>
+      <ol class="toc-list">
+        <li><a href="#vad-ar-schema">Vad &auml;r schema markup och strukturerad data?</a></li>
+        <li><a href="#varfor-viktigt">Varf&ouml;r schema markup &auml;r viktigt f&ouml;r SEO</a></li>
+        <li><a href="#json-ld">JSON-LD &mdash; formatet Google rekommenderar</a></li>
+        <li><a href="#vanligaste-typer">De vanligaste schema-typerna</a></li>
+        <li><a href="#kodexempel">Kodexempel: JSON-LD i praktiken</a></li>
+        <li><a href="#implementering-wordpress">Implementera schema i WordPress</a></li>
+        <li><a href="#testa-validera">Testa och validera din strukturerade data</a></li>
+        <li><a href="#vanliga-misstag">Vanliga misstag att undvika</a></li>
+        <li><a href="#sammanfattning">Sammanfattning</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Layout: Body + Sidebar -->
+  <div class="content-layout">
+
+    <!-- Article Body -->
+    <article class="article-body">
+
+      <!-- 1. Vad &auml;r schema markup -->
+      <h2 id="vad-ar-schema">Vad &auml;r schema markup och strukturerad data?</h2>
+
+      <p><strong>Schema markup</strong> &auml;r en typ av kod som du l&auml;gger till p&aring; din webbplats f&ouml;r att hj&auml;lpa s&ouml;kmotorer som Google, Bing och Yahoo att f&ouml;rst&aring; inneh&aring;llet p&aring; dina sidor p&aring; en djupare niv&aring;. Ist&auml;llet f&ouml;r att bara l&auml;sa text och gissa vad sidan handlar om, kan s&ouml;kmotorn tolka att det h&auml;r &auml;r ett f&ouml;retag, en produkt, en recension eller en FAQ-sektion.</p>
+
+      <p>Begreppet <strong>strukturerad data</strong> (structured data) anv&auml;nds ofta som synonym till schema markup. Tekniskt sett &auml;r strukturerad data det bredare konceptet &mdash; ett standardiserat s&auml;tt att organisera information &mdash; medan schema markup &auml;r den specifika implementeringen baserad p&aring; vokabul&auml;ret fr&aring;n <strong>schema.org</strong>.</p>
+
+      <p>Schema.org skapades 2011 av Google, Bing, Yahoo och Yandex som en gemensam standard. Idag finns &ouml;ver 800 olika typer och tusentals egenskaper som beskriver allt fr&aring;n lokala f&ouml;retag och produkter till recept, evenemang och medicinska tillst&aring;nd.</p>
+
+      <div class="key-takeaway">
+        <div class="key-takeaway-label">Kort sammanfattning</div>
+        <p><strong>Schema markup ger s&ouml;kmotorer kontext.</strong> Det &auml;r som att g&aring; fr&aring;n att visa en s&ouml;kmotor ett foto av din butik till att ge den en komplett visitkort med namn, adress, &ouml;ppettider, omd&ouml;men och tj&auml;nster. Ju mer information s&ouml;kmotorn f&ouml;rst&aring;r, desto b&auml;ttre kan den presentera din sajt i s&ouml;kresultaten.</p>
+      </div>
+
+
+      <!-- 2. Varf&ouml;r viktigt -->
+      <h2 id="varfor-viktigt">Varf&ouml;r schema markup &auml;r viktigt f&ouml;r SEO</h2>
+
+      <p>Schema markup &auml;r inte en direkt rankingfaktor &mdash; Google har bekr&auml;ftat detta. Men det &auml;r en av de mest effektiva &aring;tg&auml;rderna f&ouml;r att f&ouml;rb&auml;ttra hur din sajt presenteras i s&ouml;kresultaten, och det p&aring;verkar SEO p&aring; flera indirekta men kraftfulla s&auml;tt.</p>
+
+      <h3>Rich snippets &mdash; ut&ouml;kade s&ouml;kresultat</h3>
+
+      <p>Den mest synliga f&ouml;rdelen med schema markup &auml;r <strong>rich snippets</strong>. Ist&auml;llet f&ouml;r ett vanligt s&ouml;kresultat med bara titel och metabeskrivning kan din sida visas med stj&auml;rnbetyg, priser, produkttillg&auml;nglighet, FAQ-svar, breadcrumbs eller bilder direkt i s&ouml;kresultaten.</p>
+
+      <p>Rich snippets tar mer plats p&aring; sidan och drar blicken till sig. Studier visar att s&ouml;kresultat med rich snippets f&aring;r <strong>upp till 30 procent h&ouml;gre klickfrekvens</strong> (CTR) j&auml;mf&ouml;rt med vanliga resultat. F&ouml;r ett lokalt f&ouml;retag kan det inneb&auml;ra skillnaden mellan att f&aring; bes&ouml;kare och att bli ignorerad.</p>
+
+      <h3>Kunskapspanelen och visuell synlighet</h3>
+
+      <p>F&ouml;r f&ouml;retag och organisationer kan korrekt schema markup leda till att Google visar en <strong>kunskapspanel</strong> (Knowledge Panel) till h&ouml;ger om s&ouml;kresultaten. Den visar f&ouml;retagsnamn, logotyp, adress, &ouml;ppettider, kontaktuppgifter och omd&ouml;men &mdash; allt h&auml;mtat fr&aring;n strukturerad data, Google Business Profile och andra k&auml;llor.</p>
+
+      <h3>F&ouml;rb&auml;ttrad f&ouml;rst&aring;else av inneh&aring;ll</h3>
+
+      <p>Schema markup hj&auml;lper Google att <strong>kategorisera och relatera</strong> ditt inneh&aring;ll korrekt. Om du driver en m&ouml;belbutik och m&auml;rker upp dina produktsidor med Product-schema vet Google exakt att det handlar om en specifik produkt med ett visst pris, tillg&auml;nglighet och betyg &mdash; inte bara en sida med text om m&ouml;bler.</p>
+
+      <p>I en tid d&auml;r AI-genererade svar (AI Overviews) tar allt st&ouml;rre plats i s&ouml;kresultaten &auml;r strukturerad data &auml;nnu viktigare. Google anv&auml;nder strukturerad data f&ouml;r att popullera sina AI-svar, och sajter med korrekt schema markup har st&ouml;rre chans att citeras.</p>
+
+
+      <!-- 3. JSON-LD -->
+      <h2 id="json-ld">JSON-LD &mdash; formatet Google rekommenderar</h2>
+
+      <p>Det finns tre format f&ouml;r att implementera schema markup: <strong>JSON-LD</strong>, <strong>Microdata</strong> och <strong>RDFa</strong>. Google rekommenderar JSON-LD och det &auml;r det format du b&ouml;r anv&auml;nda. H&auml;r &auml;r varf&ouml;r:</p>
+
+      <ul>
+        <li><strong>Enkel implementering:</strong> JSON-LD placeras i en <code>&lt;script&gt;</code>-tagg i sidans &lt;head&gt; eller &lt;body&gt;. Det beh&ouml;ver inte varpas runt befintlig HTML, vilket g&ouml;r det mycket enklare att l&auml;gga till och undeh&aring;lla.</li>
+        <li><strong>Separation av inneh&aring;ll:</strong> Eftersom JSON-LD lever separat fr&aring;n din HTML p&aring;verkar det inte sidans layout eller design. Du kan &auml;ndra din strukturerade data utan att r&ouml;ra det synliga inneh&aring;llet.</li>
+        <li><strong>L&auml;tt att fels&ouml;ka:</strong> JSON-LD &auml;r ren JSON-syntax som &auml;r enkel att l&auml;sa, validera och kopiera mellan sidor.</li>
+        <li><strong>St&ouml;ds av Google:</strong> Google f&ouml;redrar JSON-LD och alla deras guider och verktyg &auml;r byggda kring detta format.</li>
+      </ul>
+
+      <div class="info-box">
+        <p><strong>Vad &auml;r JSON-LD?</strong> JSON-LD st&aring;r f&ouml;r JavaScript Object Notation for Linked Data. Det &auml;r en metod f&ouml;r att koda strukturerad data i JSON-format. Varje JSON-LD-block b&ouml;rjar med <code>@context</code> (som pekar p&aring; schema.org) och <code>@type</code> (som anger vilken typ av data det r&ouml;r sig om).</p>
+      </div>
+
+
+      <!-- 4. Vanligaste typerna -->
+      <h2 id="vanligaste-typer">De vanligaste schema-typerna</h2>
+
+      <p>Schema.org inneh&aring;ller hundratals typer, men f&ouml;r de flesta svenska f&ouml;retag och webbplatser &auml;r det en handfull typer som ger st&ouml;rst effekt. H&auml;r &auml;r de viktigaste att k&auml;nna till.</p>
+
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Schema-typ</th>
+            <th>Anv&auml;nds f&ouml;r</th>
+            <th>Rich snippet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>LocalBusiness</strong></td>
+            <td>Lokala f&ouml;retag med fysisk adress</td>
+            <td>Kunskapspanel, karta, &ouml;ppettider</td>
+          </tr>
+          <tr>
+            <td><strong>Organization</strong></td>
+            <td>F&ouml;retag och organisationer generellt</td>
+            <td>Kunskapspanel, logotyp, kontakt</td>
+          </tr>
+          <tr>
+            <td><strong>Product</strong></td>
+            <td>Produktsidor i e-handel</td>
+            <td>Pris, tillg&auml;nglighet, betyg</td>
+          </tr>
+          <tr>
+            <td><strong>FAQPage</strong></td>
+            <td>Sidor med vanliga fr&aring;gor och svar</td>
+            <td>Expanderbara fr&aring;gor i s&ouml;kresultaten</td>
+          </tr>
+          <tr>
+            <td><strong>Article / BlogPosting</strong></td>
+            <td>Nyhetsartiklar och bloggposter</td>
+            <td>Datum, f&ouml;rfattare, bild</td>
+          </tr>
+          <tr>
+            <td><strong>BreadcrumbList</strong></td>
+            <td>Navigationssp&aring;r p&aring; webbplatsen</td>
+            <td>Breadcrumbs i s&ouml;kresultaten</td>
+          </tr>
+          <tr>
+            <td><strong>Service</strong></td>
+            <td>Tj&auml;nster som f&ouml;retaget erbjuder</td>
+            <td>Tj&auml;nstebeskrivning, omr&aring;de</td>
+          </tr>
+          <tr>
+            <td><strong>Review / AggregateRating</strong></td>
+            <td>Omd&ouml;men och samlade betyg</td>
+            <td>Stj&auml;rnbetyg i s&ouml;kresultaten</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>LocalBusiness</h3>
+      <p>Den viktigaste schema-typen f&ouml;r lokala f&ouml;retag. Den talar om f&ouml;r Google att din sajt representerar ett f&ouml;retag med en fysisk adress, &ouml;ppettider och kontaktinformation. Anv&auml;nd g&auml;rna en mer specifik undertyp som <code>Restaurant</code>, <code>Dentist</code> eller <code>Store</code> om det passar. L&auml;s mer om hur detta samverkar med andra lokala SEO-&aring;tg&auml;rder i v&aring;r guide om <a href="{{DOMAIN}}/seo-skola/lokal-seo/">lokal SEO</a>.</p>
+
+      <h3>Organization</h3>
+      <p>Anv&auml;nds p&aring; din startsida f&ouml;r att beskriva f&ouml;retaget som helhet: namn, logotyp, grundare, sociala medier-profiler och kontaktinformation. Google anv&auml;nder denna data f&ouml;r sin kunskapspanel.</p>
+
+      <h3>Product</h3>
+      <p>Visar produktinformation direkt i s&ouml;kresultaten: pris, lagerstatus, betyg och valuta. Avg&ouml;rande f&ouml;r e-handelsbutiker som vill sticka ut bland konkurrenterna i Google Shopping och organiska resultat.</p>
+
+      <h3>FAQPage</h3>
+      <p>L&aring;ter dig visa fr&aring;gor och svar direkt i s&ouml;kresultaten. Detta kan dramatiskt &ouml;ka den yta ditt resultat tar i Google och &auml;r enkel att implementera p&aring; vilken sida som helst som inneh&aring;ller en FAQ-sektion.</p>
+
+      <h3>Article och BlogPosting</h3>
+      <p>F&ouml;r bloggposter och nyhetsartiklar. Ger Google information om publicerings- och uppdateringsdatum, f&ouml;rfattare och huvudbild. Relevant f&ouml;r sajter som regelbundet publicerar inneh&aring;ll. L&auml;s v&aring;r guide om <a href="{{DOMAIN}}/seo-skola/seo-texter/">SEO-texter</a> f&ouml;r tips om inneh&aring;llsoptimering.</p>
+
+      <h3>BreadcrumbList</h3>
+      <p>Visar din sajts navigationsstruktur i s&ouml;kresultaten (t.ex. Hem &gt; SEO-skola &gt; Schema Markup). Det hj&auml;lper b&aring;de anv&auml;ndare och s&ouml;kmotorer att f&ouml;rst&aring; var sidan befinner sig i sajthierarkin. L&auml;s mer om sajtstruktur i v&aring;r artikel om <a href="{{DOMAIN}}/seo-skola/interna-lankar/">interna l&auml;nkar</a>.</p>
+
+      <h3>Service</h3>
+      <p>Beskriver tj&auml;nster som ditt f&ouml;retag erbjuder. S&auml;rskilt anv&auml;ndbart f&ouml;r tj&auml;nstef&ouml;retag som konsulter, hantverkare och byr&aring;er. Kombinera g&auml;rna med LocalBusiness f&ouml;r att visa b&aring;de tj&auml;nster och geografiskt omr&aring;de.</p>
+
+      <h3>Review och AggregateRating</h3>
+      <p>Visar stj&auml;rnbetyg och omd&ouml;men i s&ouml;kresultaten. <code>AggregateRating</code> sammanfattar flera omd&ouml;men till ett genomsnittligt betyg, medan <code>Review</code> beskriver ett enskilt omd&ouml;me. Obs: Google till&aring;ter inte sj&auml;lvgenererade omd&ouml;men p&aring; f&ouml;retagets egen startsida &mdash; betyg m&aring;ste komma fr&aring;n tredjepartsk&auml;llor eller verkliga kundrecensioner.</p>
+
+
+      <!-- 5. Kodexempel -->
+      <h2 id="kodexempel">Kodexempel: JSON-LD i praktiken</h2>
+
+      <p>H&auml;r kommer konkreta kodexempel f&ouml;r de vanligaste schema-typerna. Kopiera och anpassa dessa f&ouml;r din egen webbplats. Varje block placeras i en <code>&lt;script type="application/ld+json"&gt;</code>-tagg, helst i sidans <code>&lt;head&gt;</code>-sektion.</p>
+
+      <h3>LocalBusiness &mdash; lokalt f&ouml;retag</h3>
+
+      <div class="code-block">
+        <span class="code-block-label">JSON-LD: LocalBusiness</span>
+        <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Searchboost SEO-byr&aring;",
+  "image": "https://searchboost.nu/logo.png",
+  "url": "https://searchboost.nu",
+  "telephone": "+46701234567",
+  "email": "mikael@searchboost.nu",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Storgatan 10",
+    "addressLocality": "J&ouml;nk&ouml;ping",
+    "postalCode": "55320",
+    "addressCountry": "SE"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+      "opens": "08:00",
+      "closes": "17:00"
+    }
+  ],
+  "priceRange": "$$",
+  "sameAs": [
+    "https://www.facebook.com/searchboost",
+    "https://www.linkedin.com/company/searchboost"
+  ]
+}</code></pre>
+      </div>
+
+      <h3>FAQPage &mdash; vanliga fr&aring;gor</h3>
+
+      <div class="code-block">
+        <span class="code-block-label">JSON-LD: FAQPage</span>
+        <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Vad kostar SEO f&ouml;r ett litet f&ouml;retag?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "En SEO-byr&aring; tar vanligtvis mellan 5 000 och 25 000 kronor per m&aring;nad beroende p&aring; omfattning och konkurrens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Hur l&aring;ng tid tar det att se SEO-resultat?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "De flesta f&ouml;retag ser m&auml;tbara resultat efter 3&ndash;6 m&aring;nader av konsekvent SEO-arbete."
+      }
+    }
+  ]
+}</code></pre>
+      </div>
+
+      <h3>Product &mdash; produktsida</h3>
+
+      <div class="code-block">
+        <span class="code-block-label">JSON-LD: Product</span>
+        <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Kontorsstol Ergonomisk Pro",
+  "image": "https://example.se/stol-pro.jpg",
+  "description": "Ergonomisk kontorsstol med justerbara armst&ouml;d och ryggst&ouml;d.",
+  "brand": {
+    "@type": "Brand",
+    "name": "M&ouml;belbutiken"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "4995",
+    "priceCurrency": "SEK",
+    "availability": "https://schema.org/InStock",
+    "url": "https://example.se/kontorsstol-pro"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.6",
+    "reviewCount": "47"
+  }
+}</code></pre>
+      </div>
+
+      <h3>BreadcrumbList &mdash; br&ouml;dsmulor</h3>
+
+      <div class="code-block">
+        <span class="code-block-label">JSON-LD: BreadcrumbList</span>
+        <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Hem",
+      "item": "https://example.se/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "SEO-skola",
+      "item": "https://example.se/seo-skola/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Schema Markup",
+      "item": "https://example.se/seo-skola/schema-markup/"
+    }
+  ]
+}</code></pre>
+      </div>
+
+      <div class="key-takeaway">
+        <div class="key-takeaway-label">Praktiskt tips</div>
+        <p><strong>Kombinera flera schema-typer p&aring; samma sida.</strong> En produktsida kan ha b&aring;de Product-schema, BreadcrumbList och Organization. En bloggpost kan ha Article, FAQPage och BreadcrumbList. Varje typ placeras i en separat <code>&lt;script type="application/ld+json"&gt;</code>-tagg.</p>
+      </div>
+
+
+      <!-- 6. Implementering i WordPress -->
+      <h2 id="implementering-wordpress">Implementera schema markup i WordPress</h2>
+
+      <p>Om du anv&auml;nder WordPress har du tv&aring; huvudsakliga v&auml;gar f&ouml;r att l&auml;gga till schema markup: via ett SEO-plugin eller genom att manuellt l&auml;gga till JSON-LD-kod. F&ouml;r de flesta &auml;r ett plugin det enklaste och s&auml;kraste alternativet. L&auml;s v&aring;r fullst&auml;ndiga guide om <a href="{{DOMAIN}}/seo-skola/wordpress-seo/">WordPress SEO</a> f&ouml;r fler tips.</p>
+
+      <h3>Rank Math (rekommenderat)</h3>
+
+      <p><strong>Rank Math</strong> &auml;r det SEO-plugin vi rekommenderar f&ouml;r de flesta WordPress-sajter. Det har inbyggt st&ouml;d f&ouml;r schema markup med ett anv&auml;ndarv&auml;nligt gr&auml;nssnitt.</p>
+
+      <ul>
+        <li>St&ouml;djer 20+ schema-typer redan i gratisversionen</li>
+        <li>Automatisk Article-schema p&aring; alla bloggposter</li>
+        <li>LocalBusiness-schema konfigureras globalt i inst&auml;llningarna</li>
+        <li>FAQ-schema l&auml;ggs till via ett dedikerat FAQ-block i Gutenberg</li>
+        <li>Visuell schema-redigerare f&ouml;r avancerade anv&auml;ndare (premiumversion)</li>
+      </ul>
+
+      <div class="timeline-steps">
+        <div class="timeline-step">
+          <div class="timeline-step-number">1</div>
+          <div class="timeline-step-content">
+            <h4>Installera och aktivera Rank Math</h4>
+            <p>G&aring; till Plugins &gt; L&auml;gg till nytt &gt; s&ouml;k p&aring; &ldquo;Rank Math SEO&rdquo;. Installera och aktivera pluginet. K&ouml;r installationsguiden och v&auml;lj &ldquo;Advanced&rdquo; f&ouml;r att f&aring; tillg&aring;ng till alla schema-inst&auml;llningar.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-number">2</div>
+          <div class="timeline-step-content">
+            <h4>Konfigurera globala schema-inst&auml;llningar</h4>
+            <p>G&aring; till Rank Math &gt; Titles &amp; Meta &gt; Local SEO. Fyll i f&ouml;retagsnamn, adress, telefon, &ouml;ppettider och logotyp. Detta skapar automatiskt LocalBusiness- eller Organization-schema p&aring; din startsida.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-number">3</div>
+          <div class="timeline-step-content">
+            <h4>V&auml;lj schema-typ per sida</h4>
+            <p>N&auml;r du redigerar en sida eller ett inl&auml;gg, scrolla ned till Rank Math-sektionen och klicka p&aring; Schema-fliken. H&auml;r kan du v&auml;lja vilken schema-typ som passar sidan b&auml;st: Article, Product, Service, FAQ eller annan typ.</p>
+          </div>
+        </div>
+        <div class="timeline-step">
+          <div class="timeline-step-number">4</div>
+          <div class="timeline-step-content">
+            <h4>Testa med Rich Results Test</h4>
+            <p>Publicera sidan och k&ouml;r URL:en genom Googles Rich Results Test f&ouml;r att verifiera att din strukturerade data &auml;r korrekt och kvalificerar f&ouml;r rich snippets.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>Manuell implementering</h3>
+
+      <p>F&ouml;r mer avancerade behov kan du l&auml;gga till JSON-LD-kod manuellt. De vanligaste metoderna &auml;r:</p>
+
+      <ul>
+        <li><strong>Temat:</strong> L&auml;gg till koden i <code>header.php</code> via <code>wp_head</code>-hooken. Anv&auml;nd ett child theme s&aring; att dina &auml;ndringar inte skrivs &ouml;ver vid temauppdateringar.</li>
+        <li><strong>Functions.php:</strong> Skapa en funktion som skriver ut JSON-LD i <code>&lt;head&gt;</code>. Du kan villkorstyra vilken schema som visas baserat p&aring; sidtyp.</li>
+        <li><strong>Plugin f&ouml;r header-kod:</strong> Anv&auml;nd ett plugin som &ldquo;Insert Headers and Footers&rdquo; f&ouml;r att klistra in JSON-LD-block utan att r&ouml;ra temafiler.</li>
+      </ul>
+
+      <div class="info-box">
+        <p><strong>V&aring;r rekommendation:</strong> Anv&auml;nd Rank Math f&ouml;r standard-schema (LocalBusiness, Article, BreadcrumbList) och komplettera med manuell JSON-LD f&ouml;r specialfall som Product-schema med anpassade f&auml;lt eller Service-schema med specifika tj&auml;nstebeskrivningar.</p>
+      </div>
+
+
+      <!-- 7. Testa och validera -->
+      <h2 id="testa-validera">Testa och validera din strukturerade data</h2>
+
+      <p>Att implementera schema markup utan att testa &auml;r som att skicka ett brev utan att kontrollera adressen. Anv&auml;nd dessa verktyg f&ouml;r att s&auml;kerst&auml;lla att din strukturerade data &auml;r korrekt.</p>
+
+      <h3>Googles Rich Results Test</h3>
+
+      <p>Det viktigaste verktyget. G&aring; till <strong>search.google.com/test/rich-results</strong> och ange din URL. Verktyget visar vilka rich results din sida kvalificerar f&ouml;r, eventuella fel och varningar. Det visar ocks&aring; exakt hur ditt s&ouml;kresultat kan se ut med rich snippets.</p>
+
+      <h3>Schema Markup Validator</h3>
+
+      <p>F&ouml;r djupare validering, anv&auml;nd <strong>validator.schema.org</strong>. Detta verktyg kontrollerar att din JSON-LD-kod f&ouml;ljer schema.org-standarden och rapporterar tekniska problem som Rich Results Test kan missa.</p>
+
+      <h3>Google Search Console</h3>
+
+      <p>N&auml;r din schema markup &auml;r live, &ouml;vervaka den i <strong>Google Search Console</strong> under sektionen F&ouml;rb&auml;ttringar (Enhancements). H&auml;r ser du om Google har hittat fel i din strukturerade data, hur m&aring;nga sidor som har giltig schema, och vilka rich results du &auml;r kvalificerad f&ouml;r. L&auml;s v&aring;r guide om <a href="{{DOMAIN}}/seo-skola/google-search-console/">Google Search Console</a> f&ouml;r att l&auml;ra dig verktyget p&aring; djupet.</p>
+
+      <div class="key-takeaway">
+        <div class="key-takeaway-label">Best practice</div>
+        <p><strong>Testa alltid efter &auml;ndringar.</strong> Varje g&aring;ng du l&auml;gger till eller &auml;ndrar schema markup, k&ouml;r sidan genom Rich Results Test innan du publicerar. Det tar 30 sekunder och kan bespara dig veckor av fels&ouml;kning.</p>
+      </div>
+
+
+      <!-- 8. Vanliga misstag -->
+      <h2 id="vanliga-misstag">Vanliga misstag att undvika</h2>
+
+      <p>Schema markup &auml;r kraftfullt men det &auml;r l&auml;tt att g&ouml;ra fel. H&auml;r &auml;r de vanligaste misstagen vi ser n&auml;r vi granskar kunders webbplatser &mdash; och hur du undviker dem.</p>
+
+      <div class="myth-block">
+        <div class="myth-box">
+          <div class="myth-label myth-label-false">Vanligt misstag</div>
+          <h4>Schema markup som inte matchar sidans synliga inneh&aring;ll</h4>
+        </div>
+        <div class="truth-box">
+          <p>Google kr&auml;ver att strukturerad data &aring;terspeglar det som faktiskt visas p&aring; sidan. Om du anger ett pris i din Product-schema m&aring;ste samma pris vara synligt p&aring; sidan. Att l&auml;gga till information som inte finns p&aring; sidan r&auml;knas som missvisande och kan leda till manuella &aring;tg&auml;rder fr&aring;n Google.</p>
+        </div>
+      </div>
+
+      <div class="myth-block">
+        <div class="myth-box">
+          <div class="myth-label myth-label-false">Vanligt misstag</div>
+          <h4>Sj&auml;lvgenererade omd&ouml;men med Review-schema p&aring; startsidan</h4>
+        </div>
+        <div class="truth-box">
+          <p>Google till&aring;ter inte att du anv&auml;nder Review- eller AggregateRating-schema f&ouml;r omd&ouml;men om ditt eget f&ouml;retag p&aring; din egen sajt. Omd&ouml;men m&aring;ste komma fr&aring;n en tredjepartsplattform (som Google Reviews) eller fr&aring;n verifierade kunder p&aring; specifika produkt- eller tj&auml;nstesidor.</p>
+        </div>
+      </div>
+
+      <div class="myth-block">
+        <div class="myth-box">
+          <div class="myth-label myth-label-false">Vanligt misstag</div>
+          <h4>Anv&auml;nda fel schema-typ f&ouml;r sidan</h4>
+        </div>
+        <div class="truth-box">
+          <p>En &ldquo;Om oss&rdquo;-sida ska inte ha Article-schema, och en bloggpost ska inte ha Product-schema. V&auml;lj den typ som b&auml;st beskriver sidans faktiska inneh&aring;ll. Om du &auml;r os&auml;ker, konsultera Googles guide f&ouml;r strukturerad data.</p>
+        </div>
+      </div>
+
+      <div class="myth-block">
+        <div class="myth-box">
+          <div class="myth-label myth-label-false">Vanligt misstag</div>
+          <h4>Implementera schema och aldrig f&ouml;lja upp</h4>
+        </div>
+        <div class="truth-box">
+          <p>Schema markup kan g&aring; s&ouml;nder vid temauppdateringar, plugin-&auml;ndringar eller omstruktureringar av sajten. Kontrollera regelm&auml;ssigt Google Search Console f&ouml;r fel i strukturerad data och testa efter varje st&ouml;rre &auml;ndring p&aring; sajten.</p>
+        </div>
+      </div>
+
+      <div class="myth-block">
+        <div class="myth-box">
+          <div class="myth-label myth-label-false">Vanligt misstag</div>
+          <h4>Duplicera schema-typer med plugin och manuell kod</h4>
+        </div>
+        <div class="truth-box">
+          <p>Om du anv&auml;nder Rank Math f&ouml;r Article-schema och ocks&aring; l&auml;gger till manuell Article-schema f&aring;r du dubbla poster. Det f&ouml;rvirrar s&ouml;kmotorer och kan orsaka valideringsfel. Kontrollera alltid vad ditt plugin genererar innan du l&auml;gger till manuell kod.</p>
+        </div>
+      </div>
+
+
+      <!-- 9. Sammanfattning -->
+      <h2 id="sammanfattning">Sammanfattning: det viktigaste att ta med sig</h2>
+
+      <p>Schema markup &auml;r en av de mest effektiva men underanv&auml;nda SEO-teknikerna. Det kr&auml;ver relativt liten insats men kan ge stor effekt p&aring; hur din sajt presenteras i s&ouml;kresultaten.</p>
+
+      <div class="summary-box">
+        <h3>8 viktiga l&auml;rdomar om schema markup</h3>
+        <ul>
+          <li><span class="summary-check">&#10003;</span> <strong>Schema markup</strong> &auml;r strukturerad data som hj&auml;lper s&ouml;kmotorer f&ouml;rst&aring; ditt inneh&aring;ll p&aring; en djupare niv&aring;.</li>
+          <li><span class="summary-check">&#10003;</span> <strong>Rich snippets</strong> &ouml;kar din synlighet i s&ouml;kresultaten och kan &ouml;ka klickfrekvensen med upp till 30 procent.</li>
+          <li><span class="summary-check">&#10003;</span> <strong>JSON-LD</strong> &auml;r formatet Google rekommenderar &mdash; det &auml;r enklast att implementera och underh&aring;lla.</li>
+          <li><span class="summary-check">&#10003;</span> B&ouml;rja med <strong>LocalBusiness</strong>, <strong>BreadcrumbList</strong> och <strong>FAQPage</strong> &mdash; de ger st&ouml;rst effekt f&ouml;r lokala f&ouml;retag.</li>
+          <li><span class="summary-check">&#10003;</span> <strong>Rank Math</strong> &auml;r det enklaste s&auml;ttet att implementera schema i WordPress utan kodkunskap.</li>
+          <li><span class="summary-check">&#10003;</span> <strong>Testa alltid</strong> din strukturerade data med Googles Rich Results Test innan publicering.</li>
+          <li><span class="summary-check">&#10003;</span> Schema markup m&aring;ste <strong>matcha det synliga inneh&aring;llet</strong> p&aring; sidan &mdash; annars riskerar du manuella &aring;tg&auml;rder fr&aring;n Google.</li>
+          <li><span class="summary-check">&#10003;</span> <strong>&Ouml;vervaka</strong> din strukturerade data l&ouml;pande i Google Search Console f&ouml;r att fånga fel tidigt.</li>
+        </ul>
+      </div>
+
+      <p>Schema markup &auml;r inte en magisk l&ouml;sning som automatiskt ger dig f&ouml;rstaplaceringen i Google. Men i kombination med stark <a href="{{DOMAIN}}/seo-skola/title-meta-description/">title- och meta-optimering</a>, v&auml;lskrivet <a href="{{DOMAIN}}/seo-skola/seo-texter/">inneh&aring;ll</a> och en tekniskt sund sajt ger det dig en tydlig konkurrensf&ouml;rdel. De flesta svenska sm&aring;f&ouml;retag har fortfarande ingen schema markup alls &mdash; b&ouml;rja idag s&aring; ligger du steget f&ouml;re.</p>
+
+
+      <!-- Internal links -->
+      <div class="read-more">
+        <h3>Forts&auml;tt l&auml;sa i SEO-skolan</h3>
+        <div class="read-more-links">
+          <a href="{{DOMAIN}}/seo-skola/wordpress-seo/" class="read-more-link">
+            WordPress SEO
+            <span class="link-arrow">&#8594;</span>
+          </a>
+          <a href="{{DOMAIN}}/seo-skola/title-meta-description/" class="read-more-link">
+            Title &amp; Meta Description
+            <span class="link-arrow">&#8594;</span>
+          </a>
+          <a href="{{DOMAIN}}/seo-skola/lokal-seo/" class="read-more-link">
+            Lokal SEO
+            <span class="link-arrow">&#8594;</span>
+          </a>
+          <a href="{{DOMAIN}}/seo-skola/google-search-console/" class="read-more-link">
+            Google Search Console
+            <span class="link-arrow">&#8594;</span>
+          </a>
+          <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/" class="read-more-link">
+            Rankingfaktorer 2026
+            <span class="link-arrow">&#8594;</span>
+          </a>
+          <a href="{{DOMAIN}}/seo-skola/interna-lankar/" class="read-more-link">
+            Interna l&auml;nkar
+            <span class="link-arrow">&#8594;</span>
+          </a>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h4>Relaterade artiklar</h4>
+        <a href="{{DOMAIN}}/seo-skola/wordpress-seo/" class="sidebar-link">WordPress SEO &mdash; komplett guide</a>
+        <a href="{{DOMAIN}}/seo-skola/title-meta-description/" class="sidebar-link">Title &amp; Meta Description</a>
+        <a href="{{DOMAIN}}/seo-skola/lokal-seo/" class="sidebar-link">Lokal SEO</a>
+        <a href="{{DOMAIN}}/seo-skola/google-search-console/" class="sidebar-link">Google Search Console</a>
+        <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/" class="sidebar-link">Rankingfaktorer 2026</a>
+        <a href="{{DOMAIN}}/seo-skola/page-speed-core-web-vitals/" class="sidebar-link">Page Speed &amp; Core Web Vitals</a>
+        <a href="{{DOMAIN}}/seo-skola/interna-lankar/" class="sidebar-link">Interna l&auml;nkar</a>
+      </div>
+
+      <div class="sidebar-cta">
+        <h4>Gratis SEO-analys</h4>
+        <p>F&aring; en komplett genomg&aring;ng av din sajts SEO &mdash; inklusive schema markup, tekniska problem och m&ouml;jligheter.</p>
+        <a href="{{DOMAIN}}/kontakt/" class="sidebar-cta-btn">Boka nu</a>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Snabbl&auml;nkar</h4>
+        <a href="{{DOMAIN}}/seo-ordlista/" class="sidebar-link">SEO-ordlista A&ndash;&Ouml;</a>
+        <a href="{{DOMAIN}}/vanliga-fragor/" class="sidebar-link">Vanliga fr&aring;gor om SEO</a>
+        <a href="{{DOMAIN}}/tjanster/" class="sidebar-link">V&aring;ra SEO-tj&auml;nster</a>
+      </div>
+    </aside>
+
+  </div>
+
+
+  <!-- FAQ Section -->
+  <section class="faq-section">
+    <div class="faq-section-label">Vanliga fr&aring;gor</div>
+    <h2>Fr&aring;gor och svar om schema markup</h2>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Vad &auml;r schema markup?
+        </div>
+        <div class="faq-answer">
+          Schema markup &auml;r en typ av strukturerad data som du l&auml;gger till i din webbplats HTML-kod f&ouml;r att hj&auml;lpa s&ouml;kmotorer f&ouml;rst&aring; inneh&aring;llet b&auml;ttre. Det anv&auml;nder ett standardiserat vokabul&auml;r fr&aring;n schema.org och kan leda till rich snippets i s&ouml;kresultaten, vilket &ouml;kar synligheten och klickfrekvensen.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Vilket format ska jag anv&auml;nda f&ouml;r schema markup?
+        </div>
+        <div class="faq-answer">
+          Google rekommenderar JSON-LD (JavaScript Object Notation for Linked Data). Det &auml;r enklast att implementera eftersom det placeras i en script-tagg i sidans head-sektion och inte p&aring;verkar den synliga HTML-koden. JSON-LD &auml;r ocks&aring; l&auml;ttast att underh&aring;lla och fels&ouml;ka.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Kan schema markup f&ouml;rb&auml;ttra min ranking p&aring; Google?
+        </div>
+        <div class="faq-answer">
+          Schema markup &auml;r inte en direkt rankingfaktor, men det kan indirekt f&ouml;rb&auml;ttra din SEO. Rich snippets &ouml;kar din synlighet i s&ouml;kresultaten och kan &ouml;ka klickfrekvensen (CTR) med upp till 30 procent. H&ouml;gre CTR signalerar till Google att ditt resultat &auml;r relevant, vilket kan p&aring;verka din ranking positivt &ouml;ver tid.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Hur testar jag om min schema markup fungerar?
+        </div>
+        <div class="faq-answer">
+          Anv&auml;nd Googles Rich Results Test (search.google.com/test/rich-results) f&ouml;r att testa om din strukturerade data &auml;r korrekt och kvalificerar f&ouml;r rich snippets. Du kan ocks&aring; anv&auml;nda Schema Markup Validator (validator.schema.org) f&ouml;r en mer detaljerad validering. &Ouml;vervaka l&ouml;pande i <a href="{{DOMAIN}}/seo-skola/google-search-console/">Google Search Console</a> under sektionen F&ouml;rb&auml;ttringar.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Beh&ouml;ver jag kunna koda f&ouml;r att anv&auml;nda schema markup?
+        </div>
+        <div class="faq-answer">
+          Nej, om du anv&auml;nder WordPress kan du l&auml;gga till schema markup via SEO-plugins som Rank Math eller Yoast SEO utan att skriva en enda rad kod. F&ouml;r mer avancerade implementeringar kan du anv&auml;nda Googles Structured Data Markup Helper f&ouml;r att generera JSON-LD-kod som du sedan kopierar in p&aring; din sajt. L&auml;s v&aring;r <a href="{{DOMAIN}}/seo-skola/wordpress-seo/">WordPress SEO-guide</a> f&ouml;r steg-f&ouml;r-steg-instruktioner.
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Vill du ha hj&auml;lp med schema markup?</h2>
+    <p>Vi implementerar korrekt strukturerad data p&aring; din webbplats och ser till att du f&aring;r rich snippets i s&ouml;kresultaten. Boka en gratis SEO-analys och se vilken potential din sajt har.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4>Searchboost</h4>
+        <p style="font-size: 0.9rem; line-height: 1.6;">Sm&aring;lands ledande SEO-byr&aring;. Vi hj&auml;lper lokala f&ouml;retag att synas p&aring; Google och f&aring; fler kunder.</p>
+      </div>
+      <div>
+        <h4>SEO-tj&auml;nster</h4>
+        <a href="{{DOMAIN}}/seo-byra-jonkoping/">SEO-byr&aring; J&ouml;nk&ouml;ping</a>
+        <a href="{{DOMAIN}}/seo-byra-vaxjo/">SEO-byr&aring; V&auml;xj&ouml;</a>
+        <a href="{{DOMAIN}}/seo-byra-varnamo/">SEO-byr&aring; V&auml;rnam&ouml;</a>
+        <a href="{{DOMAIN}}/lokal-seo/">Lokal SEO</a>
+        <a href="{{DOMAIN}}/seo-audit-tjanst/">SEO Audit</a>
+      </div>
+      <div>
+        <h4>L&auml;r dig SEO</h4>
+        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad &auml;r SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/hur-fungerar-google/">Hur fungerar Google?</a>
+        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+        <a href="{{DOMAIN}}/vanliga-fragor/">Vanliga fr&aring;gor</a>
+        <a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="mailto:mikael@searchboost.nu">mikael@searchboost.nu</a>
+        <a href="{{DOMAIN}}/kontakt/">Boka gratis SEO-analys</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Searchboost. Alla r&auml;ttigheter f&ouml;rbeh&aring;llna.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

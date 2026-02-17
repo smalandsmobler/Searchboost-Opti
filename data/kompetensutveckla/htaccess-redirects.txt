@@ -1,0 +1,58 @@
+# === KOMPETENSUTVECKLA STRUKTUROMLAGGNING ===
+# Genererad 2026-02-15 av Searchboost
+# 471 redirects: format-baserad → ämnesbaserad struktur
+
+RewriteEngine On
+
+# --- WILDCARD REDIRECTS (täcker de flesta) ---
+
+# BAM stad-sidor
+RewriteRule ^bam-utbildning/bam-utbildning-(.*)$ /utbildningar/arbetsmiljo/bam-utbildning/$1 [R=301,L]
+
+# BAS P/U stad-sidor
+RewriteRule ^utbildning-bas-p-och-bas-u/bas-p-och-bas-u-utbildning-(.*)$ /utbildningar/bygg-och-anlaggning/bas-p-och-bas-u/$1 [R=301,L]
+
+# Kunskapsbanken
+RewriteRule ^vara-tjanster/arbetsmiljoarbete/kunskapsbanken/(.*)$ /kunskapsbank/$1 [R=301,L]
+
+# AFS-föreskrifter
+RewriteRule ^vara-tjanster/arbetsmiljoarbete/afs/(.*)$ /kunskapsbank/lagar-och-regler/afs/$1 [R=301,L]
+RewriteRule ^vara-tjanster/arbetsmiljoarbete/afs$ /kunskapsbank/lagar-och-regler/afs [R=301,L]
+
+# Webbutbildningar arbetsmiljö
+RewriteRule ^webbutbildningar/webbutbildningar-arbetsmiljo/(.*)$ /utbildningar/arbetsmiljo/$1 [R=301,L]
+RewriteRule ^webbutbildningar/webbutbildningar-elsakerhet/(.*)$ /utbildningar/elsakerhet/$1 [R=301,L]
+RewriteRule ^webbutbildningar/webbutbildningar-sakerhet/(.*)$ /utbildningar/sakerhet/$1 [R=301,L]
+RewriteRule ^webbutbildningar/webbutbildningar-ledarskap/(.*)$ /utbildningar/ledarskap/$1 [R=301,L]
+RewriteRule ^webbutbildningar/webbutbildningar-vag-och-transport/(.*)$ /utbildningar/vag-och-transport/$1 [R=301,L]
+RewriteRule ^webbutbildningar/webbutbildningar-bygg-och-anlaggning/(.*)$ /utbildningar/bygg-och-anlaggning/$1 [R=301,L]
+
+# Fysiska utbildningar
+RewriteRule ^fysiska-utbildningar/fysiska-arbetsmiljoutbildningar/(.*)$ /utbildningar/arbetsmiljo/$1 [R=301,L]
+RewriteRule ^fysiska-utbildningar/fysiska-ledarskapsutbildningar/(.*)$ /utbildningar/ledarskap/$1 [R=301,L]
+RewriteRule ^fysiska-utbildningar/utbildningar-for-tekniska-anordningar/(.*)$ /utbildningar/sakerhet/$1 [R=301,L]
+
+# Lärarledda webbutbildningar
+RewriteRule ^lararledda-webbutbildningar/arbetsmiljoutbildning/(.*)$ /utbildningar/arbetsmiljo/$1 [R=301,L]
+RewriteRule ^lararledda-webbutbildningar/ledarskapsutbildning-distans/(.*)$ /utbildningar/ledarskap/$1 [R=301,L]
+RewriteRule ^lararledda-webbutbildningar/ekonomiutbildning-distans/(.*)$ /utbildningar/ekonomi-och-upphandling/$1 [R=301,L]
+
+# --- EXAKTA REDIRECTS (toppnivå) ---
+
+RewriteRule ^bam-utbildning/?$ /utbildningar/arbetsmiljo/bam-utbildning [R=301,L]
+RewriteRule ^utbildning-bas-p-och-bas-u/?$ /utbildningar/bygg-och-anlaggning/bas-p-och-bas-u [R=301,L]
+RewriteRule ^webbutbildningar/?$ /utbildningar [R=301,L]
+RewriteRule ^fysiska-utbildningar/?$ /utbildningar [R=301,L]
+RewriteRule ^lararledda-webbutbildningar/?$ /utbildningar [R=301,L]
+RewriteRule ^engelska-utbildningar/?$ /utbildningar/engelska [R=301,L]
+RewriteRule ^skyddsombudsutbildning/?$ /utbildningar/arbetsmiljo/skyddsombudsutbildning [R=301,L]
+RewriteRule ^sam-utbildning/?$ /utbildningar/arbetsmiljo/sam-utbildning [R=301,L]
+RewriteRule ^ledarskapsutbildningar/?$ /utbildningar/ledarskap [R=301,L]
+RewriteRule ^krisutbildningar/?$ /utbildningar/kris-och-beredskap [R=301,L]
+RewriteRule ^elbam/?$ /utbildningar/elsakerhet/elbam [R=301,L]
+RewriteRule ^sam/?$ /utbildningar/arbetsmiljo/sam-utbildning [R=301,L]
+
+# Gamla trasiga kunskapsbanken-URLs (utan vara-tjanster prefix)
+RewriteRule ^arbetsmiljoarbete/kunskapsbanken/(.*)$ /kunskapsbank/$1 [R=301,L]
+
+# === SLUT REDIRECTS ===

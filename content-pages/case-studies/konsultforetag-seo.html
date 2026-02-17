@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case study: Konsultföretag — Från 0 till 2 000 besökare/månad | Searchboost</title>
+  <meta name="description" content="Läs hur ett konsultföretag i Jönköping gick från noll organisk trafik till 2 100 besökare per månad och 18 kvalificerade leads. SEO-strategi med lokal SEO och content marketing.">
+  <meta name="keywords" content="SEO case study, konsultföretag SEO, Jönköping SEO, lokal SEO, content marketing, organisk trafik, B2B SEO">
+  <link rel="canonical" href="{{DOMAIN}}/case-studies/konsultforetag-seo/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Konsultföretag — Från 0 till 2 000 besökare/månad med SEO",
+    "description": "Case study: Hur ett managementkonsultföretag i Jönköping byggde organisk trafik från noll till 2 100 besökare per månad genom SEO-strategi, lokal SEO och content marketing.",
+    "author": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{DOMAIN}}/case-studies/konsultforetag-seo/"
+    },
+    "image": "{{DOMAIN}}/images/case-study-konsultforetag.jpg",
+    "wordCount": 2000
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "Case studies", "item": "{{DOMAIN}}/case-studies/" },
+      { "@type": "ListItem", "position": 3, "name": "Konsultföretag SEO", "item": "{{DOMAIN}}/case-studies/konsultforetag-seo/" }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #1a1a2e; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #1a1a2e;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a { color: #64748b; text-decoration: none; }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em { color: #db007f; font-style: normal; }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 28px;
+    }
+    .hero-result-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 32px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px 40px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.2;
+    }
+    .hero-stat-value.accent { color: #00d4ff; }
+    .hero-stat-label {
+      font-size: 0.85rem;
+      color: #64748b;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* ===== CONTENT LAYOUT ===== */
+    .content-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 24px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 48px;
+      align-items: start;
+    }
+
+    /* ===== ARTICLE BODY ===== */
+    .article-body { max-width: 780px; }
+    .article-body h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 56px 0 20px;
+      line-height: 1.3;
+      scroll-margin-top: 80px;
+    }
+    .article-body h2:first-of-type { margin-top: 0; }
+    .article-body h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 36px 0 14px;
+    }
+    .article-body p { color: #374151; margin-bottom: 18px; line-height: 1.8; }
+    .article-body ul, .article-body ol { margin: 0 0 20px 24px; color: #374151; }
+    .article-body li { margin-bottom: 8px; line-height: 1.7; }
+    .article-body a {
+      color: #db007f;
+      text-decoration: underline;
+      text-decoration-color: #db007f40;
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+    .article-body a:hover { text-decoration-color: #db007f; }
+    .article-body strong { color: #0f172a; font-weight: 600; }
+
+    /* ===== BEFORE/AFTER STATS ===== */
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 36px 0;
+    }
+    .ba-card {
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .ba-card.before {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+    .ba-card.after {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+    .ba-card-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .ba-card.before .ba-card-label { color: #dc2626; }
+    .ba-card.after .ba-card-label { color: #16a34a; }
+    .ba-stat { margin-bottom: 14px; }
+    .ba-stat:last-child { margin-bottom: 0; }
+    .ba-stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .ba-stat-desc {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      margin: 36px 0;
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, #db007f, #00d4ff);
+      border-radius: 3px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 36px;
+      padding: 24px 28px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+    }
+    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -33px;
+      top: 28px;
+      width: 14px;
+      height: 14px;
+      background: #db007f;
+      border: 3px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px #db007f40;
+    }
+    .timeline-period {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #db007f;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .timeline-item h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .timeline-item p {
+      font-size: 0.93rem;
+      color: #475569;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* ===== QUOTE BLOCK ===== */
+    .testimonial-quote {
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 40px 36px;
+      margin: 40px 0;
+      position: relative;
+    }
+    .testimonial-quote::before {
+      content: '\201C';
+      font-size: 5rem;
+      color: #db007f;
+      position: absolute;
+      top: 10px;
+      left: 24px;
+      line-height: 1;
+      opacity: 0.4;
+    }
+    .testimonial-text {
+      color: #e2e8f0;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      padding-left: 28px;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    .testimonial-author {
+      padding-left: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #db007f, #00d4ff);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .testimonial-name {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .testimonial-role {
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    /* ===== KEY TAKEAWAY ===== */
+    .key-takeaway {
+      background: linear-gradient(135deg, #fdf2f8, #faf5ff);
+      border-left: 4px solid #db007f;
+      border-radius: 0 14px 14px 0;
+      padding: 28px 32px;
+      margin: 36px 0;
+    }
+    .key-takeaway-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #db007f;
+      margin-bottom: 10px;
+    }
+    .key-takeaway p { color: #475569; margin-bottom: 0; font-size: 1rem; line-height: 1.7; }
+    .key-takeaway strong { color: #0f172a; }
+
+    /* ===== INFO BOX ===== */
+    .info-box {
+      background: #f0f9ff;
+      border-left: 4px solid #00d4ff;
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .info-box p { color: #475569; margin-bottom: 0; }
+    .info-box strong { color: #0f172a; }
+
+    /* ===== RESULTS GRID ===== */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin: 32px 0;
+    }
+    .result-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .result-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+    .result-card-value {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.2;
+    }
+    .result-card-value.accent { color: #00d4ff; }
+    .result-card-label {
+      font-size: 0.9rem;
+      color: #64748b;
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar { position: sticky; top: 90px; }
+    .sidebar-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 24px;
+    }
+    .sidebar-card h4 { font-size: 0.95rem; font-weight: 700; color: #0f172a; margin-bottom: 16px; }
+    .sidebar-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+      font-size: 0.9rem;
+    }
+    .sidebar-detail:last-child { border-bottom: none; }
+    .sidebar-detail-label { color: #64748b; }
+    .sidebar-detail-value { color: #0f172a; font-weight: 600; }
+    .sidebar-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .sidebar-cta h4 { color: #ffffff; font-size: 1rem; margin-bottom: 10px; }
+    .sidebar-cta p { color: rgba(255,255,255,0.85); font-size: 0.88rem; margin-bottom: 16px; line-height: 1.5; }
+    .sidebar-cta-btn {
+      display: inline-block;
+      background: #ffffff;
+      color: #db007f;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    .sidebar-cta-btn:hover { transform: translateY(-2px); }
+    .sidebar-link {
+      display: block;
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      transition: all 0.2s;
+    }
+    .sidebar-link:hover { background: #fdf2f8; color: #db007f; }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .cta-section h2 { color: #fff; font-size: 2.2rem; margin-bottom: 16px; }
+    .cta-section p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn-white {
+      display: inline-block;
+      background: #fff;
+      color: #db007f;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+    .footer h4 { color: #fff; font-size: 1rem; margin-bottom: 16px; }
+    .footer a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; }
+    .footer a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero { padding: 50px 20px 40px; }
+      .hero-result-highlight { gap: 20px; padding: 20px 24px; }
+      .hero-stat-value { font-size: 1.5rem; }
+      .article-body h2 { font-size: 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .content-layout { grid-template-columns: 1fr; padding: 32px 20px; }
+      .sidebar { position: static; }
+      .before-after { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr; }
+      .timeline { padding-left: 32px; }
+      .timeline-item { padding: 20px; }
+      .testimonial-quote { padding: 28px 24px; }
+      .testimonial-text { padding-left: 20px; font-size: 1.05rem; }
+      .testimonial-author { padding-left: 20px; }
+      .key-takeaway { padding: 22px 20px; }
+      .cta-section { padding: 56px 20px; }
+      .cta-section h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <button class="nav-toggle" aria-label="Meny">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/">Hem</a></li>
+        <li><a href="{{DOMAIN}}/case-studies/">Case studies</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a>
+    <span>/</span>
+    <a href="{{DOMAIN}}/case-studies/">Case studies</a>
+    <span>/</span>
+    Konsultf&ouml;retag SEO
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge">Case study &mdash; Managementkonsulting</span>
+      <h1>Konsultf&ouml;retag &mdash; Fr&aring;n <em>0 till 2 000 bes&ouml;kare</em>/m&aring;nad</h1>
+      <p class="hero-subtitle">Hur ett managementkonsultf&ouml;retag i J&ouml;nk&ouml;ping byggde en helt ny organisk trafikk&auml;lla och b&ouml;rjade generera kvalificerade leads &mdash; utan att betala f&ouml;r en enda annons.</p>
+      <div class="hero-result-highlight">
+        <div class="hero-stat">
+          <div class="hero-stat-value">2 100</div>
+          <div class="hero-stat-label">Organiska bes&ouml;kare/m&aring;n</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value accent">32</div>
+          <div class="hero-stat-label">S&ouml;kord i topp 10</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">18</div>
+          <div class="hero-stat-label">Leads/m&aring;nad via organiskt</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value accent">5</div>
+          <div class="hero-stat-label">S&ouml;kord i Local 3-pack</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <div class="content-layout">
+    <article class="article-body">
+
+      <h2 id="bakgrund">Bakgrund &mdash; En ny sajt i en konkurrensintensiv bransch</h2>
+
+      <p>V&aring;r kund &auml;r ett managementkonsultf&ouml;retag baserat i J&ouml;nk&ouml;ping med ett team p&aring; 12 konsulter. F&ouml;retaget erbjuder tj&auml;nster inom strategisk r&aring;dgivning, f&ouml;r&auml;ndringsledning, ledarskapsutbildning och organisationsutveckling &mdash; prim&auml;rt till medelstora f&ouml;retag i Sm&aring;land och &Ouml;sterg&ouml;tland.</p>
+
+      <p>F&ouml;retaget hade nyligen lanserat en helt ny webbplats efter att ha arbetat med en webbbyr&aring; under flera m&aring;nader. Sajten s&aring;g professionell ut och presenterade tj&auml;nsterna p&aring; ett tydligt s&auml;tt. Problemet? <strong>Inte en enda bes&ouml;kare hittade dit via Google.</strong></p>
+
+      <p>Konkurrensen inom konsultbranschen online &auml;r h&aring;rd. Stora akt&ouml;rer som McKinsey, Boston Consulting Group och svenska Ber&auml;kna dominerar de nationella s&ouml;kresultaten. F&ouml;r ett regionalt konsultf&ouml;retag kr&auml;vs en annan strategi &mdash; en som fokuserar p&aring; nischade s&ouml;ktermer, lokal synlighet och expertinneh&aring;ll som bygger f&ouml;rtroende.</p>
+
+      <p>N&auml;r f&ouml;retaget kontaktade Searchboost hade de tv&aring; tydliga m&aring;l: <strong>bygga organisk synlighet fr&aring;n grunden</strong> och <strong>generera kvalificerade leads</strong> som deras s&auml;ljteam kunde arbeta vidare med.</p>
+
+      <div class="key-takeaway">
+        <div class="key-takeaway-label">Nyckelinsikt</div>
+        <p>M&aring;nga B2B-f&ouml;retag investerar i en snygg webbplats men missar SEO-fundamenten. En v&auml;ldesignad sajt utan s&ouml;kmotoroptimering &auml;r som en butik p&aring; en &ouml;de gata &mdash; den ser bra ut, men ingen hittar dit.</p>
+      </div>
+
+      <h2 id="utmaning">Utmaningen &mdash; Noll trafik, h&aring;rd konkurrens</h2>
+
+      <p>V&aring;r analys av utg&aring;ngsl&auml;get avsl&ouml;jade flera utmaningar som var typiska f&ouml;r en nylanserad B2B-sajt:</p>
+
+      <ul>
+        <li><strong>Noll dom&auml;nauktoritet</strong> &mdash; Sajten var helt ny, hade inga bakl&auml;nkar och ingen historik i Google</li>
+        <li><strong>Generiska sidtitlar</strong> &mdash; Alla tj&auml;nstesidor hade titlar som &rdquo;V&aring;ra tj&auml;nster&rdquo; och &rdquo;Om oss&rdquo; utan n&aring;gra relevanta s&ouml;kord</li>
+        <li><strong>Tunnts inneh&aring;ll</strong> &mdash; Tj&auml;nstesidorna hade 100&ndash;150 ord, alldeles f&ouml;r lite f&ouml;r att ranka i konkurrensintensiva s&ouml;kresultat</li>
+        <li><strong>Ingen Google F&ouml;retagsprofil</strong> &mdash; F&ouml;retaget hade inte ens registrerat sin verksamhet p&aring; Google Maps</li>
+        <li><strong>Ingen blogg eller kunskapsbank</strong> &mdash; Sajten saknade helt informationsinneh&aring;ll som kunde f&aring;nga upp researching-fasen i kundens k&ouml;presa</li>
+        <li><strong>Saknad teknisk grund</strong> &mdash; Inga meta descriptions, saknade alt-texter, ingen sitemap, ingen schema markup</li>
+      </ul>
+
+      <div class="before-after">
+        <div class="ba-card before">
+          <div class="ba-card-label">F&ouml;re Searchboost</div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">0</div>
+            <div class="ba-stat-desc">Organiska bes&ouml;kare/m&aring;nad</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">0</div>
+            <div class="ba-stat-desc">S&ouml;kord i topp 10</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">0</div>
+            <div class="ba-stat-desc">Leads via organiskt</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">Ej registrerad</div>
+            <div class="ba-stat-desc">Google F&ouml;retagsprofil</div>
+          </div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-card-label">Efter 6 m&aring;nader</div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">2 100</div>
+            <div class="ba-stat-desc">Organiska bes&ouml;kare/m&aring;nad</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">32</div>
+            <div class="ba-stat-desc">S&ouml;kord i topp 10</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">18</div>
+            <div class="ba-stat-desc">Leads per m&aring;nad via organiskt</div>
+          </div>
+          <div class="ba-stat">
+            <div class="ba-stat-value">Local 3-pack</div>
+            <div class="ba-stat-desc">Topp 3 f&ouml;r 5 lokala s&ouml;kord</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="strategi">V&aring;r strategi &mdash; Tre faser f&ouml;r organisk tillv&auml;xt</h2>
+
+      <p>Vi utformade en sexm&aring;nadersstrategi uppdelad i tre distinkta faser, d&auml;r varje fas byggde p&aring; resultaten fr&aring;n den f&ouml;reg&aring;ende. Strategin balanserade snabba vinster (lokal SEO) med l&aring;ngsiktigt v&auml;rdeskapande (content marketing).</p>
+
+      <h3>Fas 1: Nyckelordsresearch och grundl&auml;ggande optimering</h3>
+
+      <p>Under den f&ouml;rsta m&aring;naden la vi all energi p&aring; att f&ouml;rst&aring; marknaden och bygga den strategiska grunden:</p>
+
+      <ul>
+        <li><strong>Djupg&aring;ende nyckelordsanalys</strong> &mdash; Kartlade &ouml;ver 200 relevanta s&ouml;kord inom konsultbranschen, kategoriserade efter s&ouml;kintention (informationell, kommersiell, transaktionell) och konkurrensgrad</li>
+        <li><strong>Konkurrentanalys</strong> &mdash; Analyserade de 10 topprankade sajterna f&ouml;r varje huvuds&ouml;kord f&ouml;r att identifiera inneh&aring;llsgap och m&ouml;jligheter</li>
+        <li><strong>ABC-klassificering av s&ouml;kord</strong> &mdash; Prioriterade s&ouml;korden i tre kategorier: A-ord (h&ouml;g prioritet, h&ouml;g konverteringspotential), B-ord (medium, volymbyggande) och C-ord (l&aring;ng sikt, topical authority)</li>
+        <li><strong>Informationsarkitektur</strong> &mdash; Planerade sajtens struktur med tydliga pillar pages, klusterinneh&aring;ll och intern l&auml;nkstrategi</li>
+      </ul>
+
+      <h3>Fas 2: 15 SEO-optimerade tj&auml;nstesidor och lokal SEO</h3>
+
+      <p>Med research-fasen klar p&aring;b&ouml;rjades det praktiska arbetet. Vi skapade och optimerade 15 dedikerade tj&auml;nstesidor &mdash; var och en m&aring;lriktad mot specifika s&ouml;ktermer:</p>
+
+      <ul>
+        <li>Varje tj&auml;nstesida fick 800&ndash;1 200 ord med unik, djupg&aring;ende text som besvarade potentiella kunders fr&aring;gor</li>
+        <li>Alla sidor optimerades med unika sidtitlar, metabeskrivningar, H1/H2-struktur och intern l&auml;nkning</li>
+        <li>Implementerade Service-schema markup f&ouml;r b&auml;ttre synlighet i s&ouml;kresultaten</li>
+        <li>Skapade tydliga CTA:er (call-to-action) p&aring; varje sida med kontaktformul&auml;r och telefonnummer</li>
+      </ul>
+
+      <p>Parallellt lanserade vi den lokala SEO-strategin:</p>
+
+      <ul>
+        <li>Registrerade och optimerade Google F&ouml;retagsprofil (GBP) med fullst&auml;ndiga uppgifter, 25+ bilder, tj&auml;nstebeskrivningar och &ouml;ppettider</li>
+        <li>Byggde lokala citeringar p&aring; 30+ relevanta kataloger och branschsidor</li>
+        <li>Skapade lokalt optimerade sidor f&ouml;r J&ouml;nk&ouml;ping, Link&ouml;ping och Norrk&ouml;ping</li>
+        <li>Implementerade LocalBusiness-schema med korrekt NAP-data</li>
+      </ul>
+
+      <div class="info-box">
+        <p><strong>Varf&ouml;r lokal SEO f&ouml;r ett konsultf&ouml;retag?</strong> Trots att konsulttj&auml;nster ofta levereras nationellt, s&ouml;ker m&aring;nga beslutsfattare efter &rdquo;konsult + stad&rdquo;. Genom att dominera de lokala s&ouml;kresultaten i J&ouml;nk&ouml;ping och n&auml;rliggande st&auml;der fick f&ouml;retaget en stabil bas av h&ouml;gkvalitativa leads.</p>
+      </div>
+
+      <h3>Fas 3: Content marketing &mdash; 2 artiklar per vecka</h3>
+
+      <p>Den tredje och mest l&aring;ngsiktiga delen av strategin var en aggressiv content marketing-satsning. Fr&aring;n m&aring;nad 4 publicerade vi 2 artiklar per vecka &mdash; totalt &ouml;ver 24 artiklar under perioden:</p>
+
+      <ul>
+        <li><strong>Pillar-artiklar</strong> (4 st) &mdash; Omfattande guider p&aring; 2 000+ ord om huvudteman som &rdquo;F&ouml;r&auml;ndringsledning &mdash; Komplett guide&rdquo; och &rdquo;Ledarskapsutbildning &mdash; S&aring; v&auml;ljer du r&auml;tt&rdquo;</li>
+        <li><strong>Klusterinneh&aring;ll</strong> (16 st) &mdash; Kortare, fokuserade artiklar som l&auml;nkade tillbaka till pillar-sidorna och besvarade specifika fr&aring;gor</li>
+        <li><strong>Tanke-ledarskap</strong> (4 st) &mdash; &Aring;siktsartiklar och branschtrender som positionerade f&ouml;retaget som expertauktoritet</li>
+      </ul>
+
+      <p>Varje artikel var strategiskt utformad f&ouml;r att:</p>
+      <ol>
+        <li>Ranka f&ouml;r specifika long-tail-s&ouml;kord med l&auml;gre konkurrens</li>
+        <li>Guida l&auml;saren vidare till relevant tj&auml;nstesida via interna l&auml;nkar</li>
+        <li>Bygga topical authority inom konsultomr&aring;det</li>
+        <li>Generera bakl&auml;nkar naturligt genom att vara genuint v&auml;rdefull</li>
+      </ol>
+
+      <h2 id="tidslinje">Tidslinje &mdash; Fr&aring;n noll till 2 100 bes&ouml;kare</h2>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-period">M&aring;nad 1: Research &amp; strategi</div>
+          <h4>Nyckelordsanalys och strategisk planering</h4>
+          <p>Genomf&ouml;rde djupg&aring;ende nyckelordsresearch med 200+ identifierade s&ouml;kord. Analyserade konkurrenter och kartlade inneh&aring;llsgap. ABC-klassificerade alla s&ouml;kord och skapade en detaljerad inneh&aring;llsplan f&ouml;r de kommande 5 m&aring;naderna. Inga synliga resultat &auml;nnu, men grunden var lagd.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-period">M&aring;nad 2&ndash;3: Sajt-optimering &amp; lokal SEO</div>
+          <h4>15 tj&auml;nstesidor och Google F&ouml;retagsprofil</h4>
+          <p>Skapade och publicerade 15 SEO-optimerade tj&auml;nstesidor med djupg&aring;ende inneh&aring;ll. Registrerade och optimerade Google F&ouml;retagsprofil. Byggde 30+ lokala citeringar. De f&ouml;rsta organiska bes&ouml;karna b&ouml;rjade dyka upp &mdash; cirka 120 per m&aring;nad i slutet av m&aring;nad 3. F&ouml;rsta placeringarna i Google Local 3-pack.</p>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-period">M&aring;nad 4&ndash;6: Content marketing &amp; acceleration</div>
+          <h4>24 artiklar och exponentiell tillv&auml;xt</h4>
+          <p>Publicerade 2 artiklar per vecka med pillar-content, kluster-artiklar och tanke-ledarskap. Trafiken accelererade kraftigt: 450 bes&ouml;kare i m&aring;nad 4, 1 200 i m&aring;nad 5, och 2 100 i m&aring;nad 6. Google Local 3-pack f&ouml;r 5 s&ouml;kord. 18 kvalificerade leads per m&aring;nad via kontaktformul&auml;r och telefonsamtal.</p>
+        </div>
+      </div>
+
+      <h2 id="resultat">Resultaten &mdash; Fr&aring;n noll till 18 leads per m&aring;nad</h2>
+
+      <p>P&aring; bara 6 m&aring;nader gick f&ouml;retaget fr&aring;n att vara helt osynligt p&aring; Google till att ha en stabil, v&auml;xande k&auml;lla av organisk trafik och kvalificerade leads:</p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-card-value">2 100</div>
+          <div class="result-card-label">Organiska bes&ouml;kare/m&aring;nad</div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-value accent">32</div>
+          <div class="result-card-label">S&ouml;kord i topp 10</div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-value">18</div>
+          <div class="result-card-label">Kvalificerade leads/m&aring;nad</div>
+        </div>
+        <div class="result-card">
+          <div class="result-card-value accent">5</div>
+          <div class="result-card-label">S&ouml;kord i Local 3-pack</div>
+        </div>
+      </div>
+
+      <p>Det mest im&aring;nande var kvaliteten p&aring; de leads som genererades. Eftersom bes&ouml;karna hittade f&ouml;retaget genom specifika s&ouml;kord relaterade till konsulttj&auml;nster var de redan i en k&ouml;pprocess. Konverteringsgraden fr&aring;n organisk trafik l&aring;g p&aring; 0,86% &mdash; betydligt h&ouml;gre &auml;n branschsnittet p&aring; 0,3&ndash;0,5% f&ouml;r B2B-tj&auml;nster.</p>
+
+      <p>De 5 s&ouml;korden i Google Local 3-pack var s&auml;rskilt v&auml;rdefulla. S&ouml;ktermer som &rdquo;managementkonsult J&ouml;nk&ouml;ping&rdquo;, &rdquo;ledarskapsutbildning Sm&aring;land&rdquo; och &rdquo;organisationskonsult J&ouml;nk&ouml;ping&rdquo; genererade bes&ouml;kare med extrem h&ouml;g k&ouml;pintention &mdash; m&aring;nga av dem ringde direkt fr&aring;n Google Maps-listningen.</p>
+
+      <p>Ut&ouml;ver de direkta affärsresultaten hade content marketing-strategin en ytterligare effekt: f&ouml;retagets konsulter b&ouml;rjade anv&auml;nda artiklarna i sina kunddialoger och presentationer. Inneh&aring;llet blev en del av s&auml;ljprocessen, inte bara en SEO-taktik.</p>
+
+      <h2 id="lardomar">L&auml;rdomar &mdash; SEO f&ouml;r B2B-konsultf&ouml;retag</h2>
+
+      <p>Det h&auml;r projektet gav oss flera v&auml;rdefulla insikter som &auml;r relevanta f&ouml;r alla B2B-f&ouml;retag som vill bygga organisk synlighet:</p>
+
+      <ul>
+        <li><strong>B&ouml;rja lokalt, v&auml;x nationellt</strong> &mdash; F&ouml;r regionala f&ouml;retag &auml;r lokal SEO den snabbaste v&auml;gen till synlighet. Google Local 3-pack ger resultat inom veckor, inte m&aring;nader.</li>
+        <li><strong>Content &auml;r kung f&ouml;r B2B</strong> &mdash; I B2B-branschen &auml;r k&ouml;presan l&auml;ngre och mer research-intensiv. Artiklar och guider f&aring;ngar beslutsfattare tidigt i processen och bygger f&ouml;rtroende.</li>
+        <li><strong>Kvalitet &ouml;ver kvantitet i leads</strong> &mdash; 18 kvalificerade leads per m&aring;nad kan vara mer v&auml;rda &auml;n 1 000 ok&auml;nda bes&ouml;kare. Organisk trafik fr&aring;n r&auml;tt s&ouml;kord ger leads med h&ouml;g k&ouml;pintention.</li>
+        <li><strong>Tj&auml;nstesidor beh&ouml;ver djup</strong> &mdash; 100 ord per tj&auml;nstesida r&auml;cker inte. F&ouml;r att ranka i konkurrensintensiva s&ouml;kresultat beh&ouml;vs 800+ ord med specifik, v&auml;rdeskapande information.</li>
+        <li><strong>Pillar-kluster-modellen fungerar</strong> &mdash; Genom att organisera inneh&aring;llet i tematiska kluster med interna l&auml;nkar signalerade vi till Google att sajten var en auktoritet inom konsultomr&aring;det.</li>
+      </ul>
+
+      <div class="testimonial-quote">
+        <div class="testimonial-text">Vi la ner mycket pengar p&aring; en snygg sajt, men det var som att bygga ett skyltf&ouml;nster i en gr&auml;nd. Searchboost hj&auml;lpte oss flytta till huvudgatan. Nu ringer potentiella kunder och s&auml;ger att de hittade oss p&aring; Google &mdash; det h&auml;nde aldrig f&ouml;rut.</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">PA</div>
+          <div>
+            <div class="testimonial-name">Partner, Konsultf&ouml;retag i J&ouml;nk&ouml;ping</div>
+            <div class="testimonial-role">Kund sedan 2025</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="sammanfattning">Sammanfattning</h2>
+
+      <p>Det h&auml;r caset visar att &auml;ven i en extremt konkurrensintensiv bransch g&aring;r det att bygga organisk synlighet fr&aring;n noll &mdash; om man har r&auml;tt strategi. Nyckeln f&ouml;r konsultf&ouml;retaget i J&ouml;nk&ouml;ping var att <strong>kombinera lokal SEO f&ouml;r snabba resultat med content marketing f&ouml;r l&aring;ngsiktig tillv&auml;xt</strong>.</p>
+
+      <p>Ist&auml;llet f&ouml;r att f&ouml;rs&ouml;ka konkurrera med de st&ouml;rsta akt&ouml;rerna p&aring; breda s&ouml;kord fokuserade vi p&aring; nischade, regionala termer och informationsinneh&aring;ll som besvarade specifika fr&aring;gor. Resultatet var inte bara trafik &mdash; det var r&auml;tt trafik som konverterade till faktiska aff&auml;rer.</p>
+
+      <p>Sex m&aring;nader efter projektstart har f&ouml;retaget en sj&auml;lvg&aring;ende organisk trafikmaskin som forts&auml;tter v&auml;xa. Varje ny artikel st&auml;rker sajtens auktoritet ytterligare, och den ackumulerande effekten inneb&auml;r att resultaten bara blir b&auml;ttre &ouml;ver tid.</p>
+
+      <div class="key-takeaway">
+        <div class="key-takeaway-label">Viktigaste takeaway</div>
+        <p><strong>En ny sajt beh&ouml;ver inte vara osynlig.</strong> Med r&auml;tt SEO-strategi kan &auml;ven ett nystartat B2B-f&ouml;retag bygga organisk synlighet p&aring; 6 m&aring;nader. Nyckeln &auml;r en kombination av nischat inneh&aring;ll, lokal SEO och t&aring;lamod &mdash; resultaten &auml;r kumulativa och v&auml;xer &ouml;ver tid.</p>
+      </div>
+
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-cta">
+        <h4>Vill du se liknande resultat?</h4>
+        <p>F&aring; en kostnadsfri SEO-analys av din webbplats och se var du kan b&ouml;rja.</p>
+        <a href="{{DOMAIN}}/kontakt/" class="sidebar-cta-btn">Boka gratis SEO-analys</a>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Snabbfakta</h4>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">Bransch</span>
+          <span class="sidebar-detail-value">Managementkonsulting</span>
+        </div>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">Plats</span>
+          <span class="sidebar-detail-value">J&ouml;nk&ouml;ping</span>
+        </div>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">Tid</span>
+          <span class="sidebar-detail-value">6 m&aring;nader</span>
+        </div>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">Tj&auml;nstesidor</span>
+          <span class="sidebar-detail-value">15 st</span>
+        </div>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">Artiklar</span>
+          <span class="sidebar-detail-value">24 st</span>
+        </div>
+        <div class="sidebar-detail">
+          <span class="sidebar-detail-label">GBP-status</span>
+          <span class="sidebar-detail-value">Local 3-pack</span>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Fler case studies</h4>
+        <a href="{{DOMAIN}}/case-studies/mobelforetag-smaland/" class="sidebar-link">M&ouml;belf&ouml;retag &mdash; +340% organisk trafik</a>
+        <a href="{{DOMAIN}}/case-studies/ehandel-kontorsmobler/" class="sidebar-link">E-handel &mdash; +185% f&ouml;rs&auml;ljning</a>
+      </div>
+    </aside>
+  </div>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Vill du ocks&aring; synas p&aring; Google?</h2>
+    <p>Vi hj&auml;lper B2B-f&ouml;retag att bygga organisk synlighet och generera kvalificerade leads genom strategisk SEO.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4>Searchboost</h4>
+        <a href="{{DOMAIN}}/">Hem</a>
+        <a href="{{DOMAIN}}/case-studies/">Case studies</a>
+        <a href="{{DOMAIN}}/kontakt/">Kontakt</a>
+      </div>
+      <div>
+        <h4>SEO-skola</h4>
+        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad &auml;r SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/hur-lang-tid-tar-seo/">Hur l&aring;ng tid tar SEO?</a>
+      </div>
+      <div>
+        <h4>Resurser</h4>
+        <a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a>
+        <a href="{{DOMAIN}}/faq/">Vanliga fr&aring;gor</a>
+        <a href="{{DOMAIN}}/seo-skola/">Alla guider</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Searchboost. Alla r&auml;ttigheter f&ouml;rbeh&aring;llna.
+    </div>
+  </footer>
+
+  <script>
+    document.querySelector('.nav-toggle').addEventListener('click', function() {
+      const links = document.querySelector('.nav-links');
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+      if (window.innerWidth <= 768) {
+        links.style.flexDirection = 'column';
+        links.style.position = 'absolute';
+        links.style.top = '100%';
+        links.style.left = '0';
+        links.style.right = '0';
+        links.style.background = '#fff';
+        links.style.padding = '20px 24px';
+        links.style.borderBottom = '1px solid #e5e7eb';
+        links.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)';
+      }
+    });
+  </script>
+
+</body>
+</html>

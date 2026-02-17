@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-handel SEO — Mer trafik och försäljning i din webshop | Searchboost</title>
+  <meta name="description" content="E-handel SEO som driver organisk trafik och försäljning. Produktsidoptimering, kategorisidor, teknisk SEO, schema markup och content-strategi för webshoppar. Från 5 000 kr/mån.">
+  <meta name="keywords" content="e-handel SEO, webshop SEO, WooCommerce SEO, Shopify SEO, produktsidoptimering, kategorisidor SEO, rich snippets e-handel, e-handels sökmotoroptimering, SEO webbutik, organisk trafik webshop">
+  <link rel="canonical" href="{{DOMAIN}}/tjanster/e-handel-seo/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "E-handel SEO",
+    "description": "SEO-tjänst specialiserad på webshoppar och e-handelsplattformar. Inkluderar produktsidoptimering, kategorisidor, teknisk SEO, schema markup och content-strategi för att driva organisk trafik och försäljning.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "serviceType": "Sökmotoroptimering för e-handel",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Sverige"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "5000",
+      "priceCurrency": "SEK",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "5000",
+        "priceCurrency": "SEK",
+        "unitText": "per månad",
+        "description": "Startpris för e-handel SEO"
+      }
+    }
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "Tjänster", "item": "{{DOMAIN}}/tjanster/" },
+      { "@type": "ListItem", "position": 3, "name": "E-handel SEO", "item": "{{DOMAIN}}/tjanster/e-handel-seo/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hur lång tid tar det att se SEO-resultat för en webshop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "För e-handel brukar tekniska förbättringar ge effekt inom 2–4 veckor. Produktsidoptimering och kategorisidor börjar ranka bättre efter 2–4 månader. En fullständig e-handel SEO-strategi visar tydliga resultat i trafik och försäljning efter 4–8 månader. Tidslinjerna beror på webbshoppens storlek, konkurrens i branschen och hur väl den tekniska grunden ser ut."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Fungerar SEO för alla e-handelsplattformar?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, vi arbetar med alla vanliga plattformar: WooCommerce, Shopify, Magento, Prestashop och egenutvecklade lösningar. Principerna för e-handel SEO är desamma oavsett plattform, men implementeringen skiljer sig. Vi anpassar strategin efter din plattforms tekniska möjligheter och begränsningar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hur hanterar ni duplicate content på produktsidor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Duplicate content är ett av de vanligaste problemen i e-handel. Vi löser det genom att implementera canonical-taggar på varianter och filtreringssidor, skapa unika produktbeskrivningar istället för att använda leverantörens standardtext, hantera paginering korrekt och konfigurera facetterad navigation så att den inte skapar tusentals indexerbara URL:er med duplicerat innehåll."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad kostar SEO för en webshop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vår e-handel SEO startar från 5 000 kronor per månad. Priset beror på antalet produkter, kategorier, plattform och branschens konkurrens. En större webshop med tusentals produkter kräver mer omfattande arbete än en nischad butik med 50 produkter. Vi ger alltid en exakt prisuppskattning efter en kostnadsfri analys."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan SEO ersätta betald annonsering för e-handel?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SEO och betald annonsering kompletterar varandra. SEO bygger en långsiktig källa till organisk trafik som inte kostar per klick, medan annonsering ger omedelbar synlighet. Många av våra e-handelskunder minskar gradvis sin annonsbudget i takt med att den organiska trafiken växer. Målet är att SEO ska stå för majoriteten av trafiken, med annonsering som komplement vid kampanjer och lanseringar."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #0f172a; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0f172a;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a { color: #64748b; text-decoration: none; }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em { color: #db007f; font-style: normal; }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 28px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.3); }
+
+    /* ===== SECTION COMMON ===== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-alt { background: #f8fafc; }
+    .section-alt .section { padding: 64px 24px; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: #64748b;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    /* ===== CHALLENGES GRID ===== */
+    .challenges-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-bottom: 48px;
+    }
+    .challenge-card {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      border-radius: 14px;
+      padding: 28px 24px;
+    }
+    .challenge-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .challenge-card p {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== SERVICES GRID ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .service-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+    .service-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== RESULTS SECTION ===== */
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .result-card {
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 32px 20px;
+    }
+    .result-number {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .result-label {
+      font-size: 0.92rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* ===== PLATFORMS ===== */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .platform-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .platform-card:hover { border-color: #db007f; }
+    .platform-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+    .platform-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .platform-card p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* ===== PRICING HINT ===== */
+    .pricing-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #fdf2f8, #f0f4ff);
+      border: 2px solid #db007f20;
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .pricing-from {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .pricing-amount {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.2;
+    }
+    .pricing-amount small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #64748b;
+    }
+    .pricing-note {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-top: 16px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto 32px;
+    }
+    .pricing-features li {
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-features li::before {
+      content: "\2713";
+      color: #db007f;
+      font-weight: 700;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 780px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 24px 0;
+    }
+    .faq-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after { content: "\2212"; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 400px;
+      padding-top: 14px;
+    }
+    .faq-answer p {
+      font-size: 0.98rem;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.4); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px 32px;
+      border-top: 1px solid #1e293b;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.6; margin-top: 12px; }
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ===== INTERNAL LINKS BOX ===== */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 20px 24px;
+        border-bottom: 1px solid #e5e7eb;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .hero h1 { font-size: 1.9rem; }
+      .hero { padding: 48px 20px 40px; }
+      .challenges-grid { grid-template-columns: 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .platforms-grid { grid-template-columns: 1fr; }
+      .pricing-box { padding: 32px 24px; }
+      .pricing-amount { font-size: 2.2rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .cta-section h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')" aria-label="Meny">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/tjanster/">Tjänster</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/case-studies/">Resultat</a></li>
+        <li><a href="{{DOMAIN}}/om-oss/">Om oss</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Boka SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a><span>›</span>
+    <a href="{{DOMAIN}}/tjanster/">Tjänster</a><span>›</span>
+    E-handel SEO
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">E-handel SEO-tjänst</div>
+      <h1>E-handel SEO — Mer <em>trafik</em> och <em>försäljning</em> i din webshop</h1>
+      <p class="hero-subtitle">Organisk söktrafik är den mest lönsamma trafikkällan för e-handel. Vi hjälper webshoppar att ranka högre på produkter och kategorier som faktiskt leder till köp, utan att betala per klick.</p>
+      <a href="{{DOMAIN}}/kontakt/" class="hero-cta">Boka gratis SEO-analys</a>
+    </div>
+  </section>
+
+  <!-- UTMANINGAR -->
+  <div class="section">
+    <h2 class="section-title">Varför är SEO svårare för e-handel?</h2>
+    <p class="section-subtitle">Webshoppar har unika SEO-utmaningar som kräver specialiserad kunskap. Här är de vanligaste hindren vi ser och löser.</p>
+
+    <div class="challenges-grid">
+      <div class="challenge-card">
+        <h3>&#x26A0;&#xFE0F; Tusentals produktsidor</h3>
+        <p>En webshop med hundratals eller tusentals produkter kräver skalbar optimering. Varje produktsida behöver unik metadata, beskrivningar och strukturerad data utan att det blir en ohanterlig arbetsinsats.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>&#x26A0;&#xFE0F; Duplicate content</h3>
+        <p>Produktvarianter, filter, sorteringsparametrar och leverantörsbeskrivningar skapar massvis med duplicerat innehåll. Google straffar sidor med identiskt content och det urholkar din rankings.</p>
+      </div>
+      <div class="challenge-card">
+        <h3>&#x26A0;&#xFE0F; Teknisk komplexitet</h3>
+        <p>JavaScript-rendering, långsamma laddtider, crawl budget-slöseri och felaktig facetterad navigation. E-handelsplattformar har tekniska fallgropar som kräver djup SEO-kompetens att hantera.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- VAD INGÅR -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vad ingår i e-handel SEO?</h2>
+      <p class="section-subtitle">Vår e-handel SEO-tjänst täcker hela kedjan från teknisk grund till innehållsstrategi. Allt är anpassat för att driva försäljning, inte bara trafik.</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">&#x1F6D2;</div>
+          <h3>Produktsidoptimering</h3>
+          <p>Vi optimerar titlar, metabeskrivningar, produktbeskrivningar och bilder för dina viktigaste produktsidor. Fokus ligger på sökord med köpintention som konverterar besökare till kunder.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x1F4C2;</div>
+          <h3>Kategorisidor</h3>
+          <p>Kategorisidor är ofta de starkaste sidorna i en webshop. Vi optimerar dem med unika beskrivningar, intern länkstruktur och rätt nyckelord för att fånga bred sökvolym i varje produktkategori.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x2699;&#xFE0F;</div>
+          <h3>Teknisk SEO</h3>
+          <p>Vi åtgärdar crawl-problem, förbättrar sidladdning, fixar canonical-taggar, hanterar facetterad navigation och säkerställer att Google indexerar rätt sidor. Tekniken är fundamentet allt annat vilar på.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x2B50;</div>
+          <h3>Schema och rich snippets</h3>
+          <p>Produktschema med pris, tillgänglighet, omdömen och leveransinformation direkt i sökresultaten. Rich snippets ökar klickfrekvensen markant och ger dig en visuell fördel gentemot konkurrenterna.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x1F4DD;</div>
+          <h3>Content-strategi</h3>
+          <p>Vi bygger en innehållsstrategi med köpguider, jämförelsesidor och bloggartiklar som fångar kunder tidigt i köpresan. Content driver länkar, bygger auktoritet och ökar den organiska räckvidden.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#x1F4CA;</div>
+          <h3>Konverteringsoptimering</h3>
+          <p>SEO-trafik som inte konverterar är värdelös. Vi analyserar användarresan från sökresultat till kassa och optimerar landningssidor, produktlayouter och interna sökvägar för maximal konvertering.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTAT -->
+  <div class="section">
+    <h2 class="section-title">Resultat vi levererar</h2>
+    <p class="section-subtitle">Våra e-handelskunder ser konkreta förbättringar i trafik, synlighet och försäljning. Här är de typiska resultaten efter 6 månaders arbete.</p>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-number">+120%</div>
+        <div class="result-label">Genomsnittlig ökning av organisk trafik</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number">+85%</div>
+        <div class="result-label">Fler indexerade produktsidor</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number">+40%</div>
+        <div class="result-label">Högre klickfrekvens med rich snippets</div>
+      </div>
+      <div class="result-card">
+        <div class="result-number">-35%</div>
+        <div class="result-label">Lägre beroende av betald annonsering</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FÖR VEM / PLATTFORMAR -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vi arbetar med alla plattformar</h2>
+      <p class="section-subtitle">Oavsett vilken e-handelsplattform du använder anpassar vi strategin efter plattformens möjligheter och begränsningar.</p>
+
+      <div class="platforms-grid">
+        <div class="platform-card">
+          <div class="platform-icon">&#x1F6D2;</div>
+          <h3>WooCommerce</h3>
+          <p>Den vanligaste e-handelsplattformen i Sverige. Vi har djup erfarenhet av WooCommerce SEO, inklusive Rank Math, Yoast och teknisk optimering av WordPress-baserade webshoppar.</p>
+        </div>
+        <div class="platform-card">
+          <div class="platform-icon">&#x1F6CD;&#xFE0F;</div>
+          <h3>Shopify</h3>
+          <p>Shopify har inbyggda SEO-begränsningar som kräver kreativa lösningar. Vi hanterar URL-strukturer, liquid-templates, samlingssidor och Shopifys specifika canonical-hantering.</p>
+        </div>
+        <div class="platform-card">
+          <div class="platform-icon">&#x1F4BB;</div>
+          <h3>Egenutvecklat / Övriga</h3>
+          <p>Magento, Prestashop eller egenutvecklade lösningar. Vi anpassar vår SEO-strategi efter din plattforms tekniska arkitektur och arbetar med ditt utvecklingsteam vid behov.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRISINDIKATION -->
+  <div class="section">
+    <h2 class="section-title">Prisindikation</h2>
+    <p class="section-subtitle">E-handel SEO kräver mer omfattande arbete än en vanlig företagssajt. Priset speglar antalet produkter, kategorier och branschens konkurrens.</p>
+
+    <div class="pricing-box">
+      <p class="pricing-from">E-handel SEO från</p>
+      <p class="pricing-amount">5 000 kr <small>/mån</small></p>
+      <p class="pricing-note">Priset varierar beroende på antalet produkter och kategorier, e-handelsplattform och branschkonkurrens. Vi börjar alltid med en kostnadsfri analys av din webshop.</p>
+      <ul class="pricing-features">
+        <li>Produkt- och kategorisidoptimering</li>
+        <li>Teknisk SEO-audit och åtgärder</li>
+        <li>Schema markup (Product, Offer, Review)</li>
+        <li>Content-strategi med köpguider</li>
+        <li>Duplicate content-hantering</li>
+        <li>Månadsrapport med trafik och intäktsdata</li>
+      </ul>
+      <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+    </div>
+  </div>
+
+  <!-- INTERNAL LINKS -->
+  <div class="section">
+    <div class="internal-links">
+      <h3>Fördjupa dig i teknisk SEO och schema markup</h3>
+      <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Guide: Teknisk SEO</a>
+      <a href="{{DOMAIN}}/seo-skola/schema-markup/">Guide: Schema Markup</a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vanliga frågor om e-handel SEO</h2>
+      <p class="section-subtitle">Svar på de vanligaste frågorna vi får från e-handlare om sökmotoroptimering.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Hur lång tid tar det att se SEO-resultat för en webshop?
+          </div>
+          <div class="faq-answer">
+            <p>Tekniska förbättringar ger effekt inom 2 till 4 veckor. Produktsidoptimering och kategorisidor börjar ranka bättre efter 2 till 4 månader. En fullständig e-handel SEO-strategi visar tydliga resultat i trafik och försäljning efter 4 till 8 månader. Tidslinjerna beror på webbshoppens storlek, konkurrens och den tekniska grundens nuvarande skick.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Fungerar SEO för alla e-handelsplattformar?
+          </div>
+          <div class="faq-answer">
+            <p>Ja, vi arbetar med alla vanliga plattformar: WooCommerce, Shopify, Magento, Prestashop och egenutvecklade lösningar. Principerna för e-handel SEO är desamma oavsett plattform, men implementeringen skiljer sig. Vi anpassar strategin efter din plattforms tekniska möjligheter och begränsningar.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Hur hanterar ni duplicate content på produktsidor?
+          </div>
+          <div class="faq-answer">
+            <p>Duplicate content är ett av de vanligaste problemen i e-handel. Vi löser det genom att implementera canonical-taggar på varianter och filtreringssidor, skapa unika produktbeskrivningar istället för leverantörens standardtext, hantera paginering korrekt och konfigurera facetterad navigation så att den inte skapar tusentals indexerbara URL:er med duplicerat innehåll.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad kostar SEO för en webshop?
+          </div>
+          <div class="faq-answer">
+            <p>Vår e-handel SEO startar från 5 000 kronor per månad. Priset beror på antalet produkter, kategorier, plattform och branschens konkurrens. En större webshop med tusentals produkter kräver mer omfattande arbete än en nischad butik med 50 produkter. Vi ger alltid en exakt prisuppskattning efter en kostnadsfri analys av din webshop.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Kan SEO ersätta betald annonsering för e-handel?
+          </div>
+          <div class="faq-answer">
+            <p>SEO och betald annonsering kompletterar varandra. SEO bygger en långsiktig källa till organisk trafik som inte kostar per klick, medan annonsering ger omedelbar synlighet. Många av våra kunder minskar gradvis sin annonsbudget i takt med att den organiska trafiken växer. Målet är att SEO ska stå för majoriteten av trafiken, med annonsering som komplement vid kampanjer och produktlanseringar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Redo att öka försäljningen med SEO?</h2>
+    <p>Boka en kostnadsfri SEO-analys av din webshop. Vi identifierar de största möjligheterna och visar hur organisk trafik kan bli din starkaste intäktskälla.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="{{DOMAIN}}/" class="nav-logo">Search<span style="color:#fff">boost</span></a>
+        <p>Searchboost hjälper svenska företag att växa genom sökmotoroptimering. Vi kombinerar AI-driven teknik med mänsklig expertis för att leverera mätbara resultat.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tjänster</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/tjanster/lokal-seo/">Lokal SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/e-handel-seo/">E-handel SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/seo-audit-tjanst/">SEO Audit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resurser</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+          <li><a href="{{DOMAIN}}/ordlista/seo-ordlista/">SEO-ordlista</a></li>
+          <li><a href="{{DOMAIN}}/kontakt/">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Searchboost. Alla rättigheter förbehållna.
+    </div>
+  </footer>
+
+</body>
+</html>

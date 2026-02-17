@@ -1,0 +1,2714 @@
+{
+  "timestamp": "2026-02-10T17:07:09.192Z",
+  "pages": [
+    {
+      "id": 2093,
+      "title": "Hem",
+      "slug": "hem",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Hem -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Hem -",
+        "og_description": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! Förlängda öppettider 1 dag i veckan. Öppet till 20.00 alla onsdagar i oktober. Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! Förlängda öppettider 1 dag i veckan. Öppet till 20.00 alla onsdagar i oktober. Handla med räntefri delbetalning Kom in till butiken så&hellip;",
+        "og_url": "https://www.mobelrondellen.se/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2025-11-08T19:41:09+00:00",
+        "og_image": [
+          {
+            "url": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+            "type": "",
+            "width": "",
+            "height": ""
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Est. reading time": "1 minut"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Hem -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#primaryimage"
+              },
+              "thumbnailUrl": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+              "datePublished": "2021-11-05T02:34:07+00:00",
+              "dateModified": "2025-11-08T19:41:09+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/#primaryimage",
+              "url": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+              "contentUrl": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Hem"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 1948,
+      "title": "Varumärken",
+      "slug": "leverantorer",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/leverantorer/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Varumärken -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/leverantorer/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Varumärken -",
+        "og_url": "https://www.mobelrondellen.se/leverantorer/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2021-11-04T00:56:35+00:00",
+        "og_image": [
+          {
+            "url": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+            "type": "",
+            "width": "",
+            "height": ""
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/leverantorer/",
+              "url": "https://www.mobelrondellen.se/leverantorer/",
+              "name": "Varumärken -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/leverantorer/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/leverantorer/#primaryimage"
+              },
+              "thumbnailUrl": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+              "datePublished": "2021-11-01T05:19:52+00:00",
+              "dateModified": "2021-11-04T00:56:35+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/leverantorer/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/leverantorer/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/leverantorer/#primaryimage",
+              "url": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png",
+              "contentUrl": "http://mobelrondellen.se/wp-content/uploads/2018/09/above.png"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/leverantorer/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Varumärken"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 1677,
+      "title": "Webbsidan är under bearbetning",
+      "slug": "under-bearbetning",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/under-bearbetning/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Webbsidan är under bearbetning -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/under-bearbetning/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Webbsidan är under bearbetning -",
+        "og_description": "Tills vidare kan ni använda kontaktvägarna på denna sida... Det går även bra att besöka Facebook-sidan: facebook.com/mobelrondellen.",
+        "og_url": "https://www.mobelrondellen.se/under-bearbetning/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2021-10-07T12:54:21+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/under-bearbetning/",
+              "url": "https://www.mobelrondellen.se/under-bearbetning/",
+              "name": "Webbsidan är under bearbetning -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2021-10-05T22:22:32+00:00",
+              "dateModified": "2021-10-07T12:54:21+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/under-bearbetning/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/under-bearbetning/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/under-bearbetning/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Webbsidan är under bearbetning"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 1575,
+      "title": "Avslutad!",
+      "slug": "quiz-1721926711",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/quiz-1721926711/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Avslutad! -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/quiz-1721926711/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Avslutad! -",
+        "og_description": "Du har fått fem rätt så långt, vilket är full pott för den webbaserade frågetävlingen. Ni har nu chansen att vinna en utemöbel värd 10900:- genom att besöka vår butik för en utslagsfråga. Ni har denna möjlighet fram till och med 16 Maj 2021. Ni får även en bekräftelse på att ni klarat delmoment 1&hellip;",
+        "og_url": "https://www.mobelrondellen.se/quiz-1721926711/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2021-10-05T21:44:40+00:00",
+        "og_image": [
+          {
+            "url": "http://mobelrondellen.se/wp-content/plugins/quiz-master-next/assets/clock.png",
+            "type": "",
+            "width": "",
+            "height": ""
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Est. reading time": "1 minut"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/quiz-1721926711/",
+              "url": "https://www.mobelrondellen.se/quiz-1721926711/",
+              "name": "Avslutad! -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/quiz-1721926711/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/quiz-1721926711/#primaryimage"
+              },
+              "thumbnailUrl": "http://mobelrondellen.se/wp-content/plugins/quiz-master-next/assets/clock.png",
+              "datePublished": "2021-04-04T17:08:34+00:00",
+              "dateModified": "2021-10-05T21:44:40+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/quiz-1721926711/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/quiz-1721926711/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/quiz-1721926711/#primaryimage",
+              "url": "http://mobelrondellen.se/wp-content/plugins/quiz-master-next/assets/clock.png",
+              "contentUrl": "http://mobelrondellen.se/wp-content/plugins/quiz-master-next/assets/clock.png"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/quiz-1721926711/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Avslutad!"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 330,
+      "title": "Hitta hit",
+      "slug": "hitta-hit",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/hitta-hit/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Hitta hit -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/hitta-hit/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Hitta hit -",
+        "og_description": "By loading, you agree to Google's privacy policy. Read more Ladda karta",
+        "og_url": "https://www.mobelrondellen.se/hitta-hit/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2025-11-19T08:13:48+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/hitta-hit/",
+              "url": "https://www.mobelrondellen.se/hitta-hit/",
+              "name": "Hitta hit -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-19T06:23:16+00:00",
+              "dateModified": "2025-11-19T08:13:48+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/hitta-hit/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/hitta-hit/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/hitta-hit/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Hitta hit"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 325,
+      "title": "Kontakt",
+      "slug": "kontakt",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/kontakt/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Kontakt -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/kontakt/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Kontakt -",
+        "og_description": "Möbelrondellen Skålmyrsvägen 40 792 50 Mora 0250-10765 info@mobelrondellen.se Följ oss på Facebook: www.facebook.com/mobelrondellen",
+        "og_url": "https://www.mobelrondellen.se/kontakt/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2021-11-09T00:36:17+00:00",
+        "og_image": [
+          {
+            "url": "http://mobelrondellen.se/wp-content/uploads/2021/11/bild_2021-11-07_082511-300x281.png",
+            "type": "",
+            "width": "",
+            "height": ""
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/kontakt/",
+              "url": "https://www.mobelrondellen.se/kontakt/",
+              "name": "Kontakt -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/kontakt/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/kontakt/#primaryimage"
+              },
+              "thumbnailUrl": "http://mobelrondellen.se/wp-content/uploads/2021/11/bild_2021-11-07_082511-300x281.png",
+              "datePublished": "2018-08-19T06:14:29+00:00",
+              "dateModified": "2021-11-09T00:36:17+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/kontakt/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/kontakt/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/kontakt/#primaryimage",
+              "url": "http://mobelrondellen.se/wp-content/uploads/2021/11/bild_2021-11-07_082511-300x281.png",
+              "contentUrl": "http://mobelrondellen.se/wp-content/uploads/2021/11/bild_2021-11-07_082511-300x281.png"
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/kontakt/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Kontakt"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 130,
+      "title": "Mitt konto",
+      "slug": "mitt-konto",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/mitt-konto/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Mitt konto -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/mitt-konto/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Mitt konto -",
+        "og_url": "https://www.mobelrondellen.se/mitt-konto/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/mitt-konto/",
+              "url": "https://www.mobelrondellen.se/mitt-konto/",
+              "name": "Mitt konto -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-13T21:38:06+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/mitt-konto/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/mitt-konto/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/mitt-konto/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Mitt konto"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 129,
+      "title": "Till kassan",
+      "slug": "kassan",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/kassan/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Till kassan -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/kassan/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Till kassan -",
+        "og_url": "https://www.mobelrondellen.se/kassan/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/kassan/",
+              "url": "https://www.mobelrondellen.se/kassan/",
+              "name": "Till kassan -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-13T21:38:06+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/kassan/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/kassan/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/kassan/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Till kassan"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 128,
+      "title": "Varukorg",
+      "slug": "varukorg",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/varukorg/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Varukorg -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/varukorg/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Varukorg -",
+        "og_url": "https://www.mobelrondellen.se/varukorg/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/varukorg/",
+              "url": "https://www.mobelrondellen.se/varukorg/",
+              "name": "Varukorg -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-13T21:38:06+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/varukorg/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/varukorg/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/varukorg/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Varukorg"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 127,
+      "title": "Webbutik",
+      "slug": "butik",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/butik/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Webbutik -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/butik/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Webbutik -",
+        "og_url": "https://www.mobelrondellen.se/butik/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2023-08-13T14:18:56+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/butik/",
+              "url": "https://www.mobelrondellen.se/butik/",
+              "name": "Webbutik -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-13T21:38:06+00:00",
+              "dateModified": "2023-08-13T14:18:56+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/butik/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/butik/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/butik/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Webbutik"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 104,
+      "title": "Produkter",
+      "slug": "produkter",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/produkter/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Produkter -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/produkter/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Produkter -",
+        "og_description": "Vardagsrum (80) Sovrum (32) Matrum (26) Inredning (5) Utomhus (18)",
+        "og_url": "https://www.mobelrondellen.se/produkter/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2021-11-01T23:34:30+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/produkter/",
+              "url": "https://www.mobelrondellen.se/produkter/",
+              "name": "Produkter -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-13T15:55:20+00:00",
+              "dateModified": "2021-11-01T23:34:30+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/produkter/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/produkter/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/produkter/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Produkter"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 20,
+      "title": "Leveranser",
+      "slug": "leveranser",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/leveranser/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Leveranser -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/leveranser/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Leveranser -",
+        "og_description": "Leveranser inom närområdet! Vi kan även ordna transport på övriga Sverige, kontakta oss... Om ni har gamla möbler ni vill bli av med i samband med att ni köpt nytt, så kan vi ta med oss dom till återvinningscentralen mot självkostnadspris!  ca 420:- per m3. Låna släpGratis Mora, Orsa och närliggande byar 1 man Trottoarleverans,&hellip;",
+        "og_url": "https://www.mobelrondellen.se/leveranser/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2023-03-15T11:32:19+00:00",
+        "og_image": [
+          {
+            "width": 2363,
+            "height": 1182,
+            "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:1920/h:960/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2023/02/lastbil-1.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Est. reading time": "1 minut"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/leveranser/",
+              "url": "https://www.mobelrondellen.se/leveranser/",
+              "name": "Leveranser -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/leveranser/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/leveranser/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2023/02/lastbil-1.jpg",
+              "datePublished": "2018-08-10T21:32:27+00:00",
+              "dateModified": "2023-03-15T11:32:19+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/leveranser/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/leveranser/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/leveranser/#primaryimage",
+              "url": "https://www.mobelrondellen.se/wp-content/uploads/2023/02/lastbil-1.jpg",
+              "contentUrl": "https://www.mobelrondellen.se/wp-content/uploads/2023/02/lastbil-1.jpg",
+              "width": 2363,
+              "height": 1182
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/leveranser/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Leveranser"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 18,
+      "title": "Delbetalning",
+      "slug": "delbetalning-resurs-bank",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/delbetalning-resurs-bank/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Delbetalning-Resurs bank",
+        "description": "Delbetala med Resurs bank, ansök via vår hemsida! 6, 12, 24 mån räntefritt.",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/delbetalning-resurs-bank/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Delbetalning-Resurs bank",
+        "og_description": "Delbetala med Resurs bank, ansök via vår hemsida! 6, 12, 24 mån räntefritt.",
+        "og_url": "https://www.mobelrondellen.se/delbetalning-resurs-bank/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2025-11-19T16:32:19+00:00",
+        "og_image": [
+          {
+            "width": 410,
+            "height": 123,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2025/05/nedladdning.png",
+            "type": "image/png"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Est. reading time": "2 minuter"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/",
+              "url": "https://www.mobelrondellen.se/delbetalning-resurs-bank/",
+              "name": "Delbetalning-Resurs bank",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2025/05/nedladdning-300x90.png",
+              "datePublished": "2018-08-10T21:32:19+00:00",
+              "dateModified": "2025-11-19T16:32:19+00:00",
+              "description": "Delbetala med Resurs bank, ansök via vår hemsida! 6, 12, 24 mån räntefritt.",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/delbetalning-resurs-bank/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/#primaryimage",
+              "url": "https://www.mobelrondellen.se/wp-content/uploads/2025/05/nedladdning.png",
+              "contentUrl": "https://www.mobelrondellen.se/wp-content/uploads/2025/05/nedladdning.png",
+              "width": 410,
+              "height": 123
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/delbetalning-resurs-bank/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Delbetalning"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 16,
+      "title": "Öppettider",
+      "slug": "oppettider",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/oppettider/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Öppettider -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/oppettider/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Öppettider -",
+        "og_description": "Måndag t.o.m. fredag10:00-18:00 Lördag10:00-15:00 Söndag12:00-16:00 OBS! SÖNDAGAR FR.O.M. 1/6 TILL OCH MED 10/8 = STÄNGT Skärstordag10:00-18:00 Långfredag12:00-16:00 Påskafton10:00-15:00 PåskdagenStängt Annandag påsk12:00-16:00 Sista April10:00-16:00 Första Maj12:00-16:00 Kristi himmelfärdsdag12:00-16:00 Nationaldagen12:00-16:00 MidsommaraftonStängt MidsommardagenStängt Alla helgons dag10:00-15:00 JulaftonStängt JuldagenStängt Annandag jul12:00-16:00 NyårsaftonStängt NyårsdagenStängt Trettondagsafton10:00-16:00 Trettondagen12:00-16:00",
+        "og_url": "https://www.mobelrondellen.se/oppettider/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2026-01-02T13:07:16+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Est. reading time": "1 minut"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/oppettider/",
+              "url": "https://www.mobelrondellen.se/oppettider/",
+              "name": "Öppettider -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-10T21:32:09+00:00",
+              "dateModified": "2026-01-02T13:07:16+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/oppettider/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/oppettider/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/oppettider/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Öppettider"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "Kontakt / Hitta hit",
+      "slug": "kontakt-hitta-hit",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/kontakt-hitta-hit/",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Kontakt / Hitta hit -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/kontakt-hitta-hit/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Kontakt / Hitta hit -",
+        "og_description": "Kontaktformulär Your Name Your Email Subject Message Skicka",
+        "og_url": "https://www.mobelrondellen.se/kontakt-hitta-hit/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_modified_time": "2018-08-19T06:01:47+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1440,
+            "url": "https://www.mobelrondellen.se/wp-content/uploads/2021/11/logga-till-site-image-wpress-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "twitter_card": "summary_large_image",
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/kontakt-hitta-hit/",
+              "url": "https://www.mobelrondellen.se/kontakt-hitta-hit/",
+              "name": "Kontakt / Hitta hit -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "datePublished": "2018-08-10T21:31:48+00:00",
+              "dateModified": "2018-08-19T06:01:47+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/kontakt-hitta-hit/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/kontakt-hitta-hit/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/kontakt-hitta-hit/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Kontakt / Hitta hit"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "posts": [
+    {
+      "id": 2468,
+      "title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!",
+      "slug": "vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/",
+      "date": "2025-11-08T16:38:36",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+        "og_url": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_published_time": "2025-11-08T16:38:36+00:00",
+        "article_modified_time": "2025-11-08T17:42:04+00:00",
+        "og_image": [
+          {
+            "width": 1170,
+            "height": 650,
+            "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:1170/h:650/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2020/08/stallbarsang-vaxholm.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "author": "devadmin",
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Written by": "devadmin"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#article",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/"
+              },
+              "author": {
+                "name": "devadmin",
+                "@id": "https://www.mobelrondellen.se/#/schema/person/a4f6dd765e62ba1e2c7065193332391e"
+              },
+              "headline": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!",
+              "datePublished": "2025-11-08T16:38:36+00:00",
+              "dateModified": "2025-11-08T17:42:04+00:00",
+              "mainEntityOfPage": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/"
+              },
+              "wordCount": 10,
+              "commentCount": 0,
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/stallbarsang-vaxholm.jpg",
+              "articleSection": [
+                "Uncategorized"
+              ],
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "CommentAction",
+                  "name": "Comment",
+                  "target": [
+                    "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#respond"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/",
+              "url": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/",
+              "name": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/stallbarsang-vaxholm.jpg",
+              "datePublished": "2025-11-08T16:38:36+00:00",
+              "dateModified": "2025-11-08T17:42:04+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#primaryimage",
+              "url": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/stallbarsang-vaxholm.jpg",
+              "contentUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/stallbarsang-vaxholm.jpg",
+              "width": 1170,
+              "height": 650
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/2025/11/08/vi-har-flera-sangmodeller-som-lagervara-med-1-dags-leveranstid/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://www.mobelrondellen.se/#/schema/person/a4f6dd765e62ba1e2c7065193332391e",
+              "name": "devadmin",
+              "image": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/person/image/",
+                "url": "https://secure.gravatar.com/avatar/596d0b8bc3d41a088d94eb9343ce909923deb79cdc726d2724e1c2da92a2a6c7?s=96&d=mm&r=g",
+                "contentUrl": "https://secure.gravatar.com/avatar/596d0b8bc3d41a088d94eb9343ce909923deb79cdc726d2724e1c2da92a2a6c7?s=96&d=mm&r=g",
+                "caption": "devadmin"
+              },
+              "url": "https://www.mobelrondellen.se/author/devadmin/"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": 1142,
+      "title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!",
+      "slug": "standard-bildvisning-1",
+      "status": "publish",
+      "link": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/",
+      "date": "2020-08-03T05:43:57",
+      "meta": {
+        "om_disable_all_campaigns": false,
+        "_monsterinsights_skip_tracking": false,
+        "_monsterinsights_sitenote_active": false,
+        "_monsterinsights_sitenote_note": "",
+        "_monsterinsights_sitenote_category": 0,
+        "footnotes": ""
+      },
+      "yoast": {
+        "title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+        "robots": {
+          "index": "index",
+          "follow": "follow",
+          "max-snippet": "max-snippet:-1",
+          "max-image-preview": "max-image-preview:large",
+          "max-video-preview": "max-video-preview:-1"
+        },
+        "canonical": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/",
+        "og_locale": "sv_SE",
+        "og_type": "article",
+        "og_title": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+        "og_url": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/",
+        "article_publisher": "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+        "article_published_time": "2020-08-03T05:43:57+00:00",
+        "article_modified_time": "2023-02-09T12:27:13+00:00",
+        "og_image": [
+          {
+            "width": 2560,
+            "height": 1344,
+            "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:1920/h:1008/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2020/08/Untitled-6-scaled.jpg",
+            "type": "image/jpeg"
+          }
+        ],
+        "author": "devadmin",
+        "twitter_card": "summary_large_image",
+        "twitter_misc": {
+          "Written by": "devadmin"
+        },
+        "schema": {
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Article",
+              "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#article",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/"
+              },
+              "author": {
+                "name": "devadmin",
+                "@id": "https://www.mobelrondellen.se/#/schema/person/a4f6dd765e62ba1e2c7065193332391e"
+              },
+              "headline": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!",
+              "datePublished": "2020-08-03T05:43:57+00:00",
+              "dateModified": "2023-02-09T12:27:13+00:00",
+              "mainEntityOfPage": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/"
+              },
+              "wordCount": 10,
+              "commentCount": 0,
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/Untitled-6-scaled.jpg",
+              "articleSection": [
+                "Uncategorized"
+              ],
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "CommentAction",
+                  "name": "Comment",
+                  "target": [
+                    "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#respond"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/",
+              "url": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/",
+              "name": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid! -",
+              "isPartOf": {
+                "@id": "https://www.mobelrondellen.se/#website"
+              },
+              "primaryImageOfPage": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#primaryimage"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#primaryimage"
+              },
+              "thumbnailUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/Untitled-6-scaled.jpg",
+              "datePublished": "2020-08-03T05:43:57+00:00",
+              "dateModified": "2023-02-09T12:27:13+00:00",
+              "breadcrumb": {
+                "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#breadcrumb"
+              },
+              "inLanguage": "sv-SE",
+              "potentialAction": [
+                {
+                  "@type": "ReadAction",
+                  "target": [
+                    "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/"
+                  ]
+                }
+              ]
+            },
+            {
+              "@type": "ImageObject",
+              "inLanguage": "sv-SE",
+              "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#primaryimage",
+              "url": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/Untitled-6-scaled.jpg",
+              "contentUrl": "https://www.mobelrondellen.se/wp-content/uploads/2020/08/Untitled-6-scaled.jpg",
+              "width": 2560,
+              "height": 1344
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": "https://www.mobelrondellen.se/2020/08/03/standard-bildvisning-1/#breadcrumb",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.mobelrondellen.se/"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Vi har flera sängmodeller som lagervara, med 1 dags leveranstid!"
+                }
+              ]
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://www.mobelrondellen.se/#website",
+              "url": "https://www.mobelrondellen.se/",
+              "name": "Möbelrondellen - Möbler och inredning i Mora",
+              "description": "Möbler och inredning i Mora",
+              "publisher": {
+                "@id": "https://www.mobelrondellen.se/#organization"
+              },
+              "potentialAction": [
+                {
+                  "@type": "SearchAction",
+                  "target": {
+                    "@type": "EntryPoint",
+                    "urlTemplate": "https://www.mobelrondellen.se/?s={search_term_string}"
+                  },
+                  "query-input": {
+                    "@type": "PropertyValueSpecification",
+                    "valueRequired": true,
+                    "valueName": "search_term_string"
+                  }
+                }
+              ],
+              "inLanguage": "sv-SE"
+            },
+            {
+              "@type": "Organization",
+              "@id": "https://www.mobelrondellen.se/#organization",
+              "name": "Möbelrondellen",
+              "url": "https://www.mobelrondellen.se/",
+              "logo": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/",
+                "url": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "contentUrl": "https://mlrv8cepbang.i.optimole.com/cb:RGaE.609/w:512/h:512/q:mauto/f:best/https://www.mobelrondellen.se/wp-content/uploads/2021/11/cropped-mobelrondellenlogo.jpg",
+                "width": 512,
+                "height": 512,
+                "caption": "Möbelrondellen"
+              },
+              "image": {
+                "@id": "https://www.mobelrondellen.se/#/schema/logo/image/"
+              },
+              "sameAs": [
+                "https://www.facebook.com/mobelrondellen/?locale=sv_SE",
+                "https://www.instagram.com/mobelrondellen/?hl=en"
+              ]
+            },
+            {
+              "@type": "Person",
+              "@id": "https://www.mobelrondellen.se/#/schema/person/a4f6dd765e62ba1e2c7065193332391e",
+              "name": "devadmin",
+              "image": {
+                "@type": "ImageObject",
+                "inLanguage": "sv-SE",
+                "@id": "https://www.mobelrondellen.se/#/schema/person/image/",
+                "url": "https://secure.gravatar.com/avatar/596d0b8bc3d41a088d94eb9343ce909923deb79cdc726d2724e1c2da92a2a6c7?s=96&d=mm&r=g",
+                "contentUrl": "https://secure.gravatar.com/avatar/596d0b8bc3d41a088d94eb9343ce909923deb79cdc726d2724e1c2da92a2a6c7?s=96&d=mm&r=g",
+                "caption": "devadmin"
+              },
+              "url": "https://www.mobelrondellen.se/author/devadmin/"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "categories": [
+    {
+      "id": 32,
+      "name": "Bäddsoffor",
+      "slug": "baddsoffor",
+      "description": "",
+      "count": 6
+    },
+    {
+      "id": 54,
+      "name": "Belysning",
+      "slug": "belysning",
+      "description": "",
+      "count": 1
+    },
+    {
+      "id": 78,
+      "name": "Bokhyllor",
+      "slug": "bokhyllor",
+      "description": "",
+      "count": 2
+    },
+    {
+      "id": 34,
+      "name": "Fåtöljer",
+      "slug": "fatoljer",
+      "description": "",
+      "count": 16
+    },
+    {
+      "id": 77,
+      "name": "Inredning",
+      "slug": "inredning",
+      "description": "",
+      "count": 5
+    },
+    {
+      "id": 84,
+      "name": "Köksstol",
+      "slug": "koksstol",
+      "description": "",
+      "count": 8
+    },
+    {
+      "id": 80,
+      "name": "Madrasser",
+      "slug": "madrasser",
+      "description": "",
+      "count": 2
+    },
+    {
+      "id": 85,
+      "name": "Matbord",
+      "slug": "matbord",
+      "description": "",
+      "count": 8
+    },
+    {
+      "id": 86,
+      "name": "Matgrupper",
+      "slug": "matgrupper",
+      "description": "",
+      "count": 2
+    },
+    {
+      "id": 75,
+      "name": "Matrum",
+      "slug": "matrum",
+      "description": "",
+      "count": 26
+    },
+    {
+      "id": 109,
+      "name": "Mattor",
+      "slug": "mattor",
+      "description": "",
+      "count": 1
+    },
+    {
+      "id": 79,
+      "name": "Mediabänkar",
+      "slug": "mediabankar",
+      "description": "",
+      "count": 3
+    },
+    {
+      "id": 88,
+      "name": "Möbelskydd",
+      "slug": "mobelskydd",
+      "description": "",
+      "count": 2
+    },
+    {
+      "id": 33,
+      "name": "Sängar",
+      "slug": "sangar",
+      "description": "",
+      "count": 28
+    },
+    {
+      "id": 83,
+      "name": "Skänkar",
+      "slug": "skankar",
+      "description": "",
+      "count": 2
+    },
+    {
+      "id": 31,
+      "name": "Soffbord",
+      "slug": "soffbord",
+      "description": "",
+      "count": 20
+    },
+    {
+      "id": 30,
+      "name": "Soffor",
+      "slug": "soffor",
+      "description": "",
+      "count": 31
+    },
+    {
+      "id": 74,
+      "name": "Sovrum",
+      "slug": "sovrum",
+      "description": "",
+      "count": 32
+    },
+    {
+      "id": 101,
+      "name": "Tavlor",
+      "slug": "tavlor",
+      "description": "",
+      "count": 1
+    },
+    {
+      "id": 68,
+      "name": "Tv-bänkar/förvaring",
+      "slug": "tv-bankar-forvaring",
+      "description": "",
+      "count": 5
+    },
+    {
+      "id": 55,
+      "name": "Utemöbler",
+      "slug": "utemobler",
+      "description": "",
+      "count": 16
+    },
+    {
+      "id": 87,
+      "name": "Utomhus",
+      "slug": "utomhus",
+      "description": "",
+      "count": 18
+    },
+    {
+      "id": 73,
+      "name": "Vardagsrum",
+      "slug": "vardagsrum",
+      "description": "",
+      "count": 80
+    },
+    {
+      "id": 82,
+      "name": "Vitrinskåp",
+      "slug": "vitrinskap",
+      "description": "",
+      "count": 7
+    }
+  ]
+}

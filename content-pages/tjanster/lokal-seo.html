@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lokal SEO — Syns i Google Maps & lokala sökningar | Searchboost</title>
+  <meta name="description" content="Lokal SEO som ger dig synlighet i Google Maps och lokala sökresultat. GBP-optimering, lokala citationer, recensionsstrategi och NAP-audit. Från 3 500 kr/mån.">
+  <meta name="keywords" content="lokal SEO, Google Maps SEO, Google Business Profile, lokal sökmotoroptimering, NAP-audit, lokala citationer, lokal synlighet, lokal SEO byrå, GBP-optimering, recensionsstrategi">
+  <link rel="canonical" href="{{DOMAIN}}/tjanster/lokal-seo/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Service -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Lokal SEO",
+    "description": "Lokal sökmotoroptimering som ger ditt företag synlighet i Google Maps och lokala sökresultat. Inkluderar GBP-optimering, lokala citationer, recensionsstrategi och NAP-audit.",
+    "provider": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "serviceType": "Lokal sökmotoroptimering",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Sverige"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "3500",
+      "priceCurrency": "SEK",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "3500",
+        "priceCurrency": "SEK",
+        "unitText": "per månad",
+        "description": "Startpris för lokal SEO"
+      }
+    }
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "Tjänster", "item": "{{DOMAIN}}/tjanster/" },
+      { "@type": "ListItem", "position": 3, "name": "Lokal SEO", "item": "{{DOMAIN}}/tjanster/lokal-seo/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hur lång tid tar det att synas i Google Maps?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "De flesta företag ser tydliga förbättringar i Google Maps-synlighet inom 4–8 veckor efter att Google Business Profile har optimerats. Full effekt av lokal SEO, inklusive citationer och recensionsarbete, brukar märkas efter 3–6 månader. Tidsramen beror på konkurrens i ditt område och din bransch."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad är skillnaden mellan lokal SEO och vanlig SEO?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Lokal SEO fokuserar specifikt på att ranka i geografiskt avgränsade sökningar och Google Maps. Det inkluderar arbete med Google Business Profile, lokala citationer (kataloger), recensioner och NAP-konsistens. Vanlig SEO är bredare och handlar om att ranka organiskt nationellt eller globalt utan geografisk komponent."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Behöver mitt företag lokal SEO om jag redan har en Google Business Profile?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Att bara ha en profil räcker sällan. Lokal SEO handlar om att optimera profilen med rätt kategorier, beskrivningar, bilder och inlägg, samt bygga lokala citationer, hantera recensioner och säkerställa att din NAP-information (namn, adress, telefon) är konsekvent överallt på nätet. Utan detta arbete tappar du synlighet till konkurrenter som investerar i lokal SEO."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad kostar lokal SEO per månad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Vår lokal SEO-tjänst startar från 3 500 kronor per månad. Priset varierar beroende på antal platser, branschens konkurrens och omfattningen av arbetet. Vi erbjuder alltid en kostnadsfri SEO-analys där vi ger en exakt prisuppskattning baserat på just ditt företags behov och förutsättningar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan ni hjälpa företag med flera fysiska platser?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolut. Vi hanterar lokal SEO för företag med allt från en till hundratals platser. Varje plats får sin egen optimerade Google Business Profile, unika lokala landningssidor och platsspecifik citationsuppbyggnad. Vi säkerställer att varje filial rankar maximalt i sitt lokala område utan att skapa kannibalisering mellan platserna."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* ===== NAVIGATION ===== */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #0f172a; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #0f172a;
+    }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a { color: #64748b; text-decoration: none; }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em { color: #db007f; font-style: normal; }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 28px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 14px 36px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.3); }
+
+    /* ===== SECTION COMMON ===== */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-alt { background: #f8fafc; }
+    .section-alt .section { padding: 64px 24px; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: #64748b;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+
+    /* ===== SERVICES GRID ===== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .service-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px 28px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+    .service-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #fdf2f8, #fce7f3);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+    .service-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+    .service-card p {
+      font-size: 0.95rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== PROCESS STEPS ===== */
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      counter-reset: step-counter;
+    }
+    .process-step {
+      text-align: center;
+      counter-increment: step-counter;
+      position: relative;
+    }
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin: 0 auto 18px;
+    }
+    .process-step h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .process-step p {
+      font-size: 0.92rem;
+      color: #64748b;
+      line-height: 1.6;
+    }
+
+    /* ===== TARGET AUDIENCE ===== */
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .audience-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .audience-card:hover { border-color: #db007f; }
+    .audience-icon {
+      font-size: 36px;
+      margin-bottom: 14px;
+    }
+    .audience-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .audience-card p {
+      font-size: 0.9rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    /* ===== PRICING HINT ===== */
+    .pricing-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #fdf2f8, #f0f4ff);
+      border: 2px solid #db007f20;
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .pricing-from {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .pricing-amount {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #db007f;
+      line-height: 1.2;
+    }
+    .pricing-amount small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #64748b;
+    }
+    .pricing-note {
+      font-size: 0.95rem;
+      color: #64748b;
+      margin-top: 16px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto 32px;
+    }
+    .pricing-features li {
+      padding: 8px 0;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .pricing-features li::before {
+      content: "\2713";
+      color: #db007f;
+      font-weight: 700;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list { max-width: 780px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 24px 0;
+    }
+    .faq-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .faq-question::after {
+      content: "+";
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-item.active .faq-question::after { content: "\2212"; }
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .faq-item.active .faq-answer {
+      max-height: 400px;
+      padding-top: 14px;
+    }
+    .faq-answer p {
+      font-size: 0.98rem;
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    /* ===== CTA SECTION ===== */
+    .cta-section {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(219,0,127,0.4); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px 32px;
+      border-top: 1px solid #1e293b;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+    }
+    .footer-brand p { font-size: 0.9rem; line-height: 1.6; margin-top: 12px; }
+    .footer-col h4 {
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ===== INTERNAL LINKS BOX ===== */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 12px;
+    }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.active {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 20px 24px;
+        border-bottom: 1px solid #e5e7eb;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      .hero h1 { font-size: 1.9rem; }
+      .hero { padding: 48px 20px 40px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; gap: 24px; }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-box { padding: 32px 24px; }
+      .pricing-amount { font-size: 2.2rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .cta-section h2 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('active')" aria-label="Meny">&#9776;</button>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/tjanster/">Tjänster</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/case-studies/">Resultat</a></li>
+        <li><a href="{{DOMAIN}}/om-oss/">Om oss</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Boka SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a><span>›</span>
+    <a href="{{DOMAIN}}/tjanster/">Tjänster</a><span>›</span>
+    Lokal SEO
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Lokal SEO-tjänst</div>
+      <h1>Lokal SEO — Syns i <em>Google Maps</em> & lokala sökningar</h1>
+      <p class="hero-subtitle">46 procent av alla Google-sökningar har lokal avsikt. Om ditt företag inte syns i det lokala 3-packet eller på Google Maps går du miste om kunder varje dag. Vi hjälper lokala företag att dominera sökresultaten i sitt närområde.</p>
+      <a href="{{DOMAIN}}/kontakt/" class="hero-cta">Boka gratis SEO-analys</a>
+    </div>
+  </section>
+
+  <!-- VAD INGÅR -->
+  <div class="section">
+    <h2 class="section-title">Vad ingår i lokal SEO?</h2>
+    <p class="section-subtitle">En komplett lokal SEO-strategi täcker allt från din Google Business Profile till hur ditt företag omnämns runt om på nätet. Här är de sex kärnområdena vi arbetar med.</p>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">&#x1F4CD;</div>
+        <h3>GBP-optimering</h3>
+        <p>Vi optimerar din Google Business Profile med rätt kategorier, beskrivning, bilder, öppettider och regelbundna inlägg. En väl underhållen profil är grunden för att synas i kartpaketet och locka fler klick.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F4D1;</div>
+        <h3>Lokala citationer</h3>
+        <p>Vi registrerar och uppdaterar ditt företag i relevanta kataloger och branschregister som Eniro, Hitta.se och nischade kataloger. Konsekventa citationer stärker Googles förtroende för din verksamhet.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#11088;</div>
+        <h3>Recensionsstrategi</h3>
+        <p>Vi tar fram en process för att samla in, svara på och hantera kundrecensioner. Positiva omdömen förbättrar din ranking i Google Maps och ökar konverteringen från sökresultat till betalande kunder.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F3E0;</div>
+        <h3>Lokala landningssidor</h3>
+        <p>Vi skapar unika, optimerade sidor för varje ort eller serviceområde du verkar i. Varje sida bygger lokal relevans genom platsspecifikt innehåll, lokal schema-markup och interna länkar.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F50D;</div>
+        <h3>NAP-audit</h3>
+        <p>Vi granskar att ditt företagsnamn, adress och telefonnummer (NAP) är identiskt överallt på nätet. Inkonsekvens i NAP-information är en av de vanligaste orsakerna till dålig lokal ranking.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">&#x1F4BB;</div>
+        <h3>Schema markup</h3>
+        <p>Vi implementerar LocalBusiness-schema och annan strukturerad data på din webbplats. Detta hjälper Google förstå exakt var ditt företag finns, vilka tjänster du erbjuder och när du har öppet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vår process i fyra steg</h2>
+      <p class="section-subtitle">Lokal SEO kräver systematik. Vi följer en beprövad process som ger mätbara resultat inom 8 till 12 veckor.</p>
+
+      <div class="process-steps">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3>Lokal SEO-audit</h3>
+          <p>Vi kartlägger din nuvarande lokala synlighet, analyserar GBP-profilen, granskar NAP-konsistens och identifierar alla förbättringsmöjligheter jämfört med dina lokala konkurrenter.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3>Strategi</h3>
+          <p>Baserat på auditen tar vi fram en prioriterad plan med tidslinjer och mål. Vi identifierar vilka sökord som driver lokala kunder och vilka kanaler som ger bäst avkastning.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3>Implementering</h3>
+          <p>Vi genomför alla åtgärder: optimerar GBP, bygger citationer, skapar lokala landningssidor, implementerar schema-markup och sätter upp recensionsflöden.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3>Rapportering</h3>
+          <p>Varje månad får du en rapport med lokala rankingpositioner, GBP-statistik, antal recensioner och konkret ROI. Vi justerar strategin löpande baserat på data.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FÖR VEM -->
+  <div class="section">
+    <h2 class="section-title">Vilka företag passar lokal SEO för?</h2>
+    <p class="section-subtitle">Alla verksamheter som har en fysisk plats eller betjänar kunder i ett geografiskt område har enorm nytta av lokal SEO. Här är de vanligaste branscherna vi hjälper.</p>
+
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="audience-icon">&#x1F37D;&#xFE0F;</div>
+        <h3>Restauranger och caféer</h3>
+        <p>Syns när hungriga kunder söker i närheten. Boka-knappen i GBP driver direktbokningar.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">&#x1F527;</div>
+        <h3>Hantverkare</h3>
+        <p>Elektriker, rörmokare och snickare som vill fånga kunder i akut behov av hjälp nära dem.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">&#x1FA7A;</div>
+        <h3>Kliniker och vårdgivare</h3>
+        <p>Tandläkare, veterinärer och terapeuter som behöver patienter från sitt upptagningsområde.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">&#x1F6CD;&#xFE0F;</div>
+        <h3>Butiker</h3>
+        <p>Fysiska butiker som konkurrerar med e-handel genom lokal synlighet och besöksdriven trafik.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRISINDIKATION -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Prisindikation</h2>
+      <p class="section-subtitle">Vi anpassar alltid paketet efter ditt företags storlek och behov. Nedan är ett riktpris för lokal SEO.</p>
+
+      <div class="pricing-box">
+        <p class="pricing-from">Lokal SEO från</p>
+        <p class="pricing-amount">3 500 kr <small>/mån</small></p>
+        <p class="pricing-note">Priset varierar beroende på antal platser, branschens konkurrens och omfattning. Vi börjar alltid med en kostnadsfri analys där vi ger ett exakt förslag.</p>
+        <ul class="pricing-features">
+          <li>Google Business Profile-optimering</li>
+          <li>Citationsuppbyggnad och NAP-audit</li>
+          <li>Recensionsstrategi och svarsmall</li>
+          <li>Lokala landningssidor</li>
+          <li>Schema markup (LocalBusiness)</li>
+          <li>Månadsrapport med rankingdata</li>
+        </ul>
+        <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERNAL LINKS -->
+  <div class="section">
+    <div class="internal-links">
+      <h3>Lär dig mer om lokal SEO</h3>
+      <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Guide: Lokal SEO</a>
+      <a href="{{DOMAIN}}/seo-skola/google-business-profile/">Guide: Google Business Profile</a>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">Vanliga frågor om lokal SEO</h2>
+      <p class="section-subtitle">Här besvarar vi de vanligaste frågorna vi får om lokal sökmotoroptimering.</p>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Hur lång tid tar det att synas i Google Maps?
+          </div>
+          <div class="faq-answer">
+            <p>De flesta företag ser tydliga förbättringar i Google Maps-synlighet inom 4 till 8 veckor efter att Google Business Profile har optimerats. Full effekt av lokal SEO, inklusive citationer och recensionsarbete, brukar märkas efter 3 till 6 månader. Tidsramen beror på konkurrens i ditt område och din bransch.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad är skillnaden mellan lokal SEO och vanlig SEO?
+          </div>
+          <div class="faq-answer">
+            <p>Lokal SEO fokuserar specifikt på att ranka i geografiskt avgränsade sökningar och Google Maps. Det inkluderar arbete med Google Business Profile, lokala citationer, recensioner och NAP-konsistens. Vanlig SEO är bredare och handlar om att ranka organiskt nationellt eller globalt utan den geografiska komponenten.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Behöver mitt företag lokal SEO om jag redan har en Google Business Profile?
+          </div>
+          <div class="faq-answer">
+            <p>Att bara ha en profil räcker sällan. Lokal SEO handlar om att optimera profilen med rätt kategorier, beskrivningar, bilder och inlägg, samt bygga lokala citationer, hantera recensioner och säkerställa NAP-konsistens. Utan detta tappar du synlighet till konkurrenter som aktivt investerar i lokal SEO.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Vad kostar lokal SEO per månad?
+          </div>
+          <div class="faq-answer">
+            <p>Vår lokal SEO-tjänst startar från 3 500 kronor per månad. Priset varierar beroende på antal platser, branschens konkurrens och arbetets omfattning. Vi erbjuder alltid en kostnadsfri SEO-analys där vi ger en exakt prisuppskattning baserat på ditt företags specifika behov och förutsättningar.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            Kan ni hjälpa företag med flera fysiska platser?
+          </div>
+          <div class="faq-answer">
+            <p>Absolut. Vi hanterar lokal SEO för företag med allt från en till hundratals platser. Varje plats får sin egen optimerade Google Business Profile, unika lokala landningssidor och platsspecifik citationsuppbyggnad. Vi säkerställer att varje filial rankar maximalt i sitt lokala område utan att skapa kannibalisering mellan platserna.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Redo att dominera lokala sökresultat?</h2>
+    <p>Boka en kostnadsfri SEO-analys så visar vi exakt hur ditt företag kan synas bättre i Google Maps och lokala sökningar.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="{{DOMAIN}}/" class="nav-logo">Search<span style="color:#fff">boost</span></a>
+        <p>Searchboost hjälper svenska företag att växa genom sökmotoroptimering. Vi kombinerar AI-driven teknik med mänsklig expertis för att leverera mätbara resultat.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Tjänster</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/tjanster/lokal-seo/">Lokal SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/e-handel-seo/">E-handel SEO</a></li>
+          <li><a href="{{DOMAIN}}/tjanster/seo-audit-tjanst/">SEO Audit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resurser</h4>
+        <ul>
+          <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+          <li><a href="{{DOMAIN}}/ordlista/seo-ordlista/">SEO-ordlista</a></li>
+          <li><a href="{{DOMAIN}}/kontakt/">Kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Searchboost. Alla rättigheter förbehållna.
+    </div>
+  </footer>
+
+</body>
+</html>

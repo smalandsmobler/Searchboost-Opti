@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Domain Authority — Vad det ar och hur du okar det | Searchboost</title>
+  <meta name="description" content="Komplett guide till Domain Authority 2026. Lar dig vad DA ar, hur det beraknas, skillnaden mellan Moz DA och Ahrefs DR, och konkreta steg for att oka din domans auktoritet.">
+  <meta name="keywords" content="Domain Authority, DA, Domain Rating, DR, Moz DA, Ahrefs DR, domanauktoritet, oka Domain Authority, lankprofil, SEO auktoritet">
+  <link rel="canonical" href="{{DOMAIN}}/seo-skola/domain-authority/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Domain Authority — Vad det ar och hur du okar det",
+    "description": "Komplett guide till Domain Authority 2026. Lar dig vad DA ar, hur det beraknas, skillnaden mellan Moz DA och Ahrefs DR, och konkreta steg for att oka din domans auktoritet.",
+    "image": "",
+    "author": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{DOMAIN}}/seo-skola/domain-authority/"
+    }
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "SEO-skola", "item": "{{DOMAIN}}/seo-skola/" },
+      { "@type": "ListItem", "position": 3, "name": "Domain Authority", "item": "{{DOMAIN}}/seo-skola/domain-authority/" }
+    ]
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Ar Domain Authority en Google-rankingfaktor?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nej, Domain Authority ar INTE en Google-rankingfaktor. DA ar ett matt som skapats av Moz, inte av Google. Google har upprepade ganger bekraftat att de inte anvander nagon tredjepartsauktoritetspoang i sin algoritm. Daremot korrelerar DA val med rankingar eftersom det mater manga av samma signaler som Google vardesatter — framfor allt baklankar. Tank pa DA som en termometer: den mater inte temperaturen (Googles algoritm), men den ger en tillforlatlig indikation pa hur varmt det ar."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad ar skillnaden mellan Domain Authority och Domain Rating?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Domain Authority (DA) ar Moz matt och Domain Rating (DR) ar Ahrefs matt. Bada mater domanens lankstyrka pa en skala fran 0 till 100, men de anvander olika metoder. DA tar hansyn till bade lankkvalitet och lankkvantitet samt antal lankade domaner. DR fokuserar mer pa den unika lankprofilen och hur lankkraft distribueras. De tva mattalen ar inte jamforbara rakt av — en sajt kan ha DA 45 men DR 55 eller tvartom. Anvand konsekvent samma matt nar du jamfor sajter."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hur lang tid tar det att oka Domain Authority?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Att oka Domain Authority ar en langsiktig process som typiskt tar 3 till 12 manader beroende pa var du borjar och hur aggressiv din lankstrategi ar. En ny sajt med DA 5 kan na DA 15-20 pa 6 manader med konsekvent lankbygge. Att ga fran DA 30 till DA 40 tar langre eftersom skalan ar logaritmisk — varje poang blir svArare att uppna ju hogre du kommer. Fokusera pa att bygga kvalitetslankar over tid snarare an att jaga en specifik DA-siffra."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan Domain Authority sjunka?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja, DA kan sjunka av flera anledningar. De vanligaste ar: du har forlorat baklankar (sajter som lankade till dig har tagit bort lankarna), Moz har uppdaterat sin algoritm (DA 2.0-uppdateringen 2019 sandkte manga sajtters DA), dina konkurrenter har byggt fler lankar (DA ar relativt — om andra far starkare lankar kan din DA sjunka aven om du inte forlorat nagot), eller du har fatt lankar fran spammiga sajter som okar din spam score."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vilket DA-varde ar bra?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Det beror helt pa din bransch och dina konkurrenter. DA ar mest anvandbart som jamforelsematt. Om dina tre storsta konkurrenter har DA 25-35, ar DA 30 ett rimligt mal. For ett lokalt smaforetag ar DA 15-25 typiskt. For en nationell e-handel ar DA 40-60 mer realistiskt. Stora nyhetssajter och varldskanda varumarken ligger ofta over DA 80. Jamfor alltid med dina direkta konkurrenter istallet for att sikta pa ett absolut tal."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* Navigation */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #1a1a2e; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 24px 0;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a {
+      color: #64748b;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 6px; }
+
+    /* Article Hero */
+    .article-hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 60px 24px 50px;
+    }
+    .article-hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .article-hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .article-hero h1 em {
+      color: #db007f;
+      font-style: normal;
+    }
+    .article-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-size: 14px;
+      color: #64748b;
+      margin-top: 8px;
+    }
+    .article-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Table of Contents */
+    .toc-wrapper {
+      max-width: 760px;
+      margin: 40px auto 0;
+      padding: 0 24px;
+    }
+    .toc {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 32px;
+    }
+    .toc h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+    .toc ol {
+      list-style: none;
+      counter-reset: toc-counter;
+      padding: 0;
+    }
+    .toc ol li {
+      counter-increment: toc-counter;
+      margin-bottom: 8px;
+    }
+    .toc ol li a {
+      color: #475569;
+      text-decoration: none;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 4px 0;
+      transition: color 0.2s;
+    }
+    .toc ol li a:hover { color: #db007f; }
+    .toc ol li a::before {
+      content: counter(toc-counter) ".";
+      color: #db007f;
+      font-weight: 600;
+      min-width: 24px;
+    }
+
+    /* Article body */
+    .article-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 48px 24px 0;
+    }
+    .article-body h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 56px;
+      margin-bottom: 20px;
+      padding-top: 16px;
+    }
+    .article-body h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 36px;
+      margin-bottom: 14px;
+    }
+    .article-body p {
+      color: #374151;
+      margin-bottom: 18px;
+      line-height: 1.8;
+    }
+    .article-body a {
+      color: #db007f;
+      text-decoration: underline;
+      text-decoration-color: #db007f40;
+      text-underline-offset: 3px;
+      transition: text-decoration-color 0.2s;
+    }
+    .article-body a:hover {
+      text-decoration-color: #db007f;
+    }
+    .article-body ul, .article-body ol {
+      margin-bottom: 20px;
+      padding-left: 24px;
+    }
+    .article-body li {
+      color: #374151;
+      margin-bottom: 8px;
+      line-height: 1.7;
+    }
+    .article-body strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    /* Key takeaway box */
+    .takeaway {
+      border-left: 4px solid #db007f;
+      background: #fdf2f8;
+      padding: 24px 28px;
+      border-radius: 0 12px 12px 0;
+      margin: 28px 0;
+    }
+    .takeaway p {
+      margin-bottom: 0;
+      color: #374151;
+    }
+    .takeaway strong {
+      color: #db007f;
+    }
+
+    /* Info box */
+    .info-box {
+      background: #f0f4ff;
+      border: 1px solid #dbe4ff;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 28px 0;
+    }
+    .info-box p {
+      margin-bottom: 0;
+    }
+
+    /* Accent info box (cyan) */
+    .info-box-accent {
+      background: linear-gradient(135deg, #f0fdff 0%, #f0f4ff 100%);
+      border: 1px solid #b8ecf7;
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin: 28px 0;
+    }
+    .info-box-accent p {
+      margin-bottom: 0;
+    }
+
+    /* Metric card grid */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 28px 0;
+    }
+    .metric-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 22px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .metric-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .metric-icon {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(135deg, #db007f20, #00d4ff15);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 14px;
+    }
+    .metric-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .metric-card p {
+      color: #64748b;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    /* Comparison table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0 28px;
+      font-size: 0.95rem;
+    }
+    .comparison-table th {
+      background: #0f172a;
+      color: #fff;
+      padding: 14px 18px;
+      text-align: left;
+      font-weight: 600;
+    }
+    .comparison-table th:first-child {
+      border-radius: 10px 0 0 0;
+    }
+    .comparison-table th:last-child {
+      border-radius: 0 10px 0 0;
+    }
+    .comparison-table td {
+      padding: 12px 18px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #374151;
+    }
+    .comparison-table tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* Factor card */
+    .factor-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 24px;
+      margin: 16px 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .factor-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+    }
+    .factor-card h4 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .factor-card p {
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+
+    /* Author box */
+    .author-box {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px;
+      margin: 48px 0 32px;
+    }
+    .author-avatar {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .author-info p {
+      margin-bottom: 2px;
+    }
+    .author-info .author-name {
+      font-weight: 600;
+      color: #0f172a;
+      font-size: 1rem;
+    }
+    .author-info .author-desc {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Next article */
+    .next-article {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px;
+      margin: 32px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .next-article:hover {
+      border-color: #db007f;
+      box-shadow: 0 4px 16px rgba(219, 0, 127, 0.08);
+    }
+    .next-article-label {
+      color: #db007f;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .next-article-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-top: 4px;
+    }
+    .next-article a {
+      text-decoration: none;
+    }
+    .next-article-arrow {
+      font-size: 1.6rem;
+      color: #db007f;
+      flex-shrink: 0;
+    }
+
+    /* FAQ */
+    .faq-section {
+      margin-top: 56px;
+      padding-top: 16px;
+    }
+    .faq-list { margin-top: 24px; }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-item.open .faq-question::after { content: '\2212'; }
+    .faq-answer {
+      color: #475569;
+      margin-top: 12px;
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* CTA section */
+    .cta-section {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+      margin-top: 60px;
+    }
+    .cta-section h2 {
+      color: #fff;
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn-white {
+      display: inline-block;
+      background: #fff;
+      color: #db007f;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+    .footer h4 {
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .footer a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .article-hero h1 { font-size: 1.8rem; }
+      .article-body h2 { font-size: 1.4rem; }
+      .nav-links { display: none; }
+      .toc { padding: 24px 20px; }
+      .metric-grid { grid-template-columns: 1fr; }
+      .comparison-table { font-size: 0.85rem; }
+      .comparison-table th, .comparison-table td { padding: 10px 12px; }
+      .author-box { flex-direction: column; text-align: center; }
+      .next-article { flex-direction: column; text-align: center; }
+      .article-meta { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/tjanster/">Tjanster</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/vanliga-fragor/">FAQ</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a>
+    <span>/</span>
+    <a href="{{DOMAIN}}/seo-skola/">SEO-skola</a>
+    <span>/</span>
+    Domain Authority
+  </div>
+
+  <!-- Article Hero -->
+  <section class="article-hero">
+    <div class="article-hero-inner">
+      <span class="article-badge">SEO-skola &mdash; Off-page</span>
+      <h1><em>Domain Authority</em> &mdash; Vad det ar och hur du okar det</h1>
+      <p style="font-size: 1.15rem; color: #475569; max-width: 640px;">Domain Authority ar ett av de mest anvanda matten i SEO-varlden &mdash; men ocksa ett av de mest missforstadda. I den har guiden forklarar vi vad DA egentligen ar, hur det beraknas, varfor det inte ar en Google-signal, och vilka konkreta steg du kan ta for att oka din domans auktoritet.</p>
+      <div class="article-meta">
+        <div class="article-meta-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#64748b" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/></svg>
+          12 min lasning
+        </div>
+        <div class="article-meta-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#64748b" stroke-width="1.5"/><path d="M5 1v2M11 1v2M2 6h12" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Uppdaterad: februari 2026
+        </div>
+        <div class="article-meta-item">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 14s-5.5-3.5-5.5-7.5a3.5 3.5 0 017 0 3.5 3.5 0 017 0c0 4-5.5 7.5-5.5 7.5z" stroke="#64748b" stroke-width="1.5"/></svg>
+          Av Searchboost-teamet
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table of Contents -->
+  <div class="toc-wrapper">
+    <div class="toc">
+      <h2>Innehall</h2>
+      <ol>
+        <li><a href="#vad-ar-da">Vad ar Domain Authority / Domain Rating?</a></li>
+        <li><a href="#hur-beraknas">Hur det beraknas (Moz DA, Ahrefs DR, SE Ranking ILR)</a></li>
+        <li><a href="#inte-google-signal">Varfor DA inte ar en Google-signal</a></li>
+        <li><a href="#faktorer">Faktorer som paverkar DA</a></li>
+        <li><a href="#oka-da">Hur du okar DA</a></li>
+        <li><a href="#benchmarks">DA-benchmarks per bransch</a></li>
+        <li><a href="#missforstand">Vanliga missforstand om Domain Authority</a></li>
+        <li><a href="#faq">Vanliga fragor om Domain Authority</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Body -->
+  <article class="article-body">
+
+    <!-- 1. Vad ar Domain Authority? -->
+    <h2 id="vad-ar-da">1. Vad ar Domain Authority / Domain Rating?</h2>
+
+    <p>Domain Authority (DA) ar ett matt utvecklat av SEO-foretaget Moz som forutsager hur sannolikt det ar att en webbplats rankar i sokmotorresultaten. Mattet utrycks pa en skala fran 0 till 100, dar hogre varden indikerar storre sannolikhet att ranka. DA beraknas baserat pa en domans totala lankprofil &mdash; antalet och kvaliteten pa de webbplatser som lankar till den.</p>
+
+    <p>DA ar inte det enda mattet av detta slag. Ahrefs har sitt eget likande matt kallat Domain Rating (DR), och SE Ranking anvander Inlink Rank (ILR). Alla dessa matt fyller samma grundlaggande funktion: att ge en snabb indikation pa hur stark en domans lankauktoritet ar jamfort med andra domaner. De ar ovardeerliga verktyg for att bedoma konkurrensen for ett sokord, prioritera outreach-malsajter och folja din sajts utveckling over tid.</p>
+
+    <p>Det ar avgorande att forsta att DA ar ett tredjepartsmatt &mdash; det ar inte skapat av Google och anvands inte av Googles algoritm. Tank pa det som en termometer: den mater inte vAdret, men den ger en anvandbar avlasning som korrelerar val med verkligheten. En sajt med DA 60 rankar nastan alltid battre an en sajt med DA 15 for liknande sokord, men DA i sig ar inte orsaken till rankingen.</p>
+
+    <div class="takeaway">
+      <p><strong>Kort sagt:</strong> Domain Authority ar ett branschstandard-matt for att uppskatta en domans lankstyrka. Det ar ett anvandbart jamforelseverktyg for SEO-arbete, men det ar inte en Google-rankingfaktor. Anvand det for att bedoma din position relativt konkurrenterna och folja din utveckling over tid.</p>
+    </div>
+
+
+    <!-- 2. Hur det beraknas -->
+    <h2 id="hur-beraknas">2. Hur det beraknas</h2>
+
+    <p>Varje verktyg har sin egen metod for att berakna domanauktoritet. Har ar en overblick over de tre vanligaste mattalen och vad som skiljer dem at.</p>
+
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-icon">&#128202;</div>
+        <h4>Moz DA</h4>
+        <p>Skala 0&ndash;100. Baserat pa lankkvalitet, lankkravantitet och antal lankade domaner.</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">&#128200;</div>
+        <h4>Ahrefs DR</h4>
+        <p>Skala 0&ndash;100. Fokuserar pa unika lankade domaner och hur lankkraft distribueras.</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon">&#128201;</div>
+        <h4>SE Ranking ILR</h4>
+        <p>Skala 0&ndash;100. Rankar domaner baserat pa inlankande lanknatlverkens styrka.</p>
+      </div>
+    </div>
+
+    <h3>Moz Domain Authority (DA)</h3>
+    <p>Moz beraknar DA med hjalp av en maskininlarningsmodell som forutsagar hur sannolikt det ar att en doman rankar i sokresultaten. Modellen tar hansyn till totalt antal baklankar, antal unika lankande domaner (root domains), Moz:s egna lankindexkvalitet och varje lankande domans egen auktoritet (MozRank och MozTrust). DA uppdaterades till version 2.0 ar 2019 och anvander nu en mer sofistikerad algoritm som battre foredsagar verkliga rankingar. Skalan ar logaritmisk &mdash; att ga fran DA 20 till 30 ar enklare an att ga fran DA 50 till 60.</p>
+
+    <h3>Ahrefs Domain Rating (DR)</h3>
+    <p>Ahrefs beraknar DR genom att titta pa antal unika domaner som lankar till sajten, de lankande domanernas egen DR-styrka och hur lankarna distribueras (en doman som lankar till manga sajter ger mindre varde per lank). En viktig skillnad mot Moz DA ar att DR enbart fokuserar pa lankprofilen och inte forsokler forutsaga faktiska Google-rankingar. Det innebar att DR ar ett renare matt av lankstyrka, men det kan vara mindre korrelerat med verkliga positioner for enskilda sokord.</p>
+
+    <h3>SE Ranking Inlink Rank (ILR)</h3>
+    <p>SE Rankings Inlink Rank (ibland kallat Domain Trust) ar ett liknande matt som beraknas baserat pa det totala antalet baklankar, kvaliteten pa de lankande domanerna och kontextuell relevans. ILR tenderar att ligga nagot lagre an Moz DA och Ahrefs DR for samma sajter, sa jamfor bara ILR-varden med andra ILR-varden &mdash; inte med DA eller DR.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Matt</th>
+          <th>Leverantor</th>
+          <th>Skala</th>
+          <th>Uppdatering</th>
+          <th>Fokus</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>DA</strong></td>
+          <td>Moz</td>
+          <td>0&ndash;100</td>
+          <td>Manadsvis</td>
+          <td>Prediktiv ranking-sannolikhet</td>
+        </tr>
+        <tr>
+          <td><strong>DR</strong></td>
+          <td>Ahrefs</td>
+          <td>0&ndash;100</td>
+          <td>Dagligen</td>
+          <td>Ren lankstyrka</td>
+        </tr>
+        <tr>
+          <td><strong>ILR</strong></td>
+          <td>SE Ranking</td>
+          <td>0&ndash;100</td>
+          <td>Veckovis</td>
+          <td>Lanknatlverkets styrka</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box">
+      <p><strong>Viktigt:</strong> Blanda aldrig ihop DA, DR och ILR. De anvander olika berakningsmodeller och ger olika varden for samma sajt. Valj ett matt och anvand det konsekvent nar du jamfor sajter, foljer utveckling eller rapporterar till kunder. Att byta mitt i en analys ger missvisande slutsatser.</p>
+    </div>
+
+
+    <!-- 3. Varfor DA inte ar en Google-signal -->
+    <h2 id="inte-google-signal">3. Varfor DA inte ar en Google-signal (men korrelerar)</h2>
+
+    <p>Det har ar kanske den viktigaste punkten i hela artikeln: Domain Authority ar INTE en Google-rankingfaktor. Google anvander inte Moz DA, Ahrefs DR eller nagon annan tredjepartspoang i sin algoritm. Googles John Mueller har upprepade ganger bekraftat detta offentligt.</p>
+
+    <p>Google hade ett eget koncept kallat PageRank som mattre lankstyrka, men det mattet slutade uppdateras offentligt 2016 och ar idag bara en av hundratals signaler i Googles algoritm. Google anvander sin egen interna modell for att bedoma lankauktoritet, och den ar inte tillganglig for omvarlden.</p>
+
+    <p>Sa varfor pratar hela SEO-branschen om DA? For att det korrelerar starkt med verkliga rankingar. DA och DR mater i stor utstreckning samma sak som Googles interna lankanalys &mdash; kvaliteten och kvantiteten av baklankar. Sajter med hog DA tenderar att ha starka lankprofiler, vilket ar nagot Google ocksa vardesatter hogt. Korrelationen ar inte perfekt, men den ar stark nog for att gora DA till ett praktiskt anvandbart verktyg.</p>
+
+    <p>Problemet uppstar nar manniskor behandlar DA som ett mal i sig istallet for en indikator. Att jaga hogt DA genom att kopa lankar eller manipulera din lankprofil forstatter poangen. DA ar en termometer &mdash; det du vill forbattra ar de underliggande faktorerna (kvalitetsllankar, bra innehall, teknisk SEO), inte siffran i sig.</p>
+
+    <div class="takeaway">
+      <p><strong>Ratt perspektiv:</strong> Anvand DA som ett <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">jamforelsematt och trendindikator</a>, inte som ett mal. Om din DA okar over tid ar det en indikation pa att din lankprofil starks &mdash; vilket i sin tur paverkar dina Google-rankingar positivt. Men att oka DA ar aldrig malet i sig; malet ar battre positioner och mer traffik.</p>
+    </div>
+
+
+    <!-- 4. Faktorer som paverkar DA -->
+    <h2 id="faktorer">4. Faktorer som paverkar DA</h2>
+
+    <p>Flera faktorer paverkar din Domain Authority. Forstar du dem kan du arbeta strategiskt for att starka din domans lankstyrka over tid.</p>
+
+    <div class="factor-card">
+      <h4>Antal och kvalitet pa baklankar</h4>
+      <p>Den absolut viktigaste faktorn. Fler baklankar fran unika, auktoritativa domaner okar din DA. En lank fran en stark sajt (till exempel en nyhetssajt med DA 70) paverkar mer an tio lankar fran svaga bloggar med DA 10. Kvalitet trumfar kvantitet. <a href="{{DOMAIN}}/seo-skola/lankbygge/">Strategiskt lankbygge</a> ar darfor det mest effektiva sattet att forbattra din DA.</p>
+    </div>
+
+    <div class="factor-card">
+      <h4>Antal unika lankande domaner</h4>
+      <p>Antalet unika domaner som lankar till dig ar en starkare signal an det totala antalet lankar. 30 lankar fran 30 olika sajter ar vart mer an 30 lankar fran samma sajt. Diversitet i din lankprofil signalerar till bade DA-algoritmerna och Google att manga oberoende kallor bedomer din sajt som vardeful.</p>
+    </div>
+
+    <div class="factor-card">
+      <h4>De lankande domanernas egen auktoritet</h4>
+      <p>Lankar fran starka domaner overfoor mer auktoritet. Om DN.se (DA ~90) lankar till dig paverkas din DA avsebart mer an om en liten bloggsajt med DA 8 gor det. Det ar darfor digital PR och kontakter med etablerade medier och branschportaler ar sa vardefullt for lankbygge.</p>
+    </div>
+
+    <div class="factor-card">
+      <h4>Lankprofilens tillvaxt over tid</h4>
+      <p>En organisk, gradvis tillvaxt av baklankar ser mer naturligt ut an plotsliga spikar. Om din sajt plotsligt far 500 baklankar pa en vecka efter att ha haft 50 i total ar det en varningsflagga bade for Moz:s spam score och for Googles algoritm. Konsistens ar nyckeln.</p>
+    </div>
+
+    <div class="factor-card">
+      <h4>Spam score och toxiska lankar</h4>
+      <p>Lankar fran spammiga, irrelevanta eller manipulativa sajter kan skada din DA. Moz har ett eget Spam Score-matt som bedommer sannolikheten att en sajt ar del av ett spamnatverk. Hog spam score pa dina lankande domaner sander din DA. Overvaka din lankprofil regelbundet och disavowa toxiska lankar vid behov.</p>
+    </div>
+
+    <div class="factor-card">
+      <h4>Sajtens alder och historik</h4>
+      <p>Aldre domaner med en lang historik av kvalitetsinnehall och naturlig lanktillvaxt tenderar att ha hogre DA. En ny doman borjar alltid pa DA 1 och behover tid for att bygga auktoritet. Det ar helt normalt &mdash; fokusera pa att gora ratt saker konsekvent sa vaxer DA over tid.</p>
+    </div>
+
+
+    <!-- 5. Hur du okar DA -->
+    <h2 id="oka-da">5. Hur du okar DA</h2>
+
+    <p>Att oka din Domain Authority kraver ett systematiskt arbete pa flera fronter. Har ar de tre viktigaste omradena att fokusera pa.</p>
+
+    <h3>Bygg kvalitetslankar</h3>
+    <p>Lankbygge ar den mest direkta vagen till hogre DA. Fokusera pa att fa baklankar fran relevanta, auktoritativa sajter i eller nara din bransch. Anvand strategier som <a href="{{DOMAIN}}/seo-skola/lankbygge/">gastbloggning, broken link building, digital PR och content marketing</a>. Prioritera kvalitet framfor kvantitet &mdash; fem lankar fran starka, relevanta sajter ar mer varda an 50 lankar fran svaga, irrelevanta sajter. Bygg lAnkar gradvis och konsekvent over tid istallet for att forsoka fa dem alla pa en gang.</p>
+
+    <h3>Forbattra din tekniska SEO</h3>
+    <p>Medan DA primart mater lankstyrka paverkar teknisk SEO indirekt genom att gora din sajt lattare att crawla, indexera och lanka till. Sakerstall att din sajt ar snabb, mobilanpassad och fri fran tekniska problem. En sajt med broken pages, redirect-kedjor och crawlfel far svart att behalla lankvardet den far. Teknisk perfektion ar grunden som allt annat vilar pa.</p>
+
+    <h3>Skapa lankvardigt innehall</h3>
+    <p>Det mest hallbara sattet att bygga baklankar &mdash; och darmed oka DA &mdash; ar att skapa innehall som andra vill lanka till naturligt. Originalforskning, branschrapporter, uttommande guider, interaktiva verktyg och unika dataanalyser ar alla format som attraherar lankar utan att du behover bedriva aktiv outreach for varje enskild lank. Kombinera detta med en smart distributionsstrategi for att sakerstalla att ratt manniskor hittar ditt innehall.</p>
+
+    <div class="info-box-accent">
+      <p><strong>Praktisk prioritering:</strong> Om du precis borjar &mdash; fokusera pa att fixa tekniska problem forst (det tar bort hinder), skapa sedan 2&ndash;3 riktigt bra innehallssidor (det ger dig nagot att lankbygga med), och paborja darefter ett konsekvent lankbygge-program. DA okar inte over en natt, men med ratt process ser du resultat inom 3&ndash;6 manader.</p>
+    </div>
+
+
+    <!-- 6. DA-benchmarks per bransch -->
+    <h2 id="benchmarks">6. DA-benchmarks per bransch</h2>
+
+    <p>En av de vanligaste fragorna vi far ar: vad ar en bra DA? Svaret beror helt pa din bransch och dina konkurrenter. Har ar typiska DA-intervall for olika typer av sajter i Sverige 2026.</p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Sajttyp</th>
+          <th>Typisk DA</th>
+          <th>Kommentar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Nystartad sajt</td>
+          <td>1&ndash;5</td>
+          <td>Alla nya domaner borjar har. Helt normalt.</td>
+        </tr>
+        <tr>
+          <td>Lokalt smaforetag</td>
+          <td>10&ndash;25</td>
+          <td>Tillrackligt for lokala sokord med lag-medel konkurrens.</td>
+        </tr>
+        <tr>
+          <td>Etablerat regionalt foretag</td>
+          <td>20&ndash;40</td>
+          <td>Konkurrensmassigt for regionala och nationella sokord.</td>
+        </tr>
+        <tr>
+          <td>Nationell e-handel</td>
+          <td>35&ndash;60</td>
+          <td>Kraver aktiv lankstrategi och PR-arbete.</td>
+        </tr>
+        <tr>
+          <td>Branschledare / stor sajt</td>
+          <td>50&ndash;75</td>
+          <td>Etablerade varumarken med omfattande lankprofiler.</td>
+        </tr>
+        <tr>
+          <td>Nyhetssajter / stora medier</td>
+          <td>70&ndash;95</td>
+          <td>Stora mediahus som DN, SVT, Aftonbladet etc.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Det viktigaste ar inte ditt absoluta DA-varde utan hur det forhaller sig till dina konkurrenter. Om du driver en lokal hantvkerksbutik i Vaxjo och dina tre narmaste konkurrenter har DA 12, 18 och 22 behover du inte sikta pa DA 60 &mdash; DA 25 racker troligen for att ha en konkurrensmassig fordel. Anvand alltid DA relativt, aldrig absolut.</p>
+
+    <div class="takeaway">
+      <p><strong>Praktisk tumregel:</strong> Gor en konkurrentanalys forst. Kolla DA pa dina 5&ndash;10 storsta konkurrenter for dina viktigaste sokord. Sikta pa att na den ovre kvartilen &mdash; det ger dig en stark position utan att du behover overprestera. Ar dina konkurrenter pa DA 15&ndash;30? Sikta pa DA 30&ndash;35. Ar de pa DA 40&ndash;55? Planera for ett mer lAngsiktigt och intensivt lankbygge-program.</p>
+    </div>
+
+
+    <!-- 7. Vanliga missforstand -->
+    <h2 id="missforstand">7. Vanliga missforstand om Domain Authority</h2>
+
+    <p>DA ar ett av de mest missforstadda mattalen i SEO. Har reder vi ut de vanligaste myterna.</p>
+
+    <h3>Myt 1: DA ar en Google-rankingfaktor</h3>
+    <p>Som vi redan slagit fast: nej. Google anvander inte DA, DR eller nagon annan tredjepartsmattning. De har sina egna interna system. DA korrelerar med rankingar men ar inte en orsak till dem. Att betala nagon for att oka din DA-siffra okar inte automatiskt dina Google-positioner.</p>
+
+    <h3>Myt 2: Hog DA garanterar bra rankingar</h3>
+    <p>En sajt med DA 60 kan fortfarande ranka samre an en sajt med DA 30 for ett specifikt sokord &mdash; om den lagre DA-sajten har battre innehall, starkare on-page-optimering och mer relevanta lankar for just det sokordet. DA ar ett domanovergripande matt och sager ingenting om enskilda sidors styrka. Sidspecifika faktorer som innehallskvalitet, <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">on-page-optimering och sokintentionsmatchning</a> spelar enorm roll.</p>
+
+    <h3>Myt 3: Man kan snabbt oka DA</h3>
+    <p>DA ar ett lAngsiktigt matt som speglar gradvis uppbyggnad av auktoritet. Det finns inga genvagar. Tjanster som lovar att oka din DA fran 10 till 50 pa en manad anvander nastan alltid manipulativa lankmetoder som skadar din sajt pa lang sikt. Genuint DA-arbete tar manader och bygger pa riktig lankstyrka.</p>
+
+    <h3>Myt 4: DA ska aldrig sjunka</h3>
+    <p>DA kan sjunka aven om du inte gjort nagot fel. Det hander nar Moz uppdaterar sin algoritm, nar sajter som lankade till dig forsvinner, eller nar dina konkurrenter bygger fler lankar (DA ar relativt). En tillfArlig sankning pa nagra poang ar helt normalt och inget att oroas over. Folj trenden over 6&ndash;12 manader istallet for att reagera pa kortsiktiga fluktuationer.</p>
+
+    <h3>Myt 5: Alla lankar okar DA</h3>
+    <p>Lankar fran spammiga, irrelevanta eller lag-kvalitets-sajter okar inte din DA &mdash; de kan till och med sanka den genom att oka din spam score. DA beloner kvalitetslankar fran betrodda kallor. Hundra lankar fran lankfarmarter ar vardelosa jamfort med en enda lank fran en respekterad branschpublikation.</p>
+
+    <div class="info-box">
+      <p><strong>Sammanfattning:</strong> Anvand DA som ett av manga verktyg i din SEO-arsenal. Det ar vardefullt for jamforelser, trendanalys och konkurrentbedoming. Men behandla det aldrig som ett mal i sig, och lat det aldrig ersatta helhetlig SEO-strategi som inkluderar innehall, teknisk optimering och anvandarupplevelse.</p>
+    </div>
+
+
+    <!-- 8. FAQ -->
+    <div class="faq-section" id="faq">
+      <h2>8. Vanliga fragor om Domain Authority</h2>
+
+      <div class="faq-list">
+        <div class="faq-item open">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Ar Domain Authority en Google-rankingfaktor?
+          </div>
+          <div class="faq-answer">
+            Nej, Domain Authority ar INTE en Google-rankingfaktor. DA ar ett matt som skapats av Moz, inte av Google. Google har upprepade ganger bekraftat att de inte anvander nagon tredjepartsauktoritetspoang i sin algoritm. Daremot korrelerar DA val med rankingar eftersom det mater manga av samma signaler som Google vardesatter &mdash; framfor allt baklankar. Tank pa DA som en termometer: den mater inte temperaturen direkt, men den ger en tillforlatlig indikation.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Vad ar skillnaden mellan Domain Authority och Domain Rating?
+          </div>
+          <div class="faq-answer">
+            Domain Authority (DA) ar Moz matt och Domain Rating (DR) ar Ahrefs matt. Bada mater domanens lankstyrka pa en skala fran 0 till 100, men de anvander olika metoder. DA tar hansyn till bade lankkvalitet och lankkvantitet samt forsoker forutsaga rankingar. DR fokuserar mer pa den unika lankprofilen och hur lankkraft distribueras. De tva mattalen ar inte jamforbara rakt av &mdash; en sajt kan ha DA 45 men DR 55 eller tvartom. Anvand konsekvent samma matt nar du jamfor sajter.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Hur lang tid tar det att oka Domain Authority?
+          </div>
+          <div class="faq-answer">
+            Att oka Domain Authority ar en lAngsiktig process som typiskt tar 3 till 12 manader beroende pa var du borjar och hur aktiv din lankstrategi ar. En ny sajt med DA 5 kan na DA 15&ndash;20 pa 6 manader med konsekvent <a href="{{DOMAIN}}/seo-skola/lankbygge/">lankbygge</a>. Att ga fran DA 30 till DA 40 tar langre eftersom skalan ar logaritmisk &mdash; varje poang blir svarare att uppna ju hogre du kommer. Fokusera pa att bygga kvalitetslankar over tid snarare an att jaga en specifik DA-siffra.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Kan Domain Authority sjunka?
+          </div>
+          <div class="faq-answer">
+            Ja, DA kan sjunka av flera anledningar. De vanligaste ar: du har forlorat baklankar (sajter som lankade till dig har tagit bort lankarna), Moz har uppdaterat sin algoritm (DA 2.0-uppdateringen 2019 sAnkte manga sajtters DA), dina konkurrenter har byggt fler lankar (DA ar relativt), eller du har fatt lankar fran spammiga sajter som okar din spam score. En tillfArlig sankning pa nagra poang ar normalt &mdash; folj trenden over tid istallet for att reagera pa kortsiktiga forandringar.
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+            Vilket DA-varde ar bra?
+          </div>
+          <div class="faq-answer">
+            Det beror helt pa din bransch och dina konkurrenter. DA ar mest anvandbart som jamforelsematt. Om dina tre storsta konkurrenter har DA 25&ndash;35 ar DA 30 ett rimligt mal. For ett lokalt smaforetag ar DA 15&ndash;25 typiskt. For en nationell e-handel ar DA 40&ndash;60 mer realistiskt. Jamfor alltid med dina direkta konkurrenter istallet for att sikta pa ett absolut tal. En <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">bredare SEO-strategi</a> ar viktigare an att jaga en specifik DA-siffra.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Author box -->
+    <div class="author-box">
+      <div class="author-avatar">SB</div>
+      <div class="author-info">
+        <p class="author-name">Searchboost-teamet</p>
+        <p class="author-desc">Vi hjalper svenska foretag att synas pa Google och fa fler kunder genom datadriven sokmotoroptimering. Med AI-driven teknik och veckorapporter ger vi full transparens i allt vi gor.</p>
+      </div>
+    </div>
+
+    <!-- Next article -->
+    <a href="{{DOMAIN}}/seo-skola/lankbygge/" style="text-decoration: none;">
+      <div class="next-article">
+        <div>
+          <div class="next-article-label">Nasta artikel i SEO-skolan</div>
+          <div class="next-article-title">Lankbygge &mdash; Sa far du fler backlinks 2026</div>
+        </div>
+        <div class="next-article-arrow">&rarr;</div>
+      </div>
+    </a>
+
+  </article>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Vill du oka din sajts auktoritet?</h2>
+    <p>Vi analyserar din lankprofil, jamfor med konkurrenterna och skapar en strategi for att bygga den auktoritet som kravs for att ranka. Boka en gratis SEO-analys sa visar vi var du star.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4>Searchboost</h4>
+        <p style="font-size: 0.9rem; line-height: 1.6;">Smalands ledande SEO-byra. Vi hjalper lokala foretag att synas pa Google och fa fler kunder.</p>
+      </div>
+      <div>
+        <h4>SEO-tjanster</h4>
+        <a href="{{DOMAIN}}/seo-byra-jonkoping/">SEO-byra Jonkoping</a>
+        <a href="{{DOMAIN}}/seo-byra-vaxjo/">SEO-byra Vaxjo</a>
+        <a href="{{DOMAIN}}/seo-byra-varnamo/">SEO-byra Varnamo</a>
+        <a href="{{DOMAIN}}/lokal-seo/">Lokal SEO</a>
+        <a href="{{DOMAIN}}/seo-audit-tjanst/">SEO Audit</a>
+      </div>
+      <div>
+        <h4>Lar dig SEO</h4>
+        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad ar SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+        <a href="{{DOMAIN}}/seo-skola/domain-authority/">Domain Authority</a>
+        <a href="{{DOMAIN}}/vanliga-fragor/">Vanliga fragor</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="mailto:mikael@searchboost.nu">mikael@searchboost.nu</a>
+        <a href="{{DOMAIN}}/kontakt/">Boka gratis SEO-analys</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Searchboost. Alla rattigheter forbehallna.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

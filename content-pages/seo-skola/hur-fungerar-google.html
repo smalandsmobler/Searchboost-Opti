@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hur fungerar Google? Så rankar sökmotorn din webbplats | Searchboost</title>
+  <meta name="description" content="Förstå hur Google fungerar — från crawling och indexering till ranking. Lär dig om Googleboten, de 200+ rankingfaktorerna, algoritmuppdateringar och vad det betyder för ditt företag 2026.">
+  <meta name="keywords" content="hur fungerar Google, crawling, indexering, ranking, Googlebot, sökmotor, SEO, sökmotoroptimering, Google algoritm, rankingfaktorer, E-E-A-T, AI Overviews">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Schema: Article -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Hur fungerar Google? Så rankar sökmotorn din webbplats",
+    "description": "Förstå hur Google fungerar — från crawling och indexering till ranking. Lär dig om Googleboten, de 200+ rankingfaktorerna, algoritmuppdateringar och vad det betyder för ditt företag 2026.",
+    "author": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Searchboost",
+      "url": "{{DOMAIN}}/"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{DOMAIN}}/seo-skola/hur-fungerar-google/"
+    },
+    "wordCount": 2500
+  }
+  </script>
+
+  <!-- Schema: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Hur lång tid tar det för Google att indexera en ny sida?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Det varierar kraftigt. En ny sida på en etablerad webbplats kan indexeras inom några timmar till ett par dagar. En helt ny webbplats kan ta allt från några dagar till flera veckor. Du kan påskynda processen genom att skicka in din sitemap via Google Search Console och använda verktyget 'Begär indexering' för enskilda sidor."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kan jag betala Google för att ranka högre organiskt?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nej. Googles organiska sökresultat kan inte köpas. Google Ads (betalda annonser) visas ovanför eller bredvid de organiska resultaten, men de påverkar inte din organiska ranking. Det enda sättet att förbättra din organiska position är genom SEO — att göra din webbplats mer relevant, snabb och användarvänlig."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad är skillnaden mellan crawling och indexering?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Crawling är processen där Googlebot besöker och laddar ner dina webbsidor. Indexering är steget efter, där Google analyserar sidans innehåll och lagrar det i sitt index. En sida kan crawlas utan att indexeras — till exempel om Google bedömer att innehållet är av låg kvalitet, duplicerat eller blockerat via noindex-taggen."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hur många rankingfaktorer använder Google?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Google har bekräftat att de använder över 200 rankingfaktorer i sin algoritm. De viktigaste inkluderar relevant och högkvalitativt innehåll, bakåtlänkar från auktoritativa sajter, sidladdningshastighet, mobilanpassning, användarupplevelse (Core Web Vitals) och E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Hur påverkar AI Overviews min webbplats synlighet i Google?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "AI Overviews är Googles AI-genererade sammanfattningar som visas ovanför de traditionella sökresultaten. De kan minska antalet klick till din sajt för informationssökningar, men ökar samtidigt värdet av att vara en citerad källa. Fokusera på E-E-A-T, strukturerad data och unikt expertinnehåll för att öka chansen att bli refererad i AI-svaren."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Schema: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
+      { "@type": "ListItem", "position": 2, "name": "SEO-skola", "item": "{{DOMAIN}}/seo-skola/" },
+      { "@type": "ListItem", "position": 3, "name": "Hur fungerar Google?", "item": "{{DOMAIN}}/seo-skola/hur-fungerar-google/" }
+    ]
+  }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #1a1a2e;
+      background: #ffffff;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    /* Navigation */
+    .nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 22px;
+      color: #db007f;
+      text-decoration: none;
+    }
+    .nav-logo span { color: #1a1a2e; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: #4b5563;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #db007f; }
+    .nav-cta {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+    .breadcrumb a {
+      color: #64748b;
+      text-decoration: none;
+    }
+    .breadcrumb a:hover { color: #db007f; }
+    .breadcrumb span { margin: 0 8px; }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #fdf2f8 0%, #f0f4ff 50%, #fdf2f8 100%);
+      padding: 70px 24px 56px;
+      text-align: center;
+    }
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #db007f15;
+      color: #db007f;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      color: #0f172a;
+    }
+    .hero h1 em {
+      color: #db007f;
+      font-style: normal;
+    }
+    .hero-subtitle {
+      font-size: 1.15rem;
+      color: #475569;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+    .hero-meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Table of Contents */
+    .toc {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 32px 24px 0;
+    }
+    .toc-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px 32px;
+    }
+    .toc-box h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      counter-reset: toc-counter;
+    }
+    .toc-list li {
+      counter-increment: toc-counter;
+      margin-bottom: 10px;
+    }
+    .toc-list li a {
+      color: #374151;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.2s;
+    }
+    .toc-list li a:hover { color: #db007f; }
+    .toc-list li a::before {
+      content: counter(toc-counter);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: #db007f12;
+      color: #db007f;
+      border-radius: 50%;
+      font-size: 0.8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Article content */
+    .article {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 56px 24px;
+    }
+    .article h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 56px 0 20px;
+      line-height: 1.3;
+    }
+    .article h2:first-of-type {
+      margin-top: 0;
+    }
+    .article h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin: 36px 0 14px;
+    }
+    .article p {
+      color: #374151;
+      margin-bottom: 18px;
+    }
+    .article ul, .article ol {
+      margin: 0 0 20px 24px;
+      color: #374151;
+    }
+    .article li {
+      margin-bottom: 8px;
+    }
+    .article a {
+      color: #db007f;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .article a:hover {
+      color: #b00068;
+    }
+    .article strong {
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    /* Key takeaway box */
+    .takeaway-box {
+      background: linear-gradient(135deg, #fdf2f8, #f0f4ff);
+      border-left: 4px solid #db007f;
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .takeaway-box p {
+      color: #475569;
+      margin-bottom: 0;
+    }
+    .takeaway-box strong {
+      color: #0f172a;
+    }
+
+    /* Info box (neon blue accent) */
+    .info-box {
+      background: #f0fafe;
+      border-left: 4px solid #00d4ff;
+      border-radius: 0 12px 12px 0;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .info-box p {
+      color: #475569;
+      margin-bottom: 0;
+    }
+    .info-box strong {
+      color: #0f172a;
+    }
+
+    /* Steps visual */
+    .step-visual {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border-radius: 16px;
+      padding: 40px 32px;
+      margin: 36px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .step-visual-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 20px 24px;
+      text-align: center;
+      min-width: 160px;
+      flex: 1;
+    }
+    .step-visual-item .step-icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+    .step-visual-item .step-label {
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .step-visual-item .step-desc {
+      color: #94a3b8;
+      font-size: 0.82rem;
+      margin-top: 4px;
+    }
+    .step-arrow {
+      color: #db007f;
+      font-size: 1.6rem;
+      font-weight: 700;
+    }
+
+    /* Ranking factors grid */
+    .factor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin: 28px 0 32px;
+    }
+    .factor-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 24px 20px;
+    }
+    .factor-card h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .factor-card p {
+      font-size: 0.92rem;
+      color: #64748b;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+    .factor-card .factor-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* Timeline */
+    .timeline {
+      margin: 28px 0 32px;
+      border-left: 3px solid #e2e8f0;
+      padding-left: 28px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 28px;
+    }
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -34px;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      background: #db007f;
+      border-radius: 50%;
+      border: 3px solid #fff;
+    }
+    .timeline-item h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .timeline-item .timeline-year {
+      font-size: 0.82rem;
+      color: #db007f;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .timeline-item p {
+      font-size: 0.94rem;
+      color: #64748b;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    /* Internal links section */
+    .read-more {
+      background: #fdf2f8;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 48px 0 0;
+    }
+    .read-more h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 18px;
+    }
+    .read-more-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .read-more-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-decoration: none;
+      color: #0f172a;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .read-more-link:hover {
+      border-color: #db007f;
+      transform: translateY(-2px);
+    }
+    .read-more-link .link-arrow {
+      color: #db007f;
+      font-weight: 700;
+      margin-left: auto;
+    }
+
+    /* Section base */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 70px 24px;
+    }
+    .section-label {
+      color: #db007f;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .section h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 16px;
+    }
+
+    /* FAQ */
+    .faq-list { margin-top: 32px; }
+    .faq-item {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 20px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-question {
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: #0f172a;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question::after {
+      content: '+';
+      font-size: 1.4rem;
+      color: #db007f;
+      flex-shrink: 0;
+      margin-left: 16px;
+    }
+    .faq-item.open .faq-question::after { content: '\2212'; }
+    .faq-answer {
+      color: #475569;
+      margin-top: 12px;
+      line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* CTA section */
+    .cta-section {
+      background: linear-gradient(135deg, #db007f, #e91e8e);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .cta-section h2 {
+      color: #fff;
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .cta-btn-white {
+      display: inline-block;
+      background: #fff;
+      color: #db007f;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    .footer {
+      background: #0f172a;
+      color: #94a3b8;
+      padding: 48px 24px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+    }
+    .footer h4 {
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+    .footer a {
+      color: #94a3b8;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .footer a:hover { color: #db007f; }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 32px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid #1e293b;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-meta { flex-direction: column; gap: 8px; }
+      .article h2 { font-size: 1.5rem; }
+      .nav-links { display: none; }
+      .step-visual { flex-direction: column; padding: 28px 20px; }
+      .step-arrow { transform: rotate(90deg); }
+      .factor-grid { grid-template-columns: 1fr; }
+      .read-more-links { grid-template-columns: 1fr; }
+      .read-more { padding: 24px 20px; }
+      .toc-box { padding: 20px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <ul class="nav-links">
+        <li><a href="{{DOMAIN}}/">Hem</a></li>
+        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
+        <li><a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a></li>
+        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <a href="{{DOMAIN}}/">Hem</a>
+    <span>/</span>
+    <a href="{{DOMAIN}}/seo-skola/">SEO-skola</a>
+    <span>/</span>
+    Hur fungerar Google?
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <span class="hero-badge">SEO-skola</span>
+      <h1>Hur fungerar <em>Google</em>? Så rankar sökmotorn din webbplats</h1>
+      <p class="hero-subtitle">Förstå hela kedjan: hur Google upptäcker, analyserar och rangordnar webbsidor. En komplett guide för dig som vill förstå grunden för all sökmotoroptimering.</p>
+      <div class="hero-meta">
+        <span>Lästid: ca 12 minuter</span>
+        <span>Uppdaterad: februari 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Table of Contents -->
+  <div class="toc">
+    <div class="toc-box">
+      <h2>Innehållsförteckning</h2>
+      <ol class="toc-list">
+        <li><a href="#intro">Google dominerar sökmarknaden i Sverige</a></li>
+        <li><a href="#crawling">Googleboten &mdash; så crawlas webben</a></li>
+        <li><a href="#indexering">Indexering &mdash; Googles digitala bibliotek</a></li>
+        <li><a href="#ranking">Ranking &mdash; de 200+ faktorerna</a></li>
+        <li><a href="#uppdateringar">Googles algoritmuppdateringar genom åren</a></li>
+        <li><a href="#google-2026">Google 2026: AI Overviews, SGE och E-E-A-T</a></li>
+        <li><a href="#ditt-foretag">Vad detta betyder för ditt företag</a></li>
+        <li><a href="#faq">Vanliga frågor</a></li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Article Content -->
+  <article class="article">
+
+    <!-- 1. Intro -->
+    <h2 id="intro">Google dominerar sökmarknaden i Sverige</h2>
+
+    <p>I Sverige står Google för över 95 procent av alla sökningar. Varje dag utförs miljontals sökfrågor av svenskar som letar efter allt från lokala hantverkare och restaurangrekommendationer till produktrecensioner och fackinformation. Om ditt företag inte syns i Googles sökresultat missar du den absolut viktigaste digitala kanalen för att nå nya kunder.</p>
+
+    <p>Men hur bestämmer Google egentligen vilka webbplatser som visas högst upp? Varför rankar din konkurrent före dig? Och vad kan du göra åt det?</p>
+
+    <p>Svaret börjar med att förstå hur Google fungerar &mdash; från det ögonblick sökmotorn upptäcker att din sida existerar till den bråkdels sekund då den bestämmer om din sida förtjänar en plats bland de tio översta resultaten. Hela processen kan sammanfattas i tre steg: <strong>crawling</strong>, <strong>indexering</strong> och <strong>ranking</strong>.</p>
+
+    <div class="step-visual">
+      <div class="step-visual-item">
+        <div class="step-icon">&#128375;</div>
+        <div class="step-label">Crawling</div>
+        <div class="step-desc">Google hittar nya sidor</div>
+      </div>
+      <div class="step-arrow">&#8594;</div>
+      <div class="step-visual-item">
+        <div class="step-icon">&#128451;</div>
+        <div class="step-label">Indexering</div>
+        <div class="step-desc">Google analyserar och lagrar</div>
+      </div>
+      <div class="step-arrow">&#8594;</div>
+      <div class="step-visual-item">
+        <div class="step-icon">&#127942;</div>
+        <div class="step-label">Ranking</div>
+        <div class="step-desc">Google rangordnar resultaten</div>
+      </div>
+    </div>
+
+    <p>Förstår du dessa tre steg förstår du grunden för all <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">sökmotoroptimering (SEO)</a>. Låt oss dyka ner i varje del.</p>
+
+    <!-- 2. Crawling -->
+    <h2 id="crawling">Googleboten &mdash; så crawlas webben</h2>
+
+    <p>Det första steget i processen kallas <strong>crawling</strong>. Det är här Google systematiskt utforskar internet för att hitta nya och uppdaterade webbsidor. Google använder automatiserade program som kallas <strong>crawlers</strong> eller <strong>spindlar</strong>. Den mest kända heter <strong>Googlebot</strong>.</p>
+
+    <p>Tänk dig Googlebot som en outtröttlig bibliotekarie som ständigt reser runt i ett enormt bibliotek. Den börjar på en sida, följer alla länkar på den sidan och fortsätter sedan till nästa sida, och nästa, och nästa. På det sättet kartlägger Google ständigt nytt och uppdaterat innehåll på webben.</p>
+
+    <h3>Hur hittar Googlebot din webbplats?</h3>
+
+    <p>Det finns flera vägar för Googlebot att upptäcka just dina sidor:</p>
+
+    <ul>
+      <li><strong>Länkar från andra webbplatser:</strong> Om en annan sajt länkar till din sida följer Googlebot den länken och hittar ditt innehåll. Det är en av anledningarna till att <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">bakåtlänkar</a> spelar en så central roll inom SEO.</li>
+      <li><strong>Sitemaps:</strong> En sitemap är en XML-fil som listar alla sidor på din webbplats. Du skickar in den via Google Search Console så att Google vet exakt vilka sidor som finns tillgängliga.</li>
+      <li><strong>Intern länkning:</strong> Länkar mellan dina egna undersidor hjälper Googlebot att navigera hela din sajt. En tydlig och logisk webbplatsstruktur gör crawlningen betydligt effektivare.</li>
+      <li><strong>Direkt inlämning:</strong> Du kan manuellt be Google att besöka en specifik URL genom att använda funktionen &rdquo;Begär indexering&rdquo; i Search Console.</li>
+    </ul>
+
+    <h3>Crawl-budget: en begränsad resurs</h3>
+
+    <p>Googlebot har inte obegränsad tid att lägga på din sajt. Varje webbplats tilldelas en så kallad <strong>crawl-budget</strong> &mdash; det vill säga hur många sidor Google väljer att besöka under en viss tidsperiod. För mindre sajter med under tusen sidor är detta sällan ett problem. Men för stora webbplatser med tiotusentals sidor &mdash; exempelvis e-handelsajter &mdash; är det avgörande att se till att Google prioriterar de viktigaste sidorna.</p>
+
+    <h3>Robots.txt &mdash; din dörrvakt</h3>
+
+    <p>Filen <strong>robots.txt</strong> ligger i roten av din webbplats (exempelvis dinsajt.se/robots.txt) och talar om för crawlers vilka delar av sajten de får respektive inte får besöka. Om du av misstag blockerar viktiga sidor i robots.txt kommer Google aldrig att hitta dem, oavsett hur bra ditt innehåll är. Det är ett av de vanligaste <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">tekniska SEO-problemen</a> vi stöter på.</p>
+
+    <div class="takeaway-box">
+      <p><strong>Viktigaste slutsatsen:</strong> Se till att Googlebot kan nå dina viktigaste sidor. Kontrollera att robots.txt inte blockerar kritiskt innehåll, att din sajt laddar snabbt och att du har en korrekt sitemap inlämnad i Search Console.</p>
+    </div>
+
+    <!-- 3. Indexering -->
+    <h2 id="indexering">Indexering &mdash; Googles digitala bibliotek</h2>
+
+    <p>När Googlebot har besökt en sida börjar nästa steg: <strong>indexering</strong>. Det är i den här fasen Google analyserar sidans innehåll och bestämmer vad den handlar om, för att sedan lagra informationen i sitt gigantiska index.</p>
+
+    <p>Tänk på indexet som ett enormt kartotek. Precis som ett bibliotek katalogiserar varje bok efter ämne, författare och nyckelord, katalogiserar Google varje webbsida efter dess innehåll, ämne och relevans. Googles index innehåller hundratals miljarder webbsidor och upptar mer än 100 petabyte lagringsplats.</p>
+
+    <h3>Vad Google analyserar vid indexering</h3>
+
+    <p>Under indexeringen granskar Google en lång rad element på varje sida:</p>
+
+    <ul>
+      <li><strong>Title-tagg och meta description:</strong> Dessa ger Google en snabb förståelse för sidans huvudämne. De är dessutom det som syns i sökresultaten, vilket påverkar om användaren klickar eller inte.</li>
+      <li><strong>Rubrikstruktur (H1, H2, H3):</strong> Rubrikerna hjälper Google förstå innehållets hierarki och vilka delämnen som behandlas på sidan.</li>
+      <li><strong>Brödtext och huvudinnehåll:</strong> Google analyserar texten för att identifiera ämnen, nyckelord och semantiska samband med hjälp av avancerade AI-modeller.</li>
+      <li><strong>Bilder och alt-text:</strong> Eftersom Google inte kan &rdquo;se&rdquo; bilder på samma sätt som människor är alt-texter viktiga för att förklara vad bilderna visar.</li>
+      <li><strong>Strukturerad data (Schema markup):</strong> JSON-LD-markering hjälper Google förstå exakt vad en sida innehåller &mdash; är det en produkt, ett recept, en FAQ eller en artikel?</li>
+      <li><strong>Intern och extern länkning:</strong> Vilka sidor du länkar till och från ger kontext om sidans relevans och auktoritet inom sitt ämnesområde.</li>
+    </ul>
+
+    <h3>Crawlad men inte indexerad &mdash; ett vanligt problem</h3>
+
+    <p>Bara för att Google har besökt din sida innebär det inte automatiskt att den hamnar i indexet. Google kan välja att <strong>inte</strong> indexera en sida av flera anledningar: innehållet bedöms som duplicerat, sidan har en noindex-tagg, innehållet anses vara för tunt eller av låg kvalitet, sidan returnerar ett felmeddelande, eller sidan laddar för långsamt.</p>
+
+    <div class="info-box">
+      <p><strong>Visste du?</strong> Du kan kontrollera indexeringsstatusen för alla dina sidor i Google Search Console under fliken &rdquo;Sidor&rdquo;. Där ser du exakt vilka sidor som är indexerade och varför vissa inte är det.</p>
+    </div>
+
+    <!-- 4. Ranking -->
+    <h2 id="ranking">Ranking &mdash; de 200+ faktorerna</h2>
+
+    <p>Nu kommer den del som alla företagare och SEO-specialister är mest intresserade av: <strong>ranking</strong>. När en person gör en sökning på Google måste sökmotorn på en bråkdels sekund bestämma vilka av alla indexerade sidor som är mest relevanta &mdash; och i vilken ordning de ska presenteras.</p>
+
+    <p>Google använder en komplex <strong>algoritm</strong> som värderar hundratals faktorer för att rangordna sidor. Målet är att visa det mest relevanta, pålitliga och användarvänliga resultatet först. Google har bekräftat att algoritmen använder <strong>över 200 olika rankingfaktorer</strong>.</p>
+
+    <h3>Så tänker Googles algoritm</h3>
+
+    <p>När du exempelvis söker på &rdquo;bästa pizzerian i Jönköping&rdquo; måste Google besvara flera frågor simultant: Handlar sidan verkligen om pizzerior i Jönköping? Är innehållet välskrivet och korrekt? Är källans webbplats trovärdig? Är sidan snabb och mobilanpassad? Var befinner sig sökaren geografiskt?</p>
+
+    <p>Alla dessa faktorer vägs samman på en bråkdels sekund. Resultatet är den lista med sökresultat &mdash; inklusive kartor, bilder, featured snippets och numera AI-genererade sammanfattningar &mdash; som du ser på skärmen.</p>
+
+    <h3>De viktigaste rankingfaktorerna</h3>
+
+    <div class="factor-grid">
+      <div class="factor-card">
+        <div class="factor-icon">&#128196;</div>
+        <h4>Relevant innehåll</h4>
+        <p>Den viktigaste faktorn. Ditt innehåll måste besvara sökarens fråga på ett fullständigt och relevant sätt. Google använder AI-modeller för att förstå sökintentionen bakom varje fråga.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">&#128279;</div>
+        <h4>Bakåtlänkar</h4>
+        <p>Länkar från andra webbplatser fungerar som röster för din sida. Ju fler högkvalitativa länkar från relevanta och trovärdiga sajter, desto starkare auktoritet bygger du.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">&#9889;</div>
+        <h4>Core Web Vitals</h4>
+        <p>Googles mått på användarupplevelse: laddningstid (LCP), interaktivitet (INP) och visuell stabilitet (CLS). Snabba, stabila sajter premieras i rankingen.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">&#128241;</div>
+        <h4>Mobilvänlighet</h4>
+        <p>Google använder mobile-first indexing, vilket innebär att mobilversionen av din sajt värderas först. En sajt som inte fungerar bra på mobilen tappar positioner.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">&#128170;</div>
+        <h4>E-E-A-T</h4>
+        <p>Experience, Expertise, Authoritativeness, Trustworthiness. Google vill visa innehåll från trovärdiga källor med verklig expertis och erfarenhet.</p>
+      </div>
+      <div class="factor-card">
+        <div class="factor-icon">&#128272;</div>
+        <h4>HTTPS och säkerhet</h4>
+        <p>En säker webbplats med SSL-certifikat (HTTPS) är en bekräftad rankingfaktor. Sajter utan HTTPS visas med en varningssymbol i webbläsaren.</p>
+      </div>
+    </div>
+
+    <p>Vill du fördjupa dig i alla faktorer? Läs vår kompletta guide om <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/">Googles rankingfaktorer</a>.</p>
+
+    <!-- 5. Algoritmuppdateringar -->
+    <h2 id="uppdateringar">Googles algoritmuppdateringar genom åren</h2>
+
+    <p>Googles algoritm uppdateras tusentals gånger varje år. De flesta är små justeringar som knappt märks, men några har förändrat hela SEO-branschen i grunden. Att förstå dessa uppdateringar hjälper dig förstå varför Google fungerar som det gör idag och vilken riktning utvecklingen tar.</p>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2011</div>
+        <h4>Google Panda</h4>
+        <p>Riktade sig mot sajter med tunt innehåll, innehållsfarmer och duplicerat material. Webbplatser med låg kvalitet tappade drastiskt i ranking. Budskapet var tydligt: kvalitet framför kvantitet.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2012</div>
+        <h4>Google Penguin</h4>
+        <p>Slog mot manipulativa länkstrategier som länkköp och spamlänkar. Företag som försökt fuska med sin länkprofil straffades hårt. Naturliga, förtjänade länkar blev den nya standarden.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2015</div>
+        <h4>Mobilegeddon</h4>
+        <p>Mobilvänlighet blev en officiell rankingfaktor. Sajter som inte var anpassade för mobilskärm tappade synlighet markant i mobila sökningar. Responsiv design blev ett krav snarare än en bonus.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2019</div>
+        <h4>BERT</h4>
+        <p>Googles AI-modell för naturlig språkförståelse. BERT hjälpte Google förstå kontexten och nyanserna i sökfrågor betydligt bättre, särskilt längre och mer konversationsliknande sökningar.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2022</div>
+        <h4>Helpful Content Update</h4>
+        <p>Fokus på att premiera innehåll skrivet för människor, inte för sökmotorer. Sajter med automatgenererat eller SEO-stuffat innehåll utan verkligt värde straffades. Användarnytta blev den tydliga ledstjärnan.</p>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024&ndash;2026</div>
+        <h4>AI Overviews och Search Generative Experience</h4>
+        <p>Google integrerar AI-genererade sammanfattningar direkt i sökresultaten. Detta förändrar fundamentalt hur mycket trafik organiska resultat får och gör det ännu viktigare att synas som citerad källa i AI-svaren.</p>
+      </div>
+    </div>
+
+    <p>Gemensamt för alla stora uppdateringar är att de belönar sajter som fokuserar på <strong>genuint värde för besökaren</strong>. Genvägar och fuskstrategier fungerar allt sämre för varje år som går.</p>
+
+    <!-- 6. Google 2026 -->
+    <h2 id="google-2026">Google 2026: AI Overviews, SGE och E-E-A-T</h2>
+
+    <p>Googles sökresultat har förändrats dramatiskt de senaste åren. 2026 ser sökresultatsidan helt annorlunda ut jämfört med bara några år sedan. Här är de tre viktigaste förändringarna du behöver känna till.</p>
+
+    <h3>AI Overviews &mdash; Googles AI-sammanfattningar</h3>
+
+    <p>AI Overviews är Googles mest synliga förändring. När du söker på en informativ fråga genererar Google nu ofta en AI-sammanfattning som visas högst upp i sökresultaten, ovanför de traditionella blå länkarna. Sammanfattningen hämtar information från flera trovärdiga källor och presenterar ett sammanhängande svar.</p>
+
+    <p>För webbplatsägare innebär detta en dubbel verklighet. Å ena sidan kan AI Overviews minska antalet klick till din sajt, eftersom användaren får sitt svar direkt i Google. Å andra sidan är det extremt värdefullt att vara en av de källor som Google refererar till i sitt AI-svar. Sajter som citeras i AI Overviews tenderar att få högre trovärdighet och mer kvalificerad trafik.</p>
+
+    <h3>Search Generative Experience (SGE)</h3>
+
+    <p>SGE är Googles bredare initiativ att integrera generativ AI i hela sökupplevelsen. Utöver AI Overviews inkluderar detta konversationsbaserad sökning, AI-genererade produktjämförelser och dynamiska sökförslag som anpassas i realtid. För företag innebär SGE att det blir viktigare än någonsin att ha välstrukturerat, semantiskt rikt innehåll som AI-system enkelt kan tolka och referera till.</p>
+
+    <h3>E-E-A-T &mdash; erfarenhet, expertis, auktoritet och trovärdighet</h3>
+
+    <p>E-E-A-T står för <strong>Experience, Expertise, Authoritativeness och Trustworthiness</strong>. Det är inte en enskild rankingfaktor utan snarare ett ramverk som Google använder för att bedöma kvaliteten på innehåll och dess skapare. Det extra E:et &mdash; Experience &mdash; lades till 2022 och betonar vikten av att innehållet baseras på verklig, personlig erfarenhet.</p>
+
+    <p>I praktiken innebär E-E-A-T att Google föredrar innehåll skrivet av personer eller organisationer som har genuint kunnande inom ämnet. En artikel om tandvård som är skriven av en legitimerad tandläkare väger tyngre än samma information skriven av en anonym bloggare. Detta gäller särskilt inom så kallade YMYL-ämnen (Your Money, Your Life) &mdash; hälsa, ekonomi, juridik och säkerhet.</p>
+
+    <h3>Vad innebär detta för SEO-strategin?</h3>
+
+    <p>Den kombinerade effekten av AI Overviews och ökat fokus på E-E-A-T innebär att ytligt, generiskt innehåll ger allt sämre resultat. Företag som vill synas i Google 2026 behöver satsa på:</p>
+
+    <ul>
+      <li><strong>Djupgående expertinnehåll</strong> som visar verklig kompetens och erfarenhet inom sitt område</li>
+      <li><strong>Strukturerad data</strong> (Schema markup) som hjälper Google förstå och presentera ditt innehåll korrekt</li>
+      <li><strong>Tydlig författarinformation</strong> som visar vem som står bakom innehållet och vilken kompetens personen har</li>
+      <li><strong>Teknisk SEO</strong> som säkerställer att sajten är snabb, mobilanpassad och tillgänglig för alla användare</li>
+      <li><strong>Unika insikter och perspektiv</strong> som AI inte enkelt kan generera på egen hand</li>
+    </ul>
+
+    <div class="takeaway-box">
+      <p><strong>Viktigaste slutsatsen:</strong> Google blir allt bättre på att skilja mellan ytligt innehåll och genuin expertis. Investera i kvalitet, visa din kompetens och se till att din webbplats tekniskt fungerar felfritt &mdash; det är receptet för SEO-framgång 2026 och framåt.</p>
+    </div>
+
+    <!-- 7. Vad detta betyder för ditt företag -->
+    <h2 id="ditt-foretag">Vad detta betyder för ditt företag</h2>
+
+    <p>Nu när du förstår hur Google fungerar &mdash; från crawling via indexering till ranking &mdash; är frågan: vad bör du göra med denna kunskap? Här är de viktigaste åtgärderna för att förbättra din synlighet i Google.</p>
+
+    <h3>Se till att Google kan hitta dig</h3>
+
+    <p>Kontrollera att din webbplats har en korrekt sitemap som är inlämnad i Google Search Console. Se till att robots.txt inte blockerar viktiga sidor. Bygg en tydlig intern länkstruktur så att Googlebot kan navigera hela sajten utan att missa sidor. Om du har en ny webbplats, prioritera att skaffa några bakåtlänkar från relevanta sajter så tidigt som möjligt.</p>
+
+    <h3>Ge Google rätt signaler</h3>
+
+    <p>Optimera dina title-taggar och meta descriptions med relevanta sökord. Använd en tydlig rubrikstruktur (H1, H2, H3) som speglar innehållets hierarki. Implementera strukturerad data (Schema markup) för att hjälpa Google förstå vad dina sidor handlar om. Läs mer om detta i vår guide om <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">teknisk SEO</a>.</p>
+
+    <h3>Skapa innehåll som förtjänar att rankas</h3>
+
+    <p>Skriv djupgående, unikt innehåll som genuint hjälper din målgrupp. Besvara deras frågor, lös deras problem och dela din expertis. Undvik tunt innehåll, duplicerade texter och ren nyckelordsstoppning. Google är i dag tillräckligt intelligent för att förstå naturligt språk &mdash; du behöver inte upprepa samma sökord tjugo gånger. Fokusera istället på att täcka ämnet ordentligt.</p>
+
+    <h3>Investera i teknisk prestanda</h3>
+
+    <p>Se till att din sajt laddar snabbt, fungerar felfritt på mobila enheter och uppfyller Googles Core Web Vitals. En tekniskt bristfällig sajt förlorar positioner oavsett hur bra innehållet är. Tänk på att laddningstid inte bara påverkar ranking utan också hur många besökare som stannar kvar på din sajt.</p>
+
+    <h3>Bygg auktoritet och trovärdighet över tid</h3>
+
+    <p>Arbeta långsiktigt med att bygga bakåtlänkar från relevanta och trovärdiga webbplatser. Visa tydligt vilka ni är, vilken kompetens ni har och varför besökaren kan lita på ert innehåll. Det handlar om att etablera ditt varumärke som en pålitlig källa inom er bransch &mdash; något som både Google och era potentiella kunder kommer att uppskatta.</p>
+
+    <div class="info-box">
+      <p><strong>Sammanfattning:</strong> Google vill visa det bästa möjliga resultatet för varje sökning. Om ditt företag konsekvent skapar relevant, kvalitativt innehåll på en tekniskt välbyggd webbplats &mdash; och bygger trovärdighet genom länkar och E-E-A-T &mdash; kommer Google att belöna dig med synlighet. Det finns inga genvägar, men resultaten är bestående och ackumuleras över tid.</p>
+    </div>
+
+    <!-- FAQ Section -->
+    <h2 id="faq">Vanliga frågor om hur Google fungerar</h2>
+
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Hur lång tid tar det för Google att indexera en ny sida?
+        </div>
+        <div class="faq-answer">
+          Det varierar kraftigt. En ny sida på en etablerad webbplats kan indexeras inom några timmar till ett par dagar. En helt ny webbplats kan ta allt från några dagar till flera veckor. Du kan påskynda processen genom att skicka in din sitemap via Google Search Console och använda verktyget &rdquo;Begär indexering&rdquo; för enskilda sidor.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Kan jag betala Google för att ranka högre organiskt?
+        </div>
+        <div class="faq-answer">
+          Nej. Googles organiska sökresultat kan inte köpas. Google Ads (betalda annonser) visas ovanför eller bredvid de organiska resultaten, men de påverkar inte din organiska ranking. Det enda sättet att förbättra din organiska position är genom SEO &mdash; att göra din webbplats mer relevant, snabb och användarvänlig.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Vad är skillnaden mellan crawling och indexering?
+        </div>
+        <div class="faq-answer">
+          Crawling är processen där Googlebot besöker och laddar ner dina webbsidor. Indexering är steget efter, där Google analyserar sidans innehåll och lagrar det i sitt index. En sida kan crawlas utan att indexeras &mdash; till exempel om Google bedömer att innehållet är av låg kvalitet, duplicerat eller blockerat via en noindex-tagg.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Hur många rankingfaktorer använder Google?
+        </div>
+        <div class="faq-answer">
+          Google har bekräftat att de använder över 200 rankingfaktorer i sin algoritm. De viktigaste inkluderar relevant och högkvalitativt innehåll, bakåtlänkar från auktoritativa sajter, sidladdningshastighet, mobilanpassning, användarupplevelse (Core Web Vitals) och E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness).
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Hur påverkar AI Overviews min webbplats synlighet i Google?
+        </div>
+        <div class="faq-answer">
+          AI Overviews är Googles AI-genererade sammanfattningar som visas ovanför de traditionella sökresultaten. De kan minska antalet klick till din sajt för informationssökningar, men ökar samtidigt värdet av att vara en citerad källa. Fokusera på E-E-A-T, strukturerad data och unikt expertinnehåll för att öka chansen att bli refererad i AI-svaren.
+        </div>
+      </div>
+    </div>
+
+    <!-- Internal links -->
+    <div class="read-more">
+      <h3>Fortsätt läsa i SEO-skolan</h3>
+      <div class="read-more-links">
+        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/" class="read-more-link">
+          Vad är SEO?
+          <span class="link-arrow">&#8594;</span>
+        </a>
+        <a href="{{DOMAIN}}/seo-skola/teknisk-seo/" class="read-more-link">
+          Teknisk SEO
+          <span class="link-arrow">&#8594;</span>
+        </a>
+        <a href="{{DOMAIN}}/seo-skola/rankingfaktorer/" class="read-more-link">
+          Rankingfaktorer
+          <span class="link-arrow">&#8594;</span>
+        </a>
+        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/" class="read-more-link">
+          Vad kostar SEO?
+          <span class="link-arrow">&#8594;</span>
+        </a>
+        <a href="{{DOMAIN}}/seo-ordlista/" class="read-more-link">
+          SEO-ordlista
+          <span class="link-arrow">&#8594;</span>
+        </a>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Boka gratis SEO-analys</h2>
+    <p>Vi analyserar din webbplats och visar exakt hur Google ser på den &mdash; crawling, indexering och ranking. Helt gratis, utan bindning.</p>
+    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <h4>Searchboost</h4>
+        <p style="font-size: 0.9rem; line-height: 1.6;">Smålands ledande SEO-byrå. Vi hjälper lokala företag att synas på Google och få fler kunder.</p>
+      </div>
+      <div>
+        <h4>SEO-tjänster</h4>
+        <a href="{{DOMAIN}}/seo-byra-jonkoping/">SEO-byrå Jönköping</a>
+        <a href="{{DOMAIN}}/seo-byra-vaxjo/">SEO-byrå Växjö</a>
+        <a href="{{DOMAIN}}/seo-byra-varnamo/">SEO-byrå Värnamo</a>
+        <a href="{{DOMAIN}}/lokal-seo/">Lokal SEO</a>
+        <a href="{{DOMAIN}}/seo-audit-tjanst/">SEO Audit</a>
+      </div>
+      <div>
+        <h4>Lär dig SEO</h4>
+        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad är SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/hur-fungerar-google/">Hur fungerar Google?</a>
+        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+        <a href="{{DOMAIN}}/seo-skola/hur-lang-tid-tar-seo/">Hur lång tid tar SEO?</a>
+        <a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a>
+      </div>
+      <div>
+        <h4>Kontakt</h4>
+        <a href="mailto:mikael@searchboost.nu">mikael@searchboost.nu</a>
+        <a href="{{DOMAIN}}/kontakt/">Boka gratis SEO-analys</a>
+        <a href="{{DOMAIN}}/vanliga-fragor/">Vanliga frågor</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Searchboost. Alla rättigheter förbehållna.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

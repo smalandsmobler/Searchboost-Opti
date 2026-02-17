@@ -1,352 +1,184 @@
-# Viktor — Guide till Opti-dashboarden
+# Viktor — Dashboard-guiden
 
-> Senast uppdaterad: 2026-02-15
-> Skriven av: Mikael / Searchboost
-
----
-
-## 1. Verifiering och inloggning
-
-### Claude Code — Verifieringskod
-
-När du startar en ny Claude Code-session kommer den fråga efter en verifieringskod.
-
-- **Din verifieringskod:** `0195`
-
-Ange koden när Claude frågar "Verifieringskod?" — annars kan du inte börja jobba.
-
-### Dashboard — Logga in
-
-1. Öppna **http://51.21.116.7/** i din webbläsare
-2. Ange dina inloggningsuppgifter:
-   - **Användare:** `searchboost.web@gmail.com`
-   - **Lösenord:** `Opti0195`
-3. Klicka **Logga in**
-
-Du hamnar automatiskt på **Dashboard-vyn** (översikt med statistik).
+> Uppdaterad: 2026-02-17
 
 ---
 
-## 2. Översikt av vyerna
+## Logga in
 
-Högst upp finns navigeringen med 6 vyer:
+### Claude Code
+Starta Claude i terminalen. Den fragar "Verifieringskod?" — skriv **0195**.
+
+### Dashboard
+- **URL:** http://51.21.116.7/
+- **Mail:** searchboost.web@gmail.com
+- **Losenord:** Opti0195
+
+---
+
+## Vad du ser nar du loggar in
+
+5 vyer hogst upp:
 
 | Vy | Vad den visar |
 |----|---------------|
-| **Dashboard** | Aktiva kunder, optimeringar senaste 7 dagarna, arbetskö, MRR |
-| **Pipeline** | Kanban-board med alla kunder i olika stadier |
-| **Optimeringar** | Logg över alla utförda optimeringar (automatiska + manuella) |
-| **Arbetsflöde** | Kö av väntande uppgifter |
+| **Dashboard** | Oversikt — antal kunder, optimeringar, intakter |
+| **Pipeline** | Kanban-board — alla kunder i olika stadier |
+| **Optimeringar** | Logg over allt som gjorts (auto + manuellt) |
+| **Arbetsflode** | Ko med vantande uppgifter |
 | **Rapporter** | Veckorapporter per kund |
 
 ---
 
-## 3. Lägga till en ny kund (Prospect)
+## Lagga till en ny kund
 
-### Steg 1: Gå till Pipeline-vyn
+1. Ga till **Pipeline**
+2. Klicka **"+ Manuell prospect"**
+3. Fyll i:
+   - Foretagsnamn (obligatoriskt)
+   - Webbplats (obligatoriskt)
+   - Kontaktperson, e-post, anteckningar (valfritt)
+4. Klicka **Spara**
 
-Klicka **Pipeline** i navigeringen.
-
-### Steg 2: Klicka "+ Manuell prospect"
-
-Knappen ligger högst upp i pipeline-vyn.
-
-### Steg 3: Fyll i formuläret
-
-| Fält | Obligatoriskt | Beskrivning |
-|------|:---:|-------------|
-| **Företagsnamn** | Ja | Kundens företag, t.ex. "Möblernas Rike AB" |
-| **Webbplats** | Ja | Full URL: `https://moblernarike.se` |
-| **Kontaktperson** | Nej | Namn på kontakten |
-| **E-post** | Nej | Kontaktens e-post |
-| **Anteckningar** | Nej | Valfri info |
-| **Trafiktrend** | Nej | Okänd / Växande / Minskande / Stabil |
-
-### Steg 4: Klicka "Spara"
-
-Kunden hamnar i **Analys**-kolumnen i pipeline och ett Trello-kort skapas automatiskt.
+Kunden hamnar i "Analys"-kolumnen. Ett Trello-kort skapas automatiskt.
 
 ---
 
-## 4. Flytta en kund genom pipelinen
-
-Varje kund går genom dessa stadier (i ordning):
+## Flytta kunden genom pipelinen
 
 ```
-Analys → Offert → Orderbekräftelse → Uppstart → Åtgärdsplan → Aktiv
+Analys -> Offert -> Orderbekraftelse -> Uppstart -> Atgardsplan -> Aktiv
 ```
 
-### Så här gör du:
+Klicka pa kunden -> klicka knappen for nasta steg.
 
-1. **Klicka på kundens kort** i pipeline-vyn
-2. Du hamnar i **kunddetalj-vyn**
-3. Klicka på nästa stadie-knapp (t.ex. "Flytta till Offert")
+**Vid Orderbekraftelse** behover du fylla i:
+- Tjanstetyp (Basic / Standard / Premium)
+- Manadsbelopp (kronor)
+- Startdatum
 
-### Vid Orderbekräftelse — extra information krävs:
-
-När du flyttar till **Orderbekräftelse** behöver du fylla i:
-
-| Fält | Beskrivning |
-|------|-------------|
-| **Tjänstetyp** | SEO Basic / SEO Standard / SEO Premium |
-| **Månadsbelopp** | I kronor, t.ex. 5000 |
-| **Startdatum** | När kontraktet startar |
-
-### Vid Uppstart — nyckelord + geografi:
-
-| Fält | Beskrivning |
-|------|-------------|
-| **Geografiskt fokus** | T.ex. "Jönköping", "Småland", "Hela Sverige" |
-| **A-nyckelord** | 5 huvudnyckelord (viktigast) |
-| **B-nyckelord** | 5 sekundära nyckelord |
-| **C-nyckelord** | 10 långsvans-nyckelord (valfritt) |
+**Vid Uppstart** behover du fylla i:
+- Geografiskt fokus (t.ex. "Jonkoping" eller "Hela Sverige")
+- A-nyckelord (5 st, viktigast)
+- B-nyckelord (5 st)
+- C-nyckelord (10 st, valfritt)
 
 ---
 
-## 5. Kunddetalj — Alla flikar
+## Kunddetalj — 5 flikar
 
-När du klickar på en kund ser du en detaljsida med flikar längst ner:
+### 1. SEO-analys
+Klistra in analysdata. Lagg till problem-rader:
+- URL, problemtyp, allvarlighetsgrad, prioritet, beskrivning
 
-### 5.1 SEO-analys
+### 2. Nyckelord (ABC)
+Lagg in sokord sorterade:
+- **A** = huvudnyckelord (viktigast, 5 st)
+- **B** = sekundara (5 st)
+- **C** = langsvans (10 st)
 
-Här klistrar du in en SEO-analys (t.ex. från SE Ranking).
+Per ord: sokordet + sokvolym + svrighetsgrad
 
-**Fyll i:**
-- **Sammanfattning** — Fritext om kundens SEO-läge
-- **Problem-tabell** — Rader med:
-  - URL (vilken sida)
-  - Problemtyp (t.ex. "Titel saknas", "Tunt innehåll")
-  - Allvarlighetsgrad (låg/medel/hög)
-  - Prioritet (1-10)
-  - Beskrivning
+Spara max 10 st per gang (annars timeout).
 
-Klicka **"+ Lägg till rad"** för fler problem. Klicka **"Spara analys"** när klar.
+### 3. Atgardsplan
+3 manader med uppgifter:
+- Manad 1: Grundarbete
+- Manad 2: Tillvaxt
+- Manad 3: Forfining
 
-### 5.2 Nyckelord (ABC)
+Kan auto-genereras fran audit + nyckelord (klicka AI-knappen).
 
-Här lägger du in nyckelord sorterade i tre nivåer:
+### 4. Logga arbete
+Logga vad du gjort manuellt:
+- Datum, typ, sida, beskrivning, tid, ditt namn
 
-| Nivå | Antal | Beskrivning |
-|------|-------|-------------|
-| **A-ord** | 5 | Huvudnyckelord — det viktigaste kunden vill ranka på |
-| **B-ord** | 5 | Sekundära — stödjer A-orden |
-| **C-ord** | 10 | Långsvans — specifika frågor, lokala sökord |
+**Viktigt:** Allt du loggar syns i kundens veckorapport.
 
-**Per nyckelord:**
-- Sökordet (text)
-- Sökvolym (antal sökningar/månad)
-- Svårighetsgrad (0-100)
+### 5. Credentials
+Spara tekniska kopplingar:
 
-Välj **fas**: "Från kund" (initial) eller "Efter uppstartsmötet" (final).
+| Falt | Vad det ar |
+|------|-----------|
+| WP-anvandare | Kundens WordPress-login |
+| WP App-losenord | Genereras i WP: Anvandare -> Profil -> Application Passwords |
+| GSC Property | Kundens Google Search Console URL |
+| Kontakt-epost | Kundens mail |
+| GA4 Property ID | Fran Google Analytics |
+| GTM Container ID | Fran Google Tag Manager |
+| Google Ads ID | Kundens Ads-konto |
+| Meta Pixel ID | Fran Facebook/Meta |
 
-Klicka **"Spara nyckelord"**.
-
-> **OBS:** Max ca 10 nyckelord per sparning (annars timeout). Spara i omgångar om du har fler.
-
-### 5.3 Åtgärdsplan
-
-3-månaders plan med uppgifter:
-
-**Månad 1 — Grundarbete**
-**Månad 2 — Tillväxt**
-**Månad 3 — Förfining**
-
-Per uppgift:
-- Beskrivning (vad ska göras)
-- Typ (Innehåll / Meta / Teknisk fix / Länkbygge / Schema / Hastighet)
-- Nyckelord (kopplat till)
-- Sida (URL)
-- Insats (Manuell eller Auto)
-
-Du kan också klicka **"Auto-generera från audit + nyckelord"** — då skapar AI:n en plan baserat på befintlig data.
-
-### 5.4 Logga arbete
-
-Här loggar du **manuellt utfört arbete** (t.ex. skrivit texter, fixat bilder, tekniska ändringar).
-
-Per rad:
-- **Datum/tid** — När arbetet gjordes
-- **Typ** — Metadata / Innehåll / Teknisk SEO / Bilder / Intern länkning / Schema / Annat
-- **Sida** — URL (om relevant)
-- **Beskrivning** — Vad du gjorde
-- **Tid (minuter)** — Hur lång tid det tog
-- **Utfört av** — Mikael eller Viktor
-
-> **VIKTIGT:** Allt du loggar här hamnar i kundens veckorapport. Det ser likadant ut för kunden oavsett om det är manuellt eller automatiskt arbete.
-
-### 5.5 Credentials (Inloggningsuppgifter)
-
-Här sparar du tekniska kopplingar till kundens sajt:
-
-| Fält | Exempel | Varifrån |
-|------|---------|----------|
-| **WP-användarnamn** | mikael@example.se | Kundens WordPress-admin |
-| **WP App-lösenord** | xxxx xxxx xxxx xxxx | Genereras i WP: Användare → Profil → Application Passwords |
-| **GSC Property** | https://www.example.se/ | Google Search Console |
-| **Kontakt-epost** | kund@example.se | Kundens mail |
-
-Klicka **"Testa WP-anslutning"** för att verifiera att det fungerar.
+Klicka **"Testa WP-anslutning"** for att kolla att det funkar.
 
 ---
 
-## 6. Aktivera en kund för automatisk optimering
+## Aktivera en kund
 
-När allt är klart kan du aktivera kunden:
+Nar allt ar klart:
 
-### Checklista innan aktivering:
+- [ ] Nyckelord sparade (minst A + B)
+- [ ] WP-credentials ifyllda
+- [ ] WP-test OK (gron bock)
+- [ ] GSC-property ifylld
+- [ ] Service Account tillagd i kundens GSC
 
-- [ ] ABC-nyckelord sparade (minst A + B)
-- [ ] WordPress-credentials ifyllda
-- [ ] WP-anslutningstest OK
-- [ ] GSC Property ifylld
-- [ ] Service Account tillagd i kundens GSC som "Fullständig"
+Klicka den stora grona knappen **"Aktivera"**.
 
-### Så aktiverar du:
-
-1. Gå till kundens detaljsida
-2. Klicka den stora gröna knappen **"Aktivera"**
-3. Systemet validerar att allt är på plats
-4. Första batchen av optimeringsuppgifter skapas
-5. Lambda-funktionen börjar köra var 6:e timme
-
-**När en kund är aktiv:**
-- **Måndag 06:00** — Automatisk SEO-audit av sajten
-- **Var 6:e timme** — Optimeringsuppgifter processas
-- **Måndag 08:00** — Veckorapport skickas via e-post
+Nar en kund ar aktiv:
+- Mandag 06:00 — automatisk SEO-audit
+- Var 6:e timme — optimeringar kors
+- Mandag 08:00 — veckorapport skickas
+- Varje natt 04:00 — sokordsdata hamtas fran GSC
 
 ---
 
-## 7. Generera säljpresentation
+## Trello
 
-I kunddetalj-vyn finns kortet **"Säljpresentation"** med två knappar:
+Logga in pa trello.com med searchboost.web@gmail.com. Board: "Searchboost".
 
-| Knapp | Tid | Beskrivning |
-|-------|-----|-------------|
-| **Snabb** | Direkt | Mall-baserad, fyller i kundens data |
-| **AI-genererad** | 15-30 sek | Claude skapar anpassat innehåll |
+12 listor: Analys -> Offerter -> Kund -> Arkiv -> On-boarding -> SOPs -> BACKLOG -> TO DO -> IN PROGRESS -> REVIEW -> DONE -> REPORTS & ANALYTICS
 
-Resultatet är en HTML-presentation (reveal.js, 12 slides) som öppnas i ny flik.
-
----
-
-## 8. Trello — Projekthantering
-
-Vi använder Trello för att hålla koll på alla kunder och uppgifter.
-
-### Board: "Searchboost"
-
-Logga in med `searchboost.web@gmail.com` på [trello.com](https://trello.com).
-
-### 12 listor (kolumner):
-
-| Lista | Syfte |
-|-------|-------|
-| **Analys** | Nya kunder som behöver SEO-analys |
-| **Offerter** | Offert skickad, väntar på svar |
-| **Kund** | Aktiva betalande kunder |
-| **Arkiv** | Avslutade/pausade kunder |
-| **On-boarding** | Kunder som håller på att aktiveras |
-| **SOPs** | Standard Operating Procedures (manualer) |
-| **BACKLOG** | Uppgifter som ska göras någon gång |
-| **TO DO** | Nästa uppgifter att ta tag i |
-| **IN PROGRESS** | Pågående arbete |
-| **REVIEW** | Klart men behöver granskas |
-| **DONE** | Färdigt och verifierat |
-| **REPORTS & ANALYTICS** | Rapporter och analyser |
-
-### Automatisk synk med dashboarden
-
-- När du skapar en prospect i dashboarden → Trello-kort skapas automatiskt i "Analys"
-- När Lambda kör optimeringar → Trello-kort skapas i "DONE"
-- Manuellt loggat arbete → kommentar på kundens Trello-kort
-
-### ABC-nyckelord i Trello
-
-Nyckelord lagras i kortbeskrivningar med formatet:
-```
-A= nyckelord1, nyckelord2
-B= nyckelord3
-C= nyckelord4, nyckelord5
-```
+Automatisk synk:
+- Ny prospect i dashboard = Trello-kort i "Analys"
+- Lambda gor optimering = Trello-kort i "DONE"
+- Du loggar arbete = kommentar pa kundens kort
 
 ---
 
-## 9. Deploy och kodändringar (full access)
+## Saljpresentation
 
-Du har full access till hela systemet — deploy, kodändringar, infrastruktur. Deploya enligt standardprocessen:
+I kunddetalj finns "Saljpresentation" med tva knappar:
+- **Snabb** — mall-baserad, direkt
+- **AI-genererad** — Claude skapar anpassat innehall (15-30 sek)
 
-1. **Öppna port 22** (AWS CLI)
-2. **Push SSH-nyckel** (60-sekunders fönster)
-3. **SCP filer + restart PM2**
-4. **Stäng port 22**
-
-Se `CLAUDE.md` i repot för exakta kommandon. Git-push görs efter varje färdig feature.
+Oppnas som HTML-presentation i ny flik (12 slides).
 
 ---
 
-## 10. Vanliga felmeddelanden
+## Nar nagt gar fel
 
-| Meddelande | Lösning |
-|------------|---------|
-| "Företag och webbplats krävs" | Fyll i båda obligatoriska fält |
-| "Ange minst ett nyckelord" | Lägg till minst 1 nyckelord i A/B/C |
-| "Anslutning misslyckades" | Kontrollera WP-URL och app-lösenord |
-| "Fyll i minst en rad" | Ange beskrivning i arbetsloggen |
-| Timeout vid nyckelord | Spara max 10 nyckelord per gång |
-
----
-
-## 11. Komplett flöde: Ny kund från början till slut
-
-```
-1. Pipeline → "+ Manuell prospect"
-   → Fyll i företagsnamn + webbplats
-   → Spara
-
-2. Klicka på kunden → Flytta till "Offert"
-
-3. Flytta till "Orderbekräftelse"
-   → Fyll i tjänstetyp + belopp + startdatum
-
-4. Flytta till "Uppstart"
-   → Fyll i geografi + ABC-nyckelord
-
-5. Gå till Credentials-fliken
-   → Fyll i WP-credentials + GSC property
-   → Testa WP-anslutning
-
-6. (Valfritt) SEO-analys
-   → Klistra in från SE Ranking
-
-7. (Valfritt) Åtgärdsplan
-   → Auto-generera eller skriv manuellt
-
-8. Klicka "Aktivera"
-   → Kunden är nu aktiv med automatisk optimering
-```
+| Meddelande | Vad du gor |
+|-----------|-----------|
+| "Foretag och webbplats kravs" | Fyll i bada falten |
+| "Ange minst ett nyckelord" | Lagg till minst 1 nyckelord |
+| "Anslutning misslyckades" | Kolla WP-URL och app-losenord |
+| Timeout vid nyckelord | Spara max 10 per gang |
 
 ---
 
-## 12. Bra att veta
+## Budget per tier
 
-- **API-nyckeln** skickas automatiskt vid varje anrop — du behöver inte göra något
-- **Trello** synkas automatiskt när du skapar prospects eller loggar arbete
-- **Veckorapporter** inkluderar ALLT — både automatiskt och manuellt arbete
-- **Budgethantering** styrs av tier:
-  - Basic (≤5000 kr): Max 15 uppgifter/månad
-  - Standard (≤10000 kr): Max 30 uppgifter/månad
-  - Premium: Max 50 uppgifter/månad
-- **Dashboarden funkar bäst i Chrome** på desktop
-- Alla data sparas i BigQuery — inget försvinner
+| Tier | Pris | Auto-uppgifter/manad |
+|------|------|---------------------|
+| Basic | max 5 000 kr | 15 |
+| Standard | max 10 000 kr | 30 |
+| Premium | over 10 000 kr | 50 |
 
 ---
 
-## 13. Kontakt
+## Kontakt
 
 - **Mikael:** mikael@searchboost.se
 - **Dashboard:** http://51.21.116.7/
 - **Trello:** searchboost.web@gmail.com
-
----
-
-*Dokumentet är en del av Searchboost Opti.*

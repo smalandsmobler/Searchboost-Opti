@@ -21,7 +21,7 @@ npm install --production
 echo ""
 
 # Deploy each function
-for FUNC in weekly-audit autonomous-optimizer weekly-report; do
+for FUNC in weekly-audit autonomous-optimizer weekly-report data-collector; do
   echo "--- Deploying seo-${FUNC} ---"
 
   # Create zip with the specific handler + node_modules

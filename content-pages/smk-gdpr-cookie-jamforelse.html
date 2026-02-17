@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDPR Cookie Consent — Smålands Kontorsmöbler</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #1a1a2e;
+    background: #fff;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  .page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 48px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 3px solid #e91e8c;
+  }
+  .header-left h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .header-left .subtitle {
+    font-size: 14px;
+    color: #666;
+    font-weight: 400;
+  }
+  .header-right {
+    text-align: right;
+    font-size: 12px;
+    color: #888;
+  }
+  .header-right .brand {
+    font-weight: 700;
+    color: #e91e8c;
+    font-size: 14px;
+  }
+
+  /* Status badge */
+  .status-banner {
+    background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+    border: 1px solid #ffcccc;
+    border-left: 4px solid #e53e3e;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .status-banner .icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+  .status-banner .text strong {
+    color: #c53030;
+  }
+
+  /* Sections */
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 32px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #f0f0f5;
+  }
+  h2 .num {
+    display: inline-block;
+    background: #e91e8c;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-size: 14px;
+    margin-right: 8px;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin: 20px 0 10px;
+  }
+
+  p {
+    margin-bottom: 12px;
+    color: #444;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 13px;
+  }
+  th {
+    background: #1a1a2e;
+    color: white;
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  th:first-child { border-radius: 6px 0 0 0; }
+  th:last-child { border-radius: 0 6px 0 0; }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: #fafafa; }
+  tr:last-child td:first-child { border-radius: 0 0 0 6px; }
+  tr:last-child td:last-child { border-radius: 0 0 6px 0; }
+
+  .check { color: #22c55e; font-weight: 700; }
+  .cross { color: #ef4444; font-weight: 700; }
+  .partial { color: #f59e0b; font-weight: 700; }
+
+  /* Recommendation box */
+  .recommendation {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+    border-left: 4px solid #0284c7;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+  .recommendation h3 {
+    color: #0369a1;
+    margin-top: 0;
+    font-size: 16px;
+  }
+  .recommendation .price {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0284c7;
+  }
+  .recommendation .price-detail {
+    font-size: 13px;
+    color: #666;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    gap: 0;
+    margin: 20px 0 28px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 24px;
+    right: 24px;
+    height: 3px;
+    background: #e0e0e0;
+    z-index: 0;
+  }
+  .timeline-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  .timeline-step .dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e91e8c;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 8px;
+  }
+  .timeline-step .label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    line-height: 1.3;
+  }
+  .timeline-step .time {
+    font-size: 10px;
+    color: #999;
+    margin-top: 2px;
+  }
+
+  /* Summary table */
+  .summary-table td:first-child {
+    font-weight: 600;
+    color: #1a1a2e;
+    width: 40%;
+  }
+
+  /* Checklist */
+  .checklist {
+    list-style: none;
+    margin: 12px 0;
+  }
+  .checklist li {
+    padding: 8px 0 8px 32px;
+    position: relative;
+    border-bottom: 1px solid #f5f5f5;
+    color: #444;
+  }
+  .checklist li::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 11px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f5;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #999;
+  }
+  .footer a { color: #e91e8c; text-decoration: none; }
+
+  /* Print */
+  @media print {
+    body { font-size: 12px; }
+    .page { padding: 20px; max-width: none; }
+    .status-banner { break-inside: avoid; }
+    table { break-inside: avoid; }
+    .recommendation { break-inside: avoid; }
+    h2 { break-after: avoid; }
+  }
+
+  /* Highlight row */
+  .highlight-row td {
+    background: #f0fdf4 !important;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>GDPR Cookie Consent</h1>
+      <div class="subtitle">Underlag — Smålands Kontorsmöbler (ny.smalandskontorsmobler.se)</div>
+    </div>
+    <div class="header-right">
+      <div class="brand">SEARCHBOOST</div>
+      <div>2026-02-13</div>
+    </div>
+  </div>
+
+  <!-- Status -->
+  <div class="status-banner">
+    <div class="icon">&#9888;</div>
+    <div class="text">
+      <strong>Ingen cookie consent-lösning finns idag.</strong><br>
+      WooCommerce sätter tekniska cookies men det finns ingen banner, ingen cookie-deklaration och ingen integritetspolicy kopplad till cookies. Detta strider mot EU:s ePrivacy-direktiv och GDPR.
+    </div>
+  </div>
+
+  <!-- Varför -->
+  <h2><span class="num">1</span> Varför behövs cookie consent?</h2>
+  <p><strong>EU:s ePrivacy-direktiv</strong> (implementerat via svensk lag, LEK) och <strong>GDPR</strong> kräver att:</p>
+  <table>
+    <tr><th style="width:40%">Krav</th><th>Innebär</th></tr>
+    <tr><td>Information</td><td>Besökare måste informeras om vilka cookies som används</td></tr>
+    <tr><td>Samtycke</td><td>Icke-nödvändiga cookies får inte sättas innan besökaren godkänner</td></tr>
+    <tr><td>Neka = lika enkelt</td><td>Det ska vara lika lätt att neka cookies som att godkänna</td></tr>
+    <tr><td>Cookie-deklaration</td><td>En lista på alla cookies ska finnas tillgänglig på sajten</td></tr>
+  </table>
+  <p><strong>Google Consent Mode v2</strong> — Sedan mars 2024 kräver Google att sajter med Google Ads eller Analytics implementerar Consent Mode v2. Utan det kan konverteringsdata gå förlorad.</p>
+
+  <!-- Jämförelse -->
+  <h2><span class="num">2</span> Jämförelse — Cookie Consent-lösningar</h2>
+
+  <table>
+    <tr>
+      <th>Funktion</th>
+      <th>Cookiebot</th>
+      <th>Complianz</th>
+      <th>CookieYes</th>
+      <th>Real Cookie Banner</th>
+    </tr>
+    <tr><td><strong>Typ</strong></td><td>Molntjänst</td><td>WP-plugin</td><td>Moln + plugin</td><td>WP-plugin</td></tr>
+    <tr><td><strong>Auto-scan</strong></td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+    <tr><td><strong>WooCommerce</strong></td><td>Bra</td><td><strong>Utmärkt</strong></td><td>Bra</td><td>Bra</td></tr>
+    <tr><td><strong>Consent Mode v2</strong></td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+    <tr><td><strong>GTM-integration</strong></td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+    <tr><td><strong>Designanpassning</strong></td><td class="partial">Begränsat</td><td class="check">Bra</td><td class="check">Bra</td><td class="check">Bra</td></tr>
+    <tr><td><strong>Svenskt språk</strong></td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td><td class="check">&#10003;</td></tr>
+    <tr><td><strong>IAB TCF 2.2</strong></td><td class="check">Premium</td><td class="cross">&#10007;</td><td class="check">Pro</td><td class="cross">&#10007;</td></tr>
+    <tr><td><strong>Prestanda</strong></td><td>Externt script</td><td><strong>Lokalt (snabbt)</strong></td><td>Externt script</td><td><strong>Lokalt (snabbt)</strong></td></tr>
+    <tr class="highlight-row"><td><strong>Pris/år (1 domän)</strong></td><td>~1 250 kr</td><td><strong>~565 kr</strong></td><td>~970 kr</td><td>~670 kr</td></tr>
+    <tr><td><strong>Gratis tier</strong></td><td>Ja (&lt;100 sidor)</td><td>Ja (begränsad)</td><td>Ja (begränsad)</td><td>Nej</td></tr>
+    <tr><td><strong>WP-installationer</strong></td><td>1M+</td><td>900K+</td><td>300K+</td><td>200K+</td></tr>
+  </table>
+
+  <!-- Rekommendation -->
+  <h2><span class="num">3</span> Rekommendation</h2>
+
+  <div class="recommendation">
+    <h3>&#10004; Complianz Premium — bästa valet för SMK</h3>
+    <div style="display:flex;align-items:baseline;gap:8px;margin:12px 0">
+      <span class="price">565 kr</span>
+      <span class="price-detail">per år (49 €) = 47 kr/mån</span>
+    </div>
+    <table style="margin-top:12px">
+      <tr><td><strong>Bäst WooCommerce-integration</strong></td><td>Optimerat för WooCommerce-kassan, blockerar tracking-cookies automatiskt</td></tr>
+      <tr><td><strong>Allt lokalt</strong></td><td>Ingen extern tjänst — snabbare, ingen tredjepartsberoende</td></tr>
+      <tr><td><strong>GDPR-wizard</strong></td><td>Genererar integritetspolicy + cookie-deklaration automatiskt</td></tr>
+      <tr><td><strong>Google Consent Mode v2</strong></td><td>Inbyggt — krävs för Google Ads/Analytics</td></tr>
+      <tr><td><strong>Geo-blocking</strong></td><td>Visar bara banner i EU</td></tr>
+      <tr><td><strong>A/B-test</strong></td><td>Testa olika banner-designs för bäst acceptansgrad</td></tr>
+    </table>
+  </div>
+
+  <!-- Implementering -->
+  <h2><span class="num">4</span> Implementering — 50 minuter</h2>
+
+  <div class="timeline">
+    <div class="timeline-step">
+      <div class="dot">1</div>
+      <div class="label">Installera plugin</div>
+      <div class="time">5 min</div>
+    </div>
+    <div class="timeline-step">
+      <div class="dot">2</div>
+      <div class="label">GDPR-wizard</div>
+      <div class="time">10 min</div>
+    </div>
+    <div class="timeline-step">
+      <div class="dot">3</div>
+      <div class="label">Design<br>(SMK-färger)</div>
+      <div class="time">10 min</div>
+    </div>
+    <div class="timeline-step">
+      <div class="dot">4</div>
+      <div class="label">Cookie-deklaration +<br>Integritetspolicy</div>
+      <div class="time">15 min</div>
+    </div>
+    <div class="timeline-step">
+      <div class="dot">5</div>
+      <div class="label">Consent Mode +<br>Test</div>
+      <div class="time">10 min</div>
+    </div>
+  </div>
+
+  <!-- Vad behövs -->
+  <h2><span class="num">5</span> Vad vi behöver från SMK</h2>
+  <ul class="checklist">
+    <li>Organisationsnummer (för integritetspolicyn)</li>
+    <li>Dataskyddsansvarigs kontaktuppgifter (kan vara ägaren)</li>
+    <li>E-postadress för dataskyddsfrågor</li>
+    <li>Godkännande av integritetspolicy-text (vi skriver, kunden granskar)</li>
+  </ul>
+
+  <!-- Sammanfattning -->
+  <h2><span class="num">6</span> Sammanfattning</h2>
+
+  <table class="summary-table">
+    <tr><td>Har SMK cookie consent idag?</td><td><strong style="color:#e53e3e">Nej</strong> — ingen banner, ingen deklaration</td></tr>
+    <tr><td>Behövs det?</td><td><strong>Ja</strong> — lagkrav (GDPR + ePrivacy)</td></tr>
+    <tr><td>Vilken lösning?</td><td><strong>Complianz Premium</strong> (WP-plugin)</td></tr>
+    <tr><td>Kostnad</td><td><strong>565 kr/år</strong> (49 €)</td></tr>
+    <tr><td>Tid att implementera</td><td><strong>~50 minuter</strong></td></tr>
+    <tr><td>Vad behöver kunden göra?</td><td>Granska integritetspolicyn</td></tr>
+    <tr><td>Vad gör Searchboost?</td><td>Allt tekniskt</td></tr>
+  </table>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>Framtaget av <a href="https://searchboost.nu">Searchboost</a></div>
+    <div>Kontakt: <a href="mailto:mikael@searchboost.se">mikael@searchboost.se</a></div>
+  </div>
+
+</div>
+</body>
+</html>

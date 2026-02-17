@@ -54,6 +54,7 @@ app.use(async (req, res, next) => {
   if (!req.path.startsWith('/api/')) return next();
   if (req.method === 'OPTIONS') return next();
   if (req.path.startsWith('/api/reports/pdf/') || req.path.startsWith('/api/reports/download/')) return next();
+  if (req.path === '/api/portal/login') return next(); // Kundportal login behöver ingen API-nyckel
 
   const apiKey = await getApiKey();
   if (!apiKey) return next(); // Om SSM-nyckeln inte finns, tillåt (backward compat)
@@ -4386,6 +4387,259 @@ app.get('/api/customers/:id/eduadmin/personnel', async (req, res) => {
     res.json(personnel);
   } catch (err) {
     console.error('EduAdmin personnel error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Data Pipeline History Endpoints ──
+// Hamtar historisk data fran data-collector Lambda
+
+// GSC historik — dagliga sokordspositioner over tid
+app.get('/api/customers/:id/gsc-history', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const limit = parseInt(req.query.limit || '5000');
+    const query = req.query.query || null; // filtrera pa specifikt sokord
+
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    // Aggregera per datum + sökord (en rad per unik kombination)
+    let sql = `
+      SELECT date, query,
+        SUM(clicks) as clicks, SUM(impressions) as impressions,
+        SAFE_DIVIDE(SUM(clicks), SUM(impressions)) as ctr,
+        AVG(position) as position
+      FROM \`${bq.projectId}.${datasetId}.gsc_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+    `;
+    const params = { customerId, days };
+
+    if (query) {
+      sql += ` AND query = @queryFilter`;
+      params.queryFilter = query;
+    }
+
+    sql += ` GROUP BY date, query ORDER BY date DESC, clicks DESC LIMIT @limit`;
+    params.limit = limit;
+
+    const [rows] = await bq.query({ query: sql, params });
+
+    // Aggregera dagstotaler
+    const dailyTotals = {};
+    for (const row of rows) {
+      const d = row.date?.value || row.date;
+      if (!dailyTotals[d]) dailyTotals[d] = { date: d, clicks: 0, impressions: 0, queries: 0 };
+      dailyTotals[d].clicks += row.clicks || 0;
+      dailyTotals[d].impressions += row.impressions || 0;
+      dailyTotals[d].queries++;
+    }
+
+    // Normalize date format in rows (BigQuery returns {value: "..."} for DATE)
+    const normalizedRows = rows.map(r => ({
+      ...r,
+      date: r.date?.value || r.date
+    }));
+
+    res.json({
+      customer_id: customerId,
+      days,
+      total_rows: normalizedRows.length,
+      daily_totals: Object.values(dailyTotals).sort((a, b) => a.date.localeCompare(b.date)),
+      data: normalizedRows.slice(0, 500), // Max 500 rader for portal
+      rows: normalizedRows.slice(0, 500), // backward compat
+    });
+  } catch (err) {
+    if (err.message?.includes('Not found: Table')) {
+      return res.json({ customer_id: req.params.id, days: 0, total_rows: 0, daily_totals: [], rows: [], message: 'Ingen historisk GSC-data annu. Data-collector kors varje natt.' });
+    }
+    console.error('GSC history error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Ads historik — kampanjdata over tid
+app.get('/api/customers/:id/ads-history', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const platform = req.query.platform || null;
+
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    let sql = `
+      SELECT date, platform, campaign_id, campaign_name,
+             impressions, clicks, spend, conversions, conversion_value,
+             ctr, cpc, cpa, roas, currency
+      FROM \`${bq.projectId}.${datasetId}.ads_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+    `;
+    const params = { customerId, days };
+
+    if (platform) {
+      sql += ` AND platform = @platform`;
+      params.platform = platform;
+    }
+
+    sql += ` ORDER BY date DESC, spend DESC LIMIT 500`;
+
+    const [rows] = await bq.query({ query: sql, params });
+
+    // Aggregera per plattform per dag
+    const dailyByPlatform = {};
+    for (const row of rows) {
+      const d = row.date?.value || row.date;
+      const p = row.platform;
+      const key = `${d}_${p}`;
+      if (!dailyByPlatform[key]) {
+        dailyByPlatform[key] = { date: d, platform: p, spend: 0, clicks: 0, impressions: 0, conversions: 0, conversion_value: 0 };
+      }
+      dailyByPlatform[key].spend += row.spend || 0;
+      dailyByPlatform[key].clicks += row.clicks || 0;
+      dailyByPlatform[key].impressions += row.impressions || 0;
+      dailyByPlatform[key].conversions += row.conversions || 0;
+      dailyByPlatform[key].conversion_value += row.conversion_value || 0;
+    }
+
+    const dailyTotals = Object.values(dailyByPlatform)
+      .map(d => ({
+        ...d,
+        spend: parseFloat(d.spend.toFixed(2)),
+        roas: d.spend > 0 ? parseFloat((d.conversion_value / d.spend).toFixed(2)) : 0,
+        cpa: d.conversions > 0 ? parseFloat((d.spend / d.conversions).toFixed(2)) : 0,
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+    res.json({
+      customer_id: customerId,
+      days,
+      total_rows: rows.length,
+      daily_totals: dailyTotals,
+      campaigns: rows.slice(0, 100),
+    });
+  } catch (err) {
+    if (err.message?.includes('Not found: Table')) {
+      return res.json({ customer_id: req.params.id, days: 0, total_rows: 0, daily_totals: [], campaigns: [], message: 'Ingen historisk annonsdata annu.' });
+    }
+    console.error('Ads history error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Social media historik — followers, engagement over tid
+app.get('/api/customers/:id/social-history', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const platform = req.query.platform || null;
+
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    let sql = `
+      SELECT date, platform, account_name, followers, followers_change,
+             posts_published, reach, impressions, engagement,
+             likes, comments, shares, saves, clicks,
+             video_views, engagement_rate, story_views, reel_plays
+      FROM \`${bq.projectId}.${datasetId}.social_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+    `;
+    const params = { customerId, days };
+
+    if (platform) {
+      sql += ` AND platform = @platform`;
+      params.platform = platform;
+    }
+
+    sql += ` ORDER BY date DESC LIMIT 500`;
+
+    const [rows] = await bq.query({ query: sql, params });
+
+    // Sammanfatta per plattform
+    const platformSummary = {};
+    for (const row of rows) {
+      const p = row.platform;
+      if (!platformSummary[p]) {
+        platformSummary[p] = {
+          platform: p,
+          latest_followers: 0,
+          total_engagement: 0,
+          total_reach: 0,
+          total_impressions: 0,
+          total_clicks: 0,
+          avg_engagement_rate: 0,
+          data_points: 0,
+        };
+      }
+      platformSummary[p].total_engagement += row.engagement || 0;
+      platformSummary[p].total_reach += row.reach || 0;
+      platformSummary[p].total_impressions += row.impressions || 0;
+      platformSummary[p].total_clicks += row.clicks || 0;
+      platformSummary[p].avg_engagement_rate += row.engagement_rate || 0;
+      platformSummary[p].data_points++;
+      // Senaste followers (data sorterad DESC)
+      if (!platformSummary[p].latest_followers) {
+        platformSummary[p].latest_followers = row.followers || 0;
+      }
+    }
+
+    // Berakna genomsnitt
+    for (const s of Object.values(platformSummary)) {
+      if (s.data_points > 0) {
+        s.avg_engagement_rate = parseFloat((s.avg_engagement_rate / s.data_points).toFixed(4));
+      }
+    }
+
+    res.json({
+      customer_id: customerId,
+      days,
+      total_rows: rows.length,
+      platform_summary: Object.values(platformSummary),
+      daily_data: rows,
+    });
+  } catch (err) {
+    if (err.message?.includes('Not found: Table')) {
+      return res.json({ customer_id: req.params.id, days: 0, total_rows: 0, platform_summary: [], daily_data: [], message: 'Ingen historisk social data annu.' });
+    }
+    console.error('Social history error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Data collection status — senaste korningarna
+app.get('/api/data-collection/status', async (req, res) => {
+  try {
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    const [rows] = await bq.query({
+      query: `
+        SELECT customer_id, source, status, records_collected, duration_ms,
+               date_range_start, date_range_end, error_message, collected_at
+        FROM \`${bq.projectId}.${datasetId}.data_collection_log\`
+        ORDER BY collected_at DESC
+        LIMIT 100
+      `,
+    });
+
+    // Gruppera per kund + kalla
+    const latest = {};
+    for (const row of rows) {
+      const key = `${row.customer_id}_${row.source}`;
+      if (!latest[key]) latest[key] = row;
+    }
+
+    res.json({
+      total_logs: rows.length,
+      latest_per_source: Object.values(latest),
+      all_logs: rows,
+    });
+  } catch (err) {
+    if (err.message?.includes('Not found: Table')) {
+      return res.json({ total_logs: 0, latest_per_source: [], all_logs: [], message: 'Data-collector har inte korts annu.' });
+    }
+    console.error('Data collection status error:', err.message);
     res.status(500).json({ error: err.message });
   }
 });
