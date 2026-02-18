@@ -5,8 +5,8 @@ const API_BASE = '';
 const VALID_USERS = ['-wum12h', 'cyt5oy', '-hjo1a']; // mikael.searchboost@gmail.com, web.searchboost@gmail.com, searchboost.web@gmail.com
 // Per-user password hashes (user hash → password hash)
 const USER_PW = {
-  '-wum12h': 'kljut5',  // mikael.searchboost@gmail.com → Alexander1982!
-  'cyt5oy':  'kljut5',  // web.searchboost@gmail.com → Alexander1982!
+  '-wum12h': '-9pkod',  // mikael.searchboost@gmail.com → Opti0195
+  'cyt5oy':  '-9pkod',  // web.searchboost@gmail.com → Opti0195
   '-hjo1a':  '-9pkod'   // searchboost.web@gmail.com → Opti0195
 };
 const API_KEY = 'sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78';
