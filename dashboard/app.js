@@ -923,6 +923,7 @@ async function loadView(view) {
     case 'overview': return loadOverview();
     case 'pipeline': return loadPipeline();
     case 'consulting': return loadConsulting();
+    case 'prospecting': return loadProspecting();
     case 'optimizations': return loadOptimizations();
     case 'queue': return loadQueue();
     case 'reports': return loadReports();
@@ -2847,4 +2848,317 @@ function loadCredentialsTab(customerId) {
       </div>
     </div>
   `;
+}
+
+// ── Prospecting Tool ─────────────────────────────────────────
+let _prospectAnalyses = [];
+
+async function loadProspecting() {
+  const data = await api('/api/prospect-analyses');
+  _prospectAnalyses = data?.analyses || [];
+  renderProspectStats(_prospectAnalyses);
+  renderProspectList(_prospectAnalyses);
+}
+
+function renderProspectStats(analyses) {
+  $('#prospect-stat-total').textContent = analyses.length;
+  const withCritical = analyses.filter(a => (a.critical_issues || 0) > 0).length;
+  $('#prospect-stat-critical').textContent = withCritical;
+  const potentialMrr = analyses.reduce((sum, a) => sum + (a.monthly_cost || 0), 0);
+  $('#prospect-stat-potential').textContent = potentialMrr > 0 ? potentialMrr.toLocaleString('sv-SE') : '0';
+  // Count how many have been converted (check pipeline)
+  $('#prospect-stat-converted').textContent = '--';
+}
+
+function renderProspectList(analyses) {
+  const listEl = $('#prospect-list');
+  if (!analyses || analyses.length === 0) {
+    listEl.innerHTML = '<p class="empty">Inga analyser annu. Skriv in en doman ovan och klicka "Analysera sajt".</p>';
+    return;
+  }
+
+  const header = `<div class="prospect-list-header">
+    <span>Score</span>
+    <span>Foretag</span>
+    <span class="col-platform">Plattform</span>
+    <span>Kostnad</span>
+    <span class="col-issues">Problem</span>
+    <span class="col-date">Datum</span>
+    <span></span>
+  </div>`;
+
+  const items = analyses.map(a => {
+    const score = a.seo_score || 0;
+    const scoreClass = score >= 70 ? 'score-good' : score >= 40 ? 'score-ok' : 'score-bad';
+    const domain = (a.url || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+    const platform = a.platform === 'wordpress' ? '<span class="prospect-platform-tag wp">WP</span>' : '<span class="prospect-platform-tag other">HTML</span>';
+    const cost = a.monthly_cost ? `${(a.monthly_cost).toLocaleString('sv-SE')} kr` : '--';
+    const criticalDots = Array(Math.min(a.critical_issues || 0, 5)).fill('<span class="dot critical"></span>').join('');
+    const structDots = Array(Math.min(a.structural_issues || 0, 3)).fill('<span class="dot warning"></span>').join('');
+    const dateStr = a.analysis_date ? new Date(a.analysis_date.value || a.analysis_date).toLocaleDateString('sv-SE', { month: 'short', day: 'numeric' }) : '--';
+
+    return `<div class="prospect-list-item" onclick="openProspectDetail('${a.id}')">
+      <div><span class="prospect-score-badge ${scoreClass}">${score}</span></div>
+      <div>
+        <div class="prospect-company">${a.company_name || domain}</div>
+        <div class="prospect-domain">${domain}</div>
+      </div>
+      <div class="prospect-platform">${platform}</div>
+      <div class="prospect-cost-mini">${cost}</div>
+      <div class="prospect-issues-col"><div class="prospect-issues-mini">${criticalDots}${structDots}</div></div>
+      <div class="prospect-date-col prospect-date">${dateStr}</div>
+      <div class="prospect-actions-mini">
+        <button class="btn-prospect-small btn-to-pipeline" onclick="event.stopPropagation();convertToPipeline('${a.id}')" title="Lagg till i pipeline">Pipeline</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  listEl.innerHTML = header + items;
+}
+
+function filterProspectList(query) {
+  if (!query) return renderProspectList(_prospectAnalyses);
+  const q = query.toLowerCase();
+  const filtered = _prospectAnalyses.filter(a =>
+    (a.company_name || '').toLowerCase().includes(q) ||
+    (a.url || '').toLowerCase().includes(q) ||
+    (a.industry || '').toLowerCase().includes(q)
+  );
+  renderProspectList(filtered);
+}
+
+async function runProspectAnalysis() {
+  const url = $('#prospect-url').value.trim();
+  if (!url) return alert('Ange en webbplats-URL');
+
+  const company = $('#prospect-company').value.trim();
+  const industry = $('#prospect-industry').value.trim();
+  const contact = $('#prospect-contact').value.trim();
+  const tier = $('#prospect-tier').value;
+
+  const progressEl = $('#prospect-progress');
+  const errorEl = $('#prospect-error');
+  const fillEl = $('#prospect-progress-fill');
+  progressEl.style.display = 'block';
+  errorEl.style.display = 'none';
+  fillEl.style.width = '0%';
+
+  // Animate progress steps
+  const steps = ['ps-crawl', 'ps-speed', 'ps-keywords', 'ps-ai', 'ps-save'];
+  steps.forEach(s => { const el = $(`#${s}`); el.className = 'prospect-step'; });
+
+  let currentStep = 0;
+  const advanceStep = () => {
+    if (currentStep > 0) $(`#${steps[currentStep - 1]}`).className = 'prospect-step done';
+    if (currentStep < steps.length) {
+      $(`#${steps[currentStep]}`).className = 'prospect-step active';
+      fillEl.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+    }
+    currentStep++;
+  };
+
+  // Start animated progress (fake steps since it's one API call)
+  advanceStep(); // crawl
+  const stepInterval = setInterval(() => {
+    if (currentStep < steps.length - 1) advanceStep();
+  }, 8000);
+
+  try {
+    const data = await api('/api/prospect-analysis', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url, company_name: company || null, industry: industry || null,
+        contact_person: contact || null, price_tier: tier
+      })
+    });
+
+    clearInterval(stepInterval);
+    // Mark all steps done
+    steps.forEach(s => { $(`#${s}`).className = 'prospect-step done'; });
+    fillEl.style.width = '100%';
+
+    if (!data || !data.success) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = data?.error || 'Kunde inte analysera sajten';
+      return;
+    }
+
+    // Clear form
+    $('#prospect-url').value = '';
+    $('#prospect-company').value = '';
+    $('#prospect-industry').value = '';
+    $('#prospect-contact').value = '';
+
+    // Refresh list
+    invalidateCache('/api/prospect-analyses');
+    await loadProspecting();
+
+    // Auto-open the result
+    setTimeout(() => {
+      openProspectDetail(data.id);
+      progressEl.style.display = 'none';
+    }, 800);
+
+  } catch (err) {
+    clearInterval(stepInterval);
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Fel: ${err.message}`;
+  }
+}
+
+async function openProspectDetail(analysisId) {
+  const data = await api(`/api/prospect-analyses/${analysisId}`);
+  if (!data || !data.id) return;
+
+  const overlay = $('#prospect-detail');
+  overlay.style.display = 'flex';
+
+  const domain = (data.url || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  $('#pd-name').textContent = data.company_name || domain;
+  $('#pd-url').textContent = `${domain} | ${data.platform === 'wordpress' ? 'WordPress' : 'HTML'} | ${data.total_pages || '?'} sidor`;
+
+  // Scores
+  const scoreColor = v => v >= 70 ? 'var(--green)' : v >= 40 ? 'var(--yellow)' : 'var(--red)';
+  $('#pd-scores').innerHTML = `
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.seo_score || 0)}">${data.seo_score || 0}</div>
+      <div class="pd-score-label">SEO Score</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.mobile_score || 0)}">${data.mobile_score || 0}</div>
+      <div class="pd-score-label">Mobil</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.desktop_score || 0)}">${data.desktop_score || 0}</div>
+      <div class="pd-score-label">Desktop</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:var(--neon-blue)">${data.monthly_cost ? data.monthly_cost.toLocaleString('sv-SE') : '--'}</div>
+      <div class="pd-score-label">kr/man</div>
+    </div>
+  `;
+
+  // Phone pitch tab
+  $('#pd-tab-pitch').innerHTML = `
+    <div class="pd-pitch">
+      <div class="pd-pitch-label">Telefonpitch -- las upp for kunden</div>
+      ${data.phone_pitch || 'Ingen pitch genererad.'}
+    </div>
+  `;
+
+  // Issues tab
+  const rawData = data.raw_data || {};
+  const issues = rawData.issueDetails || {};
+  const allIssues = [
+    ...(issues.critical || []).map(i => ({ ...i, severity: 'critical' })),
+    ...(issues.structural || []).map(i => ({ ...i, severity: 'structural' })),
+    ...(issues.content || []).map(i => ({ ...i, severity: 'content' }))
+  ];
+  if (allIssues.length > 0) {
+    $('#pd-tab-issues').innerHTML = `<table class="pd-issue-table">
+      <thead><tr><th>Problem</th><th>Antal</th><th>Paverkan</th></tr></thead>
+      <tbody>${allIssues.map(i => `<tr>
+        <td><span class="pd-severity ${i.severity}"></span>${i.type}</td>
+        <td>${i.count}</td>
+        <td>${i.impact || ''}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  } else {
+    $('#pd-tab-issues').innerHTML = '<p class="empty">Inga problem hittades (eller data saknas).</p>';
+  }
+
+  // Analysis tab
+  $('#pd-tab-analysis').innerHTML = data.analysis_md
+    ? `<pre>${data.analysis_md}</pre>`
+    : '<p class="empty">Ingen analys tillganglig.</p>';
+
+  // Presentation tab
+  $('#pd-tab-presentation').innerHTML = data.presentation_md
+    ? `<pre>${data.presentation_md}</pre>`
+    : '<p class="empty">Ingen presentation tillganglig.</p>';
+
+  // Keywords tab
+  let keywords = data.suggested_keywords || [];
+  if (typeof keywords === 'string') { try { keywords = JSON.parse(keywords); } catch (e) { keywords = []; } }
+  let autocomplete = data.autocomplete || [];
+  if (typeof autocomplete === 'string') { try { autocomplete = JSON.parse(autocomplete); } catch (e) { autocomplete = []; } }
+
+  let kwHtml = '';
+  if (keywords.length > 0) {
+    kwHtml += '<h4 style="color:#fff;margin:0 0 10px">Foreslagna sokord</h4>';
+    kwHtml += `<div class="pd-keyword-chips">${keywords.map(k => `<span class="pd-keyword-chip">${k}</span>`).join('')}</div>`;
+  }
+  if (autocomplete.length > 0) {
+    kwHtml += '<h4 style="color:#fff;margin:20px 0 10px">Google Autocomplete</h4>';
+    kwHtml += `<div class="pd-keyword-chips">${autocomplete.map(k => `<span class="pd-keyword-chip autocomplete">${k}</span>`).join('')}</div>`;
+  }
+  $('#pd-tab-keywords').innerHTML = kwHtml || '<p class="empty">Inga sokord.</p>';
+
+  // Actions
+  $('#pd-actions').innerHTML = `
+    <button class="btn-primary" onclick="convertToPipeline('${data.id}')" style="background:var(--green)">Lagg till i pipeline</button>
+    <button class="btn-secondary" onclick="copyPhonePitch('${data.id}')" style="border-color:var(--neon-blue);color:var(--neon-blue)">Kopiera pitch</button>
+    <button class="btn-secondary" onclick="deleteProspectAnalysis('${data.id}')" style="border-color:var(--red);color:var(--red)">Radera</button>
+  `;
+
+  // Reset to first tab
+  $$('.pd-tab').forEach(t => t.classList.remove('active'));
+  $$('.pd-tab-content').forEach(t => t.classList.remove('active'));
+  $('.pd-tab[data-pdtab="pd-tab-pitch"]').classList.add('active');
+  $('#pd-tab-pitch').classList.add('active');
+}
+
+function closeProspectDetail() {
+  $('#prospect-detail').style.display = 'none';
+}
+
+function switchPdTab(btn) {
+  $$('.pd-tab').forEach(t => t.classList.remove('active'));
+  $$('.pd-tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const tabId = btn.dataset.pdtab;
+  $(`#${tabId}`).classList.add('active');
+}
+
+async function convertToPipeline(analysisId) {
+  const result = await api(`/api/prospect-analyses/${analysisId}/to-pipeline`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+  if (result?.success) {
+    alert(`Tillagd i pipeline som "${result.customer_id}"`);
+    closeProspectDetail();
+    invalidateCache('/api/pipeline');
+  } else {
+    alert('Kunde inte lagga till i pipeline: ' + (result?.error || 'okant fel'));
+  }
+}
+
+function copyPhonePitch(analysisId) {
+  const pitchEl = $('.pd-pitch');
+  if (pitchEl) {
+    const text = pitchEl.innerText.replace('Telefonpitch -- las upp for kunden', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Pitch kopierad till urklipp!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Pitch kopierad!');
+    });
+  }
+}
+
+async function deleteProspectAnalysis(analysisId) {
+  if (!confirm('Vill du radera denna analys?')) return;
+  await api(`/api/prospect-analyses/${analysisId}`, { method: 'DELETE' });
+  closeProspectDetail();
+  invalidateCache('/api/prospect-analyses');
+  loadProspecting();
 }

@@ -32,6 +32,7 @@
         <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
         <a href="#" class="nav-link" data-view="pipeline">Pipeline</a>
         <a href="#" class="nav-link nav-sales-only" data-view="consulting" style="display:none">Konsult</a>
+        <a href="#" class="nav-link" data-view="prospecting">Prospektering</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
         <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
@@ -256,6 +257,123 @@
         <input type="text" id="search-pipeline" class="form-input search-input" placeholder="Sök i pipeline..." oninput="clearTimeout(window._pipeDebounce);window._pipeDebounce=setTimeout(()=>filterPipeline(this.value),250)" style="margin-bottom:12px">
         <div id="pipeline-kanban" class="pipeline-kanban">
           <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prospecting -->
+    <section id="view-prospecting" class="view">
+      <!-- Input card -->
+      <div class="card prospect-tool-card">
+        <div class="prospect-tool-header">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Prospektering</h2>
+            <p style="color:#888;margin:0;font-size:13px">Djupanalys av potentiella kunders sajter -- WP-crawl, PageSpeed, AI-analys och saljpresentation</p>
+          </div>
+        </div>
+        <div class="prospect-input-grid">
+          <div>
+            <label class="form-label">Webbplats *</label>
+            <input type="text" id="prospect-url" class="form-input" placeholder="example.se" onkeydown="if(event.key==='Enter')document.getElementById('prospect-company').focus()">
+          </div>
+          <div>
+            <label class="form-label">Foretagsnamn</label>
+            <input type="text" id="prospect-company" class="form-input" placeholder="Foretag AB">
+          </div>
+          <div>
+            <label class="form-label">Bransch</label>
+            <input type="text" id="prospect-industry" class="form-input" placeholder="t.ex. Bygg, Restaurang, E-handel">
+          </div>
+          <div>
+            <label class="form-label">Kontaktperson</label>
+            <input type="text" id="prospect-contact" class="form-input" placeholder="Namn">
+          </div>
+          <div>
+            <label class="form-label">Prisnixa</label>
+            <select id="prospect-tier" class="form-select">
+              <option value="small">Liten (5 000 kr/man)</option>
+              <option value="medium" selected>Medium (8 000 kr/man)</option>
+              <option value="large">Stor (12 000 kr/man)</option>
+              <option value="enterprise">Enterprise (15 000 kr/man)</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-primary btn-prospect-run" onclick="runProspectAnalysis()">Analysera sajt</button>
+          </div>
+        </div>
+        <!-- Progress -->
+        <div id="prospect-progress" class="prospect-progress" style="display:none">
+          <div class="prospect-progress-bar"><div class="prospect-progress-fill" id="prospect-progress-fill"></div></div>
+          <div class="prospect-progress-steps">
+            <span class="prospect-step" id="ps-crawl">Crawlar sajt...</span>
+            <span class="prospect-step" id="ps-speed">PageSpeed...</span>
+            <span class="prospect-step" id="ps-keywords">Sokord...</span>
+            <span class="prospect-step" id="ps-ai">AI-analys...</span>
+            <span class="prospect-step" id="ps-save">Sparar...</span>
+          </div>
+        </div>
+        <div id="prospect-error" class="prospect-error" style="display:none"></div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row" id="prospect-stats-row">
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F50D;</div>
+          <div class="stat-value" id="prospect-stat-total">--</div>
+          <div class="stat-label">Analyserade</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F534;</div>
+          <div class="stat-value" id="prospect-stat-critical">--</div>
+          <div class="stat-label">Med kritiska problem</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F4B0;</div>
+          <div class="stat-value" id="prospect-stat-potential">--</div>
+          <div class="stat-label">Potentiell MRR</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x2705;</div>
+          <div class="stat-value" id="prospect-stat-converted">--</div>
+          <div class="stat-label">Till pipeline</div>
+        </div>
+      </div>
+
+      <!-- Results list -->
+      <div class="card">
+        <div class="card-title-row">
+          <h2 class="card-title">Analyserade prospects</h2>
+          <input type="text" id="prospect-search" class="form-input search-input" placeholder="Sok..." oninput="filterProspectList(this.value)" style="max-width:220px">
+        </div>
+        <div id="prospect-list" class="prospect-list">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+
+      <!-- Detail modal (expanded inline) -->
+      <div id="prospect-detail" class="prospect-detail-overlay" style="display:none">
+        <div class="prospect-detail-panel">
+          <div class="prospect-detail-header">
+            <div>
+              <h2 id="pd-name" style="color:#fff;margin:0">--</h2>
+              <p id="pd-url" style="color:#888;margin:4px 0 0;font-size:13px">--</p>
+            </div>
+            <button class="btn-close-detail" onclick="closeProspectDetail()">&times;</button>
+          </div>
+          <div class="prospect-detail-scores" id="pd-scores"></div>
+          <div class="prospect-detail-tabs">
+            <button class="pd-tab active" data-pdtab="pd-tab-pitch" onclick="switchPdTab(this)">Telefon-pitch</button>
+            <button class="pd-tab" data-pdtab="pd-tab-issues" onclick="switchPdTab(this)">Problem</button>
+            <button class="pd-tab" data-pdtab="pd-tab-analysis" onclick="switchPdTab(this)">Analys</button>
+            <button class="pd-tab" data-pdtab="pd-tab-presentation" onclick="switchPdTab(this)">Presentation</button>
+            <button class="pd-tab" data-pdtab="pd-tab-keywords" onclick="switchPdTab(this)">Sokord</button>
+          </div>
+          <div id="pd-tab-pitch" class="pd-tab-content active"></div>
+          <div id="pd-tab-issues" class="pd-tab-content"></div>
+          <div id="pd-tab-analysis" class="pd-tab-content"></div>
+          <div id="pd-tab-presentation" class="pd-tab-content"></div>
+          <div id="pd-tab-keywords" class="pd-tab-content"></div>
+          <div class="prospect-detail-actions" id="pd-actions"></div>
         </div>
       </div>
     </section>

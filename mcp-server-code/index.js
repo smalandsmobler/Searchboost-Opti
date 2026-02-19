@@ -4644,6 +4644,374 @@ app.get('/api/data-collection/status', async (req, res) => {
   }
 });
 
+// ── Prospect Analysis (Deep SEO analysis for prospecting) ──
+
+// POST /api/prospect-analysis — Run deep analysis on a prospect's website
+app.post('/api/prospect-analysis', async (req, res) => {
+  try {
+    const { url, company_name, industry, contact_person, price_tier } = req.body;
+    if (!url) return res.status(400).json({ error: 'url krävs (t.ex. https://example.se)' });
+
+    let siteUrl = url.trim();
+    if (!siteUrl.startsWith('http')) siteUrl = 'https://' + siteUrl;
+    const parsedUrl = new URL(siteUrl);
+    const cleanDomain = parsedUrl.hostname.replace(/^www\./, '');
+    const cleanUrl = parsedUrl.origin;
+    const companyName = company_name || cleanDomain;
+
+    console.log(`[Prospect] Starting analysis: ${companyName} (${cleanUrl})`);
+
+    // 1. WordPress crawl — identify SEO problems
+    let crawlResult = { platform: 'unknown', totalPages: 0, totalPosts: 0, pages: [], issues: { critical: [], structural: [], content: [] }, summary: {} };
+    try {
+      const wpPages = await axios.get(`${cleanUrl}/wp-json/wp/v2/pages?per_page=100&status=publish`, { timeout: 15000 });
+      const wpPosts = await axios.get(`${cleanUrl}/wp-json/wp/v2/posts?per_page=100&status=publish`, { timeout: 15000 });
+      crawlResult.platform = 'wordpress';
+      crawlResult.totalPages = wpPages.data.length;
+      crawlResult.totalPosts = wpPosts.data.length;
+
+      const allContent = [
+        ...wpPages.data.map(p => ({ ...p, type: 'page' })),
+        ...wpPosts.data.map(p => ({ ...p, type: 'post' }))
+      ];
+
+      let missingH1 = 0, shortTitle = 0, longTitle = 0, thinContent = 0, missingAltText = 0, noInternalLinks = 0, noSchema = 0;
+      const titleCounts = {};
+
+      for (const item of allContent) {
+        const title = item.title?.rendered || '';
+        const content = item.content?.rendered || '';
+        const text = content.replace(/<[^>]+>/g, '');
+        const pageUrl = item.link || '';
+        const cleanTitle = title.toLowerCase().trim();
+        titleCounts[cleanTitle] = (titleCounts[cleanTitle] || 0) + 1;
+        const pageIssues = [];
+        if (!title || title.length < 20) { pageIssues.push('short_title'); shortTitle++; }
+        if (title && title.length > 60) { pageIssues.push('long_title'); longTitle++; }
+        if (!content.match(/<h1/i)) { missingH1++; }
+        if (text.length < 300) { pageIssues.push('thin_content'); thinContent++; }
+        const imgsNoAlt = (content.match(/<img(?![^>]*alt=["'][^"']+["'])[^>]*>/gi) || []).length;
+        if (imgsNoAlt > 0) { missingAltText += imgsNoAlt; }
+        const internalLinks = (content.match(new RegExp(`<a[^>]*href=["']${cleanUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`, 'gi')) || []).length;
+        if (internalLinks === 0) { noInternalLinks++; }
+        if (!content.includes('application/ld+json')) { noSchema++; }
+
+        crawlResult.pages.push({
+          title, url: pageUrl, type: item.type,
+          wordCount: text.split(/\s+/).filter(w => w.length > 0).length,
+          issues: pageIssues
+        });
+      }
+
+      let duplicateTitles = 0;
+      for (const [, count] of Object.entries(titleCounts)) { if (count > 1) duplicateTitles += count; }
+
+      // Meta description check (sample 10 pages)
+      let missingDescription = 0;
+      const pagesToCheck = [cleanUrl, ...allContent.slice(0, 9).map(p => p.link).filter(Boolean)];
+      for (const pageUrl of pagesToCheck) {
+        try {
+          const { data: html } = await axios.get(pageUrl, { timeout: 8000, maxRedirects: 3 });
+          const metaMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+          if (!metaMatch || metaMatch[1].length < 10) missingDescription++;
+        } catch (e) { /* skip */ }
+      }
+      const checkRatio = missingDescription / Math.max(pagesToCheck.length, 1);
+      const estimatedMissingDesc = Math.round(checkRatio * allContent.length);
+
+      crawlResult.summary = { totalContent: allContent.length, missingDescription: estimatedMissingDesc, missingH1, shortTitle, longTitle, duplicateTitles, thinContent, missingAltText, noInternalLinks, noSchema };
+      if (estimatedMissingDesc > 0) crawlResult.issues.critical.push({ type: 'Meta description saknas', count: estimatedMissingDesc, impact: 'Google visar slumpmässigt utdrag' });
+      if (missingH1 > 0) crawlResult.issues.critical.push({ type: 'H1-tagg saknas', count: missingH1, impact: 'Google förstår inte sidans ämne' });
+      if (shortTitle > 0) crawlResult.issues.structural.push({ type: 'Title för kort', count: shortTitle, impact: 'Missar sökord i title' });
+      if (longTitle > 0) crawlResult.issues.structural.push({ type: 'Title för lång', count: longTitle, impact: 'Klipps i sökresultaten' });
+      if (duplicateTitles > 0) crawlResult.issues.structural.push({ type: 'Duplicerade titlar', count: duplicateTitles, impact: 'Google vet inte vilken sida som ska rankas' });
+      if (thinContent > 0) crawlResult.issues.content.push({ type: 'Tunt innehåll', count: thinContent, impact: 'Google ignorerar sidor med lite text' });
+      if (missingAltText > 0) crawlResult.issues.critical.push({ type: 'Alt-text saknas', count: missingAltText, impact: 'Missar bildsök-trafik' });
+      if (noInternalLinks > 0) crawlResult.issues.structural.push({ type: 'Inga interna länkar', count: noInternalLinks, impact: 'Föräldralösa sidor' });
+    } catch (wpError) {
+      // Not WordPress — fallback to HTML crawl
+      crawlResult.platform = 'non-wordpress';
+      try {
+        const { data: html } = await axios.get(cleanUrl, { timeout: 15000, maxRedirects: 3 });
+        const titleMatch = html.match(/<title>([^<]*)<\/title>/i);
+        const metaDescMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+        const h1Match = html.match(/<h1[^>]*>([^<]*)<\/h1>/i);
+        const imgsNoAlt = (html.match(/<img(?![^>]*alt=["'][^"']+["'])[^>]*>/gi) || []).length;
+        crawlResult.summary = { totalContent: 'Okänt', pageTitle: titleMatch ? titleMatch[1] : 'SAKNAS', metaDescription: metaDescMatch ? metaDescMatch[1] : 'SAKNAS', h1: h1Match ? h1Match[1] : 'SAKNAS', imagesNoAlt: imgsNoAlt, hasSchema: html.includes('application/ld+json') };
+        if (!metaDescMatch) crawlResult.issues.critical.push({ type: 'Meta description saknas', count: 'Startsidan', impact: 'Google visar slumpmässigt utdrag' });
+        if (!h1Match) crawlResult.issues.critical.push({ type: 'H1-tagg saknas', count: 'Startsidan', impact: 'Google förstår inte sidans ämne' });
+        if (imgsNoAlt > 0) crawlResult.issues.critical.push({ type: 'Alt-text saknas', count: imgsNoAlt, impact: 'Missar bildsök-trafik' });
+        if (!html.includes('application/ld+json')) crawlResult.issues.structural.push({ type: 'Schema markup saknas', count: 'Hela sajten', impact: 'Inga rikare sökresultat' });
+      } catch (htmlError) {
+        crawlResult.issues.critical.push({ type: 'Sajten kunde inte nås', count: 1, impact: 'Kontrollera URL' });
+      }
+    }
+
+    console.log(`[Prospect] Crawl done: ${crawlResult.platform}, ${crawlResult.totalPages + crawlResult.totalPosts} sidor`);
+
+    // 2. PageSpeed Insights
+    let pageSpeed = null;
+    try {
+      pageSpeed = await fetchPageSpeed(cleanUrl);
+      console.log(`[Prospect] PageSpeed: mobile=${pageSpeed?.mobile?.score}, desktop=${pageSpeed?.desktop?.score}`);
+    } catch (e) {
+      console.log(`[Prospect] PageSpeed failed: ${e.message}`);
+    }
+
+    // 3. Google Autocomplete suggestions
+    const seeds = [companyName.toLowerCase()];
+    if (industry) seeds.push(industry.toLowerCase());
+    if (crawlResult.pages?.length > 0) {
+      crawlResult.pages.slice(0, 5).forEach(p => {
+        const words = (p.title || '').split(/[\s|—–-]+/).filter(w => w.length > 3);
+        seeds.push(...words.slice(0, 2));
+      });
+    }
+    const uniqueSeeds = [...new Set(seeds)].slice(0, 8);
+    const autocompleteSuggestions = [];
+    for (const seed of uniqueSeeds) {
+      try {
+        const acRes = await axios.get('https://www.google.com/complete/search', {
+          params: { client: 'chrome', q: seed, hl: 'sv', gl: 'se' },
+          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SearchboostBot/1.0)' },
+          timeout: 5000
+        });
+        for (const s of (acRes.data[1] || [])) {
+          if (s !== seed && !autocompleteSuggestions.includes(s)) autocompleteSuggestions.push(s);
+        }
+      } catch (e) { /* skip */ }
+      await new Promise(r => setTimeout(r, 200));
+    }
+    console.log(`[Prospect] Autocomplete: ${autocompleteSuggestions.length} suggestions`);
+
+    // 4. AI analysis + presentation
+    const client = await getClaude();
+    const totalIssues = crawlResult.issues.critical.length + crawlResult.issues.structural.length + crawlResult.issues.content.length;
+    const crawlSummary = crawlResult.platform === 'wordpress'
+      ? `WordPress-sajt med ${crawlResult.summary.totalContent} sidor.\nKritiska: ${crawlResult.issues.critical.map(i => `${i.type}: ${i.count}`).join(', ') || 'Inga'}\nStrukturella: ${crawlResult.issues.structural.map(i => `${i.type}: ${i.count}`).join(', ') || 'Inga'}\nInnehåll: ${crawlResult.issues.content.map(i => `${i.type}: ${i.count}`).join(', ') || 'Inga'}`
+      : `Ej WordPress (${crawlResult.platform}). Begränsad analys.`;
+    const psiSummary = `Desktop: ${pageSpeed?.desktop?.score ?? 'N/A'}/100, Mobil: ${pageSpeed?.mobile?.score ?? 'N/A'}/100`;
+
+    const pricing = {
+      small: { monthly: '5 000', total3m: '15 000' },
+      medium: { monthly: '8 000', total3m: '24 000' },
+      large: { monthly: '12 000', total3m: '36 000' },
+      enterprise: { monthly: '15 000', total3m: '45 000' }
+    }[price_tier || 'medium'];
+
+    const aiResponse = await client.messages.create({
+      model: 'claude-sonnet-4-5-20250929',
+      max_tokens: 6000,
+      messages: [{
+        role: 'user',
+        content: `Du är SEO-expert på Searchboost.se. Generera en SEO-analys och säljpresentation baserat på data.
+
+FÖRETAG: ${companyName}
+URL: ${cleanUrl}
+BRANSCH: ${industry || 'Okänd'}
+
+CRAWL-DATA:
+${crawlSummary}
+
+PAGESPEED:
+${psiSummary}
+
+AUTOCOMPLETE-FÖRSLAG:
+${autocompleteSuggestions.slice(0, 15).join(', ')}
+
+PRISMODELL: ${pricing.monthly} kr/mån (${pricing.total3m} kr totalt 3 mån)
+
+Svara i JSON:
+{
+  "analysis_md": "## SEO-analys: {företag}\\n\\nSammanfattning (2-3 meningar)\\n\\n### Identifierade problem\\n| Problem | Antal | Påverkan |\\n...\\n\\n### Prestanda\\n| Mått | Värde |\\n...\\n\\nIngen emoji. Professionell ton.",
+  "presentation_md": "# {företag} — SEO-paket 3 månader\\n## Searchboost | Offert 2026\\n---\\n## Nuläge\\n...\\n---\\n## Problem\\n...\\n---\\n## 3-månaders plan\\n### Månad 1\\n...\\n### Månad 2\\n...\\n### Månad 3\\n...\\n---\\n## Prissättning\\n${pricing.monthly} kr/mån\\n---\\n## Nästa steg\\n...",
+  "phone_pitch": "3-4 meningar säljaren kan läsa i telefon. Vad som är bra + vad som kostar dem trafik + vad vi gör.",
+  "suggested_keywords": ["sökord1", "sökord2", "...max 10 st"]
+}`
+      }]
+    });
+
+    const aiResult = parseClaudeJSON(aiResponse.content[0].text);
+    console.log(`[Prospect] AI done: analysis=${aiResult.analysis_md?.length || 0} chars, presentation=${aiResult.presentation_md?.length || 0} chars`);
+
+    // 5. Calculate score + cost
+    const mobileScore = pageSpeed?.mobile?.score || 0;
+    const desktopScore = pageSpeed?.desktop?.score || 0;
+    const seoScore = Math.max(0, 100 - (crawlResult.issues.critical.length * 15 + crawlResult.issues.structural.length * 8 + crawlResult.issues.content.length * 5));
+    const costEstimate = calculateCostEstimate({ score: seoScore, issues: crawlResult.issues.critical.concat(crawlResult.issues.structural, crawlResult.issues.content).map(i => ({ severity: crawlResult.issues.critical.includes(i) ? 'high' : 'medium', description: i.type })) });
+
+    // 6. Save to BigQuery
+    const analysisId = `pa_${Date.now()}_${companyName.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20)}`;
+    const { bq, dataset } = await getBigQuery();
+
+    // Ensure table exists
+    try { await bq.dataset(dataset).table('prospect_analyses').get(); } catch (e) {
+      if (e.code === 404) {
+        await bq.query({ query: `CREATE TABLE \`${dataset}.prospect_analyses\` (
+          id STRING, company_name STRING, url STRING, industry STRING, contact_person STRING,
+          analysis_date DATE, platform STRING, total_pages INT64,
+          critical_issues INT64, structural_issues INT64, content_issues INT64,
+          mobile_score INT64, desktop_score INT64, seo_score INT64,
+          price_tier STRING, monthly_cost INT64,
+          phone_pitch STRING, analysis_md STRING, presentation_md STRING,
+          suggested_keywords STRING, autocomplete STRING,
+          raw_data STRING, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+        )` });
+      }
+    }
+
+    await bq.query({
+      query: `INSERT INTO \`${dataset}.prospect_analyses\`
+        (id, company_name, url, industry, contact_person, analysis_date,
+         platform, total_pages, critical_issues, structural_issues, content_issues,
+         mobile_score, desktop_score, seo_score, price_tier, monthly_cost,
+         phone_pitch, analysis_md, presentation_md, suggested_keywords, autocomplete, raw_data)
+        VALUES (@id, @company_name, @url, @industry, @contact_person, CURRENT_DATE(),
+                @platform, @total_pages, @critical, @structural, @content,
+                @mobile, @desktop, @seo, @price_tier, @monthly_cost,
+                @phone_pitch, @analysis_md, @presentation_md, @keywords, @autocomplete, @raw_data)`,
+      params: {
+        id: analysisId, company_name: companyName, url: cleanUrl, industry: industry || '',
+        contact_person: contact_person || '', platform: crawlResult.platform,
+        total_pages: crawlResult.totalPages + crawlResult.totalPosts,
+        critical: crawlResult.issues.critical.length, structural: crawlResult.issues.structural.length,
+        content: crawlResult.issues.content.length,
+        mobile: mobileScore, desktop: desktopScore, seo: seoScore,
+        price_tier: price_tier || 'medium', monthly_cost: costEstimate.amount,
+        phone_pitch: aiResult.phone_pitch || '', analysis_md: aiResult.analysis_md || '',
+        presentation_md: aiResult.presentation_md || '',
+        keywords: JSON.stringify(aiResult.suggested_keywords || []),
+        autocomplete: JSON.stringify(autocompleteSuggestions.slice(0, 20)),
+        raw_data: JSON.stringify({ crawlSummary: crawlResult.summary, pageSpeed, issueDetails: crawlResult.issues })
+      }
+    });
+
+    console.log(`[Prospect] Saved: ${analysisId}`);
+
+    res.json({
+      success: true,
+      id: analysisId,
+      company_name: companyName,
+      url: cleanUrl,
+      platform: crawlResult.platform,
+      total_pages: crawlResult.totalPages + crawlResult.totalPosts,
+      scores: { mobile: mobileScore, desktop: desktopScore, seo: seoScore },
+      issues: {
+        critical: crawlResult.issues.critical,
+        structural: crawlResult.issues.structural,
+        content: crawlResult.issues.content,
+        total: totalIssues
+      },
+      cost_estimate: costEstimate,
+      phone_pitch: aiResult.phone_pitch,
+      suggested_keywords: aiResult.suggested_keywords || [],
+      autocomplete: autocompleteSuggestions.slice(0, 20),
+      analysis_md: aiResult.analysis_md,
+      presentation_md: aiResult.presentation_md,
+      page_speed: pageSpeed
+    });
+  } catch (err) {
+    console.error('[Prospect] Error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/prospect-analyses — List all saved prospect analyses
+app.get('/api/prospect-analyses', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    try { await bq.dataset(dataset).table('prospect_analyses').get(); } catch (e) {
+      if (e.code === 404) return res.json({ analyses: [], total: 0 });
+      throw e;
+    }
+    const [rows] = await bq.query({
+      query: `SELECT id, company_name, url, industry, analysis_date, platform, total_pages,
+              critical_issues, structural_issues, content_issues,
+              mobile_score, desktop_score, seo_score, price_tier, monthly_cost,
+              phone_pitch, suggested_keywords, created_at
+       FROM \`${dataset}.prospect_analyses\`
+       ORDER BY created_at DESC
+       LIMIT 100`
+    });
+    res.json({ analyses: rows, total: rows.length });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/prospect-analyses/:id — Get full details for one analysis
+app.get('/api/prospect-analyses/:id', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.prospect_analyses\` WHERE id = @id LIMIT 1`,
+      params: { id: req.params.id }
+    });
+    if (!rows || rows.length === 0) return res.status(404).json({ error: 'Analys ej hittad' });
+    const row = rows[0];
+    try { row.suggested_keywords = JSON.parse(row.suggested_keywords); } catch (e) {}
+    try { row.autocomplete = JSON.parse(row.autocomplete); } catch (e) {}
+    try { row.raw_data = JSON.parse(row.raw_data); } catch (e) {}
+    res.json(row);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE /api/prospect-analyses/:id — Delete an analysis
+app.delete('/api/prospect-analyses/:id', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    await bq.query({
+      query: `DELETE FROM \`${dataset}.prospect_analyses\` WHERE id = @id`,
+      params: { id: req.params.id }
+    });
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/prospect-analyses/:id/to-pipeline — Convert analysis to pipeline prospect
+app.post('/api/prospect-analyses/:id/to-pipeline', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.prospect_analyses\` WHERE id = @id LIMIT 1`,
+      params: { id: req.params.id }
+    });
+    if (!rows || rows.length === 0) return res.status(404).json({ error: 'Analys ej hittad' });
+    const analysis = rows[0];
+    const cleanDomain = new URL(analysis.url).hostname.replace(/^www\./, '');
+    const customerId = cleanDomain.replace(/\./g, '-');
+    const now = new Date().toISOString();
+
+    await ensurePipelineTables();
+    const [existing] = await bq.query({
+      query: `SELECT customer_id FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @cid LIMIT 1`,
+      params: { cid: customerId }
+    });
+
+    if (!existing || existing.length === 0) {
+      await bqInsert('customer_pipeline', {
+        customer_id: customerId, company_name: analysis.company_name,
+        contact_person: analysis.contact_person || null, contact_email: null,
+        website_url: analysis.url + '/', stage: 'analys', stage_updated_at: now,
+        prospect_notes: analysis.phone_pitch || null, initial_traffic_trend: null,
+        service_type: 'seo', monthly_amount_sek: analysis.monthly_cost || null,
+        contract_start_date: null, contract_end_date: null, contract_status: null,
+        audit_meeting_date: null, startup_meeting_date: null,
+        created_at: now, updated_at: now, trello_card_id: null,
+        assigned_to: 'mikael', assigned_to_name: 'Mikael Larsson'
+      });
+    }
+
+    res.json({ success: true, customer_id: customerId, stage: 'analys' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
