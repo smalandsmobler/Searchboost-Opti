@@ -225,8 +225,8 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
-      { "@type": "ListItem", "position": 2, "name": "Vanliga frågor", "item": "{{DOMAIN}}/vanliga-fragor/" }
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "https://searchboost.se/" },
+      { "@type": "ListItem", "position": 2, "name": "Vanliga frågor", "item": "https://searchboost.se/vanliga-fragor/" }
     ]
   }
   </script>
@@ -499,18 +499,35 @@
       .nav-links { display: none; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Searchboost",
+    "url": "https://searchboost.se/",
+    "logo": "https://searchboost.se/wp-content/uploads/searchboost-logo.png",
+    "description": "Sveriges SEO-byrå för småföretag. Vi hjälper lokala företag att synas på Google.",
+    "email": "mikael@searchboost.se",
+    "areaServed": "SE",
+    "sameAs": [
+      "https://www.linkedin.com/company/searchboost",
+      "https://www.facebook.com/searchboostse"
+    ]
+  }
+  </script>
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <a href="https://searchboost.se/" class="nav-logo">Search<span>boost</span></a>
       <ul class="nav-links">
-        <li><a href="{{DOMAIN}}/tjanster/">Tjänster</a></li>
-        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
-        <li><a href="{{DOMAIN}}/vanliga-fragor/">FAQ</a></li>
-        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+        <li><a href="https://searchboost.se/tjanster/">Tjänster</a></li>
+        <li><a href="https://searchboost.se/seo-skola/">SEO-skola</a></li>
+        <li><a href="https://searchboost.se/vanliga-fragor/">FAQ</a></li>
+        <li><a href="https://searchboost.se/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
       </ul>
     </div>
   </nav>
@@ -546,17 +563,17 @@
 
     <div class="faq-item open">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är SEO?</div>
-      <div class="faq-answer">SEO står för Search Engine Optimization, på svenska sökmotoroptimering. Det handlar om att förbättra din webbplats så att den rankas högre i Googles organiska (icke-betalda) sökresultat. SEO inkluderar teknisk optimering, innehållsarbete, intern länkning och extern länkbyggnad. Målet är att attrahera fler relevanta besökare som söker efter det du erbjuder. <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Läs mer i vår kompletta SEO-guide</a>.</div>
+      <div class="faq-answer">SEO står för Search Engine Optimization, på svenska sökmotoroptimering. Det handlar om att förbättra din webbplats så att den rankas högre i Googles organiska (icke-betalda) sökresultat. SEO inkluderar teknisk optimering, innehållsarbete, intern länkning och extern länkbyggnad. Målet är att attrahera fler relevanta besökare som söker efter det du erbjuder. <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Läs mer i vår kompletta SEO-guide</a>.</div>
     </div>
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Hur fungerar sökmotoroptimering?</div>
-      <div class="faq-answer">Google skickar ut robotar (crawlers) som genomsöker webben och indexerar sidor. Sedan rankas sidorna baserat på hundratals faktorer: relevans, innehållskvalitet, teknisk prestanda, mobilanpassning, laddningstid, backlinks och användarupplevelse. SEO handlar om att optimera dessa faktorer så att Google bedömer din sida som det bästa svaret på en sökning. <a href="{{DOMAIN}}/seo-skola/hur-fungerar-google/">Läs mer om hur Google fungerar</a>.</div>
+      <div class="faq-answer">Google skickar ut robotar (crawlers) som genomsöker webben och indexerar sidor. Sedan rankas sidorna baserat på hundratals faktorer: relevans, innehållskvalitet, teknisk prestanda, mobilanpassning, laddningstid, backlinks och användarupplevelse. SEO handlar om att optimera dessa faktorer så att Google bedömer din sida som det bästa svaret på en sökning. <a href="https://searchboost.se/seo-skola/hur-fungerar-google/">Läs mer om hur Google fungerar</a>.</div>
     </div>
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är skillnaden mellan SEO och SEM?</div>
-      <div class="faq-answer">SEO (sökmotoroptimering) handlar om att synas organiskt i sökresultaten — utan att betala per klick. SEM (Search Engine Marketing) är ett bredare begrepp som inkluderar både SEO och betald sökning (Google Ads). Skillnaden: SEO ger hållbara resultat som kvarstår, medan Google Ads slutar fungera när du slutar betala. De flesta företag bör kombinera båda. <a href="{{DOMAIN}}/seo-skola/seo-vs-sem/">Jämför SEO och SEM</a>.</div>
+      <div class="faq-answer">SEO (sökmotoroptimering) handlar om att synas organiskt i sökresultaten — utan att betala per klick. SEM (Search Engine Marketing) är ett bredare begrepp som inkluderar både SEO och betald sökning (Google Ads). Skillnaden: SEO ger hållbara resultat som kvarstår, medan Google Ads slutar fungera när du slutar betala. De flesta företag bör kombinera båda. <a href="https://searchboost.se/seo-skola/seo-vs-sem/">Jämför SEO och SEM</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -576,7 +593,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är en backlink?</div>
-      <div class="faq-answer">En backlink är en länk från en annan webbplats till din. Google ser backlinks som en form av rekommendation — ju fler kvalitativa sajter som länkar till dig, desto mer trovärdig bedömer Google din sida. Inte alla backlinks är lika värda: en länk från en etablerad nyhetssajt väger tyngre än en från en okänd blogg. <a href="{{DOMAIN}}/seo-skola/lankbygge/">Läs mer om länkbygge</a>.</div>
+      <div class="faq-answer">En backlink är en länk från en annan webbplats till din. Google ser backlinks som en form av rekommendation — ju fler kvalitativa sajter som länkar till dig, desto mer trovärdig bedömer Google din sida. Inte alla backlinks är lika värda: en länk från en etablerad nyhetssajt väger tyngre än en från en okänd blogg. <a href="https://searchboost.se/seo-skola/lankbygge/">Läs mer om länkbygge</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -602,12 +619,12 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad kostar SEO per månad?</div>
-      <div class="faq-answer">SEO-tjänster kostar vanligtvis mellan 5 000 och 25 000 kr per månad i Sverige beroende på branschens konkurrens, webbplatsens storlek och ambitionsnivå. Lokala företag med låg konkurrens kan komma igång från 5 000 kr/mån, medan e-handelsföretag i konkurrensutsatta branscher ofta behöver 15 000-25 000 kr/mån. <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Läs mer om SEO-priser</a>.</div>
+      <div class="faq-answer">SEO-tjänster kostar vanligtvis mellan 5 000 och 25 000 kr per månad i Sverige beroende på branschens konkurrens, webbplatsens storlek och ambitionsnivå. Lokala företag med låg konkurrens kan komma igång från 5 000 kr/mån, medan e-handelsföretag i konkurrensutsatta branscher ofta behöver 15 000-25 000 kr/mån. <a href="https://searchboost.se/seo-skola/vad-kostar-seo/">Läs mer om SEO-priser</a>.</div>
     </div>
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Hur lång tid tar det att se SEO-resultat?</div>
-      <div class="faq-answer">De flesta företag ser förbättrade positioner inom 2-3 månader. Lokala sökord med lägre konkurrens kan ge resultat redan efter 4-6 veckor. Full effekt av en SEO-strategi uppnås vanligtvis inom 6-12 månader. SEO är en långsiktig investering — till skillnad från annonser bygger resultaten på sig över tid. <a href="{{DOMAIN}}/seo-skola/hur-lang-tid-tar-seo/">Läs om realistiska tidsramar</a>.</div>
+      <div class="faq-answer">De flesta företag ser förbättrade positioner inom 2-3 månader. Lokala sökord med lägre konkurrens kan ge resultat redan efter 4-6 veckor. Full effekt av en SEO-strategi uppnås vanligtvis inom 6-12 månader. SEO är en långsiktig investering — till skillnad från annonser bygger resultaten på sig över tid. <a href="https://searchboost.se/seo-skola/hur-lang-tid-tar-seo/">Läs om realistiska tidsramar</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -617,7 +634,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Hur mäter man SEO-resultat?</div>
-      <div class="faq-answer">SEO-resultat mäts genom: sökordspositioner i Google, organisk trafik (antal besökare från sökresultat), klickfrekvens (CTR), antal impressions (visningar i sökresultaten), konverteringar (förfrågningar, köp) och domänauktoritet. Google Search Console och Google Analytics är de viktigaste verktygen. <a href="{{DOMAIN}}/seo-skola/seo-rapportering/">Läs om SEO-rapportering</a>.</div>
+      <div class="faq-answer">SEO-resultat mäts genom: sökordspositioner i Google, organisk trafik (antal besökare från sökresultat), klickfrekvens (CTR), antal impressions (visningar i sökresultaten), konverteringar (förfrågningar, köp) och domänauktoritet. Google Search Console och Google Analytics är de viktigaste verktygen. <a href="https://searchboost.se/seo-skola/seo-rapportering/">Läs om SEO-rapportering</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -632,7 +649,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är en SEO-audit?</div>
-      <div class="faq-answer">En SEO-audit är en djupgående analys av din webbplats ur ett SEO-perspektiv. Den granskar tekniska faktorer (laddningstid, mobilanpassning, crawlbarhet), on-page faktorer (title tags, rubriker, innehåll), off-page faktorer (backlinks, domänauktoritet) och konkurrenslandskapet. Resultatet är en prioriterad åtgärdsplan. <a href="{{DOMAIN}}/seo-audit-tjanst/">Läs om vår SEO-audit-tjänst</a>.</div>
+      <div class="faq-answer">En SEO-audit är en djupgående analys av din webbplats ur ett SEO-perspektiv. Den granskar tekniska faktorer (laddningstid, mobilanpassning, crawlbarhet), on-page faktorer (title tags, rubriker, innehåll), off-page faktorer (backlinks, domänauktoritet) och konkurrenslandskapet. Resultatet är en prioriterad åtgärdsplan. <a href="https://searchboost.se/seo-audit-tjanst/">Läs om vår SEO-audit-tjänst</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -658,7 +675,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är Core Web Vitals?</div>
-      <div class="faq-answer">Core Web Vitals är Googles mätvärden för användarupplevelse: LCP (Largest Contentful Paint) mäter laddningstid, INP (Interaction to Next Paint) mäter interaktivitet, och CLS (Cumulative Layout Shift) mäter visuell stabilitet. Sedan 2021 är dessa en direkt rankingfaktor i Google. <a href="{{DOMAIN}}/seo-skola/page-speed-core-web-vitals/">Läs mer om Core Web Vitals</a>.</div>
+      <div class="faq-answer">Core Web Vitals är Googles mätvärden för användarupplevelse: LCP (Largest Contentful Paint) mäter laddningstid, INP (Interaction to Next Paint) mäter interaktivitet, och CLS (Cumulative Layout Shift) mäter visuell stabilitet. Sedan 2021 är dessa en direkt rankingfaktor i Google. <a href="https://searchboost.se/seo-skola/page-speed-core-web-vitals/">Läs mer om Core Web Vitals</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -668,7 +685,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är schema markup?</div>
-      <div class="faq-answer">Schema markup (strukturerad data) är en kod du lägger till på din webbplats som hjälper Google förstå innehållet bättre. Det kan leda till "rich snippets" — förbättrade sökresultat med stjärnbetyg, FAQ-svar, priser eller evenemangsinformation direkt i Google. Schema ökar din synlighet och klickfrekvens i sökresultaten. <a href="{{DOMAIN}}/seo-skola/schema-markup/">Läs mer om schema markup</a>.</div>
+      <div class="faq-answer">Schema markup (strukturerad data) är en kod du lägger till på din webbplats som hjälper Google förstå innehållet bättre. Det kan leda till "rich snippets" — förbättrade sökresultat med stjärnbetyg, FAQ-svar, priser eller evenemangsinformation direkt i Google. Schema ökar din synlighet och klickfrekvens i sökresultaten. <a href="https://searchboost.se/seo-skola/schema-markup/">Läs mer om schema markup</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -678,7 +695,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är Mobile-First Indexing?</div>
-      <div class="faq-answer">Mobile-First Indexing innebär att Google primärt använder mobilversionen av din webbplats för indexering och ranking. Om din sajt inte fungerar bra på mobilen påverkar det din ranking negativt — även för desktopsökningar. Över 60% av alla sökningar sker från mobilen, så mobilanpassning är kritiskt. <a href="{{DOMAIN}}/seo-skola/mobile-seo/">Läs mer om mobil SEO</a>.</div>
+      <div class="faq-answer">Mobile-First Indexing innebär att Google primärt använder mobilversionen av din webbplats för indexering och ranking. Om din sajt inte fungerar bra på mobilen påverkar det din ranking negativt — även för desktopsökningar. Över 60% av alla sökningar sker från mobilen, så mobilanpassning är kritiskt. <a href="https://searchboost.se/seo-skola/mobile-seo/">Läs mer om mobil SEO</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -714,12 +731,12 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Hur rankar man lokalt på Google?</div>
-      <div class="faq-answer">Lokal SEO kräver: en optimerad Google Business-profil med korrekt information, lokala nyckelord i title tags och innehåll, NAP-konsistens (namn, adress, telefon) på alla katalogsajter, lokala backlinks, och kundomdömen på Google. Skapa även lokala landningssidor om du servar flera områden. <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Läs vår guide om lokal SEO</a>.</div>
+      <div class="faq-answer">Lokal SEO kräver: en optimerad Google Business-profil med korrekt information, lokala nyckelord i title tags och innehåll, NAP-konsistens (namn, adress, telefon) på alla katalogsajter, lokala backlinks, och kundomdömen på Google. Skapa även lokala landningssidor om du servar flera områden. <a href="https://searchboost.se/seo-skola/lokal-seo/">Läs vår guide om lokal SEO</a>.</div>
     </div>
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är Google Business Profile?</div>
-      <div class="faq-answer">Google Business Profile (tidigare Google My Business) är Googles gratisverktyg för lokala företag. Det är den profil som visas i kartresultaten och i sidopanelen när någon söker efter ditt företag. Fyll i alla fält: öppettider, foton, tjänster, beskrivning och samla Google-recensioner. <a href="{{DOMAIN}}/seo-skola/google-business-profile/">Läs vår kompletta guide</a>.</div>
+      <div class="faq-answer">Google Business Profile (tidigare Google My Business) är Googles gratisverktyg för lokala företag. Det är den profil som visas i kartresultaten och i sidopanelen när någon söker efter ditt företag. Fyll i alla fält: öppettider, foton, tjänster, beskrivning och samla Google-recensioner. <a href="https://searchboost.se/seo-skola/google-business-profile/">Läs vår kompletta guide</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -744,7 +761,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är lokala citationer?</div>
-      <div class="faq-answer">Lokala citationer är omnämnanden av ditt företags NAP-uppgifter på andra webbplatser — Eniro, Hitta.se, branschspecifika kataloger, kommunens företagsregister och liknande. Citationer bekräftar för Google att ditt företag existerar och är legitimt. <a href="{{DOMAIN}}/seo-skola/lokala-citationer/">Läs mer om lokala citationer</a>.</div>
+      <div class="faq-answer">Lokala citationer är omnämnanden av ditt företags NAP-uppgifter på andra webbplatser — Eniro, Hitta.se, branschspecifika kataloger, kommunens företagsregister och liknande. Citationer bekräftar för Google att ditt företag existerar och är legitimt. <a href="https://searchboost.se/seo-skola/lokala-citationer/">Läs mer om lokala citationer</a>.</div>
     </div>
 
     <div class="faq-item">
@@ -759,7 +776,7 @@
 
     <div class="faq-item">
       <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">Vad är lokal länkbyggnad?</div>
-      <div class="faq-answer">Lokal länkbyggnad innebär att få backlinks från lokala webbplatser: kommunens sajt, lokaltidningar, näringslivsföreningar, sponsring av lokala evenemang eller idrottsklubbar, samarbeten med andra lokala företag. Lokala backlinks väger extra tungt för lokal SEO. <a href="{{DOMAIN}}/seo-skola/lankbygge/">Läs mer om länkbygge</a>.</div>
+      <div class="faq-answer">Lokal länkbyggnad innebär att få backlinks från lokala webbplatser: kommunens sajt, lokaltidningar, näringslivsföreningar, sponsring av lokala evenemang eller idrottsklubbar, samarbeten med andra lokala företag. Lokala backlinks väger extra tungt för lokal SEO. <a href="https://searchboost.se/seo-skola/lankbygge/">Läs mer om länkbygge</a>.</div>
     </div>
   </div>
 
@@ -767,7 +784,7 @@
   <section class="cta-section">
     <h2>Har du fler frågor?</h2>
     <p>Boka en gratis SEO-analys av din webbplats. Vi svarar på alla dina frågor och visar dig exakt vad du kan förbättra.</p>
-    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+    <a href="https://searchboost.se/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
   </section>
 
   <!-- Footer -->
@@ -779,23 +796,23 @@
       </div>
       <div>
         <h4>SEO-tjänster</h4>
-        <a href="{{DOMAIN}}/seo-byra-jonkoping/">SEO-byrå Jönköping</a>
-        <a href="{{DOMAIN}}/seo-byra-vaxjo/">SEO-byrå Växjö</a>
-        <a href="{{DOMAIN}}/seo-byra-varnamo/">SEO-byrå Värnamo</a>
-        <a href="{{DOMAIN}}/lokal-seo/">Lokal SEO</a>
-        <a href="{{DOMAIN}}/seo-audit-tjanst/">SEO Audit</a>
+        <a href="https://searchboost.se/seo-byra-jonkoping/">SEO-byrå Jönköping</a>
+        <a href="https://searchboost.se/seo-byra-vaxjo/">SEO-byrå Växjö</a>
+        <a href="https://searchboost.se/seo-byra-varnamo/">SEO-byrå Värnamo</a>
+        <a href="https://searchboost.se/lokal-seo/">Lokal SEO</a>
+        <a href="https://searchboost.se/seo-audit-tjanst/">SEO Audit</a>
       </div>
       <div>
         <h4>Lär dig SEO</h4>
-        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad är SEO?</a>
-        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
-        <a href="{{DOMAIN}}/vanliga-fragor/">Vanliga frågor</a>
-        <a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a>
+        <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Vad är SEO?</a>
+        <a href="https://searchboost.se/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+        <a href="https://searchboost.se/vanliga-fragor/">Vanliga frågor</a>
+        <a href="https://searchboost.se/seo-ordlista/">SEO-ordlista</a>
       </div>
       <div>
         <h4>Kontakt</h4>
-        <a href="mailto:mikael@searchboost.nu">mikael@searchboost.nu</a>
-        <a href="{{DOMAIN}}/kontakt/">Boka gratis SEO-analys</a>
+        <a href="mailto:mikael@searchboost.se">mikael@searchboost.se</a>
+        <a href="https://searchboost.se/kontakt/">Boka gratis SEO-analys</a>
       </div>
     </div>
     <div class="footer-bottom">

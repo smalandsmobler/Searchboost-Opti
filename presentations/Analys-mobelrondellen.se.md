@@ -107,4 +107,4 @@ Produktkatalogen ar Mobelrondellens storsta SEO-tillgang men utnyttjas inte. Var
 ---
 
 *Searchboost | Februari 2026*
-*Kontakt: mikael@searchboost.nu*
+*Kontakt: mikael@searchboost.se*

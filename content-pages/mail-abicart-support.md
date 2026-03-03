@@ -1,7 +1,7 @@
 # Mail till Abicart Support
 
 **Till:** support@abicart.se
-**Från:** mikael@searchboost.nu
+**Från:** mikael@searchboost.se
 **Ämne:** Webshop 66230 — Produktnamn och priser visas inte på kategorisidor
 
 ---
@@ -37,4 +37,4 @@ Kan ni undersöka varför tws-article-list inte får produktdata på kategorisid
 Tack på förhand,
 Mikael Larsson
 Searchboost.se
-mikael@searchboost.nu
+mikael@searchboost.se

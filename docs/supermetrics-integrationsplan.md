@@ -125,7 +125,7 @@ Supermetrics har tva huvudprodukter relevanta for Searchboost:
 
 ### Syfte
 
-Visa realtidsnara SEO- och trafikdata i kundportalen (kundzon.searchboost.nu) sa att kunder kan se sina positioner, klick, konverteringar och optimeringshistorik.
+Visa realtidsnara SEO- och trafikdata i kundportalen (opti.searchboost.se) sa att kunder kan se sina positioner, klick, konverteringar och optimeringshistorik.
 
 ### Nuvarande losning (egenutvecklad)
 

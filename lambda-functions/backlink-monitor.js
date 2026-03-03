@@ -44,7 +44,7 @@ const PROSPECTS = [
 ];
 
 const CUSTOMER_DOMAINS = {
-  searchboost: 'searchboost.nu',
+  searchboost: 'searchboost.se',
   mobelrondellen: 'mobelrondellen.se',
   phvast: 'phvast.se',
   ilmonte: 'ilmonte.se',

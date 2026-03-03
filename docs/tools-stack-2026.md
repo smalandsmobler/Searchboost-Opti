@@ -124,7 +124,7 @@
 | Autonomous Optimizer Lambda | Aktivt (var 6:e timme) |
 | Weekly Report Lambda | Aktivt (mandag 08:00) |
 | GTM Container Template | Klart (config/gtm-template.json) |
-| Kundportal | Live pa kundzon.searchboost.nu |
+| Kundportal | Live pa opti.searchboost.se |
 
 ---
 

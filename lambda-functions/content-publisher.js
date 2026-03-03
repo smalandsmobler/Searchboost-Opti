@@ -1,19 +1,19 @@
 /**
- * Content Publisher Lambda — Eget "BabyLoveGrowth"-system
+ * Content Publisher Lambda
  *
  * Genererar SEO-optimerade artiklar med Claude AI och publicerar
- * till kunders WordPress-sajter. Bygger in korsreferens-backlinks
- * mellan sajterna i nätverket för att öka domain rating.
- *
- * Körs dagligen via EventBridge (eller manuellt via API).
+ * till kunders WordPress-sajter.
  *
  * Flöde:
- * 1. Hämtar alla WP-sajter med giltiga credentials
- * 2. Väljer vilka sajter som ska få artiklar idag (rotation)
+ * 1. Hämtar new_content-jobb från action_plans (skapade av keyword-researcher)
+ * 2. Fallback: väljer sajter i rotation om inga action_plans-jobb finns
  * 3. Claude AI genererar unik artikel anpassad för varje sajt
- * 4. Bäddar in relevanta backlinks till andra sajter i nätverket
+ * 4. Bäddar in INTERNLÄNKAR till kundens egna hubb-sidor (INGA korsbacklinks)
  * 5. Publicerar via WordPress REST API
- * 6. Loggar allt i BigQuery
+ * 6. Loggar i BigQuery + markerar action_plan som completed
+ *
+ * OBS: Korsbacklinks mellan kundsajter är BORTTAGET — det är ett länknätverk
+ * som Google straffar. Alla länkar är nu internlänkar inom samma sajt.
  */
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
 const { BigQuery } = require('@google-cloud/bigquery');
@@ -27,34 +27,30 @@ const ssm = new SSMClient({ region: REGION });
 // ── Konfiguration ──
 
 const CONFIG = {
-  // Max antal artiklar per körning
   maxArticlesPerRun: 3,
-  // Dagar mellan artiklar per sajt (undvik spam)
   minDaysBetweenPosts: 3,
-  // Artikeltyper att rotera mellan
   articleTypes: [
-    'industry_tips',      // Tips för kundens bransch
-    'seo_guide',          // SEO-guide relevant för branschen
-    'local_business',     // Lokalt företagande
-    'digital_marketing',  // Digital marknadsföring
-    'case_study_style'    // "Så gjorde vi"-artikel
+    'industry_tips',
+    'seo_guide',
+    'local_business',
+    'digital_marketing',
+    'case_study_style'
   ],
-  // Kategorier per kundtyp
   customerTopics: {
-    'mobelrondellen': { industry: 'möbler och inredning', location: 'Småland', topics: ['heminredning', 'möbelval', 'hållbara möbler', 'kontorsinredning'] },
-    'smalandskontorsmobler': { industry: 'kontorsmöbler', location: 'Småland', topics: ['ergonomi', 'kontorsinredning', 'arbetsplats', 'stående skrivbord'] },
-    'phvast': { industry: 'konsulttjänster', location: 'Jönköping', topics: ['företagsutveckling', 'konsultverksamhet', 'ledarskap', 'förändringsledning'] },
-    'kompetensutveckla': { industry: 'utbildning och kompetensutveckling', location: 'Sverige', topics: ['personalutveckling', 'kurser', 'ledarskapsutbildning', 'certifieringar'] },
-    'ferox': { industry: 'konsult', location: 'Sverige', topics: ['affärsutveckling', 'strategi', 'tillväxt', 'digitalisering'] },
-    'searchboost': { industry: 'SEO och digital marknadsföring', location: 'Jönköping', topics: ['sökmotoroptimering', 'Google Ads', 'webbanalys', 'content marketing'] },
-    'ilmonte': { industry: 'restaurang', location: 'Sverige', topics: ['restaurangmarknadsföring', 'matupplevelser', 'lokal marknadsföring', 'google maps'] },
-    'tobler': { industry: 'tjänsteföretag', location: 'Sverige', topics: ['kundservice', 'digitalisering', 'effektivisering', 'kvalitet'] },
-    'traficator': { industry: 'trafikskola', location: 'Sverige', topics: ['körkortsutbildning', 'trafiksäkerhet', 'riskutbildning', 'övningskörning'] },
-    'wedosigns': { industry: 'skylt och design', location: 'Sverige', topics: ['företagsskyltar', 'visuell identitet', 'butiksskyltning', 'varumärkesbyggande'] }
+    'mobelrondellen':          { industry: 'möbler och inredning',              location: 'Småland',     topics: ['heminredning', 'möbelval', 'hållbara möbler', 'kontorsinredning'] },
+    'smalandskontorsmobler':   { industry: 'kontorsmöbler',                     location: 'Småland',     topics: ['ergonomi', 'kontorsinredning', 'arbetsplats', 'stående skrivbord'] },
+    'phvast':                  { industry: 'konsulttjänster',                   location: 'Jönköping',   topics: ['företagsutveckling', 'konsultverksamhet', 'ledarskap', 'förändringsledning'] },
+    'kompetensutveckla':       { industry: 'utbildning och kompetensutveckling',location: 'Sverige',     topics: ['personalutveckling', 'kurser', 'ledarskapsutbildning', 'certifieringar'] },
+    'ferox':                   { industry: 'konsult',                           location: 'Sverige',     topics: ['affärsutveckling', 'strategi', 'tillväxt', 'digitalisering'] },
+    'searchboost':             { industry: 'SEO och digital marknadsföring',    location: 'Jönköping',   topics: ['sökmotoroptimering', 'Google Ads', 'webbanalys', 'content marketing'] },
+    'ilmonte':                 { industry: 'restaurang',                        location: 'Sverige',     topics: ['restaurangmarknadsföring', 'matupplevelser', 'lokal marknadsföring', 'google maps'] },
+    'tobler':                  { industry: 'tjänsteföretag',                    location: 'Sverige',     topics: ['kundservice', 'digitalisering', 'effektivisering', 'kvalitet'] },
+    'traficator':              { industry: 'trafikskola',                       location: 'Sverige',     topics: ['körkortsutbildning', 'trafiksäkerhet', 'riskutbildning', 'övningskörning'] },
+    'wedosigns':               { industry: 'skylt och design',                  location: 'Sverige',     topics: ['företagsskyltar', 'visuell identitet', 'butiksskyltning', 'varumärkesbyggande'] }
   }
 };
 
-// ── Helpers (samma mönster som autonomous-optimizer) ──
+// ── Helpers ──
 
 async function getParam(name) {
   const res = await ssm.send(new GetParameterCommand({ Name: name, WithDecryption: true }));
@@ -101,7 +97,7 @@ async function getWordPressSites() {
       try {
         const urlParam = await ssm.send(new GetParameterCommand({ Name: `/seo-mcp/wordpress/${siteId}/url` }));
         sites[siteId].url = urlParam.Parameter.Value;
-      } catch (e) { /* URL saknas */ }
+      } catch (e) {}
     }
   }
 
@@ -109,7 +105,7 @@ async function getWordPressSites() {
   const valid = all.filter(s => s.url && s.username && s.username !== 'placeholder' && s['app-password'] && s['app-password'] !== 'placeholder');
   const skipped = all.filter(s => s.url && (!s.username || s.username === 'placeholder' || !s['app-password'] || s['app-password'] === 'placeholder'));
   console.log(`Found ${valid.length} WordPress sites with valid credentials`);
-  if (skipped.length > 0) console.log(`Skipped ${skipped.length} sites missing credentials: ${skipped.map(s => s.id).join(', ')}`);
+  if (skipped.length > 0) console.log(`Skipped ${skipped.length} sites (no credentials): ${skipped.map(s => s.id).join(', ')}`);
   return valid;
 }
 
@@ -134,86 +130,121 @@ async function getBigQuery() {
   return { bq: new BigQuery({ projectId }), dataset };
 }
 
-// ── Content Generation ──
+// ── Hämta hubb-sidor för en kund (sidor att länka till internt) ──
 
-/**
- * Bygg länknätverk: välj 2-3 sajter att länka till från artikeln
- */
-function selectBacklinkTargets(currentSite, allSites) {
-  const others = allSites.filter(s => s.id !== currentSite.id);
-  // Slumpa ordning och ta 2-3
-  const shuffled = others.sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, Math.min(3, shuffled.length));
+async function getHubPages(site, bq, dataset) {
+  // Hämta kundens A-nyckelord — dessa är hubb-sidorna
+  try {
+    const [rows] = await bq.query({
+      query: `SELECT a_keywords, b_keywords FROM \`${dataset}.customer_keywords\`
+              WHERE customer_id = @cid ORDER BY updated_at DESC LIMIT 1`,
+      params: { cid: site.id }
+    });
+    if (!rows.length) return [];
+
+    // Hämta action_plans för att hitta hub-URL:er
+    const [planRows] = await bq.query({
+      query: `SELECT DISTINCT target_url, target_keyword FROM \`${dataset}.action_plans\`
+              WHERE customer_id = @cid AND target_url IS NOT NULL AND month_number = 1
+              ORDER BY priority DESC LIMIT 10`,
+      params: { cid: site.id }
+    });
+
+    return planRows.map(r => ({
+      url: r.target_url,
+      keyword: r.target_keyword || ''
+    }));
+  } catch (e) {
+    console.log(`  Kunde inte hämta hubb-sidor för ${site.id}: ${e.message}`);
+    return [];
+  }
 }
 
-/**
- * Generera artikel med Claude AI
- */
-async function generateArticle(claude, site, backlinkTargets, articleType) {
+// ── Hämta new_content-jobb från action_plans ──
+
+async function getNewContentJobs(bq, dataset, siteId, max = 1) {
+  try {
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.action_plans\`
+              WHERE customer_id = @cid
+              AND task_type = 'new_content'
+              AND status IN ('planned', 'active')
+              AND target_keyword IS NOT NULL
+              ORDER BY priority DESC
+              LIMIT @max`,
+      params: { cid: siteId, max }
+    });
+    return rows;
+  } catch (e) {
+    return [];
+  }
+}
+
+// ── Generera artikel med Claude AI (med internlänkar, INGA korsbacklinks) ──
+
+async function generateArticle(claude, site, hubPages, targetKeyword, articleType) {
   const config = CONFIG.customerTopics[site.id] || {
     industry: 'tjänsteföretag',
     location: 'Sverige',
     topics: ['digital marknadsföring', 'företagsutveckling']
   };
 
-  const topic = config.topics[Math.floor(Math.random() * config.topics.length)];
+  const topic = targetKeyword || config.topics[Math.floor(Math.random() * config.topics.length)];
 
-  // Bygg backlinkinfo för prompten
-  const backlinkInfo = backlinkTargets.map(t => {
-    const tc = CONFIG.customerTopics[t.id] || { industry: 'tjänsteföretag', location: 'Sverige' };
-    return `- ${t.url} (${tc.industry} i ${tc.location})`;
-  }).join('\n');
+  // Bygg internlänk-info för prompten
+  const internalLinkInfo = hubPages.length > 0
+    ? hubPages.slice(0, 4).map(h => `- ${h.url}${h.keyword ? ` (nyckelord: "${h.keyword}")` : ''}`).join('\n')
+    : '(inga hubb-sidor konfigurerade ännu — inga internlänkar)';
 
   const prompt = `Du är en erfaren svensk content-skribent. Skriv en SEO-optimerad bloggartikel på svenska.
 
 SAJT: ${site.url}
 BRANSCH: ${config.industry}
 PLATS: ${config.location}
-ÄMNE: ${topic}
+MÅLSÖKORD: ${topic}
 ARTIKELTYP: ${articleType}
 
-BACKLINKS ATT INKLUDERA NATURLIGT (dofollow):
-${backlinkInfo}
+INTERNLÄNKAR ATT INKLUDERA (länkar till kundens EGNA sidor — VIKTIGT för SEO):
+${internalLinkInfo}
 
 INSTRUKTIONER:
-1. Skriv en artikel på 800-1200 ord som är relevant för ${config.industry}
-2. Inkludera NATURLIGA kontextuella länkar till backlinkssajterna ovan. Länkarna ska passa i texten — inte tvingade.
-   - Exempel: "Företag som [Sajt X](url) har visat att..." eller "För mer om ergonomi, se [sajt Y](url)"
-3. Titel ska vara catchy och SEO-optimerad (max 60 tecken)
-4. Inkludera en meta description (max 155 tecken)
+1. Skriv en artikel på 800-1200 ord optimerad för sökordet: "${topic}"
+2. Inkludera 2-4 naturliga internlänkar till kundens egna sidor listade ovan
+   - Länkarna ska passa kontextuellt — inte tvingade
+   - Exempel: "Läs mer om [tjänst](url)" eller "Se även vår guide om [ämne](url)"
+   - Lägg ALDRIG in länkar till externa sajter eller konkurrenter
+3. Titel: catchy och SEO-optimerad, max 60 tecken, innehåller målsökordet
+4. Meta description: max 155 tecken, innehåller målsökordet
 5. Strukturera med H2/H3 underrubriker
-6. Avsluta med en call-to-action
-7. Tonen ska vara professionell men lättillgänglig
+6. Avsluta med en call-to-action kopplad till kundens tjänster
+7. Tonen: professionell men lättillgänglig
 
 Svara i JSON-format:
 {
   "title": "Artikeltitel",
   "slug": "artikel-slug-url",
   "meta_description": "Meta description max 155 tecken",
-  "content": "<h2>...</h2><p>...</p> (full HTML-formaterad artikel)",
-  "backlinks_included": ["url1", "url2"],
-  "primary_keyword": "huvudsökord",
+  "content": "<h2>...</h2><p>...</p> (full HTML-formaterad artikel med internlänkar)",
+  "internal_links_included": ["url1", "url2"],
+  "primary_keyword": "${topic}",
   "word_count": 1000
 }`;
 
   const response = await claude.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: 'claude-opus-4-5',
     max_tokens: 4000,
     messages: [{ role: 'user', content: prompt }]
   });
 
   const text = response.content[0].text;
-  // Extrahera JSON (kan vara inbäddad i ```json ... ```)
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('Claude returnerade inte giltig JSON');
   return JSON.parse(jsonMatch[0]);
 }
 
-/**
- * Publicera artikel till WordPress
- */
+// ── Publicera artikel till WordPress ──
+
 async function publishToWordPress(site, article) {
-  // Skapa kategorin "Blogg" om den inte finns
   let categoryId;
   try {
     const categories = await wpApi(site, 'GET', '/categories?search=Blogg');
@@ -227,7 +258,6 @@ async function publishToWordPress(site, article) {
     console.log(`  Kunde inte skapa/hitta kategori: ${e.message}`);
   }
 
-  // Lägg till Rank Math SEO-metadata
   const postData = {
     title: article.title,
     slug: article.slug,
@@ -246,20 +276,14 @@ async function publishToWordPress(site, article) {
   return post;
 }
 
-// ── Scheduling Logic ──
+// ── Scheduling: välj sajter för idag (fallback om inga action_plan-jobb) ──
 
-/**
- * Kolla vilka sajter som ska få artiklar idag
- */
 async function getSitesForToday(bq, dataset, sites) {
-  // Kolla senaste publicering per sajt
   const [rows] = await bq.query({
-    query: `
-      SELECT customer_id, MAX(published_at) as last_published
-      FROM \`${dataset}.content_publishing_log\`
-      GROUP BY customer_id
-    `
-  }).catch(() => [[]]);  // Tabellen kanske inte finns ännu
+    query: `SELECT customer_id, MAX(published_at) as last_published
+            FROM \`${dataset}.content_publishing_log\`
+            GROUP BY customer_id`
+  }).catch(() => [[]]);
 
   const lastPublished = {};
   for (const row of rows) {
@@ -269,24 +293,20 @@ async function getSitesForToday(bq, dataset, sites) {
   const now = new Date();
   const eligible = sites.filter(site => {
     const last = lastPublished[site.id];
-    if (!last) return true; // Aldrig publicerat — prioritera
+    if (!last) return true;
     const daysSince = (now - last) / (1000 * 60 * 60 * 24);
     return daysSince >= CONFIG.minDaysBetweenPosts;
   });
 
-  // Rotera: prioritera sajter som publicerat minst
   eligible.sort((a, b) => {
     const aLast = lastPublished[a.id] ? lastPublished[a.id].getTime() : 0;
     const bLast = lastPublished[b.id] ? lastPublished[b.id].getTime() : 0;
-    return aLast - bLast; // Äldst publicering först
+    return aLast - bLast;
   });
 
   return eligible.slice(0, CONFIG.maxArticlesPerRun);
 }
 
-/**
- * Skapa BigQuery-tabellen om den inte finns
- */
 async function ensureTable(bq, dataset) {
   const tableId = 'content_publishing_log';
   try {
@@ -295,24 +315,22 @@ async function ensureTable(bq, dataset) {
     if (e.code === 404) {
       console.log('Creating content_publishing_log table...');
       await bq.query({
-        query: `
-          CREATE TABLE \`${dataset}.${tableId}\` (
-            id STRING,
-            customer_id STRING,
-            site_url STRING,
-            post_id INT64,
-            post_url STRING,
-            title STRING,
-            slug STRING,
-            primary_keyword STRING,
-            word_count INT64,
-            backlinks_to ARRAY<STRING>,
-            backlinks_from ARRAY<STRING>,
-            article_type STRING,
-            published_at TIMESTAMP,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
-          )
-        `
+        query: `CREATE TABLE \`${dataset}.${tableId}\` (
+          id STRING,
+          customer_id STRING,
+          site_url STRING,
+          post_id INT64,
+          post_url STRING,
+          title STRING,
+          slug STRING,
+          primary_keyword STRING,
+          word_count INT64,
+          internal_links_to ARRAY<STRING>,
+          article_type STRING,
+          plan_id STRING,
+          published_at TIMESTAMP,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+        )`
       });
       console.log('Table created.');
     } else {
@@ -325,11 +343,10 @@ async function ensureTable(bq, dataset) {
 
 exports.handler = async (event) => {
   console.log('=== Content Publisher Started ===');
-  console.log('Event:', JSON.stringify(event));
 
-  // Stöd för manuell trigger med specifik sajt
   const forceSiteId = event?.siteId;
   const forceArticleType = event?.articleType;
+  const forceKeyword = event?.keyword;
 
   try {
     const { bq, dataset } = await getBigQuery();
@@ -341,7 +358,6 @@ exports.handler = async (event) => {
     const allSites = await getWordPressSites();
     console.log(`Network: ${allSites.length} sites with valid credentials`);
 
-    // Välj sajter för idag
     let targetSites;
     if (forceSiteId) {
       targetSites = allSites.filter(s => s.id === forceSiteId);
@@ -365,32 +381,39 @@ exports.handler = async (event) => {
       try {
         console.log(`\n--- Publishing to ${site.id} (${site.url}) ---`);
 
-        // Välj artikeltyp
-        const articleType = forceArticleType ||
-          CONFIG.articleTypes[Math.floor(Math.random() * CONFIG.articleTypes.length)];
+        // ── PRIMÄRT: Kolla om keyword-researcher har lagt ett new_content-jobb ──
+        const planJobs = forceKeyword ? [] : await getNewContentJobs(bq, dataset, site.id, 1);
+        const planJob = planJobs[0] || null;
 
-        // Välj backlink-mål
-        const backlinkTargets = selectBacklinkTargets(site, allSites);
-        console.log(`  Backlinks to: ${backlinkTargets.map(t => t.id).join(', ')}`);
+        const targetKeyword = forceKeyword || planJob?.target_keyword || null;
+        const articleType = forceArticleType || CONFIG.articleTypes[Math.floor(Math.random() * CONFIG.articleTypes.length)];
+
+        if (planJob) {
+          console.log(`  Kör action_plan-jobb: "${targetKeyword}" (plan_id: ${planJob.plan_id})`);
+        } else {
+          console.log(`  Fallback: rotation-artikel${targetKeyword ? ` om "${targetKeyword}"` : ''}`);
+        }
+
+        // Hämta kundens hubb-sidor för internlänkning
+        const hubPages = await getHubPages(site, bq, dataset);
+        console.log(`  Hubb-sidor att länka till: ${hubPages.length}`);
 
         // Generera artikel
-        console.log(`  Generating ${articleType} article...`);
-        const article = await generateArticle(claude, site, backlinkTargets, articleType);
-        console.log(`  Generated: "${article.title}" (${article.word_count} words)`);
+        console.log(`  Genererar artikel (${articleType})...`);
+        const article = await generateArticle(claude, site, hubPages, targetKeyword, articleType);
+        console.log(`  Genererad: "${article.title}" (${article.word_count} ord)`);
 
         // Publicera
-        console.log(`  Publishing to WordPress...`);
+        console.log(`  Publicerar till WordPress...`);
         const post = await publishToWordPress(site, article);
-        console.log(`  Published: ${post.link} (ID: ${post.id})`);
+        console.log(`  Publicerad: ${post.link} (ID: ${post.id})`);
 
         // Logga i BigQuery
         const logId = `cp_${Date.now()}_${site.id}`;
         await bq.query({
-          query: `
-            INSERT INTO \`${dataset}.content_publishing_log\`
-            (id, customer_id, site_url, post_id, post_url, title, slug, primary_keyword, word_count, backlinks_to, article_type, published_at)
-            VALUES (@id, @customer_id, @site_url, @post_id, @post_url, @title, @slug, @primary_keyword, @word_count, @backlinks_to, @article_type, CURRENT_TIMESTAMP())
-          `,
+          query: `INSERT INTO \`${dataset}.content_publishing_log\`
+                  (id, customer_id, site_url, post_id, post_url, title, slug, primary_keyword, word_count, internal_links_to, article_type, plan_id, published_at)
+                  VALUES (@id, @customer_id, @site_url, @post_id, @post_url, @title, @slug, @primary_keyword, @word_count, @internal_links_to, @article_type, @plan_id, CURRENT_TIMESTAMP())`,
           params: {
             id: logId,
             customer_id: site.id,
@@ -401,35 +424,58 @@ exports.handler = async (event) => {
             slug: article.slug,
             primary_keyword: article.primary_keyword,
             word_count: article.word_count || 1000,
-            backlinks_to: article.backlinks_included || [],
-            article_type: articleType
+            internal_links_to: article.internal_links_included || [],
+            article_type: articleType,
+            plan_id: planJob?.plan_id || ''
           }
         });
+
+        // Markera action_plan-jobbet som klart
+        if (planJob) {
+          await bq.query({
+            query: `UPDATE \`${dataset}.action_plans\`
+                    SET status = 'completed', completed_at = CURRENT_TIMESTAMP()
+                    WHERE plan_id = @pid`,
+            params: { pid: planJob.plan_id }
+          });
+        }
+
+        // Lägg ny sida i action_plans för autonomous-optimizer att följa upp med metadata
+        await bq.query({
+          query: `INSERT INTO \`${dataset}.action_plans\`
+                  (plan_id, customer_id, month_number, task_type, target_url, target_keyword, priority, status, created_at)
+                  VALUES (@pid, @cid, 1, 'short_title', @url, @kw, 80, 'planned', CURRENT_TIMESTAMP())`,
+          params: {
+            pid: `follow_${logId}`,
+            cid: site.id,
+            url: post.link,
+            kw: article.primary_keyword
+          }
+        });
+
+        console.log(`  Follow-up metadata-optimering lagd i action_plans`);
 
         results.push({
           site: site.id,
           title: article.title,
           url: post.link,
-          backlinks: article.backlinks_included,
-          wordCount: article.word_count
+          internalLinks: article.internal_links_included,
+          wordCount: article.word_count,
+          fromPlan: !!planJob
         });
 
       } catch (err) {
-        console.error(`  Error publishing to ${site.id}: ${err.message}`);
+        console.error(`  Fel vid publicering till ${site.id}: ${err.message}`);
         results.push({ site: site.id, error: err.message });
       }
     }
 
     const successful = results.filter(r => !r.error).length;
-    console.log(`\n=== Content Publisher Complete: ${successful}/${targetSites.length} articles published ===`);
+    console.log(`\n=== Content Publisher klart: ${successful}/${targetSites.length} artiklar publicerade ===`);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        published: successful,
-        total: targetSites.length,
-        results
-      })
+      body: JSON.stringify({ published: successful, total: targetSites.length, results })
     };
 
   } catch (err) {

@@ -928,7 +928,7 @@ CSS for filter-knapparna:
 | GSC Property | https://kompetensutveckla.se/ |
 | GA4 Property | 60216008 |
 | EduAdmin API | Credentials behovs fran kunden (Mikael N) |
-| Searchboost kontakt | Mikael Larsson, mikael@searchboost.nu |
+| Searchboost kontakt | Mikael Larsson, mikael@searchboost.se |
 
 ---
 

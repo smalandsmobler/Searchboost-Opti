@@ -366,8 +366,89 @@ exports.handler = async (event) => {
       console.log(`  C: ${abc.c_keywords?.join(', ')}`);
     }
 
+    // 7. Skapa new_content-jobb i action_plans för sökordsluckor
+    // Keyword-researcher → content-publisher pipeline
+    let newContentJobsCreated = 0;
+    if (aiResult.suggestions?.length > 0) {
+      console.log('\nCreating new_content action_plan jobs...');
+
+      // Hämta befintliga new_content-jobb för denna kund (undvika dubletter)
+      const [existingJobs] = await bq.query({
+        query: `
+          SELECT target_keyword
+          FROM \`${dataset}.action_plans\`
+          WHERE customer_id = @cid
+            AND task_type = 'new_content'
+            AND status IN ('planned', 'active', 'completed')
+        `,
+        params: { cid: customerId }
+      });
+
+      const existingKeywords = new Set(
+        (existingJobs || []).map(r => (r.target_keyword || '').toLowerCase().trim())
+      );
+
+      // Prioritet per ABC-kategori
+      const categoryPriority = { 'A': 100, 'B': 70, 'C': 40 };
+
+      const newJobs = [];
+      for (const suggestion of aiResult.suggestions) {
+        const kw = (suggestion.keyword || '').toLowerCase().trim();
+        if (!kw) continue;
+        if (existingKeywords.has(kw)) continue;
+
+        const priority = categoryPriority[suggestion.category] || 40;
+        const jobId = `nc_${Date.now()}_${customerId}_${Math.random().toString(36).substr(2, 6)}`;
+
+        newJobs.push({
+          plan_id: jobId,
+          customer_id: customerId,
+          task_type: 'new_content',
+          target_keyword: suggestion.keyword,
+          status: 'planned',
+          priority,
+          month_number: 1,
+          task_description: `Ny artikel om: ${suggestion.keyword} (${suggestion.search_intent || 'informational'}, svårighetsgrad: ${suggestion.estimated_difficulty || 'okänd'})`,
+          source: `keyword-researcher`
+        });
+
+        // Lägg till i set direkt så vi inte skapar dubletter inom samma körning
+        existingKeywords.add(kw);
+      }
+
+      // Spara i batchar om 10 (undviker för långa queries)
+      const batchSize = 10;
+      for (let i = 0; i < newJobs.length; i += batchSize) {
+        const batch = newJobs.slice(i, i + batchSize);
+        for (const job of batch) {
+          await bq.query({
+            query: `
+              INSERT INTO \`${dataset}.action_plans\`
+              (plan_id, customer_id, task_type, target_keyword, status, priority, month_number, task_description, source, created_at)
+              VALUES (@plan_id, @customer_id, @task_type, @target_keyword, @status, @priority, @month_number, @task_description, @source, CURRENT_TIMESTAMP())
+            `,
+            params: {
+              plan_id: job.plan_id,
+              customer_id: job.customer_id,
+              task_type: job.task_type,
+              target_keyword: job.target_keyword,
+              status: job.status,
+              priority: job.priority,
+              month_number: job.month_number,
+              task_description: job.task_description,
+              source: job.source
+            }
+          });
+        }
+        newContentJobsCreated += batch.length;
+      }
+
+      console.log(`  Created ${newContentJobsCreated} new_content jobs in action_plans`);
+    }
+
     console.log(`\n=== Keyword Researcher Complete ===`);
     console.log(`Total keywords found: ${totalFound}`);
+    console.log(`New content jobs created: ${newContentJobsCreated}`);
 
     return {
       statusCode: 200,
@@ -381,7 +462,8 @@ exports.handler = async (event) => {
         gaps: aiResult.gaps,
         abcClassification: aiResult.abc_classification,
         suggestions: aiResult.suggestions,
-        topGSCKeywords: gscKeywords.slice(0, 20)
+        topGSCKeywords: gscKeywords.slice(0, 20),
+        newContentJobsCreated
       })
     };
 

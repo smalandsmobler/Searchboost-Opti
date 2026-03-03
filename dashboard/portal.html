@@ -6,7 +6,8 @@
   <title>Searchboost Opti -- Kundportal</title>
   <meta name="description" content="Din SEO-dashboard. Se prestanda, sökord, optimeringar och åtgärdsplan i realtid.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="portal.css">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js" defer></script>
 </head>
@@ -79,6 +80,33 @@
           <span>Åtgärdsplan</span>
         </button>
 
+        <div class="sidebar-nav-divider"></div>
+
+        <button class="sidebar-nav-item" data-section="ads" onclick="navigateTo('ads')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+            <path d="M16 3l-4 4-4-4"/>
+          </svg>
+          <span>Annonsering</span>
+        </button>
+
+        <button class="sidebar-nav-item" data-section="social" onclick="navigateTo('social')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span>Sociala medier</span>
+        </button>
+
+        <button class="sidebar-nav-item" data-section="traffic" onclick="navigateTo('traffic')">
+          <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+          <span>Trafikkällor</span>
+        </button>
+
+        <div class="sidebar-nav-divider"></div>
+
         <button class="sidebar-nav-item" data-section="chat" onclick="navigateTo('chat')">
           <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -137,6 +165,9 @@
             <p>Här ser du en översikt av SEO-arbetet vi gör för er sajt. Alla siffror uppdateras automatiskt.</p>
             <div class="welcome-date" id="welcomeDate"></div>
           </div>
+
+          <!-- Security status widget -->
+          <div id="securityStatusWidget" style="margin-bottom:20px"></div>
 
           <!-- KPI Cards -->
           <div class="kpi-grid" id="kpiGrid">
@@ -228,6 +259,178 @@
               <div class="loading-state"><div class="spinner"></div><span>Hämtar åtgärdsplan...</span></div>
             </div>
           </div>
+        </section>
+
+        <!-- ══════ ADS SECTION ══════ -->
+        <section class="portal-section" id="section-ads">
+
+          <!-- Attribution window selector -->
+          <div class="section-header-row">
+            <h2 class="section-title">Annonsering</h2>
+            <div class="attribution-selector">
+              <label class="attribution-label">Attributionsfönster:</label>
+              <select class="attribution-select" id="attributionWindow" onchange="setAttributionWindow(this.value)">
+                <option value="7">7 dagar</option>
+                <option value="30">30 dagar</option>
+                <option value="60">60 dagar</option>
+                <option value="90" selected>90 dagar</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Spend bar -->
+          <div class="spend-bar" id="adsSpendBar">
+            <div class="spend-bar-header">
+              <span class="spend-bar-title">Total annonsbudget</span>
+              <span class="spend-bar-total" id="adsTotalSpend">--<small>kr</small></span>
+            </div>
+            <div class="spend-bar-visual" id="adsSpendVisual"></div>
+            <div class="spend-bar-legend" id="adsSpendLegend"></div>
+          </div>
+
+          <!-- Channel overview cards -->
+          <div class="channel-grid" id="adsChannelGrid">
+            <div class="loading-state"><div class="spinner"></div><span>Hämtar annonsdata...</span></div>
+          </div>
+
+          <!-- Ads detail tabs -->
+          <div class="card" id="adsDetailCard" style="display:none">
+            <div class="card-body">
+              <div class="ads-tabs" id="adsTabs"></div>
+              <div id="adsPanels"></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ══════ SOCIAL MEDIA SECTION ══════ -->
+        <section class="portal-section" id="section-social">
+          <h2 class="section-title">Sociala medier</h2>
+
+          <!-- Social cards grid -->
+          <div class="social-grid" id="socialGrid">
+            <div class="loading-state"><div class="spinner"></div><span>Hämtar social media-data...</span></div>
+          </div>
+
+          <!-- Engagement trend chart -->
+          <div class="card" id="socialTrendCard" style="display:none">
+            <div class="card-header">
+              <h3>Engagemang över tid</h3>
+            </div>
+            <div class="card-body">
+              <div id="socialTrendChart" style="min-height:300px"></div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- ══════ TRAFFIC SOURCES SECTION ══════ -->
+        <section class="portal-section" id="section-traffic">
+          <h2 class="section-title">Trafikkällor</h2>
+
+          <!-- Section tabs: Översikt / Shopping / Organisk -->
+          <div class="section-tabs" id="trafficTabs">
+            <button class="section-tab active" data-tab="traffic-overview" onclick="switchTrafficTab('traffic-overview')">Översikt</button>
+            <button class="section-tab" data-tab="traffic-shopping" onclick="switchTrafficTab('traffic-shopping')">Shopping</button>
+            <button class="section-tab" data-tab="traffic-organic" onclick="switchTrafficTab('traffic-organic')">Organisk</button>
+          </div>
+
+          <!-- Traffic overview -->
+          <div class="traffic-tab-panel active" id="traffic-overview">
+            <div class="traffic-split">
+              <div class="traffic-chart-container">
+                <div class="traffic-chart-title">Trafikfördelning</div>
+                <div id="trafficPieChart" style="min-height:280px"></div>
+              </div>
+              <div class="traffic-chart-container">
+                <div class="traffic-chart-title">Trafik över tid</div>
+                <div id="trafficLineChart" style="min-height:280px"></div>
+              </div>
+            </div>
+            <div class="kpi-grid" id="trafficKpiGrid">
+              <div class="kpi-card">
+                <div class="kpi-label">Organisk</div>
+                <div class="kpi-value" id="traffic-organic-val">--</div>
+                <div class="kpi-trend" id="traffic-organic-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Betald sökning</div>
+                <div class="kpi-value" id="traffic-paid-val">--</div>
+                <div class="kpi-trend" id="traffic-paid-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Social</div>
+                <div class="kpi-value" id="traffic-social-val">--</div>
+                <div class="kpi-trend" id="traffic-social-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Direkt</div>
+                <div class="kpi-value" id="traffic-direct-val">--</div>
+                <div class="kpi-trend" id="traffic-direct-trend"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shopping tab -->
+          <div class="traffic-tab-panel" id="traffic-shopping">
+            <div class="section-header-row" style="margin-bottom:20px">
+              <div>
+                <h3 style="color:var(--white);font-size:0.95rem;font-weight:700;margin:0">Shopping & E-handel</h3>
+                <p style="color:var(--gray-500);font-size:0.82rem;margin:4px 0 0">Attribution: <strong style="color:var(--yellow)" id="shoppingWindowLabel">90 dagar</strong> — anpassat för längre köpbeslut</p>
+              </div>
+            </div>
+
+            <!-- Shopping KPIs -->
+            <div class="kpi-grid" id="shoppingKpiGrid">
+              <div class="kpi-card">
+                <div class="kpi-label">Transaktioner</div>
+                <div class="kpi-value" id="shop-transactions">--</div>
+                <div class="kpi-trend" id="shop-transactions-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Intäkter</div>
+                <div class="kpi-value" id="shop-revenue">--</div>
+                <div class="kpi-trend" id="shop-revenue-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">ROAS</div>
+                <div class="kpi-value" id="shop-roas">--</div>
+                <div class="kpi-trend" id="shop-roas-trend"></div>
+              </div>
+              <div class="kpi-card">
+                <div class="kpi-label">Snittvärde/order</div>
+                <div class="kpi-value" id="shop-aov">--</div>
+                <div class="kpi-trend" id="shop-aov-trend"></div>
+              </div>
+            </div>
+
+            <!-- Shopping campaigns -->
+            <div class="card">
+              <div class="card-header"><h3>Shopping-kampanjer</h3></div>
+              <div class="card-body" id="shoppingCampaignsBody">
+                <div class="connect-cta">
+                  <div class="connect-cta-icon">&#128722;</div>
+                  <div class="connect-cta-title">Shopping-data inte ansluten</div>
+                  <div class="connect-cta-desc">Kontakta Searchboost för att koppla Google Shopping, Meta Shopping eller annan e-handelsdata.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Organic tab -->
+          <div class="traffic-tab-panel" id="traffic-organic">
+            <div class="traffic-split">
+              <div class="traffic-chart-container">
+                <div class="traffic-chart-title">Organiska klick per dag</div>
+                <div id="organicClicksChart" style="min-height:280px"></div>
+              </div>
+              <div class="traffic-chart-container">
+                <div class="traffic-chart-title">Snittposition över tid</div>
+                <div id="organicPositionChart" style="min-height:280px"></div>
+              </div>
+            </div>
+          </div>
+
         </section>
 
         <!-- ══════ AI CHAT SECTION ══════ -->

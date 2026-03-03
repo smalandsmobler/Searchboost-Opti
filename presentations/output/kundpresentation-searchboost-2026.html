@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Din Searchboost-kundzon — Så fungerar det</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    :root {
+      --sb-pink:        #e91e8c;
+      --sb-cyan:        #00d4ff;
+      --sb-green:       #00e676;
+      --sb-purple:      #7c4dff;
+      --sb-dark:        #07071a;
+      --sb-card:        #0f0f2a;
+      --sb-card-2:      #13132e;
+      --sb-border:      #1e1e42;
+      --sb-text:        #dde1f0;
+      --sb-muted:       #6b7094;
+    }
+
+    /* ── Base ─────────────────────────────── */
+    .reveal {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: var(--sb-text);
+    }
+
+    .reveal .slides { text-align: left; }
+
+    .reveal .slides section {
+      background: var(--sb-dark);
+      height: 100%;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    /* Ambient gradient — different per section type */
+    .reveal .slides section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .reveal .slides section > * { position: relative; z-index: 1; }
+
+    /* Progress bar override */
+    .reveal .progress { height: 3px; color: var(--sb-pink); }
+    .reveal .controls { color: var(--sb-pink); }
+
+    /* ── Slide inner wrapper ──────────────── */
+    .slide {
+      display: flex;
+      flex-direction: column;
+      height: 720px;
+      padding: 36px 56px 32px;
+    }
+
+    /* ── Header ──────────────────────────── */
+    .hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--sb-border);
+      flex-shrink: 0;
+    }
+
+    .hd-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hd-logo {
+      width: 30px; height: 30px;
+      border-radius: 7px;
+      background: linear-gradient(135deg, var(--sb-pink), var(--sb-purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px;
+    }
+
+    .hd-name {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: #fff;
+    }
+
+    .hd-name em { color: var(--sb-pink); font-style: normal; }
+
+    .hd-meta {
+      font-size: 11px;
+      color: var(--sb-muted);
+      text-align: right;
+      line-height: 1.5;
+    }
+
+    .hd-meta strong { color: var(--sb-cyan); font-weight: 600; }
+
+    /* ── Body ────────────────────────────── */
+    .body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+
+    /* ── Tags ────────────────────────────── */
+    .tag {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 4px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.8px; text-transform: uppercase;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .tag-pink   { background: rgba(233,30,140,.14); color: var(--sb-pink); }
+    .tag-cyan   { background: rgba(0,212,255,.14);  color: var(--sb-cyan); }
+    .tag-green  { background: rgba(0,230,118,.14);  color: var(--sb-green); }
+    .tag-purple { background: rgba(124,77,255,.14); color: var(--sb-purple); }
+
+    /* ── Headings ────────────────────────── */
+    .reveal h1 {
+      font-size: 3em; font-weight: 900;
+      color: #fff; line-height: 1.05;
+      margin: 0 0 14px;
+      letter-spacing: -1px;
+    }
+
+    .reveal h1 .pk { color: var(--sb-pink); }
+    .reveal h1 .cy { color: var(--sb-cyan); }
+    .reveal h1 .gr { color: var(--sb-green); }
+
+    .reveal h2 {
+      font-size: 1.55em; font-weight: 700;
+      color: #fff; margin: 0 0 20px;
+    }
+
+    .reveal h3 {
+      font-size: .95em; font-weight: 600;
+      color: #fff; margin: 0 0 6px;
+    }
+
+    .sub {
+      font-size: .95em;
+      color: var(--sb-muted);
+      line-height: 1.6;
+      max-width: 620px;
+    }
+
+    /* ── Accent lines ────────────────────── */
+    .lines { display: flex; gap: 6px; margin: 16px 0; flex-shrink: 0; }
+    .lines span { height: 3px; width: 36px; border-radius: 2px; display: block; }
+    .lines span:nth-child(1) { background: var(--sb-pink); }
+    .lines span:nth-child(2) { background: var(--sb-cyan); }
+    .lines span:nth-child(3) { background: var(--sb-green); }
+
+    /* ── Footer ──────────────────────────── */
+    .ft {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--sb-border);
+      flex-shrink: 0;
+    }
+
+    .ft-tags { display: flex; gap: 18px; }
+
+    .ft-tags span {
+      font-size: 11px; font-weight: 600;
+      color: var(--sb-muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .ft-tags span::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .ft-tags .fp::before { background: var(--sb-pink); }
+    .ft-tags .fc::before { background: var(--sb-cyan); }
+    .ft-tags .fg::before { background: var(--sb-green); }
+    .ft-tags .fv::before { background: var(--sb-purple); }
+
+    .ft-presenter {
+      font-size: 11px; color: var(--sb-muted);
+      text-align: right; line-height: 1.5;
+    }
+
+    .ft-presenter strong { color: #fff; font-size: 12px; display: block; }
+
+    /* ── Cards ───────────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+    .card {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .card-num {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 13px;
+      color: #fff; margin-bottom: 10px;
+    }
+
+    .card-num.pk { background: var(--sb-pink); }
+    .card-num.cy { background: var(--sb-cyan); color: #000; }
+    .card-num.gr { background: var(--sb-green); color: #000; }
+    .card-num.pu { background: var(--sb-purple); }
+
+    .card p {
+      font-size: 12.5px;
+      color: var(--sb-muted);
+      line-height: 1.55;
+      margin: 4px 0 0;
+    }
+
+    /* ── Stat cards ──────────────────────── */
+    .stat {
+      background: var(--sb-card);
+      border: 1px solid var(--sb-border);
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+    }
+
+    .stat-icon {
+      width: 44px; height: 44px;
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 20px;
+    }
+
+    .stat-icon.pk { background: rgba(233,30,140,.14); }
+    .stat-icon.cy { background: rgba(0,212,255,.14); }
+    .stat-icon.gr { background: rgba(0,230,118,.14); }
+    .stat-icon.pu { background: rgba(124,77,255,.14); }
+
+    .stat-val {
+      font-size: 1.75em; font-weight: 800;
+      line-height: 1; margin-bottom: 5px;
+    }
+
+    .stat-val.pk { color: var(--sb-pink); }
+    .stat-val.cy { color: var(--sb-cyan); }
+    .stat-val.gr { color: var(--sb-green); }
+    .stat-val.pu { color: var(--sb-purple); }
+
+    .stat-lbl  { font-weight: 600; font-size: 13px; color: #fff; }
+    .stat-sub  { font-size: 11px; color: var(--sb-muted); margin-top: 3px; line-height: 1.4; }
+
+    /* ── Log items ───────────────────────── */
+    .log {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 9px 14px;
+      background: var(--sb-card);
+      border: 1px solid var(--sb-border);
+      border-radius: 8px;
+      margin-bottom: 7px;
+    }
+
+    .log-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0; margin-top: 5px;
+    }
+
+    .log-dot.pk { background: var(--sb-pink); }
+    .log-dot.cy { background: var(--sb-cyan); }
+    .log-dot.gr { background: var(--sb-green); }
+    .log-dot.pu { background: var(--sb-purple); }
+
+    .log-text { font-size: 12.5px; color: #fff; line-height: 1.4; }
+    .log-text small { display: block; color: var(--sb-muted); font-size: 11px; margin-top: 1px; }
+
+    /* ── Highlight box ───────────────────── */
+    .hbox {
+      background: linear-gradient(135deg, rgba(0,212,255,.07), rgba(124,77,255,.05));
+      border: 1px solid rgba(0,212,255,.18);
+      border-radius: 11px;
+      padding: 16px 20px;
+    }
+
+    .hbox.pk {
+      background: linear-gradient(135deg, rgba(233,30,140,.08), rgba(0,212,255,.04));
+      border-color: rgba(233,30,140,.2);
+    }
+
+    .hbox.gr {
+      background: linear-gradient(135deg, rgba(0,230,118,.08), rgba(0,212,255,.04));
+      border-color: rgba(0,230,118,.2);
+    }
+
+    .hbox p { font-size: 12.5px; color: var(--sb-muted); margin: 5px 0 0; line-height: 1.55; }
+
+    /* ── Two-col layouts ─────────────────── */
+    .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .two-col-r { display: grid; grid-template-columns: 1.4fr 1fr; gap: 22px; }
+
+    /* ── URL badge ───────────────────────── */
+    .url-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,230,118,.1);
+      border: 1px solid rgba(0,230,118,.25);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px; font-family: 'Inter', monospace;
+      font-weight: 600; color: var(--sb-green);
+    }
+
+    /* ── Live badge (cover) ──────────────── */
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(233,30,140,.1);
+      border: 1px solid rgba(233,30,140,.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px; font-weight: 600; color: var(--sb-pink);
+      margin-bottom: 28px;
+    }
+
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--sb-pink);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+    /* ── Chapter slide ───────────────────── */
+    .ch-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .ch-num {
+      position: absolute;
+      right: 52px; bottom: 48px;
+      font-size: 9em; font-weight: 900;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.05);
+      user-select: none;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Timeline steps ──────────────────── */
+    .timeline {
+      display: flex;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--sb-border);
+    }
+
+    .ts {
+      flex: 1;
+      padding: 16px 18px;
+      background: var(--sb-card);
+      border-right: 1px solid var(--sb-border);
+    }
+
+    .ts:last-child { border-right: none; }
+
+    .ts-num {
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px;
+      margin-bottom: 7px;
+    }
+
+    .ts h3 { font-size: 12.5px; margin-bottom: 5px; }
+    .ts p  { font-size: 11.5px; color: var(--sb-muted); margin: 0; line-height: 1.45; }
+
+    /* ── Checklist ───────────────────────── */
+    .check { list-style: none; padding: 0; margin: 0; }
+
+    .check li {
+      display: flex; gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--sb-border);
+      font-size: 13px; line-height: 1.4;
+    }
+
+    .check li:last-child { border-bottom: none; }
+
+    .check li::before {
+      content: '✓';
+      color: var(--sb-green);
+      font-weight: 700; flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .check li strong { color: #fff; }
+    .check li small  { color: var(--sb-muted); font-size: 11px; display: block; }
+
+    /* ── Divider ─────────────────────────── */
+    .divider { height: 1px; background: var(--sb-border); margin: 14px 0; }
+
+    /* Cover gradient override */
+    .cover-bg::before {
+      background:
+        radial-gradient(ellipse at 15% 85%, rgba(233,30,140,.12) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 10%, rgba(0,212,255,.10) 0%, transparent 55%),
+        radial-gradient(ellipse at 55% 50%, rgba(124,77,255,.06) 0%, transparent 55%) !important;
+    }
+
+    .chapter-bg::before {
+      background:
+        radial-gradient(ellipse at 10% 90%, rgba(0,212,255,.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 90% 10%, rgba(233,30,140,.08) 0%, transparent 60%) !important;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════
+     1 — COVER
+══════════════════════════════════════════════ -->
+<section class="cover-bg">
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta">
+        <strong>Kundzon · 2026</strong>
+        Välkommen
+      </div>
+    </div>
+
+    <div class="body" style="justify-content:center;">
+      <div class="live-badge"><div class="live-dot"></div> Din kundzon är aktiv</div>
+
+      <h1>Välkommen till<br>din <span class="pk">kundzon</span></h1>
+
+      <div class="lines"><span></span><span></span><span></span></div>
+
+      <p class="sub" style="max-width:580px;">
+        Här förklarar vi vad du hittar i din portal, vad du får varje vecka, och hur du läser din månadsrapport.
+      </p>
+
+      <div style="margin-top:28px;">
+        <div class="url-badge">🔗 opti.searchboost.se/portal.html</div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">Din portal</span>
+        <span class="fp">Veckologg</span>
+        <span class="fg">Månadsrapport</span>
+      </div>
+      <div class="ft-presenter">
+        <strong>Mikael Larsson</strong>
+        Searchboost.se
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     2 — AGENDA
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Översikt</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-cyan">Det här går vi igenom</div>
+      <h2>Tre saker du lär dig idag</h2>
+
+      <div class="grid-3" style="flex:1; align-content:start;">
+        <div class="card">
+          <div class="card-num cy">1</div>
+          <h3>Din portal</h3>
+          <p>Vad du ser när du loggar in — positioner, trafik, optimeringar och AI-chatt.</p>
+        </div>
+        <div class="card">
+          <div class="card-num pk">2</div>
+          <h3>Veckologgen</h3>
+          <p>Vad du får varje måndag — ett mail med veckans sammanfattning.</p>
+        </div>
+        <div class="card">
+          <div class="card-num gr">3</div>
+          <h3>Månadsrapporten</h3>
+          <p>Hur du läser rapporten och vilka mätetal som faktiskt räknas.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">Portal</span>
+        <span class="fp">Veckologg</span>
+        <span class="fg">Månadsrapport</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     3 — CHAPTER: DIN PORTAL
+══════════════════════════════════════════════ -->
+<section class="chapter-bg">
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Del 1 av 3</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="ch-body">
+        <div class="tag tag-cyan">Din portal</div>
+        <h1 style="font-size:3.6em;">Din<br><span class="cy">kundzon</span></h1>
+        <div class="lines"><span></span><span></span><span></span></div>
+        <p class="sub">Logga in när du vill och se exakt vad som händer med din SEO i realtid.</p>
+        <div style="margin-top:20px;">
+          <div class="url-badge">opti.searchboost.se/portal.html</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ch-num">01</div>
+
+    <div class="ft">
+      <div class="ft-tags"><span class="fc">Tillgänglig dygnet runt</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     4 — PORTAL: MÄTTAL
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Portalens mättal</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-cyan">Längst upp i portalen</div>
+      <h2>Det första du ser när du loggar in</h2>
+
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="stat">
+          <div class="stat-icon cy">📈</div>
+          <div class="stat-val cy">+23%</div>
+          <div class="stat-lbl">Organisk trafik</div>
+          <div class="stat-sub">Senaste 30 dagarna</div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon gr">🥇</div>
+          <div class="stat-val gr">14</div>
+          <div class="stat-lbl">Sökord topp 10</div>
+          <div class="stat-sub">Vs 9 förra månaden</div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon pk">⚡</div>
+          <div class="stat-val pk">37</div>
+          <div class="stat-lbl">Optimeringar</div>
+          <div class="stat-sub">Senaste 30 dagarna</div>
+        </div>
+        <div class="stat">
+          <div class="stat-icon pu">📍</div>
+          <div class="stat-val pu">8.4</div>
+          <div class="stat-lbl">Snittposition</div>
+          <div class="stat-sub">Viktigaste sökordet</div>
+        </div>
+      </div>
+
+      <div class="hbox">
+        <h3 style="margin:0 0 4px;">Siffrorna uppdateras varje dag automatiskt</h3>
+        <p>All data hämtas direkt från Google Search Console — Googles egna siffror, inte uppskattningar.</p>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">GSC-data i realtid</span>
+        <span class="fg">Uppdateras dagligen</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     5 — PORTAL: SÖKORD + TIDSLINJE
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Detaljvyerna</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-cyan">Längre ner i portalen</div>
+      <h2>Dina sökord och vad vi gjort</h2>
+
+      <div class="two-col" style="flex:1; align-content:start;">
+        <div>
+          <div class="hbox" style="margin-bottom:12px;">
+            <h3 style="margin:0 0 5px; color:var(--sb-cyan);">Sökordstabell</h3>
+            <p>Alla dina nyckelord med aktuell position och förändring. Grön pil = du klättrar.</p>
+          </div>
+          <div class="log"><div class="log-dot gr"></div><div class="log-text">kontorsmöbler Småland<small>Position 4 ↑ (+3 sedan förra veckan)</small></div></div>
+          <div class="log"><div class="log-dot cy"></div><div class="log-text">begagnade kontorsstolar<small>Position 7 ↑ (+1 sedan förra veckan)</small></div></div>
+          <div class="log"><div class="log-dot pk"></div><div class="log-text">skrivbord höjdjusterbart<small>Position 12 → (oförändrat)</small></div></div>
+        </div>
+
+        <div>
+          <div class="hbox pk" style="margin-bottom:12px;">
+            <h3 style="margin:0 0 5px; color:var(--sb-pink);">Optimeringstidslinje</h3>
+            <p>Varje åtgärd vi utfört visas som ett kort — du ser exakt vad vi gjort och när.</p>
+          </div>
+          <div class="log"><div class="log-dot pk"></div><div class="log-text">Meta-titel optimerad<small>Kontorsmöbler-sidan · 2026-02-17</small></div></div>
+          <div class="log"><div class="log-dot cy"></div><div class="log-text">H1-rubrik förbättrad<small>Kategorisida stolar · 2026-02-16</small></div></div>
+          <div class="log"><div class="log-dot gr"></div><div class="log-text">Schema-markup tillagd<small>Produktsida skrivbord · 2026-02-15</small></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">Sökordstrender</span>
+        <span class="fp">Optimeringslogg</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     6 — PORTAL: ÅTGÄRDSPLAN + AI-CHATT
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Åtgärdsplan &amp; AI-chatt</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-purple">Planering och dialog</div>
+      <h2>Din plan och AI-chatten</h2>
+
+      <div class="two-col" style="flex:1; align-content:start;">
+        <div>
+          <div class="hbox" style="background:linear-gradient(135deg,rgba(124,77,255,.08),rgba(233,30,140,.05)); border-color:rgba(124,77,255,.22); margin-bottom:14px;">
+            <h3 style="margin:0 0 5px; color:var(--sb-purple);">Din åtgärdsplan</h3>
+            <p>Kommande 3 månaders prioriteringar är synliga. Du ser vad vi planerar och varför.</p>
+          </div>
+          <ul class="check">
+            <li><strong>Teknisk hälsa</strong><small>Page speed och Core Web Vitals</small></li>
+            <li><strong>Sidoptimering</strong><small>Titlar, H1, meta-beskrivningar</small></li>
+            <li><strong>Innehåll</strong><small>Bloggar och kategoritexter</small></li>
+            <li><strong>Schema-markup</strong><small>Strukturerad data till Google</small></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="hbox pk" style="margin-bottom:12px;">
+            <h3 style="margin:0 0 5px; color:var(--sb-pink);">AI-chatten i portalen</h3>
+            <p>Ställ frågor direkt om din data. AI:n ser dina siffror och svarar specifikt om din sajt.</p>
+          </div>
+
+          <div class="log" style="background:rgba(233,30,140,.06); border-color:rgba(233,30,140,.15);">
+            <div class="log-dot pk"></div>
+            <div class="log-text" style="font-style:italic; font-size:12px;">"Varför ökade trafiken förra veckan?"</div>
+          </div>
+          <div class="log" style="background:rgba(0,212,255,.05); border-color:rgba(0,212,255,.15);">
+            <div class="log-dot cy"></div>
+            <div class="log-text" style="font-style:italic; font-size:12px;">"Vilket sökord bör vi prioritera härnäst?"</div>
+          </div>
+          <div class="log" style="background:rgba(0,230,118,.05); border-color:rgba(0,230,118,.15);">
+            <div class="log-dot gr"></div>
+            <div class="log-text" style="font-style:italic; font-size:12px;">"Hur ser min trafik-trend ut i år?"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fv">3 månaders plan</span>
+        <span class="fp">AI-chatt med din data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     7 — CHAPTER: VECKOLOGGEN
+══════════════════════════════════════════════ -->
+<section class="chapter-bg">
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Del 2 av 3</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="ch-body">
+        <div class="tag tag-pink">Veckologgen</div>
+        <h1 style="font-size:3.6em;">Varje<br><span class="pk">måndag</span></h1>
+        <div class="lines"><span></span><span></span><span></span></div>
+        <p class="sub">Du får ett veckomail kl 08:00 varje måndag med en sammanfattning av allt vi gjort under veckan.</p>
+      </div>
+    </div>
+
+    <div class="ch-num">02</div>
+
+    <div class="ft">
+      <div class="ft-tags"><span class="fp">Måndag 08:00 · Direkt till din inbox</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     8 — VECKOLOGGEN: INNEHÅLL
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Veckologgens innehåll</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-pink">Mailen du får varje måndag kl 08:00</div>
+      <h2>Det här ingår i veckologgen</h2>
+
+      <div class="two-col-r" style="flex:1; align-content:start;">
+        <div class="grid-2" style="align-content:start; gap:12px;">
+          <div class="card">
+            <div class="card-num pk">1</div>
+            <h3>Antal optimeringar</h3>
+            <p>Hur många sidor vi förbättrat och vilken typ av optimering.</p>
+          </div>
+          <div class="card">
+            <div class="card-num cy">2</div>
+            <h3>Trafik-trend</h3>
+            <p>Organisk trafik jämfört med veckan innan.</p>
+          </div>
+          <div class="card">
+            <div class="card-num gr">3</div>
+            <h3>Sökordsrörelser</h3>
+            <p>Vilka sökord klättrat mest under veckan.</p>
+          </div>
+          <div class="card">
+            <div class="card-num pu">4</div>
+            <h3>Nästa veckas fokus</h3>
+            <p>Kort om vad vi planerar kommande vecka och varför.</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="hbox pk" style="margin-bottom:12px;">
+            <h3 style="margin:0 0 4px;">Exempel — Vecka 8</h3>
+            <p style="margin:0; font-size:11px; color:var(--sb-muted);">2026-02-16</p>
+          </div>
+          <div class="log"><div class="log-dot pk"></div><div class="log-text">12 optimeringar utförda<small>8 meta-titlar · 3 H1 · 1 schema</small></div></div>
+          <div class="log"><div class="log-dot cy"></div><div class="log-text">Trafik +18% vs förra veckan<small>234 klick mot 198</small></div></div>
+          <div class="log"><div class="log-dot gr"></div><div class="log-text">kontorsmöbler Småland: pos 4<small>Upp från 7 förra veckan</small></div></div>
+          <div class="log"><div class="log-dot pu"></div><div class="log-text">Nästa vecka: blogginnehåll<small>2 artiklar för long-tail</small></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fp">Måndag 08:00</span>
+        <span class="fc">Direkt till din mail</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     9 — CHAPTER: MÅNADSRAPPORTEN
+══════════════════════════════════════════════ -->
+<section class="chapter-bg">
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Del 3 av 3</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="ch-body">
+        <div class="tag tag-green">Månadsrapporten</div>
+        <h1 style="font-size:3.6em;">En gång<br><span class="gr">i månaden</span></h1>
+        <div class="lines"><span></span><span></span><span></span></div>
+        <p class="sub">En djupare rapport som visar hela månaden — trender, resultat och vad vi prioriterar härnäst.</p>
+      </div>
+    </div>
+
+    <div class="ch-num">03</div>
+
+    <div class="ft">
+      <div class="ft-tags"><span class="fg">Första veckan varje månad</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     10 — MÅNADSRAPPORTEN: SEKTIONER
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Rapportens innehåll</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-green">Fyra delar i varje månadsrapport</div>
+      <h2>Vad rapporten innehåller</h2>
+
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="card">
+          <div class="stat-icon cy" style="margin:0 0 10px; width:36px; height:36px; border-radius:9px;">📊</div>
+          <h3 style="font-size:13px;">Trafikutveckling</h3>
+          <p>Organisk trafik vs föregående månad och samma period förra året.</p>
+        </div>
+        <div class="card">
+          <div class="stat-icon gr" style="margin:0 0 10px; width:36px; height:36px; border-radius:9px;">🔑</div>
+          <h3 style="font-size:13px;">Sökordspositioner</h3>
+          <p>Alla nyckelord med månadsposition och vilka som klättrat in i topp 10.</p>
+        </div>
+        <div class="card">
+          <div class="stat-icon pk" style="margin:0 0 10px; width:36px; height:36px; border-radius:9px;">⚡</div>
+          <h3 style="font-size:13px;">Utfört arbete</h3>
+          <p>Komplett lista på alla optimeringar vi gjort — sida för sida.</p>
+        </div>
+        <div class="card">
+          <div class="stat-icon pu" style="margin:0 0 10px; width:36px; height:36px; border-radius:9px;">🗓️</div>
+          <h3 style="font-size:13px;">Nästa månads plan</h3>
+          <p>Vad vi fokuserar på och vilka sidor vi prioriterar kommande månad.</p>
+        </div>
+      </div>
+
+      <div class="hbox gr">
+        <h3 style="margin:0 0 4px;">Rapporten skickas första veckan varje månad</h3>
+        <p>Du får ett mail med rapport-PDF. Allt finns också permanent i portalen under "Rapporter".</p>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">Trafik &amp; positioner</span>
+        <span class="fp">Utfört arbete</span>
+        <span class="fg">Kommande månad</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     11 — HUR MAN LÄSER RAPPORTEN
+══════════════════════════════════════════════ -->
+<section>
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Hur du läser rapporten</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-green">De tre siffrorna som räknas</div>
+      <h2>Vad du ska hålla koll på</h2>
+
+      <div class="grid-3" style="margin-bottom:16px;">
+        <div class="stat" style="text-align:left; padding:20px;">
+          <div class="stat-icon cy" style="margin:0 0 12px;">📈</div>
+          <div class="stat-val cy" style="font-size:1.2em; margin-bottom:6px;">Klick</div>
+          <div class="stat-lbl">Organiska besök</div>
+          <p style="font-size:12px; color:var(--sb-muted); margin:8px 0 0; line-height:1.5;">
+            Hur många som klickade på din sajt i Google. Det viktigaste måttet — mer trafik betyder fler potentiella kunder.
+          </p>
+        </div>
+        <div class="stat" style="text-align:left; padding:20px;">
+          <div class="stat-icon gr" style="margin:0 0 12px;">🥇</div>
+          <div class="stat-val gr" style="font-size:1.2em; margin-bottom:6px;">Position</div>
+          <div class="stat-lbl">Plats i Google</div>
+          <p style="font-size:12px; color:var(--sb-muted); margin:8px 0 0; line-height:1.5;">
+            Lägre siffra = bättre. Position 1–3 ger mest klick. Position 11+ = sida 2 i Google.
+          </p>
+        </div>
+        <div class="stat" style="text-align:left; padding:20px;">
+          <div class="stat-icon pk" style="margin:0 0 12px;">👁️</div>
+          <div class="stat-val pk" style="font-size:1.2em; margin-bottom:6px;">Visningar</div>
+          <div class="stat-lbl">Impressioner</div>
+          <p style="font-size:12px; color:var(--sb-muted); margin:8px 0 0; line-height:1.5;">
+            Hur ofta din sajt visats i sökresultaten. Visningar ökar innan klick ökar — ett bra tecken.
+          </p>
+        </div>
+      </div>
+
+      <div class="hbox gr">
+        <h3 style="margin:0 0 4px; color:var(--sb-green);">Hälsosam trend att hålla koll på</h3>
+        <p>Visningar stiger först → sedan position → sedan klick. Om alla tre pekar uppåt är SEO-arbetet på rätt spår.</p>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">Klick = viktigast</span>
+        <span class="fg">Trendrikting räknas</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     12 — CTA
+══════════════════════════════════════════════ -->
+<section class="cover-bg">
+  <div class="slide">
+    <div class="hd">
+      <div class="hd-brand">
+        <div class="hd-logo">⚡</div>
+        <div class="hd-name">SEARCH<em>BOOST</em></div>
+      </div>
+      <div class="hd-meta"><strong>Kom igång</strong></div>
+    </div>
+
+    <div class="body">
+      <div class="tag tag-pink">Nästa steg</div>
+      <h2>Logga in på din kundzon nu</h2>
+
+      <div class="timeline" style="margin-bottom:20px;">
+        <div class="ts">
+          <div class="ts-num" style="color:var(--sb-cyan);">Steg 1</div>
+          <h3>Öppna portalen</h3>
+          <p>Gå till opti.searchboost.se/portal.html och logga in med dina uppgifter.</p>
+        </div>
+        <div class="ts">
+          <div class="ts-num" style="color:var(--sb-pink);">Steg 2</div>
+          <h3>Byt lösenord</h3>
+          <p>Klicka på "Mitt konto" och sätt ett eget lösenord.</p>
+        </div>
+        <div class="ts">
+          <div class="ts-num" style="color:var(--sb-green);">Steg 3</div>
+          <h3>Utforska</h3>
+          <p>Kolla positioner, tidslinjen och ställ en fråga i AI-chatten.</p>
+        </div>
+        <div class="ts">
+          <div class="ts-num" style="color:var(--sb-purple);">Steg 4</div>
+          <h3>Måndag 08:00</h3>
+          <p>Vänta på din första veckologg — den landar varje måndag morgon.</p>
+        </div>
+      </div>
+
+      <div class="two-col" style="align-items:center;">
+        <div class="url-badge" style="width:fit-content;">🔗 opti.searchboost.se/portal.html</div>
+        <div class="hbox" style="padding:13px 18px;">
+          <p style="margin:0; font-size:12.5px;">
+            Frågor? Maila <strong style="color:#fff;">mikael@searchboost.se</strong> eller fråga direkt i AI-chatten i portalen.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft">
+      <div class="ft-tags">
+        <span class="fc">opti.searchboost.se</span>
+        <span class="fg">Din data · Din insyn</span>
+      </div>
+      <div class="ft-presenter">
+        <strong>Mikael Larsson</strong>
+        mikael@searchboost.se
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    transitionSpeed: 'fast',
+    backgroundTransition: 'none',
+    controls: true,
+    progress: true,
+    center: false,
+    width: 1280,
+    height: 720,
+    margin: 0,
+  });
+</script>
+</body>
+</html>

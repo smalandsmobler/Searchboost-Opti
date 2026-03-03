@@ -620,8 +620,8 @@ function generateReportHTML(data) {
       <div class="role">Medierådgivare:</div>
       <div><strong>Mikael Larsson</strong></div>
       <div>0760-19 49 05</div>
-      <div>mikael@searchboost.nu</div>
-      <div>www.searchboost.nu</div>
+      <div>mikael@searchboost.se</div>
+      <div>www.searchboost.se</div>
     </div>
   </div>
 
@@ -640,13 +640,20 @@ async function fetchPageSpeed(url) {
   const axios = require('axios');
   const result = { mobile: null, desktop: null };
 
-  try {
-    // Mobile
-    const mobileResp = await axios.get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed', {
+  // Mobile + Desktop parallellt
+  const [mobileResp, desktopResp] = await Promise.allSettled([
+    axios.get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed', {
       params: { url, strategy: 'mobile', category: 'performance' },
-      timeout: 30000
-    });
-    const mobileData = mobileResp.data?.lighthouseResult;
+      timeout: 25000
+    }),
+    axios.get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed', {
+      params: { url, strategy: 'desktop', category: 'performance' },
+      timeout: 25000
+    })
+  ]);
+
+  if (mobileResp.status === 'fulfilled') {
+    const mobileData = mobileResp.value.data?.lighthouseResult;
     if (mobileData) {
       result.mobile = {
         score: Math.round((mobileData.categories?.performance?.score || 0) * 100),
@@ -656,17 +663,10 @@ async function fetchPageSpeed(url) {
         tbt: mobileData.audits?.['total-blocking-time']?.displayValue || null
       };
     }
-  } catch (e) {
-    console.error('PageSpeed mobile error:', e.message);
-  }
+  } else { console.error('PageSpeed mobile error:', mobileResp.reason?.message); }
 
-  try {
-    // Desktop
-    const desktopResp = await axios.get('https://www.googleapis.com/pagespeedonline/v5/runPagespeed', {
-      params: { url, strategy: 'desktop', category: 'performance' },
-      timeout: 30000
-    });
-    const desktopData = desktopResp.data?.lighthouseResult;
+  if (desktopResp.status === 'fulfilled') {
+    const desktopData = desktopResp.value.data?.lighthouseResult;
     if (desktopData) {
       result.desktop = {
         score: Math.round((desktopData.categories?.performance?.score || 0) * 100),
@@ -676,9 +676,7 @@ async function fetchPageSpeed(url) {
         tbt: desktopData.audits?.['total-blocking-time']?.displayValue || null
       };
     }
-  } catch (e) {
-    console.error('PageSpeed desktop error:', e.message);
-  }
+  } else { console.error('PageSpeed desktop error:', desktopResp.reason?.message); }
 
   return result;
 }

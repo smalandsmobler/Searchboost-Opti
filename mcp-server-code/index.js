@@ -1,16 +1,60 @@
 const express = require('express');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
+// ── Slack-notiser ──
+const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK_URL || '';
+async function slackAlert(message, level = 'warning') {
+  const emoji = level === 'critical' ? ':rotating_light:' : level === 'info' ? ':white_check_mark:' : ':warning:';
+  try {
+    await axios.post(SLACK_WEBHOOK, {
+      text: `${emoji} *Searchboost Opti* — ${message}`
+    });
+  } catch (e) {
+    console.error('Slack-notis misslyckades:', e.message);
+  }
+}
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand, PutParameterCommand } = require('@aws-sdk/client-ssm');
 const { SESClient, SendEmailCommand } = require('@aws-sdk/client-ses');
 const { BigQuery } = require('@google-cloud/bigquery');
 const Anthropic = require('@anthropic-ai/sdk');
 const axios = require('axios');
+const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 
 const { generateReportPDF, fetchPageSpeed } = require('./pdf-report-generator');
 
 const app = express();
+app.set('trust proxy', 1); // Nginx reverse proxy sätter X-Forwarded-For
 app.use(express.json());
+
+// ── Security headers ──
+app.use(helmet({
+  contentSecurityPolicy: false, // Dashboard använder inline scripts
+  crossOriginEmbedderPolicy: false
+}));
+
+// ── HTTPS-redirect (gäller bara när X-Forwarded-Proto sätts av Nginx) ──
+app.use((req, res, next) => {
+  if (req.headers['x-forwarded-proto'] === 'http') {
+    return res.redirect(301, 'https://' + req.headers.host + req.url);
+  }
+  next();
+});
+
+// ── Rate limiting på portal-login (max 10 försök/15 min per IP) ──
+const portalLoginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { error: 'För många inloggningsförsök. Försök igen om 15 minuter.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res, next, options) => {
+    slackAlert(`Brute force-försök blockerat på kundportalen — IP: ${req.ip}`, 'critical');
+    res.status(options.statusCode).json(options.message);
+  }
+});
 
 // ── Parse Claude AI JSON (handles ```json wrapping) ──
 function parseClaudeJSON(text) {
@@ -55,6 +99,26 @@ app.use(async (req, res, next) => {
   if (req.method === 'OPTIONS') return next();
   if (req.path.startsWith('/api/reports/pdf/') || req.path.startsWith('/api/reports/download/')) return next();
   if (req.path === '/api/portal/login') return next(); // Kundportal login behöver ingen API-nyckel
+  if (req.path === '/api/onboard') return next(); // Onboarding har egen auth-check (onboard/api-key)
+
+  // Om Bearer JWT-token finns: validera den mot portal-hemligheterna
+  const authHeader = req.headers['authorization'];
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    try {
+      const token = authHeader.slice(7);
+      let jwtSecret;
+      try {
+        jwtSecret = await getParam('/seo-mcp/portal/jwt-secret');
+      } catch (e) { /* JWT-secret saknas */ }
+      if (jwtSecret) {
+        const decoded = jwt.verify(token, jwtSecret);
+        req.portalCustomer = { id: decoded.customer_id, name: decoded.name, email: decoded.email };
+        return next(); // Giltig JWT → tillåt
+      }
+    } catch (e) {
+      // Ogiltig JWT → faller igenom till X-Api-Key-check
+    }
+  }
 
   const apiKey = await getApiKey();
   if (!apiKey) return next(); // Om SSM-nyckeln inte finns, tillåt (backward compat)
@@ -543,7 +607,7 @@ async function ensurePipelineTables() {
       )`);
       // Seed with Mikael as admin
       await bq.query(`INSERT INTO \`${dataset}.salespeople\` (salesperson_id, email, display_name, role, is_active, created_at)
-        VALUES ('mikael', 'mikael@searchboost.nu', 'Mikael Larsson', 'admin', true, CURRENT_TIMESTAMP())`);
+        VALUES ('mikael', 'mikael@searchboost.se', 'Mikael Larsson', 'admin', true, CURRENT_TIMESTAMP())`);
       console.log('salespeople table created + Mikael seeded.');
     }
   }
@@ -1186,6 +1250,27 @@ app.get('/api/queue', async (req, res) => {
       query: `SELECT * FROM \`${dataset}.seo_work_queue\` WHERE status = 'pending' ORDER BY priority DESC LIMIT 20`
     });
     res.json({ queue: rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/queue/purge-junk — Rensa kassasidor och interna WooCommerce-sidor ur kön
+app.post('/api/queue/purge-junk', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    // Patterns: /kassan/, /varukorg/, /checkout/, /cart/, /min-konto/, /my-account/,
+    // /dold/, /test/, /temp/, /betalning/, /order-received/, /sample-page/
+    const [result] = await bq.query({
+      query: `DELETE FROM \`${dataset}.seo_work_queue\`
+              WHERE status = 'pending'
+              AND (
+                REGEXP_CONTAINS(page_url, r'/(kassan|varukorg|checkout|cart|kassa|min-konto|my-account|mitt-konto|betalning|order-received|orderbekraftelse|sample-page|privacy-policy|integritetspolicy|cookie-policy|gdpr|tack|thank-you|bekraftelse|login|logga-in|register|registrera)(/|$)')
+                OR REGEXP_CONTAINS(page_url, r'/(dold|test|temp|tmp|staging|dev|draft)[-_/]')
+              )`
+    });
+    const deleted = result ? result.numDmlAffectedRows || 0 : 0;
+    res.json({ ok: true, deleted: Number(deleted), message: `Rensade ${deleted} junk-URLs ur kön` });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -2775,7 +2860,7 @@ app.post('/api/backlinks/run-monitor', async (req, res) => {
     const { bq, dataset } = await getBigQuery();
 
     const BL_CUSTOMERS = {
-      searchboost:'searchboost.nu', mobelrondellen:'mobelrondellen.se', phvast:'phvast.se',
+      searchboost:'searchboost.se', mobelrondellen:'mobelrondellen.se', phvast:'phvast.se',
       ilmonte:'ilmonte.se', tobler:'tobler.se', traficator:'traficator.se',
       kompetensutveckla:'kompetensutveckla.se', ferox:'feroxkonsult.se',
       wedosigns:'wedosigns.se', smalandskontorsmobler:'smalandskontorsmobler.se'
@@ -4219,6 +4304,7 @@ app.get('/api/reports/formats', (req, res) => {
 
 // ── Portal Auth (JWT-baserad kundinloggning) ──────────────────
 try {
+  app.use('/api/portal/login', portalLoginLimiter);
   require('./portal-auth')(app, getParam, getBigQuery);
 } catch (e) {
   console.warn('Portal auth ej laddat (saknar jsonwebtoken/bcryptjs?):', e.message);
@@ -4664,8 +4750,10 @@ app.post('/api/prospect-analysis', async (req, res) => {
     // 1. WordPress crawl — identify SEO problems
     let crawlResult = { platform: 'unknown', totalPages: 0, totalPosts: 0, pages: [], issues: { critical: [], structural: [], content: [] }, summary: {} };
     try {
-      const wpPages = await axios.get(`${cleanUrl}/wp-json/wp/v2/pages?per_page=100&status=publish`, { timeout: 15000 });
-      const wpPosts = await axios.get(`${cleanUrl}/wp-json/wp/v2/posts?per_page=100&status=publish`, { timeout: 15000 });
+      const [wpPages, wpPosts] = await Promise.all([
+        axios.get(`${cleanUrl}/wp-json/wp/v2/pages?per_page=100&status=publish`, { timeout: 12000 }),
+        axios.get(`${cleanUrl}/wp-json/wp/v2/posts?per_page=100&status=publish`, { timeout: 12000 })
+      ]);
       crawlResult.platform = 'wordpress';
       crawlResult.totalPages = wpPages.data.length;
       crawlResult.totalPosts = wpPosts.data.length;
@@ -4706,16 +4794,18 @@ app.post('/api/prospect-analysis', async (req, res) => {
       let duplicateTitles = 0;
       for (const [, count] of Object.entries(titleCounts)) { if (count > 1) duplicateTitles += count; }
 
-      // Meta description check (sample 10 pages)
-      let missingDescription = 0;
+      // Meta description check (sample 10 pages, parallel)
       const pagesToCheck = [cleanUrl, ...allContent.slice(0, 9).map(p => p.link).filter(Boolean)];
-      for (const pageUrl of pagesToCheck) {
-        try {
-          const { data: html } = await axios.get(pageUrl, { timeout: 8000, maxRedirects: 3 });
-          const metaMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
-          if (!metaMatch || metaMatch[1].length < 10) missingDescription++;
-        } catch (e) { /* skip */ }
-      }
+      const metaChecks = await Promise.all(
+        pagesToCheck.map(async (pageUrl) => {
+          try {
+            const { data: html } = await axios.get(pageUrl, { timeout: 5000, maxRedirects: 2 });
+            const metaMatch = html.match(/<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i);
+            return (!metaMatch || metaMatch[1].length < 10) ? 1 : 0;
+          } catch (e) { return 0; }
+        })
+      );
+      const missingDescription = metaChecks.reduce((sum, v) => sum + v, 0);
       const checkRatio = missingDescription / Math.max(pagesToCheck.length, 1);
       const estimatedMissingDesc = Math.round(checkRatio * allContent.length);
 
@@ -4767,21 +4857,20 @@ app.post('/api/prospect-analysis', async (req, res) => {
         seeds.push(...words.slice(0, 2));
       });
     }
-    const uniqueSeeds = [...new Set(seeds)].slice(0, 8);
+    const uniqueSeeds = [...new Set(seeds)].slice(0, 3); // max 3 seeds, parallel
     const autocompleteSuggestions = [];
-    for (const seed of uniqueSeeds) {
+    await Promise.all(uniqueSeeds.map(async (seed) => {
       try {
         const acRes = await axios.get('https://www.google.com/complete/search', {
           params: { client: 'chrome', q: seed, hl: 'sv', gl: 'se' },
           headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SearchboostBot/1.0)' },
-          timeout: 5000
+          timeout: 4000
         });
         for (const s of (acRes.data[1] || [])) {
           if (s !== seed && !autocompleteSuggestions.includes(s)) autocompleteSuggestions.push(s);
         }
       } catch (e) { /* skip */ }
-      await new Promise(r => setTimeout(r, 200));
-    }
+    }));
     console.log(`[Prospect] Autocomplete: ${autocompleteSuggestions.length} suggestions`);
 
     // 4. AI analysis + presentation
@@ -4800,8 +4889,8 @@ app.post('/api/prospect-analysis', async (req, res) => {
     }[price_tier || 'medium'];
 
     const aiResponse = await client.messages.create({
-      model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 6000,
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 2500,
       messages: [{
         role: 'user',
         content: `Du är SEO-expert på Searchboost.se. Generera en SEO-analys och säljpresentation baserat på data.
@@ -5012,6 +5101,419 @@ app.post('/api/prospect-analyses/:id/to-pipeline', async (req, res) => {
   }
 });
 
+// ══════════════════════════════════════════════════════
+// SECURITY MONITORING ENDPOINTS
+// ══════════════════════════════════════════════════════
+
+async function sendSlackSecurity(webhookUrl, severity, customerName, details, siteUrl) {
+  if (!webhookUrl) return;
+  const colors = { critical: '#ef4444', warning: '#eab308', resolved: '#22c55e', info: '#00d4ff' };
+  const payload = {
+    attachments: [{
+      color: colors[severity] || colors.info,
+      blocks: [
+        { type: 'section', text: { type: 'mrkdwn', text: `*${severity.toUpperCase()} — ${customerName}*\n${details}` } },
+        { type: 'context', elements: [{ type: 'mrkdwn', text: `${siteUrl} | ${new Date().toISOString()}` }] }
+      ]
+    }]
+  };
+  try {
+    await axios.post(webhookUrl, payload, { timeout: 5000 });
+  } catch (e) { /* fire-and-forget */ }
+}
+
+// POST /api/security/event — ta emot event från WP-plugin
+app.post('/api/security/event', async (req, res) => {
+  try {
+    const { customer_id, site_url, event_type, severity, details } = req.body;
+    if (!customer_id || !event_type) return res.status(400).json({ error: 'customer_id och event_type krävs' });
+
+    const { bq, dataset } = await getBigQuery();
+
+    // Deduplicering — finns redan open event av samma typ?
+    const [existing] = await bq.query({
+      query: `SELECT event_id FROM \`${dataset}.security_events\`
+              WHERE customer_id = @cid AND event_type = @type AND status = 'open' LIMIT 1`,
+      params: { cid: customer_id, type: event_type }
+    }).catch(() => [[]]);
+
+    if (existing && existing.length > 0) {
+      return res.json({ success: true, deduplicated: true });
+    }
+
+    const eventId = require('crypto').randomUUID();
+    const now = new Date().toISOString();
+
+    await bq.query({
+      query: `INSERT INTO \`${dataset}.security_events\`
+              (event_id, customer_id, site_url, event_type, severity, details, detected_at, resolved_at, status, notified_slack)
+              VALUES (@eid, @cid, @url, @type, @sev, @det, @now, NULL, 'open', @notified)`,
+      params: {
+        eid: eventId, cid: customer_id, url: site_url || '', type: event_type,
+        sev: severity || 'info', det: details || '', now, notified: false
+      }
+    });
+
+    // Skicka Slack vid critical/warning
+    if (severity === 'critical' || severity === 'warning') {
+      const slackWebhook = await getParamSafe('/seo-mcp/slack/webhook-url');
+      if (slackWebhook) {
+        // Hämta företagsnamn
+        const [custRows] = await bq.query({
+          query: `SELECT company_name FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @cid LIMIT 1`,
+          params: { cid: customer_id }
+        }).catch(() => [[]]);
+        const companyName = (custRows && custRows.length > 0) ? custRows[0].company_name : customer_id;
+        await sendSlackSecurity(slackWebhook, severity, companyName, details || '', site_url || '');
+        // Markera som notifierad
+        await bq.query({
+          query: `UPDATE \`${dataset}.security_events\` SET notified_slack = true WHERE event_id = @eid`,
+          params: { eid: eventId }
+        }).catch(() => {});
+      }
+    }
+
+    res.json({ success: true, event_id: eventId });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/security — hämta alla events + summary per kund
+app.get('/api/security', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [events] = await bq.query({
+      query: `SELECT se.event_id, se.customer_id, se.site_url, se.event_type, se.severity,
+                     se.details, se.detected_at, se.resolved_at, se.status, se.notified_slack,
+                     cp.company_name
+              FROM \`${dataset}.security_events\` se
+              LEFT JOIN \`${dataset}.customer_pipeline\` cp ON se.customer_id = cp.customer_id
+              ORDER BY se.detected_at DESC
+              LIMIT 200`
+    }).catch(() => [[]]);
+
+    // Bygg summary per kund
+    const summaryMap = {};
+    for (const e of events) {
+      if (!summaryMap[e.customer_id]) {
+        summaryMap[e.customer_id] = {
+          customer_id: e.customer_id,
+          company_name: e.company_name || e.customer_id,
+          open_critical: 0, open_warning: 0, open_info: 0, total_open: 0
+        };
+      }
+      if (e.status === 'open') {
+        summaryMap[e.customer_id].total_open++;
+        if (e.severity === 'critical') summaryMap[e.customer_id].open_critical++;
+        else if (e.severity === 'warning') summaryMap[e.customer_id].open_warning++;
+        else summaryMap[e.customer_id].open_info++;
+      }
+    }
+
+    res.json({ events, summary: Object.values(summaryMap) });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/security/:eventId/resolve — markera event som löst
+app.post('/api/security/:eventId/resolve', async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const now = new Date().toISOString();
+    const { bq, dataset } = await getBigQuery();
+
+    // Hämta event-info för Slack-notis
+    const [rows] = await bq.query({
+      query: `SELECT se.customer_id, se.event_type, se.details, se.site_url, cp.company_name
+              FROM \`${dataset}.security_events\` se
+              LEFT JOIN \`${dataset}.customer_pipeline\` cp ON se.customer_id = cp.customer_id
+              WHERE se.event_id = @eid LIMIT 1`,
+      params: { eid: eventId }
+    }).catch(() => [[]]);
+
+    await bq.query({
+      query: `UPDATE \`${dataset}.security_events\`
+              SET status = 'resolved', resolved_at = @now
+              WHERE event_id = @eid`,
+      params: { eid: eventId, now }
+    });
+
+    // Grön Slack-notis om vi har webhook
+    if (rows && rows.length > 0) {
+      const e = rows[0];
+      const slackWebhook = await getParamSafe('/seo-mcp/slack/webhook-url');
+      if (slackWebhook) {
+        await sendSlackSecurity(slackWebhook, 'resolved', e.company_name || e.customer_id,
+          `Åtgärdat: ${e.details || e.event_type}`, e.site_url || '');
+      }
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Content Blueprint API ──────────────────────────────────────────────────
+
+// GET /api/content-blueprints — lista alla blueprints (senaste per kund)
+app.get('/api/content-blueprints', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const month = req.query.month || null; // ?month=2026-03
+
+    let query;
+    if (month) {
+      query = `
+        SELECT blueprint_id, customer_id, month, company_name, theme,
+               articles, quick_wins, monthly_goal, created_at, status
+        FROM \`${dataset}.content_blueprints\`
+        WHERE month = @month
+        ORDER BY company_name ASC
+      `;
+    } else {
+      // Senaste blueprint per kund
+      query = `
+        SELECT b.blueprint_id, b.customer_id, b.month, b.company_name, b.theme,
+               b.articles, b.quick_wins, b.monthly_goal, b.created_at, b.status
+        FROM \`${dataset}.content_blueprints\` b
+        INNER JOIN (
+          SELECT customer_id, MAX(created_at) as latest
+          FROM \`${dataset}.content_blueprints\`
+          GROUP BY customer_id
+        ) latest ON b.customer_id = latest.customer_id AND b.created_at = latest.latest
+        ORDER BY b.company_name ASC
+      `;
+    }
+
+    const params = month ? { month } : {};
+    const [rows] = await bq.query({ query, params });
+
+    // Deserialisera JSON-fält
+    const blueprints = rows.map(r => ({
+      ...r,
+      articles: (() => { try { return JSON.parse(r.articles || '[]'); } catch { return []; } })(),
+      quick_wins: (() => { try { return JSON.parse(r.quick_wins || '[]'); } catch { return []; } })(),
+      created_at: r.created_at?.value || r.created_at
+    }));
+
+    res.json({ blueprints, total: blueprints.length });
+  } catch (err) {
+    if (err.message.includes('Not found') || err.message.includes('notFound')) {
+      return res.json({ blueprints: [], total: 0, note: 'content_blueprints-tabellen finns inte ännu' });
+    }
+    console.error('content-blueprints error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/content-blueprints/:customer_id — alla blueprints för en kund
+app.get('/api/content-blueprints/:customer_id', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const { customer_id } = req.params;
+
+    const [rows] = await bq.query({
+      query: `
+        SELECT blueprint_id, customer_id, month, company_name, theme,
+               articles, quick_wins, monthly_goal, created_at, status
+        FROM \`${dataset}.content_blueprints\`
+        WHERE customer_id = @cid
+        ORDER BY created_at DESC
+        LIMIT 12
+      `,
+      params: { cid: customer_id }
+    });
+
+    const blueprints = rows.map(r => ({
+      ...r,
+      articles: (() => { try { return JSON.parse(r.articles || '[]'); } catch { return []; } })(),
+      quick_wins: (() => { try { return JSON.parse(r.quick_wins || '[]'); } catch { return []; } })(),
+      created_at: r.created_at?.value || r.created_at
+    }));
+
+    res.json({ blueprints, customer_id });
+  } catch (err) {
+    if (err.message.includes('Not found') || err.message.includes('notFound')) {
+      return res.json({ blueprints: [], customer_id: req.params.customer_id });
+    }
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/content-blueprints/trigger — trigga Lambda manuellt för en kund
+app.post('/api/content-blueprints/trigger', async (req, res) => {
+  try {
+    const { customer_id } = req.body;
+    if (!customer_id) return res.status(400).json({ error: 'customer_id krävs' });
+
+    const { LambdaClient, InvokeCommand } = require('@aws-sdk/client-lambda');
+    const lambda = new LambdaClient({ region: REGION });
+
+    const payload = JSON.stringify({ customer_id, force: true });
+    const result = await lambda.send(new InvokeCommand({
+      FunctionName: 'seo-content-blueprint-generator',
+      InvocationType: 'Event', // asynkront
+      Payload: Buffer.from(payload)
+    }));
+
+    res.json({ success: true, statusCode: result.StatusCode, customer_id });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/content-blueprint/months — lista tillgängliga månader
+app.get('/api/content-blueprint/months', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `
+        SELECT DISTINCT month
+        FROM \`${dataset}.content_blueprints\`
+        ORDER BY month DESC
+        LIMIT 24
+      `
+    });
+    res.json({ months: rows.map(r => r.month) });
+  } catch (err) {
+    res.json({ months: [] });
+  }
+});
+
+// ── Global felhanterare ──
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  slackAlert(`Serverfel på \`${req.method} ${req.path}\`: ${err.message}`, 'critical');
+  res.status(500).json({ error: 'Internt serverfel' });
+});
+
+// ── Trello Autosync — var 3:e timme ──
+// Kollar vad som hänt sedan senaste körning och lägger kommentar på kundkortens Trello-kort.
+// Täcker alla åtgärder: optimizer, manuellt arbete, keyword-researcher, work_queue.
+let _trelloLastSync = null;
+
+async function trelloAutoSync() {
+  const syncStart = new Date();
+  const lookbackMs = 3 * 60 * 60 * 1000; // 3 timmar
+  const since = _trelloLastSync
+    ? new Date(_trelloLastSync).toISOString()
+    : new Date(Date.now() - lookbackMs).toISOString();
+
+  console.log(`[Trello AutoSync] Kollar aktivitet sedan ${since}`);
+
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const boardId = await getParam('/seo-mcp/trello/board-id');
+
+    // Hämta alla kort på boardet (namn + id + beskrivning)
+    const allCards = await trelloApi('GET', `/boards/${boardId}/cards`, {
+      fields: 'name,desc,id'
+    });
+
+    // Hämta automatiska optimeringar sedan senaste sync (ej manuella)
+    const [optRows] = await bq.query({
+      query: `
+        SELECT customer_id, optimization_type, page_url, impact_estimate, timestamp
+        FROM \`${dataset}.seo_optimization_log\`
+        WHERE TIMESTAMP(timestamp) >= TIMESTAMP(@since)
+          AND NOT STARTS_WITH(COALESCE(claude_reasoning, ''), '[Manuellt')
+        ORDER BY customer_id, timestamp
+      `,
+      params: { since }
+    });
+
+    // Hämta manuellt arbete sedan senaste sync
+    // Manuella poster identifieras på att claude_reasoning börjar med "[Manuellt"
+    const [manualRows] = await bq.query({
+      query: `
+        SELECT customer_id, optimization_type, claude_reasoning, timestamp
+        FROM \`${dataset}.seo_optimization_log\`
+        WHERE STARTS_WITH(claude_reasoning, '[Manuellt')
+          AND TIMESTAMP(timestamp) >= TIMESTAMP(@since)
+        ORDER BY customer_id, timestamp
+      `,
+      params: { since }
+    }).catch(() => [[]]);
+
+    // Grupera per kund
+    const byCustomer = {};
+    for (const row of optRows) {
+      if (!byCustomer[row.customer_id]) byCustomer[row.customer_id] = { opts: [], manual: [] };
+      byCustomer[row.customer_id].opts.push(row);
+    }
+    for (const row of (manualRows || [])) {
+      if (!byCustomer[row.customer_id]) byCustomer[row.customer_id] = { opts: [], manual: [] };
+      byCustomer[row.customer_id].manual.push(row);
+    }
+
+    let synced = 0;
+    for (const [customerId, data] of Object.entries(byCustomer)) {
+      if (data.opts.length === 0 && data.manual.length === 0) continue;
+
+      // Hitta Trello-kortet för kunden (matchar på kortnamn)
+      const card = allCards.find(c => {
+        const name = c.name.toLowerCase();
+        return name.includes(customerId.toLowerCase()) ||
+               name.includes(customerId.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase());
+      });
+      if (!card) continue;
+
+      // Bygg kommentarstext
+      const lines = [`**Autosync ${new Date().toLocaleString('sv-SE', { timeZone: 'Europe/Stockholm' })}**`];
+
+      if (data.opts.length > 0) {
+        lines.push(`\n**Automatiska optimeringar (${data.opts.length} st):**`);
+        for (const o of data.opts.slice(0, 10)) {
+          const ts = new Date(o.timestamp).toLocaleTimeString('sv-SE', { timeZone: 'Europe/Stockholm', hour: '2-digit', minute: '2-digit' });
+          lines.push(`- ${ts} ${o.optimization_type}: ${(o.page_url || '').split('/').pop() || o.page_url}`);
+        }
+        if (data.opts.length > 10) lines.push(`- ...och ${data.opts.length - 10} till`);
+      }
+
+      if (data.manual.length > 0) {
+        lines.push(`\n**Manuellt arbete (${data.manual.length} st):**`);
+        for (const m of data.manual.slice(0, 5)) {
+          const desc = (m.claude_reasoning || '').replace(/^\[Manuellt[^\]]*\]\s*/, '').substring(0, 80);
+          lines.push(`- ${m.optimization_type || 'arbete'}: ${desc}`);
+        }
+      }
+
+      const commentText = lines.join('\n');
+
+      await trelloApi('POST', `/cards/${card.id}/actions/comments`, {
+        text: commentText
+      });
+      synced++;
+    }
+
+    _trelloLastSync = syncStart.toISOString();
+    console.log(`[Trello AutoSync] Klar — uppdaterade ${synced} kundkort`);
+  } catch (err) {
+    console.error('[Trello AutoSync] Fel:', err.message);
+  }
+}
+
+// Starta autosync var 3:e timme (10800000ms)
+// Vänta 2 min efter serverstart innan första körning
+setTimeout(() => {
+  trelloAutoSync();
+  setInterval(trelloAutoSync, 3 * 60 * 60 * 1000);
+}, 2 * 60 * 1000);
+
+// ── Oväntade fel — logga + notifiera ──
+process.on('uncaughtException', (err) => {
+  console.error('uncaughtException:', err);
+  slackAlert(`Kritiskt fel (uncaughtException): ${err.message}`, 'critical');
+});
+
+process.on('unhandledRejection', (reason) => {
+  console.error('unhandledRejection:', reason);
+  slackAlert(`Ohanterat Promise-fel: ${reason}`, 'warning');
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
@@ -5025,4 +5527,6 @@ app.listen(PORT, async () => {
   } catch (e) {
     console.error('Pipeline table init error:', e.message);
   }
+  // Slack-notis vid uppstart
+  slackAlert(`Servern startad — port ${PORT} :rocket:`, 'info');
 });

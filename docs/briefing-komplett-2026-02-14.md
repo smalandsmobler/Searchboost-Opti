@@ -172,8 +172,8 @@
 | **Totalt** | **50 HTML + 9 MD** | Redo for WordPress-publicering |
 
 ### Domanstrategi
-- `searchboost.nu` — WordPress pa Loopia (Mikaels doman)
-- `opti.searchboost.nu` — Dashboard pa EC2 (51.21.116.7)
+- `searchboost.se` — WordPress pa Loopia (Mikaels doman)
+- `opti.searchboost.se` — Dashboard pa EC2 (51.21.116.7)
 - `searchboost.se` — Viktor ager, ghostar just nu
 - 41 hardkodade .se-referenser i 17 filer — behover bli konfigurerbara
 

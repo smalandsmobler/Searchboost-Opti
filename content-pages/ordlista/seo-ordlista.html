@@ -15,8 +15,8 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "{{DOMAIN}}/" },
-      { "@type": "ListItem", "position": 2, "name": "SEO-ordlista", "item": "{{DOMAIN}}/seo-ordlista/" }
+      { "@type": "ListItem", "position": 1, "name": "Hem", "item": "https://searchboost.se/" },
+      { "@type": "ListItem", "position": 2, "name": "SEO-ordlista", "item": "https://searchboost.se/seo-ordlista/" }
     ]
   }
   </script>
@@ -28,7 +28,7 @@
     "@type": "DefinedTermSet",
     "name": "SEO-ordlista",
     "description": "Komplett ordlista med över 100 SEO-termer och begrepp förklarade på svenska.",
-    "url": "{{DOMAIN}}/seo-ordlista/",
+    "url": "https://searchboost.se/seo-ordlista/",
     "inLanguage": "sv"
   }
   </script>
@@ -461,25 +461,71 @@
       .alpha-nav a { width: 28px; height: 28px; font-size: 11px; border-radius: 6px; }
     }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Searchboost",
+    "url": "https://searchboost.se/",
+    "logo": "https://searchboost.se/wp-content/uploads/searchboost-logo.png",
+    "description": "Sveriges SEO-byrå för småföretag. Vi hjälper lokala företag att synas på Google.",
+    "email": "mikael@searchboost.se",
+    "areaServed": "SE",
+    "sameAs": [
+      "https://www.linkedin.com/company/searchboost",
+      "https://www.facebook.com/searchboostse"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Vad är SEO?",
+        "acceptedAnswer": { "@type": "Answer", "text": "SEO (Search Engine Optimization) är processen att optimera en webbplats för att ranka högre i Googles organiska sökresultat och därigenom öka relevant trafik." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad är en backlink?",
+        "acceptedAnswer": { "@type": "Answer", "text": "En backlink är en inkommande länk från en annan webbplats. Google ser backlinks som rekommendationer — fler kvalitativa backlinks ökar din domänauktoritet och rankning." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad betyder SERP?",
+        "acceptedAnswer": { "@type": "Answer", "text": "SERP (Search Engine Results Page) är den sida Google visar efter en sökning. Den innehåller organiska resultat, annonser, featured snippets, Local Pack och andra sökfunktioner." }
+      },
+      {
+        "@type": "Question",
+        "name": "Vad är Core Web Vitals?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Core Web Vitals är Googles mätetal för användarupplevelse: LCP (laddningstid), INP (interaktivitet) och CLS (layoutstabilitet). Dessa är direkta rankingfaktorer sedan 2021." }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="{{DOMAIN}}/" class="nav-logo">Search<span>boost</span></a>
+      <a href="https://searchboost.se/" class="nav-logo">Search<span>boost</span></a>
       <ul class="nav-links">
-        <li><a href="{{DOMAIN}}/tjanster/">Tjanster</a></li>
-        <li><a href="{{DOMAIN}}/seo-skola/">SEO-skola</a></li>
-        <li><a href="{{DOMAIN}}/vanliga-fragor/">FAQ</a></li>
-        <li><a href="{{DOMAIN}}/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
+        <li><a href="https://searchboost.se/tjanster/">Tjanster</a></li>
+        <li><a href="https://searchboost.se/seo-skola/">SEO-skola</a></li>
+        <li><a href="https://searchboost.se/vanliga-fragor/">FAQ</a></li>
+        <li><a href="https://searchboost.se/kontakt/" class="nav-cta">Gratis SEO-analys</a></li>
       </ul>
     </div>
   </nav>
 
   <!-- Breadcrumb -->
   <div class="breadcrumb">
-    <a href="{{DOMAIN}}/">Hem</a>
+    <a href="https://searchboost.se/">Hem</a>
     <span>/</span>
     <span class="current">SEO-ordlista</span>
   </div>
@@ -526,7 +572,7 @@
   <div class="glossary-intro">
     <div class="glossary-intro-box">
       <h2>Hur anvander du ordlistan?</h2>
-      <p>Klicka pa en bokstav i navigeringen ovan for att hoppa direkt till den sektionen. Varje term forklaras med en kort, lattforstaelig beskrivning pa svenska. Dar det ar relevant finns aven lankar till fordjupande artiklar i var <a href="{{DOMAIN}}/seo-skola/" style="color:#db007f;text-decoration:none;font-weight:600;border-bottom:1px solid #db007f30;">SEO-skola</a>. Saknar du nagon term? <a href="{{DOMAIN}}/kontakt/" style="color:#db007f;text-decoration:none;font-weight:600;border-bottom:1px solid #db007f30;">Hör av dig</a> sa lagger vi till den.</p>
+      <p>Klicka pa en bokstav i navigeringen ovan for att hoppa direkt till den sektionen. Varje term forklaras med en kort, lattforstaelig beskrivning pa svenska. Dar det ar relevant finns aven lankar till fordjupande artiklar i var <a href="https://searchboost.se/seo-skola/" style="color:#db007f;text-decoration:none;font-weight:600;border-bottom:1px solid #db007f30;">SEO-skola</a>. Saknar du nagon term? <a href="https://searchboost.se/kontakt/" style="color:#db007f;text-decoration:none;font-weight:600;border-bottom:1px solid #db007f30;">Hör av dig</a> sa lagger vi till den.</p>
     </div>
   </div>
 
@@ -567,7 +613,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Authority <span class="term-en">(Auktoritet)</span></div>
-          <div class="term-def">Ett matt pa hur trovarding och palitlig en webbplats eller sida anses vara av sokmotorer. Hog auktoritet byggs upp genom kvalitativa baklankar, expertinnehall, positiva anvandarsignaler och sakens alder. Verktyg som Moz (Domain Authority) och Ahrefs (Domain Rating) har egna matt for att uppskatta en sajts auktoritet pa en skala fran 0 till 100. <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Las mer om SEO-grunder</a></div>
+          <div class="term-def">Ett matt pa hur trovarding och palitlig en webbplats eller sida anses vara av sokmotorer. Hog auktoritet byggs upp genom kvalitativa baklankar, expertinnehall, positiva anvandarsignaler och sakens alder. Verktyg som Moz (Domain Authority) och Ahrefs (Domain Rating) har egna matt for att uppskatta en sajts auktoritet pa en skala fran 0 till 100. <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Las mer om SEO-grunder</a></div>
         </li>
       </ul>
     </div>
@@ -583,7 +629,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Backlink <span class="term-en">(Baklank)</span></div>
-          <div class="term-def">En lank fran en annan webbplats till din sajt. Baklankar ar en av Googles viktigaste rankningsfaktorer, da de fungerar som "roster" for din sidas kvalitet. Inte alla baklankar ar lika vardefulla — en lank fran en etablerad nyhetssajt vager mycket tyngre an en fran ett okant forum. Kvalitet ar viktigare an kvantitet. <a href="{{DOMAIN}}/seo-skola/lankar-och-lankbyggande/">Las mer om lankbyggande</a></div>
+          <div class="term-def">En lank fran en annan webbplats till din sajt. Baklankar ar en av Googles viktigaste rankningsfaktorer, da de fungerar som "roster" for din sidas kvalitet. Inte alla baklankar ar lika vardefulla — en lank fran en etablerad nyhetssajt vager mycket tyngre an en fran ett okant forum. Kvalitet ar viktigare an kvantitet. <a href="https://searchboost.se/seo-skola/lankar-och-lankbyggande/">Las mer om lankbyggande</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Black hat SEO <span class="term-en">(Svart hatt-SEO)</span></div>
@@ -627,7 +673,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Citations <span class="term-en">(Lokala citeringar)</span></div>
-          <div class="term-def">Omnamningar av ett foretags namn, adress och telefonnummer (NAP) pa andra webbplatser, kataloger och sociala plattformar. Citeringar ar sarskilt viktiga for lokal SEO da de bekraftar att ditt foretag finns och ar konsekvent representerat online. Viktiga kallor inkluderar Eniro, Hitta.se, Google Business Profile och branschspecifika kataloger. <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
+          <div class="term-def">Omnamningar av ett foretags namn, adress och telefonnummer (NAP) pa andra webbplatser, kataloger och sociala plattformar. Citeringar ar sarskilt viktiga for lokal SEO da de bekraftar att ditt foretag finns och ar konsekvent representerat online. Viktiga kallor inkluderar Eniro, Hitta.se, Google Business Profile och branschspecifika kataloger. <a href="https://searchboost.se/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Click-through rate <span class="term-en">(CTR / Klickfrekvens)</span></div>
@@ -639,7 +685,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Content marketing <span class="term-en">(Innehallsmarknadsforing)</span></div>
-          <div class="term-def">En marknadsstrategi som gar ut pa att skapa och distribuera vardefullt innehall for att attrahera och behalla en malgrupp. I SEO-sammanhang handlar det om att producera bloggartiklar, guider, videor och infografik som rankar i sokmotorer och driver organisk trafik. Bra content marketing besvarar malgruppens fragor och bygger fortroende over tid. <a href="{{DOMAIN}}/seo-skola/innehallsstrategi-for-seo/">Las mer om innehallsstrategi</a></div>
+          <div class="term-def">En marknadsstrategi som gar ut pa att skapa och distribuera vardefullt innehall for att attrahera och behalla en malgrupp. I SEO-sammanhang handlar det om att producera bloggartiklar, guider, videor och infografik som rankar i sokmotorer och driver organisk trafik. Bra content marketing besvarar malgruppens fragor och bygger fortroende over tid. <a href="https://searchboost.se/seo-skola/innehallsstrategi-for-seo/">Las mer om innehallsstrategi</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Conversion rate <span class="term-en">(Konverteringsgrad)</span></div>
@@ -647,7 +693,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Core Web Vitals</div>
-          <div class="term-def">Googles uppsattning av tre matetal som bedomerdh anvandarupplevelsen pa en webbsida: LCP (Largest Contentful Paint) mater laddningstid, INP (Interaction to Next Paint) mater interaktivitet, och CLS (Cumulative Layout Shift) mater visuell stabilitet. Sedan 2021 ar Core Web Vitals en bekraftad rankningsfaktor. Du kan mata dem i Google Search Console och PageSpeed Insights. <a href="{{DOMAIN}}/seo-skola/core-web-vitals/">Las mer om Core Web Vitals</a></div>
+          <div class="term-def">Googles uppsattning av tre matetal som bedomerdh anvandarupplevelsen pa en webbsida: LCP (Largest Contentful Paint) mater laddningstid, INP (Interaction to Next Paint) mater interaktivitet, och CLS (Cumulative Layout Shift) mater visuell stabilitet. Sedan 2021 ar Core Web Vitals en bekraftad rankningsfaktor. Du kan mata dem i Google Search Console och PageSpeed Insights. <a href="https://searchboost.se/seo-skola/core-web-vitals/">Las mer om Core Web Vitals</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Crawl budget <span class="term-en">(Crawl-budget)</span></div>
@@ -655,7 +701,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Crawler / Spider <span class="term-en">(Sokmotorrobot)</span></div>
-          <div class="term-def">Ett automatiserat program som sokmotorer anvander for att besoka och analysera webbsidor. Googles crawler kallas Googlebot. Crawlern foljer lankar fran sida till sida, laser av innehallet, och skickar tillbaka informationen for att indexeras i sokmotorns databas. Utan crawling kan inga sidor visas i sokresultaten. <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
+          <div class="term-def">Ett automatiserat program som sokmotorer anvander for att besoka och analysera webbsidor. Googles crawler kallas Googlebot. Crawlern foljer lankar fran sida till sida, laser av innehallet, och skickar tillbaka informationen for att indexeras i sokmotorns databas. Utan crawling kan inga sidor visas i sokresultaten. <a href="https://searchboost.se/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
         </li>
       </ul>
     </div>
@@ -707,7 +753,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">E-E-A-T <span class="term-en">(Experience, Expertise, Authoritativeness, Trustworthiness)</span></div>
-          <div class="term-def">Googles ramverk for att bedomma innehallskvalitet, som star for Erfarenhet, Expertis, Auktoritet och Trovardig. E-E-A-T ar inte en direkt rankningsfaktor men genomsyrar Googles kvalitetsriktlinjer. Det ar sarskilt viktigt for YMYL-innehall (Your Money, Your Life) som handlar om halsa, ekonomi och sakerhet. Visa forfattarens expertis och kallangivelser for att sta strikt med E-E-A-T. <a href="{{DOMAIN}}/seo-skola/e-e-a-t-forklarat/">Las mer om E-E-A-T</a></div>
+          <div class="term-def">Googles ramverk for att bedomma innehallskvalitet, som star for Erfarenhet, Expertis, Auktoritet och Trovardig. E-E-A-T ar inte en direkt rankningsfaktor men genomsyrar Googles kvalitetsriktlinjer. Det ar sarskilt viktigt for YMYL-innehall (Your Money, Your Life) som handlar om halsa, ekonomi och sakerhet. Visa forfattarens expertis och kallangivelser for att sta strikt med E-E-A-T. <a href="https://searchboost.se/seo-skola/e-e-a-t-forklarat/">Las mer om E-E-A-T</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Evergreen content <span class="term-en">(Eviggrott innehall)</span></div>
@@ -755,7 +801,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Google Ads</div>
-          <div class="term-def">Googles annonsplattform for betald sokning (PPC). Google Ads-annonser visas overst och langst ner i sokresultaten med markningen "Sponsrad". Till skillnad fran organisk SEO ger Google Ads omedelbar synlighet men kostar per klick. Manga foretag anvander bade SEO och Google Ads for att maximera sin synlighet — SEO for langtigsiktig trafik och Ads for snabba resultat. <a href="{{DOMAIN}}/seo-skola/seo-vs-google-ads/">Las mer om SEO vs Google Ads</a></div>
+          <div class="term-def">Googles annonsplattform for betald sokning (PPC). Google Ads-annonser visas overst och langst ner i sokresultaten med markningen "Sponsrad". Till skillnad fran organisk SEO ger Google Ads omedelbar synlighet men kostar per klick. Manga foretag anvander bade SEO och Google Ads for att maximera sin synlighet — SEO for langtigsiktig trafik och Ads for snabba resultat. <a href="https://searchboost.se/seo-skola/seo-vs-google-ads/">Las mer om SEO vs Google Ads</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Google Analytics</div>
@@ -763,11 +809,11 @@
         </li>
         <li class="term-item">
           <div class="term-name">Google Business Profile <span class="term-en">(GBP, tidigare Google My Business)</span></div>
-          <div class="term-def">En gratistjanst fran Google dar foretag kan hantera sin narvaro i Google Sok och Google Maps. Din Google Business Profile visar foretangsnamn, adress, telefon, oppettider, bilder och recensioner. For lokal SEO ar en val optimerad GBP helt avgortande — det ar ofta det forsta potentiella kunder ser. <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
+          <div class="term-def">En gratistjanst fran Google dar foretag kan hantera sin narvaro i Google Sok och Google Maps. Din Google Business Profile visar foretangsnamn, adress, telefon, oppettider, bilder och recensioner. For lokal SEO ar en val optimerad GBP helt avgortande — det ar ofta det forsta potentiella kunder ser. <a href="https://searchboost.se/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Google Search Console <span class="term-en">(GSC)</span></div>
-          <div class="term-def">Ett gratisverktyg fran Google som ger webbplatsagare insikt i hur deras sajt presterar i Google-sokningen. GSC visar vilka sokord som driver trafik, dina positioner, crawlfel, indexeringsstatus och Core Web Vitals. Det ar det mest palitliga SEO-verktyget da det visar faktisk data direkt fran Google. Alla som arbetar med SEO bor ha tillgang till GSC. <a href="{{DOMAIN}}/seo-skola/google-search-console-guide/">Las mer om Google Search Console</a></div>
+          <div class="term-def">Ett gratisverktyg fran Google som ger webbplatsagare insikt i hur deras sajt presterar i Google-sokningen. GSC visar vilka sokord som driver trafik, dina positioner, crawlfel, indexeringsstatus och Core Web Vitals. Det ar det mest palitliga SEO-verktyget da det visar faktisk data direkt fran Google. Alla som arbetar med SEO bor ha tillgang till GSC. <a href="https://searchboost.se/seo-skola/google-search-console-guide/">Las mer om Google Search Console</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Google Tag Manager <span class="term-en">(GTM)</span></div>
@@ -799,7 +845,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Heading tags <span class="term-en">(Rubriktaggar H1-H6)</span></div>
-          <div class="term-def">HTML-taggar (H1 till H6) som skapar en hierarkisk struktur i sidans innehall. H1 ar huvudrubriken, H2 anvands for delrubriker, H3 for underdelrubriker, och sa vidare. En korrekt rubrikhierarki hjalper sokmotorer att forsta innehallets struktur och forbattrar tillgangligheten for skarmolasare. Inkludera relevanta sokord naturligt i rubriker. <a href="{{DOMAIN}}/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
+          <div class="term-def">HTML-taggar (H1 till H6) som skapar en hierarkisk struktur i sidans innehall. H1 ar huvudrubriken, H2 anvands for delrubriker, H3 for underdelrubriker, och sa vidare. En korrekt rubrikhierarki hjalper sokmotorer att forsta innehallets struktur och forbattrar tillgangligheten for skarmolasare. Inkludera relevanta sokord naturligt i rubriker. <a href="https://searchboost.se/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Hreflang</div>
@@ -811,7 +857,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">HTTPS <span class="term-en">(Hypertext Transfer Protocol Secure)</span></div>
-          <div class="term-def">Den krypterade versionen av HTTP som skyddar data som overforors mellan besokare och webbserver. HTTPS kraver ett SSL/TLS-certifikat och ar en bekraftad rankningsfaktor i Google sedan 2014. Idag ar HTTPS i praktiken obligatoriskt — webblasare varnar for osaktliga sajter och Google ranking pa sajter utan HTTPS. <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
+          <div class="term-def">Den krypterade versionen av HTTP som skyddar data som overforors mellan besokare och webbserver. HTTPS kraver ett SSL/TLS-certifikat och ar en bekraftad rankningsfaktor i Google sedan 2014. Idag ar HTTPS i praktiken obligatoriskt — webblasare varnar for osaktliga sajter och Google ranking pa sajter utan HTTPS. <a href="https://searchboost.se/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
         </li>
       </ul>
     </div>
@@ -839,7 +885,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Internal linking <span class="term-en">(Intern lankning)</span></div>
-          <div class="term-def">Lankar mellan sidor pa samma webbplats. Intern lankning ar ett av de mest underskattade SEO-verktygen och fyller flera funktioner: det hjalper sokmotorer att hitta och forsta relationen mellan dina sidor, fordeltar lankvardet over sajten och guidar besokare till relevant innehall. En bra intern lankstruktur ger dina viktigaste sidor mest lankvardet. <a href="{{DOMAIN}}/seo-skola/intern-lankning/">Las mer om intern lankning</a></div>
+          <div class="term-def">Lankar mellan sidor pa samma webbplats. Intern lankning ar ett av de mest underskattade SEO-verktygen och fyller flera funktioner: det hjalper sokmotorer att hitta och forsta relationen mellan dina sidor, fordeltar lankvardet over sajten och guidar besokare till relevant innehall. En bra intern lankstruktur ger dina viktigaste sidor mest lankvardet. <a href="https://searchboost.se/seo-skola/intern-lankning/">Las mer om intern lankning</a></div>
         </li>
       </ul>
     </div>
@@ -855,7 +901,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">JavaScript SEO</div>
-          <div class="term-def">Optimering av webbplatser som anvander JavaScript-ramverk (React, Angular, Vue) for att sakerstalla att sokmotorer kan crawla, rendera och indexera innehallet korrekt. Googlebot kan rendera JavaScript men det tar langre tid och ar inte alltid felfritt. Vanliga problem inkluderar innehall som laddas dynamiskt, rendering pa klientsidan och lankar skapade med JavaScript. Server-side rendering (SSR) eller pre-rendering ar vanliga losningar. <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
+          <div class="term-def">Optimering av webbplatser som anvander JavaScript-ramverk (React, Angular, Vue) for att sakerstalla att sokmotorer kan crawla, rendera och indexera innehallet korrekt. Googlebot kan rendera JavaScript men det tar langre tid och ar inte alltid felfritt. Vanliga problem inkluderar innehall som laddas dynamiskt, rendering pa klientsidan och lankar skapade med JavaScript. Server-side rendering (SSR) eller pre-rendering ar vanliga losningar. <a href="https://searchboost.se/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
         </li>
       </ul>
     </div>
@@ -871,7 +917,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Keyword <span class="term-en">(Sokord / Nyckelord)</span></div>
-          <div class="term-def">Ett ord eller en fras som anvandare skriver in i en sokmotor for att hitta information, produkter eller tjanster. Sokord ar grundstenen i all SEO — genom att forsta vilka sokord din malgrupp anvander kan du optimera ditt innehall for att mota deras behov. Sokord kan vara korta ("skor") eller langa ("basta loparskor for platfotade"). <a href="{{DOMAIN}}/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
+          <div class="term-def">Ett ord eller en fras som anvandare skriver in i en sokmotor for att hitta information, produkter eller tjanster. Sokord ar grundstenen i all SEO — genom att forsta vilka sokord din malgrupp anvander kan du optimera ditt innehall for att mota deras behov. Sokord kan vara korta ("skor") eller langa ("basta loparskor for platfotade"). <a href="https://searchboost.se/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Keyword cannibalization <span class="term-en">(Nyckelordskannibalisering)</span></div>
@@ -887,7 +933,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Keyword research <span class="term-en">(Sokordsanalys)</span></div>
-          <div class="term-def">Processen att identifiera och analysera de sokord som din malgrupp anvander for att hitta produkter, tjanster eller information relaterat till din verksamhet. Sokordsanalys ar grunden for all SEO-strategi och inkluderar att bedomma sokvolym, konkurrens, sokintention och relevans. Verktyg som Google Keyword Planner, Ahrefs och SEMrush anvands ofta. <a href="{{DOMAIN}}/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
+          <div class="term-def">Processen att identifiera och analysera de sokord som din malgrupp anvander for att hitta produkter, tjanster eller information relaterat till din verksamhet. Sokordsanalys ar grunden for all SEO-strategi och inkluderar att bedomma sokvolym, konkurrens, sokintention och relevans. Verktyg som Google Keyword Planner, Ahrefs och SEMrush anvands ofta. <a href="https://searchboost.se/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Keyword stuffing <span class="term-en">(Nyckelordsstoppning)</span></div>
@@ -915,7 +961,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Link building <span class="term-en">(Lankbyggnad)</span></div>
-          <div class="term-def">Den aktiva processen att skaffa baklankar fran andra webbplatser till din egen. Lankbyggnad ar en av de mest effektiva SEO-strategierna men aven en av de svaaraste. Vita metoder inkluderar att skapa satt vardefullt innehall att andra vill lanka till, digital PR, guest posting och att aterfa forlorrande lankar. Googles riktlinjer kraver att lankar ar naturliga, inte kopade. <a href="{{DOMAIN}}/seo-skola/lankar-och-lankbyggande/">Las mer om lankbyggande</a></div>
+          <div class="term-def">Den aktiva processen att skaffa baklankar fran andra webbplatser till din egen. Lankbyggnad ar en av de mest effektiva SEO-strategierna men aven en av de svaaraste. Vita metoder inkluderar att skapa satt vardefullt innehall att andra vill lanka till, digital PR, guest posting och att aterfa forlorrande lankar. Googles riktlinjer kraver att lankar ar naturliga, inte kopade. <a href="https://searchboost.se/seo-skola/lankar-och-lankbyggande/">Las mer om lankbyggande</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Link juice <span class="term-en">(Lankvarde)</span></div>
@@ -923,11 +969,11 @@
         </li>
         <li class="term-item">
           <div class="term-name">Local pack <span class="term-en">(Lokalt trepack)</span></div>
-          <div class="term-def">De tre foretagsresultat med karta som visas hogst upp i Googles sokresultat vid lokala sokningar (t.ex. "tandlakare Jonkoping"). Local pack-resultat kommer fran Google Business Profile och ranking baseras pa relevans, avstand och prominence (kannedom). Att synas i local pack ar extremt vardefullt da det far en stor del av klicken vid lokala sokningar. <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
+          <div class="term-def">De tre foretagsresultat med karta som visas hogst upp i Googles sokresultat vid lokala sokningar (t.ex. "tandlakare Jonkoping"). Local pack-resultat kommer fran Google Business Profile och ranking baseras pa relevans, avstand och prominence (kannedom). Att synas i local pack ar extremt vardefullt da det far en stor del av klicken vid lokala sokningar. <a href="https://searchboost.se/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Local SEO <span class="term-en">(Lokal sokmotoroptimering)</span></div>
-          <div class="term-def">Optimering av en webbplats och digital narvaro for att synas i lokala sokresultat. Lokal SEO ar kritiskt for foretag med fysiska platser eller lokala upptagningsomraden. Strategin inkluderar optimering av Google Business Profile, lokala citeringar, lokalt innehall, recensioner och platsbaserade nyckelord. <a href="{{DOMAIN}}/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
+          <div class="term-def">Optimering av en webbplats och digital narvaro for att synas i lokala sokresultat. Lokal SEO ar kritiskt for foretag med fysiska platser eller lokala upptagningsomraden. Strategin inkluderar optimering av Google Business Profile, lokala citeringar, lokalt innehall, recensioner och platsbaserade nyckelord. <a href="https://searchboost.se/seo-skola/lokal-seo/">Las mer om lokal SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Long-tail keyword <span class="term-en">(Langssvansigt sokord)</span></div>
@@ -955,7 +1001,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Meta description <span class="term-en">(Metabeskrivning)</span></div>
-          <div class="term-def">En HTML-meta-tagg som ger en kort sammanfattning av sidans innehall (rekommenderat 120-160 tecken). Meta description visas ofta som textutdraget under title tag i sokresultaten. Den ar inte en direkt rankningsfaktor men paverkar klickfrekvensen avsevart. En bra meta description ar obestaende, inkluderar sokordet naturligt och innehaller en handlingsuppanmaning. <a href="{{DOMAIN}}/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
+          <div class="term-def">En HTML-meta-tagg som ger en kort sammanfattning av sidans innehall (rekommenderat 120-160 tecken). Meta description visas ofta som textutdraget under title tag i sokresultaten. Den ar inte en direkt rankningsfaktor men paverkar klickfrekvensen avsevart. En bra meta description ar obestaende, inkluderar sokordet naturligt och innehaller en handlingsuppanmaning. <a href="https://searchboost.se/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Meta tags <span class="term-en">(Metataggar)</span></div>
@@ -1011,15 +1057,15 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Off-page SEO</div>
-          <div class="term-def">Alla SEO-aktiviteter som sker utanfor din egen webbplats for att forbattrar dina sokranktingar. Off-page SEO inkluderar framst lankbyggnad men aven sociala medier, gastbloggande, digital PR, varummarkesomnamnanden och lokala citeringar. Medan on-page SEO handlar om vad du kan kontrollera pa din sajt, handlar off-page SEO om hur omvarlden ser pa din sajt. <a href="{{DOMAIN}}/seo-skola/off-page-seo/">Las mer om off-page SEO</a></div>
+          <div class="term-def">Alla SEO-aktiviteter som sker utanfor din egen webbplats for att forbattrar dina sokranktingar. Off-page SEO inkluderar framst lankbyggnad men aven sociala medier, gastbloggande, digital PR, varummarkesomnamnanden och lokala citeringar. Medan on-page SEO handlar om vad du kan kontrollera pa din sajt, handlar off-page SEO om hur omvarlden ser pa din sajt. <a href="https://searchboost.se/seo-skola/off-page-seo/">Las mer om off-page SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">On-page SEO</div>
-          <div class="term-def">Optimering av enskilda webbsidor for att ranka hogre i sokresultaten. On-page SEO inkluderar optimering av title tags, meta descriptions, rubriker (H1-H6), intern lankning, bildoptimering (alt-text), URL-struktur och innehallskvalitet. Det ar den del av SEO du har full kontroll over och som direkt paverkar hur sokmotorer tolkar din sida. <a href="{{DOMAIN}}/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
+          <div class="term-def">Optimering av enskilda webbsidor for att ranka hogre i sokresultaten. On-page SEO inkluderar optimering av title tags, meta descriptions, rubriker (H1-H6), intern lankning, bildoptimering (alt-text), URL-struktur och innehallskvalitet. Det ar den del av SEO du har full kontroll over och som direkt paverkar hur sokmotorer tolkar din sida. <a href="https://searchboost.se/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Organic search <span class="term-en">(Organisk sokning)</span></div>
-          <div class="term-def">De obetalda sokresultaten i en sokmotor, till skillnad fran betalda annonser (Google Ads). Organiska resultat rankas baserat pa Googles algoritm och paverkas av hundratals faktorer inklusive innehallsrelevans, baklankar, teknisk SEO och anvandarupplevelse. Organisk sokning star for cirka 53 % av all webbtrafik globalt, vilket gor det till den storsta trafikkallen for de flesta webbplatser. <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Las mer om vad SEO ar</a></div>
+          <div class="term-def">De obetalda sokresultaten i en sokmotor, till skillnad fran betalda annonser (Google Ads). Organiska resultat rankas baserat pa Googles algoritm och paverkas av hundratals faktorer inklusive innehallsrelevans, baklankar, teknisk SEO och anvandarupplevelse. Organisk sokning star for cirka 53 % av all webbtrafik globalt, vilket gor det till den storsta trafikkallen for de flesta webbplatser. <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Las mer om vad SEO ar</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Organic traffic <span class="term-en">(Organisk trafik)</span></div>
@@ -1051,7 +1097,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">Page speed <span class="term-en">(Sidhastighet)</span></div>
-          <div class="term-def">Hur snabbt en webbsida laddas fardigt for besokaren. Sidhastighet ar en bekraftad rankningsfaktor i Google och paverkar bade anvandarupplevelsen och konverteringsgraden. Varje extra sekunds laddningstid okar risken att besokare lamnar sidan. Verktyg som Google PageSpeed Insights och GTmetrix analyserar din sidhastighet och ger konkreta forbattringsforslag. <a href="{{DOMAIN}}/seo-skola/core-web-vitals/">Las mer om Core Web Vitals</a></div>
+          <div class="term-def">Hur snabbt en webbsida laddas fardigt for besokaren. Sidhastighet ar en bekraftad rankningsfaktor i Google och paverkar bade anvandarupplevelsen och konverteringsgraden. Varje extra sekunds laddningstid okar risken att besokare lamnar sidan. Verktyg som Google PageSpeed Insights och GTmetrix analyserar din sidhastighet och ger konkreta forbattringsforslag. <a href="https://searchboost.se/seo-skola/core-web-vitals/">Las mer om Core Web Vitals</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">PageRank</div>
@@ -1071,7 +1117,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">PPC <span class="term-en">(Pay-Per-Click / Betala per klick)</span></div>
-          <div class="term-def">En annonseringsmodell dar du betalar varje gang nagon klickar pa din annons. Google Ads ar den vanligaste PPC-plattformen for sokning. PPC ger omedelbar synlighet men kostar pengar per klick, medan SEO ger gratis trafik pa langre sikt. Manga foretag kombinerar PPC med SEO — PPC for omedelbara resultat och SEO for hallbar tillvaxt. <a href="{{DOMAIN}}/seo-skola/seo-vs-google-ads/">Las mer om SEO vs Google Ads</a></div>
+          <div class="term-def">En annonseringsmodell dar du betalar varje gang nagon klickar pa din annons. Google Ads ar den vanligaste PPC-plattformen for sokning. PPC ger omedelbar synlighet men kostar pengar per klick, medan SEO ger gratis trafik pa langre sikt. Manga foretag kombinerar PPC med SEO — PPC for omedelbara resultat och SEO for hallbar tillvaxt. <a href="https://searchboost.se/seo-skola/seo-vs-google-ads/">Las mer om SEO vs Google Ads</a></div>
         </li>
       </ul>
     </div>
@@ -1107,15 +1153,15 @@
         </li>
         <li class="term-item">
           <div class="term-name">Rich snippet <span class="term-en">(Rikt utdrag)</span></div>
-          <div class="term-def">Ett sokresultat som visar extra information utover standardrubriken och beskrivningen, som stjarnbetyg, priser, kokstid for recept eller FAQ-svar. Rich snippets skapas genom att implementera strukturerad data (schema markup) pa din webbplats. De okar din synlighet i sokresultaten och kan markant forbattra klickfrekvensen. <a href="{{DOMAIN}}/seo-skola/schema-markup/">Las mer om schema markup</a></div>
+          <div class="term-def">Ett sokresultat som visar extra information utover standardrubriken och beskrivningen, som stjarnbetyg, priser, kokstid for recept eller FAQ-svar. Rich snippets skapas genom att implementera strukturerad data (schema markup) pa din webbplats. De okar din synlighet i sokresultaten och kan markant forbattra klickfrekvensen. <a href="https://searchboost.se/seo-skola/schema-markup/">Las mer om schema markup</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Robots.txt</div>
-          <div class="term-def">En textfil i roten av din webbplats (example.com/robots.txt) som instruerar sokmotorrobotar vilka sidor och mappar de far eller inte far crawla. Robots.txt ar inte ett satt att dolja sidor fran sokresultaten (anvand noindex for det) utan snarare ett verktyg for att styra crawl-budget och forhindra att sokmotorer sloosar tid pa oviksamma sidor. <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
+          <div class="term-def">En textfil i roten av din webbplats (example.com/robots.txt) som instruerar sokmotorrobotar vilka sidor och mappar de far eller inte far crawla. Robots.txt ar inte ett satt att dolja sidor fran sokresultaten (anvand noindex for det) utan snarare ett verktyg for att styra crawl-budget och forhindra att sokmotorer sloosar tid pa oviksamma sidor. <a href="https://searchboost.se/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">ROI <span class="term-en">(Return on Investment / Avkastning pa investering)</span></div>
-          <div class="term-def">Matt for lonsamheten pa en investering. For SEO beraknas ROI genom att jamfora kostnaden for SEO-arbetet mot vardet av den organiska trafik och de konverteringar som genereras. SEO har typiskt hogre ROI an PPC pa lang sikt da den organiska trafiken fortsatter aven om du minskar investeringen, till skillnad fran betald annonsering som uppphor direkt. <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Las mer om SEO-kostnader</a></div>
+          <div class="term-def">Matt for lonsamheten pa en investering. For SEO beraknas ROI genom att jamfora kostnaden for SEO-arbetet mot vardet av den organiska trafik och de konverteringar som genereras. SEO har typiskt hogre ROI an PPC pa lang sikt da den organiska trafiken fortsatter aven om du minskar investeringen, till skillnad fran betald annonsering som uppphor direkt. <a href="https://searchboost.se/seo-skola/vad-kostar-seo/">Las mer om SEO-kostnader</a></div>
         </li>
       </ul>
     </div>
@@ -1131,11 +1177,11 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Schema markup <span class="term-en">(Strukturerad data)</span></div>
-          <div class="term-def">En kod (vanligtvis JSON-LD) som laggs till pa webbsidor for att hjalpa sokmotorer att forstaa innehallet batter. Schema markup kan beskriva foretag, produkter, recensioner, event, FAQ och mycket mer. Ratt implementerad kan schema markup ge rich snippets i sokresultaten som okar din synlighet och klickfrekvens markant. <a href="{{DOMAIN}}/seo-skola/schema-markup/">Las mer om schema markup</a></div>
+          <div class="term-def">En kod (vanligtvis JSON-LD) som laggs till pa webbsidor for att hjalpa sokmotorer att forstaa innehallet batter. Schema markup kan beskriva foretag, produkter, recensioner, event, FAQ och mycket mer. Ratt implementerad kan schema markup ge rich snippets i sokresultaten som okar din synlighet och klickfrekvens markant. <a href="https://searchboost.se/seo-skola/schema-markup/">Las mer om schema markup</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Search intent <span class="term-en">(Sokintention)</span></div>
-          <div class="term-def">Syftet bakom en sokning — vad anvandaren faktiskt forsoker uppna. De fyra huvudtyperna ar: informativ (vill lara sig nagot), navigerande (soker en specifik sajt), transaktionell (vill kopa nagot) och kommersiell utredning (jamfor alternativ). Att matcha ditt innehall med sokintentionen ar avgocellande for att ranka bra och tillfredstsalla sokare. <a href="{{DOMAIN}}/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
+          <div class="term-def">Syftet bakom en sokning — vad anvandaren faktiskt forsoker uppna. De fyra huvudtyperna ar: informativ (vill lara sig nagot), navigerande (soker en specifik sajt), transaktionell (vill kopa nagot) och kommersiell utredning (jamfor alternativ). Att matcha ditt innehall med sokintentionen ar avgocellande for att ranka bra och tillfredstsalla sokare. <a href="https://searchboost.se/seo-skola/sokord-och-sokordsanalys/">Las mer om sokordsanalys</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Search volume <span class="term-en">(Sokvolym)</span></div>
@@ -1143,7 +1189,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">SEO audit <span class="term-en">(SEO-granskning)</span></div>
-          <div class="term-def">En grundlig analys av en webbplats for att identifiera tekniska problem, innehallsluckor, lankmojligheter och andra faktorer som paverkar sokmotor-rankning. En SEO audit tar vanligtvis upp teknisk SEO (crawling, indexering, hastighet), on-page SEO (innehall, metataggar, struktur) och off-page SEO (baklankar, citeringar). Resultatet ar en prioriterad atgardsplan. <a href="{{DOMAIN}}/seo-skola/seo-audit-guide/">Las mer om SEO audit</a></div>
+          <div class="term-def">En grundlig analys av en webbplats for att identifiera tekniska problem, innehallsluckor, lankmojligheter och andra faktorer som paverkar sokmotor-rankning. En SEO audit tar vanligtvis upp teknisk SEO (crawling, indexering, hastighet), on-page SEO (innehall, metataggar, struktur) och off-page SEO (baklankar, citeringar). Resultatet ar en prioriterad atgardsplan. <a href="https://searchboost.se/seo-skola/seo-audit-guide/">Las mer om SEO audit</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">SERP <span class="term-en">(Search Engine Results Page)</span></div>
@@ -1191,11 +1237,11 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">Technical SEO <span class="term-en">(Teknisk SEO)</span></div>
-          <div class="term-def">Optimering av en webbplats tekniska grundar for att sakerstalla att sokmotorer kan crawla, rendera och indexera den korrekt. Teknisk SEO inkluderar sidhastighet, mobilvanlig design, HTTPS, XML-sitemap, robots.txt, crawl-optimering, hantering av duplicerat innehall och strukturerad data. Det ar grunden som resten av SEO-arbetet bygger pa. <a href="{{DOMAIN}}/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
+          <div class="term-def">Optimering av en webbplats tekniska grundar for att sakerstalla att sokmotorer kan crawla, rendera och indexera den korrekt. Teknisk SEO inkluderar sidhastighet, mobilvanlig design, HTTPS, XML-sitemap, robots.txt, crawl-optimering, hantering av duplicerat innehall och strukturerad data. Det ar grunden som resten av SEO-arbetet bygger pa. <a href="https://searchboost.se/seo-skola/teknisk-seo/">Las mer om teknisk SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Title tag <span class="term-en">(Titeltagg)</span></div>
-          <div class="term-def">HTML-taggen <code>&lt;title&gt;</code> som definierar sidans titel och visas som den klickbara blaa lanken i sokresultaten och i webblasarens flik. Title tag ar en av de viktigaste on-page SEO-faktorerna. En bra title tag ar 50-60 tecken, inkluderar det primara sokordet naturligt, ar unik for varje sida och ar obestaende nog att generera klick. <a href="{{DOMAIN}}/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
+          <div class="term-def">HTML-taggen <code>&lt;title&gt;</code> som definierar sidans titel och visas som den klickbara blaa lanken i sokresultaten och i webblasarens flik. Title tag ar en av de viktigaste on-page SEO-faktorerna. En bra title tag ar 50-60 tecken, inkluderar det primara sokordet naturligt, ar unik for varje sida och ar obestaende nog att generera klick. <a href="https://searchboost.se/seo-skola/on-page-seo/">Las mer om on-page SEO</a></div>
         </li>
         <li class="term-item">
           <div class="term-name">Top-level domain <span class="term-en">(TLD / Topp-doman)</span></div>
@@ -1223,7 +1269,7 @@
       <ul class="term-list">
         <li class="term-item">
           <div class="term-name">URL <span class="term-en">(Uniform Resource Locator)</span></div>
-          <div class="term-def">Den unika adressen till en webbsida pa internet, t.ex. <code>https://searchboost.nu/seo-ordlista/</code>. En bra URL for SEO ar kort, beskrivande, inkluderar relevanta sokord och anvander bindestreck for att separera ord. Undvik URL:er med langa parameterstrangar, siffror utan sammanhang och onodigt djupa mappstrukturer.</div>
+          <div class="term-def">Den unika adressen till en webbsida pa internet, t.ex. <code>https://searchboost.se/seo-ordlista/</code>. En bra URL for SEO ar kort, beskrivande, inkluderar relevanta sokord och anvander bindestreck for att separera ord. Undvik URL:er med langa parameterstrangar, siffror utan sammanhang och onodigt djupa mappstrukturer.</div>
         </li>
         <li class="term-item">
           <div class="term-name">URL structure <span class="term-en">(URL-struktur)</span></div>
@@ -1279,7 +1325,7 @@
         </li>
         <li class="term-item">
           <div class="term-name">WordPress SEO</div>
-          <div class="term-def">Sokmotoroptimering specifikt for WordPress-sajter, som ar varldens mest populara CMS. WordPress SEO inkluderar att valja ratt SEO-plugin (Rank Math, Yoast), optimera permalinks, installera SSL, konfigurera XML-sitemaps, anvanda korrekt rubrikstruktur och optimera bilder. WordPress ar i grunden SEO-vanligt men kraver ratt konfiguration och plugins for att prestera optimalt. <a href="{{DOMAIN}}/seo-skola/wordpress-seo/">Las mer om WordPress SEO</a></div>
+          <div class="term-def">Sokmotoroptimering specifikt for WordPress-sajter, som ar varldens mest populara CMS. WordPress SEO inkluderar att valja ratt SEO-plugin (Rank Math, Yoast), optimera permalinks, installera SSL, konfigurera XML-sitemaps, anvanda korrekt rubrikstruktur och optimera bilder. WordPress ar i grunden SEO-vanligt men kraver ratt konfiguration och plugins for att prestera optimalt. <a href="https://searchboost.se/seo-skola/wordpress-seo/">Las mer om WordPress SEO</a></div>
         </li>
       </ul>
     </div>
@@ -1307,7 +1353,7 @@
   <section class="cta-section">
     <h2>Vill du forbattra din SEO?</h2>
     <p>Nu nar du kan termerna ar det dags att agera. Boka en gratis SEO-analys sa visar vi exakt hur din sajt presterar och vad du kan forbattra.</p>
-    <a href="{{DOMAIN}}/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
+    <a href="https://searchboost.se/kontakt/" class="cta-btn-white">Boka gratis SEO-analys</a>
   </section>
 
   <!-- Footer -->
@@ -1319,23 +1365,23 @@
       </div>
       <div>
         <h4>SEO-tjanster</h4>
-        <a href="{{DOMAIN}}/seo-byra-jonkoping/">SEO-byra Jonkoping</a>
-        <a href="{{DOMAIN}}/seo-byra-vaxjo/">SEO-byra Vaxjo</a>
-        <a href="{{DOMAIN}}/seo-byra-varnamo/">SEO-byra Varnamo</a>
-        <a href="{{DOMAIN}}/lokal-seo/">Lokal SEO</a>
-        <a href="{{DOMAIN}}/seo-audit-tjanst/">SEO Audit</a>
+        <a href="https://searchboost.se/seo-byra-jonkoping/">SEO-byra Jonkoping</a>
+        <a href="https://searchboost.se/seo-byra-vaxjo/">SEO-byra Vaxjo</a>
+        <a href="https://searchboost.se/seo-byra-varnamo/">SEO-byra Varnamo</a>
+        <a href="https://searchboost.se/lokal-seo/">Lokal SEO</a>
+        <a href="https://searchboost.se/seo-audit-tjanst/">SEO Audit</a>
       </div>
       <div>
         <h4>Lar dig SEO</h4>
-        <a href="{{DOMAIN}}/seo-skola/vad-ar-seo/">Vad ar SEO?</a>
-        <a href="{{DOMAIN}}/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
-        <a href="{{DOMAIN}}/vanliga-fragor/">Vanliga fragor</a>
-        <a href="{{DOMAIN}}/seo-ordlista/">SEO-ordlista</a>
+        <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Vad ar SEO?</a>
+        <a href="https://searchboost.se/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+        <a href="https://searchboost.se/vanliga-fragor/">Vanliga fragor</a>
+        <a href="https://searchboost.se/seo-ordlista/">SEO-ordlista</a>
       </div>
       <div>
         <h4>Kontakt</h4>
-        <a href="mailto:mikael@searchboost.nu">mikael@searchboost.nu</a>
-        <a href="{{DOMAIN}}/kontakt/">Boka gratis SEO-analys</a>
+        <a href="mailto:mikael@searchboost.se">mikael@searchboost.se</a>
+        <a href="https://searchboost.se/kontakt/">Boka gratis SEO-analys</a>
       </div>
     </div>
     <div class="footer-bottom">
