@@ -1,0 +1,7 @@
+# Searchboost Lead-lista
+# Ett domännamn per rad. Rader som börjar med # ignoreras.
+# Kör: node scripts/lead-generator.js --bulk scripts/domains-example.txt --send
+
+example1.se
+example2.se
+example3.se

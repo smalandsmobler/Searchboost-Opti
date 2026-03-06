@@ -1,0 +1,512 @@
+{
+  "generated": "2026-02-23T18:18:38.418Z",
+  "domains_total": 859,
+  "phase1_completed": 859,
+  "phase2_completed": 80,
+  "top_results": 62,
+  "high_potential": 20,
+  "mid_potential": 42,
+  "reports_saved": 62,
+  "top50": [
+    {
+      "domain": "egelectronics.com",
+      "composite": 77,
+      "level": "HOG",
+      "email": "hello@egelectronics.com",
+      "phone": "026-01-20",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "benders.se",
+      "composite": 76,
+      "level": "HOG",
+      "email": "info@benders.se",
+      "phone": "010-888 00 00",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "weibulls.com",
+      "composite": 75,
+      "level": "HOG",
+      "email": "",
+      "phone": "03305011091",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "interlite.se",
+      "composite": 74,
+      "level": "HOG",
+      "email": "",
+      "phone": "0522-440 885",
+      "name": "Simon Hansen",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "byggkonstruktoren.se",
+      "composite": 74,
+      "level": "HOG",
+      "email": "info@byggkonstruktoren.se",
+      "phone": "026-18 88 10",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "durgo.se",
+      "composite": 74,
+      "level": "HOG",
+      "email": "sales@durgo.se",
+      "phone": "+46 8 730 5280 --",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "fogasystem.com",
+      "composite": 73,
+      "level": "HOG",
+      "email": "mailto:&#105;&#110;&#102;&#111;&#64;f&#111;g&#97;&#115;y&#115;te&#109;.com",
+      "phone": "022-10-26",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "theskinagent.com",
+      "composite": 73,
+      "level": "HOG",
+      "email": "hello@theskinagent.com",
+      "phone": "021-11-17",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "ostras.se",
+      "composite": 73,
+      "level": "HOG",
+      "email": "info@ostras.se",
+      "phone": "017-08-26",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "glacialbottle.com",
+      "composite": 72,
+      "level": "HOG",
+      "email": "",
+      "phone": "024-10-04",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "inflexus.se",
+      "composite": 71,
+      "level": "HOG",
+      "email": "order@inflexus.se",
+      "phone": "07888859508678",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "anderbergsskor.se",
+      "composite": 71,
+      "level": "HOG",
+      "email": "",
+      "phone": "057-0326",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "varningstalt.se",
+      "composite": 71,
+      "level": "HOG",
+      "email": "info@swedenrescue.se",
+      "phone": "0495049505",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "bepps.se",
+      "composite": 71,
+      "level": "HOG",
+      "email": "pro@bepps.se%20",
+      "phone": "046-590 02 41",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "kinnarps.se",
+      "composite": 70,
+      "level": "HOG",
+      "email": "info@kinnarps.se",
+      "phone": "0515 - 38 000",
+      "name": "Kontakta Kinnarps",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "golfamore.com",
+      "composite": 70,
+      "level": "HOG",
+      "email": "",
+      "phone": "0152-0153",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "intima.se",
+      "composite": 70,
+      "level": "HOG",
+      "email": "info@intima.se",
+      "phone": "068055450",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "nordiccom.se",
+      "composite": 70,
+      "level": "HOG",
+      "email": "info@nordiccom.se",
+      "phone": "087396710570",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "karles.se",
+      "composite": 70,
+      "level": "HOG",
+      "email": "kaminer@karles.se",
+      "phone": "015-10-22",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "loofsgasol.se",
+      "composite": 70,
+      "level": "HOG",
+      "email": "info@loofsgasol.se",
+      "phone": "050074094",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "yrkesbutiken.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "",
+      "phone": "019-02-07",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "vertel.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "info@vertel.se",
+      "phone": "026-2027",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "sobling.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "info@sobling.se",
+      "phone": "018-05-30",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "vallsjohus.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "info@vallsjohus.se",
+      "phone": "022-08-29",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "lookbylinnstore.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "info@lookbylinn.se",
+      "phone": "Tel: 035-21 21 60",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "tiki.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "",
+      "phone": "025-11-19 17",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "abelko.se",
+      "composite": 69,
+      "level": "MEDEL",
+      "email": "info@abelko.se",
+      "phone": "020-02-06",
+      "name": "Om Abelko",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "axelent.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "nordicsales@axelent.com",
+      "phone": "",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "thermod.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "info@thermod.se",
+      "phone": "0570 - 72 74 70",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "arkaden.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "bredband@arkaden.se",
+      "phone": "020 - 2024",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "bilborsen.com",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "",
+      "phone": "022-11-02",
+      "name": "Linköping Öst",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "testnordic.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "mans.brorsson@testnordic.com",
+      "phone": "022-02-24",
+      "name": "Om Oss",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "byggpartner.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "magnus@magnussjoberg.com",
+      "phone": "0102-0103",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "houseofmartens.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "info@houseofmartens.se",
+      "phone": "+46 650 48 58 00",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "sponsab.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "info@sponsab.se",
+      "phone": "0171-313 90",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "strihl.se",
+      "composite": 68,
+      "level": "MEDEL",
+      "email": "info@strihl.se",
+      "phone": "021-11-11",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "santacruzofscandinavia.se",
+      "composite": 67,
+      "level": "MEDEL",
+      "email": "info@stcruz.se",
+      "phone": "073104373",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "bemt.nu",
+      "composite": 67,
+      "level": "MEDEL",
+      "email": "info@bemt.nu",
+      "phone": "040-59 95 95",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "scandiapumps.com",
+      "composite": 67,
+      "level": "MEDEL",
+      "email": "info@scandiapumps.com",
+      "phone": "0300 52 12 10",
+      "name": "Sociala Medier",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "varmavillan.se",
+      "composite": 67,
+      "level": "MEDEL",
+      "email": "info@varmavillan.se",
+      "phone": "024-06-18",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "modig.se",
+      "composite": 67,
+      "level": "MEDEL",
+      "email": "modig@modig.se",
+      "phone": "019-08-12",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "leklyckan.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "",
+      "phone": "01334843374117",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "boldansweden.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "info.boldansweden@trelleborg.com",
+      "phone": "",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "ljungbymaskin.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "info@ljungbymaskin.se ",
+      "phone": "020-01-01",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "grafiska.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "info@grafiska.se",
+      "phone": "",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "mockfjards.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "info@mockfjards.se",
+      "phone": "019-07-09",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "arlemark.se",
+      "composite": 66,
+      "level": "MEDEL",
+      "email": "",
+      "phone": "036 39 57 30",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "norban.se",
+      "composite": 65,
+      "level": "MEDEL",
+      "email": "home@norban.se",
+      "phone": "019-2026",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "ecolux.se",
+      "composite": 65,
+      "level": "MEDEL",
+      "email": "info@ecolux.se",
+      "phone": "010-130 11 00",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    },
+    {
+      "domain": "cleanpart.se",
+      "composite": 65,
+      "level": "MEDEL",
+      "email": "info@cleanpart.se?subject= &body=",
+      "phone": "024-05-08",
+      "name": "",
+      "organic_keywords": 0,
+      "organic_traffic": 0
+    }
+  ]
+}

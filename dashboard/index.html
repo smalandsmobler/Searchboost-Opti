@@ -5,8 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Opti — SEO Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260216b">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260223b">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
 </head>
 <body>
@@ -31,21 +32,64 @@
       <nav class="nav">
         <a href="#" class="nav-link active" data-view="overview">Dashboard</a>
         <a href="#" class="nav-link" data-view="pipeline">Pipeline</a>
+        <a href="#" class="nav-link" data-view="onboarding">Onboarding</a>
         <a href="#" class="nav-link nav-sales-only" data-view="consulting" style="display:none">Konsult</a>
+        <a href="#" class="nav-link" data-view="prospecting">Prospektering</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
         <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
+        <a href="#" class="nav-link" data-view="content-blueprint">Content</a>
+        <a href="#" class="nav-link" data-view="security">Säkerhet</a>
       </nav>
       <div class="header-status">
         <select id="salesperson-filter" class="form-select salesperson-select" onchange="filterBySalesperson(this.value)" style="display:none">
           <option value="">Alla säljare</option>
         </select>
-        <span class="status-dot"></span>
-        <span id="status-text">Ansluter...</span>
+        <button class="monitor-btn" id="monitor-btn" onclick="toggleMonitor()" title="Systemövervakning">
+          <span class="status-dot"></span>
+          <span id="status-text">Ansluter...</span>
+          <span class="monitor-chevron">▾</span>
+        </button>
         <button class="btn-logout" onclick="doLogout()">Logga ut</button>
       </div>
     </div>
   </header>
+
+  <!-- Övervakningspanel -->
+  <div class="monitor-panel" id="monitor-panel">
+    <div class="monitor-panel-inner">
+      <div class="monitor-header">
+        <span class="monitor-title">Systemövervakning</span>
+        <span id="monitor-last-check" class="monitor-last-check">Kontrollerar...</span>
+      </div>
+      <div class="monitor-checks" id="monitor-checks">
+        <div class="monitor-check" id="check-api">
+          <span class="check-icon">⋯</span>
+          <span class="check-label">API-server</span>
+          <span class="check-value" id="check-api-val">—</span>
+        </div>
+        <div class="monitor-check" id="check-lambda">
+          <span class="check-icon">⋯</span>
+          <span class="check-label">Senaste optimering</span>
+          <span class="check-value" id="check-lambda-val">—</span>
+        </div>
+        <div class="monitor-check" id="check-queue">
+          <span class="check-icon">⋯</span>
+          <span class="check-label">Väntande uppgifter</span>
+          <span class="check-value" id="check-queue-val">—</span>
+        </div>
+        <div class="monitor-check" id="check-errors">
+          <span class="check-icon">⋯</span>
+          <span class="check-label">Fel senaste 7 dagarna</span>
+          <span class="check-value" id="check-errors-val">—</span>
+        </div>
+      </div>
+      <div class="monitor-log" id="monitor-log">
+        <div class="monitor-log-title">Händelselogg</div>
+        <div id="monitor-log-entries"></div>
+      </div>
+    </div>
+  </div>
 
   <main class="main">
     <!-- Overview -->
@@ -88,6 +132,21 @@
           <div class="health-card-sub" id="health-errors-sub">Inga fel</div>
         </div>
       </div>
+
+      <!-- Dagsplan-widget -->
+      <div class="card dagsplan-card" id="dagsplan-widget">
+        <div class="dagsplan-header">
+          <div>
+            <h2 class="card-title" style="margin:0 0 2px 0">Idag</h2>
+            <span class="dagsplan-date" id="dagsplan-date"></span>
+          </div>
+          <div class="dagsplan-refresh" onclick="loadDagsplan()" title="Uppdatera">&#x21BB;</div>
+        </div>
+        <div id="dagsplan-content" class="dagsplan-content">
+          <p class="empty">Laddar dagens plan...</p>
+        </div>
+      </div>
+
       <div class="stats-row">
         <div class="stat-card">
           <div class="stat-icon">&#x1F465;</div>
@@ -138,6 +197,9 @@
         </div>
       </div>
     </section>
+
+    <!-- Onboarding -->
+    <section id="view-onboarding" class="view"></section>
 
     <!-- Consulting (sales-only) -->
     <section id="view-consulting" class="view">
@@ -260,6 +322,123 @@
       </div>
     </section>
 
+    <!-- Prospecting -->
+    <section id="view-prospecting" class="view">
+      <!-- Input card -->
+      <div class="card prospect-tool-card">
+        <div class="prospect-tool-header">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Prospektering</h2>
+            <p style="color:#888;margin:0;font-size:13px">Djupanalys av potentiella kunders sajter -- WP-crawl, PageSpeed, AI-analys och saljpresentation</p>
+          </div>
+        </div>
+        <div class="prospect-input-grid">
+          <div>
+            <label class="form-label">Webbplats *</label>
+            <input type="text" id="prospect-url" class="form-input" placeholder="example.se" onkeydown="if(event.key==='Enter')document.getElementById('prospect-company').focus()">
+          </div>
+          <div>
+            <label class="form-label">Foretagsnamn</label>
+            <input type="text" id="prospect-company" class="form-input" placeholder="Foretag AB">
+          </div>
+          <div>
+            <label class="form-label">Bransch</label>
+            <input type="text" id="prospect-industry" class="form-input" placeholder="t.ex. Bygg, Restaurang, E-handel">
+          </div>
+          <div>
+            <label class="form-label">Kontaktperson</label>
+            <input type="text" id="prospect-contact" class="form-input" placeholder="Namn">
+          </div>
+          <div>
+            <label class="form-label">Prisnixa</label>
+            <select id="prospect-tier" class="form-select">
+              <option value="small">Liten (5 000 kr/man)</option>
+              <option value="medium" selected>Medium (8 000 kr/man)</option>
+              <option value="large">Stor (12 000 kr/man)</option>
+              <option value="enterprise">Enterprise (15 000 kr/man)</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button class="btn-primary btn-prospect-run" onclick="runProspectAnalysis()">Analysera sajt</button>
+          </div>
+        </div>
+        <!-- Progress -->
+        <div id="prospect-progress" class="prospect-progress" style="display:none">
+          <div class="prospect-progress-bar"><div class="prospect-progress-fill" id="prospect-progress-fill"></div></div>
+          <div class="prospect-progress-steps">
+            <span class="prospect-step" id="ps-crawl">Crawlar sajt...</span>
+            <span class="prospect-step" id="ps-speed">PageSpeed...</span>
+            <span class="prospect-step" id="ps-keywords">Sokord...</span>
+            <span class="prospect-step" id="ps-ai">AI-analys...</span>
+            <span class="prospect-step" id="ps-save">Sparar...</span>
+          </div>
+        </div>
+        <div id="prospect-error" class="prospect-error" style="display:none"></div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-row" id="prospect-stats-row">
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F50D;</div>
+          <div class="stat-value" id="prospect-stat-total">--</div>
+          <div class="stat-label">Analyserade</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F534;</div>
+          <div class="stat-value" id="prospect-stat-critical">--</div>
+          <div class="stat-label">Med kritiska problem</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x1F4B0;</div>
+          <div class="stat-value" id="prospect-stat-potential">--</div>
+          <div class="stat-label">Potentiell MRR</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="font-size:1.4rem">&#x2705;</div>
+          <div class="stat-value" id="prospect-stat-converted">--</div>
+          <div class="stat-label">Till pipeline</div>
+        </div>
+      </div>
+
+      <!-- Results list -->
+      <div class="card">
+        <div class="card-title-row">
+          <h2 class="card-title">Analyserade prospects</h2>
+          <input type="text" id="prospect-search" class="form-input search-input" placeholder="Sok..." oninput="filterProspectList(this.value)" style="max-width:220px">
+        </div>
+        <div id="prospect-list" class="prospect-list">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+
+      <!-- Detail modal (expanded inline) -->
+      <div id="prospect-detail" class="prospect-detail-overlay" style="display:none">
+        <div class="prospect-detail-panel">
+          <div class="prospect-detail-header">
+            <div>
+              <h2 id="pd-name" style="color:#fff;margin:0">--</h2>
+              <p id="pd-url" style="color:#888;margin:4px 0 0;font-size:13px">--</p>
+            </div>
+            <button class="btn-close-detail" onclick="closeProspectDetail()">&times;</button>
+          </div>
+          <div class="prospect-detail-scores" id="pd-scores"></div>
+          <div class="prospect-detail-tabs">
+            <button class="pd-tab active" data-pdtab="pd-tab-pitch" onclick="switchPdTab(this)">Telefon-pitch</button>
+            <button class="pd-tab" data-pdtab="pd-tab-issues" onclick="switchPdTab(this)">Problem</button>
+            <button class="pd-tab" data-pdtab="pd-tab-analysis" onclick="switchPdTab(this)">Analys</button>
+            <button class="pd-tab" data-pdtab="pd-tab-presentation" onclick="switchPdTab(this)">Presentation</button>
+            <button class="pd-tab" data-pdtab="pd-tab-keywords" onclick="switchPdTab(this)">Sokord</button>
+          </div>
+          <div id="pd-tab-pitch" class="pd-tab-content active"></div>
+          <div id="pd-tab-issues" class="pd-tab-content"></div>
+          <div id="pd-tab-analysis" class="pd-tab-content"></div>
+          <div id="pd-tab-presentation" class="pd-tab-content"></div>
+          <div id="pd-tab-keywords" class="pd-tab-content"></div>
+          <div class="prospect-detail-actions" id="pd-actions"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- Optimizations -->
     <section id="view-optimizations" class="view">
       <div class="card">
@@ -290,6 +469,45 @@
       </div>
     </section>
 
+    <!-- Security Monitoring -->
+    <section id="view-security" class="view">
+      <div class="view-header">
+        <h1>Säkerhetsövervakning</h1>
+        <button class="btn btn-secondary" onclick="loadSecurity()">Uppdatera</button>
+      </div>
+
+      <!-- Kund-sammanfattning -->
+      <div class="card" style="margin-bottom:24px">
+        <h2 class="card-title">Kundstatus</h2>
+        <div id="security-summary" class="security-summary-grid">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+
+      <!-- Händelselogg -->
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <h2 class="card-title" style="margin:0">Händelser</h2>
+          <div style="display:flex;gap:8px">
+            <select id="security-filter-severity" class="form-select" onchange="filterSecurityEvents()" style="padding:6px 12px;background:#1e2a3a;border:1px solid #2d3f55;color:#e2e8f0;border-radius:6px">
+              <option value="">Alla</option>
+              <option value="critical">Kritiska</option>
+              <option value="warning">Varningar</option>
+              <option value="info">Info</option>
+            </select>
+            <select id="security-filter-status" class="form-select" onchange="filterSecurityEvents()" style="padding:6px 12px;background:#1e2a3a;border:1px solid #2d3f55;color:#e2e8f0;border-radius:6px">
+              <option value="open">Öppna</option>
+              <option value="resolved">Lösta</option>
+              <option value="">Alla</option>
+            </select>
+          </div>
+        </div>
+        <div id="security-events">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Customer Detail -->
     <section id="view-customer-detail" class="view">
       <div class="detail-back">
@@ -308,7 +526,7 @@
       <div id="next-action-card" class="next-action-card" style="display:none"></div>
 
       <!-- Analysis Summary — Score + Phone pitch + Cost estimate -->
-      <div id="analysis-summary-card" class="card analysis-summary-card" style="display:none"></div>
+      <div id="analysis-summary-card" class="analysis-summary-card" style="display:none"></div>
 
       <div class="stats-row" id="detail-stats-row">
         <div class="stat-card">
@@ -739,6 +957,83 @@
         </div>
       </div>
     </section>
+    <!-- Content Blueprint -->
+    <section id="view-content-blueprint" class="view">
+
+      <!-- Header + controls -->
+      <div class="card" style="margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Content Blueprint</h2>
+            <p style="color:#888;margin:0;font-size:13px">AI-genererade contentplaner per kund — en per månad</p>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+            <select id="cb-filter-month" class="form-select" onchange="loadContentBlueprint()" style="min-width:140px">
+              <option value="">Senaste per kund</option>
+            </select>
+            <select id="cb-filter-customer" class="form-select" onchange="filterBlueprintByCustomer(this.value)" style="min-width:160px">
+              <option value="">Alla kunder</option>
+            </select>
+            <button class="btn-secondary" onclick="loadContentBlueprint()" title="Uppdatera">&#x21BB; Uppdatera</button>
+          </div>
+        </div>
+
+        <!-- Stats-rad -->
+        <div class="stats-row" style="margin-top:20px;margin-bottom:0">
+          <div class="stat-card">
+            <div class="stat-value" id="cb-stat-total" style="color:var(--neon-pink)">--</div>
+            <div class="stat-label">Blueprints</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="cb-stat-articles" style="color:var(--neon-blue)">--</div>
+            <div class="stat-label">Artiklar planerade</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="cb-stat-wins" style="color:var(--green)">--</div>
+            <div class="stat-label">Quick wins</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="cb-stat-customers" style="color:#eab308">--</div>
+            <div class="stat-label">Kunder med plan</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blueprint-kort grid -->
+      <div id="blueprint-grid" class="blueprint-grid">
+        <p class="empty">Laddar content blueprints...</p>
+      </div>
+
+      <!-- Viktor-flöde: vad göra nu -->
+      <div class="card" id="viktor-content-flow" style="margin-top:24px;border:1px solid rgba(0,212,255,0.15)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+          <div>
+            <h2 style="color:#fff;margin:0 0 4px 0">Viktor — Vad gör du nu?</h2>
+            <p style="color:#888;margin:0;font-size:13px">Nästa konkreta steg baserat på aktuella blueprints</p>
+          </div>
+          <span class="role-badge role-badge--tech" style="font-size:11px">Tekniker-vy</span>
+        </div>
+        <div id="viktor-todo-list">
+          <p class="empty">Laddar uppgifter...</p>
+        </div>
+      </div>
+
+      <!-- Trigger-panel (Mikael kan generera ny blueprint manuellt) -->
+      <div class="card" id="cb-trigger-panel" style="margin-top:20px;border:1px solid rgba(233,30,140,0.15)">
+        <h3 style="color:#e2e8f0;margin:0 0 12px 0;font-size:15px;font-weight:600">Generera ny blueprint manuellt</h3>
+        <p style="color:#94a3b8;font-size:13px;margin:0 0 16px 0">Normalt körs detta automatiskt den 1:a varje månad. Använd detta för att trigga en specifik kund direkt.</p>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+          <select id="cb-trigger-customer" class="form-select" style="min-width:200px">
+            <option value="">Välj kund...</option>
+          </select>
+          <button class="btn-primary" onclick="triggerBlueprint()" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">
+            Generera blueprint
+          </button>
+          <span id="cb-trigger-status" class="save-status"></span>
+        </div>
+      </div>
+
+    </section>
   </main>
 
   <footer>
@@ -747,6 +1042,7 @@
   </footer>
 
   </div><!-- /appShell -->
-  <script src="app.js"></script>
+  <script src="app.js?v=20260223c"></script>
+  <script src="content-blueprint.js"></script>
 </body>
 </html>

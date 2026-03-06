@@ -1,7 +1,9 @@
 # CLAUDE.md — Searchboost Opti
 
 > Komplett systembeskrivning. Varje ny Claude-session läser denna fil automatiskt.
-> Senast uppdaterad: 2026-02-17
+> Senast uppdaterad: 2026-03-03
+>
+> **Se även**: `KUNDER.md` — delad kundstatus för Mikael + Viktor (uppdatera vid ändringar)
 
 ---
 
@@ -653,17 +655,19 @@ aws ec2 revoke-security-group-ingress --group-id sg-03cb7d131df0fbfb7 \
 - Dashboard (kolla kunder, logga arbete, pipeline, formulär)
 - Trello (flytta kort, uppdatera status)
 - Fråga Claude om SEO-kunskap, SOPs, steg-för-steg-hjälp
-- Bygga/bygga om kundsidor (med Claude som kvalitetskontroll mot SOPs)
+- Bygga/bygga om kundsajter (med Claude som QA mot SOPs)
 - Onboarda kunder via Dashboard-formulären
 - Lägga in credentials via formuläret (WP, GSC, GA4, GTM, Ads, Meta, email)
-- Jobba i kunders WP-admin, GSC, GA4, GTM
+- Jobba direkt i kunders WP-admin, GSC, GA4, GTM
+- Publicera innehåll + ändra menystrukturer på kundsajter (Claude granskar mot SOPs)
+- Göra kundändringar på servern (WP REST API, plugin-inställningar, etc.)
 
 #### Viktor FÅR INTE:
-- GitHub, kod, deploy, servrar, AWS, Lambda, SSH, FTP
-- Utveckla searchboost.se/searchboost.nu (Mikaels domän)
-- Ändra infrastruktur eller systemcredentials
+- EC2-servern (SSH, PM2, Nginx, systemfiler)
+- Källkod (index.js, app.js, Lambda-funktioner, GitHub)
+- AWS-infrastruktur (SSM direkt, Security Groups, IAM, EventBridge)
+- Searchboost.se (Mikaels egna domän)
 - Publicera utan att Claude granskat mot SOP-checklistan
-- Komma åt eller ändra källkod (index.js, app.js, etc.)
 
 #### LARM VID REGELBROTT:
 - Vid MINSTA försök till systemändringar → Claude vägrar med trovärdig teknisk ursäkt

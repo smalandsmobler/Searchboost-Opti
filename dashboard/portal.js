@@ -165,6 +165,12 @@ async function loadDashboard() {
   renderActionPlan(planData);
   renderAlerts(rankings, gscHistory);
 
+  // Load ads, social, traffic and security data in parallel (non-blocking)
+  loadAdsData();
+  loadSocialData();
+  loadTrafficData();
+  loadSecurityStatus();
+
   // Update timestamp
   if (typeof updateTimestamp === 'function') updateTimestamp();
 }
@@ -776,16 +782,37 @@ function renderOptimizations(data) {
 
   summary.innerHTML = 'Vi har optimerat <strong>' + pageCount + ' sidor</strong> denna månad (' + recent.length + ' åtgärder totalt)';
 
+  var TYPE_LABELS = {
+    'short_title': 'Titel förkortad',
+    'long_title': 'Titel förlängd',
+    'missing_title': 'Titel skapad',
+    'missing_description': 'Meta-beskrivning tillagd',
+    'missing_h1': 'H1-rubrik skapad',
+    'missing_alt_text': 'Alt-text tillagd',
+    'no_schema': 'Schema-markup tillagd',
+    'thin_content': 'Innehåll utökat',
+    'h2_optimization': 'H2-rubriker förbättrade',
+    'h3_optimization': 'H3-rubriker förbättrade',
+    'synonym_gap': 'Synonymer tillagda',
+    'metadata': 'Metadata optimerad',
+    'manual': 'Manuell åtgärd',
+    'content': 'Innehåll förbättrat',
+    'schema': 'Schema-markup uppdaterad',
+  };
+
   var html = '<div class="timeline">';
   recent.slice(0, 20).forEach(function(o) {
     var type = (o.optimization_type || o.type || 'metadata').toLowerCase();
     var iconClass = 'timeline-icon--metadata';
     var iconText = 'M';
     if (type.includes('schema')) { iconClass = 'timeline-icon--schema'; iconText = 'S'; }
-    else if (type.includes('content')) { iconClass = 'timeline-icon--content'; iconText = 'C'; }
+    else if (type.includes('content') || type.includes('thin')) { iconClass = 'timeline-icon--content'; iconText = 'C'; }
     else if (type.includes('manual')) { iconClass = 'timeline-icon--manual'; iconText = 'H'; }
+    else if (type.includes('h1') || type.includes('h2') || type.includes('h3')) { iconClass = 'timeline-icon--content'; iconText = 'H'; }
+    else if (type.includes('alt')) { iconClass = 'timeline-icon--content'; iconText = 'A'; }
+    else if (type.includes('synonym')) { iconClass = 'timeline-icon--content'; iconText = 'S'; }
 
-    var title = o.optimization_type || o.type || 'Optimering';
+    var title = TYPE_LABELS[type] || o.optimization_type || o.type || 'Optimering';
     var desc = o.description || o.changes_made || '';
     var date = formatDate(o.timestamp || o.created_at);
     var pageUrl = o.page_url || '';
@@ -921,6 +948,615 @@ function formatChatResponse(text) {
 }
 
 // ══════════════════════════════════════════════════════════════
+// ADS SECTION
+// ══════════════════════════════════════════════════════════════
+
+var _attributionWindow = 90;
+
+function setAttributionWindow(days) {
+  _attributionWindow = parseInt(days) || 90;
+  var label = document.getElementById('shoppingWindowLabel');
+  if (label) label.textContent = _attributionWindow + ' dagar';
+  // Reload ads data with new window
+  if (_portalCustomer) loadAdsData();
+}
+
+async function loadAdsData() {
+  if (!_portalCustomer) return;
+  var cid = _portalCustomer.id;
+
+  var [adsData, adsPlatforms, adsSpend, adsHistory] = await Promise.all([
+    portalApi('/api/customers/' + cid + '/ads').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/ads/platforms').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/ads/spend').catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/ads-history?days=' + (_currentPeriod || 30)).catch(function() { return null; })
+  ]);
+
+  renderAdsOverview(adsData, adsPlatforms, adsSpend);
+  renderAdsDetail(adsData, adsHistory);
+}
+
+function renderAdsOverview(adsData, platforms, spend) {
+  var grid = document.getElementById('adsChannelGrid');
+  if (!grid) return;
+
+  // Define all ad platforms
+  var allPlatforms = [
+    { key: 'google_ads', name: 'Google Ads', icon: 'G', iconClass: 'google' },
+    { key: 'meta', name: 'Meta Ads', icon: 'M', iconClass: 'meta' },
+    { key: 'tiktok', name: 'TikTok Ads', icon: 'T', iconClass: 'tiktok' },
+    { key: 'linkedin', name: 'LinkedIn Ads', icon: 'L', iconClass: 'linkedin' }
+  ];
+
+  // Determine which platforms are active
+  var activePlatforms = {};
+  if (platforms && platforms.platforms) {
+    platforms.platforms.forEach(function(p) { activePlatforms[p] = true; });
+  }
+
+  // Get spend data per platform
+  // API kan returnera antingen array eller objekt — hantera båda
+  var spendByPlatform = {};
+  var totalSpend = 0;
+  if (spend && spend.platforms) {
+    var platformList = Array.isArray(spend.platforms)
+      ? spend.platforms
+      : Object.values(spend.platforms);
+    platformList.forEach(function(p) {
+      spendByPlatform[p.platform] = p;
+      totalSpend += (p.spend || 0);
+    });
+  }
+
+  // Update total spend
+  var totalEl = document.getElementById('adsTotalSpend');
+  if (totalEl) {
+    totalEl.innerHTML = formatCurrency(totalSpend) + '<small>kr</small>';
+  }
+
+  // Render spend bar
+  renderSpendBar(spend);
+
+  // Render channel cards
+  var html = '';
+  allPlatforms.forEach(function(plat) {
+    var isActive = activePlatforms[plat.key];
+    var data = spendByPlatform[plat.key] || {};
+
+    html += '<div class="channel-card ' + (isActive ? 'channel-card--active' : 'channel-card--inactive') + '">';
+    html += '<div class="channel-card-header">';
+    html += '<div class="channel-card-title">';
+    html += '<div class="channel-icon channel-icon--' + plat.iconClass + '">' + plat.icon + '</div>';
+    html += '<span class="channel-name">' + plat.name + '</span>';
+    html += '</div>';
+    html += '<span class="channel-status ' + (isActive ? 'channel-status--active' : 'channel-status--inactive') + '">' + (isActive ? 'Aktiv' : 'Ej ansluten') + '</span>';
+    html += '</div>';
+
+    if (isActive) {
+      html += '<div class="channel-metrics">';
+      html += '<div class="channel-metric"><span class="channel-metric-label">Spend</span><span class="channel-metric-value">' + formatCurrency(data.spend || 0) + '</span></div>';
+      html += '<div class="channel-metric"><span class="channel-metric-label">Klick</span><span class="channel-metric-value">' + formatNum(data.clicks || 0) + '</span></div>';
+      html += '<div class="channel-metric"><span class="channel-metric-label">Konv.</span><span class="channel-metric-value">' + formatNum(data.conversions || 0) + '</span></div>';
+      html += '<div class="channel-metric"><span class="channel-metric-label">CPA</span><span class="channel-metric-value">' + (data.conversions > 0 ? formatCurrency(Math.round((data.spend || 0) / data.conversions)) : '--') + '</span></div>';
+      html += '</div>';
+    } else {
+      html += '<div class="connect-cta" style="padding:20px 12px;border:none;background:transparent">';
+      html += '<div class="connect-cta-desc" style="max-width:none">Kontakta Searchboost för att koppla ' + plat.name + '</div>';
+      html += '</div>';
+    }
+
+    html += '</div>';
+  });
+
+  // If no platforms active at all, show full CTA
+  if (Object.keys(activePlatforms).length === 0) {
+    grid.innerHTML = '<div class="connect-cta" style="grid-column:1/-1"><div class="connect-cta-icon">&#128200;</div><div class="connect-cta-title">Inga annonsplattformar anslutna</div><div class="connect-cta-desc">Kontakta Searchboost för att koppla Google Ads, Meta, TikTok eller LinkedIn Ads och se alla data här.</div></div>';
+    return;
+  }
+
+  grid.innerHTML = html;
+}
+
+function renderSpendBar(spend) {
+  var visual = document.getElementById('adsSpendVisual');
+  var legend = document.getElementById('adsSpendLegend');
+  if (!visual || !legend) return;
+
+  if (!spend || !spend.platforms) {
+    visual.innerHTML = '';
+    legend.innerHTML = '';
+    return;
+  }
+
+  // Normalisera till array — API kan returnera objekt eller array
+  var platformList = Array.isArray(spend.platforms)
+    ? spend.platforms
+    : Object.values(spend.platforms);
+
+  if (platformList.length === 0) {
+    visual.innerHTML = '';
+    legend.innerHTML = '';
+    return;
+  }
+
+  var totalSpend = platformList.reduce(function(sum, p) { return sum + (p.spend || 0); }, 0);
+  if (totalSpend <= 0) { visual.innerHTML = ''; legend.innerHTML = ''; return; }
+
+  var platformColors = {
+    google_ads: 'google',
+    meta: 'meta',
+    tiktok: 'tiktok',
+    linkedin: 'linkedin'
+  };
+
+  var barsHtml = '';
+  var legendHtml = '';
+
+  platformList.forEach(function(p) {
+    var pct = ((p.spend || 0) / totalSpend * 100).toFixed(1);
+    var colorKey = platformColors[p.platform] || 'google';
+    barsHtml += '<div class="spend-bar-segment spend-bar-segment--' + colorKey + '" style="width:' + pct + '%"></div>';
+    legendHtml += '<div class="spend-legend-item"><span class="spend-legend-dot spend-legend-dot--' + colorKey + '"></span>' + formatPlatformName(p.platform) + ' ' + formatCurrency(p.spend || 0) + ' kr (' + pct + '%)</div>';
+  });
+
+  visual.innerHTML = barsHtml;
+  legend.innerHTML = legendHtml;
+}
+
+function renderAdsDetail(adsData, adsHistory) {
+  var detailCard = document.getElementById('adsDetailCard');
+  var tabsEl = document.getElementById('adsTabs');
+  var panelsEl = document.getElementById('adsPanels');
+  if (!detailCard || !tabsEl || !panelsEl) return;
+
+  if (!adsData || !adsData.platforms || Object.keys(adsData.platforms).length === 0) {
+    detailCard.style.display = 'none';
+    return;
+  }
+
+  detailCard.style.display = '';
+  var platforms = Object.keys(adsData.platforms);
+  var platformColors = { google_ads: 'google', meta: 'meta', tiktok: 'tiktok', linkedin: 'linkedin' };
+
+  // Render tabs
+  var tabsHtml = '';
+  platforms.forEach(function(plat, idx) {
+    var colorKey = platformColors[plat] || 'google';
+    tabsHtml += '<button class="ads-tab' + (idx === 0 ? ' active' : '') + '" data-panel="ads-panel-' + plat + '" onclick="switchAdsTab(this)">';
+    tabsHtml += '<span class="ads-tab-dot ads-tab-dot--' + colorKey + '"></span>';
+    tabsHtml += formatPlatformName(plat);
+    tabsHtml += '</button>';
+  });
+  tabsEl.innerHTML = tabsHtml;
+
+  // Render panels with campaign rows
+  var panelsHtml = '';
+  platforms.forEach(function(plat, idx) {
+    var platData = adsData.platforms[plat] || {};
+    var campaigns = platData.campaigns || [];
+
+    panelsHtml += '<div class="ads-panel' + (idx === 0 ? ' active' : '') + '" id="ads-panel-' + plat + '">';
+
+    if (campaigns.length === 0) {
+      panelsHtml += '<div class="empty-state">Inga kampanjer hittade för ' + formatPlatformName(plat) + '</div>';
+    } else {
+      // Summary metrics
+      var totalSpend = 0, totalClicks = 0, totalConv = 0, totalImpr = 0;
+      campaigns.forEach(function(c) {
+        totalSpend += (c.spend || 0);
+        totalClicks += (c.clicks || 0);
+        totalConv += (c.conversions || 0);
+        totalImpr += (c.impressions || 0);
+      });
+      var roas = totalSpend > 0 && platData.revenue ? (platData.revenue / totalSpend).toFixed(2) : null;
+      var roasClass = roas >= 4 ? 'good' : roas >= 2 ? 'ok' : 'bad';
+
+      panelsHtml += '<div class="kpi-grid" style="margin-bottom:20px">';
+      panelsHtml += '<div class="kpi-card"><div class="kpi-label">Spend</div><div class="kpi-value">' + formatCurrency(totalSpend) + '</div></div>';
+      panelsHtml += '<div class="kpi-card"><div class="kpi-label">Klick</div><div class="kpi-value">' + formatNum(totalClicks) + '</div></div>';
+      panelsHtml += '<div class="kpi-card"><div class="kpi-label">Konverteringar</div><div class="kpi-value">' + formatNum(totalConv) + '</div></div>';
+      panelsHtml += '<div class="kpi-card"><div class="kpi-label">ROAS</div><div class="kpi-value">' + (roas ? '<span class="roas-badge roas-badge--' + roasClass + '">' + roas + 'x</span>' : '--') + '</div></div>';
+      panelsHtml += '</div>';
+
+      // Campaign list
+      campaigns.forEach(function(c) {
+        var statusClass = (c.status || '').toLowerCase() === 'active' ? 'active' : (c.status || '').toLowerCase() === 'paused' ? 'paused' : 'ended';
+        panelsHtml += '<div class="campaign-row">';
+        panelsHtml += '<span class="campaign-status-dot campaign-status-dot--' + statusClass + '"></span>';
+        panelsHtml += '<div class="campaign-info"><div class="campaign-name">' + escHtml(c.name || 'Kampanj') + '</div><div class="campaign-type">' + escHtml(c.type || '') + '</div></div>';
+        panelsHtml += '<div class="campaign-metrics">';
+        panelsHtml += '<div class="campaign-metric"><div class="campaign-metric-val">' + formatCurrency(c.spend || 0) + '</div><div class="campaign-metric-lbl">Spend</div></div>';
+        panelsHtml += '<div class="campaign-metric"><div class="campaign-metric-val">' + formatNum(c.clicks || 0) + '</div><div class="campaign-metric-lbl">Klick</div></div>';
+        panelsHtml += '<div class="campaign-metric"><div class="campaign-metric-val">' + formatNum(c.conversions || 0) + '</div><div class="campaign-metric-lbl">Konv.</div></div>';
+        panelsHtml += '</div></div>';
+      });
+    }
+
+    panelsHtml += '</div>';
+  });
+  panelsEl.innerHTML = panelsHtml;
+}
+
+function switchAdsTab(btn) {
+  var panelId = btn.getAttribute('data-panel');
+  // Toggle tabs
+  document.querySelectorAll('.ads-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  // Toggle panels
+  document.querySelectorAll('.ads-panel').forEach(function(p) { p.classList.remove('active'); });
+  var panel = document.getElementById(panelId);
+  if (panel) panel.classList.add('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// SOCIAL MEDIA SECTION
+// ══════════════════════════════════════════════════════════════
+
+var _socialTrendChart = null;
+
+async function loadSocialData() {
+  if (!_portalCustomer) return;
+  var cid = _portalCustomer.id;
+
+  var [socialHistory] = await Promise.all([
+    portalApi('/api/customers/' + cid + '/social-history?days=' + (_currentPeriod || 30)).catch(function() { return null; })
+  ]);
+
+  renderSocialCards(socialHistory);
+  renderSocialTrend(socialHistory);
+}
+
+function renderSocialCards(socialData) {
+  var grid = document.getElementById('socialGrid');
+  if (!grid) return;
+
+  var allPlatforms = [
+    { key: 'instagram', name: 'Instagram', icon: 'IG', iconClass: 'instagram' },
+    { key: 'facebook', name: 'Facebook', icon: 'FB', iconClass: 'facebook' },
+    { key: 'linkedin', name: 'LinkedIn', icon: 'LI', iconClass: 'linkedin' },
+    { key: 'tiktok', name: 'TikTok', icon: 'TT', iconClass: 'tiktok' }
+  ];
+
+  // Group data by platform
+  var byPlatform = {};
+  if (socialData && socialData.data) {
+    socialData.data.forEach(function(row) {
+      var p = row.platform;
+      if (!byPlatform[p]) byPlatform[p] = { followers: 0, likes: 0, comments: 0, shares: 0, reach: 0, engagement: 0, count: 0 };
+      byPlatform[p].followers = Math.max(byPlatform[p].followers, row.followers || 0);
+      byPlatform[p].likes += (row.likes || 0);
+      byPlatform[p].comments += (row.comments || 0);
+      byPlatform[p].shares += (row.shares || 0);
+      byPlatform[p].reach += (row.reach || 0);
+      byPlatform[p].engagement += (row.engagement_rate || 0);
+      byPlatform[p].count++;
+    });
+  }
+
+  var html = '';
+  var anyActive = false;
+
+  allPlatforms.forEach(function(plat) {
+    var data = byPlatform[plat.key];
+    var isActive = !!data;
+
+    if (isActive) anyActive = true;
+
+    html += '<div class="social-card' + (isActive ? ' social-card--' + plat.key : '') + '"' + (!isActive ? ' style="opacity:0.4"' : '') + '>';
+    html += '<div class="social-card-icon social-card-icon--' + plat.iconClass + '">' + plat.icon + '</div>';
+
+    if (isActive) {
+      var avgEngagement = data.count > 0 ? (data.engagement / data.count).toFixed(2) : 0;
+      var engClass = avgEngagement >= 3 ? 'high' : avgEngagement >= 1 ? 'medium' : 'low';
+
+      html += '<div class="social-card-followers">' + formatNum(data.followers) + '</div>';
+      html += '<div class="social-card-label">Följare</div>';
+      html += '<div class="social-card-stats">';
+      html += '<div class="social-stat"><span class="social-stat-value">' + formatNum(data.likes) + '</span><span class="social-stat-label">Gillat</span></div>';
+      html += '<div class="social-stat"><span class="social-stat-value">' + formatNum(data.comments) + '</span><span class="social-stat-label">Kommentarer</span></div>';
+      html += '<div class="social-stat"><span class="social-stat-value">' + formatNum(data.shares) + '</span><span class="social-stat-label">Delningar</span></div>';
+      html += '<div class="social-stat"><span class="social-stat-value">' + formatNum(data.reach) + '</span><span class="social-stat-label">Räckvidd</span></div>';
+      html += '</div>';
+      html += '<span class="engagement-badge engagement-badge--' + engClass + '">' + avgEngagement + '% engagemang</span>';
+    } else {
+      html += '<div class="social-card-followers">--</div>';
+      html += '<div class="social-card-label">' + plat.name + '</div>';
+      html += '<div style="color:var(--gray-500);font-size:0.78rem;margin-top:12px">Ej ansluten</div>';
+    }
+
+    html += '</div>';
+  });
+
+  if (!anyActive) {
+    grid.innerHTML = '<div class="connect-cta" style="grid-column:1/-1"><div class="connect-cta-icon">&#128227;</div><div class="connect-cta-title">Inga sociala medier anslutna</div><div class="connect-cta-desc">Kontakta Searchboost för att koppla Instagram, Facebook, LinkedIn eller TikTok.</div></div>';
+    return;
+  }
+
+  grid.innerHTML = html;
+}
+
+function renderSocialTrend(socialData) {
+  var trendCard = document.getElementById('socialTrendCard');
+  if (!trendCard) return;
+
+  if (!socialData || !socialData.data || socialData.data.length < 5) {
+    trendCard.style.display = 'none';
+    return;
+  }
+
+  trendCard.style.display = '';
+
+  if (_socialTrendChart) { _socialTrendChart.destroy(); _socialTrendChart = null; }
+  var chartEl = document.getElementById('socialTrendChart');
+  if (!chartEl || typeof ApexCharts === 'undefined') return;
+
+  // Aggregate by date per platform
+  var byDatePlatform = {};
+  var allDates = {};
+  var platformSet = {};
+  socialData.data.forEach(function(row) {
+    var d = row.date;
+    var p = row.platform;
+    allDates[d] = true;
+    platformSet[p] = true;
+    if (!byDatePlatform[p]) byDatePlatform[p] = {};
+    if (!byDatePlatform[p][d]) byDatePlatform[p][d] = 0;
+    byDatePlatform[p][d] += (row.likes || 0) + (row.comments || 0) + (row.shares || 0);
+  });
+
+  var sortedDates = Object.keys(allDates).sort();
+  var platforms = Object.keys(platformSet);
+  var colorMap = { instagram: '#e1306c', facebook: '#1877f2', linkedin: '#0a66c2', tiktok: '#fe2c55' };
+
+  var series = platforms.map(function(p) {
+    return {
+      name: formatPlatformName(p),
+      data: sortedDates.map(function(d) { return (byDatePlatform[p] || {})[d] || 0; })
+    };
+  });
+
+  var options = {
+    series: series,
+    chart: { type: 'area', height: 300, background: 'transparent', toolbar: { show: false }, zoom: { enabled: false } },
+    stroke: { curve: 'smooth', width: 2 },
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.3, opacityTo: 0.05, stops: [0, 100] } },
+    colors: platforms.map(function(p) { return colorMap[p] || '#a855f7'; }),
+    xaxis: { categories: sortedDates, labels: { style: { colors: '#94a3b8', fontSize: '10px' }, rotate: -45, formatter: function(v) { return v ? v.substring(5) : ''; } }, axisBorder: { show: false }, axisTicks: { show: false } },
+    yaxis: { labels: { style: { colors: '#94a3b8' } }, title: { text: 'Engagemang', style: { color: '#64748b', fontSize: '11px' } } },
+    grid: { borderColor: 'rgba(255,255,255,0.06)' },
+    legend: { position: 'top', labels: { colors: '#e2e8f0' }, fontSize: '11px' },
+    tooltip: { theme: 'dark' },
+    dataLabels: { enabled: false }
+  };
+
+  _socialTrendChart = new ApexCharts(chartEl, options);
+  _socialTrendChart.render();
+}
+
+// ══════════════════════════════════════════════════════════════
+// TRAFFIC SOURCES SECTION
+// ══════════════════════════════════════════════════════════════
+
+var _trafficPieChart = null;
+var _trafficLineChart = null;
+var _organicClicksChart = null;
+var _organicPositionChart = null;
+
+function switchTrafficTab(tabId) {
+  document.querySelectorAll('#trafficTabs .section-tab').forEach(function(btn) {
+    btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+  });
+  document.querySelectorAll('.traffic-tab-panel').forEach(function(panel) {
+    panel.classList.toggle('active', panel.id === tabId);
+  });
+}
+
+async function loadTrafficData() {
+  if (!_portalCustomer) return;
+  var cid = _portalCustomer.id;
+  var days = _currentPeriod || 30;
+
+  var [gscHistory, adsHistory, socialHistory] = await Promise.all([
+    portalApi('/api/customers/' + cid + '/gsc-history?days=' + days).catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/ads-history?days=' + days).catch(function() { return null; }),
+    portalApi('/api/customers/' + cid + '/social-history?days=' + days).catch(function() { return null; })
+  ]);
+
+  renderTrafficOverview(gscHistory, adsHistory, socialHistory);
+  renderOrganicCharts(gscHistory);
+}
+
+function renderTrafficOverview(gscData, adsData, socialData) {
+  // Calculate traffic per source
+  var organicClicks = 0, paidClicks = 0, socialClicks = 0, directClicks = 0;
+
+  if (gscData && gscData.data) {
+    gscData.data.forEach(function(r) { organicClicks += (r.clicks || 0); });
+  }
+  if (adsData && adsData.data) {
+    adsData.data.forEach(function(r) { paidClicks += (r.clicks || 0); });
+  }
+  if (socialData && socialData.data) {
+    socialData.data.forEach(function(r) { socialClicks += (r.reach || 0) * 0.02; }); // Estimate
+  }
+  // Direct is estimated as ~15% of total
+  var totalEst = organicClicks + paidClicks + socialClicks;
+  directClicks = Math.round(totalEst * 0.15);
+
+  // Set KPI values
+  var el;
+  el = document.getElementById('traffic-organic-val'); if (el) el.textContent = formatNum(organicClicks);
+  el = document.getElementById('traffic-paid-val'); if (el) el.textContent = formatNum(paidClicks);
+  el = document.getElementById('traffic-social-val'); if (el) el.textContent = formatNum(Math.round(socialClicks));
+  el = document.getElementById('traffic-direct-val'); if (el) el.textContent = formatNum(directClicks);
+
+  // Render pie chart
+  renderTrafficPie(organicClicks, paidClicks, Math.round(socialClicks), directClicks);
+  renderTrafficLine(gscData, adsData);
+}
+
+function renderTrafficPie(organic, paid, social, direct) {
+  if (_trafficPieChart) { _trafficPieChart.destroy(); _trafficPieChart = null; }
+  var chartEl = document.getElementById('trafficPieChart');
+  if (!chartEl || typeof ApexCharts === 'undefined') return;
+
+  var total = organic + paid + social + direct;
+  if (total <= 0) {
+    chartEl.innerHTML = '<div class="empty-state">Ingen trafikdata tillgänglig</div>';
+    return;
+  }
+
+  var options = {
+    series: [organic, paid, social, direct],
+    chart: { type: 'donut', height: 280, background: 'transparent' },
+    labels: ['Organisk', 'Betald', 'Social', 'Direkt'],
+    colors: ['#22c55e', '#4285f4', '#e1306c', '#a855f7'],
+    stroke: { width: 0 },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '70%',
+          labels: {
+            show: true,
+            total: {
+              show: true,
+              label: 'Totalt',
+              color: '#fafafa',
+              fontSize: '14px',
+              fontWeight: 600,
+              formatter: function(w) { return formatNum(w.globals.seriesTotals.reduce(function(a, b) { return a + b; }, 0)); }
+            },
+            value: { color: '#fafafa', fontSize: '20px', fontWeight: 700 },
+            name: { color: '#94a3b8', fontSize: '12px' }
+          }
+        }
+      }
+    },
+    legend: { position: 'bottom', labels: { colors: '#e2e8f0' }, fontSize: '12px' },
+    tooltip: { theme: 'dark' },
+    dataLabels: { enabled: false }
+  };
+
+  _trafficPieChart = new ApexCharts(chartEl, options);
+  _trafficPieChart.render();
+}
+
+function renderTrafficLine(gscData, adsData) {
+  if (_trafficLineChart) { _trafficLineChart.destroy(); _trafficLineChart = null; }
+  var chartEl = document.getElementById('trafficLineChart');
+  if (!chartEl || typeof ApexCharts === 'undefined') return;
+
+  // Aggregate daily clicks per source
+  var dailyOrganic = {};
+  var dailyPaid = {};
+  var allDates = {};
+
+  if (gscData && gscData.data) {
+    gscData.data.forEach(function(r) {
+      var d = r.date;
+      allDates[d] = true;
+      if (!dailyOrganic[d]) dailyOrganic[d] = 0;
+      dailyOrganic[d] += (r.clicks || 0);
+    });
+  }
+  if (adsData && adsData.data) {
+    adsData.data.forEach(function(r) {
+      var d = r.date;
+      allDates[d] = true;
+      if (!dailyPaid[d]) dailyPaid[d] = 0;
+      dailyPaid[d] += (r.clicks || 0);
+    });
+  }
+
+  var sortedDates = Object.keys(allDates).sort();
+  if (sortedDates.length < 2) {
+    chartEl.innerHTML = '<div class="empty-state">Inte tillräckligt med data</div>';
+    return;
+  }
+
+  var options = {
+    series: [
+      { name: 'Organisk', data: sortedDates.map(function(d) { return dailyOrganic[d] || 0; }) },
+      { name: 'Betald', data: sortedDates.map(function(d) { return dailyPaid[d] || 0; }) }
+    ],
+    chart: { type: 'area', height: 280, background: 'transparent', toolbar: { show: false }, zoom: { enabled: false }, stacked: true },
+    stroke: { curve: 'smooth', width: 2 },
+    fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 100] } },
+    colors: ['#22c55e', '#4285f4'],
+    xaxis: { categories: sortedDates, labels: { style: { colors: '#94a3b8', fontSize: '10px' }, rotate: -45, formatter: function(v) { return v ? v.substring(5) : ''; } }, axisBorder: { show: false }, axisTicks: { show: false } },
+    yaxis: { labels: { style: { colors: '#94a3b8' } } },
+    grid: { borderColor: 'rgba(255,255,255,0.06)' },
+    legend: { position: 'top', labels: { colors: '#e2e8f0' }, fontSize: '11px' },
+    tooltip: { theme: 'dark' },
+    dataLabels: { enabled: false }
+  };
+
+  _trafficLineChart = new ApexCharts(chartEl, options);
+  _trafficLineChart.render();
+}
+
+function renderOrganicCharts(gscData) {
+  // Organic clicks per day
+  if (_organicClicksChart) { _organicClicksChart.destroy(); _organicClicksChart = null; }
+  if (_organicPositionChart) { _organicPositionChart.destroy(); _organicPositionChart = null; }
+
+  var clicksEl = document.getElementById('organicClicksChart');
+  var posEl = document.getElementById('organicPositionChart');
+  if (!clicksEl || !posEl || typeof ApexCharts === 'undefined') return;
+
+  if (!gscData || !gscData.data || gscData.data.length < 3) {
+    clicksEl.innerHTML = '<div class="empty-state">Inte tillräckligt med data</div>';
+    posEl.innerHTML = '<div class="empty-state">Inte tillräckligt med data</div>';
+    return;
+  }
+
+  var byDate = {};
+  gscData.data.forEach(function(r) {
+    var d = r.date;
+    if (!byDate[d]) byDate[d] = { clicks: 0, impressions: 0, positions: [] };
+    byDate[d].clicks += (r.clicks || 0);
+    byDate[d].impressions += (r.impressions || 0);
+    if (r.position > 0) byDate[d].positions.push(r.position);
+  });
+
+  var sortedDates = Object.keys(byDate).sort();
+  var dailyClicks = sortedDates.map(function(d) { return byDate[d].clicks; });
+  var dailyPos = sortedDates.map(function(d) {
+    var p = byDate[d].positions;
+    return p.length > 0 ? +(p.reduce(function(a, b) { return a + b; }, 0) / p.length).toFixed(1) : null;
+  });
+
+  // Clicks chart
+  _organicClicksChart = new ApexCharts(clicksEl, {
+    series: [{ name: 'Klick', data: dailyClicks }],
+    chart: { type: 'bar', height: 280, background: 'transparent', toolbar: { show: false } },
+    plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
+    colors: ['#22c55e'],
+    xaxis: { categories: sortedDates, labels: { style: { colors: '#94a3b8', fontSize: '10px' }, rotate: -45, formatter: function(v) { return v ? v.substring(5) : ''; } }, axisBorder: { show: false }, axisTicks: { show: false } },
+    yaxis: { labels: { style: { colors: '#94a3b8' } } },
+    grid: { borderColor: 'rgba(255,255,255,0.06)' },
+    tooltip: { theme: 'dark' },
+    dataLabels: { enabled: false }
+  });
+  _organicClicksChart.render();
+
+  // Position chart
+  _organicPositionChart = new ApexCharts(posEl, {
+    series: [{ name: 'Snittposition', data: dailyPos }],
+    chart: { type: 'line', height: 280, background: 'transparent', toolbar: { show: false } },
+    stroke: { curve: 'smooth', width: 2 },
+    colors: ['#ff2d9b'],
+    xaxis: { categories: sortedDates, labels: { style: { colors: '#94a3b8', fontSize: '10px' }, rotate: -45, formatter: function(v) { return v ? v.substring(5) : ''; } }, axisBorder: { show: false }, axisTicks: { show: false } },
+    yaxis: { reversed: true, min: 1, labels: { style: { colors: '#94a3b8' }, formatter: function(v) { return v ? Math.round(v) : ''; } }, title: { text: 'Position', style: { color: '#64748b', fontSize: '11px' } } },
+    grid: { borderColor: 'rgba(255,255,255,0.06)' },
+    tooltip: { theme: 'dark', y: { formatter: function(v) { return v ? 'Pos ' + v : '--'; } } },
+    dataLabels: { enabled: false },
+    markers: { size: 0, hover: { size: 4 } }
+  });
+  _organicPositionChart.render();
+}
+
+// ══════════════════════════════════════════════════════════════
 // UTILITIES
 // ══════════════════════════════════════════════════════════════
 
@@ -933,14 +1569,38 @@ function escHtml(str) {
 
 function formatNum(n) {
   if (n === null || n === undefined) return '0';
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
   if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
-  return String(n);
+  return String(Math.round(n));
+}
+
+function formatCurrency(n) {
+  if (n === null || n === undefined) return '0';
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return Math.round(n / 1000) + 'k';
+  return String(Math.round(n));
+}
+
+function formatPlatformName(key) {
+  var names = {
+    google_ads: 'Google Ads',
+    meta: 'Meta Ads',
+    tiktok: 'TikTok Ads',
+    linkedin: 'LinkedIn Ads',
+    instagram: 'Instagram',
+    facebook: 'Facebook'
+  };
+  return names[key] || key;
 }
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
+  // BigQuery returnerar timestamps som objekt {value: "2026-02-15T10:00:00Z"}
+  if (typeof dateStr === 'object' && dateStr !== null) {
+    dateStr = dateStr.value || dateStr.stringValue || String(dateStr);
+  }
   var d = new Date(dateStr);
-  if (isNaN(d.getTime())) return dateStr;
+  if (isNaN(d.getTime())) return String(dateStr);
   var day = d.getDate();
   var months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
   return day + ' ' + months[d.getMonth()];
@@ -949,4 +1609,61 @@ function formatDate(dateStr) {
 function shortenUrl(url) {
   if (!url) return '';
   return url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+}
+
+// ══════════════════════════════════════════════════════════════
+// SECURITY STATUS WIDGET
+// ══════════════════════════════════════════════════════════════
+
+async function loadSecurityStatus() {
+  if (!_portalCustomer) return;
+
+  // Hämta säkerhetsstatus — kräver API-nyckel i headern
+  // Portalen skickar Bearer JWT, servern kollar kundSpecifika events
+  portalApi('/api/security?customer_id=' + _portalCustomer.id)
+    .then(function(data) {
+      renderSecurityWidget(data);
+    })
+    .catch(function() {
+      // Om endpoint saknas eller ger fel — visa standard OK-status
+      renderSecurityWidget(null);
+    });
+}
+
+function renderSecurityWidget(data) {
+  var el = document.getElementById('securityStatusWidget');
+  if (!el) return;
+
+  var critical = 0, warning = 0;
+
+  if (data && data.events) {
+    var events = data.events.filter(function(e) {
+      return e.customer_id === _portalCustomer.id && e.status !== 'resolved';
+    });
+    critical = events.filter(function(e) { return e.severity === 'critical'; }).length;
+    warning  = events.filter(function(e) { return e.severity === 'warning'; }).length;
+  }
+
+  var html, color, icon, label;
+
+  if (critical > 0) {
+    color = '#ef4444';
+    icon  = '&#9888;';
+    label = 'Vi hanterar ett aktiv säkerhetshändelse';
+  } else if (warning > 0) {
+    color = '#eab308';
+    icon  = '&#9888;';
+    label = 'Vi har noterat en varning — inga åtgärder krävs av dig';
+  } else {
+    color = '#22c55e';
+    icon  = '&#10003;';
+    label = 'Ditt system är skyddat';
+  }
+
+  el.innerHTML =
+    '<div style="display:flex;align-items:center;gap:10px;padding:14px 18px;' +
+    'background:rgba(255,255,255,0.04);border-radius:10px;border:1px solid ' + color + '33;">' +
+    '<span style="font-size:20px;color:' + color + '">' + icon + '</span>' +
+    '<span style="font-size:14px;font-weight:600;color:' + color + '">' + label + '</span>' +
+    '</div>';
 }

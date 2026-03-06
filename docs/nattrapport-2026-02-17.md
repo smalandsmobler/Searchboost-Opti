@@ -28,13 +28,13 @@ Genererade 3-manaders atgardsplaner via POST /api/customers/:id/action-plan:
 
 **Fix for timeout:** Oka timeout i API:t eller kor dem manuellt via dashboarden.
 
-### 3. kundzon.searchboost.nu (KLART)
+### 3. opti.searchboost.se (KLART)
 Komplett DNS + SSL-setup:
-- Loopia: A-record kundzon.searchboost.nu -> 51.21.116.7
+- Loopia: A-record opti.searchboost.se -> 51.21.116.7
 - Nginx: HTTPS server block med Let's Encrypt
 - SSL-cert giltig till 2026-05-18 (auto-renewal via certbot)
 - Root / redirectar till /portal.html
-- **Live:** https://kundzon.searchboost.nu
+- **Live:** https://opti.searchboost.se
 
 ### 4. Anthropic credits (KLART)
 - **Saldo:** $43,73 USD
@@ -115,7 +115,7 @@ Valkomna som kund hos Searchboost! Vi ar redo att satta igang med den automatisk
 
 For att vi ska kunna borja behover vi tillgang till tva saker: din WordPress-sajt och Google Search Console. Det tar totalt 5-10 minuter och nar det ar klart skoter systemet optimeringen automatiskt.
 
-Du far dessutom tillgang till var kundportal pa kundzon.searchboost.nu dar du kan folja dina sokord, optimeringsloggen och trafik i realtid.
+Du far dessutom tillgang till var kundportal pa opti.searchboost.se dar du kan folja dina sokord, optimeringsloggen och trafik i realtid.
 
 ---
 
@@ -168,7 +168,7 @@ Vi ar nastan redo att kora igang med den automatiska SEO-optimeringen. Det enda 
 
 Nar jag har losenordet aktiverar vi allt inom 48 timmar.
 
-Du far aven inloggning till kundzon.searchboost.nu dar du kan se dina sokord och optimeringsloggen i realtid.
+Du far aven inloggning till opti.searchboost.se dar du kan se dina sokord och optimeringsloggen i realtid.
 
 Med vanliga halsningar,
 Mikael Larsson

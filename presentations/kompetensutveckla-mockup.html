@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kompetensutveckla.se — Mockup (Ny struktur)</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap');
+  body {
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #1d2327;
+    background: #f5f5f5;
+    line-height: 1.6;
+  }
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  /* ===== MOCKUP NAVIGATION BAR (utanför sajten) ===== */
+  .mockup-nav {
+    background: #1d2327;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    border-bottom: 2px solid #78ff05;
+  }
+  .mockup-nav span {
+    color: #aaa;
+    font-size: 12px;
+    margin-right: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .mockup-btn {
+    background: transparent;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .mockup-btn:hover { border-color: #78ff05; color: #78ff05; }
+  .mockup-btn.active {
+    background: #78ff05;
+    border-color: #78ff05;
+    color: #1d2327;
+    font-weight: 600;
+  }
+
+  /* ===== SITE WRAPPER ===== */
+  .site { background: #fff; }
+
+  /* ===== HEADER ===== */
+  .site-header {
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 43px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+  .site-logo img {
+    height: 52px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  /* ===== MAIN NAV ===== */
+  .main-nav { display: flex; align-items: center; gap: 4px; }
+  .nav-item { position: relative; }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 16px;
+    color: #1d2327;
+    font-size: 14.5px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+  }
+  .nav-link:hover { background: #f4f4f4; }
+  .nav-arrow {
+    font-size: 10px;
+    color: #888;
+    transition: transform 0.2s;
+    margin-top: 1px;
+  }
+  .nav-item:hover .nav-arrow { transform: rotate(180deg); }
+
+  /* Dropdown */
+  .dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 8px 0;
+    min-width: 220px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all 0.18s ease;
+    z-index: 200;
+  }
+  .nav-item:hover .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown a {
+    display: block;
+    padding: 10px 20px;
+    color: #1d2327;
+    font-size: 14px;
+    transition: background 0.12s;
+  }
+  .dropdown a:hover { background: #f0faf4; color: #59a56d; }
+  .dropdown-divider { height: 1px; background: #f0f0f0; margin: 4px 0; }
+
+  .nav-contact {
+    background: #78ff05;
+    color: #1d2327 !important;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: background 0.15s;
+  }
+  .nav-contact:hover { background: #5dcc00 !important; }
+
+  /* ===== VIEWS ===== */
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* ===== HERO ===== */
+  @keyframes kenburns {
+    from { transform: scale(1.0) translateY(0); }
+    to   { transform: scale(1.12) translateY(-4%); }
+  }
+  .hero {
+    padding: 80px 24px 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #3aad6e;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: url('https://kompetensutveckla.se/wp-content/uploads/2017/03/DefBild.jpg');
+    background-size: cover;
+    background-position: center;
+    animation: kenburns 8s ease-in-out infinite alternate;
+    background-position: center 20%;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgba(120,255,5,0.45) 0%, rgba(120,255,5,0.35) 70%, rgba(120,255,5,0.55) 100%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 800px; margin: 0 auto; position: relative; z-index: 2; }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.25);
+    color: #1d2327;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 800;
+    color: #1d2327;
+    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 21px);
+    color: #1d2327;
+    font-weight: 600;
+    margin-bottom: 36px;
+    opacity: 0.9;
+  }
+  .hero-cta-group { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: rgba(0,0,0,0.75);
+    color: #ffffff;
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s, transform 0.1s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: rgba(0,0,0,0.9); transform: translateY(-1px); }
+  .btn-secondary {
+    background: rgba(255,255,255,0.9);
+    color: #1d2327;
+    padding: 14px 32px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+    display: inline-block;
+  }
+  .btn-secondary:hover { background: #fff; }
+
+  /* Trust bar */
+  .trust-bar {
+    background: #1d2327;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    color: #ccc;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .trust-item strong { color: #78ff05; }
+
+  /* ===== SECTION ===== */
+  .section { padding: 56px 24px; }
+  .section-alt { background: #f8faf6; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 40px; }
+  .section-title {
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 800;
+    color: #1d2327;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .section-sub { color: #666; font-size: 16px; }
+  .section-label {
+    display: inline-block;
+    color: #59a56d;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* ===== CATEGORY CARDS ===== */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+  }
+  .cat-card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .cat-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.12); transform: translateY(-3px); }
+  .cat-img-wrap {
+    width: 100%;
+    height: 110px;
+    flex-shrink: 0;
+  }
+  .cat-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cat-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 6px 8px 5px;
+    text-align: center;
+  }
+  .cat-name { font-weight: 700; font-size: 12px; color: #1d2327; margin-bottom: 2px; }
+  .cat-count { font-size: 10px; font-weight: 600; color: #59a56d; }
+  .cat-desc { display: none; }
+
+  /* ===== POPULAR COURSES ===== */
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .course-card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .course-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .course-card-top {
+    height: 150px;
+    overflow: hidden;
+    background: #e8f5e9;
+  }
+  .course-card-top img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .course-card-body { padding: 16px 20px 8px; display: flex; flex-direction: column; flex: 1; }
+  .course-desc { flex: 1; }
+  .course-format-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+  }
+  .tag-webb { background: #e8f5e9; color: #2e7d32; }
+  .tag-lararledd { background: #e3f2fd; color: #1565c0; }
+  .tag-fysisk { background: #fff3e0; color: #e65100; }
+  .tag-populär { background: #fce4ec; color: #c2185b; }
+  .tag-dagar { background: #f3e5f5; color: #6a1b9a; }
+  .course-title { font-size: 16px; font-weight: 700; color: #1d2327; margin-bottom: 8px; line-height: 1.3; }
+  .course-desc { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 14px; }
+  .course-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    margin-top: auto;
+    border-top: 1px solid #f0f0f0;
+    padding-bottom: 4px;
+  }
+  .course-price { font-size: 18px; font-weight: 800; color: #1d2327; }
+  .course-price span { font-size: 12px; font-weight: 400; color: #888; }
+  .btn-book {
+    background: #78ff05;
+    color: #1d2327;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+  }
+  .btn-book:hover { background: #5dcc00; }
+
+  /* ===== USP SECTION ===== */
+  .usp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+  .usp-card {
+    text-align: center;
+    padding: 24px 16px;
+  }
+  .usp-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #59a56d, #11ac84);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    margin: 0 auto 16px;
+  }
+  .usp-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+  .usp-text { font-size: 13.5px; color: #666; line-height: 1.5; }
+
+  /* ===== BREADCRUMB ===== */
+  .breadcrumb {
+    background: #f8faf6;
+    padding: 12px 24px;
+    border-bottom: 1px solid #e8e8e8;
+  }
+  .breadcrumb-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: #59a56d; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .bc-sep { color: #ccc; }
+
+  /* ===== CATEGORY PAGE ===== */
+  .page-header {
+    background: linear-gradient(135deg, #1d2327 0%, #2d3a2f 100%);
+    padding: 48px 24px;
+    color: #fff;
+  }
+  .page-header-inner { max-width: 1200px; margin: 0 auto; }
+  .page-header h1 { font-size: clamp(26px, 4vw, 42px); font-weight: 800; margin-bottom: 10px; }
+  .page-header p { color: #aaa; font-size: 16px; }
+
+  .filter-bar {
+    background: #fff;
+    padding: 16px 24px;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 115px;
+    z-index: 50;
+  }
+  .filter-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .filter-label { font-size: 13px; font-weight: 600; color: #888; margin-right: 4px; }
+  .filter-btn {
+    padding: 7px 18px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background: #fff;
+    color: #555;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: #59a56d; color: #59a56d; }
+  .filter-btn.active { background: #78ff05; border-color: #78ff05; color: #1d2327; font-weight: 700; }
+
+  .courses-section { padding: 36px 24px 56px; }
+  .courses-inner { max-width: 1200px; margin: 0 auto; }
+  .courses-count { font-size: 14px; color: #888; margin-bottom: 20px; }
+
+  /* ===== KNOWLEDGE BANK PAGE ===== */
+  .kb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .kb-card {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 24px;
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .kb-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.09); transform: translateY(-2px); }
+  .kb-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .file-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .badge-pdf { background: #fde8e8; color: #c62828; }
+  .badge-docx { background: #e3f2fd; color: #1565c0; }
+  .badge-xlsx { background: #e8f5e9; color: #2e7d32; }
+  .kb-download-icon { color: #59a56d; font-size: 20px; }
+  .kb-title { font-weight: 700; font-size: 16px; color: #1d2327; margin-bottom: 8px; line-height: 1.3; }
+  .kb-desc { font-size: 13px; color: #777; line-height: 1.5; margin-bottom: 16px; flex: 1; }
+  .kb-meta { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid #f0f0f0; }
+  .kb-size { font-size: 12px; color: #aaa; }
+  .btn-download {
+    background: #78ff05;
+    color: #1d2327;
+    padding: 8px 18px;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+  }
+  .btn-download:hover { background: #5dcc00; }
+
+  /* ===== POPUP OVERLAY ===== */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+  }
+  .popup-overlay.show { display: flex; }
+  .popup-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 40px 36px 32px;
+    max-width: 440px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+    animation: popIn 0.25s ease;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.93) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .popup-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #aaa;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.15s;
+  }
+  .popup-close:hover { color: #333; }
+  .popup-logo { height: 36px; margin: 0 auto 20px; }
+  .popup-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1d2327;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.25;
+  }
+  .popup-text { font-size: 14px; color: #666; text-align: center; margin-bottom: 24px; line-height: 1.6; }
+  .popup-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 12px;
+    transition: border-color 0.15s;
+    outline: none;
+    font-family: inherit;
+  }
+  .popup-input:focus { border-color: #59a56d; }
+  .btn-subscribe {
+    width: 100%;
+    background: #78ff05;
+    color: #1d2327;
+    padding: 13px 20px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
+    border: none;
+    transition: background 0.15s;
+  }
+  .btn-subscribe:hover { background: #5dcc00; }
+  .popup-skip {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 12px;
+    color: #bbb;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .popup-skip:hover { color: #888; }
+  .popup-privacy { font-size: 11px; color: #bbb; text-align: center; margin-top: 12px; }
+
+  /* ===== FOOTER ===== */
+  .site-footer {
+    background: #1d2327;
+    color: #aaa;
+    padding: 48px 24px 24px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  .footer-brand img { height: 38px; filter: brightness(0) invert(1); opacity: 0.7; margin-bottom: 14px; }
+  .footer-brand p { font-size: 13px; line-height: 1.6; color: #777; }
+  .footer-col h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .footer-col a {
+    display: block;
+    color: #777;
+    font-size: 13px;
+    margin-bottom: 8px;
+    transition: color 0.15s;
+  }
+  .footer-col a:hover { color: #78ff05; }
+  .footer-bottom {
+    border-top: 1px solid #2d3a2f;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+    color: #555;
+  }
+  .footer-bottom a { color: #555; }
+  .footer-bottom a:hover { color: #78ff05; }
+
+  /* ===== HIDDEN COURSE CARDS ===== */
+  .course-card.hidden { display: none; }
+
+  /* ===== STATS BAR ===== */
+  .stats-bar {
+    background: #78ff05;
+    padding: 20px 24px;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    text-align: center;
+  }
+  .stat-item { color: #1d2327; }
+  .stat-number { font-size: 28px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 12px; opacity: 0.7; }
+
+  /* ===== SCROLL indicator ===== */
+  .scroll-hint {
+    background: #f0faf4;
+    border: 1px solid #c8e8d0;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #59a56d;
+    text-align: center;
+    margin: 0 24px 16px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== MOCKUP NAV ===== -->
+<div class="mockup-nav">
+  <span>Mockup:</span>
+  <button class="mockup-btn active" id="btn-start" onclick="showView('start')">Startsida</button>
+  <button class="mockup-btn" id="btn-cat" onclick="showView('cat')">Kategorisida</button>
+  <button class="mockup-btn" id="btn-kb" onclick="showView('kb')">Kunskapsbank</button>
+</div>
+
+<!-- ===== SITE HEADER (gemensam) ===== -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#" class="site-logo">
+      <img src="https://kompetensutveckla.se/wp-content/uploads/2017/03/Kompetensutveckla-arbetsmiljoutbildningar.png"
+           alt="Kompetensutveckla"
+           onerror="this.onerror=null; this.src=''; this.parentElement.innerHTML='<span style=\'font-size:20px;font-weight:800;color:#59a56d;\'>Kompetensutveckla</span>';">
+    </a>
+    <nav class="main-nav">
+      <div class="nav-item">
+        <div class="nav-link">
+          Utbildningar
+          <span class="nav-arrow">&#9660;</span>
+        </div>
+        <div class="dropdown">
+          <a href="#" onclick="showView('cat'); return false;">&#129505; Arbetsmiljö</a>
+          <a href="#">&#128737; Säkerhet</a>
+          <a href="#">&#9889; Elsäkerhet</a>
+          <a href="#">&#128651; Väg &amp; Transport</a>
+          <a href="#">&#128084; Ledarskap</a>
+          <a href="#">&#127959; Bygg &amp; Anläggning</a>
+          <a href="#">&#128680; Kris &amp; Beredskap</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <div class="nav-link">
+          Kunskapsbank
+          <span class="nav-arrow">&#9660;</span>
+        </div>
+        <div class="dropdown">
+          <a href="#" onclick="showView('kb'); return false;">&#128203; Checklistor &amp; Mallar</a>
+          <a href="#">&#128216; AFS-föreskrifter</a>
+          <a href="#">&#128196; Artiklar</a>
+          <a href="#">&#128101; Roller &amp; Ansvar</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="#" class="nav-link nav-contact">Kontakta oss</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ===== VY 1: STARTSIDA ===== -->
+<div id="view-start" class="view active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">Sveriges ledande utbildningsplattform</div>
+      <h1>SVERIGES POPULÄRASTE ARBETSMILJÖUTBILDNINGAR</h1>
+      <p class="hero-sub">UPP TILL 80% I STÖD FÖR DIN UTBILDNING</p>
+      <div class="hero-cta-group">
+        <button class="btn-primary" onclick="showView('cat')">Se alla utbildningar</button>
+        <button class="btn-secondary">Kontakta oss</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <div class="trust-bar">
+    <div class="trust-item"><strong>15 000+</strong> nöjda deltagare</div>
+    <div class="trust-item"><strong>100+</strong> utbildningar</div>
+    <div class="trust-item"><strong>Certifikat</strong> ingår alltid</div>
+    <div class="trust-item"><strong>Tillgänglig</strong> direkt efter köp</div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-number">15 000+</div>
+        <div class="stat-label">Utbildade deltagare</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100+</div>
+        <div class="stat-label">Kurser &amp; utbildningar</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4.8/5</div>
+        <div class="stat-label">Snittbetyg från deltagare</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">80%</div>
+        <div class="stat-label">Max stöd via arbetsgivaren</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category grid -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label">Utbildningskategorier</div>
+        <h2 class="section-title">Hitta rätt utbildning för ditt behov</h2>
+        <p class="section-sub">Välj kategori för att se alla tillgängliga kurser</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" onclick="showView('cat')">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2022/02/arbetsmiljo-fo-r-chefer-1200x630px-1024x538.jpg" alt="Arbetsmiljö"></div>
+          <div class="cat-text"><div class="cat-name">Arbetsmiljö</div><div class="cat-count">18 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2024/11/Arbete-pa-vag-kurs.jpg" alt="Säkerhet"></div>
+          <div class="cat-text"><div class="cat-name">Säkerhet</div><div class="cat-count">12 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2022/02/osa-i-praktiken-1200x630px-1024x538.jpg" alt="Elsäkerhet"></div>
+          <div class="cat-text"><div class="cat-name">Elsäkerhet</div><div class="cat-count">8 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2021/08/ebam-Max-Quality-1--1024x538.jpg" alt="Väg & Transport"></div>
+          <div class="cat-text"><div class="cat-name">Väg &amp; Transport</div><div class="cat-count">14 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2022/02/arbetsmiljo-fo-r-medarbetare-1200x630px-1024x538.jpg" alt="Ledarskap"></div>
+          <div class="cat-text"><div class="cat-name">Ledarskap</div><div class="cat-count">11 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2023/08/Bas-p-webb-1024x538.jpg" alt="Bygg & Anläggning"></div>
+          <div class="cat-text"><div class="cat-name">Bygg &amp; Anläggning</div><div class="cat-count">9 utbildningar</div></div>
+        </div>
+        <div class="cat-card">
+          <div class="cat-img-wrap"><img class="cat-icon" src="https://kompetensutveckla.se/wp-content/uploads/2025/02/SAM-webbutbildning-1024x538.webp" alt="Kris & Beredskap"></div>
+          <div class="cat-text"><div class="cat-name">Kris &amp; Beredskap</div><div class="cat-count">6 utbildningar</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular courses -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-label">Mest populärt</div>
+        <h2 class="section-title">Populäraste utbildningarna just nu</h2>
+      </div>
+      <div class="course-grid">
+        <div class="course-card">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2021/08/ebam-Max-Quality-1--1024x538.jpg" alt="BAM"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-webb">Webb</span>
+              <span class="tag tag-populär">Populär</span>
+              <span class="tag tag-dagar">2 dagar</span>
+            </div>
+            <div class="course-title">BAM — Bättre Arbetsmiljö</div>
+            <div class="course-desc"><strong>2 dagar.</strong> Grundläggande utbildning i systematiskt arbetsmiljöarbete för chefer och skyddsombud.</div>
+            <div class="course-footer">
+              <div class="course-price">1 490 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2025/02/SAM-webbutbildning-1024x538.webp" alt="SAM"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-webb">Webb</span>
+              <span class="tag tag-lararledd">Lärarledd</span>
+              <span class="tag tag-dagar">1 dag</span>
+            </div>
+            <div class="course-title">SAM — Systematiskt Arbetsmiljöarbete</div>
+            <div class="course-desc"><strong>1 dag.</strong> Lär dig bygga ett fungerande SAM-system som uppfyller Arbetsmiljöverkets krav.</div>
+            <div class="course-footer">
+              <div class="course-price">1 990 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2022/02/arbetsmiljo-fo-r-medarbetare-1200x630px-1024x538.jpg" alt="Skyddsombud"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-lararledd">Lärarledd</span>
+              <span class="tag tag-fysisk">Fysisk</span>
+              <span class="tag tag-dagar">3 dagar</span>
+            </div>
+            <div class="course-title">Skyddsombudsutbildning</div>
+            <div class="course-desc"><strong>3 dagar.</strong> Utbilda ditt skyddsombud i rättigheter, skyldigheter och det praktiska skyddsarbetet.</div>
+            <div class="course-footer">
+              <div class="course-price">2 490 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- USP section -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <h2 class="section-title">Varför välja Kompetensutveckla?</h2>
+      </div>
+      <div class="usp-grid">
+        <div class="usp-card">
+          <div class="usp-icon">&#127891;</div>
+          <div class="usp-title">Certifikat ingår</div>
+          <div class="usp-text">Alla deltagare får ett digitalt certifikat direkt efter godkänt genomförande.</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">&#128197;</div>
+          <div class="usp-title">Flexibel studietakt</div>
+          <div class="usp-text">Studera i din egen takt, var som helst och när som helst. Ingen deadline.</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">&#9989;</div>
+          <div class="usp-title">Uppfyller AFS-krav</div>
+          <div class="usp-text">Alla utbildningar är framtagna för att möta Arbetsmiljöverkets föreskrifter.</div>
+        </div>
+        <div class="usp-card">
+          <div class="usp-icon">&#128200;</div>
+          <div class="usp-title">Upp till 80% i stöd</div>
+          <div class="usp-text">Vi hjälper dig söka kompetensstöd från Tillväxtverket — upp till 80% av kostnaden.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="https://kompetensutveckla.se/wp-content/uploads/2017/03/Kompetensutveckla-arbetsmiljoutbildningar.png"
+               alt="Kompetensutveckla"
+               onerror="this.style.display='none'">
+          <p>Sveriges ledande plattform för arbetsmiljöutbildningar. Certifierade kurser med över 15 000 nöjda deltagare.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Utbildningar</h4>
+          <a href="#">Arbetsmiljö</a>
+          <a href="#">Säkerhet</a>
+          <a href="#">Elsäkerhet</a>
+          <a href="#">Väg &amp; Transport</a>
+          <a href="#">Ledarskap</a>
+        </div>
+        <div class="footer-col">
+          <h4>Kunskapsbank</h4>
+          <a href="#" onclick="showView('kb'); return false;">Checklistor &amp; Mallar</a>
+          <a href="#">AFS-föreskrifter</a>
+          <a href="#">Artiklar</a>
+          <a href="#">Roller &amp; Ansvar</a>
+        </div>
+        <div class="footer-col">
+          <h4>Om oss</h4>
+          <a href="#">Kontakta oss</a>
+          <a href="#">Integritetspolicy</a>
+          <a href="#">Villkor</a>
+          <a href="#">Sitemap</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2025 Kompetensutveckla AB. Alla rättigheter förbehållna.</span>
+        <span><a href="#">Integritetspolicy</a> &middot; <a href="#">Cookies</a></span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /view-start -->
+
+
+<!-- ===== VY 2: KATEGORISIDA ===== -->
+<div id="view-cat" class="view">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="#" onclick="showView('start'); return false;">Hem</a>
+      <span class="bc-sep">›</span>
+      <a href="#">Utbildningar</a>
+      <span class="bc-sep">›</span>
+      <span>Arbetsmiljö</span>
+    </div>
+  </div>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>Arbetsmiljöutbildningar</h1>
+      <p>18 utbildningar inom systematiskt arbetsmiljöarbete, skyddsombud och OSA</p>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <span class="filter-label">Filtrera:</span>
+      <button class="filter-btn active" onclick="filterCourses('alla', this)">Alla</button>
+      <button class="filter-btn" onclick="filterCourses('webb', this)">Webb</button>
+      <button class="filter-btn" onclick="filterCourses('lararledd', this)">Lärarledd</button>
+      <button class="filter-btn" onclick="filterCourses('fysisk', this)">Fysisk</button>
+    </div>
+  </div>
+
+  <!-- Courses -->
+  <div class="courses-section">
+    <div class="courses-inner">
+      <p class="courses-count" id="courses-count">Visar 4 utbildningar</p>
+      <div class="course-grid" id="cat-course-grid">
+
+        <div class="course-card" data-format="webb">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2021/08/ebam-Max-Quality-1--1024x538.jpg" alt="BAM"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-webb">Webb</span>
+              <span class="tag tag-populär">Populär</span>
+              <span class="tag tag-dagar">2 dagar</span>
+            </div>
+            <div class="course-title">BAM — Bättre Arbetsmiljö</div>
+            <div class="course-desc"><strong>2 dagar.</strong> Grundläggande utbildning i systematiskt arbetsmiljöarbete för chefer och skyddsombud. Godkänd av IF Metall, Byggnads m.fl.</div>
+            <div class="course-footer">
+              <div class="course-price">1 490 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-format="webb lararledd">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2025/02/SAM-webbutbildning-1024x538.webp" alt="SAM"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-webb">Webb</span>
+              <span class="tag tag-lararledd">Lärarledd</span>
+              <span class="tag tag-dagar">1 dag</span>
+            </div>
+            <div class="course-title">SAM — Systematiskt Arbetsmiljöarbete</div>
+            <div class="course-desc"><strong>1 dag.</strong> Lär dig bygga ett fungerande SAM-system som uppfyller Arbetsmiljöverkets föreskrifter AFS 2001:1.</div>
+            <div class="course-footer">
+              <div class="course-price">1 990 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-format="lararledd fysisk">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2022/02/arbetsmiljo-fo-r-medarbetare-1200x630px-1024x538.jpg" alt="Skyddsombud"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-lararledd">Lärarledd</span>
+              <span class="tag tag-fysisk">Fysisk</span>
+              <span class="tag tag-dagar">3 dagar</span>
+            </div>
+            <div class="course-title">Skyddsombudsutbildning</div>
+            <div class="course-desc"><strong>3 dagar.</strong> Utbilda ditt skyddsombud i rättigheter, skyldigheter och det praktiska skyddsarbetet på arbetsplatsen.</div>
+            <div class="course-footer">
+              <div class="course-price">2 490 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-format="webb">
+          <div class="course-card-top"><img src="https://kompetensutveckla.se/wp-content/uploads/2022/02/osa-i-praktiken-1200x630px-1024x538.jpg" alt="OSA"></div>
+          <div class="course-card-body">
+            <div class="course-format-tags">
+              <span class="tag tag-webb">Webb</span>
+              <span class="tag tag-dagar">1 dag</span>
+            </div>
+            <div class="course-title">OSA — Organisatorisk och Social Arbetsmiljö</div>
+            <div class="course-desc"><strong>1 dag.</strong> Förstå och uppfyll kraven i AFS 2015:4 om organisatorisk och social arbetsmiljö. För chefer och HR.</div>
+            <div class="course-footer">
+              <div class="course-price">1 290 kr <span>/ deltagare</span></div>
+              <button class="btn-book">Boka nu</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <span>&copy; 2025 Kompetensutveckla AB</span>
+        <span><a href="#">Integritetspolicy</a> &middot; <a href="#">Cookies</a></span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /view-cat -->
+
+
+<!-- ===== VY 3: KUNSKAPSBANK ===== -->
+<div id="view-kb" class="view">
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb">
+    <div class="breadcrumb-inner">
+      <a href="#" onclick="showView('start'); return false;">Hem</a>
+      <span class="bc-sep">›</span>
+      <a href="#">Kunskapsbank</a>
+      <span class="bc-sep">›</span>
+      <span>Checklistor &amp; Mallar</span>
+    </div>
+  </div>
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header-inner">
+      <h1>Checklistor &amp; Mallar</h1>
+      <p>Ladda ner gratis mallar och checklistor för ditt arbetsmiljöarbete</p>
+    </div>
+  </div>
+
+  <!-- KB cards -->
+  <div class="courses-section">
+    <div class="courses-inner">
+      <div class="kb-grid">
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-docx">DOCX</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">Riskbedömning — mall</div>
+          <div class="kb-desc">Komplett mall för systematisk riskbedömning enligt AFS 2001:1. Inkluderar instruktioner och exempelifyllning.</div>
+          <div class="kb-meta">
+            <span class="kb-size">124 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-pdf">PDF</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">Skyddsrond — checklista</div>
+          <div class="kb-desc">Strukturerad checklista för skyddsrond på arbetsplatsen. Täcker fysisk, organisatorisk och social arbetsmiljö.</div>
+          <div class="kb-meta">
+            <span class="kb-size">89 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-docx">DOCX</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">Arbetsmiljöpolicy — mall</div>
+          <div class="kb-desc">Färdig mall för företagets arbetsmiljöpolicy. Anpassningsbar efter er verksamhet och storlek.</div>
+          <div class="kb-meta">
+            <span class="kb-size">67 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-pdf">PDF</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">BAM-kurs — förarbete &amp; checklista</div>
+          <div class="kb-desc">Förberedelsematerial inför BAM-utbildningen. Samla ihop nödvändig information om er arbetsmiljö.</div>
+          <div class="kb-meta">
+            <span class="kb-size">143 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-xlsx">XLSX</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">Kemikalieförteckning — Excel-mall</div>
+          <div class="kb-desc">Håll koll på alla kemikalier på arbetsplatsen. Inkluderar fält för SDS-datum, riskklassning och substitution.</div>
+          <div class="kb-meta">
+            <span class="kb-size">58 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+        <div class="kb-card">
+          <div class="kb-card-top">
+            <span class="file-badge badge-docx">DOCX</span>
+            <span class="kb-download-icon">&#11015;</span>
+          </div>
+          <div class="kb-title">Händelseanalys — mall</div>
+          <div class="kb-desc">Analysera tillbud och olyckor systematiskt med denna strukturerade mall. Baserad på 5 Varför-metoden.</div>
+          <div class="kb-meta">
+            <span class="kb-size">102 KB</span>
+            <button class="btn-download" onclick="showPopup()">Ladda ner gratis</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <span>&copy; 2025 Kompetensutveckla AB</span>
+        <span><a href="#">Integritetspolicy</a> &middot; <a href="#">Cookies</a></span>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- /view-kb -->
+
+
+<!-- ===== POPUP ===== -->
+<div class="popup-overlay" id="popup-overlay" onclick="handleOverlayClick(event)">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()" aria-label="Stäng">&#10005;</button>
+    <img class="popup-logo"
+         src="https://kompetensutveckla.se/wp-content/uploads/2017/03/Kompetensutveckla-arbetsmiljoutbildningar.png"
+         alt="Kompetensutveckla"
+         onerror="this.style.display='none'">
+    <div class="popup-title">Håll dig uppdaterad inom arbetsmiljö</div>
+    <div class="popup-text">Fyll i din e-postadress för att få ny information, mallar och nyhetsbrev — helt gratis.</div>
+    <input class="popup-input" type="email" placeholder="din@email.se">
+    <button class="btn-subscribe" onclick="closePopup()">Prenumerera</button>
+    <div class="popup-privacy">Vi delar aldrig dina uppgifter med tredje part. Avregistrera dig när som helst.</div>
+    <button class="popup-skip" onclick="closePopup()">Hoppa över</button>
+  </div>
+</div>
+
+
+<script>
+  // ===== VIEW SWITCHER =====
+  function showView(viewName) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.mockup-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + viewName).classList.add('active');
+    document.getElementById('btn-' + viewName).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Auto-popup after 4s on KB view
+    if (viewName === 'kb') {
+      clearTimeout(window.popupTimer);
+      window.popupTimer = setTimeout(showPopup, 4000);
+    } else {
+      clearTimeout(window.popupTimer);
+    }
+  }
+
+  // ===== COURSE FILTER =====
+  function filterCourses(format, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const cards = document.querySelectorAll('#cat-course-grid .course-card');
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      if (format === 'alla') {
+        card.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        const cardFormats = card.getAttribute('data-format') || '';
+        if (cardFormats.includes(format)) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      }
+    });
+
+    const countEl = document.getElementById('courses-count');
+    const formatLabel = format === 'alla' ? 'alla' : format;
+    countEl.textContent = 'Visar ' + visibleCount + ' utbildningar' + (format !== 'alla' ? ' (' + format + ')' : '');
+  }
+
+  // ===== POPUP =====
+  function showPopup() {
+    document.getElementById('popup-overlay').classList.add('show');
+  }
+
+  function closePopup() {
+    document.getElementById('popup-overlay').classList.remove('show');
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('popup-overlay')) {
+      closePopup();
+    }
+  }
+
+  // ESC closes popup
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closePopup();
+  });
+</script>
+
+</body>
+</html>

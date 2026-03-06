@@ -444,11 +444,14 @@ async function loadOverview() {
   if (isSales() && salesSummary) {
     salesSummary.style.display = '';
     if (systemHealth) systemHealth.style.display = 'none';
-    // Pipeline counts
-    const pipeline = pipeData?.pipeline || [];
-    const inPipeline = pipeline.filter(p => ['prospect','audit','proposal'].includes(p.stage)).length;
+    // Pipeline counts — API returns {stage: [...]} object, flatten to array
+    const pipeRaw = pipeData?.pipeline || {};
+    const pipeline = Array.isArray(pipeRaw) ? pipeRaw : Object.entries(pipeRaw).flatMap(([stage, items]) =>
+      (items || []).map(c => ({ ...c, stage }))
+    );
+    const inPipeline = pipeline.filter(p => ['prospect','audit','proposal','analys'].includes(p.stage)).length;
     const proposals = pipeline.filter(p => p.stage === 'proposal').length;
-    const active = pipeline.filter(p => p.stage === 'active').length;
+    const active = pipeline.filter(p => ['active', 'aktiv'].includes(p.stage)).length;
     const total = pipeline.length;
     const convRate = total > 0 ? Math.round((active / total) * 100) : 0;
     $('#sales-pipeline-count').textContent = inPipeline;
@@ -512,6 +515,125 @@ async function loadOverview() {
 
   // Load onboarding status
   loadOnboardingStatus();
+
+  // Load dagsplan
+  loadDagsplan();
+}
+
+// ── Dagsplan ──────────────────────────────────────────────────
+async function loadDagsplan() {
+  const el = $('#dagsplan-content');
+  const dateEl = $('#dagsplan-date');
+  if (!el) return;
+
+  // Sätt datum
+  const now = new Date();
+  const weekdays = ['Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'];
+  const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+  if (dateEl) dateEl.textContent = `${weekdays[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]}`;
+
+  // Hämta data parallellt
+  const [queue, onboarding, customers, optimizations] = await Promise.all([
+    api('/api/queue'),
+    api('/api/customers'),
+    api('/api/customers'),
+    api('/api/optimizations')
+  ]);
+
+  const items = [];
+  const today = now.getDay(); // 0=sön, 5=fre
+
+  // 1. Viktor-dag (varje fredag)
+  if (today === 5) {
+    items.push({ type: 'viktoridag', icon: '&#x1F5D3;', text: 'Viktor-dag — gå igenom veckans kritiska åtgärder med Viktor', color: '#e91e8c', action: null });
+  } else {
+    const daysToFri = (5 - today + 7) % 7 || 7;
+    if (daysToFri <= 2) {
+      items.push({ type: 'info', icon: '&#x1F5D3;', text: `Viktor-dag om ${daysToFri} dag${daysToFri > 1 ? 'ar' : ''}`, color: '#888', action: null });
+    }
+  }
+
+  // 2. Måndag = audit-dag
+  if (today === 1) {
+    items.push({ type: 'audit', icon: '&#x1F50D;', text: 'Måndag — weekly-audit körs kl 06:00. Kontrollera arbetsflödet.', color: '#00d4ff', action: () => navigateToView('queue') });
+  }
+
+  // 3. Kunder som saknar nyckelord (blockerar systemet)
+  const custList = customers?.customers || [];
+  const onboardList = onboarding?.customers || [];
+  const missingKeywords = custList.filter(c => {
+    const ob = onboardList.find(o => o.id === c.id);
+    return ob && (!ob.keyword_count || ob.keyword_count === 0);
+  });
+  if (missingKeywords.length > 0) {
+    items.push({
+      type: 'warn',
+      icon: '&#x26A0;',
+      text: `${missingKeywords.length} kund${missingKeywords.length > 1 ? 'er' : ''} saknar nyckelord: ${missingKeywords.slice(0,3).map(c => CUSTOMER_NAMES[c.id] || c.id).join(', ')}`,
+      color: '#eab308',
+      action: () => navigateToView('queue')
+    });
+  }
+
+  // 4. Väntande uppgifter i kön
+  const queueItems = queue?.queue || [];
+  const pending = queueItems.filter(q => q.status === 'pending');
+  if (pending.length > 0) {
+    // Gruppera per kund
+    const byCust = {};
+    pending.forEach(q => { byCust[q.customer_id] = (byCust[q.customer_id] || 0) + 1; });
+    const topCusts = Object.entries(byCust).sort((a,b) => b[1]-a[1]).slice(0,3);
+    items.push({
+      type: 'queue',
+      icon: '&#x1F4CB;',
+      text: `${pending.length} uppgifter i kö — ${topCusts.map(([id, n]) => `${CUSTOMER_NAMES[id] || id} (${n})`).join(', ')}`,
+      color: '#7c4dff',
+      action: () => navigateToView('queue')
+    });
+  }
+
+  // 5. Senaste optimering — om mer än 12h sedan = varna
+  const opts = optimizations?.optimizations || [];
+  if (opts.length > 0) {
+    const latest = opts[0];
+    const ts = latest.timestamp?.value || latest.timestamp;
+    const diffH = (Date.now() - new Date(ts).getTime()) / 3600000;
+    if (diffH > 12) {
+      items.push({
+        type: 'warn',
+        icon: '&#x23F1;',
+        text: `Senaste optimering för ${Math.round(diffH)}h sedan — lambda kan ha stannat`,
+        color: '#ef4444',
+        action: null
+      });
+    } else {
+      items.push({
+        type: 'ok',
+        icon: '&#x2705;',
+        text: `Systemet aktiv — senaste optimering ${timeAgo(ts)}`,
+        color: '#22c55e',
+        action: null
+      });
+    }
+  } else {
+    items.push({ type: 'warn', icon: '&#x26A0;', text: 'Inga optimeringar registrerade — kontrollera systemet', color: '#ef4444', action: null });
+  }
+
+  // Rendera
+  if (items.length === 0) {
+    el.innerHTML = '<p class="empty" style="color:#22c55e">Allt ser bra ut. Inget att göra just nu.</p>';
+    return;
+  }
+
+  el.innerHTML = items.map(item => `
+    <div class="dagsplan-item ${item.action ? 'dagsplan-item--clickable' : ''}" 
+         style="border-left-color:${item.color}" 
+         ${item.action ? 'onclick="(' + item.action.toString() + ')()"' : ''}>
+      <span class="dagsplan-icon" style="color:${item.color}">${item.icon}</span>
+      <span class="dagsplan-text">${item.text}</span>
+      ${item.action ? '<span class="dagsplan-arrow" style="color:' + item.color + '">&rsaquo;</span>' : ''}
+    </div>
+  `).join('');
 }
 
 // Map customer IDs to proper company names
@@ -536,6 +658,20 @@ function getCustomerDisplayName(c) {
   return domain || c.id;
 }
 
+// ── Kundstatus-indikator ───────────────────────────────────
+// Returnerar {color, label, dot} baserat på kundens onboarding-data
+function getCustomerStatus(customerId) {
+  const onboard = _onboardingData.find(o => o.customer_id === customerId);
+  if (!onboard) return { color: '#888', label: 'Okänd', dot: 'grey' };
+  const hasWP = onboard.wp_credentials && onboard.wp_credentials !== 'placeholder';
+  const hasKeywords = onboard.keyword_count > 0;
+  const hasGSC = onboard.gsc_property;
+  if (hasWP && hasKeywords && hasGSC) return { color: '#22c55e', label: 'Aktiv', dot: 'green' };
+  if (hasWP && !hasKeywords) return { color: '#eab308', label: 'Saknar nyckelord', dot: 'yellow' };
+  if (!hasWP) return { color: '#ef4444', label: 'Saknar WP-credentials', dot: 'red' };
+  return { color: '#f97316', label: 'Delvis aktiv', dot: 'orange' };
+}
+
 function renderCustomerList(list) {
   const custEl = $('#customer-list');
   // Sort alphabetically by display name
@@ -545,6 +681,7 @@ function renderCustomerList(list) {
       const name = getCustomerDisplayName(c);
       const initials = name.substring(0, 2).toUpperCase();
       const domain = (c.url || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+      const status = getCustomerStatus(c.id);
       return `
         <div class="customer-item customer-item--clickable" onclick="showCustomerDetail('${c.id}', '${c.url}')">
           <div class="customer-avatar">${initials}</div>
@@ -552,7 +689,10 @@ function renderCustomerList(list) {
             <div class="customer-name">${name}</div>
             <div class="customer-url">${domain}</div>
           </div>
-          <div class="customer-arrow">&rsaquo;</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="customer-status-dot" style="background:${status.color}" title="${status.label}"></span>
+            <div class="customer-arrow">&rsaquo;</div>
+          </div>
         </div>
       `;
     }).join('');
@@ -595,7 +735,7 @@ async function loadOptimizations() {
               <td>${timeAgo(opt.timestamp)}</td>
               <td><span class="tag tag--${typeTag(opt.optimization_type)}">${formatTaskType(opt.optimization_type)}</span></td>
               <td>${CUSTOMER_NAMES[opt.customer_id] || opt.site_url || '—'}</td>
-              <td>${opt.page_url ? `<a href="${opt.page_url}" target="_blank">${new URL(opt.page_url).pathname}</a>` : '—'}</td>
+              <td>${opt.page_url ? `<a href="${opt.page_url}" target="_blank">${safePathname(opt.page_url)}</a>` : '—'}</td>
               <td>${opt.performed_by || '—'}</td>
               <td>${opt.time_spent_minutes ? opt.time_spent_minutes + ' min' : '—'}</td>
             </tr>
@@ -630,7 +770,7 @@ async function loadQueue() {
               <td><span class="tag tag--${severityTag(task.priority)}">${task.priority}</span></td>
               <td><span class="tag tag--${typeTag(task.task_type)}">${formatQueueTask(task.task_type)}</span></td>
               <td>${CUSTOMER_NAMES[task.customer_id] || task.customer_id}</td>
-              <td>${task.page_url ? `<a href="${task.page_url}" target="_blank">${new URL(task.page_url).pathname}</a>` : '—'}</td>
+              <td>${task.page_url ? `<a href="${task.page_url}" target="_blank">${safePathname(task.page_url)}</a>` : '—'}</td>
               <td><span class="tag tag--${task.status}">${task.status}</span></td>
             </tr>
           `).join('')}
@@ -650,7 +790,7 @@ async function loadReports() {
     el.innerHTML = data.reports.map(report => `
       <div class="report-card">
         <div class="report-header">
-          <div class="report-date">${new Date(report.email_sent_at).toLocaleDateString('sv-SE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
+          <div class="report-date">${new Date(report.email_sent_at?.value ?? report.email_sent_at).toLocaleDateString('sv-SE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
           <div class="report-meta">${Array.isArray(report.recipient_list) ? report.recipient_list.join(', ') : (report.recipient_list || '—')}</div>
         </div>
         <div class="report-meta">${report.metrics_json ? JSON.parse(report.metrics_json).total + ' optimeringar' : '—'}</div>
@@ -735,7 +875,7 @@ function renderPipelineKanban(stages, filterQuery) {
             return `
             <div class="kanban-card ${expiryClass}" onclick="showCustomerDetail('${c.customer_id}', '${c.website_url || ''}')">
               <div class="kanban-card-name">${getHealthDot(c.customer_id)} ${CUSTOMER_NAMES[c.customer_id] || c.company_name || c.customer_id}</div>
-              <div class="kanban-card-url">${c.website_url ? new URL(c.website_url).hostname : ''}</div>
+              <div class="kanban-card-url">${c.website_url ? safeHostname(c.website_url) : ''}</div>
               <div class="kanban-card-tags">
                 ${c.analysis_score ? `<span class="tag" style="background:${scoreColor}22;color:${scoreColor};border-color:${scoreColor}">${c.analysis_score}/100</span>` : ''}
                 ${c.cost_estimate_sek ? `<span class="tag tag--schema">${c.cost_estimate_sek.toLocaleString('sv-SE')} kr</span>` : ''}
@@ -922,10 +1062,307 @@ async function loadView(view) {
   switch (view) {
     case 'overview': return loadOverview();
     case 'pipeline': return loadPipeline();
+    case 'onboarding': return loadOnboarding();
     case 'consulting': return loadConsulting();
+    case 'prospecting': return loadProspecting();
     case 'optimizations': return loadOptimizations();
     case 'queue': return loadQueue();
     case 'reports': return loadReports();
+    case 'security': return loadSecurity();
+    case 'content-blueprint': return loadContentBlueprint();
+  }
+}
+
+// ── Onboarding ──────────────────────────────────────────────
+
+function loadOnboarding() {
+  $('#view-onboarding').innerHTML = (`
+    <div class="onboarding-wrap">
+      <div class="page-header">
+        <h1>Onboarding — ny kund</h1>
+        <p class="page-sub">Fyll i alla uppgifter nedan. Kunden registreras i systemet, SSM, BigQuery och Trello.</p>
+      </div>
+
+      <div class="onboarding-steps">
+        <div class="ob-step active" data-step="1"><span class="ob-step-num">1</span>Kontaktuppgifter</div>
+        <div class="ob-step" data-step="2"><span class="ob-step-num">2</span>WordPress</div>
+        <div class="ob-step" data-step="3"><span class="ob-step-num">3</span>SEO-konton</div>
+        <div class="ob-step" data-step="4"><span class="ob-step-num">4</span>Klar</div>
+      </div>
+
+      <form id="onboarding-form" autocomplete="off">
+
+        <!-- Sektion 1 -->
+        <div class="ob-section" id="ob-sec-1">
+          <h2 class="ob-section-title">1 — Kontaktuppgifter</h2>
+          <div class="ob-grid">
+            <div class="form-group">
+              <label>Företagsnamn <span class="req">*</span></label>
+              <input type="text" id="ob-company" placeholder="Företaget AB" required>
+            </div>
+            <div class="form-group">
+              <label>Kontaktperson</label>
+              <input type="text" id="ob-person" placeholder="Förnamn Efternamn">
+            </div>
+            <div class="form-group">
+              <label>Kontaktmail <span class="req">*</span></label>
+              <input type="email" id="ob-email" placeholder="namn@foretagsnamn.se" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sektion 2 -->
+        <div class="ob-section" id="ob-sec-2">
+          <h2 class="ob-section-title">2 — WordPress</h2>
+          <p class="ob-hint">Kunden genererar ett Application Password under <strong>Användare → Profil → Applikationslösenord</strong> i sin WP-admin.</p>
+          <div class="ob-grid">
+            <div class="form-group">
+              <label>WordPress-URL <span class="req">*</span></label>
+              <input type="url" id="ob-wp-url" placeholder="https://www.foretagsnamn.se" required>
+            </div>
+            <div class="form-group">
+              <label>WP-användarnamn <span class="req">*</span></label>
+              <input type="text" id="ob-wp-user" placeholder="admin" required>
+            </div>
+            <div class="form-group ob-grid-full">
+              <label>WordPress Application Password <span class="req">*</span></label>
+              <input type="text" id="ob-wp-pass" placeholder="xxxx xxxx xxxx xxxx xxxx xxxx" required
+                style="font-family:monospace;letter-spacing:0.05em">
+              <small class="ob-field-hint">Visas bara en gång i WP — spara den noga</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sektion 3 -->
+        <div class="ob-section" id="ob-sec-3">
+          <h2 class="ob-section-title">3 — SEO-konton</h2>
+          <p class="ob-hint">GSC: be kunden lägga till <code>seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com</code> med <strong>Fullständig</strong> behörighet.</p>
+          <div class="ob-grid">
+            <div class="form-group">
+              <label>GSC Property-URL</label>
+              <input type="url" id="ob-gsc" placeholder="https://www.foretagsnamn.se/">
+              <small class="ob-field-hint">Exakt som det står i Google Search Console</small>
+            </div>
+            <div class="form-group">
+              <label>GA4 Property-ID</label>
+              <input type="text" id="ob-ga4" placeholder="123456789">
+            </div>
+            <div class="form-group">
+              <label>Google Ads Kund-ID</label>
+              <input type="text" id="ob-gads" placeholder="123-456-7890">
+            </div>
+            <div class="form-group">
+              <label>Meta Pixel-ID</label>
+              <input type="text" id="ob-meta" placeholder="1234567890123456">
+            </div>
+          </div>
+        </div>
+
+        <!-- Klar-meddelande (dolt) -->
+        <div class="ob-section ob-success-wrap" id="ob-sec-4" style="display:none">
+          <div class="ob-success">
+            <div class="ob-success-icon">✓</div>
+            <h2>Kunden är registrerad!</h2>
+            <p id="ob-success-msg"></p>
+            <div class="ob-next-steps">
+              <strong>Nästa steg:</strong>
+              <ol>
+                <li>Gå till <strong>Pipeline</strong> → flytta kunden till "Uppstart"</li>
+                <li>Öppna kundkortet → lägg in <strong>ABC-nyckelord</strong></li>
+                <li>Generera <strong>åtgärdsplan</strong> med AI</li>
+                <li>Skapa <strong>kundportal-konto</strong> och skicka välkomstmail</li>
+              </ol>
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="loadOnboarding()">Onboarda en till</button>
+          </div>
+        </div>
+
+        <!-- Fel-meddelande -->
+        <div id="ob-error" class="ob-error" style="display:none"></div>
+
+        <!-- Submit -->
+        <div class="ob-actions" id="ob-actions">
+          <button type="submit" class="btn btn-primary btn-lg" id="ob-submit-btn">
+            Registrera kund i systemet
+          </button>
+          <span class="ob-actions-hint">Sparar WP-credentials, GSC och kontaktuppgifter i SSM + BigQuery + Trello</span>
+        </div>
+
+      </form>
+    </div>
+  `);
+
+  // Live system-ID preview
+  const wpUrlInput = document.getElementById('ob-wp-url');
+  const companyInput = document.getElementById('ob-company');
+  if (wpUrlInput) {
+    wpUrlInput.addEventListener('input', updateSiteIdPreview);
+    companyInput.addEventListener('input', updateSiteIdPreview);
+  }
+
+  const form = document.getElementById('onboarding-form');
+  if (form) form.addEventListener('submit', submitOnboarding);
+}
+
+function updateSiteIdPreview() {
+  const url = document.getElementById('ob-wp-url')?.value || '';
+  if (!url) return;
+  try {
+    const domain = new URL(url.startsWith('http') ? url : 'https://' + url).hostname.replace(/^www\./, '');
+    const siteId = domain.replace(/\./g, '-');
+    const hint = document.querySelector('#ob-wp-url + small') || document.createElement('small');
+    hint.className = 'ob-field-hint ob-siteid-preview';
+    hint.textContent = `System-ID: ${siteId}`;
+    const parent = document.getElementById('ob-wp-url').parentNode;
+    const existing = parent.querySelector('.ob-siteid-preview');
+    if (!existing) parent.appendChild(hint);
+    else existing.textContent = `System-ID: ${siteId}`;
+  } catch (e) {}
+}
+
+async function submitOnboarding(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('ob-submit-btn');
+  const errorEl = document.getElementById('ob-error');
+  btn.disabled = true;
+  btn.textContent = 'Registrerar...';
+  errorEl.style.display = 'none';
+
+  // Markera steg 2 aktiv
+  document.querySelectorAll('.ob-step').forEach((s, i) => {
+    s.classList.toggle('active', i < 3);
+  });
+
+  const payload = {
+    company_name:            document.getElementById('ob-company').value.trim(),
+    contact_person:          document.getElementById('ob-person').value.trim(),
+    contact_email:           document.getElementById('ob-email').value.trim(),
+    wordpress_url:           document.getElementById('ob-wp-url').value.trim().replace(/\/$/, ''),
+    wordpress_username:      document.getElementById('ob-wp-user').value.trim(),
+    wordpress_app_password:  document.getElementById('ob-wp-pass').value.trim(),
+    gsc_property:            document.getElementById('ob-gsc').value.trim() || undefined,
+    ga_property_id:          document.getElementById('ob-ga4').value.trim() || undefined,
+    google_ads_id:           document.getElementById('ob-gads').value.trim() || undefined,
+    meta_pixel_id:           document.getElementById('ob-meta').value.trim() || undefined,
+  };
+
+  // Ta bort undefined-nycklar
+  Object.keys(payload).forEach(k => payload[k] === undefined && delete payload[k]);
+
+  try {
+    const res = await fetch('/api/onboard', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': API_KEY },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || `HTTP ${res.status}`);
+    }
+
+    // Framgång
+    document.getElementById('ob-actions').style.display = 'none';
+    document.getElementById('ob-sec-4').style.display = 'block';
+    document.getElementById('ob-success-msg').innerHTML =
+      `<strong>${payload.company_name}</strong> är registrerad med System-ID: <code>${data.siteId}</code>`;
+    document.querySelectorAll('.ob-step').forEach(s => s.classList.add('done'));
+
+  } catch (err) {
+    errorEl.textContent = `Fel: ${err.message}`;
+    errorEl.style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Försök igen';
+  }
+}
+
+// ── Security Monitoring ─────────────────────────────────────
+
+let _securityData = null;
+
+async function loadSecurity() {
+  const summaryEl = $('#security-summary');
+  const eventsEl = $('#security-events');
+  if (summaryEl) summaryEl.innerHTML = '<p class="empty">Laddar...</p>';
+  if (eventsEl) eventsEl.innerHTML = '<p class="empty">Laddar...</p>';
+
+  const data = await api('/api/security');
+  if (!data) return;
+  _securityData = data;
+  renderSecuritySummary(data.summary || []);
+  renderSecurityEvents(data.events || []);
+}
+
+function renderSecuritySummary(summary) {
+  const el = $('#security-summary');
+  if (!el) return;
+  if (!summary || summary.length === 0) {
+    el.innerHTML = '<p class="empty">Inga kunder med säkerhetsstatus ännu.</p>';
+    return;
+  }
+  el.innerHTML = summary.map(s => {
+    let statusClass = 'security-status--ok';
+    let statusText = 'OK';
+    let statusIcon = '✓';
+    if (s.open_critical > 0) { statusClass = 'security-status--critical'; statusText = `${s.open_critical} kritisk${s.open_critical > 1 ? 'a' : ''}`; statusIcon = '!'; }
+    else if (s.open_warning > 0) { statusClass = 'security-status--warning'; statusText = `${s.open_warning} varning${s.open_warning > 1 ? 'ar' : ''}`; statusIcon = '⚠'; }
+    return `
+      <div class="security-customer-card ${statusClass}">
+        <div class="security-card-status">${statusIcon}</div>
+        <div class="security-card-name">${s.company_name || s.customer_id}</div>
+        <div class="security-card-badge">${statusText}</div>
+      </div>`;
+  }).join('');
+}
+
+function renderSecurityEvents(events) {
+  const el = $('#security-events');
+  if (!el) return;
+  const severityFilter = $('#security-filter-severity')?.value || '';
+  const statusFilter = $('#security-filter-status')?.value || 'open';
+  const filtered = events.filter(e => {
+    if (severityFilter && e.severity !== severityFilter) return false;
+    if (statusFilter && e.status !== statusFilter) return false;
+    return true;
+  });
+  if (filtered.length === 0) {
+    el.innerHTML = '<p class="empty">Inga händelser matchar filtret.</p>';
+    return;
+  }
+  const severityColors = { critical: '#ef4444', warning: '#eab308', info: '#00d4ff', resolved: '#22c55e' };
+  el.innerHTML = `<table class="security-events-table">
+    <thead><tr>
+      <th>Kund</th><th>Händelse</th><th>Allvarlighet</th><th>Tidpunkt</th><th>Status</th><th>Åtgärd</th>
+    </tr></thead>
+    <tbody>${filtered.map(e => {
+      const color = e.status === 'resolved' ? '#22c55e' : (severityColors[e.severity] || '#94a3b8');
+      const time = e.detected_at ? new Date(e.detected_at.value || e.detected_at).toLocaleString('sv-SE') : '—';
+      const resolveBtn = e.status === 'open'
+        ? `<button class="btn btn-sm" onclick="resolveSecurityEvent('${e.event_id}')">Åtgärdat</button>`
+        : '<span style="color:#22c55e;font-size:12px">Löst</span>';
+      return `<tr>
+        <td style="font-weight:500">${e.company_name || e.customer_id}</td>
+        <td style="font-size:13px">${e.details || e.event_type}</td>
+        <td><span style="color:${color};font-weight:600;text-transform:uppercase;font-size:11px">${e.severity}</span></td>
+        <td style="font-size:12px;color:#94a3b8">${time}</td>
+        <td><span style="font-size:12px;color:${e.status === 'resolved' ? '#22c55e' : '#94a3b8'}">${e.status}</span></td>
+        <td>${resolveBtn}</td>
+      </tr>`;
+    }).join('')}
+    </tbody>
+  </table>`;
+}
+
+function filterSecurityEvents() {
+  if (_securityData) renderSecurityEvents(_securityData.events || []);
+}
+
+async function resolveSecurityEvent(eventId) {
+  const ok = await api(`/api/security/${eventId}/resolve`, { method: 'POST' });
+  if (ok?.success) {
+    invalidateCache('/api/security');
+    loadSecurity();
   }
 }
 
@@ -959,9 +1396,37 @@ async function showCustomerDetail(customerId, customerUrl) {
 
   const data = await api(`/api/customers/${customerId}/stats`);
   if (!data) {
-    $('#detail-integrations').innerHTML = '<span class="tag tag--high">Kunde inte hämta data</span>';
+    // Prospect/analys-kund — ingen BigQuery-data ännu
+    // Dölj sektioner som kräver aktiv data
+    const gaugeRow = document.getElementById('gauge-row');
+    if (gaugeRow) gaugeRow.style.display = 'none';
+    const statsRow = document.getElementById('detail-stats-row');
+    if (statsRow) statsRow.style.display = 'none';
+    const touchpointsRow = document.getElementById('touchpoints-row');
+    if (touchpointsRow) touchpointsRow.style.display = 'none';
+    const aiChatCard = document.getElementById('ai-chat-card');
+    if (aiChatCard) aiChatCard.style.display = 'none';
+    const adsDashCard = document.getElementById('ads-dashboard-card');
+    if (adsDashCard) adsDashCard.style.display = 'none';
+    // Visa tydliga tomma-state-meddelanden
+    $('#detail-integrations').innerHTML = '<span class="tag tag--pending">Analysfas</span><span class="tag tag--content">Ej aktiverad</span>';
+    $('#detail-optimizations').innerHTML = '<p class="empty">Inga optimeringar ännu — kunden är i analysfas.</p>';
+    $('#detail-queue').innerHTML = '<p class="empty">Kön startar när kunden aktiveras.</p>';
+    $('#detail-rankings').innerHTML = '<p class="empty">Positioner visas när GSC är kopplat.</p>';
+    // Ladda pipeline/formulär/presentationer — samma som för aktiva kunder
+    loadPresentationList();
+    loadCustomerPipeline(customerId);
+    initManualForms(customerId);
+    _aiChatCustomerId = customerId;
     return;
   }
+  // Återställ alla dolda sektioner om vi bläddrar från en prospect till aktiv kund
+  const gaugeRow = document.getElementById('gauge-row');
+  if (gaugeRow) gaugeRow.style.display = '';
+  const statsRow = document.getElementById('detail-stats-row');
+  if (statsRow) statsRow.style.display = '';
+  const touchpointsRow = document.getElementById('touchpoints-row');
+  if (touchpointsRow) touchpointsRow.style.display = '';
 
   // Integrations badges
   const c = data.customer;
@@ -1345,7 +1810,8 @@ async function sendAiChat() {
     if (loadingEl) loadingEl.remove();
 
     // Add AI response
-    messagesDiv.innerHTML += `<div class="ai-chat-msg ai-chat-msg--ai">${escapeHtml(data.answer)}</div>`;
+    const answer = data?.answer || 'Inget svar från AI.';
+    messagesDiv.innerHTML += `<div class="ai-chat-msg ai-chat-msg--ai">${escapeHtml(answer)}</div>`;
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
   } catch (err) {
@@ -1360,6 +1826,14 @@ function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
   return div.innerHTML;
+}
+
+function safePathname(url) {
+  try { return new URL(url).pathname; } catch { return url; }
+}
+
+function safeHostname(url) {
+  try { return new URL(url).hostname; } catch { return url; }
 }
 
 // ── Ads Dashboard ────────────────────────────────────────────
@@ -2285,32 +2759,34 @@ function renderAnalysisSummary(customer) {
   const scoreColor = customer.analysis_score >= 70 ? '#10b981' : customer.analysis_score >= 40 ? '#f59e0b' : '#ef4444';
   card.style.display = 'block';
   card.innerHTML = `
-    <div class="analysis-result-grid" style="margin:0">
-      <div class="analysis-score-box">
-        <div class="score-circle" style="--score-color:${scoreColor}">
-          <span class="score-value">${customer.analysis_score}</span>
-          <span class="score-label">/100</span>
+    <div class="next-action-inner">
+      <div class="analysis-result-grid" style="margin:0">
+        <div class="analysis-score-box">
+          <div class="score-circle" style="--score-color:${scoreColor}">
+            <span class="score-value">${customer.analysis_score}</span>
+            <span class="score-label">/100</span>
+          </div>
         </div>
-      </div>
-      <div class="analysis-summary-box" style="flex:2">
-        <h3 style="color:#fff;margin:0 0 8px 0">SEO-sammanfattning</h3>
-        <p class="analysis-pitch">${customer.analysis_summary || 'Ingen analys k\u00F6rd \u00E4n.'}</p>
-        ${customer.analysis_date ? `<span style="color:#666;font-size:12px">Analyserad: ${new Date(customer.analysis_date).toLocaleDateString('sv-SE')}</span>` : ''}
-      </div>
-      <div class="analysis-cost-box">
-        <div class="cost-estimate-value">${customer.cost_estimate_sek ? customer.cost_estimate_sek.toLocaleString('sv-SE') + ' kr/m\u00E5n' : '\u2014'}</div>
-        <div class="cost-estimate-tier">${customer.cost_estimate_type === 'manual' ? 'Justerat pris' : 'Auto-ber\u00E4knat'}</div>
-        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-          ${customer.last_presentation_url && customer.last_presentation_url.includes('atgardsrapport') ? `
-            <a href="${API_BASE}/api/reports/pdf/${customer.last_presentation_url.split('/').pop()}" target="_blank"
-               class="btn-secondary" style="font-size:12px;padding:4px 10px;text-decoration:none;display:inline-flex;align-items:center;gap:3px">
-              \uD83D\uDCC4 \u00D6ppna PDF
-            </a>
-          ` : `
-            <button class="btn-secondary" style="font-size:12px;padding:4px 10px" onclick="regeneratePDF('${customer.customer_id}')">
-              \uD83D\uDCC4 Generera PDF
-            </button>
-          `}
+        <div class="analysis-summary-box" style="flex:2">
+          <h3 style="color:#fff;margin:0 0 8px 0">SEO-sammanfattning</h3>
+          <p class="analysis-pitch">${customer.analysis_summary || 'Ingen analys k\u00F6rd \u00E4n.'}</p>
+          ${customer.analysis_date ? `<span style="color:#666;font-size:12px">Analyserad: ${new Date(customer.analysis_date).toLocaleDateString('sv-SE')}</span>` : ''}
+        </div>
+        <div class="analysis-cost-box">
+          <div class="cost-estimate-value">${customer.cost_estimate_sek ? customer.cost_estimate_sek.toLocaleString('sv-SE') + ' kr/m\u00E5n' : '\u2014'}</div>
+          <div class="cost-estimate-tier">${customer.cost_estimate_type === 'manual' ? 'Justerat pris' : 'Auto-ber\u00E4knat'}</div>
+          <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+            ${customer.last_presentation_url && customer.last_presentation_url.includes('atgardsrapport') ? `
+              <a href="${API_BASE}/api/reports/pdf/${customer.last_presentation_url.split('/').pop()}" target="_blank"
+                 class="btn-secondary" style="font-size:12px;padding:4px 10px;text-decoration:none;display:inline-flex;align-items:center;gap:3px">
+                \uD83D\uDCC4 \u00D6ppna PDF
+              </a>
+            ` : `
+              <button class="btn-secondary" style="font-size:12px;padding:4px 10px" onclick="regeneratePDF('${customer.customer_id}')">
+                \uD83D\uDCC4 Generera PDF
+              </button>
+            `}
+          </div>
         </div>
       </div>
     </div>
@@ -2848,3 +3324,429 @@ function loadCredentialsTab(customerId) {
     </div>
   `;
 }
+
+// ── Prospecting Tool ─────────────────────────────────────────
+let _prospectAnalyses = [];
+
+async function loadProspecting() {
+  const data = await api('/api/prospect-analyses');
+  _prospectAnalyses = data?.analyses || [];
+  renderProspectStats(_prospectAnalyses);
+  renderProspectList(_prospectAnalyses);
+}
+
+function renderProspectStats(analyses) {
+  $('#prospect-stat-total').textContent = analyses.length;
+  const withCritical = analyses.filter(a => (a.critical_issues || 0) > 0).length;
+  $('#prospect-stat-critical').textContent = withCritical;
+  const potentialMrr = analyses.reduce((sum, a) => sum + (a.monthly_cost || 0), 0);
+  $('#prospect-stat-potential').textContent = potentialMrr > 0 ? potentialMrr.toLocaleString('sv-SE') : '0';
+  // Count how many have been converted (check pipeline)
+  $('#prospect-stat-converted').textContent = '--';
+}
+
+function renderProspectList(analyses) {
+  const listEl = $('#prospect-list');
+  if (!analyses || analyses.length === 0) {
+    listEl.innerHTML = '<p class="empty">Inga analyser annu. Skriv in en doman ovan och klicka "Analysera sajt".</p>';
+    return;
+  }
+
+  const header = `<div class="prospect-list-header">
+    <span>Score</span>
+    <span>Foretag</span>
+    <span class="col-platform">Plattform</span>
+    <span>Kostnad</span>
+    <span class="col-issues">Problem</span>
+    <span class="col-date">Datum</span>
+    <span></span>
+  </div>`;
+
+  const items = analyses.map(a => {
+    const score = a.seo_score || 0;
+    const scoreClass = score >= 70 ? 'score-good' : score >= 40 ? 'score-ok' : 'score-bad';
+    const domain = (a.url || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+    const platform = a.platform === 'wordpress' ? '<span class="prospect-platform-tag wp">WP</span>' : '<span class="prospect-platform-tag other">HTML</span>';
+    const cost = a.monthly_cost ? `${(a.monthly_cost).toLocaleString('sv-SE')} kr` : '--';
+    const criticalDots = Array(Math.min(a.critical_issues || 0, 5)).fill('<span class="dot critical"></span>').join('');
+    const structDots = Array(Math.min(a.structural_issues || 0, 3)).fill('<span class="dot warning"></span>').join('');
+    const dateStr = a.analysis_date ? new Date(a.analysis_date.value || a.analysis_date).toLocaleDateString('sv-SE', { month: 'short', day: 'numeric' }) : '--';
+
+    return `<div class="prospect-list-item" onclick="openProspectDetail('${a.id}')">
+      <div><span class="prospect-score-badge ${scoreClass}">${score}</span></div>
+      <div>
+        <div class="prospect-company">${a.company_name || domain}</div>
+        <div class="prospect-domain">${domain}</div>
+      </div>
+      <div class="prospect-platform">${platform}</div>
+      <div class="prospect-cost-mini">${cost}</div>
+      <div class="prospect-issues-col"><div class="prospect-issues-mini">${criticalDots}${structDots}</div></div>
+      <div class="prospect-date-col prospect-date">${dateStr}</div>
+      <div class="prospect-actions-mini">
+        <button class="btn-prospect-small btn-to-pipeline" onclick="event.stopPropagation();convertToPipeline('${a.id}')" title="Lagg till i pipeline">Pipeline</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  listEl.innerHTML = header + items;
+}
+
+function filterProspectList(query) {
+  if (!query) return renderProspectList(_prospectAnalyses);
+  const q = query.toLowerCase();
+  const filtered = _prospectAnalyses.filter(a =>
+    (a.company_name || '').toLowerCase().includes(q) ||
+    (a.url || '').toLowerCase().includes(q) ||
+    (a.industry || '').toLowerCase().includes(q)
+  );
+  renderProspectList(filtered);
+}
+
+async function runProspectAnalysis() {
+  const url = $('#prospect-url').value.trim();
+  if (!url) return alert('Ange en webbplats-URL');
+
+  const company = $('#prospect-company').value.trim();
+  const industry = $('#prospect-industry').value.trim();
+  const contact = $('#prospect-contact').value.trim();
+  const tier = $('#prospect-tier').value;
+
+  const progressEl = $('#prospect-progress');
+  const errorEl = $('#prospect-error');
+  const fillEl = $('#prospect-progress-fill');
+  progressEl.style.display = 'block';
+  errorEl.style.display = 'none';
+  fillEl.style.width = '0%';
+
+  // Animate progress steps
+  const steps = ['ps-crawl', 'ps-speed', 'ps-keywords', 'ps-ai', 'ps-save'];
+  steps.forEach(s => { const el = $(`#${s}`); el.className = 'prospect-step'; });
+
+  let currentStep = 0;
+  const advanceStep = () => {
+    if (currentStep > 0) $(`#${steps[currentStep - 1]}`).className = 'prospect-step done';
+    if (currentStep < steps.length) {
+      $(`#${steps[currentStep]}`).className = 'prospect-step active';
+      fillEl.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+    }
+    currentStep++;
+  };
+
+  // Start animated progress (fake steps since it's one API call)
+  advanceStep(); // crawl
+  const stepInterval = setInterval(() => {
+    if (currentStep < steps.length - 1) advanceStep();
+  }, 8000);
+
+  try {
+    const data = await api('/api/prospect-analysis', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        url, company_name: company || null, industry: industry || null,
+        contact_person: contact || null, price_tier: tier
+      })
+    });
+
+    clearInterval(stepInterval);
+    // Mark all steps done
+    steps.forEach(s => { $(`#${s}`).className = 'prospect-step done'; });
+    fillEl.style.width = '100%';
+
+    if (!data || !data.success) {
+      progressEl.style.display = 'none';
+      errorEl.style.display = 'block';
+      errorEl.textContent = data?.error || 'Kunde inte analysera sajten';
+      return;
+    }
+
+    // Clear form
+    $('#prospect-url').value = '';
+    $('#prospect-company').value = '';
+    $('#prospect-industry').value = '';
+    $('#prospect-contact').value = '';
+
+    // Refresh list
+    invalidateCache('/api/prospect-analyses');
+    await loadProspecting();
+
+    // Auto-open the result
+    setTimeout(() => {
+      openProspectDetail(data.id);
+      progressEl.style.display = 'none';
+    }, 800);
+
+  } catch (err) {
+    clearInterval(stepInterval);
+    progressEl.style.display = 'none';
+    errorEl.style.display = 'block';
+    errorEl.textContent = `Fel: ${err.message}`;
+  }
+}
+
+async function openProspectDetail(analysisId) {
+  const data = await api(`/api/prospect-analyses/${analysisId}`);
+  if (!data || !data.id) return;
+
+  const overlay = $('#prospect-detail');
+  overlay.style.display = 'flex';
+
+  const domain = (data.url || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  $('#pd-name').textContent = data.company_name || domain;
+  $('#pd-url').textContent = `${domain} | ${data.platform === 'wordpress' ? 'WordPress' : 'HTML'} | ${data.total_pages || '?'} sidor`;
+
+  // Scores
+  const scoreColor = v => v >= 70 ? 'var(--green)' : v >= 40 ? 'var(--yellow)' : 'var(--red)';
+  $('#pd-scores').innerHTML = `
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.seo_score || 0)}">${data.seo_score || 0}</div>
+      <div class="pd-score-label">SEO Score</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.mobile_score || 0)}">${data.mobile_score || 0}</div>
+      <div class="pd-score-label">Mobil</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:${scoreColor(data.desktop_score || 0)}">${data.desktop_score || 0}</div>
+      <div class="pd-score-label">Desktop</div>
+    </div>
+    <div class="pd-score-card">
+      <div class="pd-score-value" style="color:var(--neon-blue)">${data.monthly_cost ? data.monthly_cost.toLocaleString('sv-SE') : '--'}</div>
+      <div class="pd-score-label">kr/man</div>
+    </div>
+  `;
+
+  // Phone pitch tab
+  $('#pd-tab-pitch').innerHTML = `
+    <div class="pd-pitch">
+      <div class="pd-pitch-label">Telefonpitch -- las upp for kunden</div>
+      ${data.phone_pitch || 'Ingen pitch genererad.'}
+    </div>
+  `;
+
+  // Issues tab
+  const rawData = data.raw_data || {};
+  const issues = rawData.issueDetails || {};
+  const allIssues = [
+    ...(issues.critical || []).map(i => ({ ...i, severity: 'critical' })),
+    ...(issues.structural || []).map(i => ({ ...i, severity: 'structural' })),
+    ...(issues.content || []).map(i => ({ ...i, severity: 'content' }))
+  ];
+  if (allIssues.length > 0) {
+    $('#pd-tab-issues').innerHTML = `<table class="pd-issue-table">
+      <thead><tr><th>Problem</th><th>Antal</th><th>Paverkan</th></tr></thead>
+      <tbody>${allIssues.map(i => `<tr>
+        <td><span class="pd-severity ${i.severity}"></span>${i.type}</td>
+        <td>${i.count}</td>
+        <td>${i.impact || ''}</td>
+      </tr>`).join('')}</tbody>
+    </table>`;
+  } else {
+    $('#pd-tab-issues').innerHTML = '<p class="empty">Inga problem hittades (eller data saknas).</p>';
+  }
+
+  // Analysis tab
+  $('#pd-tab-analysis').innerHTML = data.analysis_md
+    ? `<pre>${data.analysis_md}</pre>`
+    : '<p class="empty">Ingen analys tillganglig.</p>';
+
+  // Presentation tab
+  $('#pd-tab-presentation').innerHTML = data.presentation_md
+    ? `<pre>${data.presentation_md}</pre>`
+    : '<p class="empty">Ingen presentation tillganglig.</p>';
+
+  // Keywords tab
+  let keywords = data.suggested_keywords || [];
+  if (typeof keywords === 'string') { try { keywords = JSON.parse(keywords); } catch (e) { keywords = []; } }
+  let autocomplete = data.autocomplete || [];
+  if (typeof autocomplete === 'string') { try { autocomplete = JSON.parse(autocomplete); } catch (e) { autocomplete = []; } }
+
+  let kwHtml = '';
+  if (keywords.length > 0) {
+    kwHtml += '<h4 style="color:#fff;margin:0 0 10px">Foreslagna sokord</h4>';
+    kwHtml += `<div class="pd-keyword-chips">${keywords.map(k => `<span class="pd-keyword-chip">${k}</span>`).join('')}</div>`;
+  }
+  if (autocomplete.length > 0) {
+    kwHtml += '<h4 style="color:#fff;margin:20px 0 10px">Google Autocomplete</h4>';
+    kwHtml += `<div class="pd-keyword-chips">${autocomplete.map(k => `<span class="pd-keyword-chip autocomplete">${k}</span>`).join('')}</div>`;
+  }
+  $('#pd-tab-keywords').innerHTML = kwHtml || '<p class="empty">Inga sokord.</p>';
+
+  // Actions
+  $('#pd-actions').innerHTML = `
+    <button class="btn-primary" onclick="convertToPipeline('${data.id}')" style="background:var(--green)">Lagg till i pipeline</button>
+    <button class="btn-secondary" onclick="copyPhonePitch('${data.id}')" style="border-color:var(--neon-blue);color:var(--neon-blue)">Kopiera pitch</button>
+    <button class="btn-secondary" onclick="deleteProspectAnalysis('${data.id}')" style="border-color:var(--red);color:var(--red)">Radera</button>
+  `;
+
+  // Reset to first tab
+  $$('.pd-tab').forEach(t => t.classList.remove('active'));
+  $$('.pd-tab-content').forEach(t => t.classList.remove('active'));
+  $('.pd-tab[data-pdtab="pd-tab-pitch"]').classList.add('active');
+  $('#pd-tab-pitch').classList.add('active');
+}
+
+function closeProspectDetail() {
+  $('#prospect-detail').style.display = 'none';
+}
+
+function switchPdTab(btn) {
+  $$('.pd-tab').forEach(t => t.classList.remove('active'));
+  $$('.pd-tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  const tabId = btn.dataset.pdtab;
+  $(`#${tabId}`).classList.add('active');
+}
+
+async function convertToPipeline(analysisId) {
+  const result = await api(`/api/prospect-analyses/${analysisId}/to-pipeline`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+  if (result?.success) {
+    alert(`Tillagd i pipeline som "${result.customer_id}"`);
+    closeProspectDetail();
+    invalidateCache('/api/pipeline');
+  } else {
+    alert('Kunde inte lagga till i pipeline: ' + (result?.error || 'okant fel'));
+  }
+}
+
+function copyPhonePitch(analysisId) {
+  const pitchEl = $('.pd-pitch');
+  if (pitchEl) {
+    const text = pitchEl.innerText.replace('Telefonpitch -- las upp for kunden', '').trim();
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Pitch kopierad till urklipp!');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert('Pitch kopierad!');
+    });
+  }
+}
+
+async function deleteProspectAnalysis(analysisId) {
+  if (!confirm('Vill du radera denna analys?')) return;
+  await api(`/api/prospect-analyses/${analysisId}`, { method: 'DELETE' });
+  closeProspectDetail();
+  invalidateCache('/api/prospect-analyses');
+  loadProspecting();
+}
+
+// ── Systemövervakning ──────────────────────────────────────────────
+const monitorLog = [];
+let monitorOpen = false;
+
+function toggleMonitor() {
+  monitorOpen = !monitorOpen;
+  const panel = $('#monitor-panel');
+  const btn = $('#monitor-btn');
+  if (panel) panel.classList.toggle('open', monitorOpen);
+  if (btn) btn.classList.toggle('monitor-open', monitorOpen);
+  if (monitorOpen) runMonitorCheck();
+}
+
+// Stäng panel om man klickar utanför
+document.addEventListener('click', (e) => {
+  if (!monitorOpen) return;
+  const panel = $('#monitor-panel');
+  const btn = $('#monitor-btn');
+  if (panel && btn && !panel.contains(e.target) && !btn.contains(e.target)) {
+    monitorOpen = false;
+    panel.classList.remove('open');
+    btn.classList.remove('monitor-open');
+  }
+});
+
+function setCheck(id, status, value) {
+  const row = $(`#${id}`);
+  if (!row) return;
+  row.className = 'monitor-check ' + (status === 'ok' ? 'check-ok' : status === 'warn' ? 'check-warn' : 'check-err');
+  const icon = row.querySelector('.check-icon');
+  const val = row.querySelector('.check-value');
+  if (icon) icon.textContent = status === 'ok' ? '✓' : status === 'warn' ? '!' : '✗';
+  if (val) val.textContent = value;
+}
+
+function addMonitorLog(msg, level = 'ok') {
+  const now = new Date();
+  const time = now.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  monitorLog.unshift({ time, msg, level });
+  if (monitorLog.length > 50) monitorLog.pop();
+  renderMonitorLog();
+}
+
+function renderMonitorLog() {
+  const container = $('#monitor-log-entries');
+  if (!container) return;
+  container.innerHTML = monitorLog.slice(0, 20).map(e =>
+    `<div class="monitor-log-entry log-${e.level}">
+      <span class="log-time">${e.time}</span>
+      <span class="log-msg">${e.msg}</span>
+    </div>`
+  ).join('');
+}
+
+async function runMonitorCheck() {
+  const lastCheck = $('#monitor-last-check');
+  if (lastCheck) lastCheck.textContent = 'Kontrollerar...';
+
+  try {
+    // 1. API-health
+    const health = await fetch('/health').then(r => r.ok ? r.json() : null).catch(() => null);
+    if (health) {
+      setCheck('check-api', 'ok', 'Online');
+      addMonitorLog('API-server svarar OK', 'ok');
+    } else {
+      setCheck('check-api', 'err', 'Offline');
+      addMonitorLog('API-server svarar inte!', 'err');
+    }
+
+    // 2. Senaste optimering
+    const opts = appCache['/api/optimizations'] || await api('/api/optimizations').catch(() => null);
+    if (opts?.optimizations?.length > 0) {
+      const latest = opts.optimizations[0];
+      const ts = latest.timestamp?.value || latest.timestamp;
+      const ago = timeAgo(ts);
+      const isOld = ts && (Date.now() - new Date(ts).getTime()) > 24 * 60 * 60 * 1000;
+      setCheck('check-lambda', isOld ? 'warn' : 'ok', ago);
+      if (isOld) addMonitorLog(`Senaste opt för ${ago} sedan`, 'warn');
+    } else {
+      setCheck('check-lambda', 'warn', 'Ingen data');
+    }
+
+    // 3. Kö
+    const queue = appCache['/api/queue'] || await api('/api/queue').catch(() => null);
+    const pending = queue?.tasks?.filter(t => t.status === 'pending')?.length || 0;
+    setCheck('check-queue', pending > 20 ? 'warn' : 'ok', `${pending} st`);
+    if (pending > 20) addMonitorLog(`Stor kö: ${pending} väntande`, 'warn');
+
+    // 4. Fel
+    const errors = opts?.optimizations?.filter(o => o.status === 'error')?.length || 0;
+    setCheck('check-errors', errors > 0 ? 'err' : 'ok', errors > 0 ? `${errors} fel` : 'Inga fel');
+    if (errors > 0) addMonitorLog(`${errors} fel i optimeringsloggen`, 'err');
+
+    // Uppdatera header-knapp baserat på övergripande status
+    const hasError = errors > 0 || !health;
+    const dot = $('.status-dot');
+    if (dot) {
+      dot.classList.toggle('error', hasError);
+      dot.classList.toggle('connected', !hasError);
+    }
+
+    if (lastCheck) lastCheck.textContent = 'Senast: ' + new Date().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+
+  } catch (e) {
+    addMonitorLog('Kontrollfel: ' + e.message, 'err');
+  }
+}
+
+// Kör kontroll automatiskt var 5:e minut
+setInterval(() => runMonitorCheck(), 5 * 60 * 1000);

@@ -19,7 +19,7 @@ const path = require('path');
 
 // ── Config ──
 const WP_URL = 'https://mobelrondellen.se';
-const WP_USER = 'info@searchboost.nu';
+const WP_USER = 'info@searchboost.se';
 const WP_APP_PASSWORD = 'hYIn gxgU ZkNJ mlNp VELN cYrY';
 const SITE_NAME = 'Möbelrondellen Mora';
 const BACKUP_FILE = path.join(__dirname, 'mobelrondellen-backup.json');

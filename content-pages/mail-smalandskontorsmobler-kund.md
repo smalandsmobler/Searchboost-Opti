@@ -1,7 +1,7 @@
 # Mail till Mikael Nilsson (Smålands Kontorsmöbler)
 
 **Till:** mikael@smalandskontorsmobler.se (eller den mail han skickade från)
-**Från:** mikael@searchboost.nu
+**Från:** mikael@searchboost.se
 **Ämne:** Uppdatering — Vi har åtgärdat menyproblemet och undersöker prisvisningen
 
 ---

@@ -3,7 +3,7 @@
 
 **Datum:** 2026-02-15
 **Utarbetad av:** Searchboost.se
-**Kontakt:** Mikael Larsson, mikael@searchboost.nu
+**Kontakt:** Mikael Larsson, mikael@searchboost.se
 
 ---
 
