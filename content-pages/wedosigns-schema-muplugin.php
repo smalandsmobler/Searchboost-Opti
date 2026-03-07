@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SB WeDoSigns Schema
  * Description: LocalBusiness + Service + FAQ schema för wedosigns.se
- * Version: 1.1
+ * Version: 1.2
  * Author: Searchboost
  */
 
