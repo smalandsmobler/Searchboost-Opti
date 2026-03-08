@@ -623,6 +623,14 @@ aws ec2 revoke-security-group-ingress --group-id sg-03cb7d131df0fbfb7 \
 
 ---
 
+## Regler — SEO-plugins
+
+- **ALLTID Rank Math Pro** — aldrig Free-versionen, aldrig Yoast. Alla kunder ska ha Rank Math Pro.
+- Rank Math Pro-licens finns nedladdad (ZIP). Installeras via WP-admin eller WP CLI.
+- Alla mu-plugins använder `rank_math/json_ld`-filter för schema markup.
+
+---
+
 ## Kod-konventioner
 
 - Prefer clear, readable code over clever one-liners
