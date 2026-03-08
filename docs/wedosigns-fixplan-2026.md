@@ -352,3 +352,27 @@ golvdekor göteborg, solfilm göteborg, insynsskydd kontor, fönsterfolie föret
 13. Searchboost-onboarding (app-password + keywords + GSC)
 
 **TOTAL UPPSKATTAD TID: ~7 timmar**
+
+---
+
+## Systemstatus (2026-03-08)
+
+| Parameter | Status |
+|-----------|--------|
+| Kund i BigQuery (customer_pipeline) | **NEJ** — inte skapad |
+| Kund i API (/api/customers) | **NEJ** — finns inte |
+| 3-månadersplan i BigQuery (action_plans) | **NEJ** — finns bara i docs/ |
+| ABC-nyckelord i BigQuery (customer_keywords) | **NEJ** — finns bara i denna fil |
+| GSC Service Account tillagd | **NEJ** — Danni måste lägga till SA |
+| GA4 | **NEJ** — inte implementerad |
+| Onboardad (SSM-parametrar) | **DELVIS** — WP-creds finns, GSC saknas |
+| Trello-kort | **OKÄNT** — behöver verifieras |
+| Coming Soon-plugin | **OKÄNT** — behöver verifieras om inaktiverad |
+
+### Nästa steg för full onboarding
+1. Skapa kund i pipeline: `POST /api/prospects` (customer_id: wedosigns, company_name: Wedo Signs AB)
+2. Lägg in ABC-nyckelord: `POST /api/customers/wedosigns/keywords`
+3. Lägg in 3-månadersplan: `POST /api/customers/wedosigns/manual-action-plan`
+4. GSC: Danni lägger till SA `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com` som "Fullständig"
+5. SSM: Spara GSC property URL i `/seo-mcp/integrations/wedosigns/gsc-property`
+6. Trello: Skapa/uppdatera kort med status
