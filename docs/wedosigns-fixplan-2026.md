@@ -253,7 +253,7 @@ Rank Math → varje sida behöver unik meta description.
 | /flaggskylt-fasad-goteborg/ | Flaggskyltar och fasadskyltar i Göteborg. Dubbelsidig profil för maximal synlighet. Offert från Wedo Signs. |
 | /folie-dekor-goteborg/ | Foliedekor i Göteborg. Fönsterfolie, väggdekor och fordonsdekor. Skräddarsydda lösningar från Wedo Signs. |
 | /golvdekor-goteborg/ | Golvdekor och golvgrafik i Göteborg. Halkfria laminat för butiker, mässor och kontor. Wedo Signs. |
-| /frost-film-goteborg/ | Frostat glas film i Göteborg. Frostad glasfilm för insynsskydd och dekoration. Elegant uttryck. Wedo Signs monterar. |
+| /frost-film-goteborg/ | Frostad glasfilm i Göteborg. Frostad glasfilm för insynsskydd och dekoration. Elegant uttryck. Wedo Signs monterar. |
 | /solfilm-goteborg/ | Solfilm i Göteborg. Reducerar värme och UV-strålning. Professionell montering av Wedo Signs. |
 | /offerter-wedosigns/ | Begär offert från Wedo Signs i Göteborg. Snabb återkoppling på skyltar, bildekor, folie och tryck. Ring 0793-020787. |
 | /galleri/ | Se exempel på vårt arbete. Skyltar, bildekor, folieringar och banderoller producerade av Wedo Signs i Göteborg. |
@@ -313,7 +313,8 @@ golvdekor göteborg, solfilm göteborg, insynsskydd kontor, fönsterfolie föret
 
 | Fil | Beskrivning | Status |
 |-----|-------------|--------|
-| `content-pages/wedosigns-schema-muplugin.php` | mu-plugin v1.1 (LocalBusiness + Service 17 sidor + FAQ + OG) | KLAR |
+| `content-pages/wedosigns-schema-muplugin.php` | mu-plugin v1.2 (LocalBusiness + Service 17 sidor + FAQ + OG) | KLAR |
+| `content-pages/wedosigns-quote-button-muplugin.php` | mu-plugin v1.1 — flytande "Begär offert"-knapp (SVG-ikon, mobilvänlig) | KLAR |
 | `content-pages/wedosigns-faq-content.md` | FAQ-innehåll för 5 tjänstesidor (5 frågor vardera) | KLAR |
 | `content-pages/wedosigns-dekaler-goteborg.md` | Ny sida /dekaler-goteborg/ komplett innehåll + SEO | KLAR |
 | `docs/wedosigns-atgardsplan-danni-2026.md` | Kundåtgärdsplan + svarsmejl till Danni | KLAR |
@@ -324,8 +325,8 @@ golvdekor göteborg, solfilm göteborg, insynsskydd kontor, fönsterfolie föret
 
 | Behövs | Status | Ansvarig |
 |--------|--------|----------|
-| WP-admin access | SAKNAS | Danni |
-| WP Application Password | SAKNAS | Danni |
+| WP-admin access | I SSM | ✅ |
+| WP Application Password | I SSM | ✅ |
 | Facebook-URL | SAKNAS | Danni |
 | Instagram-URL | SAKNAS | Danni |
 | LinkedIn-URL (om finns) | SAKNAS | Danni |
@@ -342,7 +343,7 @@ golvdekor göteborg, solfilm göteborg, insynsskydd kontor, fönsterfolie föret
 4. Produkter-meny → 8 poster
 5. Skapa Dekaler-sida
 6. Hello World radering + slug-fix
-7. mu-plugin deploy (schema + OG)
+7. mu-plugin deploy (schema + OG + offertknapp)
 8. FAQ-sektioner + sb_faq_data
 9. Meta descriptions alla 20 sidor
 10. Interna länkar
@@ -351,3 +352,27 @@ golvdekor göteborg, solfilm göteborg, insynsskydd kontor, fönsterfolie föret
 13. Searchboost-onboarding (app-password + keywords + GSC)
 
 **TOTAL UPPSKATTAD TID: ~7 timmar**
+
+---
+
+## Systemstatus (2026-03-08)
+
+| Parameter | Status |
+|-----------|--------|
+| Kund i BigQuery (customer_pipeline) | **NEJ** — inte skapad |
+| Kund i API (/api/customers) | **NEJ** — finns inte |
+| 3-månadersplan i BigQuery (action_plans) | **NEJ** — finns bara i docs/ |
+| ABC-nyckelord i BigQuery (customer_keywords) | **NEJ** — finns bara i denna fil |
+| GSC Service Account tillagd | **NEJ** — Danni måste lägga till SA |
+| GA4 | **NEJ** — inte implementerad |
+| Onboardad (SSM-parametrar) | **DELVIS** — WP-creds finns, GSC saknas |
+| Trello-kort | **OKÄNT** — behöver verifieras |
+| Coming Soon-plugin | **OKÄNT** — behöver verifieras om inaktiverad |
+
+### Nästa steg för full onboarding
+1. Skapa kund i pipeline: `POST /api/prospects` (customer_id: wedosigns, company_name: Wedo Signs AB)
+2. Lägg in ABC-nyckelord: `POST /api/customers/wedosigns/keywords`
+3. Lägg in 3-månadersplan: `POST /api/customers/wedosigns/manual-action-plan`
+4. GSC: Danni lägger till SA `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com` som "Fullständig"
+5. SSM: Spara GSC property URL i `/seo-mcp/integrations/wedosigns/gsc-property`
+6. Trello: Skapa/uppdatera kort med status

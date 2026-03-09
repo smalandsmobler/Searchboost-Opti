@@ -1,6 +1,8 @@
 {
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-ssm": "^3.1004.0",
+    "axios": "^1.13.6",
     "playwright": "^1.58.2",
     "xlsx": "^0.18.5"
   }
