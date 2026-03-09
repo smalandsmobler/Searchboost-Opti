@@ -2,7 +2,7 @@
 /**
  * Plugin Name: SB Wedo Signs — Offertknapp
  * Description: Flytande "Begär offert"-knapp på alla sidor (utom offertsidan och tack-sidan)
- * Version: 1.2
+ * Version: 1.3
  * Author: Searchboost
  */
 
@@ -28,6 +28,11 @@ function sb_wedo_quote_button() {
         <span class="sb-quote-text">Begär offert</span>
     </a>
     <style>
+        @keyframes sb-pulse {
+            0% { box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4); }
+            50% { box-shadow: 0 4px 24px rgba(26, 115, 232, 0.6); }
+            100% { box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4); }
+        }
         #sb-quote-btn {
             position: fixed !important;
             bottom: 24px;
@@ -35,29 +40,34 @@ function sb_wedo_quote_button() {
             z-index: 999999;
             display: flex !important;
             align-items: center;
-            gap: 8px;
-            background: #e91e8c !important;
+            gap: 10px;
+            background: linear-gradient(135deg, #1a73e8 0%, #0d47a1 100%) !important;
             color: #fff !important;
-            padding: 14px 24px;
+            padding: 16px 28px;
             border-radius: 50px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 15px;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-size: 16px;
             font-weight: 600;
             text-decoration: none !important;
-            box-shadow: 0 4px 16px rgba(233, 30, 140, 0.4);
-            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(26, 115, 232, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             line-height: 1;
             border: none !important;
-            letter-spacing: 0;
+            letter-spacing: 0.3px;
+            animation: sb-pulse 3s ease-in-out infinite;
         }
         #sb-quote-btn:hover,
         #sb-quote-btn:focus {
-            background: #d1177d !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(233, 30, 140, 0.5);
+            background: linear-gradient(135deg, #1565c0 0%, #0a3d91 100%) !important;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(26, 115, 232, 0.5);
             color: #fff !important;
             text-decoration: none !important;
+            animation: none;
+        }
+        #sb-quote-btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
         #sb-quote-btn:visited {
             color: #fff !important;
@@ -67,13 +77,13 @@ function sb_wedo_quote_button() {
             height: 20px;
             flex-shrink: 0;
         }
-        /* Mobil: kompaktare knapp, högre upp för att undvika cookie-banner */
+        /* Mobil: kompaktare knapp, hogre upp for att undvika cookie-banner */
         @media (max-width: 768px) {
             #sb-quote-btn {
                 bottom: 80px;
                 right: 16px;
-                padding: 12px 18px;
-                font-size: 14px;
+                padding: 14px 22px;
+                font-size: 15px;
             }
         }
         /* Liten mobil: bara ikon */
@@ -82,15 +92,15 @@ function sb_wedo_quote_button() {
                 display: none;
             }
             #sb-quote-btn {
-                padding: 14px;
+                padding: 16px;
                 border-radius: 50%;
-                width: 52px;
-                height: 52px;
+                width: 56px;
+                height: 56px;
                 justify-content: center;
             }
             #sb-quote-btn .sb-quote-icon {
-                width: 22px;
-                height: 22px;
+                width: 24px;
+                height: 24px;
             }
         }
     </style>
