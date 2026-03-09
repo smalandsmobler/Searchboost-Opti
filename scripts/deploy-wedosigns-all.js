@@ -9,26 +9,51 @@
  *   5. Deploy mu-plugins (schema + offertknapp)
  *
  * Kör: node scripts/deploy-wedosigns-all.js
- * Kräver: AWS CLI konfigurerad (SSM access)
+ *
+ * Credentials hämtas från SSM om tillgängligt, annars från env:
+ *   WP_USER=wedosigns WP_PASS=xxx API_KEY=xxx node scripts/deploy-wedosigns-all.js
  */
 
-const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const AWS_REGION = 'eu-north-1';
 const WP_BASE = 'https://wedosigns.se';
 const IMG_BASE = 'https://wedosigns.se/wp-content/uploads/2026';
 const CUSTOMER_ID = 'wedosigns';
 const API_BASE = 'https://51.21.116.7';
 
-const ssm = new SSMClient({ region: AWS_REGION });
+// Credentials: env vars first, then SSM fallback
+async function getCredentials() {
+  const wpUser = process.env.WP_USER;
+  const wpPass = process.env.WP_PASS;
+  const apiKey = process.env.API_KEY;
 
-async function getSSM(name) {
-  const cmd = new GetParameterCommand({ Name: name, WithDecryption: true });
-  const res = await ssm.send(cmd);
-  return res.Parameter.Value;
+  if (wpUser && wpPass) {
+    console.log('  Credentials: från miljövariabler');
+    return { wpUser, wpPass, apiKey: apiKey || '' };
+  }
+
+  // Fallback to SSM
+  try {
+    const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
+    const ssm = new SSMClient({ region: 'eu-north-1' });
+    const get = async (name) => {
+      const res = await ssm.send(new GetParameterCommand({ Name: name, WithDecryption: true }));
+      return res.Parameter.Value;
+    };
+    const [u, p, k] = await Promise.all([
+      get('/seo-mcp/wordpress/wedosigns/username'),
+      get('/seo-mcp/wordpress/wedosigns/app-password'),
+      get('/seo-mcp/dashboard/api-key').catch(() => ''),
+    ]);
+    console.log('  Credentials: från SSM');
+    return { wpUser: u, wpPass: p, apiKey: k };
+  } catch (e) {
+    console.error('Kunde inte hämta credentials. Sätt WP_USER och WP_PASS som miljövariabler.');
+    console.error('  WP_USER=wedosigns WP_PASS=xxx node scripts/deploy-wedosigns-all.js');
+    process.exit(1);
+  }
 }
 
 // ── HTTP helpers ──
@@ -526,13 +551,10 @@ async function main() {
   console.log('╚══════════════════════════════════════════════════════════╝');
 
   // Get credentials
-  console.log('\nHämtar credentials från SSM...');
-  const [wpUser, wpPass, apiKey] = await Promise.all([
-    getSSM('/seo-mcp/wordpress/wedosigns/username'),
-    getSSM('/seo-mcp/wordpress/wedosigns/app-password'),
-    getSSM('/seo-mcp/dashboard/api-key'),
-  ]);
-  const auth = 'Basic ' + Buffer.from(`${wpUser}:${wpPass}`).toString('base64');
+  console.log('\nHämtar credentials...');
+  const creds = await getCredentials();
+  const auth = 'Basic ' + Buffer.from(`${creds.wpUser}:${creds.wpPass}`).toString('base64');
+  const apiKey = creds.apiKey;
 
   // Verify WP access
   const me = await wpApi('GET', '/wp/v2/users/me', auth);

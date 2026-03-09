@@ -14,20 +14,25 @@
  * Requires: AWS SSM access for WP credentials
  */
 
-const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
 const https = require('https');
 const http = require('http');
 
-const AWS_REGION = 'eu-north-1';
 const WP_BASE = 'https://wedosigns.se';
 const IMG_BASE = 'https://wedosigns.se/wp-content/uploads/2026';
 
-const ssm = new SSMClient({ region: AWS_REGION });
-
-async function getSSM(name) {
-  const cmd = new GetParameterCommand({ Name: name, WithDecryption: true });
-  const res = await ssm.send(cmd);
-  return res.Parameter.Value;
+async function getCredentials() {
+  if (process.env.WP_USER && process.env.WP_PASS) {
+    return { wpUser: process.env.WP_USER, wpPass: process.env.WP_PASS };
+  }
+  try {
+    const { SSMClient, GetParameterCommand } = require('@aws-sdk/client-ssm');
+    const ssm = new SSMClient({ region: 'eu-north-1' });
+    const get = async (n) => (await ssm.send(new GetParameterCommand({ Name: n, WithDecryption: true }))).Parameter.Value;
+    return { wpUser: await get('/seo-mcp/wordpress/wedosigns/username'), wpPass: await get('/seo-mcp/wordpress/wedosigns/app-password') };
+  } catch {
+    console.error('Sätt WP_USER och WP_PASS, eller konfigurera AWS credentials.');
+    process.exit(1);
+  }
 }
 
 // ── HTTP helper (no axios dependency) ──
@@ -528,12 +533,9 @@ async function main() {
   console.log('╚══════════════════════════════════════════════╝');
 
   // Get credentials
-  console.log('\n📦 Getting credentials from SSM...');
-  const [wpUser, wpPass] = await Promise.all([
-    getSSM('/seo-mcp/wordpress/wedosigns/username'),
-    getSSM('/seo-mcp/wordpress/wedosigns/app-password'),
-  ]);
-  const auth = 'Basic ' + Buffer.from(`${wpUser}:${wpPass}`).toString('base64');
+  console.log('\n📦 Getting credentials...');
+  const creds = await getCredentials();
+  const auth = 'Basic ' + Buffer.from(`${creds.wpUser}:${creds.wpPass}`).toString('base64');
 
   // Verify access
   console.log('🔑 Testing WP access...');
