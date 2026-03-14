@@ -11,6 +11,65 @@
 if (!defined('ABSPATH')) exit;
 
 // ---------------------------------------------------------------------------
+// 0. KATEGORIBESKRIVNING — INTRO OVAN / RESTEN UNDER PRODUKTERNA
+// ---------------------------------------------------------------------------
+
+// Ta bort standard WC-output ovanför produkterna
+add_action('init', function () {
+    remove_action('woocommerce_archive_description', 'woocommerce_taxonomy_archive_description', 10);
+});
+
+// Visa intro (allt t.o.m. första </p>) OVANFÖR produkterna
+add_action('woocommerce_archive_description', function () {
+    if (!is_product_category()) return;
+    $term = get_queried_object();
+    if (!$term || empty($term->description)) return;
+
+    $desc = wpautop($term->description);
+    $pos  = strpos($desc, '</p>');
+    $intro = ($pos !== false) ? substr($desc, 0, $pos + 4) : $desc;
+
+    echo '<div class="woocommerce-product-archive-description smk-desc-intro">';
+    echo wp_kses_post($intro);
+    echo '</div>';
+}, 10);
+
+// Visa resten (allt efter första </p>) UNDER produkterna
+add_action('woocommerce_after_shop_loop', function () {
+    if (!is_product_category()) return;
+    $term = get_queried_object();
+    if (!$term || empty($term->description)) return;
+
+    $desc = wpautop($term->description);
+    $pos  = strpos($desc, '</p>');
+    if ($pos === false) return;
+
+    $rest = substr($desc, $pos + 4);
+    if (empty(trim(strip_tags($rest)))) return;
+
+    echo '<div class="woocommerce-product-archive-description smk-desc-rest">';
+    echo wp_kses_post($rest);
+    echo '</div>';
+}, 5);
+
+// CSS: fetstil + rätt storlek för rubriker i kategoribeskrivningar
+add_action('wp_footer', function () {
+    if (!is_product_category()) return;
+    echo '<style>
+.woocommerce-product-archive-description h2,
+.woocommerce-product-archive-description h3 {
+    font-weight: 700 !important;
+    color: #1a1a1a !important;
+}
+.smk-desc-rest {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid #e0ddd5;
+}
+</style>';
+});
+
+// ---------------------------------------------------------------------------
 // 1. ADMIN SETTINGS PAGE
 // ---------------------------------------------------------------------------
 
@@ -750,7 +809,7 @@ function smk_ai_chat_render_frontend() {
     <style id="smk-ai-chat-css">
         #smk-chat-bubble { position:fixed; bottom:24px; right:24px; width:56px; height:56px; border-radius:50%; background:#566754; border:none; cursor:pointer; box-shadow:0 4px 16px rgba(0,0,0,.2); display:flex; align-items:center; justify-content:center; z-index:999998; transition:transform .2s,box-shadow .2s; padding:0; }
         #smk-chat-bubble:hover { transform:scale(1.08); box-shadow:0 6px 24px rgba(0,0,0,.28); }
-        #smk-chat-bubble svg { width:26px; height:26px; fill:#fff; }
+        #smk-chat-bubble svg { width:26px; height:26px; fill:#B48C5A; }
         #smk-chat-panel { position:fixed; bottom:92px; right:24px; width:380px; height:520px; background:#fff; border-radius:16px; box-shadow:0 8px 40px rgba(0,0,0,.18); z-index:999999; display:none; flex-direction:column; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif; font-size:14px; line-height:1.5; }
         #smk-chat-panel.smk-open { display:flex; }
         #smk-chat-header { background:#566754; color:#fff; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
@@ -800,7 +859,7 @@ function smk_ai_chat_render_frontend() {
     </style>
 
     <button id="smk-chat-bubble" aria-label="Chatta med oss">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.2L4 17.2V4h16v12z"/></svg>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12v5a3 3 0 003 3h1a1 1 0 001-1v-5a1 1 0 00-1-1H4.07C4.56 7.19 7.92 4 12 4s7.44 3.19 7.93 8H18a1 1 0 00-1 1v5a1 1 0 001 1h1a3 3 0 003-3v-5c0-5.52-4.48-10-10-10z"/></svg>
     </button>
 
     <div id="smk-chat-panel">

@@ -27,7 +27,7 @@ function sb_onboarding_settings_page() {
             <table class="form-table">
                 <tr>
                     <th>API URL</th>
-                    <td><input type="url" name="sb_onboarding_api_url" value="<?php echo esc_attr(get_option('sb_onboarding_api_url', 'http://51.21.116.7:3000/api/onboard')); ?>" class="regular-text" /></td>
+                    <td><input type="url" name="sb_onboarding_api_url" value="<?php echo esc_attr(get_option('sb_onboarding_api_url', 'https://51.21.116.7/api/onboard')); ?>" class="regular-text" /></td>
                 </tr>
                 <tr>
                     <th>API-nyckel</th>
@@ -279,7 +279,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Inställningar</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Användare och behörigheter</strong></li>
                     <li>Klicka på <strong>Lägg till användare</strong></li>
-                    <li>Fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Fyll i <strong>web@searchboost.se</strong></li>
                     <li>Välj <strong>Fullständig</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -308,7 +308,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>kugghjulet</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Åtkomsthantering för konton</strong></li>
                     <li>Klicka på <strong>+</strong> längst upp till höger</li>
-                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>web@searchboost.se</strong></li>
                     <li>Välj <strong>Administratör</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -342,7 +342,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Administratör</strong></li>
                     <li>Välj <strong>Användarhantering</strong> under Konto-kolumnen</li>
                     <li>Klicka på <strong>+</strong> och välj <strong>Lägg till nya användare</strong></li>
-                    <li>Ange: <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Ange: <strong>web@searchboost.se</strong></li>
                     <li>Välj behörighet — <strong>Administratör</strong> ger full åtkomst</li>
                     <li>Klicka <strong>Bjud in</strong></li>
                 </ol>

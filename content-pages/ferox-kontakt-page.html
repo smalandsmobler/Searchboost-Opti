@@ -1,0 +1,63 @@
+<h2>Kontakta Ferox Konsult AB</h2>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;">
+  <div>
+    <h3>Kontaktuppgifter</h3>
+    <p>
+      <strong>Ferox Konsult AB</strong><br>
+      Solsa 419<br>
+      149 91 Nynäshamn<br><br>
+      <strong>Telefon:</strong> <a href="tel:+46852509350">+46 (0)8-525 093 50</a><br>
+      <strong>E-post:</strong> <a href="mailto:info@feroxkonsult.se">info@feroxkonsult.se</a><br><br>
+      <strong>Org.nr:</strong> 556454-8294<br>
+      <strong>VAT-nr:</strong> SE556454829401<br>
+      <strong>Plusgiro:</strong> Uppges på faktura
+    </p>
+  </div>
+  <div>
+    <h3>Öppettider</h3>
+    <p>
+      Måndag–fredag: 08:00–17:00<br>
+      Lördag–söndag: Stängt
+    </p>
+    <h3>Hitta hit</h3>
+    <p>Vi finns i Nynäshamn, ca 6 mil söder om Stockholm.</p>
+  </div>
+</div>
+
+<hr>
+
+<h3>Kontaktformulär</h3>
+<p>Skicka ett meddelande så svarar vi inom ett arbetspass.</p>
+
+{% form 'contact' %}
+  {{ form.errors | default_errors }}
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormName" style="display:block;font-weight:600;margin-bottom:4px;">Namn *</label>
+    <input type="text" id="ContactFormName" name="contact[name]" value="{{ form.name }}" required
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormEmail" style="display:block;font-weight:600;margin-bottom:4px;">E-post *</label>
+    <input type="email" id="ContactFormEmail" name="contact[email]" value="{{ form.email }}" required
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormPhone" style="display:block;font-weight:600;margin-bottom:4px;">Telefon</label>
+    <input type="tel" id="ContactFormPhone" name="contact[phone]"
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormMessage" style="display:block;font-weight:600;margin-bottom:4px;">Meddelande *</label>
+    <textarea id="ContactFormMessage" name="contact[body]" rows="5" required
+              style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">{{ form.body }}</textarea>
+  </div>
+
+  <button type="submit" style="padding:10px 24px;background:#003366;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:16px;">
+    Skicka meddelande
+  </button>
+{% endform %}

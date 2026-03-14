@@ -2,20 +2,18 @@
 // Connects to MCP server API on EC2
 
 const API_BASE = '';
-const VALID_USERS = ['-wum12h', 'cyt5oy', '-hjo1a']; // mikael.searchboost@gmail.com, web.searchboost@gmail.com, searchboost.web@gmail.com
+const VALID_USERS = ['-wum12h', 'cyt5oy']; // mikael.searchboost@gmail.com, web.searchboost@gmail.com
 // Per-user password hashes (user hash → password hash)
 const USER_PW = {
   '-wum12h': 'kljut5',  // mikael.searchboost@gmail.com → Alexander1982!
-  'cyt5oy':  'kljut5',  // web.searchboost@gmail.com → Alexander1982!
-  '-hjo1a':  '-9pkod'   // searchboost.web@gmail.com → Opti0195
+  'cyt5oy':  'kljut5'   // web.searchboost@gmail.com → Alexander1982!
 };
 const API_KEY = 'sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78';
 
 // ── Role mapping ─────────────────────────────────────────────
 const USER_ROLES = {
   '-wum12h': { role: 'sales', name: 'Mikael', title: 'Konsult', defaultView: 'pipeline' },
-  'cyt5oy':  { role: 'sales', name: 'Mikael', title: 'Konsult', defaultView: 'pipeline' },
-  '-hjo1a':  { role: 'tech',  name: 'Viktor', title: 'Tekniker', defaultView: 'overview' }
+  'cyt5oy':  { role: 'sales', name: 'Mikael', title: 'Konsult', defaultView: 'pipeline' }
 };
 
 function getCurrentRole() {
@@ -142,7 +140,7 @@ function toggleConsultForm() {
 
 async function loadConsulting() {
   const pipeData = await api('/api/pipeline');
-  const pipeline = pipeData?.pipeline || [];
+  const pipeline = Object.values(pipeData?.pipeline || {}).flat();
   // Filter consulting customers (tagged with is_consulting=true or notes contains [KONSULT])
   const consultCustomers = pipeline.filter(c =>
     c.is_consulting === true || c.is_consulting === 'true' ||
@@ -251,6 +249,7 @@ function navigateToView(viewName) {
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appShell').style.display = 'block';
     applyRoleUI();
+    navigateToView(sessionStorage.getItem('opti_default_view') || 'pipeline');
   }
 })();
 
@@ -851,6 +850,8 @@ async function loadPipeline() {
 function renderPipelineKanban(stages, filterQuery) {
   const kanban = $('#pipeline-kanban');
   const q = (filterQuery || '').toLowerCase().trim();
+  console.log('[Pipeline] stages received:', Object.keys(stages || {}));
+  console.log('[Pipeline] counts per STAGE_ORDER key:', STAGE_ORDER.map(s => `${s.key}:${(stages[s.key]||[]).length}`).join(', '));
 
   kanban.innerHTML = STAGE_ORDER.map(s => {
     let items = stages[s.key] || [];
@@ -2537,9 +2538,7 @@ document.getElementById('back-to-overview')?.addEventListener('click', (e) => {
 });
 
 // ── Init ──────────────────────────────────────────────────────
-if (sessionStorage.getItem('opti_auth') === '1') {
-  loadOverview();
-}
+// (Navigation handled by auto-login IIFE above — no extra loadOverview needed)
 
 // Auto-refresh every 5 minutes (was 30s — caused massive load)
 setInterval(() => {

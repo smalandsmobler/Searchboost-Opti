@@ -988,7 +988,6 @@ exports.handler = async (event) => {
         await transporter.sendMail({
           from: `"Mikael på Searchboost" <${emailFrom}>`,
           to: group.customer.contact_email,
-          bcc: mikaelEmail.join(', '),
           replyTo: mikaelEmail[0],
           subject: `Veckologg SEO — ${group.customer.company_name} — ${weekLabel}`,
           html: customerHtml

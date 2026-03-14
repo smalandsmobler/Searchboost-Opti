@@ -1,0 +1,64 @@
+<h2>Support och kundtjänst</h2>
+
+<p>Vi hjälper dig med installation, felsökning och frågor om FeroxTid och Seiko stämpelur. Kontakta oss via formuläret nedan eller via telefon.</p>
+
+<p><strong>Telefon:</strong> +46 (0)8-525 093 50<br>
+<strong>E-post:</strong> support@feroxkonsult.se<br>
+<strong>Öppettider:</strong> Mån–fre 08:00–17:00</p>
+
+<hr>
+
+<h3>Fjärrsupport via TeamViewer</h3>
+<p>För snabb hjälp med FeroxTid kan vi ansluta direkt till din dator via TeamViewer. Klicka på länken nedan och följ instruktionerna.</p>
+
+<p><a href="https://get.teamviewer.com/feroxkonsult" target="_blank" rel="noopener" style="display:inline-block;padding:10px 20px;background:#003366;color:#fff;text-decoration:none;border-radius:4px;">Starta TeamViewer-session</a></p>
+
+<p><em>Obs: Du behöver ge oss det ID-nummer och lösenord som visas i TeamViewer-programmet när du startar det.</em></p>
+
+<hr>
+
+<h3>Supportformulär</h3>
+<p>Fyll i formuläret nedan så återkommer vi inom ett arbetspass.</p>
+
+{% form 'contact' %}
+  {{ form.errors | default_errors }}
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormName" style="display:block;font-weight:600;margin-bottom:4px;">Namn *</label>
+    <input type="text" id="ContactFormName" name="contact[name]" value="{{ form.name }}" required
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormEmail" style="display:block;font-weight:600;margin-bottom:4px;">E-post *</label>
+    <input type="email" id="ContactFormEmail" name="contact[email]" value="{{ form.email }}" required
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormPhone" style="display:block;font-weight:600;margin-bottom:4px;">Telefon</label>
+    <input type="tel" id="ContactFormPhone" name="contact[phone]" value="{{ form.phone }}"
+           style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormSubject" style="display:block;font-weight:600;margin-bottom:4px;">Ärende *</label>
+    <select id="ContactFormSubject" name="contact[body_prefix]" required
+            style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">
+      <option value="">Välj ärende...</option>
+      <option value="Stämpelur: ">Stämpelur (Seiko)</option>
+      <option value="Digital tidredovisning (FeroxTid): ">Digital tidredovisning (FeroxTid)</option>
+      <option value="Övrigt: ">Övrigt</option>
+    </select>
+  </div>
+
+  <div style="margin-bottom:1rem;">
+    <label for="ContactFormMessage" style="display:block;font-weight:600;margin-bottom:4px;">Meddelande *</label>
+    <textarea id="ContactFormMessage" name="contact[body]" rows="6" required
+              style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;">{{ form.body }}</textarea>
+  </div>
+
+  <button type="submit" style="padding:10px 24px;background:#003366;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:16px;">
+    Skicka
+  </button>
+{% endform %}
