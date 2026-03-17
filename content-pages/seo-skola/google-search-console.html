@@ -620,6 +620,27 @@
       .hero-meta { gap: 12px; }
       .key-takeaway { padding: 22px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -1063,6 +1084,58 @@
   </div>
 
 
+  <!-- GSC RAPPORTER JÄMFÖRELSE -->
+  <div class="section">
+    <h2>Google Search Console-rapporter: vad de visar och hur du agerar</h2>
+    <p>Google Search Console har sex rapportblock och det kan vara svårt att veta var du ska börja. Här är en guide till de viktigaste vyerna och vad du faktiskt ska göra med informationen:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Rapport</th><th>Vad den visar</th><th>Frekvens</th><th>Åtgärd</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Prestanda</strong></td>
+            <td>Klick, visningar, CTR och genomsnittlig position per sökord och sida</td>
+            <td><span class="good">Veckovis</span></td>
+            <td>Optimera sidor med position 5&ndash;20: bättre title, fler sökord i texten</td>
+          </tr>
+          <tr>
+            <td><strong>Täckning (Indexering)</strong></td>
+            <td>Indexerade vs. exkluderade vs. felaktiga sidor</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Åtgärda fel och säkerställ att viktiga sidor inte blockeras av robots.txt</td>
+          </tr>
+          <tr>
+            <td><strong>Erfarenhet på sidan (Core Web Vitals)</strong></td>
+            <td>LCP, INP och CLS uppdelade i Bra / Behöver förbättras / Dålig</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Prioritera sidor märkta "Dålig" &mdash; börja med de med mest trafik</td>
+          </tr>
+          <tr>
+            <td><strong>Förbättringar (Schema)</strong></td>
+            <td>Fel och varningar i strukturerad data</td>
+            <td><span class="ok">Vid ändringar</span></td>
+            <td>Rätta fel; kör validering med Googles Rich Results Test</td>
+          </tr>
+          <tr>
+            <td><strong>Sitemaps</strong></td>
+            <td>Inlämnade sitemaps och antal bearbetade URL:er</td>
+            <td><span class="ok">Vid strukturändringar</span></td>
+            <td>Säkerställ att sitemap är uppdaterad; skicka in igen efter stora ändringar</td>
+          </tr>
+          <tr>
+            <td><strong>Länkar</strong></td>
+            <td>Interna och externa bakåtlänkar + de mest länkade sidorna</td>
+            <td><span class="ok">Kvartalsvis</span></td>
+            <td>Identifiera svaga sidor som borde ha fler interna länkar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Börja med Prestanda:</strong> Det är den rapport de flesta har mest nytta av direkt. Filtrera på sidor med position 5&ndash;20 och hög visningsvolym &mdash; det är din snabbaste väg till fler organiska klick.</p>
+  </div>
+
   <!-- FAQ Section -->
   <section class="faq-section" id="faq-gsc">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1116,6 +1189,18 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/seo-rapportering/">SEO-rapportering — mät dina resultat</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/seo-skola/teknisk-seo/">Teknisk SEO</a>
+      <a href="https://searchboost.se/seo-skola/title-meta-description/">Title & meta description</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

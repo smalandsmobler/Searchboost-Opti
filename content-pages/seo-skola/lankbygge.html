@@ -460,6 +460,11 @@
     .comparison-table tr:nth-child(even) td {
       background: #f8fafc;
     }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
 
     /* Author box */
     .author-box {
@@ -656,6 +661,27 @@
       .next-article { flex-direction: column; text-align: center; }
       .article-meta { justify-content: center; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -1010,6 +1036,64 @@
     </div>
 
 
+    <!-- LÄNKTYPER JÄMFÖRELSE -->
+    <div class="section">
+      <h2>Länktyper och deras SEO-värde: fullständig översikt</h2>
+      <p>Inte alla baklankar är lika mycket värda. Här är de vanligaste länktyperna &mdash; deras SEO-effekt, risk och när de är lämpliga att använda:</p>
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Länktyp</th><th>Dofollow?</th><th>SEO-värde</th><th>Risk</th><th>När lämplig</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Redaktionell länk (editorial)</strong></td>
+              <td><span class="good">Ja</span></td>
+              <td><span class="good">Hög</span></td>
+              <td><span class="good">Låg</span></td>
+              <td>Det bästa alternativet; uppnås när ditt innehåll är så bra att andra vill referera till det naturligt</td>
+            </tr>
+            <tr>
+              <td><strong>Gästbloggning</strong></td>
+              <td><span class="good">Ja (oftast)</span></td>
+              <td><span class="ok">Medel&ndash;hög om sajten är relevant</span></td>
+              <td><span class="ok">Låg på relevanta sajter</span></td>
+              <td>När du kan bidra med genuint värde till en publik inom din nisch</td>
+            </tr>
+            <tr>
+              <td><strong>Branschkataloger och nischlistor</strong></td>
+              <td><span class="ok">Varierande</span></td>
+              <td><span class="ok">Låg&ndash;medel</span></td>
+              <td><span class="good">Låg</span></td>
+              <td>Lokala kataloger, branschföreningslistor &mdash; undvik generiska webbkataloger med låg editorial standard</td>
+            </tr>
+            <tr>
+              <td><strong>Pressmeddelanden</strong></td>
+              <td><span class="ok">Varierande</span></td>
+              <td><span class="ok">Låg vid massutskick</span></td>
+              <td><span class="ok">Medel vid massutskick</span></td>
+              <td>Riktiga nyheter på etablerade medier; undvik bulkdistribution av pressmeddelanden enbart för länkar</td>
+            </tr>
+            <tr>
+              <td><strong>Betald länkplacering (sponsored)</strong></td>
+              <td><span class="bad">Ska vara nofollow/sponsored</span></td>
+              <td><span class="bad">Ingen (korrekt markerad)</span></td>
+              <td><span class="bad">Hög om dofollow &mdash; bryter mot Googles riktlinjer</span></td>
+              <td>Aldrig som SEO-taktik; kräv sponsored-attribut om annonsen ändå krävs</td>
+            </tr>
+            <tr>
+              <td><strong>Forum- och kommentarslänkar</strong></td>
+              <td><span class="bad">Nej (oftast nofollow)</span></td>
+              <td><span class="bad">Mycket låg</span></td>
+              <td><span class="bad">Hög om masskommentarer</span></td>
+              <td>Genuint deltagande i diskussioner ger trafik &mdash; men räkna inte med SEO-effekt från länkarna</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note"><strong>Googles inställning:</strong> Köpta eller massproducerade länkar kan leda till manuell åtgärd (Google penalty). Den säkraste strategin är att skapa innehåll som attraherar länkar naturligt &mdash; kombinerat med relationsbaserat länkbygge inom din nisch.</p>
+    </div>
+
     <!-- 9. FAQ -->
     <div class="faq-section" id="faq">
       <h2>9. Vanliga fragor om lankbygge</h2>
@@ -1083,6 +1167,19 @@
     </a>
 
   </article>
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/domain-authority/">Domain Authority</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/seo-skola/interna-lankar/">Interna länkar</a>
+      <a href="https://searchboost.se/seo-skola/seo-texter/">SEO-texter som attraherar länkar</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/case-studies/konsultforetag-seo/">Case: Konsultföretag +89% trafik</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

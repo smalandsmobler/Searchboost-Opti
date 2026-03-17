@@ -3812,3 +3812,424 @@ footer {
     padding: 10px 12px;
   }
 }
+
+/* ══════════════════════════════════════════
+   LÄNKBYGGE — Link Prospects
+   ══════════════════════════════════════════ */
+
+#link-building-section {
+  background: var(--card-bg, #111);
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.section-header h3 {
+  color: #e2e8f0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.section-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.link-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.link-stat {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #1e293b;
+  color: #94a3b8;
+  border: 1px solid #334155;
+}
+
+.link-stat.acquired {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border-color: #10b981;
+}
+
+.link-stat.pending {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+  border-color: #eab308;
+}
+
+.link-prospects-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.link-prospects-table thead th {
+  text-align: left;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.link-prospects-table tbody tr {
+  border-bottom: 1px solid #0f172a;
+  transition: background 0.15s;
+}
+
+.link-prospects-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.link-prospects-table td {
+  padding: 10px 12px;
+  color: #e2e8f0;
+  vertical-align: middle;
+}
+
+.link-domain a {
+  color: #00d4ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link-domain a:hover {
+  text-decoration: underline;
+}
+
+.link-type-badge {
+  background: #1e293b;
+  color: #94a3b8;
+  border-radius: 4px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.link-status-select {
+  background: transparent;
+  border: 1px solid #334155;
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 12px;
+  padding: 3px 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.link-status-select.link-status-discovered { border-color: #475569; color: #94a3b8; }
+.link-status-select.link-status-contacted  { border-color: #3b82f6; color: #3b82f6; }
+.link-status-select.link-status-pending    { border-color: #eab308; color: #eab308; }
+.link-status-select.link-status-acquired   { border-color: #10b981; color: #10b981; }
+.link-status-select.link-status-rejected   { border-color: #ef4444; color: #ef4444; }
+
+.link-notes-cell {
+  color: #64748b;
+  font-size: 12px;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-actions-cell {
+  text-align: right;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: background 0.15s;
+}
+
+.btn-icon.btn-danger {
+  color: #ef4444;
+}
+
+.btn-icon.btn-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+}
+
+#add-link-form {
+  display: none;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#add-link-form .form-input,
+#add-link-form .form-select {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.link-discovering {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.spinner-inline {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #334155;
+  border-top-color: #00d4ff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .link-prospects-table thead { display: none; }
+  .link-prospects-table tbody tr {
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid #1e293b;
+  }
+  .link-prospects-table td {
+    display: block;
+    padding: 4px 12px;
+  }
+  .link-notes-cell { max-width: none; white-space: normal; }
+  .section-header { flex-wrap: wrap; gap: 8px; }
+}
+
+/* ── Outreach-knapp ── */
+.btn-outreach {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #e91e8c;
+  background: transparent;
+  border: 1px solid #e91e8c;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.btn-outreach:hover {
+  background: #e91e8c;
+  color: #fff;
+}
+.btn-outreach:disabled,
+.btn-outreach.btn-outreach-sent {
+  opacity: 0.5;
+  cursor: default;
+  border-color: #475569;
+  color: #475569;
+  background: transparent;
+}
+
+/* ── Verifieringsstatus-rad ── */
+.link-verify-status {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  min-height: 16px;
+}
+
+/* ── Lost-badge och rad-stil ── */
+.link-badge-lost {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  text-decoration: line-through;
+  vertical-align: middle;
+}
+.link-row-lost td {
+  opacity: 0.55;
+}
+.link-row-lost .link-domain a {
+  text-decoration: line-through;
+  color: #64748b;
+}
+.link-status-select.link-status-lost { border-color: #ef4444; color: #ef4444; }
+
+/* ── Outreach-bekraftelsemeddelande ── */
+.link-outreach-notice {
+  background: #0f4c2a;
+  border: 1px solid #10b981;
+  color: #10b981;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+/* ── LinkedIn Content Automation ─────────────────────────────── */
+
+.li-calendar-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.li-calendar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+.li-cal-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.li-cal-weekday {
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.li-cal-day {
+  font-size: 13px;
+  color: #e2e8f0;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.li-cal-topic {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.li-type-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.li-cal-text {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.li-cal-gen-btn {
+  font-size: 12px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+
+.li-drafts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.li-draft-card {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.li-draft-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.li-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.li-draft-date {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.li-draft-text {
+  color: #e2e8f0;
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 6px 0;
+  white-space: pre-wrap;
+}
+
+.li-draft-hashtags {
+  color: #0077b5;
+  font-size: 13px;
+  margin: 0 0 10px 0;
+}
+
+.li-draft-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.li-small-btn {
+  font-size: 12px;
+  padding: 4px 10px;
+}
+
+@media (max-width: 768px) {
+  .li-calendar-item {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .li-cal-date {
+    flex-direction: row;
+    gap: 8px;
+    min-width: auto;
+  }
+}

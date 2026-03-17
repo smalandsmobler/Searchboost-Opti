@@ -620,6 +620,32 @@
       .hero-meta { gap: 12px; }
       .key-takeaway { padding: 22px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -1012,6 +1038,65 @@
   </div>
 
 
+  <!-- CITATIONSKÄLLOR JÄMFÖRELSE -->
+  <div class="section">
+    <h2>Citationskällor: prioritetsordning och värde</h2>
+    <p>Alla citationer är inte lika mycket värda. Börja med de plattformar som har störst auktoritet och störst påverkan på lokal SEO, och arbeta dig sedan nedåt i listan:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Källa</th><th>Typ</th><th>SEO-värde</th><th>Prioritet</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Google Business Profile</strong></td>
+            <td>Plattform från Google</td>
+            <td><span class="good">Mycket hög</span></td>
+            <td>1 &mdash; gör detta allra först</td>
+          </tr>
+          <tr>
+            <td><strong>Eniro.se</strong></td>
+            <td>Nationell katalog</td>
+            <td><span class="good">Hög</span></td>
+            <td>2 &mdash; stor räckvidd och hög auktoritet i Sverige</td>
+          </tr>
+          <tr>
+            <td><strong>Hitta.se</strong></td>
+            <td>Nationell katalog</td>
+            <td><span class="good">Hög</span></td>
+            <td>2 &mdash; komplement till Eniro; bred användarbas</td>
+          </tr>
+          <tr>
+            <td><strong>Bing Places</strong></td>
+            <td>Plattform från Microsoft</td>
+            <td><span class="ok">Medel&ndash;hög</span></td>
+            <td>3 &mdash; viktigt för Bing-sökningar och synkroniseras till Apple Maps</td>
+          </tr>
+          <tr>
+            <td><strong>Apple Maps Connect</strong></td>
+            <td>Mobilplattform</td>
+            <td><span class="ok">Medel</span></td>
+            <td>3 &mdash; når iPhone-användare som söker direkt i kartan</td>
+          </tr>
+          <tr>
+            <td><strong>Branschspecifika kataloger</strong></td>
+            <td>Branschregister</td>
+            <td><span class="ok">Medel</span></td>
+            <td>4 &mdash; välj de som är relevanta för din bransch och dina kunder</td>
+          </tr>
+          <tr>
+            <td><strong>Lokala nyhetssajter</strong></td>
+            <td>Redaktionell källa</td>
+            <td><span class="good">Hög om du nämns</span></td>
+            <td>4 &mdash; svårare att påverka men mycket värdefullt för lokal auktoritet</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Viktigast av allt:</strong> Säkerställ att ditt namn, din adress och ditt telefonnummer (NAP) är exakt identiska i alla källor &mdash; även en liten skillnad kan förvirra Google.</p>
+  </div>
+
+
   <!-- FAQ Section -->
   <section class="faq-section">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1065,6 +1150,18 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade guider — lokal SEO</h3>
+      <a href="https://searchboost.se/seo-skola/lokal-seo/">Lokal SEO — komplett guide</a>
+      <a href="https://searchboost.se/seo-skola/google-business-profile/">Google Business Profile</a>
+      <a href="https://searchboost.se/seo-skola/schema-markup/">Schema markup</a>
+      <a href="https://searchboost.se/tjanster/lokal-seo/">Tjänst: Lokal SEO</a>
+      <a href="https://searchboost.se/case-studies/mobelforetag-smaland/">Case: Möbelföretag +89% lokal trafik</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

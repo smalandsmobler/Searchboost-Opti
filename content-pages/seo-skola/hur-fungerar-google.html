@@ -6,6 +6,7 @@
   <title>Hur fungerar Google? Så rankar sökmotorn din webbplats | Searchboost</title>
   <meta name="description" content="Förstå hur Google fungerar — från crawling och indexering till ranking. Lär dig om Googleboten, de 200+ rankingfaktorerna, algoritmuppdateringar och vad det betyder för ditt företag 2026.">
   <meta name="keywords" content="hur fungerar Google, crawling, indexering, ranking, Googlebot, sökmotor, SEO, sökmotoroptimering, Google algoritm, rankingfaktorer, E-E-A-T, AI Overviews">
+  <link rel="canonical" href="https://searchboost.se/seo-skola/hur-fungerar-google/">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -640,6 +641,38 @@
       .read-more { padding: 24px 20px; }
       .toc-box { padding: 20px 22px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 24px 0 28px; font-size: 0.95rem; }
+    .comparison-table th { background: #0f172a; color: #fff; padding: 14px 18px; text-align: left; font-weight: 600; }
+    .comparison-table th:first-child { border-radius: 10px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 10px 0 0; }
+    .comparison-table td { padding: 12px 18px; border-bottom: 1px solid #e2e8f0; color: #374151; }
+    .comparison-table tr:nth-child(even) td { background: #f8fafc; }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -944,6 +977,51 @@
       <p><strong>Sammanfattning:</strong> Google vill visa det bästa möjliga resultatet för varje sökning. Om ditt företag konsekvent skapar relevant, kvalitativt innehåll på en tekniskt välbyggd webbplats &mdash; och bygger trovärdighet genom länkar och E-E-A-T &mdash; kommer Google att belöna dig med synlighet. Det finns inga genvägar, men resultaten är bestående och ackumuleras över tid.</p>
     </div>
 
+    <!-- GOOGLES TRE STEG JAMFORELSE -->
+    <div class="section">
+      <h2>Googles tre steg: vad händer i varje fas?</h2>
+      <p>Googles process från att hitta till att ranka ditt innehåll sker i tre distinkta faser. Så här skiljer de sig åt &mdash; och vad du kan göra i varje steg:</p>
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Fas</th>
+              <th>Vad Google gör</th>
+              <th>Vad som påverkar det</th>
+              <th>Din åtgärd</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Crawling</strong></td>
+              <td>Googlebot besöker sidor via länkar och XML-sitemap</td>
+              <td>Intern länkstruktur, robots.txt, crawl budget, sidhastighet</td>
+              <td><span class="good">Bygg tydlig intern länkstruktur, skicka in XML-sitemap i GSC</span></td>
+            </tr>
+            <tr>
+              <td><strong>Indexering</strong></td>
+              <td>Google analyserar och sparar sidans innehåll i sitt index</td>
+              <td>Canonical-taggar, noindex-direktiv, sidans unikhet och kvalitet</td>
+              <td><span class="good">Skapa unikt, relevant innehåll &mdash; undvik duplicerat och tunt innehåll</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ranking</strong></td>
+              <td>Algoritmen bestämmer ordningen bland indexerade sidor för varje sökfråga</td>
+              <td>Relevans, E-E-A-T, sidauktoritet, Core Web Vitals, klickbeteende</td>
+              <td><span class="good">Optimera title/meta, bygg bakåtlänkar, förbättra laddningstid och UX</span></td>
+            </tr>
+            <tr>
+              <td><strong>Ej crawlad / blockerad</strong></td>
+              <td>Sidan hittas inte alls eller blockeras aktivt</td>
+              <td>robots.txt-block, noindex, timeout, för få inlänkar, duplicerat</td>
+              <td><span class="bad">Kontrollera Täckning-rapporten i Google Search Console</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note"><strong>Viktigt att veta:</strong> Att en sida är crawlad garanterar inte att den är indexerad &mdash; och att den är indexerad garanterar inte god ranking. Alla tre stegen kräver aktivt SEO-arbete för bästa resultat.</p>
+    </div>
+
     <!-- FAQ Section -->
     <h2 id="faq">Vanliga frågor om hur Google fungerar</h2>
 
@@ -1022,6 +1100,20 @@
     </div>
 
   </article>
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Fördjupa dig i SEO och Google</h3>
+      <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Vad är SEO?</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/seo-skola/teknisk-seo/">Teknisk SEO</a>
+      <a href="https://searchboost.se/seo-skola/interna-lankar/">Interna länkar</a>
+      <a href="https://searchboost.se/seo-skola/domain-authority/">Domain Authority</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/faq/">Vanliga frågor om SEO</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

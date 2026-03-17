@@ -694,6 +694,27 @@
       .article-meta { justify-content: center; }
       .factor-card h4 { flex-direction: column; align-items: flex-start; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -1125,6 +1146,58 @@
     </div>
 
 
+    <!-- RANKINGFAKTORER JÄMFÖRELSE -->
+    <div class="section">
+      <h2>Rankingfaktorer 2026: kategori och påverkbarhet</h2>
+      <p>Google använder över 200 signaler när en sida rankas. De flesta påverkar du direkt &mdash; men inte alla. Här är de viktigaste kategorierna sorterade efter hur stor effekt du faktiskt kan åstadkomma:</p>
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Kategori</th><th>Typiska signaler</th><th>Påverkbarhet</th><th>Relativ vikt</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>On-page SEO</strong></td>
+              <td>Sidtitel, H1, innehållsdjup, metabeskrivning, sökavsikt</td>
+              <td><span class="good">Hög</span></td>
+              <td><span class="good">Mycket hög</span></td>
+            </tr>
+            <tr>
+              <td><strong>Teknisk SEO</strong></td>
+              <td>Sidladdning, HTTPS, Core Web Vitals, mobilanpassning, crawlbarhet</td>
+              <td><span class="good">Hög</span></td>
+              <td><span class="good">Hög</span></td>
+            </tr>
+            <tr>
+              <td><strong>Bakåtlänkar</strong></td>
+              <td>Antal, domänauktoritet, ankartextdiversitet, länkens relevans</td>
+              <td><span class="ok">Medel &mdash; kräver tid</span></td>
+              <td><span class="good">Hög</span></td>
+            </tr>
+            <tr>
+              <td><strong>E-E-A-T</strong></td>
+              <td>Expertis, auktoritet, trovärdighet, erfarenhet (förstahand)</td>
+              <td><span class="ok">Medel</span></td>
+              <td><span class="bad">Kritisk</span></td>
+            </tr>
+            <tr>
+              <td><strong>Användarsignaler</strong></td>
+              <td>Klickfrekvens, dwell time, pogo-sticking, returnbesök</td>
+              <td><span class="ok">Begränsad</span></td>
+              <td><span class="ok">Medel</span></td>
+            </tr>
+            <tr>
+              <td><strong>Lokal SEO</strong></td>
+              <td>GBP-profil, NAP-konsistens, recensioner, lokala citationer</td>
+              <td><span class="good">Hög</span></td>
+              <td><span class="good">Hög (lokal sökning)</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note"><strong>Börja rätt:</strong> On-page SEO och teknisk SEO är ditt fundament &mdash; de har hög påverkbarhet och hög vikt. Bakåtlänkar tar tid men är oumbärliga för att nå toppositioner i konkurrenskraftiga sökningar.</p>
+    </div>
+
     <!-- 9. FAQ -->
     <div class="faq-section" id="faq">
       <h2>9. Vanliga fragor om Googles rankingfaktorer</h2>
@@ -1198,6 +1271,21 @@
     </a>
 
   </article>
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/teknisk-seo/">Teknisk SEO</a>
+      <a href="https://searchboost.se/seo-skola/interna-lankar/">Interna länkar</a>
+      <a href="https://searchboost.se/seo-skola/lankbygge/">Länkbygge</a>
+      <a href="https://searchboost.se/seo-skola/schema-markup/">Schema markup</a>
+      <a href="https://searchboost.se/seo-skola/page-speed-core-web-vitals/">Page Speed & Core Web Vitals</a>
+      <a href="https://searchboost.se/seo-skola/title-meta-description/">Title & meta description</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/ordlista/seo-ordlista/">SEO-ordlista</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

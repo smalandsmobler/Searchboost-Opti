@@ -418,6 +418,11 @@
     .comparison-table tr:nth-child(even) td {
       background: #f8fafc;
     }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
 
     /* Factor card */
     .factor-card {
@@ -640,6 +645,27 @@
       .next-article { flex-direction: column; text-align: center; }
       .article-meta { justify-content: center; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -945,6 +971,57 @@
     </div>
 
 
+    <!-- AUKTORITETSMÅTT JÄMFÖRELSE -->
+    <div class="section">
+      <h2>DA, DR och PageRank: vad är skillnaden?</h2>
+      <p>Begreppet "domänauktoritet" mäts på olika sätt av olika verktyg. Här är de vanligaste måtten du stöter på i SEO-arbetet &mdash; och hur de skiljer sig åt:</p>
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Mått</th>
+              <th>Skapare</th>
+              <th>Skala</th>
+              <th>Vad det mäter</th>
+              <th>Bäst för</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Domain Authority (DA)</strong></td>
+              <td>Moz</td>
+              <td>0&ndash;100</td>
+              <td>Predikterar rankningspotential baserat på länkkvalitet och länkkvantitet</td>
+              <td>Snabb överblick, klientrapporter, trendanalys</td>
+            </tr>
+            <tr>
+              <td><strong>Domain Rating (DR)</strong></td>
+              <td>Ahrefs</td>
+              <td>0&ndash;100</td>
+              <td>Bakåtlänkarnas styrka jämfört med alla domäner i Ahrefs index</td>
+              <td>Konkurrentanalys, bedöma länkanskaffningsinsatser</td>
+            </tr>
+            <tr>
+              <td><strong>Trust Flow (TF)</strong></td>
+              <td>Majestic</td>
+              <td>0&ndash;100</td>
+              <td>Länkars kvalitet baserat på närhet till betrodda källsajter</td>
+              <td>Detektera spamlänkar, djup länkprofilanalys</td>
+            </tr>
+            <tr>
+              <td><strong>PageRank (internt)</strong></td>
+              <td>Google</td>
+              <td>Intern (offentlig skala stängd 2016)</td>
+              <td>Googles interna länkbaserade rankningsignal</td>
+              <td>Grundmodellen som alla tredjepartsmätningar försöker approximera</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note"><strong>Obs:</strong> Inget tredjepartsverktyg ser Googles faktiska PageRank. DA, DR och TF är uppskattningar &mdash; använd dem som relativa jämförelsetal för att spåra trender och jämföra med konkurrenter, aldrig som exakta mål i sig.</p>
+    </div>
+
+
     <!-- 8. FAQ -->
     <div class="faq-section" id="faq">
       <h2>8. Vanliga fragor om Domain Authority</h2>
@@ -1018,6 +1095,18 @@
     </a>
 
   </article>
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/lankbygge/">Länkbygge — bygg auktoritet</a>
+      <a href="https://searchboost.se/seo-skola/interna-lankar/">Interna länkar</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/ordlista/seo-ordlista/">SEO-ordlista</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

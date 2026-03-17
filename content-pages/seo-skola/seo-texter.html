@@ -444,6 +444,11 @@
     .comparison-table tr:nth-child(even) td {
       background: #f8fafc;
     }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
 
     /* Author box */
     .author-box {
@@ -640,6 +645,27 @@
       .next-article { flex-direction: column; text-align: center; }
       .article-meta { justify-content: center; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -1007,6 +1033,64 @@
     </div>
 
 
+    <!-- SEO-TEXT ELEMENT JÄMFÖRELSE -->
+    <div class="section">
+      <h2>SEO-textens viktigaste element: prioritet och tips</h2>
+      <p>En SEO-optimerad text är mer än enbart nyckelord i brödtext. Här är de element som Google &mdash; och läsaren &mdash; värderar högt, rangordnade efter SEO-påverkan:</p>
+      <div class="comparison-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr><th>Element</th><th>Var det syns</th><th>SEO-påverkan</th><th>Praktiskt tips</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Title-tagg</strong></td>
+              <td>Sökresultat och webbläsarflik</td>
+              <td><span class="good">Hög</span></td>
+              <td>Inkludera huvudnyckelord tidigt; håll den under 60 tecken för att undvika avskärning</td>
+            </tr>
+            <tr>
+              <td><strong>H1-rubrik</strong></td>
+              <td>Sidans synliga huvudrubrik</td>
+              <td><span class="good">Hög</span></td>
+              <td>En per sida; besvara sökarens fråga direkt och inkludera nyckelord naturligt</td>
+            </tr>
+            <tr>
+              <td><strong>Inledning (första 100 ord)</strong></td>
+              <td>Överst på sidan, synligt utan scrollning</td>
+              <td><span class="good">Hög</span></td>
+              <td>Besvara frågan direkt &mdash; undvik långsam uppbyggnad; Google prioriterar detta avsnitt</td>
+            </tr>
+            <tr>
+              <td><strong>H2/H3-underrubriker</strong></td>
+              <td>Strukturerar textens avsnitt</td>
+              <td><span class="ok">Medel</span></td>
+              <td>Inkludera long-tail-varianter och synonymer naturligt; hjälper både läsare och sökmotorer</td>
+            </tr>
+            <tr>
+              <td><strong>Intern länkning</strong></td>
+              <td>Ankartextlänkar i brödtext</td>
+              <td><span class="ok">Medel</span></td>
+              <td>Länka till relevanta stödartiklar med beskrivande ankartext; sikta på 3&ndash;5 länkar per sida</td>
+            </tr>
+            <tr>
+              <td><strong>Alt-text på bilder</strong></td>
+              <td>Inte synlig för besökaren (metadata)</td>
+              <td><span class="ok">Låg&ndash;medel</span></td>
+              <td>Beskriv bilden korrekt; inkludera nyckelord när det är naturligt, aldrig på bekostnad av precision</td>
+            </tr>
+            <tr>
+              <td><strong>Meta-beskrivning</strong></td>
+              <td>Under titeln i sökresultaten</td>
+              <td><span class="ok">Indirekt (CTR)</span></td>
+              <td>Påverkar inte ranking direkt men hög CTR ger mer trafik; sikta på 120&ndash;160 tecken</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note"><strong>Kom ihåg:</strong> Inget av dessa element fungerar isolerat. Det är kombinationen av relevant innehåll, tydlig struktur och teknisk SEO som skapar rankningsresultat på sikt.</p>
+    </div>
+
     <!-- 11. FAQ -->
     <div class="faq-section" id="faq">
       <h2>11. Vanliga fragor om SEO-texter</h2>
@@ -1080,6 +1164,19 @@
     </a>
 
   </article>
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Fler guider om SEO-innehåll</h3>
+      <a href="https://searchboost.se/seo-skola/nyckelordsforskning/">Nyckelordsforskning</a>
+      <a href="https://searchboost.se/seo-skola/content-gaps/">Content gaps-analys</a>
+      <a href="https://searchboost.se/seo-skola/interna-lankar/">Interna länkar</a>
+      <a href="https://searchboost.se/seo-skola/title-meta-description/">Title & meta description</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/tjanster/e-handel-seo/">Tjänst: E-handel SEO</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

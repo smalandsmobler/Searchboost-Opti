@@ -1071,6 +1071,7 @@ async function loadView(view) {
     case 'reports': return loadReports();
     case 'security': return loadSecurity();
     case 'content-blueprint': return loadContentBlueprint();
+    case 'linkedin': return loadLinkedInView();
   }
 }
 
@@ -1502,6 +1503,9 @@ async function showCustomerDetail(customerId, customerUrl) {
   renderTouchpoints(customerId);
   renderAds(customerId);
   _aiChatCustomerId = customerId;
+
+  // Ladda länkbygge
+  loadLinkProspects(customerId);
 }
 
 // ── Performance Gauges (ApexCharts radialBar) ─────────────────
@@ -3749,3 +3753,481 @@ async function runMonitorCheck() {
 
 // Kör kontroll automatiskt var 5:e minut
 setInterval(() => runMonitorCheck(), 5 * 60 * 1000);
+
+// ══════════════════════════════════════════
+// LÄNKBYGGE — Link Prospects
+
+let _currentLinkCustomerId = null;
+
+const LINK_TYPE_LABELS = {
+  directory: 'Katalog',
+  supplier: 'Leverantör',
+  media: 'Media/Press',
+  blog: 'Blogg',
+  partner: 'Partner'
+};
+
+const LINK_STATUS_LABELS = {
+  discovered: 'Hittad',
+  contacted: 'Kontaktad',
+  pending: 'Väntande',
+  acquired: 'Förvärvad',
+  rejected: 'Avvisad'
+};
+
+async function loadLinkProspects(customerId) {
+  _currentLinkCustomerId = customerId;
+  const listEl = document.getElementById('link-prospects-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<p class="empty">Laddar länkprospekt...</p>';
+
+  const data = await api(`/api/customers/${customerId}/link-prospects`).catch(() => null);
+  if (!data) {
+    listEl.innerHTML = '<p class="empty">Kunde inte ladda länkprospekt.</p>';
+    return;
+  }
+  renderLinkProspects(data.prospects || []);
+}
+
+function renderLinkProspects(prospects) {
+  const listEl = document.getElementById('link-prospects-list');
+  if (!listEl) return;
+
+  // Uppdatera statistik
+  const statDiscovered = document.getElementById('stat-discovered');
+  const statAcquired = document.getElementById('stat-acquired');
+  const statPending = document.getElementById('stat-pending');
+
+  const countDiscovered = prospects.filter(p => p.status === 'discovered' || p.status === 'contacted').length;
+  const countAcquired = prospects.filter(p => p.status === 'acquired').length;
+  const countPending = prospects.filter(p => p.status === 'pending').length;
+
+  if (statDiscovered) statDiscovered.textContent = `${countDiscovered} hittade`;
+  if (statAcquired) statAcquired.textContent = `${countAcquired} förvärvade`;
+  if (statPending) statPending.textContent = `${countPending} väntande`;
+
+  if (!prospects.length) {
+    listEl.innerHTML = '<p class="empty">Inga länkprospekt ännu. Klicka "Auto-hitta möjligheter" eller lägg till manuellt.</p>';
+    return;
+  }
+
+  listEl.innerHTML = `
+    <table class="link-prospects-table">
+      <thead>
+        <tr>
+          <th>Domän</th>
+          <th>Typ</th>
+          <th>Status</th>
+          <th>Anteckningar</th>
+          <th>Åtgärder</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${prospects.map(p => `
+          <tr${p.status === 'lost' ? ' class="link-row-lost"' : ''}>
+            <td class="link-domain">
+              <a href="${p.url}" target="_blank" rel="noopener">${p.domain_name || p.url}</a>
+              ${p.status === 'lost' ? '<span class="link-badge-lost">Borttagen</span>' : ''}
+            </td>
+            <td><span class="link-type-badge">${LINK_TYPE_LABELS[p.link_type] || p.link_type}</span></td>
+            <td>
+              <select class="link-status-select link-status-${p.status}" onchange="updateLinkStatus('${p.prospect_id}', this.value)">
+                <option value="discovered" ${p.status === 'discovered' ? 'selected' : ''}>Hittad</option>
+                <option value="contacted" ${p.status === 'contacted' ? 'selected' : ''}>Kontaktad</option>
+                <option value="pending" ${p.status === 'pending' ? 'selected' : ''}>Väntande</option>
+                <option value="acquired" ${p.status === 'acquired' ? 'selected' : ''}>Förvärvad</option>
+                <option value="rejected" ${p.status === 'rejected' ? 'selected' : ''}>Avvisad</option>
+                <option value="lost" ${p.status === 'lost' ? 'selected' : ''}>Borttagen</option>
+              </select>
+            </td>
+            <td class="link-notes-cell">${p.notes || '—'}</td>
+            <td class="link-actions-cell">
+              ${p.status === 'discovered' ? `<button class="btn-outreach" id="outreach-btn-${p.prospect_id}" onclick="sendOutreach('${p.prospect_id}')" title="Skicka outreach för granskning">Skicka outreach</button>` : ''}
+              <button class="btn-icon btn-danger" onclick="deleteLinkProspect('${p.prospect_id}')" title="Ta bort">&#x2715;</button>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+const LINK_TEMPLATES = {
+  supplier: 'Hej, vi är återförsäljare av era produkter och skulle gärna synas på er hemsida under "Återförsäljare". Vi har era produkter i sortimentet och skickar regelbundet kunder er väg. Vår webbplats: [URL]. Möjligt att lägga till oss? Vi länkar gärna tillbaka.',
+  media: 'Hej, [Företagsnamn] är ett lokalt företag i [Ort]. Vi har nyligen lanserat ny hemsida och tror att era läsare kan ha nytta av att känna till oss. Finns det möjlighet att nämna oss i ett kommande lokalt affärsreportage eller i er företagskatalog?',
+  blog: 'Hej, vi följer er blogg och tror att era läsare skulle uppskatta ett inlägg om [ämne]. Vi kan bidra med ett välskrivet gästinlägg eller skicka en produkt för test – utan krav på positiv recension. Intresserade?',
+  directory: 'Registrera företaget i katalogen för ökad synlighet och bakåtlänk.',
+  partner: 'Hej, vi ser möjlighet till ett ömsesidigt samarbete. Vi länkade gärna till varandra då vi delar målgrupp utan att konkurrera direkt. Intresserade av ett utbyte?'
+};
+
+function fillLinkTemplate() {
+  const type = document.getElementById('link-type')?.value;
+  const notesEl = document.getElementById('link-notes');
+  if (notesEl && LINK_TEMPLATES[type]) {
+    notesEl.value = LINK_TEMPLATES[type];
+  }
+}
+
+function showAddLinkProspect() {
+  const form = document.getElementById('add-link-form');
+  if (form) form.style.display = 'block';
+  fillLinkTemplate();
+  const urlInput = document.getElementById('link-url');
+  if (urlInput) urlInput.focus();
+}
+
+function hideAddLinkForm() {
+  const form = document.getElementById('add-link-form');
+  if (form) {
+    form.style.display = 'none';
+    document.getElementById('link-url').value = '';
+    document.getElementById('link-notes').value = '';
+    document.getElementById('link-type').value = 'directory';
+  }
+}
+
+async function addLinkProspect() {
+  const url = document.getElementById('link-url')?.value?.trim();
+  const linkType = document.getElementById('link-type')?.value || 'directory';
+  const notes = document.getElementById('link-notes')?.value?.trim() || '';
+
+  if (!url) {
+    alert('Ange en URL');
+    return;
+  }
+
+  const result = await api(`/api/customers/${_currentLinkCustomerId}/link-prospects`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, link_type: linkType, notes })
+  });
+
+  if (result?.success) {
+    hideAddLinkForm();
+    invalidateCache('link-prospects');
+    await loadLinkProspects(_currentLinkCustomerId);
+  } else {
+    alert('Fel vid sparning: ' + (result?.error || 'okänt fel'));
+  }
+}
+
+async function updateLinkStatus(prospectId, status) {
+  const result = await api(`/api/customers/${_currentLinkCustomerId}/link-prospects/${prospectId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+
+  if (!result?.success) {
+    alert('Fel vid uppdatering: ' + (result?.error || 'okänt fel'));
+    // Ladda om för att återställa UI
+    await loadLinkProspects(_currentLinkCustomerId);
+  } else {
+    // Uppdatera select-elementets klass direkt
+    invalidateCache('link-prospects');
+    await loadLinkProspects(_currentLinkCustomerId);
+  }
+}
+
+async function deleteLinkProspect(prospectId) {
+  if (!confirm('Ta bort detta länkprospekt?')) return;
+
+  const result = await api(`/api/customers/${_currentLinkCustomerId}/link-prospects/${prospectId}`, {
+    method: 'DELETE'
+  });
+
+  if (result?.success) {
+    invalidateCache('link-prospects');
+    await loadLinkProspects(_currentLinkCustomerId);
+  } else {
+    alert('Fel vid borttagning: ' + (result?.error || 'okänt fel'));
+  }
+}
+
+async function sendOutreach(prospectId) {
+  const btn = document.getElementById(`outreach-btn-${prospectId}`);
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Skickar...';
+  }
+
+  const result = await api(`/api/customers/${_currentLinkCustomerId}/link-prospects/${prospectId}/send-outreach`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+
+  if (result?.success) {
+    if (btn) {
+      btn.textContent = 'Skickat!';
+      btn.classList.add('btn-outreach-sent');
+    }
+    // Kort bekräftelsemeddelande
+    const listEl = document.getElementById('link-prospects-list');
+    if (listEl) {
+      const notice = document.createElement('div');
+      notice.className = 'link-outreach-notice';
+      notice.textContent = 'Outreach skickat till Mikael for granskning.';
+      listEl.prepend(notice);
+      setTimeout(() => notice.remove(), 4000);
+    }
+    invalidateCache('link-prospects');
+    setTimeout(() => loadLinkProspects(_currentLinkCustomerId), 1500);
+  } else {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Skicka outreach';
+    }
+    alert('Fel: ' + (result?.error || 'okänt fel'));
+  }
+}
+
+async function verifyAllLinks() {
+  const btn = document.getElementById('verify-links-btn');
+  const statusEl = document.getElementById('link-verify-status');
+  if (btn) { btn.disabled = true; btn.textContent = 'Verifierar...'; }
+  if (statusEl) statusEl.textContent = 'Verifierar...';
+
+  const result = await api('/api/link-verification/run', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+
+  if (btn) { btn.disabled = false; btn.textContent = 'Verifiera alla lankar'; }
+
+  if (result?.success) {
+    const msg = `Senaste verifiering: ${result.ok} ok, ${result.lost} borttagna (av ${result.checked} kollade)`;
+    if (statusEl) statusEl.textContent = msg;
+    invalidateCache('link-prospects');
+    await loadLinkProspects(_currentLinkCustomerId);
+  } else {
+    if (statusEl) statusEl.textContent = 'Verifiering misslyckades.';
+    alert('Verifiering misslyckades: ' + (result?.error || 'okänt fel'));
+  }
+}
+
+async function autoDiscoverLinks() {
+  const listEl = document.getElementById('link-prospects-list');
+  if (!listEl) return;
+
+  const originalContent = listEl.innerHTML;
+  listEl.innerHTML = '<p class="empty link-discovering">AI söker efter länkmöjligheter... <span class="spinner-inline"></span></p>';
+
+  // Dölj knappar under sökning
+  const discoverBtn = document.querySelector('#link-building-section .btn-secondary');
+  if (discoverBtn) {
+    discoverBtn.disabled = true;
+    discoverBtn.textContent = 'Söker...';
+  }
+
+  const result = await api(`/api/customers/${_currentLinkCustomerId}/link-prospects/auto-discover`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({})
+  });
+
+  if (discoverBtn) {
+    discoverBtn.disabled = false;
+    discoverBtn.textContent = 'Auto-hitta möjligheter';
+  }
+
+  if (result?.success) {
+    invalidateCache('link-prospects');
+    await loadLinkProspects(_currentLinkCustomerId);
+  } else {
+    listEl.innerHTML = originalContent;
+    alert('Auto-discover misslyckades: ' + (result?.error || 'okänt fel'));
+  }
+}
+
+// ── LinkedIn Content Automation ────────────────────────────────
+
+let _currentLinkedInPost = null; // Håller senaste genererade inlägg
+
+async function loadLinkedInView() {
+  const [calData, draftsData] = await Promise.all([
+    api('/api/linkedin/calendar'),
+    api('/api/linkedin/drafts')
+  ]);
+  if (calData?.calendar) renderLinkedInCalendar(calData.calendar);
+  if (draftsData?.drafts) renderLinkedInDrafts(draftsData.drafts);
+}
+
+async function generateLinkedInPost() {
+  const type = $('#li-type').value;
+  const topic = $('#li-topic').value.trim();
+  if (!topic) { alert('Ange ett ämne för inlägget.'); return; }
+
+  const btn = document.querySelector('#linkedin-generator .btn.btn-primary');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Genererar...';
+  $('#li-result').style.display = 'none';
+
+  const result = await api('/api/linkedin/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ topic, type })
+  });
+
+  btn.disabled = false;
+  btn.textContent = origText;
+
+  if (!result || result.error) {
+    alert('Generering misslyckades: ' + (result?.error || 'okänt fel'));
+    return;
+  }
+
+  _currentLinkedInPost = result;
+  $('#li-post-text').value = result.post_text;
+  $('#li-char-count').textContent = `${result.char_count} tecken`;
+  $('#li-hashtags').textContent = result.hashtags.map(h => `#${h.replace(/^#/, '')}`).join(' ');
+  $('#li-image-prompt').textContent = result.suggested_image_prompt ? `Bildbeskrivning: ${result.suggested_image_prompt}` : '';
+  $('#li-save-status').textContent = '';
+  $('#li-result').style.display = 'block';
+
+  // Uppdatera räknaren vid redigering
+  $('#li-post-text').oninput = function() {
+    $('#li-char-count').textContent = `${this.value.length} tecken`;
+  };
+}
+
+async function saveDraft() {
+  const postText = $('#li-post-text').value.trim();
+  if (!postText) { alert('Inlägget är tomt.'); return; }
+
+  const statusEl = $('#li-save-status');
+  statusEl.textContent = 'Sparar...';
+  statusEl.style.color = '#888';
+
+  const result = await api('/api/linkedin/save-draft', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      post_text: postText,
+      hashtags: _currentLinkedInPost?.hashtags || [],
+      type: $('#li-type').value
+    })
+  });
+
+  if (result?.success) {
+    statusEl.textContent = 'Sparat!';
+    statusEl.style.color = '#22c55e';
+    invalidateCache('/api/linkedin/drafts');
+    const draftsData = await api('/api/linkedin/drafts');
+    if (draftsData?.drafts) renderLinkedInDrafts(draftsData.drafts);
+    setTimeout(() => { statusEl.textContent = ''; }, 3000);
+  } else {
+    statusEl.textContent = 'Fel vid sparning';
+    statusEl.style.color = '#ef4444';
+  }
+}
+
+function copyLinkedInPost() {
+  const text = $('#li-post-text').value;
+  const hashtags = $('#li-hashtags').textContent;
+  const full = hashtags ? `${text}\n\n${hashtags}` : text;
+  navigator.clipboard.writeText(full).then(() => {
+    const btn = document.querySelector('#linkedin-generator .btn.btn-secondary');
+    const orig = btn.textContent;
+    btn.textContent = 'Kopierat!';
+    setTimeout(() => { btn.textContent = orig; }, 2000);
+  });
+}
+
+function renderLinkedInCalendar(calendar) {
+  const el = $('#li-calendar');
+  if (!calendar || !calendar.length) {
+    el.innerHTML = '<p class="empty">Inget schema tillgängligt.</p>';
+    return;
+  }
+
+  const typeColors = {
+    tip: '#0077b5',
+    case_study: '#e91e8c',
+    insight: '#7c4dff',
+    news: '#00d4ff'
+  };
+
+  const html = `
+    <div class="li-calendar-grid">
+      ${calendar.map(item => `
+        <div class="li-calendar-item">
+          <div class="li-cal-date">
+            <span class="li-cal-weekday">${item.weekday}</span>
+            <span class="li-cal-day">${item.date}</span>
+          </div>
+          <div class="li-cal-topic">
+            <span class="li-type-badge" style="background:${typeColors[item.type] || '#334155'}">${item.label}</span>
+            <span class="li-cal-text">${item.topic}</span>
+          </div>
+          <button class="btn btn-secondary li-cal-gen-btn" onclick="prefillAndGenerate('${item.type}', '${item.topic.replace(/'/g, "\\'")}')">Generera</button>
+        </div>
+      `).join('')}
+    </div>`;
+  el.innerHTML = html;
+}
+
+function prefillAndGenerate(type, topic) {
+  $('#li-type').value = type;
+  $('#li-topic').value = topic;
+  // Scrolla till generatorn
+  document.getElementById('linkedin-generator').scrollIntoView({ behavior: 'smooth' });
+  generateLinkedInPost();
+}
+
+function renderLinkedInDrafts(drafts) {
+  const el = $('#li-drafts-list');
+  if (!drafts || !drafts.length) {
+    el.innerHTML = '<p class="empty">Inga utkast ännu. Generera och spara ett inlägg ovan.</p>';
+    return;
+  }
+
+  const statusBadge = (status) => {
+    const map = {
+      draft: { label: 'Utkast', color: '#475569' },
+      scheduled: { label: 'Schemalagd', color: '#0077b5' },
+      posted: { label: 'Publicerad', color: '#22c55e' }
+    };
+    const s = map[status] || { label: status, color: '#334155' };
+    return `<span class="li-status-badge" style="background:${s.color}">${s.label}</span>`;
+  };
+
+  const html = `
+    <div class="li-drafts">
+      ${drafts.map(d => {
+        const createdAt = d.created_at?.value || d.created_at || '';
+        const dateStr = createdAt ? new Date(createdAt).toLocaleDateString('sv-SE') : '';
+        return `
+          <div class="li-draft-card">
+            <div class="li-draft-meta">
+              ${statusBadge(d.status)}
+              <span class="li-draft-date">${dateStr}</span>
+              <span class="li-draft-type" style="color:#94a3b8;font-size:12px">${d.type || ''}</span>
+            </div>
+            <p class="li-draft-text">${d.post_text || ''}</p>
+            ${d.hashtags ? `<p class="li-draft-hashtags">${d.hashtags}</p>` : ''}
+            <div class="li-draft-actions">
+              ${d.status !== 'posted' ? `<button class="btn btn-secondary li-small-btn" onclick="updateDraftStatus('${d.id}', 'posted')">Markera publicerad</button>` : ''}
+              ${d.status === 'draft' ? `<button class="btn btn-secondary li-small-btn" onclick="updateDraftStatus('${d.id}', 'scheduled')">Schemalägg</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>`;
+  el.innerHTML = html;
+}
+
+async function updateDraftStatus(id, status) {
+  const result = await api(`/api/linkedin/drafts/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  if (result?.success) {
+    invalidateCache('/api/linkedin/drafts');
+    const draftsData = await api('/api/linkedin/drafts');
+    if (draftsData?.drafts) renderLinkedInDrafts(draftsData.drafts);
+  }
+}

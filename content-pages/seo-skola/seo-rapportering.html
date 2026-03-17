@@ -629,6 +629,32 @@
       .hero-meta { gap: 12px; }
       .key-takeaway { padding: 22px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -682,6 +708,7 @@
         <li><a href="#presentera-resultat">S&aring; presenterar du resultat f&ouml;r kunder</a></li>
         <li><a href="#roi-berakning">ROI-ber&auml;kning f&ouml;r SEO</a></li>
         <li><a href="#automatisera">Automatisera rapportering</a></li>
+        <li><a href="#kpi-referens">KPI-referens f&ouml;r SEO</a></li>
         <li><a href="#faq-rapportering">Vanliga fr&aring;gor</a></li>
       </ol>
     </div>
@@ -992,6 +1019,59 @@
   </div>
 
 
+  <!-- SEO-KPI JÄMFÖRELSE -->
+  <div class="section">
+    <h2>SEO-KPIer: vad ska din rapport inkludera</h2>
+    <p>En bra SEO-rapport mäter rätt saker för rätt mottagare. Här är de viktigaste nyckeltalen, vilket verktyg som mäter dem och hur ofta de bör stämmas av:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>KPI</th><th>Verktyg</th><th>Frekvens</th><th>Vad det berättar</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Organisk trafik</strong></td>
+            <td>Google Analytics 4</td>
+            <td><span class="good">Veckovis</span></td>
+            <td>Totalt antal sessioner från Google &mdash; fundamentet i all SEO-rapportering</td>
+          </tr>
+          <tr>
+            <td><strong>Sökordspositioner</strong></td>
+            <td>GSC / SE Ranking</td>
+            <td><span class="good">Veckovis</span></td>
+            <td>Hur sidan rankar för prioriterade nyckelord; spåra trenden &mdash; inte bara punktvärdet</td>
+          </tr>
+          <tr>
+            <td><strong>Klickfrekvens (CTR)</strong></td>
+            <td>Google Search Console</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Hur lockande dina rubriker och snippets är i sökresultaten</td>
+          </tr>
+          <tr>
+            <td><strong>Konverteringar från organisk trafik</strong></td>
+            <td>Google Analytics 4</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Det affärsmässiga utfallet &mdash; leads, köp eller formulärfyllningar</td>
+          </tr>
+          <tr>
+            <td><strong>Indexerade sidor</strong></td>
+            <td>GSC (Indexeringsrapport)</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Säkerställer att rätt sidor visas i Google och att inga viktiga sidor tappats bort</td>
+          </tr>
+          <tr>
+            <td><strong>Bakåtlänkar (antal + kvalitet)</strong></td>
+            <td>Ahrefs / Moz</td>
+            <td><span class="ok">Månadsvis</span></td>
+            <td>Auktoritetstillväxt och potentiella risker med toxiska eller förlorade länkar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Tips:</strong> Anpassa rapporten efter mottagaren &mdash; en VD vill se affärsresultat (trafik + leads + ROI), en marknadschef vill se trender och nyckelordsutveckling.</p>
+  </div>
+
+
   <!-- FAQ Section -->
   <section class="faq-section" id="faq-rapportering">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1045,6 +1125,18 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/google-search-console/">Google Search Console</a>
+      <a href="https://searchboost.se/seo-skola/vad-kostar-seo/">Vad kostar SEO?</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/seo-skola/hur-lang-tid-tar-seo/">Hur lång tid tar SEO?</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

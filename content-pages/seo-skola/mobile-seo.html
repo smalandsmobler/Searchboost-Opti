@@ -683,6 +683,27 @@
       .key-takeaway { padding: 22px 20px; }
       .myth-box, .truth-box { padding: 18px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -1138,6 +1159,58 @@
   </div>
 
 
+  <!-- MOBIL SEO JÄMFÖRELSE -->
+  <div class="section">
+    <h2>Mobiloptimering: kontrollista och prioritering</h2>
+    <p>Med mobile-first indexing är din mobilsida det Google ser och bedömer. Här är de viktigaste kontrollpunkterna med verktyg och rekommenderade åtgärder &mdash; sorterade efter hur kritiska de är:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Kontrollpunkt</th><th>Verktyg</th><th>Kritiskhet</th><th>Åtgärd</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Responsiv design</strong></td>
+            <td>Googles mobiltestverktyg</td>
+            <td><span class="bad">Kritisk</span></td>
+            <td>Responsiv CSS är numera ett minimikrav &mdash; testa alla sidor, inte bara startsidan</td>
+          </tr>
+          <tr>
+            <td><strong>Laddningstid på mobil (LCP)</strong></td>
+            <td>PageSpeed Insights</td>
+            <td><span class="bad">Hög</span></td>
+            <td>Komprimera bilder, reducera JavaScript och aktivera browser caching</td>
+          </tr>
+          <tr>
+            <td><strong>Klickbara ytor (knappar och länkar)</strong></td>
+            <td>Manuell test + DevTools</td>
+            <td><span class="bad">Hög</span></td>
+            <td>Minst 48&thinsp;&times;&thinsp;48&thinsp;px; minst 8&thinsp;px avstånd mellan klickbara element</td>
+          </tr>
+          <tr>
+            <td><strong>Mobila popups och interstitialer</strong></td>
+            <td>Manuell test</td>
+            <td><span class="bad">Hög</span></td>
+            <td>Google straffar popups som täcker sidinnehållet på mobil &mdash; använd banners istället</td>
+          </tr>
+          <tr>
+            <td><strong>Textstorlek och läsbarhet</strong></td>
+            <td>Chrome DevTools Lighthouse</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Minst 16&thinsp;px brödtext; undvik text inbäddad i bilder</td>
+          </tr>
+          <tr>
+            <td><strong>Viewport meta-tagg</strong></td>
+            <td>Källkod / DevTools</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Måste finnas: <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Snabbaste förbättringen:</strong> Kör PageSpeed Insights på din startsida och din viktigaste tjänstesida. Googles rapport ger dig en konkret prioriterad att-göra-lista &mdash; börja uppifrån.</p>
+  </div>
+
   <!-- FAQ Section -->
   <section class="faq-section">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1191,6 +1264,18 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Relaterade tekniska SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/teknisk-seo/">Teknisk SEO</a>
+      <a href="https://searchboost.se/seo-skola/page-speed-core-web-vitals/">Page Speed & Core Web Vitals</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/seo-skola/wordpress-seo/">WordPress SEO</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

@@ -620,6 +620,32 @@
       .hero-meta { gap: 12px; }
       .key-takeaway { padding: 22px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
   </style>
 </head>
 <body>
@@ -1030,6 +1056,65 @@
   </div>
 
 
+  <!-- TEKNISK SEO KONTROLLER JÄMFÖRELSE -->
+  <div class="section">
+    <h2>Tekniska SEO-kontroller: kritiskhet och åtgärd</h2>
+    <p>En teknisk SEO-audit täcker många kontrollpunkter. Här är de viktigaste, rangordnade efter hur allvarliga de är för din synlighet om du missar dem:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr><th>Kontroll</th><th>Verktyg</th><th>Kritiskhet</th><th>Åtgärd</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>HTTPS (SSL-certifikat)</strong></td>
+            <td>Browser / GSC</td>
+            <td><span class="bad">Kritisk</span></td>
+            <td>Installera certifikat via din hosting; Let&rsquo;s Encrypt är gratis och fungerar för de flesta sajter</td>
+          </tr>
+          <tr>
+            <td><strong>Core Web Vitals (LCP, INP, CLS)</strong></td>
+            <td>PageSpeed Insights / GSC</td>
+            <td><span class="bad">Hög</span></td>
+            <td>Optimera bildstorlekar, minska JavaScript-block och använd lazy loading</td>
+          </tr>
+          <tr>
+            <td><strong>Mobilanpassning</strong></td>
+            <td>Googles mobiltestverktyg</td>
+            <td><span class="bad">Hög</span></td>
+            <td>Responsiv design är numera ett minimikrav &mdash; testa alla sidor, inte bara startsidan</td>
+          </tr>
+          <tr>
+            <td><strong>XML-sitemap</strong></td>
+            <td>Screaming Frog / GSC</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Håll den aktuell och skicka in till GSC efter varje större uppdatering</td>
+          </tr>
+          <tr>
+            <td><strong>Crawlbudget och robots.txt</strong></td>
+            <td>GSC crawlrapport</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Blockera irrelevanta sidor (admin, tack-sidor); tillåt alltid dina viktigaste sidor</td>
+          </tr>
+          <tr>
+            <td><strong>Trasiga länkar (404)</strong></td>
+            <td>Screaming Frog / Ahrefs</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Sätt upp 301-redirects till närmaste relevanta sida; fixa interna brytpunkter</td>
+          </tr>
+          <tr>
+            <td><strong>Kanoniska taggar</strong></td>
+            <td>GSC / Screaming Frog</td>
+            <td><span class="ok">Medel</span></td>
+            <td>Varje sida ska ha rätt canonical; förhindrar att duplicerat innehåll förvirrar Google</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Börja med det kritiska:</strong> HTTPS, Core Web Vitals och mobilanpassning påverkar ranking direkt. De andra kontrollpunkterna är viktiga för det långsiktiga SEO-arbetet.</p>
+  </div>
+
+
   <!-- FAQ Section -->
   <section class="faq-section">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1083,6 +1168,20 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Fler tekniska SEO-guider</h3>
+      <a href="https://searchboost.se/seo-skola/page-speed-core-web-vitals/">Page Speed & Core Web Vitals</a>
+      <a href="https://searchboost.se/seo-skola/mobile-seo/">Mobil SEO</a>
+      <a href="https://searchboost.se/seo-skola/schema-markup/">Schema markup</a>
+      <a href="https://searchboost.se/seo-skola/google-search-console/">Google Search Console</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/tjanster/e-handel-seo/">Tjänst: E-handel SEO</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

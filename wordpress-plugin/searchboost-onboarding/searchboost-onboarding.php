@@ -233,7 +233,7 @@ function sb_onboarding_form() {
                 <ol>
                     <li>Logga in på er WordPress-webbplats</li>
                     <li>Gå till <strong>Användare</strong> i adminpanelen och välj <strong>Lägg till ny</strong></li>
-                    <li>Ange vår e-postadress <strong>web@searchboost.se</strong> och ge kontot rollen <strong>Administratör</strong></li>
+                    <li>Ange vår e-postadress <strong>mikael@searchboost.se</strong> och ge kontot rollen <strong>Administratör</strong></li>
                     <li>Klicka på <strong>Lägg till användare</strong></li>
                 </ol>
                 <strong>Alternativ 2 — Skapa ett app-lösenord:</strong>
@@ -279,7 +279,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Inställningar</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Användare och behörigheter</strong></li>
                     <li>Klicka på <strong>Lägg till användare</strong></li>
-                    <li>Fyll i <strong>web@searchboost.se</strong></li>
+                    <li>Fyll i <strong>mikael@searchboost.se</strong></li>
                     <li>Välj <strong>Fullständig</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -308,7 +308,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>kugghjulet</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Åtkomsthantering för konton</strong></li>
                     <li>Klicka på <strong>+</strong> längst upp till höger</li>
-                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>web@searchboost.se</strong></li>
+                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>mikael@searchboost.se</strong></li>
                     <li>Välj <strong>Administratör</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -342,7 +342,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Administratör</strong></li>
                     <li>Välj <strong>Användarhantering</strong> under Konto-kolumnen</li>
                     <li>Klicka på <strong>+</strong> och välj <strong>Lägg till nya användare</strong></li>
-                    <li>Ange: <strong>web@searchboost.se</strong></li>
+                    <li>Ange: <strong>mikael@searchboost.se</strong></li>
                     <li>Välj behörighet — <strong>Administratör</strong> ger full åtkomst</li>
                     <li>Klicka <strong>Bjud in</strong></li>
                 </ol>

@@ -388,6 +388,11 @@
     }
     .comparison-table tbody tr:nth-child(even) { background: #f8fafc; }
     .comparison-table tbody tr:last-child td { border-bottom: none; }
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-note { font-size: 0.87rem; color: #64748b; margin-top: 12px; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
 
     /* ===== PILLAR GRID ===== */
     .pillar-grid {
@@ -519,6 +524,19 @@
     .read-more-link:hover { border-color: #db007f; transform: translateY(-2px); }
     .read-more-link .link-arrow { color: #db007f; font-weight: 700; margin-left: auto; }
 
+    /* ===== COMPARISON TABLE ===== */
+    .comparison-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 24px 0 28px; font-size: 0.95rem; }
+    .comparison-table th { background: #0f172a; color: #fff; padding: 14px 18px; text-align: left; font-weight: 600; }
+    .comparison-table th:first-child { border-radius: 10px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 10px 0 0; }
+    .comparison-table td { padding: 12px 18px; border-bottom: 1px solid #e2e8f0; color: #374151; }
+    .comparison-table tr:nth-child(even) td { background: #f8fafc; }
+    .comparison-table .good { color: #059669; font-weight: 600; }
+    .comparison-table .ok { color: #d97706; font-weight: 600; }
+    .comparison-table .bad { color: #dc2626; font-weight: 600; }
+    .comparison-note { font-size: 0.88rem; color: #64748b; margin-top: -12px; margin-bottom: 24px; }
+
     /* ===== FAQ SECTION ===== */
     .faq-section {
       max-width: 780px;
@@ -631,6 +649,27 @@
       .hero-meta { gap: 12px; }
       .key-takeaway { padding: 22px 20px; }
     }
+    /* Internal links */
+    .internal-links {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 28px 32px;
+    }
+    .internal-links h3 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 12px; }
+    .internal-links a {
+      display: inline-block;
+      color: #db007f;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-right: 24px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .internal-links a:hover { color: #00d4ff; }
   </style>
 </head>
 <body>
@@ -966,6 +1005,127 @@
   </div>
 
 
+  <!-- KANALJ&Auml;MFORELSE -->
+  <section class="faq-section" style="background:#f0fdf4;">
+    <h2>SEO j&auml;mf&ouml;rt med andra marknadsf&ouml;ringskanaler</h2>
+    <p style="text-align:center; color:#475569; max-width:700px; margin:0 auto 32px;">S&aring; h&auml;r st&auml;ller sig SEO mot betald annonsering och social media p&aring; l&aring;ng sikt &mdash; baserat p&aring; genomsnittliga svenska f&ouml;retag:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Kanal</th>
+            <th>Startkostnad</th>
+            <th>Trafik efter 12 m&aring;n</th>
+            <th>Kostnad per bes&ouml;kare</th>
+            <th>H&aring;llbarhet</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SEO (organisk s&ouml;kning)</strong></td>
+            <td><span class="ok">Medel (byr&aring; + tid)</span></td>
+            <td><span class="good">H&ouml;g + v&auml;xande</span></td>
+            <td><span class="good">L&aring;g (&lt;2 kr/bes&ouml;k)</span></td>
+            <td><span class="good">L&aring;ngsiktig &mdash; best&aring;r n&auml;r du slutar betala</span></td>
+          </tr>
+          <tr>
+            <td><strong>Google Ads (PPC)</strong></td>
+            <td><span class="ok">Medel (annonsbudget)</span></td>
+            <td><span class="good">Omedelbar vid start</span></td>
+            <td><span class="bad">H&ouml;g (5&ndash;50 kr+/klick)</span></td>
+            <td><span class="bad">Slutar n&auml;r budgeten tar slut</span></td>
+          </tr>
+          <tr>
+            <td><strong>Meta Ads (Facebook/Instagram)</strong></td>
+            <td><span class="good">L&aring;g (kan starta sm&aring;tt)</span></td>
+            <td><span class="ok">Medel (algoritmk&auml;nslig)</span></td>
+            <td><span class="ok">Medel (2&ndash;20 kr/klick)</span></td>
+            <td><span class="bad">Kr&auml;ver konstant annonsbudget</span></td>
+          </tr>
+          <tr>
+            <td><strong>Organisk social media</strong></td>
+            <td><span class="good">L&aring;g (tid)</span></td>
+            <td><span class="bad">L&aring;g (algoritmbegr&auml;nsad r&auml;ckvidd)</span></td>
+            <td><span class="ok">Sv&aring;r att m&auml;ta direkt</span></td>
+            <td><span class="ok">Medel &mdash; kr&auml;ver kontinuerlig aktivitet</span></td>
+          </tr>
+          <tr>
+            <td><strong>E-postmarknadsf&ouml;ring</strong></td>
+            <td><span class="good">L&aring;g</span></td>
+            <td><span class="good">Stabil (lojal lista)</span></td>
+            <td><span class="good">Mycket l&aring;g</span></td>
+            <td><span class="good">H&aring;llbar &mdash; du &auml;ger kontaktlistan</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note" style="text-align:center;"><strong>Slutsats:</strong> SEO ger l&auml;gst kostnad per bes&ouml;kare p&aring; sikt och &auml;r den enda kanalen d&auml;r du &auml;ger resultaten &mdash; dina toppositioner f&ouml;rsvinner inte n&auml;r du st&auml;nger av budgeten.</p>
+  </section>
+
+  <!-- SEO VS ANDRA KANALER JÄMFÖRELSE -->
+  <div class="section" style="max-width: 960px; margin: 0 auto; padding: 60px 24px 20px;">
+    <h2>SEO mot andra marknadsföringskanaler: nyckelskillnader 2026</h2>
+    <p>SEO är en av många kanaler &mdash; men den som ger bäst långsiktigt värde per investerad krona. Här är en direkt jämförelse med de vanligaste alternativen:</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Kanal</th>
+            <th>Kostnad per klick</th>
+            <th>Livslängd på resultat</th>
+            <th>Trovärdighet</th>
+            <th>Långsiktig avkastning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SEO (organisk)</strong></td>
+            <td><span class="good">Gratis</span></td>
+            <td><span class="good">Månader&ndash;år</span></td>
+            <td><span class="good">Hög</span></td>
+            <td><span class="good">Mycket hög</span></td>
+          </tr>
+          <tr>
+            <td><strong>Google Ads (PPC)</strong></td>
+            <td><span class="bad">5&ndash;200 kr/klick</span></td>
+            <td><span class="bad">Slutar direkt vid stopp</span></td>
+            <td><span class="ok">Medel</span></td>
+            <td><span class="ok">Medel (beror på marginal)</span></td>
+          </tr>
+          <tr>
+            <td><strong>Meta Ads (Facebook/Instagram)</strong></td>
+            <td><span class="ok">3&ndash;50 kr/klick</span></td>
+            <td><span class="bad">Slutar direkt vid stopp</span></td>
+            <td><span class="bad">Lägre (upplevs som reklam)</span></td>
+            <td><span class="ok">Medel</span></td>
+          </tr>
+          <tr>
+            <td><strong>E-postmarknadsföring</strong></td>
+            <td><span class="good">Låg (lista byggs)</span></td>
+            <td><span class="ok">Medellång</span></td>
+            <td><span class="good">Hög (befintliga kontakter)</span></td>
+            <td><span class="good">Hög</span></td>
+          </tr>
+          <tr>
+            <td><strong>Social media &mdash; organisk</strong></td>
+            <td><span class="good">Gratis</span></td>
+            <td><span class="bad">Timmar&ndash;dagar</span></td>
+            <td><span class="ok">Medel</span></td>
+            <td><span class="ok">Låg&ndash;medel</span></td>
+          </tr>
+          <tr>
+            <td><strong>PR och medierelationer</strong></td>
+            <td><span class="bad">Högt (tid + byråkostnad)</span></td>
+            <td><span class="good">Lång (länkvärde kvarstår)</span></td>
+            <td><span class="good">Mycket hög</span></td>
+            <td><span class="good">Hög (om länkbaserad)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Slutsats:</strong> SEO är den enda kanalen som kombinerar gratis klick, lång livslängd och hög trovärdighet &mdash; vilket förklarar varför ROI på SEO ofta överstiger andra kanaler på 12&ndash;24 månaders sikt.</p>
+  </div>
+
   <!-- FAQ Section -->
   <section class="faq-section">
     <div class="faq-section-label">Vanliga fr&aring;gor</div>
@@ -1019,6 +1179,20 @@
     </div>
   </section>
 
+
+  <!-- INTERNAL LINKS -->
+  <section class="section">
+    <div class="internal-links">
+      <h3>Fördjupa dig i SEO 2026</h3>
+      <a href="https://searchboost.se/seo-skola/vad-ar-seo/">Vad är SEO?</a>
+      <a href="https://searchboost.se/seo-skola/hur-fungerar-google/">Hur fungerar Google?</a>
+      <a href="https://searchboost.se/seo-skola/rankingfaktorer/">Rankingfaktorer 2026</a>
+      <a href="https://searchboost.se/seo-skola/teknisk-seo/">Teknisk SEO</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
+      <a href="https://searchboost.se/tjanster/lokal-seo/">Tjänst: Lokal SEO</a>
+      <a href="https://searchboost.se/tjanster/e-handel-seo/">Tjänst: E-handel SEO</a>
+    </div>
+  </section>
 
   <!-- CTA -->
   <section class="cta-section">

@@ -40,6 +40,7 @@
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
         <a href="#" class="nav-link" data-view="content-blueprint">Content</a>
         <a href="#" class="nav-link" data-view="security">Säkerhet</a>
+        <a href="#" class="nav-link" data-view="linkedin">LinkedIn</a>
       </nav>
       <div class="header-status">
         <select id="salesperson-filter" class="form-select salesperson-select" onchange="filterBySalesperson(this.value)" style="display:none">
@@ -956,6 +957,40 @@
           </div>
         </div>
       </div>
+
+      <!-- Länkbygge -->
+      <div class="section-card" id="link-building-section">
+        <div class="section-header">
+          <h3>Länkbygge</h3>
+          <div class="section-actions">
+            <button class="btn btn-secondary" onclick="autoDiscoverLinks()">Auto-hitta möjligheter</button>
+            <button class="btn btn-secondary" id="verify-links-btn" onclick="verifyAllLinks()">Verifiera alla lankar</button>
+            <button class="btn btn-primary" onclick="showAddLinkProspect()">+ Lägg till</button>
+          </div>
+        </div>
+        <div class="link-stats">
+          <span class="link-stat" id="stat-discovered">0 hittade</span>
+          <span class="link-stat acquired" id="stat-acquired">0 förvärvade</span>
+          <span class="link-stat pending" id="stat-pending">0 väntande</span>
+        </div>
+        <div id="link-verify-status" class="link-verify-status"></div>
+        <div id="link-prospects-list"></div>
+        <div id="add-link-form" style="display:none">
+          <input type="url" id="link-url" class="form-input" placeholder="https://exempel.se" />
+          <select id="link-type" class="form-select" onchange="fillLinkTemplate()">
+            <option value="directory">Katalog</option>
+            <option value="supplier">Leverantör</option>
+            <option value="media">Media/Press</option>
+            <option value="blog">Blogg</option>
+            <option value="partner">Partner</option>
+          </select>
+          <textarea id="link-notes" class="form-input" rows="4" placeholder="Outreach-mall eller anteckningar..." style="resize:vertical;font-size:13px"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn-primary" onclick="addLinkProspect()">Spara</button>
+            <button class="btn-secondary" onclick="hideAddLinkForm()">Avbryt</button>
+          </div>
+        </div>
+      </div>
     </section>
     <!-- Content Blueprint -->
     <section id="view-content-blueprint" class="view">
@@ -1034,6 +1069,51 @@
       </div>
 
     </section>
+
+    <!-- ── LinkedIn Content Automation ── -->
+    <section id="view-linkedin" class="view" style="display:none">
+      <div class="card" style="margin-bottom:20px">
+        <h2 style="color:#fff;margin:0 0 4px 0">LinkedIn Content</h2>
+        <p style="color:#888;margin:0;font-size:13px">2x/vecka — Tisdag &amp; Torsdag</p>
+      </div>
+
+      <!-- Generator -->
+      <div class="card" style="margin-bottom:20px" id="linkedin-generator">
+        <h3 style="color:#fff;margin:0 0 16px 0">Generera nytt inlägg</h3>
+        <select id="li-type" class="form-select" style="margin-bottom:8px">
+          <option value="tip">SEO-tips</option>
+          <option value="case_study">Kundcase</option>
+          <option value="insight">Insikt</option>
+          <option value="news">Nyhet</option>
+        </select>
+        <input type="text" id="li-topic" class="form-input" placeholder="Ämne (t.ex. 'lokal SEO för restauranger')" style="margin-bottom:8px" />
+        <button class="btn btn-primary" onclick="generateLinkedInPost()">Generera</button>
+        <div id="li-result" style="display:none;margin-top:16px">
+          <textarea id="li-post-text" class="form-input" rows="6" style="resize:vertical;font-family:inherit"></textarea>
+          <p id="li-char-count" style="color:#888;font-size:12px;margin:4px 0 8px"></p>
+          <p id="li-hashtags" style="color:#0077b5;font-size:13px;margin:0 0 12px"></p>
+          <p id="li-image-prompt" style="color:#64748b;font-size:12px;font-style:italic;margin:0 0 12px"></p>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary" onclick="saveDraft()">Spara utkast</button>
+            <button class="btn btn-secondary" onclick="copyLinkedInPost()">Kopiera</button>
+          </div>
+          <span id="li-save-status" class="save-status" style="margin-left:8px"></span>
+        </div>
+      </div>
+
+      <!-- Kalender / schema -->
+      <div class="card" style="margin-bottom:20px">
+        <h3 style="color:#fff;margin:0 0 16px 0">Publiceringsschema</h3>
+        <div id="li-calendar"></div>
+      </div>
+
+      <!-- Utkast -->
+      <div class="card">
+        <h3 style="color:#fff;margin:0 0 16px 0">Sparade utkast</h3>
+        <div id="li-drafts-list"></div>
+      </div>
+    </section>
+
   </main>
 
   <footer>

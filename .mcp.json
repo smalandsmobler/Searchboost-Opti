@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "web-to-mcp": {
+      "type": "http",
+      "url": "https://web-to-mcp.com/mcp/5dd66374-b95e-4f05-9a03-86e813d2cde7/"
+    }
+  }
+}

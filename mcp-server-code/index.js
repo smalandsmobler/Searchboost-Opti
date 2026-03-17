@@ -534,6 +534,12 @@ async function ensurePipelineTables() {
         mobile_fcp STRING, mobile_lcp STRING, mobile_cls STRING, mobile_tbt STRING,
         desktop_fcp STRING, desktop_lcp STRING, desktop_cls STRING, desktop_tbt STRING,
         scanned_at TIMESTAMP`
+    },
+    {
+      name: 'link_prospects',
+      schema: `customer_id STRING NOT NULL, prospect_id STRING NOT NULL, url STRING,
+        domain_name STRING, link_type STRING, status STRING,
+        notes STRING, created_at TIMESTAMP, updated_at TIMESTAMP`
     }
   ];
   for (const t of tables) {
@@ -5502,6 +5508,580 @@ setTimeout(() => {
   trelloAutoSync();
   setInterval(trelloAutoSync, 3 * 60 * 60 * 1000);
 }, 2 * 60 * 1000);
+
+// ── Länkverifiering — varje måndag kl 07:00 CET ──
+// Kör en gång/timme och kontrollerar om det är måndag 07:xx CET
+let _linkVerifyLastRun = null;
+setInterval(async () => {
+  const now = new Date();
+  const cetOffset = 60; // CET = UTC+1 (vintertid), CEST = UTC+2 — enkel approximation
+  const cetHour = (now.getUTCHours() + 1) % 24;
+  const cetDay = now.getUTCDay(); // 0=sön, 1=mån
+  const dateKey = now.toISOString().slice(0, 10);
+  if (cetDay === 1 && cetHour === 7 && _linkVerifyLastRun !== dateKey) {
+    _linkVerifyLastRun = dateKey;
+    console.log('[Link Verification Cron] Startar veckovis verifiering...');
+    try {
+      await runLinkVerification();
+    } catch (e) {
+      console.error('[Link Verification Cron] Fel:', e.message);
+    }
+  }
+}, 60 * 60 * 1000); // körs varje timme
+
+// ══════════════════════════════════════════
+// LÄNKBYGGE — Link Prospects
+
+// GET /api/customers/:id/link-prospects — hämta alla länkprospekt för kund
+app.get('/api/customers/:id/link-prospects', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const customerId = req.params.id;
+    const [rows] = await bq.query({
+      query: `
+        SELECT prospect_id, url, domain_name, link_type, status, notes,
+               created_at, updated_at
+        FROM \`${dataset}.link_prospects\`
+        WHERE customer_id = @customer_id
+        ORDER BY
+          CASE status
+            WHEN 'acquired' THEN 1
+            WHEN 'pending' THEN 2
+            WHEN 'contacted' THEN 3
+            WHEN 'discovered' THEN 4
+            WHEN 'rejected' THEN 5
+            ELSE 6
+          END,
+          created_at DESC
+      `,
+      params: { customer_id: customerId }
+    });
+    res.json({ prospects: rows });
+  } catch (e) {
+    console.error('GET link-prospects error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/customers/:id/link-prospects — lägg till nytt länkprospekt
+app.post('/api/customers/:id/link-prospects', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const customerId = req.params.id;
+    const { url, link_type, notes } = req.body;
+    if (!url) return res.status(400).json({ error: 'url krävs' });
+
+    const { v4: uuidv4 } = require('crypto');
+    const prospectId = require('crypto').randomUUID ? require('crypto').randomUUID() : `lp-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const domainName = url.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
+    const now = new Date().toISOString();
+
+    await bq.dataset(dataset).table('link_prospects').insert([{
+      customer_id: customerId,
+      prospect_id: prospectId,
+      url,
+      domain_name: domainName,
+      link_type: link_type || 'directory',
+      status: 'discovered',
+      notes: notes || '',
+      created_at: { value: now },
+      updated_at: { value: now }
+    }]);
+
+    res.json({ success: true, prospect_id: prospectId, domain_name: domainName });
+  } catch (e) {
+    console.error('POST link-prospects error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// PATCH /api/customers/:id/link-prospects/:prospect_id — uppdatera status/notes
+app.patch('/api/customers/:id/link-prospects/:prospect_id', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const { id: customerId, prospect_id } = req.params;
+    const { status, notes } = req.body;
+
+    const validStatuses = ['discovered', 'contacted', 'pending', 'acquired', 'rejected', 'lost'];
+    if (status && !validStatuses.includes(status)) {
+      return res.status(400).json({ error: `Ogiltigt status. Tillåtna: ${validStatuses.join(', ')}` });
+    }
+
+    const updates = [];
+    const params = { customer_id: customerId, prospect_id };
+
+    if (status !== undefined) {
+      updates.push('status = @status');
+      params.status = status;
+    }
+    if (notes !== undefined) {
+      updates.push('notes = @notes');
+      params.notes = notes;
+    }
+    if (!updates.length) return res.status(400).json({ error: 'Inget att uppdatera' });
+
+    updates.push('updated_at = CURRENT_TIMESTAMP()');
+
+    await bq.query({
+      query: `UPDATE \`${dataset}.link_prospects\` SET ${updates.join(', ')} WHERE customer_id = @customer_id AND prospect_id = @prospect_id`,
+      params
+    });
+
+    // Funktion 3 — Trello-synk när länk förvärvas
+    if (status === 'acquired') {
+      try {
+        const [rows] = await bq.query({
+          query: `SELECT domain_name, link_type FROM \`${dataset}.link_prospects\` WHERE customer_id = @customer_id AND prospect_id = @prospect_id LIMIT 1`,
+          params: { customer_id: customerId, prospect_id }
+        });
+        const prospect = rows[0] || {};
+        const domainName = prospect.domain_name || prospect_id;
+        const linkType = prospect.link_type || 'okänd';
+        const dateStr = new Date().toLocaleDateString('sv-SE');
+
+        const boardId = await getParam('/seo-mcp/trello/board-id');
+        const allCards = await trelloApi('GET', `/boards/${boardId}/cards`, { fields: 'name,id' });
+        const card = allCards.find(c => {
+          const name = c.name.toLowerCase();
+          return name.includes(customerId.toLowerCase()) ||
+                 name.includes(customerId.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase());
+        });
+        if (card) {
+          await trelloApi('POST', `/cards/${card.id}/actions/comments`, {
+            text: `Länk förvärvad ✓ ${domainName} (${linkType}) — ${dateStr}`
+          });
+          console.log(`[Link Acquired] Trello-kommentar tillagd på ${card.id} för ${customerId}`);
+        }
+      } catch (trelloErr) {
+        console.error('[Link Acquired] Trello-fel:', trelloErr.message);
+      }
+    }
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error('PATCH link-prospects error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/customers/:id/link-prospects/:prospect_id/send-outreach — skicka outreach-mail för granskning
+app.post('/api/customers/:id/link-prospects/:prospect_id/send-outreach', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const { id: customerId, prospect_id } = req.params;
+
+    // Hämta prospect-data
+    const [rows] = await bq.query({
+      query: `SELECT url, domain_name, notes, link_type, status FROM \`${dataset}.link_prospects\` WHERE customer_id = @customer_id AND prospect_id = @prospect_id LIMIT 1`,
+      params: { customer_id: customerId, prospect_id }
+    });
+    if (!rows || !rows[0]) {
+      return res.status(404).json({ error: 'Prospect hittades inte' });
+    }
+    const prospect = rows[0];
+
+    // Hämta kundinfo från SSM
+    const emailFrom = await getParam('/seo-mcp/email/from');
+    const mikaelEmail = await getParam('/seo-mcp/email/recipients').then(v => v.split(',')[0].trim());
+    const companyName = await getParam(`/seo-mcp/integrations/${customerId}/company-name`).catch(() => customerId);
+
+    const subject = `[Outreach klar att skicka] ${prospect.domain_name} — ${customerId}`;
+    const bodyText = [
+      `Outreach-mail redo för granskning`,
+      ``,
+      `Kund: ${companyName} (${customerId})`,
+      `Prospekt: ${prospect.domain_name}`,
+      `URL: ${prospect.url}`,
+      `Länktyp: ${prospect.link_type}`,
+      ``,
+      `--- Outreach-mall ---`,
+      prospect.notes || '(ingen mall angiven)',
+      ``,
+      `Granska och skicka manuellt till rätt kontakt på ${prospect.domain_name}.`
+    ].join('\n');
+
+    await ses.send(new SendEmailCommand({
+      Source: emailFrom,
+      Destination: { ToAddresses: [mikaelEmail] },
+      Message: {
+        Subject: { Data: subject, Charset: 'UTF-8' },
+        Body: { Text: { Data: bodyText, Charset: 'UTF-8' } }
+      }
+    }));
+
+    // Uppdatera status till "contacted"
+    await bq.query({
+      query: `UPDATE \`${dataset}.link_prospects\` SET status = 'contacted', updated_at = CURRENT_TIMESTAMP() WHERE customer_id = @customer_id AND prospect_id = @prospect_id`,
+      params: { customer_id: customerId, prospect_id }
+    });
+
+    console.log(`[Outreach] Mail skickat för ${prospect.domain_name} (kund: ${customerId}) till ${mikaelEmail}`);
+    res.json({ success: true, message: 'Outreach skickat för granskning' });
+  } catch (e) {
+    console.error('send-outreach error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/link-verification/run — verifiera att "acquired" länkprospekt fortfarande lever
+async function runLinkVerification() {
+  console.log('[Link Verification] Startar verifiering...');
+  const { bq, dataset } = await getBigQuery();
+
+  const [rows] = await bq.query({
+    query: `SELECT customer_id, prospect_id, url, domain_name FROM \`${dataset}.link_prospects\` WHERE status = 'acquired'`
+  });
+
+  if (!rows || rows.length === 0) {
+    console.log('[Link Verification] Inga acquired-prospekt att verifiera.');
+    return { checked: 0, ok: 0, lost: 0 };
+  }
+
+  let ok = 0;
+  let lost = 0;
+  const dateStr = new Date().toLocaleDateString('sv-SE');
+
+  for (const row of rows) {
+    let isAlive = false;
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      const resp = await fetch(row.url, { method: 'HEAD', signal: controller.signal, redirect: 'follow' });
+      clearTimeout(timeout);
+      if (resp.status >= 200 && resp.status <= 399) {
+        isAlive = true;
+      }
+    } catch (fetchErr) {
+      // timeout eller nätverksfel — räknas som lost
+      isAlive = false;
+    }
+
+    if (isAlive) {
+      ok++;
+    } else {
+      lost++;
+      const lostNote = `Länk borttagen ${dateStr}`;
+      await bq.query({
+        query: `UPDATE \`${dataset}.link_prospects\` SET status = 'lost', notes = CONCAT(COALESCE(notes, ''), ' | ', @note), updated_at = CURRENT_TIMESTAMP() WHERE customer_id = @customer_id AND prospect_id = @prospect_id`,
+        params: { note: lostNote, customer_id: row.customer_id, prospect_id: row.prospect_id }
+      }).catch(e => console.error('[Link Verification] BQ update-fel:', e.message));
+      console.log(`[Link Verification] Länk borttagen: ${row.url} (${row.customer_id})`);
+    }
+  }
+
+  const report = { checked: rows.length, ok, lost };
+  console.log(`[Link Verification] Klar — ${report.checked} kollade, ${ok} ok, ${lost} borttagna`);
+  return report;
+}
+
+app.post('/api/link-verification/run', async (req, res) => {
+  try {
+    const report = await runLinkVerification();
+    res.json({ success: true, ...report });
+  } catch (e) {
+    console.error('link-verification error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// DELETE /api/customers/:id/link-prospects/:prospect_id — ta bort prospect
+app.delete('/api/customers/:id/link-prospects/:prospect_id', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const { id: customerId, prospect_id } = req.params;
+
+    await bq.query({
+      query: `DELETE FROM \`${dataset}.link_prospects\` WHERE customer_id = @customer_id AND prospect_id = @prospect_id`,
+      params: { customer_id: customerId, prospect_id }
+    });
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error('DELETE link-prospects error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/customers/:id/link-prospects/auto-discover — AI genererar 10-15 länkprospekt
+app.post('/api/customers/:id/link-prospects/auto-discover', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const customerId = req.params.id;
+
+    // Hämta kundinfo: nyckelord + bransch
+    const [keywordRows] = await bq.query({
+      query: `SELECT keyword, tier FROM \`${dataset}.customer_keywords\` WHERE customer_id = @customer_id ORDER BY tier, keyword LIMIT 20`,
+      params: { customer_id: customerId }
+    }).catch(() => [[]]);
+
+    const [pipelineRows] = await bq.query({
+      query: `SELECT company_name, website_url, geographic_focus FROM \`${dataset}.customer_pipeline\` WHERE customer_id = @customer_id LIMIT 1`,
+      params: { customer_id: customerId }
+    }).catch(() => [[]]);
+
+    const customer = pipelineRows[0] || {};
+    const keywords = (keywordRows || []).map(r => `${r.tier}: ${r.keyword}`).join(', ') || 'okänd bransch';
+    const companyName = customer.company_name || customerId;
+    const websiteUrl = customer.website_url || '';
+    const geoFocus = customer.geographic_focus || 'Sverige';
+
+    const claudeClient = await getClaude();
+    const message = await claudeClient.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 1500,
+      messages: [{
+        role: 'user',
+        content: `Du är en svensk SEO-specialist. Generera 12 relevanta länkbyggesmöjligheter för följande företag:
+
+Företag: ${companyName}
+Webbplats: ${websiteUrl}
+Geografiskt fokus: ${geoFocus}
+Nyckelord: ${keywords}
+
+Returnera ENBART en JSON-array (utan markdown-wrapping) med 12 objekt. Varje objekt ska ha:
+- "url": fullständig URL till sajten (https://...)
+- "domain_name": domännamn utan www
+- "link_type": en av "directory", "supplier", "media", "blog", "partner"
+- "notes": kort motivering på svenska (max 60 tecken)
+
+Fokusera på svenska sajter: lokala företagskataloger, branschkataloger, leverantörssajter, lokala medier och nischade bloggar. Undvik generiska kataloger som hitta.se och eniro.se.`
+      }]
+    });
+
+    const rawText = message.content[0].text;
+    let suggestions;
+    try {
+      suggestions = parseClaudeJSON(rawText);
+    } catch (parseErr) {
+      console.error('auto-discover parse error:', parseErr.message, rawText.substring(0, 200));
+      return res.status(500).json({ error: 'Kunde inte tolka AI-svar', raw: rawText.substring(0, 300) });
+    }
+
+    if (!Array.isArray(suggestions)) {
+      return res.status(500).json({ error: 'AI returnerade inte en array' });
+    }
+
+    const now = new Date().toISOString();
+    const rows = suggestions.slice(0, 15).map(s => ({
+      customer_id: customerId,
+      prospect_id: require('crypto').randomUUID ? require('crypto').randomUUID() : `lp-${Date.now()}-${Math.random().toString(36).slice(2)}`,
+      url: s.url || '',
+      domain_name: s.domain_name || (s.url || '').replace(/https?:\/\/(www\.)?/, '').split('/')[0],
+      link_type: s.link_type || 'directory',
+      status: 'discovered',
+      notes: s.notes || '',
+      created_at: { value: now },
+      updated_at: { value: now }
+    }));
+
+    await bq.dataset(dataset).table('link_prospects').insert(rows);
+
+    res.json({ success: true, discovered: rows.length, prospects: rows.map(r => ({ ...r, created_at: now, updated_at: now })) });
+  } catch (e) {
+    console.error('auto-discover error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ══════════════════════════════════════════
+// LINKEDIN CONTENT AUTOMATION
+// ══════════════════════════════════════════
+
+// Hjälpfunktion: se till att linkedin_drafts-tabellen finns
+async function ensureLinkedInTable() {
+  const { bq, dataset } = await getBigQuery();
+  try {
+    await bq.query(`SELECT 1 FROM \`${dataset}.linkedin_drafts\` LIMIT 1`);
+  } catch (e) {
+    if (e.message && e.message.includes('Not found')) {
+      console.log('Creating table linkedin_drafts...');
+      await bq.query(`CREATE TABLE \`${dataset}.linkedin_drafts\` (
+        id STRING NOT NULL,
+        post_text STRING,
+        hashtags STRING,
+        type STRING,
+        status STRING,
+        created_at TIMESTAMP,
+        scheduled_for TIMESTAMP
+      )`);
+      console.log('Table linkedin_drafts created.');
+    }
+  }
+}
+
+// POST /api/linkedin/generate — Generera LinkedIn-inlägg med Claude
+app.post('/api/linkedin/generate', async (req, res) => {
+  try {
+    const { topic, customer_id, type = 'tip' } = req.body;
+    if (!topic) return res.status(400).json({ error: 'topic krävs' });
+
+    const typeLabels = {
+      tip: 'SEO-tips',
+      case_study: 'kundcase',
+      insight: 'insikt/analys',
+      news: 'nyhet inom SEO/digital marknadsföring'
+    };
+
+    const client = await getClaude();
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 600,
+      system: `Du är innehållsstrateg för Searchboost.se, en svensk SEO-byrå.
+Searchboost hjälper svenska små- och medelstora företag att ranka högre på Google.
+Du skriver LinkedIn-inlägg på svenska som bygger förtroende och visar expertis inom SEO.
+Tonen är professionell men personlig — inte klinisk eller säljig.
+Inlägg ska vara 150-300 tecken (exkl. hashtags) och ha tydligt värde för läsaren.
+Svara ALLTID med giltig JSON utan markdown-wrapper.`,
+      messages: [{
+        role: 'user',
+        content: `Skriv ett LinkedIn-inlägg av typen "${typeLabels[type] || type}" om ämnet: "${topic}".
+${customer_id ? 'Koppla gärna till ett konkret kundexempel (anonymt).' : ''}
+
+Svara med JSON:
+{
+  "post_text": "inläggstexten här (150-300 tecken, exkl hashtags)",
+  "hashtags": ["hashtag1", "hashtag2", "hashtag3"],
+  "suggested_image_prompt": "kort bildbeskrivning på engelska för att generera en AI-bild"
+}`
+      }]
+    });
+
+    const raw = response.content[0].text;
+    let parsed;
+    try {
+      parsed = parseClaudeJSON(raw);
+    } catch (parseErr) {
+      console.error('linkedin/generate parse error:', parseErr.message, raw.substring(0, 200));
+      return res.status(500).json({ error: 'Kunde inte tolka svar från AI' });
+    }
+
+    const postText = parsed.post_text || '';
+    const hashtags = Array.isArray(parsed.hashtags) ? parsed.hashtags : [];
+    res.json({
+      post_text: postText,
+      hashtags,
+      char_count: postText.length,
+      suggested_image_prompt: parsed.suggested_image_prompt || ''
+    });
+  } catch (e) {
+    console.error('linkedin/generate error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/linkedin/calendar — Hämta 2-veckors publiceringsschema (tisdag + torsdag)
+app.get('/api/linkedin/calendar', async (req, res) => {
+  try {
+    const topics = [
+      { type: 'tip',        label: 'SEO-tips',   topic: 'lokal SEO för småföretag' },
+      { type: 'insight',    label: 'Insikt',      topic: 'hur Google rankingfaktorer förändrats 2026' },
+      { type: 'tip',        label: 'SEO-tips',   topic: 'teknisk SEO — page speed och Core Web Vitals' },
+      { type: 'case_study', label: 'Kundcase',    topic: 'från osynlig till topp 3 på Google' },
+      { type: 'news',       label: 'Nyhet',       topic: 'Googles senaste uppdatering och vad det innebär' },
+      { type: 'tip',        label: 'SEO-tips',   topic: 'content-strategi och nyckelordsforskning' },
+      { type: 'insight',    label: 'Insikt',      topic: 'SEO vs betald annonsering — när lönar sig vad' },
+      { type: 'case_study', label: 'Kundcase',    topic: 'e-handel som tredubblade organisk trafik' },
+      { type: 'tip',        label: 'SEO-tips',   topic: 'Google Business Profile och lokal synlighet' },
+      { type: 'news',       label: 'Nyhet',       topic: 'AI-sök och vad det betyder för din SEO-strategi' }
+    ];
+
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0=sön, 2=tis, 4=tor
+    const daysToTuesday = (2 - dayOfWeek + 7) % 7 || 7;
+    const firstTuesday = new Date(today);
+    firstTuesday.setDate(today.getDate() + daysToTuesday);
+
+    const days = [];
+    let topicIdx = 0;
+    for (let week = 0; week < 5; week++) {
+      const tuesday = new Date(firstTuesday);
+      tuesday.setDate(firstTuesday.getDate() + week * 7);
+      const thursday = new Date(tuesday);
+      thursday.setDate(tuesday.getDate() + 2);
+
+      days.push({ date: tuesday.toISOString().split('T')[0], weekday: 'Tisdag', ...topics[topicIdx % topics.length] });
+      topicIdx++;
+      days.push({ date: thursday.toISOString().split('T')[0], weekday: 'Torsdag', ...topics[topicIdx % topics.length] });
+      topicIdx++;
+    }
+
+    res.json({ calendar: days.slice(0, 10) });
+  } catch (e) {
+    console.error('linkedin/calendar error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/linkedin/save-draft — Spara utkast i BigQuery
+app.post('/api/linkedin/save-draft', async (req, res) => {
+  try {
+    await ensureLinkedInTable();
+    const { post_text, hashtags, type, scheduled_for } = req.body;
+    if (!post_text) return res.status(400).json({ error: 'post_text krävs' });
+
+    const { bq, dataset } = await getBigQuery();
+    const id = `li_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    const now = new Date().toISOString();
+
+    const row = {
+      id,
+      post_text,
+      hashtags: Array.isArray(hashtags) ? hashtags.join(' ') : (hashtags || ''),
+      type: type || 'tip',
+      status: 'draft',
+      created_at: { value: now },
+      scheduled_for: scheduled_for ? { value: scheduled_for } : null
+    };
+
+    await bq.dataset(dataset).table('linkedin_drafts').insert([row]);
+    res.json({ success: true, id, created_at: now });
+  } catch (e) {
+    console.error('linkedin/save-draft error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/linkedin/drafts — Lista sparade utkast
+app.get('/api/linkedin/drafts', async (req, res) => {
+  try {
+    await ensureLinkedInTable();
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query(`
+      SELECT id, post_text, hashtags, type, status, created_at, scheduled_for
+      FROM \`${dataset}.linkedin_drafts\`
+      ORDER BY created_at DESC
+      LIMIT 50
+    `);
+    res.json({ drafts: rows });
+  } catch (e) {
+    console.error('linkedin/drafts error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// PATCH /api/linkedin/drafts/:id — Uppdatera status eller text på utkast
+app.patch('/api/linkedin/drafts/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status, post_text } = req.body;
+    if (!status && !post_text) return res.status(400).json({ error: 'status eller post_text krävs' });
+
+    const { bq, dataset } = await getBigQuery();
+    const setClauses = [];
+    if (status) setClauses.push(`status = '${status.replace(/'/g, "''")}'`);
+    if (post_text) setClauses.push(`post_text = '${post_text.replace(/'/g, "''")}'`);
+
+    await bq.query(`
+      UPDATE \`${dataset}.linkedin_drafts\`
+      SET ${setClauses.join(', ')}
+      WHERE id = '${id.replace(/'/g, "''")}'
+    `);
+    res.json({ success: true });
+  } catch (e) {
+    console.error('linkedin/drafts PATCH error:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
 
 // ── Oväntade fel — logga + notifiera ──
 process.on('uncaughtException', (err) => {
