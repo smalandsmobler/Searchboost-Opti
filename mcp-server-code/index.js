@@ -1495,23 +1495,21 @@ app.post('/api/customers/:id/keywords', async (req, res) => {
     const now = new Date().toISOString();
     let inserted = 0;
 
-    for (const kw of keywords) {
-      if (!kw.keyword || !kw.tier) continue;
-      const id = `kw-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      await bqInsert('customer_keywords', {
-        id,
-        customer_id: customerId,
-        keyword: kw.keyword.trim().toLowerCase(),
-        tier: kw.tier.toUpperCase(),
-        phase,
-        monthly_search_volume: kw.monthly_search_volume || null,
-        keyword_difficulty: kw.keyword_difficulty || null,
-        current_position: kw.current_position || null,
-        target_url: kw.target_url || null,
-        created_at: now,
-        updated_at: now
+    const validKeywords = keywords.filter(kw => kw.keyword && kw.tier);
+    if (validKeywords.length > 0) {
+      const { bq: bqClient, dataset: ds } = await getBigQuery();
+      const cols = ['id','customer_id','keyword','tier','phase','monthly_search_volume','keyword_difficulty','current_position','target_url','created_at','updated_at'];
+      const esc = v => v === null || v === undefined ? 'NULL' : `'${String(v).replace(/'/g, "\\'")}'`;
+      const valueRows = validKeywords.map(kw => {
+        const id = `kw-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        return `(${esc(id)}, ${esc(customerId)}, ${esc(kw.keyword.trim().toLowerCase())}, ${esc(kw.tier.toUpperCase())}, ${esc(phase)}, ${kw.monthly_search_volume || 'NULL'}, ${kw.keyword_difficulty || 'NULL'}, ${kw.current_position || 'NULL'}, ${esc(kw.target_url || null)}, ${esc(now)}, ${esc(now)})`;
       });
-      inserted++;
+      const CHUNK = 50;
+      for (let i = 0; i < valueRows.length; i += CHUNK) {
+        const chunk = valueRows.slice(i, i + CHUNK);
+        await bqClient.query(`INSERT INTO \`${ds}.customer_keywords\` (${cols.join(', ')}) VALUES ${chunk.join(',\n')}`);
+      }
+      inserted = validKeywords.length;
     }
 
     res.json({ success: true, customer_id: customerId, phase, inserted });
@@ -1746,24 +1744,22 @@ app.post('/api/customers/:id/action-plan', async (req, res) => {
       priority: priority--, effort: 'manual'
     });
 
-    // Insert all plan tasks to BigQuery
-    for (const t of planTasks) {
-      const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      await bqInsert('action_plans', {
-        plan_id: planId,
-        customer_id: customerId,
-        created_at: now,
-        month_number: t.month,
-        task_type: t.task_type,
-        task_description: t.desc,
-        target_url: t.url,
-        target_keyword: t.keyword,
-        priority: t.priority,
-        status: 'planned',
-        work_queue_id: null,
-        completed_at: null,
-        estimated_effort: t.effort
+    // Insert all plan tasks to BigQuery in a single batch query
+    if (planTasks.length > 0) {
+      const { bq: bqClient, dataset: ds } = await getBigQuery();
+      const cols = ['plan_id','customer_id','created_at','month_number','task_type','task_description','target_url','target_keyword','priority','status','work_queue_id','completed_at','estimated_effort'];
+      const valueRows = planTasks.map(t => {
+        const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        const esc = v => v === null || v === undefined ? 'NULL' : `'${String(v).replace(/'/g, "\\'")}'`;
+        return `(${esc(planId)}, ${esc(customerId)}, ${esc(now)}, ${t.month}, ${esc(t.task_type)}, ${esc(t.desc)}, ${esc(t.url)}, ${esc(t.keyword)}, ${t.priority}, 'planned', NULL, NULL, ${esc(t.effort)})`;
       });
+      // BigQuery supports multi-row INSERT — batch in chunks of 50 to stay within query size limits
+      const CHUNK = 50;
+      for (let i = 0; i < valueRows.length; i += CHUNK) {
+        const chunk = valueRows.slice(i, i + CHUNK);
+        const sql = `INSERT INTO \`${ds}.action_plans\` (${cols.join(', ')}) VALUES ${chunk.join(',\n')}`;
+        await bqClient.query(sql);
+      }
     }
 
     // Group for response
@@ -1950,22 +1946,20 @@ app.post('/api/customers/:id/manual-action-plan', async (req, res) => {
     const now = new Date().toISOString();
     let inserted = 0;
 
-    for (const task of tasks) {
-      await bqInsert('action_plans', {
-        plan_id: `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-        customer_id: customerId,
-        created_at: now,
-        month_number: task.month || 1,
-        task_type: task.task_type || 'manual_task',
-        task_description: task.description || '',
-        target_url: task.target_url || '',
-        target_keyword: task.keyword || '',
-        priority: task.priority || 5,
-        status: 'planned',
-        estimated_effort: task.effort || 'manual',
-        source: 'manual'
+    if (tasks.length > 0) {
+      const { bq: bqClient, dataset: ds } = await getBigQuery();
+      const cols = ['plan_id','customer_id','created_at','month_number','task_type','task_description','target_url','target_keyword','priority','status','estimated_effort','source'];
+      const esc = v => v === null || v === undefined ? 'NULL' : `'${String(v).replace(/'/g, "\\'")}'`;
+      const valueRows = tasks.map(task => {
+        const planId = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        return `(${esc(planId)}, ${esc(customerId)}, ${esc(now)}, ${task.month || 1}, ${esc(task.task_type || 'manual_task')}, ${esc(task.description || '')}, ${esc(task.target_url || '')}, ${esc(task.keyword || '')}, ${task.priority || 5}, 'planned', ${esc(task.effort || 'manual')}, 'manual')`;
       });
-      inserted++;
+      const CHUNK = 50;
+      for (let i = 0; i < valueRows.length; i += CHUNK) {
+        const chunk = valueRows.slice(i, i + CHUNK);
+        await bqClient.query(`INSERT INTO \`${ds}.action_plans\` (${cols.join(', ')}) VALUES ${chunk.join(',\n')}`);
+      }
+      inserted = tasks.length;
     }
 
     res.json({ success: true, customer_id: customerId, tasks_added: inserted });
