@@ -248,6 +248,70 @@ async function getClaude() {
   return claude;
 }
 
+// ── OpenRouter client (billigare AI för rutinuppgifter) ──
+let _openRouterKey = null;
+const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
+
+// Modell-mappning: uppgift → billigaste modellen som klarar det
+const OR_MODELS = {
+  cheap:  'meta-llama/llama-3.3-70b-instruct',  // ~$0.0003/1k tokens
+  mid:    'google/gemini-flash-1.5',              // ~$0.0001/1k tokens
+  smart:  'anthropic/claude-3.5-sonnet',          // ~$0.003/1k tokens (via OR)
+};
+
+async function getOpenRouterKey() {
+  if (_openRouterKey) return _openRouterKey;
+  try {
+    _openRouterKey = await getParam('/seo-mcp/openrouter/api-key');
+  } catch (e) {
+    console.warn('OpenRouter-nyckel saknas i SSM, faller tillbaka på Anthropic');
+  }
+  return _openRouterKey;
+}
+
+async function aiComplete(prompt, { tier = 'cheap', systemPrompt = '', maxTokens = 2000 } = {}) {
+  // Försök OpenRouter först (billigare)
+  const orKey = await getOpenRouterKey();
+  if (orKey) {
+    try {
+      const model = OR_MODELS[tier] || OR_MODELS.cheap;
+      const messages = [];
+      if (systemPrompt) messages.push({ role: 'system', content: systemPrompt });
+      messages.push({ role: 'user', content: prompt });
+
+      const resp = await axios.post(OPENROUTER_URL, {
+        model,
+        messages,
+        max_tokens: maxTokens,
+        temperature: 0.3
+      }, {
+        headers: {
+          'Authorization': `Bearer ${orKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://searchboost.se',
+          'X-Title': 'Searchboost Opti'
+        },
+        timeout: 60000
+      });
+
+      const content = resp.data?.choices?.[0]?.message?.content;
+      if (content) return content;
+    } catch (e) {
+      console.warn(`OpenRouter (${tier}) misslyckades: ${e.message}, faller tillbaka på Anthropic`);
+    }
+  }
+
+  // Fallback: direkt Anthropic
+  const ai = await getClaude();
+  const resp = await ai.messages.create({
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: maxTokens,
+    ...(systemPrompt ? { system: systemPrompt } : {}),
+    messages: [{ role: 'user', content: prompt }]
+  });
+  return resp.content[0].text;
+}
+
 // ── Trello helpers ──
 let _trelloCardsCache = null;
 let _trelloCardsCacheTime = 0;
@@ -683,13 +747,9 @@ async function analyzeSiteSEO(siteUrl) {
     seoData.hasSitemap = true;
   } catch { seoData.hasSitemap = false; }
 
-  // Claude analysis
-  const analysis = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 1500,
-    messages: [{
-      role: 'user',
-      content: `Analysera dessa SEO-data för ${siteUrl} och ge konkreta förbättringsförslag på svenska. Fokusera på: title, description, h1, schema, internlänkar.
+  // AI analysis (OpenRouter cheap → Anthropic fallback)
+  const analysisText = await aiComplete(
+    `Analysera dessa SEO-data för ${siteUrl} och ge konkreta förbättringsförslag på svenska. Fokusera på: title, description, h1, schema, internlänkar.
 
 SEO-data: ${JSON.stringify(seoData, null, 2)}
 
@@ -698,11 +758,11 @@ Svara i JSON-format:
   "score": 0-100,
   "issues": [{"type": "...", "severity": "high|medium|low", "description": "...", "fix": "..."}],
   "summary": "kort sammanfattning"
-}`
-    }]
-  });
+}`,
+    { tier: 'cheap', maxTokens: 1500 }
+  );
 
-  return { seoData, analysis: parseClaudeJSON(analysis.content[0].text) };
+  return { seoData, analysis: parseClaudeJSON(analysisText) };
 }
 
 // Tool 2: Optimize metadata
@@ -710,12 +770,9 @@ async function optimizeMetadata(site, postId, targetKeyword) {
   const post = await wpApi(site, 'GET', `/posts/${postId}`);
   const client = await getClaude();
 
-  const suggestion = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 1000,
-    messages: [{
-      role: 'user',
-      content: `Optimera SEO-metadata för denna WordPress-sida.
+  // OpenRouter cheap — metadata-optimering körs oftast
+  const suggestionText = await aiComplete(
+    `Optimera SEO-metadata för denna WordPress-sida.
 Nuvarande title: ${post.title.rendered}
 URL: ${post.link}
 Target keyword: ${targetKeyword}
@@ -725,11 +782,11 @@ Ge förslag på svenska:
   "title": "optimerad title (max 60 tecken)",
   "description": "optimerad description (max 155 tecken)",
   "reasoning": "varför denna ändring"
-}`
-    }]
-  });
+}`,
+    { tier: 'cheap', maxTokens: 1000 }
+  );
 
-  const result = parseClaudeJSON(suggestion.content[0].text);
+  const result = parseClaudeJSON(suggestionText);
 
   // Update via Rank Math REST API
   await wpApi(site, 'POST', `/posts/${postId}`, {
@@ -771,26 +828,21 @@ Ge förslag på svenska:
 // Tool 3: Generate FAQ schema
 async function generateFAQSchema(site, postId, topic) {
   const post = await wpApi(site, 'GET', `/posts/${postId}`);
-  const client = await getClaude();
   const content = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 3000);
 
-  const faq = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 1500,
-    messages: [{
-      role: 'user',
-      content: `Skapa 3-5 FAQ-frågor baserat på denna text om "${topic}". Skriv på svenska.
+  const faqText = await aiComplete(
+    `Skapa 3-5 FAQ-frågor baserat på denna text om "${topic}". Skriv på svenska.
 
 Text: ${content}
 
 Svara i JSON:
 {
   "faqs": [{"question": "...", "answer": "..."}]
-}`
-    }]
-  });
+}`,
+    { tier: 'cheap', maxTokens: 1500 }
+  );
 
-  const result = parseClaudeJSON(faq.content[0].text);
+  const result = parseClaudeJSON(faqText);
 
   // Build JSON-LD
   const schema = {
@@ -827,14 +879,9 @@ Svara i JSON:
 async function addInternalLinks(site, postId, targetKeyword) {
   const post = await wpApi(site, 'GET', `/posts/${postId}`);
   const allPosts = await wpApi(site, 'GET', '/posts?per_page=50&status=publish');
-  const client = await getClaude();
 
-  const suggestion = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
-    max_tokens: 1500,
-    messages: [{
-      role: 'user',
-      content: `Hitta möjligheter för internlänkar i denna text.
+  const suggestionText = await aiComplete(
+    `Hitta möjligheter för internlänkar i denna text.
 Nuvarande sida: ${post.link}
 Keyword: ${targetKeyword}
 
@@ -847,11 +894,11 @@ Svara i JSON:
 {
   "links": [{"anchorText": "text att länka", "targetUrl": "url att länka till", "context": "mening där länken ska in"}],
   "reasoning": "varför dessa länkar"
-}`
-    }]
-  });
+}`,
+    { tier: 'cheap', maxTokens: 1500 }
+  );
 
-  const result = parseClaudeJSON(suggestion.content[0].text);
+  const result = parseClaudeJSON(suggestionText);
 
   // Apply links to content
   let updatedContent = post.content.rendered;
@@ -4179,21 +4226,16 @@ Svara aldrig med mer an 3-4 meningar.
 KUNDDATA:
 ${contextParts.join('\n')}`;
 
-    // Call Claude Haiku
-    const anthropic = await getClaude();
-    const response = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 500,
-      system: systemPrompt,
-      messages: [{ role: 'user', content: message.trim() }]
+    // OpenRouter mid (Gemini Flash — snabbt + billigt)
+    const answer = await aiComplete(message.trim(), {
+      tier: 'mid',
+      systemPrompt,
+      maxTokens: 500
     });
 
-    const answer = response.content?.[0]?.text || 'Kunde inte generera svar.';
-
     res.json({
-      answer,
-      model: 'claude-3-haiku-20240307',
-      tokens_used: (response.usage?.input_tokens || 0) + (response.usage?.output_tokens || 0),
+      answer: answer || 'Kunde inte generera svar.',
+      model: 'openrouter/mid',
       customer_id: customerId
     });
 
