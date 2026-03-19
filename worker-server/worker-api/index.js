@@ -38,7 +38,10 @@ function requireAuth(req, res, next) {
   next();
 }
 
-app.use('/worker', requireAuth);
+app.use('/worker', (req, res, next) => {
+  if (req.path === '/health') return next();
+  requireAuth(req, res, next);
+});
 
 // ============================================================
 // Jobbtyper → n8n webhook-mappning
