@@ -1067,6 +1067,7 @@ async function loadView(view) {
     case 'prospecting': return loadProspecting();
     case 'optimizations': return loadOptimizations();
     case 'queue': loadWorkerStatus(); return loadQueue();
+    case 'sitegen': return loadSavedSites();
     case 'reports': return loadReports();
     case 'security': return loadSecurity();
     case 'content-blueprint': return loadContentBlueprint();
@@ -3930,3 +3931,158 @@ function timeAgo(dateStr) {
     }
   }, 2000);
 })();
+
+// ── Site Generator ────────────────────────────────────────────
+
+let _currentSiteFilename = null;
+
+async function generateSite() {
+  const brief = $('#sitegen-brief')?.value?.trim();
+  if (!brief) return alert('Skriv en beskrivning av hemsidan');
+
+  const btn = $('#sitegen-btn');
+  btn.disabled = true;
+  btn.textContent = 'Genererar... (30-60 sek)';
+
+  try {
+    const result = await api('/api/sites/generate', {
+      method: 'POST',
+      body: JSON.stringify({
+        brief,
+        theme: $('#sitegen-theme')?.value || 'dark',
+        model: $('#sitegen-model')?.value || 'anthropic/claude-sonnet-4-20250514',
+        colors: $('#sitegen-colors')?.value || null
+      })
+    });
+
+    if (result?.success) {
+      _currentSiteFilename = result.filename;
+
+      // Visa preview
+      const iframe = $('#sitegen-iframe');
+      iframe.src = `/api/sites/${result.filename}`;
+      $('#sitegen-preview').style.display = 'block';
+      $('#sitegen-tweak').style.display = 'block';
+
+      // Uppdatera listan
+      loadSavedSites();
+    } else {
+      alert('Fel: ' + (result?.error || 'Okänt fel'));
+    }
+  } catch (e) {
+    alert('Generering misslyckades: ' + (e.message || e));
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Generera hemsida';
+  }
+}
+
+async function tweakSite() {
+  const instruction = $('#sitegen-tweak-input')?.value?.trim();
+  if (!instruction || !_currentSiteFilename) return;
+
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Ändrar...'; }
+
+  try {
+    const result = await api('/api/sites/tweak', {
+      method: 'POST',
+      body: JSON.stringify({
+        filename: _currentSiteFilename,
+        instruction
+      })
+    });
+
+    if (result?.success) {
+      _currentSiteFilename = result.filename;
+      $('#sitegen-iframe').src = `/api/sites/${result.filename}`;
+      $('#sitegen-tweak-input').value = '';
+      loadSavedSites();
+    }
+  } catch (e) {
+    alert('Tweak misslyckades: ' + (e.message || e));
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Ändra'; }
+  }
+}
+
+function openSitePreview() {
+  if (_currentSiteFilename) {
+    window.open(`/api/sites/${_currentSiteFilename}`, '_blank');
+  }
+}
+
+function showDeployModal() {
+  if (!_currentSiteFilename) return;
+  $('#deploy-modal').style.display = 'flex';
+}
+
+function closeDeployModal() {
+  $('#deploy-modal').style.display = 'none';
+}
+
+async function deploySite() {
+  const domain = $('#deploy-domain')?.value?.trim();
+  const host = $('#deploy-ftp-host')?.value?.trim();
+  const user = $('#deploy-ftp-user')?.value?.trim();
+  const pass = $('#deploy-ftp-pass')?.value?.trim();
+  const remotePath = $('#deploy-remote-path')?.value?.trim() || '/public_html';
+
+  if (!domain || !host || !user || !pass) return alert('Fyll i alla FTP-fält');
+
+  try {
+    const result = await api('/api/sites/deploy', {
+      method: 'POST',
+      body: JSON.stringify({
+        filename: _currentSiteFilename,
+        domain,
+        ftp_host: host,
+        ftp_user: user,
+        ftp_password: pass,
+        remote_path: remotePath
+      })
+    });
+
+    if (result?.success) {
+      closeDeployModal();
+      alert(`Deployad till ${result.url}`);
+    } else {
+      alert('Deploy misslyckades: ' + (result?.error || 'Okänt fel'));
+    }
+  } catch (e) {
+    alert('Deploy misslyckades: ' + (e.message || e));
+  }
+}
+
+async function loadSavedSites() {
+  try {
+    const result = await api('/api/sites');
+    const el = $('#sitegen-list');
+    if (!el) return;
+
+    if (!result?.sites?.length) {
+      el.innerHTML = '<p class="empty">Inga sidor genererade ännu</p>';
+      return;
+    }
+
+    el.innerHTML = result.sites.map(s => `
+      <div class="sitegen-saved-item">
+        <span class="sitegen-saved-name">${s.filename}</span>
+        <span class="sitegen-saved-meta">${s.size_kb} KB — ${timeAgo(s.created)}</span>
+        <button class="btn-small" onclick="previewSavedSite('${s.filename}')">Preview</button>
+      </div>
+    `).join('');
+  } catch (e) {
+    // ok
+  }
+}
+
+function previewSavedSite(filename) {
+  _currentSiteFilename = filename;
+  const iframe = $('#sitegen-iframe');
+  if (iframe) {
+    iframe.src = `/api/sites/${filename}`;
+    $('#sitegen-preview').style.display = 'block';
+    $('#sitegen-tweak').style.display = 'block';
+  }
+}

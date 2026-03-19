@@ -37,6 +37,7 @@
         <a href="#" class="nav-link" data-view="prospecting">Prospektering</a>
         <a href="#" class="nav-link" data-view="optimizations">Optimeringar</a>
         <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
+        <a href="#" class="nav-link" data-view="sitegen">Hemsidor</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
         <a href="#" class="nav-link" data-view="content-blueprint">Content</a>
         <a href="#" class="nav-link" data-view="security">Säkerhet</a>
@@ -491,6 +492,74 @@
         </div>
       </div>
     </section>
+
+    <!-- Site Generator -->
+    <section id="view-sitegen" class="view">
+      <div class="card">
+        <h2 class="card-title">Hemsidgenerator</h2>
+        <div class="card-body">
+          <div class="sitegen-form">
+            <textarea id="sitegen-brief" class="form-textarea" rows="4" placeholder="Beskriv hemsidan du vill bygga...&#10;&#10;T.ex: Landningssida för Kompetensutveckla.se. Kurser inom ledarskap och projektledning. Mörkt tema, professionellt. Kontaktformulär, kurskatalog, testimonials."></textarea>
+            <div class="sitegen-options">
+              <select id="sitegen-theme" class="form-select">
+                <option value="dark">Mörkt tema</option>
+                <option value="light">Ljust tema</option>
+              </select>
+              <select id="sitegen-model" class="form-select">
+                <option value="anthropic/claude-sonnet-4-20250514">Claude Sonnet (bäst)</option>
+                <option value="google/gemini-2.5-pro-preview-05-06">Gemini 2.5 Pro</option>
+                <option value="deepseek/deepseek-chat-v3-0324">DeepSeek V3 (billigast)</option>
+              </select>
+              <input type="text" id="sitegen-colors" class="form-input" placeholder="Färger (valfritt: #e91e8c, #00d4ff)">
+            </div>
+            <button class="btn-primary" id="sitegen-btn" onclick="generateSite()">Generera hemsida</button>
+          </div>
+
+          <!-- Tweak -->
+          <div id="sitegen-tweak" class="sitegen-tweak" style="display:none">
+            <h3>Justera sidan</h3>
+            <div class="sitegen-tweak-row">
+              <input type="text" id="sitegen-tweak-input" class="form-input" placeholder="T.ex: Gör headern större, lägg till prissättning, byt färg till blå">
+              <button class="btn-secondary" onclick="tweakSite()">Ändra</button>
+            </div>
+          </div>
+
+          <!-- Preview -->
+          <div id="sitegen-preview" style="display:none">
+            <div class="sitegen-preview-bar">
+              <h3>Preview</h3>
+              <div class="sitegen-preview-actions">
+                <button class="btn-small" onclick="openSitePreview()">Öppna i ny flik</button>
+                <button class="btn-small btn-deploy" onclick="showDeployModal()">Deploya till Loopia</button>
+              </div>
+            </div>
+            <iframe id="sitegen-iframe" class="sitegen-iframe"></iframe>
+          </div>
+
+          <!-- Sparade sidor -->
+          <div class="sitegen-saved">
+            <h3>Sparade sidor</h3>
+            <div id="sitegen-list"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deploy Modal -->
+    <div id="deploy-modal" class="modal" style="display:none">
+      <div class="modal-content">
+        <h3>Deploya till Loopia</h3>
+        <input type="text" id="deploy-domain" class="form-input" placeholder="Domän (t.ex. kund.se)">
+        <input type="text" id="deploy-ftp-host" class="form-input" placeholder="FTP-host (t.ex. ftp.loopia.se)">
+        <input type="text" id="deploy-ftp-user" class="form-input" placeholder="FTP-användarnamn">
+        <input type="password" id="deploy-ftp-pass" class="form-input" placeholder="FTP-lösenord">
+        <input type="text" id="deploy-remote-path" class="form-input" placeholder="Sökväg (default: /public_html)" value="/public_html">
+        <div class="modal-buttons">
+          <button class="btn-primary" onclick="deploySite()">Deploya</button>
+          <button class="btn-secondary" onclick="closeDeployModal()">Avbryt</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Reports -->
     <section id="view-reports" class="view">

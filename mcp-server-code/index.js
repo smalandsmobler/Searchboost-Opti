@@ -5665,6 +5665,91 @@ app.post('/api/worker/jobs/:id/cancel', async (req, res) => {
   }
 });
 
+// ── Site Generator Proxy ──
+// Proxiar site-generator endpoints till worker
+
+// Generera hemsida
+app.post('/api/sites/generate', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const orKey = await getParam('/seo-mcp/openrouter/api-key');
+    const resp = await axios.post(`${WORKER_URL}/worker/sites/generate`, req.body, {
+      headers: { Authorization: `Bearer ${key}`, 'X-OpenRouter-Key': orKey, 'Content-Type': 'application/json' },
+      timeout: 180000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Site-generator misslyckades', detail: err.message });
+  }
+});
+
+// Tweaka sida
+app.post('/api/sites/tweak', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const orKey = await getParam('/seo-mcp/openrouter/api-key');
+    const resp = await axios.post(`${WORKER_URL}/worker/sites/tweak`, req.body, {
+      headers: { Authorization: `Bearer ${key}`, 'X-OpenRouter-Key': orKey, 'Content-Type': 'application/json' },
+      timeout: 180000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Tweak misslyckades', detail: err.message });
+  }
+});
+
+// Deploy till Loopia
+app.post('/api/sites/deploy', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.post(`${WORKER_URL}/worker/sites/deploy`, req.body, {
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      timeout: 30000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Deploy misslyckades', detail: err.message });
+  }
+});
+
+// Lista sidor
+app.get('/api/sites', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.get(`${WORKER_URL}/worker/sites`, {
+      headers: { Authorization: `Bearer ${key}` }, timeout: 5000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    res.status(502).json({ error: 'Kunde inte nå worker' });
+  }
+});
+
+// Preview sida
+app.get('/api/sites/:filename', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.get(`${WORKER_URL}/worker/sites/${req.params.filename}`, {
+      headers: { Authorization: `Bearer ${key}` },
+      timeout: 10000,
+      responseType: 'text'
+    });
+    res.setHeader('Content-Type', 'text/html');
+    res.send(resp.data);
+  } catch (err) {
+    if (err.response?.status === 404) return res.status(404).json({ error: 'Sidan finns inte' });
+    res.status(502).json({ error: 'Kunde inte nå worker' });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {

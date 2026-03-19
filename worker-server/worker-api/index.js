@@ -8,6 +8,8 @@ const express = require('express');
 const helmet = require('helmet');
 const axios = require('axios');
 const os = require('os');
+const fs = require('fs');
+const path = require('path');
 const { execSync } = require('child_process');
 const jobQueue = require('./job-queue');
 
@@ -255,6 +257,121 @@ app.post('/worker/jobs/:id/update', (req, res) => {
     return res.status(404).json({ error: 'Jobb hittades inte' });
   }
   res.json(job);
+});
+
+// ============================================================
+// Site Generator
+// ============================================================
+const siteGen = require('./site-generator');
+
+const OPENROUTER_KEY = process.env.OPENROUTER_KEY || '';
+
+// Generera hemsida
+app.post('/worker/sites/generate', async (req, res) => {
+  const { brief, theme, language, colors, fonts, model } = req.body;
+
+  if (!brief) return res.status(400).json({ error: 'Brief saknas' });
+
+  const orKey = OPENROUTER_KEY || req.headers['x-openrouter-key'];
+  if (!orKey) return res.status(400).json({ error: 'OpenRouter API-nyckel saknas' });
+
+  try {
+    const result = await siteGen.generateSite(brief, {
+      openRouterKey: orKey,
+      model: model || 'anthropic/claude-sonnet-4-20250514',
+      theme: theme || 'dark',
+      language: language || 'sv',
+      customColors: colors,
+      customFonts: fonts
+    });
+
+    // Spara till disk
+    const name = brief.split(/[.!?\n]/)[0].substring(0, 40);
+    const saved = siteGen.saveSite(name, result.html);
+
+    res.json({
+      success: true,
+      filename: saved.filename,
+      preview_url: `/sites/${saved.filename}`,
+      size_kb: Math.round(result.html.length / 1024),
+      model: result.model,
+      tokens: result.tokens
+    });
+  } catch (err) {
+    console.error('[Site Generator]', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Tweaka befintlig sida
+app.post('/worker/sites/tweak', async (req, res) => {
+  const { filename, instruction } = req.body;
+  if (!filename || !instruction) {
+    return res.status(400).json({ error: 'filename och instruction krävs' });
+  }
+
+  const orKey = OPENROUTER_KEY || req.headers['x-openrouter-key'];
+  if (!orKey) return res.status(400).json({ error: 'OpenRouter API-nyckel saknas' });
+
+  const filepath = path.join(siteGen.OUTPUT_DIR, filename);
+  if (!fs.existsSync(filepath)) {
+    return res.status(404).json({ error: `Sidan ${filename} finns inte` });
+  }
+
+  try {
+    const currentHtml = fs.readFileSync(filepath, 'utf8');
+    const result = await siteGen.tweakSite(currentHtml, instruction, { openRouterKey: orKey });
+    const saved = siteGen.saveSite(filename.replace(/-\d+\.html$/, ''), result.html);
+
+    res.json({
+      success: true,
+      filename: saved.filename,
+      preview_url: `/sites/${saved.filename}`,
+      model: result.model
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Deploy till Loopia
+app.post('/worker/sites/deploy', async (req, res) => {
+  const { filename, domain, ftp_host, ftp_user, ftp_password, remote_path } = req.body;
+  if (!filename || !domain || !ftp_host || !ftp_user || !ftp_password) {
+    return res.status(400).json({ error: 'filename, domain, ftp_host, ftp_user, ftp_password krävs' });
+  }
+
+  const filepath = path.join(siteGen.OUTPUT_DIR, filename);
+  if (!fs.existsSync(filepath)) {
+    return res.status(404).json({ error: `Sidan ${filename} finns inte` });
+  }
+
+  try {
+    const html = fs.readFileSync(filepath, 'utf8');
+    const result = await siteGen.deployToLoopia(html, domain, {
+      host: ftp_host,
+      user: ftp_user,
+      password: ftp_password,
+      remotePath: remote_path || '/public_html'
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Lista sparade sidor
+app.get('/worker/sites', (req, res) => {
+  res.json({ sites: siteGen.listSites() });
+});
+
+// Hämta en sida (preview)
+app.get('/worker/sites/:filename', (req, res) => {
+  const filepath = path.join(siteGen.OUTPUT_DIR, req.params.filename);
+  if (!fs.existsSync(filepath)) {
+    return res.status(404).json({ error: 'Sidan finns inte' });
+  }
+  res.sendFile(filepath);
 });
 
 // ============================================================
