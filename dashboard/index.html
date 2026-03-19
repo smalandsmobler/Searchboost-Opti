@@ -50,6 +50,9 @@
           <span id="status-text">Ansluter...</span>
           <span class="monitor-chevron">▾</span>
         </button>
+        <span class="worker-indicator" id="worker-indicator" title="Worker server">W</span>
+        <span class="status-dot"></span>
+        <span id="status-text">Ansluter...</span>
         <button class="btn-logout" onclick="doLogout()">Logga ut</button>
       </div>
     </div>
@@ -451,6 +454,36 @@
 
     <!-- Queue -->
     <section id="view-queue" class="view">
+      <!-- Worker Server Status -->
+      <div class="card" id="worker-card">
+        <h2 class="card-title">
+          Worker Server
+          <span class="worker-status-dot" id="worker-status-dot" title="Kontrollerar..."></span>
+        </h2>
+        <div class="card-body">
+          <div class="worker-stats" id="worker-stats">
+            <p class="empty">Kontrollerar worker...</p>
+          </div>
+          <div class="worker-actions">
+            <h3>Kör automation</h3>
+            <div class="worker-btn-grid" id="worker-btn-grid">
+              <button class="btn-worker" onclick="triggerWorkerJob('weekly-audit')">Vecko-audit</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('autonomous-optimizer')">Optimerare</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('weekly-report')">Veckorapport</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('data-collector')">Datainsamling</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('performance-monitor')">Prestandakoll</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('backlink-monitor')">Backlinkbevakning</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('keyword-researcher')">Nyckelordsanalys</button>
+              <button class="btn-worker" onclick="triggerWorkerJob('content-publisher')">Publicering</button>
+            </div>
+          </div>
+          <div class="worker-jobs" id="worker-jobs">
+            <h3>Senaste jobb</h3>
+            <div id="worker-job-list"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <h2 class="card-title">Arbetskö</h2>
         <div id="work-queue" class="card-body">
