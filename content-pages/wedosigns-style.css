@@ -98,15 +98,57 @@ header .btn.btn-sm {
     padding: 1.5rem 4rem;
 }
 
-@media (min-width: 768px) {
-    .hero h1 { font-size: 4.5rem; }
-}
-
 .btn {
+    display: inline-block;
     background: var(--yellow);
     color: #000;
     padding: 16px 44px;
     border-radius: 9999px;
     font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
 }
 .btn:hover { background: #fff; transform: translateY(-3px); }
+
+/* --- Mobile (default) --- */
+@media (max-width: 767px) {
+    header .header-inner {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    header .logo { font-size: 1.5rem; }
+    header nav ul {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+    header nav ul li a { font-size: 0.75rem; }
+    header .btn.btn-sm {
+        padding: 8px 18px;
+        font-size: 0.75rem;
+    }
+
+    .hero { height: 90vh; }
+    .hero h1 {
+        font-size: 2.25rem;
+        margin-bottom: 1rem;
+    }
+    .hero p {
+        font-size: 1.125rem;
+        margin-bottom: 2rem;
+    }
+    .hero .btn-lg,
+    .hero .btn {
+        font-size: 1rem;
+        padding: 1rem 2.5rem;
+    }
+}
+
+/* --- Tablet --- */
+@media (min-width: 768px) {
+    .hero h1 { font-size: 4.5rem; }
+}
+
+/* --- Desktop --- */
+@media (min-width: 1024px) {
+    .hero h1 { font-size: 5rem; }
+}
