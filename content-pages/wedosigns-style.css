@@ -6,7 +6,48 @@
 body { font-family: 'Inter', sans-serif; background: var(--black); color: #fff; }
 h1, h2 { font-family: 'Playfair Display', serif; }
 
-header { padding: 14px 0; background: var(--black); border-bottom: 1px solid #222; }
+/* --- Header --- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--black);
+    padding: 14px 0;
+}
+header .header-inner {
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header .logo {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    color: #fff;
+    text-decoration: none;
+}
+header .logo span { color: var(--yellow); }
+header nav ul {
+    display: flex;
+    gap: 2.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+header nav ul li a {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #fff;
+    text-decoration: none;
+}
+header nav ul li a:hover { color: var(--yellow); }
+header .btn.btn-sm {
+    font-size: 0.875rem;
+    padding: 10px 28px;
+}
 
 .hero {
     height: 100vh;
