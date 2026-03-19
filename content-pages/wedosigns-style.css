@@ -34,11 +34,81 @@ h1 span, h2 span {
     color: #FFCC00 !important;
 }
 
-/* Tvinga bort Divi orange överallt */
-a, a:hover,
+/* Tvinga bort Divi orange ÖVERALLT — alla kända Divi-selektorer */
+a, a:hover, a:focus, a:active,
 .et_pb_button:hover,
-.et_pb_more_button:hover {
+.et_pb_more_button:hover,
+.et_pb_module a:hover,
+.et_pb_text a:hover,
+.et-menu li a:hover,
+#top-menu li.current-menu-item a,
+#top-menu li.current_page_item a {
     color: #FFCC00 !important;
+}
+
+/* ALLA knappar — Divi-genererade CTA/buttons */
+.et_pb_button,
+.et_pb_button:hover,
+.et_pb_button:focus,
+.et_pb_button:active,
+.et_pb_button:visited,
+.et_pb_promo .et_pb_button,
+.et_pb_promo .et_pb_button:hover,
+.et_pb_cta .et_pb_button,
+.et_pb_cta .et_pb_button:hover,
+.et_pb_contact_submit,
+.et_pb_contact_submit:hover,
+.et_pb_newsletter_button,
+.et_pb_newsletter_button:hover,
+input.et_pb_button,
+a.et_pb_button,
+button.et_pb_button,
+.et_pb_module .et_pb_button,
+.et_pb_module .et_pb_button:hover,
+.et_pb_pricing_table_button,
+.et_pb_pricing_table_button:hover {
+    background: #FFCC00 !important;
+    background-color: #FFCC00 !important;
+    color: #000 !important;
+    border-color: #FFCC00 !important;
+}
+.et_pb_button:hover,
+.et_pb_promo .et_pb_button:hover,
+.et_pb_cta .et_pb_button:hover,
+a.et_pb_button:hover,
+button.et_pb_button:hover,
+.et_pb_module .et_pb_button:hover {
+    background: #fff !important;
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
+}
+
+/* Kill Divi's orange accent color wherever it hides */
+.et_pb_bg_layout_dark .et_pb_button,
+#main-content .et_pb_button,
+.et_pb_section .et_pb_button,
+.et_pb_row .et_pb_button {
+    background-color: #FFCC00 !important;
+    border-color: #FFCC00 !important;
+    color: #000 !important;
+}
+
+/* Divi orange gradient/accent overrides */
+.et-pb-icon:hover,
+.et_pb_toggle_title:hover,
+.et_overlay:before,
+.et_pb_member_social_links a:hover,
+.comment-reply-link:hover,
+.form-submit .et_pb_button:hover {
+    color: #FFCC00 !important;
+}
+
+/* Divi orange backgrounds */
+.et_pb_bg_layout_light .et_pb_button:hover,
+.et_pb_widget .et_pb_button:hover {
+    background-color: #fff !important;
+    border-color: #fff !important;
 }
 
 /* ---- HEADER ---- */
