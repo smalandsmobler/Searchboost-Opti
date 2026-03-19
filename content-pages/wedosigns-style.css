@@ -1,154 +1,251 @@
+/* =============================================
+   WEDO SIGNS — Custom Theme Override
+   Slår igenom Divi/tema-defaults med !important
+   ============================================= */
+
 :root {
-    --black: #000000;
-    --yellow: #FFCC00;   /* Ren gul – ingen orange */
+    --black: #000000 !important;
+    --yellow: #FFCC00 !important;  /* Ren gul – INGEN orange */
 }
 
-body { font-family: 'Inter', sans-serif; background: var(--black); color: #fff; }
-h1, h2 { font-family: 'Playfair Display', serif; }
+/* --- Reset Divi/tema-overrides --- */
+body,
+body.et_divi_theme,
+#et-main-area,
+#page-container {
+    font-family: 'Inter', sans-serif !important;
+    background: #000 !important;
+    color: #fff !important;
+}
+h1, h2, h3, h4,
+.et_pb_module_header,
+.entry-title {
+    font-family: 'Playfair Display', serif !important;
+    color: #fff !important;
+}
 
-/* --- Header --- */
-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--black);
-    padding: 14px 0;
+/* Gul accent — override ALLA orange/tema-färger */
+span[class*="FFCC00"],
+.text-yellow,
+.hero h1 span,
+.logo span,
+.et_pb_text span,
+h1 span, h2 span {
+    color: #FFCC00 !important;
+}
+
+/* Tvinga bort Divi orange överallt */
+a, a:hover,
+.et_pb_button:hover,
+.et_pb_more_button:hover {
+    color: #FFCC00 !important;
+}
+
+/* ---- HEADER ---- */
+header,
+#main-header,
+.et-fixed-header {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 9999 !important;
+    background: #000 !important;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid #222 !important;
 }
 header .header-inner {
     max-width: 80rem;
     margin: 0 auto;
     padding: 0 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
 }
-header .logo {
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.05em;
-    color: #fff;
-    text-decoration: none;
+header .logo,
+.logo {
+    font-size: 2.25rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.05em !important;
+    color: #fff !important;
+    text-decoration: none !important;
 }
-header .logo span { color: var(--yellow); }
-header nav ul {
-    display: flex;
-    gap: 2.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+header .logo span,
+.logo span {
+    color: #FFCC00 !important;
 }
-header nav ul li a {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #fff;
-    text-decoration: none;
+header nav ul,
+#top-menu {
+    display: flex !important;
+    gap: 2.25rem !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-header nav ul li a:hover { color: var(--yellow); }
-header .btn.btn-sm {
-    font-size: 0.875rem;
-    padding: 10px 28px;
+header nav ul li a,
+#top-menu li a {
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+}
+header nav ul li a:hover,
+#top-menu li a:hover {
+    color: #FFCC00 !important;
 }
 
-/* --- Hero --- */
-.hero {
-    height: 100vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
+/* ---- HERO ---- */
+.hero,
+section.hero {
+    height: 100vh !important;
+    min-height: 600px !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    overflow: hidden !important;
 }
 .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.65));
-    z-index: 1;
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.65)) !important;
+    z-index: 1 !important;
 }
 .hero img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 0 !important;
 }
+.hero > div,
 .hero .hero-content {
-    position: relative;
-    z-index: 10;
-    max-width: 64rem;
-    padding: 0 1.5rem;
+    position: relative !important;
+    z-index: 10 !important;
+    max-width: 64rem !important;
+    padding: 0 1.5rem !important;
 }
 .hero h1 {
-    font-size: 3.75rem;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.05em;
-    margin-bottom: 1.5rem;
-    color: #fff;
+    font-size: 4.5rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.05em !important;
+    margin-bottom: 1.5rem !important;
+    color: #fff !important;
 }
-.hero h1 span { color: var(--yellow); }
+.hero h1 span {
+    color: #FFCC00 !important;
+}
 .hero p {
-    font-size: 1.5rem;
-    color: #e5e7eb;
-    margin-bottom: 3rem;
-}
-.hero .btn-lg {
-    font-size: 1.25rem;
-    padding: 1.5rem 4rem;
+    font-size: 1.5rem !important;
+    color: #e5e7eb !important;
+    margin-bottom: 3rem !important;
+    font-family: 'Inter', sans-serif !important;
 }
 
-.btn {
-    display: inline-block;
-    background: var(--yellow);
-    color: #000;
-    padding: 16px 44px;
-    border-radius: 9999px;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.2s, transform 0.2s;
+/* ---- BUTTONS ---- */
+.btn,
+a.btn,
+.et_pb_button {
+    display: inline-block !important;
+    background: #FFCC00 !important;
+    color: #000 !important;
+    padding: 16px 44px !important;
+    border-radius: 9999px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: background 0.2s, transform 0.2s !important;
+    font-family: 'Inter', sans-serif !important;
 }
-.btn:hover { background: #fff; transform: translateY(-3px); }
+.btn:hover,
+a.btn:hover,
+.et_pb_button:hover {
+    background: #fff !important;
+    color: #000 !important;
+    transform: translateY(-3px) !important;
+}
+.btn.btn-sm {
+    font-size: 0.875rem !important;
+    padding: 10px 28px !important;
+}
 
-/* --- Mobile (default) --- */
+/* =============================================
+   MOBIL — max 767px
+   ============================================= */
 @media (max-width: 767px) {
+    /* Header mobil */
     header .header-inner {
-        flex-wrap: wrap;
-        gap: 0.75rem;
+        padding: 0 1rem !important;
     }
-    header .logo { font-size: 1.5rem; }
-    header nav ul {
-        gap: 1rem;
-        flex-wrap: wrap;
+    header .logo,
+    .logo {
+        font-size: 1.5rem !important;
     }
-    header nav ul li a { font-size: 0.75rem; }
+    header nav ul,
+    #top-menu {
+        display: none !important; /* Dölj desktop-nav på mobil */
+    }
     header .btn.btn-sm {
-        padding: 8px 18px;
-        font-size: 0.75rem;
+        padding: 8px 16px !important;
+        font-size: 0.75rem !important;
     }
 
-    .hero { height: 90vh; }
+    /* Hero mobil */
+    .hero,
+    section.hero {
+        height: 85vh !important;
+        min-height: 480px !important;
+    }
+    .hero > div,
+    .hero .hero-content {
+        padding: 0 1.25rem !important;
+    }
     .hero h1 {
-        font-size: 2.25rem;
-        margin-bottom: 1rem;
+        font-size: 2rem !important;
+        margin-bottom: 0.75rem !important;
     }
     .hero p {
-        font-size: 1.125rem;
-        margin-bottom: 2rem;
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem !important;
     }
-    .hero .btn-lg,
+    .btn,
+    a.btn,
     .hero .btn {
-        font-size: 1rem;
-        padding: 1rem 2.5rem;
+        padding: 14px 32px !important;
+        font-size: 0.9rem !important;
     }
 }
 
-/* --- Tablet --- */
-@media (min-width: 768px) {
-    .hero h1 { font-size: 4.5rem; }
+/* =============================================
+   TABLET — 768px–1023px
+   ============================================= */
+@media (min-width: 768px) and (max-width: 1023px) {
+    header .logo,
+    .logo {
+        font-size: 1.75rem !important;
+    }
+    header nav ul,
+    #top-menu {
+        gap: 1.5rem !important;
+    }
+    .hero h1 {
+        font-size: 3.25rem !important;
+    }
+    .hero p {
+        font-size: 1.25rem !important;
+    }
 }
 
-/* --- Desktop --- */
+/* =============================================
+   DESKTOP — 1024px+
+   ============================================= */
 @media (min-width: 1024px) {
-    .hero h1 { font-size: 5rem; }
+    .hero h1 {
+        font-size: 5rem !important;
+    }
 }
