@@ -925,7 +925,7 @@ async function loadView(view) {
     case 'consulting': return loadConsulting();
     case 'prospecting': return loadProspecting();
     case 'optimizations': return loadOptimizations();
-    case 'queue': return loadQueue();
+    case 'queue': loadWorkerStatus(); return loadQueue();
     case 'reports': return loadReports();
   }
 }
@@ -3162,3 +3162,184 @@ async function deleteProspectAnalysis(analysisId) {
   invalidateCache('/api/prospect-analyses');
   loadProspecting();
 }
+
+// ── Worker Server ─────────────────────────────────────────────
+
+let _workerPollInterval = null;
+
+async function loadWorkerStatus() {
+  try {
+    const data = await api('/api/worker/health');
+    const dot = $('#worker-status-dot');
+    const indicator = $('#worker-indicator');
+    const statsEl = $('#worker-stats');
+
+    if (data?.status === 'ok') {
+      if (dot) dot.className = 'worker-status-dot online';
+      if (indicator) { indicator.className = 'worker-indicator online'; indicator.title = 'Worker online'; }
+
+      statsEl.innerHTML = `
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.cpu?.cores || '?'}</div>
+          <div class="stat-label">CPU-kärnor</div>
+        </div>
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.memory?.usage_pct || '?'}%</div>
+          <div class="stat-label">RAM</div>
+        </div>
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.jobs?.running || 0}</div>
+          <div class="stat-label">Jobb körs</div>
+        </div>
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.jobs?.completed_today || 0}</div>
+          <div class="stat-label">Klara idag</div>
+        </div>
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.jobs?.errors_today || 0}</div>
+          <div class="stat-label">Fel idag</div>
+        </div>
+        <div class="worker-stat-item">
+          <div class="stat-value">${data.n8n?.running ? 'OK' : 'Nere'}</div>
+          <div class="stat-label">n8n</div>
+        </div>
+      `;
+    } else {
+      if (dot) dot.className = 'worker-status-dot offline';
+      if (indicator) { indicator.className = 'worker-indicator offline'; indicator.title = 'Worker offline'; }
+      statsEl.innerHTML = '<p class="empty">Worker ej tillgänglig</p>';
+    }
+
+    // Ladda senaste jobb
+    loadWorkerJobs();
+  } catch (e) {
+    const dot = $('#worker-status-dot');
+    const indicator = $('#worker-indicator');
+    if (dot) dot.className = 'worker-status-dot unknown';
+    if (indicator) { indicator.className = 'worker-indicator unknown'; indicator.title = 'Worker ej konfigurerad'; }
+  }
+}
+
+async function loadWorkerJobs() {
+  try {
+    const data = await api('/api/worker/jobs?limit=20');
+    const el = $('#worker-job-list');
+    if (!el) return;
+
+    if (!data?.jobs?.length) {
+      el.innerHTML = '<p class="empty">Inga jobb ännu</p>';
+      return;
+    }
+
+    el.innerHTML = data.jobs.map(j => {
+      const time = j.completed_at || j.started_at || j.created_at;
+      const ago = timeAgo(time);
+      return `
+        <div class="worker-job-item">
+          <span class="worker-job-status ${j.status}"></span>
+          <span class="worker-job-name">${j.type}</span>
+          <span class="worker-job-time">${j.status} ${ago}</span>
+        </div>
+      `;
+    }).join('');
+  } catch (e) {
+    // ok
+  }
+}
+
+async function triggerWorkerJob(type) {
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.classList.add('running'); btn.textContent = 'Startar...'; }
+
+  try {
+    const result = await api('/api/worker/trigger', {
+      method: 'POST',
+      body: JSON.stringify({ type })
+    });
+
+    if (result?.job_id) {
+      if (btn) btn.textContent = 'Körs...';
+      // Polla jobbstatus
+      pollWorkerJob(result.job_id, btn, type);
+    } else if (result?.error) {
+      alert(result.error);
+      if (btn) { btn.disabled = false; btn.classList.remove('running'); btn.textContent = type; }
+    }
+  } catch (e) {
+    alert('Kunde inte starta jobb: ' + (e.message || e));
+    if (btn) { btn.disabled = false; btn.classList.remove('running'); }
+  }
+}
+
+function pollWorkerJob(jobId, btn, type) {
+  const names = {
+    'weekly-audit': 'Vecko-audit', 'autonomous-optimizer': 'Optimerare',
+    'weekly-report': 'Veckorapport', 'data-collector': 'Datainsamling',
+    'performance-monitor': 'Prestandakoll', 'backlink-monitor': 'Backlinkbevakning',
+    'keyword-researcher': 'Nyckelordsanalys', 'content-publisher': 'Publicering'
+  };
+  const label = names[type] || type;
+
+  const interval = setInterval(async () => {
+    try {
+      const job = await api(`/api/worker/jobs/${jobId}`);
+      if (!job) return;
+
+      if (job.status === 'completed') {
+        clearInterval(interval);
+        if (btn) { btn.disabled = false; btn.classList.remove('running'); btn.textContent = label; }
+        loadWorkerJobs();
+        loadWorkerStatus();
+      } else if (job.status === 'error') {
+        clearInterval(interval);
+        if (btn) { btn.disabled = false; btn.classList.remove('running'); btn.textContent = label; }
+        alert(`Jobb misslyckades: ${job.error}`);
+        loadWorkerJobs();
+      } else if (job.progress) {
+        if (btn) btn.textContent = `${job.progress}%`;
+      }
+    } catch (e) {
+      clearInterval(interval);
+      if (btn) { btn.disabled = false; btn.classList.remove('running'); btn.textContent = label; }
+    }
+  }, 3000);
+
+  // Timeout efter 10 min
+  setTimeout(() => {
+    clearInterval(interval);
+    if (btn) { btn.disabled = false; btn.classList.remove('running'); btn.textContent = label; }
+  }, 600000);
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'just nu';
+  if (mins < 60) return `${mins}m sedan`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours}h sedan`;
+  const days = Math.floor(hours / 24);
+  return `${days}d sedan`;
+}
+
+// Kör worker-hälsokontroll vid start
+(function initWorkerIndicator() {
+  setTimeout(async () => {
+    try {
+      const data = await api('/api/worker/health');
+      const indicator = $('#worker-indicator');
+      if (!indicator) return;
+      if (data?.status === 'ok') {
+        indicator.className = 'worker-indicator online';
+        indicator.title = 'Worker online';
+      } else {
+        indicator.className = 'worker-indicator offline';
+        indicator.title = 'Worker offline';
+      }
+    } catch (e) {
+      const indicator = $('#worker-indicator');
+      if (indicator) { indicator.className = 'worker-indicator unknown'; indicator.title = 'Worker ej konfigurerad'; }
+    }
+  }, 2000);
+})();

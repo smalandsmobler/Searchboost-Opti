@@ -5012,6 +5012,115 @@ app.post('/api/prospect-analyses/:id/to-pipeline', async (req, res) => {
   }
 });
 
+// ── Worker Server Proxy ──
+// Proxiar alla /api/worker/* till Oracle ARM worker-servern
+const WORKER_URL = process.env.WORKER_URL || '';
+let _workerApiKey = null;
+let _workerApiKeyTime = 0;
+
+async function getWorkerApiKey() {
+  const now = Date.now();
+  if (_workerApiKey && (now - _workerApiKeyTime) < CACHE_TTL) return _workerApiKey;
+  try {
+    _workerApiKey = await getParam('/seo-mcp/worker/api-key');
+    _workerApiKeyTime = now;
+  } catch (e) {
+    console.error('Worker API key not found in SSM:', e.message);
+  }
+  return _workerApiKey;
+}
+
+// Worker health — dashboard polling
+app.get('/api/worker/health', async (req, res) => {
+  if (!WORKER_URL) return res.json({ status: 'not_configured', message: 'WORKER_URL ej satt' });
+  try {
+    const resp = await axios.get(`${WORKER_URL}/worker/health`, { timeout: 5000 });
+    res.json(resp.data);
+  } catch (err) {
+    res.json({ status: 'offline', error: err.message });
+  }
+});
+
+// Worker jobbtyper
+app.get('/api/worker/job-types', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.get(`${WORKER_URL}/worker/job-types`, {
+      headers: { Authorization: `Bearer ${key}` },
+      timeout: 5000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    res.status(502).json({ error: 'Kunde inte nå worker', detail: err.message });
+  }
+});
+
+// Trigga jobb på worker
+app.post('/api/worker/trigger', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.post(`${WORKER_URL}/worker/jobs/trigger`, req.body, {
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      timeout: 15000
+    });
+    res.status(resp.status).json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Kunde inte nå worker', detail: err.message });
+  }
+});
+
+// Hämta jobbstatus
+app.get('/api/worker/jobs/:id', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.get(`${WORKER_URL}/worker/jobs/${req.params.id}/status`, {
+      headers: { Authorization: `Bearer ${key}` },
+      timeout: 5000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Kunde inte nå worker', detail: err.message });
+  }
+});
+
+// Lista alla jobb
+app.get('/api/worker/jobs', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.get(`${WORKER_URL}/worker/jobs`, {
+      headers: { Authorization: `Bearer ${key}` },
+      params: req.query,
+      timeout: 5000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Kunde inte nå worker', detail: err.message });
+  }
+});
+
+// Avbryt jobb
+app.post('/api/worker/jobs/:id/cancel', async (req, res) => {
+  if (!WORKER_URL) return res.status(503).json({ error: 'Worker ej konfigurerad' });
+  try {
+    const key = await getWorkerApiKey();
+    const resp = await axios.post(`${WORKER_URL}/worker/jobs/${req.params.id}/cancel`, {}, {
+      headers: { Authorization: `Bearer ${key}` },
+      timeout: 5000
+    });
+    res.json(resp.data);
+  } catch (err) {
+    if (err.response) return res.status(err.response.status).json(err.response.data);
+    res.status(502).json({ error: 'Kunde inte nå worker', detail: err.message });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
