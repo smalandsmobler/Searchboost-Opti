@@ -893,23 +893,28 @@ exports.handler = async (event) => {
     const emailFrom = await getParam('/seo-mcp/email/from');
     const mikaelEmail = (await getParam('/seo-mcp/email/recipients')).split(',').map(e => e.trim());
 
-    // ── Deduplicering: kolla om vi redan skickat intern rapport idag ──
-    // Kontrollerar IDAG (DATE-nivå) istället för vecka för att undvika
-    // race condition vid simultana Lambda-körningar — båda ser 0 rader
-    // om vecko-check används och ingen hunnit skriva till BQ ännu.
+    // ── Deduplicering: dubbel kontroll mot BQ ──
+    // 1. Kolla om rapport skickats inom de senaste 6 timmarna (täcker race conditions)
+    // 2. Kolla om rapport skickats idag (kalender-dag, backup)
+    // EventBridge triggar exakt en gång per fredag 13:00 UTC = 15:00 CEST.
+    // Dedupen skyddar mot manuella re-körningar och Lambda-retries.
     if (!force) {
       const [existingReports] = await bq.query({
         query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
                 WHERE customer_id = 'internal'
-                AND DATE(email_sent_at) = CURRENT_DATE()`
+                AND (
+                  email_sent_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 6 HOUR)
+                  OR DATE(email_sent_at) = CURRENT_DATE()
+                )`
       });
       if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
-        console.log('Rapport redan skickad idag — avbryter (använd force=true för att skicka om)');
+        console.log('Rapport redan skickad idag (eller senaste 6h) — avbryter (använd force=true för att skicka om)');
         return {
           statusCode: 200,
           body: JSON.stringify({ skipped: true, reason: 'already_sent_today' })
         };
       }
+      console.log('Ingen rapport skickad senaste 6h — kör nu');
     } else {
       console.log('force=true — skickar rapport oavsett deduplicering');
     }

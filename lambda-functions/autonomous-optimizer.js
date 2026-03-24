@@ -243,7 +243,7 @@ async function fixMetadata(site, task, claude, bq, dataset) {
   const pageText = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 500);
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 800,
     messages: [{
       role: 'user',
@@ -290,7 +290,7 @@ async function fixInternalLinks(site, task, claude, bq, dataset) {
     : '';
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 1000,
     messages: [{
       role: 'user',
@@ -350,7 +350,7 @@ async function fixThinContent(site, task, claude, bq, dataset) {
     : '';
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -408,7 +408,7 @@ async function fixMissingAltText(site, task, claude) {
     const filename = src.split('/').pop().replace(/[-_]/g, ' ').replace(/\.[^.]+$/, '');
 
     const suggestion = await claude.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: AI_MODEL,
       max_tokens: 100,
       messages: [{
         role: 'user',
@@ -451,7 +451,7 @@ async function fixNoSchema(site, task, claude) {
   const text = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 800);
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 1000,
     messages: [{
       role: 'user',
@@ -515,7 +515,7 @@ async function fixMissingH1(site, task, claude) {
   }
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 200,
     messages: [{
       role: 'user',
@@ -573,7 +573,7 @@ async function optimizeH2H3(site, task, claude, bq, dataset) {
   const currentText = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 1500);
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 1200,
     messages: [{
       role: 'user',
@@ -685,7 +685,7 @@ async function enrichWithSynonyms(site, task, claude, bq, dataset) {
   }
 
   const suggestion = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -967,8 +967,12 @@ exports.handler = async (event) => {
     const { bq, dataset } = await getBigQuery();
     const sites = await getWordPressSites();
 
-    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-    const claude = new Anthropic({ apiKey });
+    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
+    const claude = orKey
+      ? new Anthropic({ apiKey: orKey, baseURL: 'https://openrouter.ai/api/v1', defaultHeaders: { 'HTTP-Referer': 'https://searchboost.se', 'X-Title': 'Searchboost Opti' } })
+      : new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
+    // grok-3-mini: snabb & kostnadseffektiv för metadata-generering via OpenRouter
+    const AI_MODEL = orKey ? 'x-ai/grok-3-mini' : 'claude-haiku-4-5-20251001';
 
     const blockedCustomers = new Set();
     const results = [];

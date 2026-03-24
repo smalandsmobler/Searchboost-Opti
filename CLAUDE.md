@@ -190,6 +190,7 @@ Plattformen kör på AWS (EC2 + Lambda + BigQuery) och integrerar med WordPress,
 | tobler | tobler.se | placeholder | Ej i GSC | — |
 | traficator | traficator.se | placeholder | Ej i GSC | — |
 | wedosigns | wedosigns.se | placeholder | Ej i GSC | — |
+| nordicsnusonline | nordicsnusonline.com | placeholder | Ej i GSC | — |
 
 **"placeholder"** = WordPress app-password inte satt. Kunden är registrerad men inte aktiverad för automatisk optimering.
 

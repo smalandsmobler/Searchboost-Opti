@@ -146,7 +146,7 @@ Svara i JSON:
 }`;
 
   const res = await claude.messages.create({
-    model: 'claude-haiku-4-5-20251001',
+    model: AI_MODEL,
     max_tokens: 3000,
     messages: [{ role: 'user', content: prompt }]
   });
@@ -270,8 +270,12 @@ exports.handler = async (event) => {
 
   try {
     const { bq, dataset } = await getBigQuery();
-    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-    const claude = new Anthropic({ apiKey });
+    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
+    const claude = orKey
+      ? new Anthropic({ apiKey: orKey, baseURL: 'https://openrouter.ai/api/v1', defaultHeaders: { 'HTTP-Referer': 'https://searchboost.se', 'X-Title': 'Searchboost Opti' } })
+      : new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
+    // kimi-k2: utmärkt för content-blueprints & strukturerade innehållsplaner
+    const AI_MODEL = orKey ? 'moonshotai/kimi-k2' : 'claude-haiku-4-5-20251001';
 
     const customerIds = await getCustomers(bq, dataset);
     console.log(`Kunder att generera blueprint för: ${customerIds.join(', ')}`);

@@ -125,7 +125,15 @@
 
 ---
 
-## Nordic Snus Online (prospect)
+## Nordic Snus Online (uppstart)
 
-**Avtal**: 8 000 kr/mån Premium (ej signerat)
+**Sajt**: nordicsnusonline.com
+**Kund-ID**: nordicsnusonline-com
+**Avtal**: 8 000 kr/mån SEO Premium (ej signerat)
+**Pipeline-stage**: uppstart
 **Nyckelvinkel**: Kan inte använda Google Ads/Meta → AI-sök är enda kanalen
+**ABC-nyckelord**: 29 st inlagda (~37 000 sök/mån) — 9 A, 10 B, 10 C
+**Åtgärdsplan**: 3 månader, 24 uppgifter inlagda i systemet
+**SSM**: URL + company-name + gsc-property skapade (WP-creds = placeholder)
+**Saknas**: WP app-password, GSC SA-access, kontraktssignering
+**Onboardad**: 2026-03-24

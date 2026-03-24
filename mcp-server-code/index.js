@@ -100,6 +100,8 @@ app.use(async (req, res, next) => {
   if (req.path.startsWith('/api/reports/pdf/') || req.path.startsWith('/api/reports/download/')) return next();
   if (req.path === '/api/portal/login') return next(); // Kundportal login behöver ingen API-nyckel
   if (req.path === '/api/onboard') return next(); // Onboarding har egen auth-check (onboard/api-key)
+  if (req.path.startsWith('/api/shopify/')) return next(); // Shopify OAuth — anropas av Shopify, ingen API-nyckel
+  if (req.path.startsWith('/api/chatbot/')) return next(); // Chatbot widget på searchboost.se — öppen
 
   // Om Bearer JWT-token finns: validera den mot portal-hemligheterna
   const authHeader = req.headers['authorization'];
@@ -239,13 +241,60 @@ async function getBigQuery() {
   return { bq: bqClient, dataset: bqDataset };
 }
 
-// ── Anthropic client (lazy init) ──
+// ── AI client (lazy init) — stöder Anthropic direkt eller OpenRouter ──
 let claude = null;
 async function getClaude() {
   if (claude) return claude;
-  const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-  claude = new Anthropic({ apiKey });
+  // Försök OpenRouter först, annars Anthropic direkt
+  const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
+  if (orKey) {
+    claude = new Anthropic({
+      apiKey: orKey,
+      baseURL: 'https://openrouter.ai/api/v1',
+      defaultHeaders: {
+        'HTTP-Referer': 'https://searchboost.se',
+        'X-Title': 'Searchboost Opti'
+      }
+    });
+    console.log('[AI] Använder OpenRouter');
+  } else {
+    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
+    claude = new Anthropic({ apiKey });
+    console.log('[AI] Använder Anthropic direkt');
+  }
   return claude;
+}
+
+// ── Modellnamn — OpenRouter vs Anthropic direkt ──
+// OpenRouter: "anthropic/claude-sonnet-4-5" | Anthropic direkt: "claude-sonnet-4-5-20250929"
+// Tier-guide:
+//   cheap   = Gemini Flash 1.5 — gratis/nästan gratis, metadata-generering
+//   haiku   = Claude Haiku — snabb & billig, enkla uppgifter
+//   sonnet  = Claude Sonnet (default) — balanserad kvalitet
+//   grok    = xAI Grok 3 Mini — snabb, bra på SEO-content & listor
+//   kimi    = Moonshot Kimi K2 — utmärkt för design-content & presentationer
+//   opus    = Claude Opus — maxkvalitet, komplexa uppgifter
+let _useOpenRouter = null;
+async function getModel(tier = 'sonnet') {
+  if (_useOpenRouter === null) {
+    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
+    _useOpenRouter = !!orKey;
+  }
+  if (_useOpenRouter) {
+    if (tier === 'cheap') return 'google/gemini-flash-1.5';
+    if (tier === 'haiku') return 'anthropic/claude-haiku-4-5';
+    if (tier === 'grok')  return 'x-ai/grok-3-mini';
+    if (tier === 'kimi')  return 'moonshotai/kimi-k2';
+    if (tier === 'opus')  return 'anthropic/claude-opus-4-5';
+    return 'anthropic/claude-sonnet-4-5';
+  } else {
+    if (tier === 'cheap') return 'claude-3-haiku-20240307';
+    if (tier === 'haiku') return 'claude-3-haiku-20240307';
+    if (tier === 'grok')  return 'claude-sonnet-4-5-20250929'; // fallback utan OpenRouter
+    if (tier === 'kimi')  return 'claude-sonnet-4-5-20250929'; // fallback utan OpenRouter
+    if (tier === 'opus')  return 'claude-opus-4-5-20251101';
+    return 'claude-sonnet-4-5-20250929';
+  }
 }
 
 // ── Trello helpers ──
@@ -280,8 +329,38 @@ async function createTrelloCard(listId, name, desc) {
   return trelloApi('POST', '/cards', { idList: listId, name, desc });
 }
 
+// ── Kunder som är blockade på main EC2 — routa via worker (13.61.132.229) ──
+const WORKER_PROXIED_CUSTOMERS = new Set(['ilmonte']);
+let _workerUrl = null;
+let _workerKey = null;
+async function getWorkerConfig() {
+  if (!_workerUrl) {
+    _workerUrl = await getParam('/seo-mcp/worker/url').catch(() => 'http://13.61.132.229:4000');
+    _workerKey = await getParam('/seo-mcp/worker/api-key').catch(() => null);
+  }
+  return { url: _workerUrl, key: _workerKey };
+}
+
 // ── WordPress REST API helpers ──
 async function wpApi(site, method, endpoint, data = null) {
+  // Om kunden är blockad på main EC2 → routa via worker-proxy
+  const siteId = site.customer_id || site.id;
+  if (siteId && WORKER_PROXIED_CUSTOMERS.has(siteId)) {
+    const { url: workerUrl, key: workerKey } = await getWorkerConfig();
+    const res = await axios.post(`${workerUrl}/worker/wp-proxy`, {
+      wp_url: site.url,
+      username: site.username,
+      password: site['app-password'],
+      path: `/wp/v2${endpoint}`,
+      method,
+      data
+    }, {
+      headers: { 'Authorization': `Bearer ${workerKey}` },
+      timeout: 30000
+    });
+    return res.data;
+  }
+
   const auth = Buffer.from(`${site.username}:${site['app-password']}`).toString('base64');
   const config = {
     method,
@@ -314,6 +393,10 @@ async function logOptimization(entry) {
     const vals = cols.map(c => {
       const v = row[c];
       if (v === null || v === undefined) return 'NULL';
+      // impact_estimate kolumn är STRING i BQ — alltid som sträng
+      if (c === 'impact_estimate') return `'${String(v).replace(/'/g, "\\'")}'`;
+      // time_spent_minutes är INT64
+      if (c === 'time_spent_minutes') return String(parseInt(v, 10) || 0);
       if (typeof v === 'number') return String(v);
       return `'${String(v).replace(/'/g, "\\'")}'`;
     });
@@ -337,6 +420,8 @@ async function addToWorkQueue(task) {
     const vals = cols.map(c => {
       const v = row[c];
       if (v === null || v === undefined) return 'NULL';
+      // priority kolumn är INT64 i BQ — alltid som heltal
+      if (c === 'priority') return String(parseInt(v, 10) || 0);
       if (typeof v === 'number') return String(v);
       return `'${String(v).replace(/'/g, "\\'")}'`;
     });
@@ -691,7 +776,7 @@ async function analyzeSiteSEO(siteUrl) {
 
   // Claude analysis
   const analysis = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: await getModel('cheap'),
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -717,7 +802,7 @@ async function optimizeMetadata(site, postId, targetKeyword) {
   const client = await getClaude();
 
   const suggestion = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: await getModel('cheap'),
     max_tokens: 1000,
     messages: [{
       role: 'user',
@@ -781,7 +866,7 @@ async function generateFAQSchema(site, postId, topic) {
   const content = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 3000);
 
   const faq = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: await getModel('cheap'),
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -836,7 +921,7 @@ async function addInternalLinks(site, postId, targetKeyword) {
   const client = await getClaude();
 
   const suggestion = await client.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: await getModel('cheap'),
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -953,6 +1038,120 @@ async function fullSiteAudit(site) {
 }
 
 // ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// CHATBOT — searchboost.se widget (öppen, ingen API-nyckel)
+// ══════════════════════════════════════════
+
+// In-memory konversationshistorik (räcker för prototyp, max 500 sessioner)
+const chatSessions = new Map();
+const MAX_SESSIONS = 500;
+
+const CHATBOT_SYSTEM_PROMPT = `Du är en erfaren SEO-specialist och arbetar för Searchboost.se.
+Du heter "Searchboosts AI" men företrädare Mikael Larsson (mikael@searchboost.se, 073-xxx xx xx) hör av sig personligen.
+
+Ditt enda mål: hjälp besökaren förstå varför deras sajt inte rankar, och erbjud en kostnadsfri Searchboost-analys.
+
+KONVERSATIONSSTRATEGI:
+1. Fråga vad de kämpar med (trafik? synlighet? konkurrenter rankar före?)
+2. Ställ EN konkret följdfråga om deras bransch/domän
+3. Förklara kort varför det är svårt (konkurrens, tekniska problem, innehåll)
+4. Erbjud kostnadsfri analys: "Jag kan be Mikael köra en fullständig SEO-analys på din sajt — helt gratis, ingen förpliktelse."
+5. BE om domän + email för att skicka rapporten
+
+REGLER:
+- Max 2-3 meningar per svar
+- Alltid svenska, naturlig ton
+- Aldrig avslöja priser — hänvisa till ett möte med Mikael
+- Om de frågar om pris: "Det beror helt på er nuläge — det är just därför analysen är viktig, den visar exakt vad ni behöver."
+- Om de ger email: tacka och bekräfta att Mikael hör av sig inom 24h
+- Varumärke: Searchboost.se — transparent, inga dolda kostnader, resultat inom 4-8 veckor`;
+
+app.post('/api/chatbot/message', async (req, res) => {
+  try {
+    const { message, sessionId } = req.body;
+    if (!message || !sessionId) return res.status(400).json({ error: 'message och sessionId krävs' });
+
+    // Rensa gamla sessioner om gränsen nås
+    if (chatSessions.size >= MAX_SESSIONS) {
+      const firstKey = chatSessions.keys().next().value;
+      chatSessions.delete(firstKey);
+    }
+
+    let history = chatSessions.get(sessionId) || [];
+    history.push({ role: 'user', content: message });
+
+    const anthropicApiKey = await getParam('/seo-mcp/anthropic/api-key');
+    const anthropic = new Anthropic({ apiKey: anthropicApiKey });
+
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 300,
+      system: CHATBOT_SYSTEM_PROMPT,
+      messages: history,
+    });
+
+    const reply = response.content[0].type === 'text' ? response.content[0].text : 'Förlåt, försök igen.';
+    history.push({ role: 'assistant', content: reply });
+
+    // Spara max 20 meddelanden per session
+    if (history.length > 20) history = history.slice(-20);
+    chatSessions.set(sessionId, history);
+
+    res.json({ reply });
+  } catch (err) {
+    console.error('Chatbot error:', err.message);
+    res.status(500).json({ error: 'Kunde inte svara just nu.' });
+  }
+});
+
+app.post('/api/chatbot/capture-lead', async (req, res) => {
+  try {
+    const { email, domain, sessionId } = req.body;
+    if (!email) return res.status(400).json({ error: 'email krävs' });
+
+    // Logga lead till BigQuery om möjligt (icke-kritiskt — misslyckas tyst)
+    try {
+      const bqCreds = await getParam('/seo-mcp/bigquery/credentials');
+      const bqProjectId = await getParam('/seo-mcp/bigquery/project-id');
+      const bqDataset = await getParam('/seo-mcp/bigquery/dataset');
+      const bq = new BigQuery({ credentials: JSON.parse(bqCreds), projectId: bqProjectId });
+      await bq.dataset(bqDataset).table('chatbot_leads').insert([{
+        email,
+        domain: domain || null,
+        session_id: sessionId || null,
+        created_at: new Date().toISOString(),
+        source: 'searchboost_website_chatbot',
+      }]);
+    } catch (bqErr) {
+      console.error('BQ lead insert failed (non-critical):', bqErr.message);
+    }
+
+    // Skicka notis till Mikael via SES
+    try {
+      const sesClient = new SESClient({ region: process.env.AWS_REGION || 'eu-north-1' });
+      await sesClient.send(new SendEmailCommand({
+        Source: 'noreply@searchboost.se',
+        Destination: { ToAddresses: ['mikael@searchboost.se'] },
+        Message: {
+          Subject: { Data: `Ny lead från chatboten — ${domain || email}` },
+          Body: {
+            Text: {
+              Data: `Ny lead från searchboost.se chatboten:\n\nEmail: ${email}\nDomän: ${domain || 'ej angiven'}\nSession: ${sessionId || 'okänd'}\n\nHör av dig inom 24h!`
+            }
+          }
+        }
+      }));
+    } catch (sesErr) {
+      console.error('SES notification failed (non-critical):', sesErr.message);
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Lead capture error:', err.message);
+    res.status(500).json({ error: 'Kunde inte spara lead.' });
+  }
+});
+
 // EXPRESS ROUTES — Health + Dashboard API
 // ══════════════════════════════════════════
 
@@ -3115,7 +3314,7 @@ app.post('/api/domain-analysis', async (req, res) => {
     try {
       const client = await getClaude();
       const summaryResponse = await client.messages.create({
-        model: 'claude-sonnet-4-5-20250929',
+        model: await getModel('sonnet'),
         max_tokens: 500,
         messages: [{
           role: 'user',
@@ -4188,7 +4387,7 @@ ${contextParts.join('\n')}`;
     // Call Claude Haiku
     const anthropic = await getClaude();
     const response = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
+      model: await getModel('cheap'),
       max_tokens: 500,
       system: systemPrompt,
       messages: [{ role: 'user', content: message.trim() }]
@@ -4198,7 +4397,7 @@ ${contextParts.join('\n')}`;
 
     res.json({
       answer,
-      model: 'claude-3-haiku-20240307',
+      model: await getModel('haiku'),
       tokens_used: (response.usage?.input_tokens || 0) + (response.usage?.output_tokens || 0),
       customer_id: customerId
     });
@@ -4895,7 +5094,7 @@ app.post('/api/prospect-analysis', async (req, res) => {
     }[price_tier || 'medium'];
 
     const aiResponse = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: await getModel('haiku'),
       max_tokens: 2500,
       messages: [{
         role: 'user',
@@ -5827,7 +6026,7 @@ app.post('/api/customers/:id/link-prospects/auto-discover', async (req, res) => 
 
     const claudeClient = await getClaude();
     const message = await claudeClient.messages.create({
-      model: 'claude-haiku-4-5',
+      model: await getModel('cheap'),
       max_tokens: 1500,
       messages: [{
         role: 'user',
@@ -5924,7 +6123,7 @@ app.post('/api/linkedin/generate', async (req, res) => {
 
     const client = await getClaude();
     const response = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
+      model: await getModel('cheap'),
       max_tokens: 600,
       system: `Du är innehållsstrateg för Searchboost.se, en svensk SEO-byrå.
 Searchboost hjälper svenska små- och medelstora företag att ranka högre på Google.
@@ -6080,6 +6279,101 @@ app.patch('/api/linkedin/drafts/:id', async (req, res) => {
   } catch (e) {
     console.error('linkedin/drafts PATCH error:', e.message);
     res.status(500).json({ error: e.message });
+  }
+});
+
+// ── Shopify OAuth ──
+const SHOPIFY_CLIENT_ID = '119091d3ee9ef04ea643d9d230a0b8ed';
+const SHOPIFY_CLIENT_SECRET = 'c3b2cf7e35aa25c1a82ce89bb0fa9caf';
+const SHOPIFY_REDIRECT_URI = 'https://opti.searchboost.se/api/shopify/callback';
+const SHOPIFY_SCOPES = 'read_products,write_products,read_content,write_content,read_themes,write_themes,read_metafields,write_metafields';
+
+// Nonce-store i minnet (räcker för en server-process, omstart rensar dem)
+const shopifyNonces = {};
+
+// GET /api/shopify/auth/:shop — Starta OAuth-flödet
+app.get('/api/shopify/auth/:shop', (req, res) => {
+  const shop = req.params.shop;
+  const shopDomain = `${shop}.myshopify.com`;
+  const state = require('crypto').randomBytes(16).toString('hex');
+  shopifyNonces[state] = { shop, createdAt: Date.now() };
+
+  const params = new URLSearchParams({
+    client_id: SHOPIFY_CLIENT_ID,
+    scope: SHOPIFY_SCOPES,
+    redirect_uri: SHOPIFY_REDIRECT_URI,
+    state
+  });
+
+  res.redirect(`https://${shopDomain}/admin/oauth/authorize?${params.toString()}`);
+});
+
+// GET /api/shopify/callback — Ta emot OAuth-callback från Shopify
+app.get('/api/shopify/callback', async (req, res) => {
+  const { code, state, shop } = req.query;
+
+  // Validera state
+  if (!state || !shopifyNonces[state]) {
+    return res.status(400).send('Ogiltig state-parameter. OAuth-flödet kan ha gått ut.');
+  }
+  const nonceData = shopifyNonces[state];
+  delete shopifyNonces[state]; // Engångsanvändning
+
+  const shopDomain = `${nonceData.shop}.myshopify.com`;
+
+  try {
+    // Byt code mot access_token
+    const tokenRes = await axios.post(
+      `https://${shopDomain}/admin/oauth/access_token`,
+      {
+        client_id: SHOPIFY_CLIENT_ID,
+        client_secret: SHOPIFY_CLIENT_SECRET,
+        code
+      }
+    );
+    const accessToken = tokenRes.data.access_token;
+
+    // Spara access_token i SSM
+    await ssm.send(new PutParameterCommand({
+      Name: `/seo-mcp/shopify/${nonceData.shop}/access-token`,
+      Value: accessToken,
+      Type: 'SecureString',
+      Overwrite: true
+    }));
+
+    // Spara shop-domän i SSM
+    await ssm.send(new PutParameterCommand({
+      Name: `/seo-mcp/shopify/${nonceData.shop}/shop-domain`,
+      Value: shopDomain,
+      Type: 'String',
+      Overwrite: true
+    }));
+
+    console.log(`[Shopify] OAuth klar för ${shopDomain} — token sparad i SSM`);
+
+    res.send(`<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopify kopplat</title>
+  <style>
+    body { font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; background: #0d1117; color: #e6edf3; }
+    .box { text-align: center; padding: 2rem; border: 1px solid #30363d; border-radius: 8px; background: #161b22; }
+    h1 { color: #3fb950; margin-bottom: 0.5rem; }
+    p { color: #8b949e; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Shopify kopplat!</h1>
+    <p>Token sparad för <strong>${shopDomain}</strong>.</p>
+    <p>Du kan stänga det här fönstret.</p>
+  </div>
+</body>
+</html>`);
+  } catch (e) {
+    console.error('[Shopify] OAuth-fel:', e.message);
+    res.status(500).send(`OAuth misslyckades: ${e.message}`);
   }
 });
 

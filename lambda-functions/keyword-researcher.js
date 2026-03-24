@@ -242,7 +242,7 @@ Svara i JSON:
 }`;
 
   const response = await claude.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: AI_MODEL,
     max_tokens: 4000,
     messages: [{ role: 'user', content: prompt }]
   });
@@ -300,8 +300,11 @@ exports.handler = async (event) => {
     const { bq, dataset } = await getBigQuery();
     await ensureTable(bq, dataset);
 
-    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-    const claude = new Anthropic({ apiKey });
+    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
+    const claude = orKey
+      ? new Anthropic({ apiKey: orKey, baseURL: 'https://openrouter.ai/api/v1', defaultHeaders: { 'HTTP-Referer': 'https://searchboost.se', 'X-Title': 'Searchboost Opti' } })
+      : new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
+    const AI_MODEL = orKey ? 'x-ai/grok-3-mini' : 'claude-haiku-4-5-20251001';
 
     // 1. Hämta kundinfo
     const customerInfo = await getCustomerInfo(customerId);
