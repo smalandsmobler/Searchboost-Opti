@@ -555,6 +555,13 @@
     buildPanel();
   }
 
+  // ── Global API ────────────────────────────────────────────────
+  window.SBChat = {
+    open: function() { if (!isOpen) togglePanel(); },
+    close: function() { if (isOpen) togglePanel(); },
+    toggle: togglePanel,
+  };
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

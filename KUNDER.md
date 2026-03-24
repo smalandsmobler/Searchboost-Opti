@@ -17,8 +17,10 @@
 | tobler | OK | — | OK | jakob@tobler.se | Aktiv |
 | traficator | OK | — | OK | patrik.carlsson@traficator.se | Aktiv |
 | smalandskontorsmobler | SAKNAS | OK | OK | mikael@smalandskontorsmobler.se | Delvis |
-| wedosigns | SAKNAS | — | SAKNAS | mail@wedosigns.se | Delvis |
+| wedosigns | SAKNAS | 403 | OK | mail@wedosigns.se | Delvis |
 | ferox | SAKNAS | — | SAKNAS | Andreas.Sternberg@feroxkonsult.se | Ej aktiv |
+| jelmtech | OK | 403 | OK (30 st) | camilla.lundstrom@jelmtech.se | Aktiv |
+| nordicsnusonline | placeholder | — | OK (29 st) | — | Uppstart |
 
 **SAKNAS** = WordPress app-password inte inlagt. Kunden är registrerad men automatisk optimering är avstängd.
 
@@ -114,6 +116,29 @@
 **Sajt**: wedosigns.se
 **Saknas**: WP app-password + keywords
 **Viktors uppgift**: Be kunden generera Application Password + mata in nyckelord
+
+---
+
+## Jelmtech Produktutveckling AB
+
+**Sajt**: jelmtech.se
+**Kund-ID**: jelmtech
+**Avtal**: 8 000 kr/mån SEO Premium — AKTIV
+**WP**: mikael_searchboost / SSM (OK)
+**GSC**: 403 — SA borttagen, lägg till igen: `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com`
+**Keywords**: 30 st inlagda (10A + 10B + 10C)
+**Åtgärdsplan**: 3 månader, 24 uppgifter
+**Kontakt**: Camilla Lundström — camilla.lundstrom@jelmtech.se
+**Trello**: Jelmtech — 3 mån SEO (8000 kr/mån) Premium ✅ kommenterat 2026-03-24
+**Onboardad**: 2026-03-24
+
+**Månad 1-prio:**
+1. Rank Math SEO PRO installera
+2. Language sv-SE
+3. Meta descriptions 48 sidor
+4. H1-taggar 19 sidor
+5. URL-sanering /uncategorized/ → /blogg/
+6. Schema markup
 
 ---
 
