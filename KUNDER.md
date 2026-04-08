@@ -1,7 +1,12 @@
 # Kunder — Searchboost Opti
 
 > Delad fil. Mikael + Viktor ser samma info. Uppdatera när något ändras.
-> Senast uppdaterad: 2026-02-20
+> Senast uppdaterad: 2026-04-08
+>
+> **OBS arbetssätt (apr 2026):** Trello är borta — vi jobbar runt det. Dispatch
+> funkar inte heller. Vi behöver hitta ett nytt arbetssätt för uppgiftshantering
+> och triggers (förslag: använd KUNDER.md + commits som single source of truth
+> tills något bättre är på plats).
 
 ---
 
@@ -18,7 +23,7 @@
 | traficator | OK | — | OK | patrik.carlsson@traficator.se | Aktiv |
 | smalandskontorsmobler | SAKNAS | OK | OK | mikael@smalandskontorsmobler.se | Delvis |
 | wedosigns | SAKNAS | — | SAKNAS | mail@wedosigns.se | Delvis |
-| ferox | SAKNAS | — | SAKNAS | Andreas.Sternberg@feroxkonsult.se | Ej aktiv |
+| ferox | SAKNAS | — | SAKNAS | Andreas.Sternberg@feroxkonsult.se | Shopify-migrering pågår (väntar på collab-access) |
 
 **SAKNAS** = WordPress app-password inte inlagt. Kunden är registrerad men automatisk optimering är avstängd.
 
@@ -119,9 +124,31 @@
 
 ## Ferox Konsult
 
-**Sajt**: feroxkonsult.se
-**Saknas**: WP app-password + GSC + keywords
-**Viktors uppgift**: Kontakta kunden — all onboarding saknas
+**Sajt (live)**: feroxkonsult.se (gammal WordPress — ska fasas ut)
+**Sajt (ny)**: Shopify-butik under uppbyggnad
+**Plan**: Shopify Basic (max 2 staff — redan fyllda)
+**Kontakt**: Andreas Sternberg (Andreas.Sternberg@feroxkonsult.se)
+
+**Pågående lansering (apr 2026):**
+- Mail skickat till Andreas 2026-04-08 med två steg:
+  1. Bjuda in mikael@searchboost.se som staff → **FAILADE** ("nått användargränsen", Basic = 2 staff)
+  2. Slå på "Allow custom app development" under Apps → fortfarande pending
+- **Workaround**: Mikael begär istället **Collaborator access** via Shopify
+  Partners (`partners.shopify.com`) — räknas inte mot staff-gränsen, ingen
+  plan-uppgradering behövs. Andreas approve:ar i Settings → Users and
+  permissions → Collaborators.
+- Andreas behöver fortfarande klicka "Allow custom app development" så
+  Mikael kan skapa custom app + Admin API token efter approve.
+
+**Innehåll redo i repo:**
+- `content-pages/ferox-shopify-pages.md` — sidtexter
+- `content-pages/ferox-shopify-seo.md` — SEO/meta
+- `content-pages/ferox-shopify-collections.md` — kollektioner
+- `content-pages/ferox-shopify-products.csv` — produktimport
+- `content-pages/ferox-scraped-content.md` — scraped från gamla sajten
+
+**Saknas (WP-sidan)**: WP app-password + GSC + keywords — men sannolikt
+inte värt att aktivera den gamla sajten när Shopify ersätter den.
 
 ---
 
