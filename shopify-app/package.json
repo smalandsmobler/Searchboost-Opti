@@ -1,0 +1,16 @@
+{
+  "name": "searchboost-shopify-oauth",
+  "version": "1.0.0",
+  "description": "OAuth callback för att generera Admin API-tokens för Shopify-kunder och spara i SSM",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "PORT=3100 node index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ssm": "^3.600.0",
+    "@shopify/shopify-api": "^11.0.0",
+    "express": "^4.19.0",
+    "dotenv": "^16.4.0"
+  }
+}
