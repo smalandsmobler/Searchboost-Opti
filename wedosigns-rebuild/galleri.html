@@ -94,7 +94,7 @@
 </head>
 <body>
 <div class="topbar"><div class="topbar-inner"><span>📍 Datavägen 14B, Askim, Göteborg</span><div class="topbar-contact"><a href="tel:0793020787">📞 0793-020787</a><a href="mailto:mail@wedosigns.se">✉ mail@wedosigns.se</a></div></div></div>
-<header class="site-header"><div class="nav-inner"><a href="index.html" class="logo">Wedo <span>Signs</span></a><nav><ul><li class="has-dropdown"><a href="produkter.html">Produkter</a><ul class="dropdown"><li><a href="skyltar-goteborg.html">Skyltar</a></li><li><a href="bildekor-goteborg.html">Bildekor</a></li><li><a href="banderoller-goteborg.html">Banderoller</a></li><li><a href="dekaler-goteborg.html">Dekaler</a></li><li><a href="event-exponering-goteborg.html">Event & exponering</a></li><li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li><li><a href="klistermarken-goteborg.html">Klistermärken</a></li><li><a href="print-goteborg.html">Print</a></li></ul></li><li><a href="galleri.html" class="active">Galleri</a></li><li><a href="om-oss.html">Om oss</a></li><li><a href="offerter-wedosigns.html" class="nav-cta">Begär offert</a></li></ul></nav><button class="hamburger" onclick="toggleMenu()">☰</button></div></header>
+<header class="site-header"><div class="nav-inner"><a href="index.html" class="logo"><img src="https://wedosigns.se/wp-content/uploads/2026/03/cropped-logo-1.png" alt="We Do Signs" style="height:44px;width:auto"></a><nav><ul><li class="has-dropdown"><a href="produkter.html">Produkter</a><ul class="dropdown"><li><a href="skyltar-goteborg.html">Skyltar</a></li><li><a href="bildekor-goteborg.html">Bildekor</a></li><li><a href="banderoller-goteborg.html">Banderoller</a></li><li><a href="dekaler-goteborg.html">Dekaler</a></li><li><a href="event-exponering-goteborg.html">Event & exponering</a></li><li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li><li><a href="klistermarken-goteborg.html">Klistermärken</a></li><li><a href="print-goteborg.html">Print</a></li></ul></li><li><a href="galleri.html" class="active">Galleri</a></li><li><a href="om-oss.html">Om oss</a></li><li><a href="offerter-wedosigns.html" class="nav-cta">Begär offert</a></li></ul></nav><button class="hamburger" onclick="toggleMenu()">☰</button></div></header>
 
 <section class="page-hero"><div class="page-hero-inner">
   <div class="breadcrumb"><a href="index.html">Hem</a><span>›</span>Galleri</div>
@@ -104,11 +104,6 @@
 
 <section class="section"><div class="section-inner">
 
-  <div class="upload-notice">
-    <strong>📸 Ladda upp dina bilder här</strong>
-    <p>Ersätt platshållarna nedan med riktiga kundbilder via WordPress Media Library.<br>Rekommenderad storlek: 1200×900 px, JPG/WebP.</p>
-  </div>
-
   <div class="filter-bar">
     <button class="filter-btn active" onclick="filterGallery('all', this)">Alla</button>
     <button class="filter-btn" onclick="filterGallery('skyltar', this)">Skyltar</button>
@@ -116,21 +111,22 @@
     <button class="filter-btn" onclick="filterGallery('banderoller', this)">Banderoller</button>
     <button class="filter-btn" onclick="filterGallery('folie', this)">Folie & dekaler</button>
     <button class="filter-btn" onclick="filterGallery('event', this)">Event</button>
+    <button class="filter-btn" onclick="filterGallery('utomhus', this)">Utomhus</button>
   </div>
 
   <div class="gallery-grid" id="gallery">
-    <div class="gallery-item" data-cat="skyltar"><span>🪧</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">Fasadskylt — Göteborg</span></div>
-    <div class="gallery-item" data-cat="bildekor"><span>🚐</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Skåpbilsfoliering</span></div>
-    <div class="gallery-item" data-cat="banderoller"><span>🎌</span><span class="gallery-tag">Banderoller</span><span class="gallery-label">PVC-banderoll event</span></div>
-    <div class="gallery-item" data-cat="folie"><span>🏷️</span><span class="gallery-tag">Dekaler</span><span class="gallery-label">Fönsterdekaler kontor</span></div>
-    <div class="gallery-item" data-cat="skyltar"><span>💡</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">LED-ljusskylt</span></div>
-    <div class="gallery-item" data-cat="bildekor"><span>🚗</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Personbil — logotyp</span></div>
-    <div class="gallery-item" data-cat="event"><span>🎪</span><span class="gallery-tag">Event</span><span class="gallery-label">Roll-up mässdisplay</span></div>
-    <div class="gallery-item" data-cat="folie"><span>🪟</span><span class="gallery-tag">Folie</span><span class="gallery-label">Frostad fönsterfolie</span></div>
-    <div class="gallery-item" data-cat="skyltar"><span>🔤</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">Profilbokstäver fasad</span></div>
-    <div class="gallery-item" data-cat="bildekor"><span>🚛</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Lastbilsreklam</span></div>
-    <div class="gallery-item" data-cat="banderoller"><span>📢</span><span class="gallery-tag">Banderoller</span><span class="gallery-label">Mesh-banderoll byggnad</span></div>
-    <div class="gallery-item" data-cat="event"><span>🖼️</span><span class="gallery-tag">Event</span><span class="gallery-label">Bakgrundsvägg step & repeat</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/urban-design-background-texture-featuring-cracked-asphalt-road-yellow-dividing-line-380930818backgrund-2.webp');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Urban markdekor — Göteborg</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/yellow-black-hazard-stripes-cracked-concrete-texture-close-up-view-textured-surface-featuring-bright-diagonal-415082565-2.webp');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Industrimärkning — varningszoner</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/black-yellow-under-construction-grunge-texture-industrial-warning-zone-62625519-1.webp');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Byggskylt — varning & säkerhet</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/yellow-road-marking-stripe-asphalt-background-grunge-dark-48031803.webp');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Vägmarkering — asfaltdekor</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/dark-skid-marks-asphalt-road-crossing-yellow-traffic-lines-detail-reckless-driver-driving-dangerously-country-being-437486125-3.webp');background-size:cover;background-position:center"><span class="gallery-tag">Bildekor</span><span class="gallery-label">Markering & linjedragning</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/grunge-yellow-and-black-diagonal-stripes-industrial-warning-background-warn-caution-construction-safety-high-quality-photo-3A0PMRB-1.jpg');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Industrial branding — gul/svart</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/yellow-line-on-cracked-asphalt-road-urban-texture-DEJH70.jpg');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Gatureklam — urban profil</span></div>
+    <div class="gallery-item" data-cat="utomhus" style="background-image:url('https://wedosigns.se/wp-content/uploads/2026/03/two-yellow-barrier-lines-painted-to-tarmac-AE9XT9-2.jpg');background-size:cover;background-position:center"><span class="gallery-tag">Utomhus</span><span class="gallery-label">Barriärmarkering — parkering</span></div>
+    <div class="gallery-item" data-cat="skyltar"><span class="gallery-tag">Skyltar</span><span class="gallery-label">Fasadskylt — Göteborg</span></div>
+    <div class="gallery-item" data-cat="bildekor"><span class="gallery-tag">Bildekor</span><span class="gallery-label">Skåpbilsfoliering</span></div>
+    <div class="gallery-item" data-cat="banderoller"><span class="gallery-tag">Banderoller</span><span class="gallery-label">PVC-banderoll event</span></div>
+    <div class="gallery-item" data-cat="folie"><span class="gallery-tag">Folie</span><span class="gallery-label">Frostad fönsterfolie</span></div>
   </div>
 </div></section>
 

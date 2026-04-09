@@ -3,279 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wedo Signs – Skyltar & Bildekor i Göteborg</title>
-  <meta name="description" content="Wedo Signs — skyltföretag i Göteborg. Plåtskyltar, ljusskyltar, bildekor, folie och banderoller. Begär kostnadsfri offert idag.">
-  <link rel="stylesheet" href="style.css">
+  <title>We Do Signs – Skyltar som syns på vägen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bebas { font-family: 'Bebas Neue', sans-serif; }
+    @keyframes wds-zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+    .wds-zoom{ animation:wds-zoom 9s ease-in-out infinite alternate; }
+    @keyframes wds-fadeup{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .wds-fadeup{ animation:wds-fadeup 1s ease forwards; }
+    .card-hover{ transition:border-color .3s,transform .3s; }
+    .card-hover:hover{ border-color:#FFEA00 !important; transform:translateY(-4px); }
+  </style>
 </head>
-<body>
+<body class="bg-[#0A0A0A] text-[#FFEA00] overflow-x-hidden">
 
-<!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-inner">
-    <span>📍 Datavägen 14B, Askim, Göteborg</span>
-    <div class="topbar-contact">
-      <a href="tel:0793020787">📞 0793-020787</a>
-      <a href="mailto:mail@wedosigns.se">✉ mail@wedosigns.se</a>
+  <!-- NAV -->
+  <nav style="position:fixed;top:0;width:100%;background:rgba(0,0,0,.96);border-bottom:2px solid rgba(255,234,0,.2);z-index:50">
+    <div style="max-width:1280px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+      <a href="index.html">
+        <img src="https://wedosigns.se/wp-content/uploads/2026/03/cropped-logo-1.png" alt="We Do Signs" style="height:52px;width:auto;filter:drop-shadow(0 0 10px #FFEA00) drop-shadow(0 0 22px rgba(255,234,0,.5))">
+      </a>
+      <div style="display:flex;gap:2rem;font-size:1rem">
+        <a href="skyltar-goteborg.html" style="color:#FFEA00;text-decoration:none">Skyltar</a>
+        <a href="bildekor-goteborg.html" style="color:#FFEA00;text-decoration:none">Bildekor</a>
+        <a href="banderoller-goteborg.html" style="color:#FFEA00;text-decoration:none">Banderoller</a>
+        <a href="insynsskydd-goteborg.html" style="color:#FFEA00;text-decoration:none">Insynsskydd</a>
+        <a href="portfolio.html" style="color:#FFEA00;text-decoration:none">Portfolio</a>
+        <a href="offerter-wedosigns.html" style="color:#FFEA00;text-decoration:none">Kontakt</a>
+      </div>
+      <a href="tel:0793020787" style="background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;padding:.7rem 1.8rem;border-radius:.75rem;text-decoration:none;letter-spacing:.05em">079-302 07 87</a>
     </div>
-  </div>
-</div>
+  </nav>
 
-<!-- HEADER -->
-<header class="site-header">
-  <div class="nav-inner">
-    <a href="index.html" class="logo">Wedo <span>Signs</span></a>
-    <nav>
-      <ul>
-        <li class="has-dropdown">
-          <a href="produkter.html">Produkter</a>
-          <ul class="dropdown">
-            <li><a href="skyltar-goteborg.html">Skyltar</a></li>
-            <li><a href="bildekor-goteborg.html">Bildekor</a></li>
-            <li><a href="banderoller-goteborg.html">Banderoller</a></li>
-            <li><a href="dekaler-goteborg.html">Dekaler</a></li>
-            <li><a href="event-exponering-goteborg.html">Event & exponering</a></li>
-            <li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li>
-            <li><a href="klistermarken-goteborg.html">Klistermärken</a></li>
-            <li><a href="print-goteborg.html">Print</a></li>
-          </ul>
-        </li>
-        <li><a href="galleri.html">Galleri</a></li>
-        <li><a href="om-oss.html">Om oss</a></li>
-        <li><a href="offerter-wedosigns.html" class="nav-cta">Begär offert</a></li>
-      </ul>
-    </nav>
-    <button class="hamburger" onclick="toggleMenu()">☰</button>
-  </div>
-</header>
+  <!-- HERO -->
+  <section style="position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding-top:80px">
+    <div class="wds-zoom" style="position:absolute;inset:0;background:url(https://wedosigns.se/wp-content/uploads/2026/03/hero-1-1.jpeg) center/cover no-repeat"></div>
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,.40)"></div>
+    <div class="wds-fadeup" style="position:relative;z-index:2;padding:0 1.5rem">
+      <h1 class="bebas" style="font-size:clamp(80px,14vw,160px);line-height:1;letter-spacing:-3px;margin:0;color:#FFEA00">WE DO SIGNS</h1>
+      <p class="bebas" style="font-size:clamp(1.8rem,4vw,3.5rem);margin:.5rem 0 0;color:#FFEA00;opacity:.85">SKYLTAR SOM SYNS PÅ VÄGEN</p>
+      <p style="font-size:clamp(1rem,1.8vw,1.3rem);margin-top:1.5rem;color:#FFEA00;opacity:.7">Professionell skyltning • Bildekor • Storformat i Göteborg & Västra Götaland</p>
+      <a href="#offert" style="margin-top:2.5rem;display:inline-block;background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.08em;padding:1rem 3.5rem;border-radius:1rem;text-decoration:none;transition:transform .3s" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">FÅ OFFERT NU →</a>
+    </div>
+  </section>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-inner">
-    <span class="hero-label">Skyltföretag i Göteborg</span>
-    <h1>Skyltar som <em>syns</em> —<br>bildekor som <em>säljer</em></h1>
-    <p>Wedo Signs tillverkar och monterar professionella skyltar, bildekor, folie och banderoller för företag i Göteborg och hela Västra Götaland.</p>
-    <div class="hero-buttons">
-      <a href="offerter-wedosigns.html" class="btn-primary">Begär kostnadsfri offert</a>
-      <a href="produkter.html" class="btn-secondary">Se alla produkter</a>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-number">500+</div>
-        <div class="stat-label">Nöjda kunder</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">10+</div>
-        <div class="stat-label">Års erfarenhet</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">24h</div>
-        <div class="stat-label">Offert samma dag</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">3M</div>
-        <div class="stat-label">Premium folie</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TJÄNSTER -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-header">
-      <span class="section-tag">Vad vi gör</span>
-      <h2>Våra tjänster</h2>
-      <p class="section-sub">Från enstaka skyltar till kompletta profileringslösningar — vi hjälper ditt företag synas.</p>
-    </div>
-    <div class="services-grid">
-      <a href="skyltar-goteborg.html" class="service-card">
-        <div class="service-icon">🪧</div>
-        <h3>Skyltar i Göteborg</h3>
-        <p>Plåtskyltar, ljusskyltar, fasadskyltar och namnskyltar. Hållbara material och professionell montering.</p>
-        <span class="card-link">Läs mer →</span>
+  <!-- TJÄNSTER -->
+  <section style="padding:5rem 1.5rem;background:#111">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,6vw,4.5rem);text-align:center;margin-bottom:3rem;color:#FFEA00">VAD VI GÖR</h2>
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem">
+      <a href="skyltar-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🪧</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Fasadskyltar & LED</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Proffsiga skyltar som syns — dag och natt.</p>
       </a>
-      <a href="bildekor-goteborg.html" class="service-card">
-        <div class="service-icon">🚐</div>
-        <h3>Bildekor i Göteborg</h3>
-        <p>Fordonsfoliering, bilreklam och helfoliering med 3M och Avery Dennison. 5-7 års livslängd.</p>
-        <span class="card-link">Läs mer →</span>
+      <a href="bildekor-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🚗</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Bildekor & Helfoliering</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Fordonreklam som rullar hela dagen.</p>
       </a>
-      <a href="banderoller-goteborg.html" class="service-card">
-        <div class="service-icon">🎌</div>
-        <h3>Banderoller</h3>
-        <p>PVC- och mesh-banderoller för fasad, event och reklam. Snabb leverans 3-5 dagar.</p>
-        <span class="card-link">Läs mer →</span>
+      <a href="banderoller-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🏳️</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Banderoller & Flaggor</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Storformat för event, mässor och butiker.</p>
       </a>
-      <a href="dekaler-goteborg.html" class="service-card">
-        <div class="service-icon">🏷️</div>
-        <h3>Dekaler i Göteborg</h3>
-        <p>Företagsdekaler, fönsterdekaler, bildekaler och produktmärkning i premium vinylfolie.</p>
-        <span class="card-link">Läs mer →</span>
+      <a href="insynsskydd-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🪟</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Fönsterfolie & Insynsskydd</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Stil och integritet — samtidigt.</p>
       </a>
-      <a href="event-exponering-goteborg.html" class="service-card">
-        <div class="service-icon">🎪</div>
-        <h3>Event & exponering</h3>
-        <p>Roll-ups, mässmaterial, eventproduktion och exponeringslösningar för företagsevent.</p>
-        <span class="card-link">Läs mer →</span>
+      <a href="event-exponering-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🎪</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Event & Exponering</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Maximal synlighet på mässor och event.</p>
       </a>
-      <a href="insynsskydd-goteborg.html" class="service-card">
-        <div class="service-icon">🪟</div>
-        <h3>Insynsskydd</h3>
-        <p>Fönsterfolie, frostad film och solfilm för kontor och butik. Monteras på plats.</p>
-        <span class="card-link">Läs mer →</span>
-      </a>
-      <a href="klistermarken-goteborg.html" class="service-card">
-        <div class="service-icon">⭐</div>
-        <h3>Klistermärken</h3>
-        <p>Stickers och klistermärken för reklam, produktmärkning och dekoration i valfri form.</p>
-        <span class="card-link">Läs mer →</span>
-      </a>
-      <a href="print-goteborg.html" class="service-card">
-        <div class="service-icon">🖨️</div>
-        <h3>Print i Göteborg</h3>
-        <p>Storformatstryck, affischer, roll-ups och mässmaterial med hög tryckkvalitet.</p>
-        <span class="card-link">Läs mer →</span>
+      <a href="print-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🖨️</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Print & Storformat</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Skarpa tryck i alla format.</p>
       </a>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- OM OSS / TRUST -->
-<section class="section" style="background: var(--black2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-  <div class="section-inner">
-    <div class="about-grid">
-      <div class="about-text">
-        <span class="section-tag">Om Wedo Signs</span>
-        <h2>Skyltföretaget i Askim, Göteborg</h2>
-        <p>Wedo Signs är ett lokalt skyltföretag i Askim, Göteborg. Vi hjälper företag att synas — med professionella skyltar, bildekor, folie och tryckt material av högsta kvalitet.</p>
-        <p>Vi arbetar med premiumfolie från 3M och Avery Dennison och håller alltid hög kvalitet på allt vi producerar. Snabb offert, snabb leverans och professionell montering.</p>
-        <ul class="about-features">
-          <li>Kostnadsfri offert inom 24 timmar</li>
-          <li>3M och Avery Dennison premiumfolie</li>
-          <li>Komplett montering i Göteborgsområdet</li>
-          <li>5-7 års garanti på utomhusmaterial</li>
-          <li>Snabb leverans 3-5 arbetsdagar (express 1-2 dagar)</li>
-          <li>Skräddarsydda lösningar för alla storlekar</li>
-        </ul>
-      </div>
-      <div class="about-image">🏭</div>
+  <!-- SIFFROR -->
+  <section style="padding:5rem 1.5rem;background:#0a0a0a;text-align:center">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,5vw,4rem);margin-bottom:3rem;color:#FFEA00">VARFÖR WE DO SIGNS</h2>
+    <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem">
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">20+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">ÅR I BRANSCHEN</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">7500+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">SKYLTAR MONTERADE</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">100+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">BILDEKORER PER ÅR</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">48H</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">LEVERANS OFTA</p></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- HUR VI ARBETAR -->
-<section class="section">
-  <div class="section-inner">
-    <div class="section-header">
-      <span class="section-tag">Processen</span>
-      <h2>Hur vi arbetar</h2>
-      <p class="section-sub">Från kontakt till färdig produkt — enkelt och smidigt.</p>
-    </div>
-    <div class="steps-grid">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h3>Kontakt & offert</h3>
-        <p>Ring, maila eller fyll i formuläret. Vi återkommer med en kostnadsfri offert samma dag.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h3>Design & korrektur</h3>
-        <p>Vi tar fram ett designförslag baserat på er grafiska profil. Ni godkänner innan produktion.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h3>Produktion</h3>
-        <p>Era skyltar och dekaler produceras i vår verkstad i Askim med premiumutrustning.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">4</div>
-        <h3>Leverans & montering</h3>
-        <p>Hämta själv, få leverans eller boka professionell montering på plats i Göteborg.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- KONTAKT -->
+  <section id="offert" style="padding:6rem 1.5rem;background:#111;text-align:center">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,5vw,4rem);margin-bottom:1.5rem;color:#FFEA00">REDO ATT SYNAS BÄTTRE?</h2>
+    <p style="font-size:1.3rem;margin-bottom:2rem;color:#FFEA00;opacity:.8">Ring nu eller skicka förfrågan</p>
+    <a href="tel:0793020787" class="bebas" style="display:block;font-size:4rem;color:#FFEA00;text-decoration:none;margin-bottom:1rem">079-302 07 87</a>
+    <p style="font-size:1.1rem;margin-bottom:2.5rem;color:#FFEA00;opacity:.7">info@wedosigns.se</p>
+    <a href="offerter-wedosigns.html" style="background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.08em;padding:1rem 3.5rem;border-radius:1rem;text-decoration:none;display:inline-block">SKICKA OFFERTFÖRFRÅGAN</a>
+  </section>
 
-<!-- CTA -->
-<section class="cta-band">
-  <h2>Redo att synas?</h2>
-  <p>Begär en kostnadsfri offert idag. Vi återkommer inom 24 timmar.</p>
-  <a href="offerter-wedosigns.html" class="btn-primary">Begär offert — kostnadsfritt</a>
-</section>
+  <footer style="background:#000;padding:3rem 1.5rem;text-align:center;color:#FFEA00;opacity:.6;font-size:.9rem">
+    © We Do Signs 2026 • Göteborg & Västra Götaland • Skyltar som syns på vägen
+  </footer>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="logo">Wedo <span>Signs</span></a>
-      <p>Skyltföretag i Askim, Göteborg. Vi tillverkar och monterar skyltar, bildekor, folie och tryckt material för företag i hela Västra Götaland.</p>
-      <div class="footer-social">
-        <a href="#" class="social-btn" title="Facebook">f</a>
-        <a href="#" class="social-btn" title="Instagram">📷</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Produkter</h4>
-      <ul>
-        <li><a href="skyltar-goteborg.html">Skyltar</a></li>
-        <li><a href="bildekor-goteborg.html">Bildekor</a></li>
-        <li><a href="banderoller-goteborg.html">Banderoller</a></li>
-        <li><a href="dekaler-goteborg.html">Dekaler</a></li>
-        <li><a href="event-exponering-goteborg.html">Event & exponering</a></li>
-        <li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li>
-        <li><a href="klistermarken-goteborg.html">Klistermärken</a></li>
-        <li><a href="print-goteborg.html">Print</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Företaget</h4>
-      <ul>
-        <li><a href="om-oss.html">Om oss</a></li>
-        <li><a href="galleri.html">Galleri</a></li>
-        <li><a href="offerter-wedosigns.html">Begär offert</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Kontakt</h4>
-      <ul>
-        <li><a href="tel:0793020787">📞 0793-020787</a></li>
-        <li><a href="mailto:mail@wedosigns.se">✉ mail@wedosigns.se</a></li>
-        <li><a href="#">📍 Datavägen 14B, Askim</a></li>
-      </ul>
-      <p style="color: var(--muted); font-size: 13px; margin-top: 16px;">
-        Mån–Fre: 08:00–17:00<br>
-        Utanför öppettider: ring eller maila
-      </p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>© 2026 Wedo Signs AB. Alla rättigheter förbehållna.</span>
-    <span>Org.nr: 556XXXXXXX | Datavägen 14B, 436 32 Askim</span>
-  </div>
-</footer>
-
-<script>
-function toggleMenu() {
-  const nav = document.querySelector('nav ul');
-  nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
-  if (nav.style.display === 'flex') {
-    nav.style.flexDirection = 'column';
-    nav.style.position = 'absolute';
-    nav.style.top = '70px';
-    nav.style.left = '0';
-    nav.style.right = '0';
-    nav.style.background = 'rgba(10,10,10,0.99)';
-    nav.style.padding = '16px 24px';
-    nav.style.borderBottom = '1px solid rgba(255,204,0,0.15)';
-    nav.style.zIndex = '99';
-  }
-}
-// FAQ toggle
-document.querySelectorAll('.faq-question').forEach(q => {
-  q.addEventListener('click', () => {
-    q.closest('.faq-item').classList.toggle('open');
-  });
-});
-</script>
 </body>
 </html>

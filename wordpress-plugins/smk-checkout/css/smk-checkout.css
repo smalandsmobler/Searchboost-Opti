@@ -1,0 +1,178 @@
+/**
+ * SMK Checkout v2.0 — Professionell kassadesign
+ * Smålands Kontorsmöbler — Searchboost
+ */
+
+/* ── Kundtypsväljare ── */
+#smk-customer-type-wrap {
+    margin: 0 0 28px;
+    padding: 24px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+}
+.smk-customer-type-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 12px !important;
+    letter-spacing: -0.01em;
+}
+.smk-toggle-buttons {
+    display: flex;
+    gap: 10px;
+}
+.smk-toggle-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 15px;
+    font-weight: 500;
+    color: #6b7280;
+    user-select: none;
+}
+.smk-toggle-btn input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.smk-toggle-btn:hover {
+    border-color: #9ca3af;
+    color: #374151;
+}
+.smk-toggle-btn.smk-active {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+    box-shadow: 0 0 0 1px #2563eb;
+}
+.smk-toggle-btn.smk-active .smk-toggle-icon {
+    color: #2563eb;
+}
+.smk-toggle-icon {
+    display: flex;
+    align-items: center;
+    color: #9ca3af;
+    transition: color 0.2s;
+}
+.smk-customer-type-hint {
+    margin: 12px 0 0 !important;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #4b5563;
+    background: #fff;
+    border-radius: 6px;
+    border-left: 3px solid #2563eb;
+    line-height: 1.5;
+}
+
+/* ── Frakt-infobox ── */
+.smk-info-box {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 4px 0 8px;
+}
+.smk-info-notice {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+}
+.smk-info-neutral {
+    background: #f0f9ff;
+    border: 1px solid #38bdf8;
+    color: #0c4a6e;
+}
+
+/* ── Bättre checkout-styling ── */
+.woocommerce-checkout .form-row label {
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+.woocommerce-checkout .form-row input,
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout .form-row textarea {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.woocommerce-checkout .form-row input:focus,
+.woocommerce-checkout .form-row select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    outline: none;
+}
+
+/* ── Betalmetoder ── */
+.woocommerce-checkout-payment {
+    border-radius: 10px !important;
+    border: 1px solid #e5e7eb !important;
+    overflow: hidden;
+}
+.wc_payment_methods li {
+    border-bottom: 1px solid #f3f4f6;
+}
+.wc_payment_methods li:last-child {
+    border-bottom: none;
+}
+
+/* ── Order-summering ── */
+.woocommerce-checkout-review-order-table {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+}
+.woocommerce-checkout-review-order-table th,
+.woocommerce-checkout-review-order-table td {
+    padding: 12px 16px !important;
+}
+
+/* ── Beställ-knapp ── */
+#place_order {
+    background: #2563eb !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 16px 32px !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+    transition: background 0.2s !important;
+    width: 100%;
+}
+#place_order:hover {
+    background: #1d4ed8 !important;
+}
+
+/* ── Mobil ── */
+@media (max-width: 768px) {
+    .smk-toggle-buttons {
+        flex-direction: column;
+    }
+    #smk-customer-type-wrap {
+        padding: 16px;
+        margin: 0 0 20px;
+    }
+    .smk-toggle-btn {
+        padding: 12px 16px;
+    }
+    .woocommerce-checkout .form-row input,
+    .woocommerce-checkout .form-row select {
+        font-size: 16px; /* förhindrar zoom på iOS */
+    }
+    #place_order {
+        font-size: 17px !important;
+        padding: 14px 24px !important;
+    }
+}

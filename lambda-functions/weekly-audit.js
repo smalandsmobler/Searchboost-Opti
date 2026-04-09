@@ -478,6 +478,28 @@ exports.handler = async (event) => {
         console.log(`  Inga nya sidor att lägga till — allt redan hanterat`);
       }
 
+      // ── Lägg till artikelgenerering (1 per kund per vecka) ──
+      const articleExists = existingRows.some(r => r.task_type === 'create_article');
+      if (!articleExists) {
+        const articleQueueId = `q-${Date.now()}-article-${Math.random().toString(36).slice(2, 8)}`;
+        const articleItem = {
+          queue_id: articleQueueId,
+          customer_id: site.id,
+          site_url: site.url,
+          task_type: 'create_article',
+          page_url: site.url,
+          context_data: JSON.stringify({ type: 'auto_article', customer_id: site.id }),
+          priority: 3,
+          status: 'pending'
+        };
+        const esc = (s) => (s || '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
+        await bq.query({
+          query: `INSERT INTO \`${dataset}.seo_work_queue\` (queue_id, customer_id, site_url, task_type, page_url, context_data, priority, status, created_at)
+                  VALUES ('${esc(articleItem.queue_id)}', '${esc(articleItem.customer_id)}', '${esc(articleItem.site_url)}', '${esc(articleItem.task_type)}', '${esc(articleItem.page_url)}', '${esc(articleItem.context_data)}', ${articleItem.priority}, 'pending', CURRENT_TIMESTAMP())`
+        });
+        console.log(`  Artikelgenerering köad för ${site.id}`);
+      }
+
       allResults.push({
         site: site.url,
         totalIssues: issues.length,

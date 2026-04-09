@@ -12,6 +12,9 @@ const fs = require('fs');
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
 
+// Module-level — sätts om i handler beroende på OpenRouter-nyckel
+let AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5-20251001';
+
 async function getParam(name) {
   const res = await ssm.send(new GetParameterCommand({ Name: name, WithDecryption: true }));
   return res.Parameter.Value;
@@ -744,11 +747,83 @@ function formatTaskType(type) {
   return names[type] || type || 'SEO-optimering';
 }
 
+// ── Artikelgenerering ──
+async function createArticle(site, task, claude, bq, dataset) {
+  const kw = await getCustomerKeywords(bq, dataset, task.customer_id);
+  if (kw.all.length === 0) {
+    return { type: 'create_article', action: 'no_keywords' };
+  }
+
+  // Hämta befintliga inlägg för att undvika duplicering
+  const existingPosts = await wpApi(site, 'GET', '/posts?per_page=50&_fields=id,title,link');
+  const existingTitles = existingPosts.map(p => p.title.rendered.toLowerCase());
+
+  // Välj nyckelord att skriva om (rotera baserat på antal befintliga artiklar)
+  const targetKeywords = kw.a.length > 0 ? kw.a : kw.b.length > 0 ? kw.b : kw.c;
+  const kwIndex = existingPosts.length % targetKeywords.length;
+  const primaryKw = targetKeywords[kwIndex] || kw.all[0];
+  const relatedKws = kw.all.filter(k => k !== primaryKw).slice(0, 5);
+
+  const suggestion = await claude.messages.create({
+    model: AI_MODEL,
+    max_tokens: 3000,
+    messages: [{
+      role: 'user',
+      content: `Du är en expert på svensk SEO-content. Skriv en informativ blogg/guide-artikel.
+
+Företag: ${site.url}
+Primärt sökord: ${primaryKw}
+Relaterade sökord att inkludera: ${relatedKws.join(', ')}
+Befintliga artiklar (undvik liknande titlar): ${existingTitles.slice(0, 10).join(', ')}
+
+Krav:
+- Titel: SEO-optimerad, 50-65 tecken, inkludera primärt sökord
+- Innehåll: 600-900 ord
+- Struktur: H2 + H3-rubriker, korta stycken
+- Naturlig svenska, hjälpsam ton
+- Inkludera interna länkar till befintliga sidor
+- Avsluta med CTA
+- HTML-format med p, h2, h3, ul, li, a-taggar
+
+Svara i JSON:
+{"title": "Artikeltitel", "content": "<h2>...</h2><p>...</p>...", "excerpt": "Kort sammanfattning (150 tecken)", "slug": "url-slug", "reasoning": "Varför denna vinkel valdes"}`
+    }]
+  });
+
+  const result = parseClaudeJSON(suggestion.content[0].text);
+
+  // Kolla att titeln inte redan finns
+  if (existingTitles.includes(result.title.toLowerCase())) {
+    return { type: 'create_article', action: 'duplicate_title', title: result.title };
+  }
+
+  // Publicera som utkast (draft) — kan ändras till 'publish' för full automation
+  const newPost = await wpApi(site, 'POST', '/posts', {
+    title: result.title,
+    content: result.content,
+    excerpt: result.excerpt,
+    slug: result.slug,
+    status: 'publish',
+    categories: [],
+    meta: {
+      rank_math_title: result.title,
+      rank_math_description: result.excerpt
+    }
+  });
+
+  await trelloCard(
+    `Ny artikel: ${result.title.substring(0, 45)}`,
+    `**Artikelgenerering**\nSökord: ${primaryKw}\nURL: ${newPost.link}\n${result.reasoning}`
+  );
+
+  return { type: 'create_article', action: 'published', title: result.title, url: newPost.link, keyword: primaryKw };
+}
+
 // ── Säkra uppgifter: körs alltid (även utan åtgärdsplan) ──
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
-  'missing_alt_text'
+  'missing_alt_text', 'create_article'
 ]);
 
 // ── Main handler ──
@@ -764,7 +839,8 @@ const TASK_HANDLERS = {
   'h2_optimization':      optimizeH2H3,
   'h3_optimization':      optimizeH2H3,
   'h2_h3_optimization':   optimizeH2H3,
-  'synonym_gap':          enrichWithSynonyms
+  'synonym_gap':          enrichWithSynonyms,
+  'create_article':       createArticle
 };
 
 // ── Beräkna aktuell planmånad (månader sedan planen skapades, 1-indexerad, max 3) ──
@@ -959,20 +1035,17 @@ async function wpApiByUrl(site, targetUrl) {
 
 exports.handler = async (event) => {
   console.log('=== Autonomous Optimizer Started ===');
-  // Budget per kund per körning: max 5 uppgifter (inte 25 — styr kvalitet, inte kvantitet)
-  const MAX_TASKS_PER_CUSTOMER = 5;
-  const MAX_TOTAL = 20;
+  // Budget per körning — höjt tillfälligt för veckorapport-deadline
+  const MAX_TASKS_PER_CUSTOMER = parseInt(process.env.MAX_TASKS_PER_CUSTOMER || '8', 10);
+  const MAX_TOTAL = parseInt(process.env.MAX_TOTAL || '50', 10);
 
   try {
     const { bq, dataset } = await getBigQuery();
     const sites = await getWordPressSites();
 
-    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
-    const claude = orKey
-      ? new Anthropic({ apiKey: orKey, baseURL: 'https://openrouter.ai/api/v1', defaultHeaders: { 'HTTP-Referer': 'https://searchboost.se', 'X-Title': 'Searchboost Opti' } })
-      : new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
-    // grok-3-mini: snabb & kostnadseffektiv för metadata-generering via OpenRouter
-    const AI_MODEL = orKey ? 'x-ai/grok-3-mini' : 'claude-haiku-4-5-20251001';
+    // Force Anthropic direkt — OpenRouter-nyckel utgången och grok-3-mini-slug 404
+    const claude = new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
+    AI_MODEL = 'claude-haiku-4-5-20251001';
 
     const blockedCustomers = new Set();
     const results = [];
