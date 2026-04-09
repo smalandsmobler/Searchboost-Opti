@@ -1,9 +1,25 @@
 # CLAUDE.md — Searchboost Opti
 
 > Komplett systembeskrivning. Varje ny Claude-session läser denna fil automatiskt.
-> Senast uppdaterad: 2026-03-03
+> Senast uppdaterad: 2026-04-09
 >
-> **Se även**: `KUNDER.md` — delad kundstatus för Mikael + Viktor (uppdatera vid ändringar)
+> **Se även**: `KUNDER.md` — delad kundstatus (uppdatera vid ändringar)
+
+## SESSION-START-RUTIN (viktigt — kör innan rapportering)
+
+1. **Cred-check körs automatiskt när kund nämns eller tasks startas:**
+   ```
+   python3 /Users/weerayootandersson/Downloads/Searchboost-Opti/scripts/cred_check.py
+   ```
+   Scriptet skriver till `/tmp/sbs_cred_check_{date}.json`. Läs från den filen
+   INNAN rapportering av "creds saknas / blockerad / ogiltig". Se
+   `memory/feedback_verify_creds.md` — REGEL: verifiera ALLTID live,
+   behandla gamla task-filer som hypoteser.
+
+2. **Läs per-kund task-filer** för kunder du ska jobba med:
+   `memory/kund_{slug}_tasks.md`
+
+3. **Ignorera Trello helt** — det är ersatt av Opti-dashboarden + task-filer.
 
 ---
 

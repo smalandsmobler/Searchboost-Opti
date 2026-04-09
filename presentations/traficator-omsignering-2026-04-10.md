@@ -23,11 +23,24 @@
 - **Canonical-fixar** planerade
 - **Schema markup** på startsidan
 
-### Levererat idag (9 april)
-- **41 bilder** fick auto-genererad alt-text (SEO-boost för Google Images + tillgänglighet)
-- **86 sidor** fick meta description (samtliga sidor på sajten är nu optimerade i Rank Math)
+### Levererat idag (9 april) — DAG FÖRE MÖTET
+- **41 bilder** fick auto-genererad alt-text
+- **86 sidor** fick meta description (samtliga sidor på sajten nu optimerade i Rank Math)
 - **Code Snippets**-infrastruktur installerad för framtida bulk-optimering
-- Totalt **127 tekniska SEO-fixar på en dag**
+- **127 tekniska SEO-fixar totalt**
+- **4 pelarartiklar (~8 400 ord) publicerade LIVE kvällen före mötet:**
+  1. Pressgjutning aluminium — komplett guide 2026
+     https://traficator.se/pressgjutning-aluminium-guide/
+  2. Centrifugalgjutning i Sverige — när det lönar sig
+     https://traficator.se/centrifugalgjutning-sverige-nar-lonar/
+  3. Aluminiumgjutning vs pressgjutning — skillnader, kostnad och val
+     https://traficator.se/aluminiumgjutning-vs-pressgjutning-skillnader/
+  4. Bearbetning av gjutgods — toleranser, metoder och misstag
+     https://traficator.se/bearbetning-gjutgods-toleranser-metoder/
+
+  Totalt riktat mot ~650 impressioner/månad som Traficator redan är
+  synlig på men med dålig position. Målet: flytta från sida 3–6 till
+  topp 3–5 inom 8–12 veckor.
 
 ---
 
@@ -77,10 +90,11 @@ Vi har upptäckt en **enorm impression-pool** som inte konverterar till klick ä
 - Automatisk veckoaudit körs via Lambda
 - Månadsrapport genereras automatiskt
 
-### Teknisk blockering vi jobbar runt
-Searchboost-kontot på er WP har inte rättighet att skapa nya posts via REST API (`rest_cannot_create`). Det innebär att vi **inte kan publicera nya artiklar autonomt** — vi måste begära admin app-password eller ha Patrik publicera via en enklare rutin.
-
-**Lösning**: När Patrik skapar ett "administrator"-appkonto åt oss löser vi artikelproduktionen direkt. 5 minuters jobb för er.
+### Teknisk infrastruktur
+- Fullständig admin-access via REST API verifierad 2026-04-09
+- 4 pelarartiklar publicerade kvällen innan mötet utan friktion
+- Code Snippets installerat för framtida bulk-automatisering
+- Automatisk veckoaudit + månadsrapport via Lambda
 
 ---
 
@@ -126,13 +140,30 @@ Totalt ~800 sök/månad helt utanför er nuvarande räckvidd — dvs bakre hälf
 
 ## Budskap att köra på i mötet
 
-> "Mars blev er största SEO-månad hittills — impressionerna tredubblades och klicken ökade 70%. Ni är redan synliga på pressgjutnings-orden, men hamnar på sida 3-6. Nästa kvartal handlar inte om teknisk SEO — grunden är lagd. Det handlar om att publicera innehåll som matchar de 500+ månatliga sökningarna på pressgjutning och flytta er från sida 3 till topp 3. Vi har upptäckt minst 150 klick per månad ni kan vinna tillbaka bara genom att prioritera det."
+> "Mars blev er största SEO-månad hittills — impressionerna tredubblades
+> och klicken ökade 70%. Ni är redan synliga på pressgjutnings-orden, men
+> hamnar på sida 3–6. Nästa kvartal handlar inte om teknisk SEO — grunden
+> är lagd. Det handlar om att publicera innehåll som matchar de 500+
+> månatliga sökningarna på pressgjutning och flytta er från sida 3 till
+> topp 3.
+>
+> Vi har redan börjat — igår kväll publicerade vi fyra pelarartiklar på
+> er sajt med sammanlagt 8 400 ord teknisk branschkunskap riktat mot
+> just de sökord ni redan är synliga på. De ligger live sedan i natt —
+> jag visar dem gärna direkt om ni vill."
+
+**Visa i mötet (ha dem uppe i en flik):**
+- https://traficator.se/pressgjutning-aluminium-guide/
+- https://traficator.se/centrifugalgjutning-sverige-nar-lonar/
+- https://traficator.se/aluminiumgjutning-vs-pressgjutning-skillnader/
+- https://traficator.se/bearbetning-gjutgods-toleranser-metoder/
 
 ---
 
 ## Praktiska siffror du kan ta med
 
-- **127 tekniska fixar** levererade idag (9 april)
+- **4 pelarartiklar publicerade LIVE** kvällen före mötet (8 400 ord)
+- **127 tekniska fixar** levererade 9 april
 - **+179% impressions** mars vs februari
 - **+70% klick** mars vs februari
 - **3 keywords i top 10** redan nu
