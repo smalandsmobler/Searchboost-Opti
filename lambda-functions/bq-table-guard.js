@@ -23,6 +23,7 @@ const CRITICAL_TABLES = [
   'customer_keywords',
   'action_plans',
   'gsc_daily_metrics',
+  'customer_tasks',
 ];
 
 async function getBqCredentials() {

@@ -6377,6 +6377,161 @@ app.get('/api/shopify/callback', async (req, res) => {
   }
 });
 
+// ──────────────────────────────────────────────────────────────────
+// customer_tasks — Kanban-ersättning för Trello (2026-04-09)
+// ──────────────────────────────────────────────────────────────────
+
+app.get('/api/customers/:id/tasks', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+    const query = `
+      SELECT task_id, customer_id, title, description, status, priority,
+             FORMAT_DATE('%Y-%m-%d', due_date) AS due_date,
+             FORMAT_TIMESTAMP('%Y-%m-%d %H:%M', created_at) AS created_at,
+             FORMAT_TIMESTAMP('%Y-%m-%d %H:%M', updated_at) AS updated_at,
+             FORMAT_TIMESTAMP('%Y-%m-%d %H:%M', completed_at) AS completed_at,
+             created_by, assigned_to, tags, notes
+      FROM \`${bq.projectId}.${dataset}.customer_tasks\`
+      WHERE customer_id = @cid
+      ORDER BY
+        CASE status WHEN 'todo' THEN 1 WHEN 'in_progress' THEN 2 WHEN 'blocked' THEN 3 WHEN 'done' THEN 4 ELSE 5 END,
+        priority DESC,
+        created_at DESC
+      LIMIT 500
+    `;
+    const [rows] = await bq.query({
+      query,
+      params: { cid: customerId },
+    });
+    res.json({ customer_id: customerId, tasks: rows });
+  } catch (err) {
+    console.error('GET tasks error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/api/customers/:id/tasks', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { title, description, status, priority, due_date, tags, notes, created_by } = req.body;
+    if (!title) return res.status(400).json({ error: 'title krävs' });
+    const taskId = `task_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const { bq, dataset } = await getBigQuery();
+    const query = `
+      INSERT INTO \`${bq.projectId}.${dataset}.customer_tasks\`
+        (task_id, customer_id, title, description, status, priority, due_date,
+         created_at, updated_at, created_by, tags, notes)
+      VALUES
+        (@task_id, @customer_id, @title, @description, @status, @priority,
+         SAFE_CAST(@due_date AS DATE),
+         CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP(), @created_by, @tags, @notes)
+    `;
+    await bq.query({
+      query,
+      params: {
+        task_id: taskId,
+        customer_id: customerId,
+        title,
+        description: description || '',
+        status: status || 'todo',
+        priority: priority || 2,
+        due_date: due_date || null,
+        created_by: created_by || 'mikael',
+        tags: tags || '',
+        notes: notes || '',
+      },
+      types: { due_date: 'STRING' },
+    });
+    res.json({ success: true, task_id: taskId });
+  } catch (err) {
+    console.error('POST task error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.patch('/api/customers/:id/tasks/:taskId', async (req, res) => {
+  try {
+    const { id: customerId, taskId } = req.params;
+    const fields = ['title', 'description', 'status', 'priority', 'due_date', 'tags', 'notes', 'assigned_to'];
+    const updates = [];
+    const params = { task_id: taskId, customer_id: customerId };
+    for (const f of fields) {
+      if (f in req.body) {
+        if (f === 'due_date') {
+          updates.push(`due_date = SAFE_CAST(@due_date AS DATE)`);
+          params.due_date = req.body.due_date || null;
+        } else {
+          updates.push(`${f} = @${f}`);
+          params[f] = req.body[f];
+        }
+      }
+    }
+    if (req.body.status === 'done') {
+      updates.push('completed_at = CURRENT_TIMESTAMP()');
+    }
+    if (updates.length === 0) return res.status(400).json({ error: 'inga fält att uppdatera' });
+    updates.push('updated_at = CURRENT_TIMESTAMP()');
+    const { bq, dataset } = await getBigQuery();
+    const query = `
+      UPDATE \`${bq.projectId}.${dataset}.customer_tasks\`
+      SET ${updates.join(', ')}
+      WHERE task_id = @task_id AND customer_id = @customer_id
+    `;
+    const types = { due_date: 'STRING' };
+    await bq.query({ query, params, types });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('PATCH task error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.delete('/api/customers/:id/tasks/:taskId', async (req, res) => {
+  try {
+    const { id: customerId, taskId } = req.params;
+    const { bq, dataset } = await getBigQuery();
+    const query = `
+      DELETE FROM \`${bq.projectId}.${dataset}.customer_tasks\`
+      WHERE task_id = @task_id AND customer_id = @customer_id
+    `;
+    await bq.query({ query, params: { task_id: taskId, customer_id: customerId } });
+    res.json({ success: true });
+  } catch (err) {
+    console.error('DELETE task error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Aggregerad Kanban-vy (alla kunder, grupperat på status)
+app.get('/api/tasks/kanban', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `
+        SELECT task_id, customer_id, title, description, status, priority,
+               FORMAT_DATE('%Y-%m-%d', due_date) AS due_date,
+               FORMAT_TIMESTAMP('%Y-%m-%d %H:%M', updated_at) AS updated_at,
+               tags
+        FROM \`${bq.projectId}.${dataset}.customer_tasks\`
+        WHERE status != 'done' OR DATE(completed_at) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+        ORDER BY priority DESC, updated_at DESC
+        LIMIT 1000
+      `,
+    });
+    const grouped = { todo: [], in_progress: [], blocked: [], done: [] };
+    for (const r of rows) {
+      const s = r.status || 'todo';
+      if (grouped[s]) grouped[s].push(r);
+      else grouped.todo.push(r);
+    }
+    res.json(grouped);
+  } catch (err) {
+    console.error('kanban error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Oväntade fel — logga + notifiera ──
 process.on('uncaughtException', (err) => {
   console.error('uncaughtException:', err);

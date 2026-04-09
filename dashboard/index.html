@@ -958,6 +958,54 @@
         </div>
       </div>
 
+      <!-- Tasks Kanban (ersätter Trello sedan 2026-04-09) -->
+      <div class="card" id="tasks-card">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+          <h2 class="card-title">Uppgifter (Kanban)</h2>
+          <button class="btn-primary" onclick="showAddTaskForm()">+ Ny uppgift</button>
+        </div>
+        <div id="add-task-form" style="display:none;padding:12px;background:#1e293b;border-radius:8px;margin:8px 0;">
+          <input type="text" id="task-title" class="form-input" placeholder="Titel (obligatoriskt)" />
+          <textarea id="task-desc" class="form-input" rows="2" placeholder="Beskrivning..." style="resize:vertical;margin-top:6px"></textarea>
+          <div style="display:flex;gap:6px;margin-top:6px;">
+            <select id="task-status" class="form-select" style="flex:1">
+              <option value="todo">Att göra</option>
+              <option value="in_progress">Pågår</option>
+              <option value="blocked">Blockerad</option>
+              <option value="done">Klar</option>
+            </select>
+            <select id="task-priority" class="form-select" style="flex:1">
+              <option value="3">Hög</option>
+              <option value="2" selected>Normal</option>
+              <option value="1">Låg</option>
+            </select>
+            <input type="date" id="task-due" class="form-input" style="flex:1" />
+          </div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn-primary" onclick="saveNewTask()">Spara</button>
+            <button class="btn-secondary" onclick="hideAddTaskForm()">Avbryt</button>
+          </div>
+        </div>
+        <div class="kanban-board" id="tasks-kanban" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:12px;">
+          <div class="kanban-col" data-status="todo">
+            <h3 style="font-size:13px;color:#94a3b8;margin-bottom:8px;">ATT GÖRA <span id="tasks-count-todo">0</span></h3>
+            <div id="tasks-col-todo" class="kanban-col-body" style="min-height:100px;"></div>
+          </div>
+          <div class="kanban-col" data-status="in_progress">
+            <h3 style="font-size:13px;color:#60a5fa;margin-bottom:8px;">PÅGÅR <span id="tasks-count-in_progress">0</span></h3>
+            <div id="tasks-col-in_progress" class="kanban-col-body" style="min-height:100px;"></div>
+          </div>
+          <div class="kanban-col" data-status="blocked">
+            <h3 style="font-size:13px;color:#f59e0b;margin-bottom:8px;">BLOCKERAD <span id="tasks-count-blocked">0</span></h3>
+            <div id="tasks-col-blocked" class="kanban-col-body" style="min-height:100px;"></div>
+          </div>
+          <div class="kanban-col" data-status="done">
+            <h3 style="font-size:13px;color:#10b981;margin-bottom:8px;">KLART <span id="tasks-count-done">0</span></h3>
+            <div id="tasks-col-done" class="kanban-col-body" style="min-height:100px;"></div>
+          </div>
+        </div>
+      </div>
+
       <!-- Länkbygge -->
       <div class="section-card" id="link-building-section">
         <div class="section-header">

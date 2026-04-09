@@ -1417,6 +1417,8 @@ async function showCustomerDetail(customerId, customerUrl) {
     $('#detail-rankings').innerHTML = '<p class="empty">Positioner visas när GSC är kopplat.</p>';
     // Ladda pipeline/formulär/presentationer — samma som för aktiva kunder
     loadPresentationList();
+    _currentCustomerId = customerId;
+    loadCustomerTasks(customerId);
     loadCustomerPipeline(customerId);
     initManualForms(customerId);
     _aiChatCustomerId = customerId;
@@ -1489,6 +1491,10 @@ async function showCustomerDetail(customerId, customerUrl) {
 
   // Load presentation list
   loadPresentationList();
+
+  // Load task kanban (ersätter Trello)
+  _currentCustomerId = customerId;
+  loadCustomerTasks(customerId);
 
   // Load pipeline data (contract info, action plan)
   loadCustomerPipeline(customerId);
@@ -2324,6 +2330,124 @@ async function generatePresentation(useAI = false) {
     statusEl.innerHTML = `<div style="padding:12px;background:rgba(255,23,68,0.1);border:1px solid rgba(255,23,68,0.2);border-radius:8px;color:#ff1744;font-size:13px">
       ❌ Fel: ${err.message}
     </div>`;
+  }
+}
+
+// ── Tasks Kanban (ersätter Trello sedan 2026-04-09) ─────────────────
+async function loadCustomerTasks(customerId) {
+  const cols = ['todo','in_progress','blocked','done'];
+  cols.forEach(s => {
+    const el = document.getElementById('tasks-col-' + s);
+    if (el) el.innerHTML = '<p class="empty" style="font-size:12px;">Laddar...</p>';
+  });
+  try {
+    const result = await api('/api/customers/' + customerId + '/tasks');
+    const tasks = (result && result.tasks) || [];
+    const grouped = { todo: [], in_progress: [], blocked: [], done: [] };
+    tasks.forEach(t => {
+      const s = grouped[t.status] ? t.status : 'todo';
+      grouped[s].push(t);
+    });
+    cols.forEach(s => {
+      const el = document.getElementById('tasks-col-' + s);
+      const countEl = document.getElementById('tasks-count-' + s);
+      if (countEl) countEl.textContent = '(' + grouped[s].length + ')';
+      if (!el) return;
+      if (grouped[s].length === 0) {
+        el.innerHTML = '<p class="empty" style="font-size:12px;">—</p>';
+        return;
+      }
+      el.innerHTML = grouped[s].map(t => renderTaskCard(t, customerId)).join('');
+    });
+  } catch (err) {
+    cols.forEach(s => {
+      const el = document.getElementById('tasks-col-' + s);
+      if (el) el.innerHTML = '<p class="empty">Fel: ' + err.message + '</p>';
+    });
+  }
+}
+
+function renderTaskCard(t, customerId) {
+  const prioColor = t.priority >= 3 ? '#ef4444' : t.priority === 1 ? '#64748b' : '#60a5fa';
+  const due = t.due_date ? '<span style="font-size:11px;color:#94a3b8;">' + t.due_date + '</span>' : '';
+  const escaped = (t.title || '').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  const desc = (t.description || '').replace(/</g,'&lt;');
+  const moveButtons = renderTaskMoveButtons(t, customerId);
+  return '<div class="task-card" style="background:#0f172a;border-left:3px solid ' + prioColor + ';padding:8px 10px;margin-bottom:6px;border-radius:6px;">' +
+         '<div style="font-size:13px;font-weight:600;color:#e2e8f0;">' + escaped + '</div>' +
+         (desc ? '<div style="font-size:11px;color:#94a3b8;margin-top:4px;">' + desc + '</div>' : '') +
+         '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;">' + due + moveButtons + '</div>' +
+         '</div>';
+}
+
+function renderTaskMoveButtons(t, customerId) {
+  const states = ['todo','in_progress','blocked','done'];
+  const symbols = { todo:'📋', in_progress:'▶', blocked:'⏸', done:'✓' };
+  const buttons = states
+    .filter(s => s !== t.status)
+    .map(s => '<button class="btn-icon" onclick="moveTask(\'' + customerId + '\',\'' + t.task_id + '\',\'' + s + '\')" title="' + s + '" style="background:none;border:1px solid #334155;color:#94a3b8;padding:2px 6px;border-radius:4px;font-size:11px;cursor:pointer;margin-left:2px;">' + symbols[s] + '</button>')
+    .join('');
+  const del = '<button class="btn-icon" onclick="deleteTask(\'' + customerId + '\',\'' + t.task_id + '\')" title="Ta bort" style="background:none;border:1px solid #7f1d1d;color:#f87171;padding:2px 6px;border-radius:4px;font-size:11px;cursor:pointer;margin-left:4px;">×</button>';
+  return '<div>' + buttons + del + '</div>';
+}
+
+async function moveTask(customerId, taskId, newStatus) {
+  try {
+    await api('/api/customers/' + customerId + '/tasks/' + taskId, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: newStatus }),
+    });
+    loadCustomerTasks(customerId);
+  } catch (err) {
+    alert('Kunde inte flytta: ' + err.message);
+  }
+}
+
+async function deleteTask(customerId, taskId) {
+  if (!confirm('Ta bort uppgiften?')) return;
+  try {
+    await api('/api/customers/' + customerId + '/tasks/' + taskId, { method: 'DELETE' });
+    loadCustomerTasks(customerId);
+  } catch (err) {
+    alert('Kunde inte ta bort: ' + err.message);
+  }
+}
+
+function showAddTaskForm() {
+  const f = document.getElementById('add-task-form');
+  if (f) f.style.display = 'block';
+}
+
+function hideAddTaskForm() {
+  const f = document.getElementById('add-task-form');
+  if (f) {
+    f.style.display = 'none';
+    document.getElementById('task-title').value = '';
+    document.getElementById('task-desc').value = '';
+    document.getElementById('task-due').value = '';
+  }
+}
+
+async function saveNewTask() {
+  const title = document.getElementById('task-title').value.trim();
+  if (!title) { alert('Titel krävs'); return; }
+  const body = {
+    title: title,
+    description: document.getElementById('task-desc').value.trim(),
+    status: document.getElementById('task-status').value,
+    priority: parseInt(document.getElementById('task-priority').value, 10),
+    due_date: document.getElementById('task-due').value || null,
+    created_by: 'mikael',
+  };
+  try {
+    await api('/api/customers/' + _currentCustomerId + '/tasks', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+    hideAddTaskForm();
+    loadCustomerTasks(_currentCustomerId);
+  } catch (err) {
+    alert('Kunde inte spara: ' + err.message);
   }
 }
 
