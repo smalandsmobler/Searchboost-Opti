@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galleri | Wedo Signs — Skyltar & Bildekor i Göteborg</title>
+  <meta name="description" content="Se exempel på vårt arbete. Skyltar, bildekor, folieringar och banderoller producerade av Wedo Signs i Göteborg.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .gallery-item {
+      background: var(--black2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+    .gallery-item:hover {
+      border-color: var(--yellow);
+      transform: translateY(-4px);
+    }
+    .gallery-item .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+      padding: 20px 16px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      text-align: center;
+    }
+    .gallery-item .gallery-tag {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(255,204,0,0.15);
+      border: 1px solid rgba(255,204,0,0.3);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--yellow);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+      justify-content: center;
+    }
+    .filter-btn {
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: rgba(255,204,0,0.12);
+      border-color: rgba(255,204,0,0.4);
+      color: var(--yellow);
+    }
+    .upload-notice {
+      background: rgba(255,204,0,0.06);
+      border: 1px dashed rgba(255,204,0,0.3);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .upload-notice p { color: var(--muted); font-size: 14px; margin-top: 8px; }
+    .upload-notice strong { color: var(--yellow); }
+    @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .gallery-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner"><span>📍 Datavägen 14B, Askim, Göteborg</span><div class="topbar-contact"><a href="tel:0793020787">📞 0793-020787</a><a href="mailto:mail@wedosigns.se">✉ mail@wedosigns.se</a></div></div></div>
+<header class="site-header"><div class="nav-inner"><a href="index.html" class="logo">Wedo <span>Signs</span></a><nav><ul><li class="has-dropdown"><a href="produkter.html">Produkter</a><ul class="dropdown"><li><a href="skyltar-goteborg.html">Skyltar</a></li><li><a href="bildekor-goteborg.html">Bildekor</a></li><li><a href="banderoller-goteborg.html">Banderoller</a></li><li><a href="dekaler-goteborg.html">Dekaler</a></li><li><a href="event-exponering-goteborg.html">Event & exponering</a></li><li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li><li><a href="klistermarken-goteborg.html">Klistermärken</a></li><li><a href="print-goteborg.html">Print</a></li></ul></li><li><a href="galleri.html" class="active">Galleri</a></li><li><a href="om-oss.html">Om oss</a></li><li><a href="offerter-wedosigns.html" class="nav-cta">Begär offert</a></li></ul></nav><button class="hamburger" onclick="toggleMenu()">☰</button></div></header>
+
+<section class="page-hero"><div class="page-hero-inner">
+  <div class="breadcrumb"><a href="index.html">Hem</a><span>›</span>Galleri</div>
+  <h1>Galleri</h1>
+  <p>Se exempel på skyltar, bildekor, folieringar och banderoller vi producerat för kunder i Göteborg.</p>
+</div></section>
+
+<section class="section"><div class="section-inner">
+
+  <div class="upload-notice">
+    <strong>📸 Ladda upp dina bilder här</strong>
+    <p>Ersätt platshållarna nedan med riktiga kundbilder via WordPress Media Library.<br>Rekommenderad storlek: 1200×900 px, JPG/WebP.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterGallery('all', this)">Alla</button>
+    <button class="filter-btn" onclick="filterGallery('skyltar', this)">Skyltar</button>
+    <button class="filter-btn" onclick="filterGallery('bildekor', this)">Bildekor</button>
+    <button class="filter-btn" onclick="filterGallery('banderoller', this)">Banderoller</button>
+    <button class="filter-btn" onclick="filterGallery('folie', this)">Folie & dekaler</button>
+    <button class="filter-btn" onclick="filterGallery('event', this)">Event</button>
+  </div>
+
+  <div class="gallery-grid" id="gallery">
+    <div class="gallery-item" data-cat="skyltar"><span>🪧</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">Fasadskylt — Göteborg</span></div>
+    <div class="gallery-item" data-cat="bildekor"><span>🚐</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Skåpbilsfoliering</span></div>
+    <div class="gallery-item" data-cat="banderoller"><span>🎌</span><span class="gallery-tag">Banderoller</span><span class="gallery-label">PVC-banderoll event</span></div>
+    <div class="gallery-item" data-cat="folie"><span>🏷️</span><span class="gallery-tag">Dekaler</span><span class="gallery-label">Fönsterdekaler kontor</span></div>
+    <div class="gallery-item" data-cat="skyltar"><span>💡</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">LED-ljusskylt</span></div>
+    <div class="gallery-item" data-cat="bildekor"><span>🚗</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Personbil — logotyp</span></div>
+    <div class="gallery-item" data-cat="event"><span>🎪</span><span class="gallery-tag">Event</span><span class="gallery-label">Roll-up mässdisplay</span></div>
+    <div class="gallery-item" data-cat="folie"><span>🪟</span><span class="gallery-tag">Folie</span><span class="gallery-label">Frostad fönsterfolie</span></div>
+    <div class="gallery-item" data-cat="skyltar"><span>🔤</span><span class="gallery-tag">Skyltar</span><span class="gallery-label">Profilbokstäver fasad</span></div>
+    <div class="gallery-item" data-cat="bildekor"><span>🚛</span><span class="gallery-tag">Bildekor</span><span class="gallery-label">Lastbilsreklam</span></div>
+    <div class="gallery-item" data-cat="banderoller"><span>📢</span><span class="gallery-tag">Banderoller</span><span class="gallery-label">Mesh-banderoll byggnad</span></div>
+    <div class="gallery-item" data-cat="event"><span>🖼️</span><span class="gallery-tag">Event</span><span class="gallery-label">Bakgrundsvägg step & repeat</span></div>
+  </div>
+</div></section>
+
+<section class="cta-band"><h2>Vill du ha liknande resultat?</h2><p>Kontakta oss för en kostnadsfri offert.</p><a href="offerter-wedosigns.html" class="btn-primary">Begär offert nu</a></section>
+
+<footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><a href="index.html" class="logo">Wedo <span>Signs</span></a><p>Skyltföretag i Askim, Göteborg.</p></div><div class="footer-col"><h4>Produkter</h4><ul><li><a href="skyltar-goteborg.html">Skyltar</a></li><li><a href="bildekor-goteborg.html">Bildekor</a></li><li><a href="banderoller-goteborg.html">Banderoller</a></li><li><a href="dekaler-goteborg.html">Dekaler</a></li><li><a href="event-exponering-goteborg.html">Event & exponering</a></li><li><a href="insynsskydd-goteborg.html">Insynsskydd</a></li><li><a href="klistermarken-goteborg.html">Klistermärken</a></li><li><a href="print-goteborg.html">Print</a></li></ul></div><div class="footer-col"><h4>Företaget</h4><ul><li><a href="om-oss.html">Om oss</a></li><li><a href="galleri.html">Galleri</a></li><li><a href="offerter-wedosigns.html">Begär offert</a></li></ul></div><div class="footer-col"><h4>Kontakt</h4><ul><li><a href="tel:0793020787">📞 0793-020787</a></li><li><a href="mailto:mail@wedosigns.se">✉ mail@wedosigns.se</a></li><li><span>📍 Datavägen 14B, Askim</span></li></ul></div></div><div class="footer-bottom"><span>© 2026 Wedo Signs AB. Alla rättigheter förbehållna.</span></div></footer>
+
+<script>
+function toggleMenu(){const nav=document.querySelector('nav ul');nav.style.display=nav.style.display==='flex'?'none':'flex';if(nav.style.display==='flex'){nav.style.flexDirection='column';nav.style.position='absolute';nav.style.top='70px';nav.style.left='0';nav.style.right='0';nav.style.background='rgba(10,10,10,0.99)';nav.style.padding='16px 24px';nav.style.borderBottom='1px solid rgba(255,204,0,0.15)';nav.style.zIndex='99';}}
+function filterGallery(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.gallery-item').forEach(item => {
+    item.style.display = (cat === 'all' || item.dataset.cat === cat) ? 'flex' : 'none';
+  });
+}
+</script>
+</body></html>
