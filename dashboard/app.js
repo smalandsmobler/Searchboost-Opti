@@ -515,8 +515,85 @@ async function loadOverview() {
   // Load onboarding status
   loadOnboardingStatus();
 
+  // Load ads upsell overview (sales only)
+  if (isSales()) loadAdsUpsellOverview();
+
   // Load dagsplan
   loadDagsplan();
+}
+
+// ── Ads Upsell Overview ───────────────────────────────────────
+async function loadAdsUpsellOverview() {
+  const card = document.getElementById('ads-upsell-overview');
+  const tableEl = document.getElementById('ads-upsell-table');
+  const summaryEl = document.getElementById('ads-upsell-summary');
+  if (!card || !tableEl) return;
+
+  card.style.display = '';
+
+  try {
+    const data = await api('/api/ads/upsell-overview');
+    const customers = data?.customers || [];
+    if (customers.length === 0) {
+      tableEl.innerHTML = '<p class="empty">Inga kunder hittade.</p>';
+      return;
+    }
+
+    const withAds = customers.filter(c => c.linkedPlatforms > 0).length;
+    const withoutAds = customers.length - withAds;
+    if (summaryEl) {
+      summaryEl.textContent = `${withAds} aktiva · ${withoutAds} utan annonser`;
+      summaryEl.style.color = withoutAds > 0 ? 'var(--pink)' : 'var(--green)';
+    }
+
+    // Sort: customers without ads first (upsell priority), then by name
+    const sorted = [...customers].sort((a, b) => {
+      if (a.linkedPlatforms === 0 && b.linkedPlatforms > 0) return -1;
+      if (a.linkedPlatforms > 0 && b.linkedPlatforms === 0) return 1;
+      return (a.name || a.customerId).localeCompare(b.name || b.customerId, 'sv');
+    });
+
+    const PLATFORM_ICONS = { google_ads: 'G', meta_ads: 'M', linkedin_ads: 'in', tiktok_ads: 'T' };
+    const PLATFORM_COLORS = { google_ads: '#4285F4', meta_ads: '#1877F2', linkedin_ads: '#0A66C2', tiktok_ads: '#FE2C55' };
+
+    tableEl.innerHTML = `<table class="data-table" style="width:100%">
+      <thead>
+        <tr>
+          <th style="text-align:left">Kund</th>
+          <th style="text-align:center">Google Ads</th>
+          <th style="text-align:center">Meta Ads</th>
+          <th style="text-align:center">LinkedIn</th>
+          <th style="text-align:center">TikTok</th>
+          <th style="text-align:right">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sorted.map(c => {
+          const accounts = c.accounts || {};
+          const platformKeys = ['google_ads', 'meta_ads', 'linkedin_ads', 'tiktok_ads'];
+          const cells = platformKeys.map(p => {
+            const linked = accounts[p]?.linked;
+            const icon = PLATFORM_ICONS[p];
+            const color = PLATFORM_COLORS[p];
+            return linked
+              ? `<td style="text-align:center"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:${color};color:#fff;font-size:11px;font-weight:700">${icon}</span></td>`
+              : `<td style="text-align:center"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.06);color:#555;font-size:11px">–</span></td>`;
+          }).join('');
+          const statusLabel = c.linkedPlatforms === 0
+            ? `<span style="color:var(--pink);font-size:12px;font-weight:600">Sälj in</span>`
+            : `<span style="color:var(--green);font-size:12px">${c.linkedPlatforms}/${c.totalPlatforms} kopplat</span>`;
+          const displayName = (c.name || c.customerId).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+          return `<tr style="cursor:pointer" onclick="showCustomerDetail('${c.customerId}')">
+            <td style="font-weight:600">${displayName}</td>
+            ${cells}
+            <td style="text-align:right">${statusLabel}</td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+  } catch (err) {
+    tableEl.innerHTML = `<p class="empty" style="color:#f44">Fel: ${err.message}</p>`;
+  }
 }
 
 // ── Dagsplan ──────────────────────────────────────────────────
@@ -542,14 +619,9 @@ async function loadDagsplan() {
   const items = [];
   const today = now.getDay(); // 0=sön, 5=fre
 
-  // 1. Viktor-dag (varje fredag)
+  // 1. Fredag = veckorapport kl 15:00
   if (today === 5) {
-    items.push({ type: 'viktoridag', icon: '&#x1F5D3;', text: 'Viktor-dag — gå igenom veckans kritiska åtgärder med Viktor', color: '#e91e8c', action: null });
-  } else {
-    const daysToFri = (5 - today + 7) % 7 || 7;
-    if (daysToFri <= 2) {
-      items.push({ type: 'info', icon: '&#x1F5D3;', text: `Viktor-dag om ${daysToFri} dag${daysToFri > 1 ? 'ar' : ''}`, color: '#888', action: null });
-    }
+    items.push({ type: 'rapport', icon: '&#x1F4E8;', text: 'Fredag — veckorapport skickas kl 15:00 till alla kunder', color: '#e91e8c', action: null });
   }
 
   // 2. Måndag = audit-dag
@@ -1489,6 +1561,9 @@ async function showCustomerDetail(customerId, customerUrl) {
   // Load GSC + Trello keyword positions (async, don't block)
   loadRankings(customerId);
 
+  // Load ranking history chart
+  loadRankingHistory();
+
   // Load presentation list
   loadPresentationList();
 
@@ -1505,13 +1580,20 @@ async function showCustomerDetail(customerId, customerUrl) {
   // Render performance gauges
   renderPerformanceGauges(customerId, data);
 
-  // Render touchpoints + AI chat + ads
+  // Render touchpoints + AI chat + ads + GBP
   renderTouchpoints(customerId);
   renderAds(customerId);
+  loadGbpStatus(customerId);
   _aiChatCustomerId = customerId;
 
   // Ladda länkbygge
   loadLinkProspects(customerId);
+
+  // Ladda health score
+  loadHealthScore(customerId);
+
+  // Ladda internlanksanalys
+  loadInternalLinks(customerId);
 }
 
 // ── Performance Gauges (ApexCharts radialBar) ─────────────────
@@ -1847,69 +1929,346 @@ function safeHostname(url) {
   try { return new URL(url).hostname; } catch { return url; }
 }
 
-// ── Ads Dashboard ────────────────────────────────────────────
+// ── Ads Dashboard v2 ─────────────────────────────────────────
+let _adsCurrentCustomer = null;
+let _adsTrendData = {};
+
 async function renderAds(customerId) {
   const card = document.getElementById('ads-dashboard-card');
   if (!card) return;
+  _adsCurrentCustomer = customerId;
+
+  // Bind period selector
+  const periodSel = document.getElementById('ads-period-select');
+  if (periodSel && !periodSel._bound) {
+    periodSel._bound = true;
+    periodSel.addEventListener('change', () => renderAds(_adsCurrentCustomer));
+  }
+
+  // Bind platform cards for drill-down
+  document.querySelectorAll('.ads-platform-card').forEach(c => {
+    if (!c._bound) {
+      c._bound = true;
+      c.addEventListener('click', () => {
+        if (c.classList.contains('active')) loadAdsCampaigns(_adsCurrentCustomer, c.dataset.platform);
+      });
+    }
+  });
 
   try {
-    const data = await api(`/api/customers/${customerId}/ads/spend`);
-    if (!data || !data.platforms) {
+    const days = parseInt(document.getElementById('ads-period-select')?.value || 30);
+    const [spendData, roasData] = await Promise.all([
+      api(`/api/customers/${customerId}/ads/spend`),
+      api(`/api/customers/${customerId}/ads/roas?days=${days}`).catch(() => null),
+    ]);
+
+    if (!spendData || !spendData.platforms) {
       card.style.display = 'none';
       return;
     }
 
     card.style.display = '';
-    const platforms = data.platforms;
+    const platforms = spendData.platforms;
     let activeCount = 0;
 
-    // Update each platform card
     const mapping = {
-      google_ads: { spend: 'ads-google-spend', clicks: 'ads-google-clicks', conv: 'ads-google-conv' },
-      meta_ads:   { spend: 'ads-meta-spend',   clicks: 'ads-meta-clicks',   conv: 'ads-meta-conv' },
-      linkedin_ads: { spend: 'ads-linkedin-spend', clicks: 'ads-linkedin-clicks', conv: 'ads-linkedin-conv' },
-      tiktok_ads: { spend: 'ads-tiktok-spend', clicks: 'ads-tiktok-clicks', conv: 'ads-tiktok-conv' }
+      google_ads:   { spend: 'ads-google-spend',   clicks: 'ads-google-clicks',   conv: 'ads-google-conv',   roas: 'ads-google-roas' },
+      meta_ads:     { spend: 'ads-meta-spend',     clicks: 'ads-meta-clicks',     conv: 'ads-meta-conv',     roas: 'ads-meta-roas' },
+      linkedin_ads: { spend: 'ads-linkedin-spend', clicks: 'ads-linkedin-clicks', conv: 'ads-linkedin-conv', roas: 'ads-linkedin-roas' },
+      tiktok_ads:   { spend: 'ads-tiktok-spend',   clicks: 'ads-tiktok-clicks',   conv: 'ads-tiktok-conv',   roas: 'ads-tiktok-roas' },
     };
+
+    // ROAS by platform from BQ
+    const raosByPlatform = {};
+    if (roasData?.byPlatform) {
+      for (const row of roasData.byPlatform) raosByPlatform[row.platform] = row;
+    }
 
     for (const [key, els] of Object.entries(mapping)) {
       const p = platforms[key];
       const cardEl = document.querySelector(`.ads-platform-card[data-platform="${key}"]`);
+      const badge = document.getElementById(`ads-badge-${key}`);
+
       if (p && p.available) {
         activeCount++;
-        if (cardEl) cardEl.classList.add('active');
-        const spendEl = document.getElementById(els.spend);
-        const clicksEl = document.getElementById(els.clicks);
-        const convEl = document.getElementById(els.conv);
-        if (spendEl) spendEl.textContent = parseFloat(p.spend || 0).toLocaleString('sv-SE') + ' kr';
-        if (clicksEl) clicksEl.textContent = (p.clicks || 0).toLocaleString('sv-SE') + ' klick';
-        if (convEl) convEl.textContent = (p.conversions || 0) + ' konv';
+        cardEl?.classList.add('active');
+        if (badge) { badge.textContent = 'Aktiv'; badge.className = 'ads-platform-badge linked'; }
+
+        const fmt = (n) => parseFloat(n || 0).toLocaleString('sv-SE');
+        const s = document.getElementById(els.spend);
+        const c = document.getElementById(els.clicks);
+        const v = document.getElementById(els.conv);
+        const r = document.getElementById(els.roas);
+        if (s) s.textContent = fmt(p.spend) + ' kr';
+        if (c) c.textContent = fmt(p.clicks) + ' klick';
+        if (v) v.textContent = (p.conversions || 0) + ' konv';
+
+        // ROAS pill
+        const bqRow = raosByPlatform[key];
+        if (r && bqRow?.roas) {
+          r.textContent = `ROAS ${parseFloat(bqRow.roas).toFixed(1)}x`;
+          r.style.display = '';
+        } else if (r) { r.style.display = 'none'; }
+
       } else {
-        if (cardEl) cardEl.classList.remove('active');
-        const spendEl = document.getElementById(els.spend);
-        if (spendEl) spendEl.textContent = 'Ej kopplad';
+        cardEl?.classList.remove('active');
+        if (badge) { badge.textContent = 'Ej kopplad'; badge.className = 'ads-platform-badge unlinked'; }
+        const s = document.getElementById(els.spend);
+        if (s) s.textContent = 'Ej kopplad';
+        const r = document.getElementById(els.roas);
+        if (r) r.style.display = 'none';
       }
     }
 
     // Total bar
-    const totalSpend = document.getElementById('ads-total-spend');
-    const totalClicks = document.getElementById('ads-total-clicks');
-    const totalConv = document.getElementById('ads-total-conv');
-    if (totalSpend) totalSpend.textContent = parseFloat(data.totalSpend || 0).toLocaleString('sv-SE') + ' kr';
-    if (totalClicks) {
-      const tc = Object.values(platforms).reduce((s, p) => s + (p.available ? (p.clicks || 0) : 0), 0);
-      totalClicks.textContent = tc.toLocaleString('sv-SE') + ' klick';
-    }
-    if (totalConv) {
-      const cv = Object.values(platforms).reduce((s, p) => s + (p.available ? (p.conversions || 0) : 0), 0);
-      totalConv.textContent = cv + ' konverteringar';
+    const tc = Object.values(platforms).reduce((s, p) => s + (p.available ? (p.clicks || 0) : 0), 0);
+    const cv = Object.values(platforms).reduce((s, p) => s + (p.available ? (p.conversions || 0) : 0), 0);
+    const fmt = (n) => parseFloat(n || 0).toLocaleString('sv-SE');
+    _set('ads-total-spend', fmt(spendData.totalSpend) + ' kr');
+    _set('ads-total-clicks', fmt(tc) + ' klick');
+    _set('ads-total-conv', cv + ' konverteringar');
+
+    // Overall ROAS
+    const roasEl = document.getElementById('ads-total-roas');
+    if (roasEl && roasData?.overall?.roas) {
+      roasEl.textContent = `ROAS ${parseFloat(roasData.overall.roas).toFixed(1)}x`;
+      roasEl.style.display = '';
+    } else if (roasEl) { roasEl.style.display = 'none'; }
+
+    // Status badge
+    _set('ads-platforms-count', `${activeCount}/4 aktiva`);
+
+    // KPI row (från ROAS endpoint)
+    if (roasData?.overall) {
+      const o = roasData.overall;
+      const roasVal = o.roas ? `${parseFloat(o.roas).toFixed(2)}x` : '--';
+      _set('ads-kpi-roas', roasVal);
+      _set('ads-kpi-spend', fmt(o.totalSpend) + ' kr');
+      _set('ads-kpi-spend-sub', `${days} dagar`);
+      _set('ads-kpi-conv', fmt(o.totalConversions));
+      _set('ads-kpi-cpa', o.cpa ? `CPA: ${fmt(o.cpa)} kr` : 'CPA: --');
+      _set('ads-kpi-clicks', fmt(o.totalClicks));
+      const ctr = o.totalClicks > 0
+        ? `CTR: ${((o.totalClicks / (o.totalImpressions || 1)) * 100).toFixed(1)}%`
+        : 'CTR: --';
+      _set('ads-kpi-ctr', ctr);
+      document.getElementById('ads-roas-row')?.style.setProperty('display', 'grid');
+    } else {
+      document.getElementById('ads-roas-row')?.style.setProperty('display', 'none');
     }
 
-    const countEl = document.getElementById('ads-platforms-count');
-    if (countEl) countEl.textContent = `${activeCount}/4 plattformar aktiva`;
+    // Upsell row
+    const upsellRow = document.getElementById('ads-upsell-row');
+    if (upsellRow) {
+      if (activeCount < 4) {
+        const missing = 4 - activeCount;
+        upsellRow.style.display = 'flex';
+        _set('ads-upsell-msg', `${missing} plattform(er) ej kopplade — komplettera för full rapportering`);
+      } else {
+        upsellRow.style.display = 'none';
+      }
+    }
+
+    // Load sparklines from trend data
+    loadAdsSparklines(customerId, days);
 
   } catch (err) {
-    console.warn('Ads data fetch failed:', err.message);
+    console.warn('Ads render failed:', err.message);
     card.style.display = 'none';
+  }
+}
+
+function _set(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+async function loadAdsSparklines(customerId, days) {
+  try {
+    const data = await api(`/api/customers/${customerId}/ads/trends?days=${days}`);
+    if (!data?.trend) return;
+
+    // Group by platform
+    const byPlatform = {};
+    for (const row of data.trend) {
+      if (!byPlatform[row.platform]) byPlatform[row.platform] = [];
+      byPlatform[row.platform].push(row);
+    }
+
+    for (const [platform, rows] of Object.entries(byPlatform)) {
+      drawSparkline(`spark-${platform}`, rows.map(r => parseFloat(r.spend || 0)));
+    }
+    _adsTrendData = byPlatform;
+  } catch { /* silent */ }
+}
+
+function drawSparkline(canvasId, values) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas || !values.length) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const range = max - min || 1;
+  const step = w / (values.length - 1 || 1);
+
+  ctx.clearRect(0, 0, w, h);
+
+  // Gradient fill
+  const grad = ctx.createLinearGradient(0, 0, 0, h);
+  grad.addColorStop(0, 'rgba(233,30,140,0.4)');
+  grad.addColorStop(1, 'rgba(233,30,140,0)');
+
+  ctx.beginPath();
+  values.forEach((v, i) => {
+    const x = i * step;
+    const y = h - ((v - min) / range) * (h - 2) - 1;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  // Close fill path
+  const fillPath = new Path2D(ctx._currentPath || '');
+  ctx.lineTo((values.length - 1) * step, h);
+  ctx.lineTo(0, h);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  ctx.beginPath();
+  values.forEach((v, i) => {
+    const x = i * step;
+    const y = h - ((v - min) / range) * (h - 2) - 1;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = 'rgba(233,30,140,0.8)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+}
+
+async function loadAdsCampaigns(customerId, platform) {
+  const section = document.getElementById('ads-campaigns-section');
+  const tbody = document.getElementById('ads-campaigns-tbody');
+  if (!section || !tbody) return;
+
+  section.style.display = 'block';
+  tbody.innerHTML = '<tr><td colspan="8" style="color:#666;padding:16px">Laddar kampanjer...</td></tr>';
+
+  try {
+    const data = await api(`/api/customers/${customerId}/ads/campaigns?platform=${platform}`);
+    const campaigns = data?.platforms?.[platform]?.campaigns || [];
+
+    if (!campaigns.length) {
+      tbody.innerHTML = '<tr><td colspan="8" style="color:#666;padding:16px">Inga kampanjer hittade</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = campaigns.map(c => {
+      const status = (c.status || '').toLowerCase();
+      const statusClass = status.includes('enabl') || status === 'active' ? 'active' : status.includes('paus') ? 'paused' : 'ended';
+      const roas = c.cost > 0 && c.conversions > 0
+        ? (parseFloat(c.conversion_value || 0) / parseFloat(c.cost || 1)).toFixed(1) + 'x'
+        : '--';
+      const cpa = parseInt(c.conversions) > 0
+        ? Math.round(parseFloat(c.cost || 0) / parseInt(c.conversions)) + ' kr'
+        : '--';
+      return `<tr>
+        <td style="color:#fff;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${c.name || ''}">${c.name || '--'}</td>
+        <td style="color:#888">${platform.replace('_ads','').toUpperCase()}</td>
+        <td><span class="ads-camp-status ${statusClass}">${c.status || '--'}</span></td>
+        <td>${parseFloat(c.cost || 0).toLocaleString('sv-SE')} kr</td>
+        <td>${parseInt(c.clicks || 0).toLocaleString('sv-SE')}</td>
+        <td>${parseInt(c.conversions || 0)}</td>
+        <td style="color:var(--green)">${roas}</td>
+        <td style="color:#aaa">${cpa}</td>
+      </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="8" style="color:#e53935;padding:16px">Fel: ${err.message}</td></tr>`;
+  }
+}
+
+function toggleAdsCampaigns() {
+  const s = document.getElementById('ads-campaigns-section');
+  if (s) s.style.display = s.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── Ads Credentials Modal ─────────────────────────────────────
+const ADS_CRED_FIELDS = {
+  google_ads: [
+    { key: 'google-ads-customer-id',      label: 'Kund-ID',               placeholder: '123-456-7890' },
+    { key: 'google-ads-developer-token',  label: 'Developer Token',        placeholder: 'din developer token' },
+    { key: 'google-ads-refresh-token',    label: 'OAuth Refresh Token',    placeholder: 'refresh token' },
+    { key: 'google-ads-client-id',        label: 'OAuth Client ID',        placeholder: 'client id' },
+    { key: 'google-ads-client-secret',    label: 'OAuth Client Secret',    placeholder: 'client secret' },
+  ],
+  meta_ads: [
+    { key: 'meta-ad-account-id',  label: 'Ad Account ID',    placeholder: 'act_1234567890' },
+    { key: 'meta-access-token',   label: 'Access Token',     placeholder: 'lång access token' },
+    { key: 'meta-pixel-id',       label: 'Pixel ID (opt.)',  placeholder: '1234567890', optional: true },
+  ],
+  linkedin_ads: [
+    { key: 'linkedin-ad-account-id',  label: 'Ad Account ID',   placeholder: 'sponsoredAccount:123' },
+    { key: 'linkedin-access-token',   label: 'Access Token',    placeholder: 'access token' },
+  ],
+  tiktok_ads: [
+    { key: 'tiktok-advertiser-id',  label: 'Advertiser ID', placeholder: '6917152612940775426' },
+    { key: 'tiktok-access-token',   label: 'Access Token',  placeholder: 'access token' },
+  ],
+};
+
+function showAdsCredentialsModal() {
+  const modal = document.getElementById('ads-credentials-modal');
+  if (modal) modal.style.display = 'flex';
+  document.getElementById('ads-cred-platform').value = '';
+  document.getElementById('ads-cred-fields').innerHTML = '';
+  document.getElementById('ads-cred-status').textContent = '';
+}
+
+function closeAdsModal() {
+  const modal = document.getElementById('ads-credentials-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function renderAdsCredFields() {
+  const platform = document.getElementById('ads-cred-platform').value;
+  const container = document.getElementById('ads-cred-fields');
+  const fields = ADS_CRED_FIELDS[platform] || [];
+
+  container.innerHTML = fields.map(f => `
+    <div class="form-group" style="margin-top:12px">
+      <label style="display:block;font-size:12px;color:#888;margin-bottom:4px">${f.label}${f.optional ? ' (frivillig)' : ''}</label>
+      <input type="${f.key.includes('token') || f.key.includes('secret') ? 'password' : 'text'}"
+             id="ads-cred-${f.key}"
+             placeholder="${f.placeholder}"
+             style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:6px;padding:8px 12px;font-size:13px;box-sizing:border-box">
+    </div>
+  `).join('');
+}
+
+async function saveAdsCredentials() {
+  const platform = document.getElementById('ads-cred-platform').value;
+  const statusEl = document.getElementById('ads-cred-status');
+  if (!platform) { statusEl.textContent = 'Välj plattform'; statusEl.style.color = '#f44'; return; }
+  if (!_adsCurrentCustomer) { statusEl.textContent = 'Ingen kund vald'; statusEl.style.color = '#f44'; return; }
+
+  const fields = ADS_CRED_FIELDS[platform] || [];
+  const credentials = { platform };
+  let hasRequired = false;
+
+  for (const f of fields) {
+    const val = document.getElementById(`ads-cred-${f.key}`)?.value.trim();
+    if (val) { credentials[f.key] = val; hasRequired = true; }
+  }
+
+  if (!hasRequired) { statusEl.textContent = 'Fyll i minst ett fält'; statusEl.style.color = '#f44'; return; }
+
+  statusEl.textContent = 'Sparar...'; statusEl.style.color = '#888';
+  try {
+    await api(`/api/customers/${_adsCurrentCustomer}/ads/credentials`, 'POST', credentials);
+    statusEl.textContent = 'Sparat! Laddar om...'; statusEl.style.color = 'var(--green)';
+    setTimeout(() => { closeAdsModal(); renderAds(_adsCurrentCustomer); }, 1500);
+  } catch (err) {
+    statusEl.textContent = 'Fel: ' + err.message; statusEl.style.color = '#f44';
   }
 }
 
@@ -2531,7 +2890,7 @@ function addWorklogRow() {
       <input type="number" class="form-input worklog-time" placeholder="Min" style="width:70px" min="0">
       <select class="form-select worklog-by">
         <option value="Mikael">Mikael</option>
-        <option value="Viktor">Viktor</option>
+        <option value="Claude">Claude (automat)</option>
       </select>
       <button class="btn-small btn-remove" onclick="this.closest('.worklog-row').remove()">×</button>
     </div>
@@ -4169,15 +4528,382 @@ async function autoDiscoverLinks() {
 
 let _currentLinkedInPost = null; // Håller senaste genererade inlägg
 
+// ── Social Planner ───────────────────────────────────────────
+
+let _spCurrentPost = null;  // Inlägg öppet i composer
+let _spCustomers = [];      // Tillgängliga kunder
+
 async function loadLinkedInView() {
-  const [calData, draftsData] = await Promise.all([
-    api('/api/linkedin/calendar'),
-    api('/api/linkedin/drafts')
-  ]);
-  if (calData?.calendar) renderLinkedInCalendar(calData.calendar);
-  if (draftsData?.drafts) renderLinkedInDrafts(draftsData.drafts);
+  // Populera kund-filter
+  try {
+    const cData = await api('/api/customers');
+    _spCustomers = cData?.customers || [];
+    const sel = document.getElementById('sp-customer-filter');
+    if (sel) {
+      sel.innerHTML = '<option value="searchboost">Searchboost AB</option>' +
+        _spCustomers.filter(c => c.id !== 'searchboost').map(c =>
+          `<option value="${c.id}">${c.name || c.id}</option>`
+        ).join('');
+    }
+  } catch {}
+
+  await loadSocialPlanner();
 }
 
+async function loadSocialPlanner() {
+  const customerId = document.getElementById('sp-customer-filter')?.value || 'searchboost';
+  const platform  = document.getElementById('sp-platform-filter')?.value || '';
+
+  const params = new URLSearchParams({ customer_id: customerId });
+  if (platform) params.set('platform', platform);
+
+  const [calData, draftsData] = await Promise.all([
+    api(`/api/social/calendar?${params}`),
+    api(`/api/social/posts?${params}&status=draft`),
+  ]);
+
+  const upcoming = calData?.upcoming || [];
+  const recent   = calData?.recent   || [];
+  const drafts   = draftsData?.posts || [];
+
+  // Stats
+  const approved = upcoming.filter(p => p.status === 'approved').length;
+  document.getElementById('sp-stat-upcoming').textContent = approved;
+  document.getElementById('sp-stat-drafts').textContent   = drafts.length;
+  document.getElementById('sp-stat-posted').textContent   = recent.length;
+
+  const nextPost = upcoming.find(p => p.status === 'approved');
+  if (nextPost) {
+    const d = new Date(nextPost.scheduled_at?.value || nextPost.scheduled_at);
+    const days = ['Sön','Mån','Tis','Ons','Tor','Fre','Lör'];
+    document.getElementById('sp-stat-next-date').textContent =
+      `${days[d.getDay()]} ${d.getDate()}/${d.getMonth()+1}`;
+  } else {
+    document.getElementById('sp-stat-next-date').textContent = '–';
+  }
+
+  renderSocialCalendar(upcoming);
+  renderSocialDrafts(drafts);
+  renderSocialRecent(recent);
+}
+
+function renderSocialCalendar(posts) {
+  const el = document.getElementById('sp-calendar');
+  if (!posts || posts.length === 0) {
+    el.innerHTML = '<p class="empty">Inga schemalagda inlägg. Klicka "Auto-generera vecka".</p>';
+    return;
+  }
+  const rows = posts.map(p => {
+    const d = new Date(p.scheduled_at?.value || p.scheduled_at);
+    const days = ['Sön','Mån','Tis','Ons','Tor','Fre','Lör'];
+    const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+    const statusClass = `sp-status-${p.status}`;
+    const statusLabel = { approved:'Godkänt', draft:'Utkast', posted:'Postat', failed:'Fel' }[p.status] || p.status;
+    return `
+    <div class="sp-cal-item">
+      <div class="sp-cal-date">
+        <div class="sp-cal-day">${d.getDate()}</div>
+        <div class="sp-cal-dow">${days[d.getDay()]} ${months[d.getMonth()]}</div>
+      </div>
+      <div class="sp-cal-body">
+        <div class="sp-cal-hook">${(p.hook || 'Inlägg utan rubrik').replace(/</g,'&lt;')}</div>
+        <div class="sp-cal-meta">
+          <span class="sp-plat-badge sp-plat-${p.platform}">${p.platform}</span>
+          <span class="${statusClass}">${statusLabel}</span>
+          <span>${p.post_type || ''}</span>
+        </div>
+      </div>
+      <div class="sp-cal-actions">
+        ${p.status === 'approved' ? `<button class="btn-sm btn-primary" onclick="postNow('${p.post_id}')">Posta nu</button>` : ''}
+        ${p.status === 'draft'    ? `<button class="btn-sm btn-secondary" onclick="approvePost('${p.post_id}')">Godkänn</button>` : ''}
+        <button class="btn-sm btn-secondary" onclick="deletePost('${p.post_id}')" title="Ta bort">&#x2715;</button>
+      </div>
+    </div>`;
+  }).join('');
+  el.innerHTML = rows;
+}
+
+function renderSocialDrafts(posts) {
+  const el = document.getElementById('sp-drafts');
+  const badge = document.getElementById('sp-drafts-count');
+  if (badge) badge.textContent = posts.length;
+
+  if (!posts || posts.length === 0) {
+    el.innerHTML = '<p class="empty">Inga utkast</p>';
+    return;
+  }
+  el.innerHTML = posts.map(p => `
+    <div class="sp-draft-item">
+      <div class="sp-draft-hook">${(p.hook || p.full_text || '').substring(0,80).replace(/</g,'&lt;')}</div>
+      <div class="sp-draft-meta">
+        <span class="sp-plat-badge sp-plat-${p.platform}">${p.platform}</span>
+        &nbsp;${p.post_type || ''} · ${new Date(p.created_at?.value || p.created_at).toLocaleDateString('sv-SE')}
+      </div>
+      <div class="sp-draft-actions">
+        <button class="btn-sm btn-primary"    onclick="approvePost('${p.post_id}')">Godkänn</button>
+        <button class="btn-sm btn-secondary"  onclick="editPost('${p.post_id}', \`${(p.full_text||'').replace(/`/g,"'")}\`)">Redigera</button>
+        <button class="btn-sm btn-secondary"  onclick="deletePost('${p.post_id}')">Ta bort</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderSocialRecent(posts) {
+  const el = document.getElementById('sp-recent');
+  if (!posts || posts.length === 0) {
+    el.innerHTML = '<p class="empty">Inga postade inlägg senaste 7 dagarna</p>';
+    return;
+  }
+  el.innerHTML = posts.map(p => {
+    const d = new Date(p.posted_at?.value || p.posted_at);
+    const timeStr = d.toLocaleDateString('sv-SE') + ' ' + d.toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit' });
+    const liUrl = p.linkedin_post_id ? `https://www.linkedin.com/feed/update/${p.linkedin_post_id}/` : null;
+    return `
+    <div class="sp-recent-item">
+      <span class="sp-plat-badge sp-plat-${p.platform}">${p.platform}</span>
+      <span class="sp-cal-hook" style="flex:1">${(p.hook||'').replace(/</g,'&lt;')}</span>
+      <span class="sp-recent-ts">${timeStr}</span>
+      ${liUrl ? `<a href="${liUrl}" target="_blank" class="sp-recent-link">Visa &#x2197;</a>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── Composer ──
+
+function openPostComposer() {
+  // Sätt default schemaläggningsdatum till nästa tis/tor 08:00
+  const nextSlot = nextTueThu();
+  const dtInput = document.getElementById('sp-compose-schedule');
+  if (dtInput) dtInput.value = nextSlot;
+  document.getElementById('sp-compose-text').value = '';
+  document.getElementById('sp-compose-chars').textContent = '0 tecken';
+  document.getElementById('sp-compose-status').textContent = '';
+  document.getElementById('sp-compose-image-hint').style.display = 'none';
+  document.getElementById('sp-composer-modal').style.display = 'flex';
+}
+
+function closePostComposer() {
+  document.getElementById('sp-composer-modal').style.display = 'none';
+}
+
+function nextTueThu() {
+  const d = new Date();
+  d.setDate(d.getDate() + 1);
+  while (![2, 4].includes(d.getDay())) d.setDate(d.getDate() + 1);
+  d.setHours(8, 0, 0, 0);
+  // format för datetime-local: YYYY-MM-DDTHH:MM
+  return d.toISOString().slice(0, 16);
+}
+
+async function aiGenerateCompose() {
+  const platform  = document.getElementById('sp-compose-platform').value;
+  const postType  = document.getElementById('sp-compose-type').value;
+  const topic     = document.getElementById('sp-compose-topic').value.trim();
+  const customerId = document.getElementById('sp-customer-filter')?.value || 'searchboost';
+  const statusEl  = document.getElementById('sp-compose-status');
+  const btn       = document.getElementById('sp-btn-generate');
+
+  btn.disabled = true;
+  btn.textContent = 'Genererar...';
+  statusEl.textContent = '';
+
+  try {
+    const res = await api('/api/social/generate', 'POST', {
+      customer_id: customerId,
+      platform,
+      topic: topic || null,
+      post_type: postType,
+    });
+
+    if (res?.post?.full_text) {
+      _spCurrentPost = res.post;
+      document.getElementById('sp-compose-text').value = res.post.full_text;
+      updateComposeCharCount();
+
+      if (res.post.suggested_image_prompt) {
+        const hint = document.getElementById('sp-compose-image-hint');
+        hint.textContent = 'Bild: ' + res.post.suggested_image_prompt;
+        hint.style.display = '';
+      }
+      statusEl.textContent = 'Genererat!';
+      statusEl.style.color = 'var(--green)';
+      // Flytta schemalagd BQ-post till draft — ta bort auto-sparad
+      if (res.post.post_id) await api(`/api/social/posts/${res.post.post_id}/update`, 'POST', { status: 'draft' });
+    } else {
+      statusEl.textContent = 'Fel: ' + (res?.error || 'okänt');
+      statusEl.style.color = '#f44';
+    }
+  } catch (e) {
+    statusEl.textContent = 'Fel: ' + e.message;
+    statusEl.style.color = '#f44';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '\u2728 Generera med AI';
+  }
+}
+
+function updateComposeCharCount() {
+  const text = document.getElementById('sp-compose-text').value;
+  const el   = document.getElementById('sp-compose-chars');
+  el.textContent = `${text.length} tecken`;
+  el.classList.toggle('sp-over', text.length > 3000);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const ta = document.getElementById('sp-compose-text');
+  if (ta) ta.addEventListener('input', updateComposeCharCount);
+});
+
+async function saveComposeDraft() {
+  const text = document.getElementById('sp-compose-text').value.trim();
+  if (!text) return;
+  const platform   = document.getElementById('sp-compose-platform').value;
+  const postType   = document.getElementById('sp-compose-type').value;
+  const scheduledAt = document.getElementById('sp-compose-schedule').value;
+  const customerId  = document.getElementById('sp-customer-filter')?.value || 'searchboost';
+
+  // Om AI genererade post finns, uppdatera den — annars skapa ny
+  if (_spCurrentPost?.post_id) {
+    await api(`/api/social/posts/${_spCurrentPost.post_id}/update`, 'POST',
+      { full_text: text, scheduled_at: scheduledAt ? new Date(scheduledAt).toISOString() : undefined, status: 'draft' });
+  } else {
+    await api('/api/social/generate', 'POST', {
+      customer_id: customerId, platform, post_type: postType, topic: text.substring(0,60),
+    });
+  }
+  closePostComposer();
+  await loadSocialPlanner();
+}
+
+async function approveAndSchedule() {
+  const text = document.getElementById('sp-compose-text').value.trim();
+  if (!text) { alert('Inlägget är tomt'); return; }
+  const scheduledAt = document.getElementById('sp-compose-schedule').value;
+  const platform    = document.getElementById('sp-compose-platform').value;
+  const postType    = document.getElementById('sp-compose-type').value;
+  const customerId  = document.getElementById('sp-customer-filter')?.value || 'searchboost';
+
+  let postId = _spCurrentPost?.post_id;
+
+  if (postId) {
+    await api(`/api/social/posts/${postId}/update`, 'POST', {
+      full_text: text,
+      scheduled_at: scheduledAt ? new Date(scheduledAt).toISOString() : undefined,
+    });
+    await api(`/api/social/posts/${postId}/approve`, 'POST',
+      scheduledAt ? { scheduled_at: new Date(scheduledAt).toISOString() } : {});
+  } else {
+    // Spara som draft och godkänn direkt
+    const res = await api('/api/social/generate', 'POST', {
+      customer_id: customerId, platform, post_type: postType,
+    });
+    postId = res?.post?.post_id;
+    if (postId) {
+      await api(`/api/social/posts/${postId}/update`, 'POST', { full_text: text });
+      await api(`/api/social/posts/${postId}/approve`, 'POST',
+        scheduledAt ? { scheduled_at: new Date(scheduledAt).toISOString() } : {});
+    }
+  }
+
+  closePostComposer();
+  await loadSocialPlanner();
+}
+
+async function approvePost(postId) {
+  await api(`/api/social/posts/${postId}/approve`, 'POST', {});
+  await loadSocialPlanner();
+}
+
+async function postNow(postId) {
+  if (!confirm('Posta inlägget direkt på LinkedIn nu?')) return;
+  try {
+    const res = await api(`/api/social/posts/${postId}/post-now`, 'POST', {});
+    if (res?.success) {
+      alert('Postat! ' + (res.url || ''));
+    } else {
+      alert('Fel: ' + (res?.error || 'okänt'));
+    }
+  } catch (e) {
+    alert('Fel: ' + e.message);
+  }
+  await loadSocialPlanner();
+}
+
+async function deletePost(postId) {
+  if (!confirm('Ta bort inlägget?')) return;
+  await api(`/api/social/posts/${postId}`, 'DELETE');
+  await loadSocialPlanner();
+}
+
+function editPost(postId, text) {
+  _spCurrentPost = { post_id: postId };
+  document.getElementById('sp-compose-text').value = text;
+  updateComposeCharCount();
+  document.getElementById('sp-composer-modal').style.display = 'flex';
+}
+
+async function autoGeneratePosts() {
+  const btn = document.querySelector('.sp-calendar-card .btn-secondary');
+  if (btn) { btn.disabled = true; btn.textContent = 'Genererar...'; }
+  const customerId = document.getElementById('sp-customer-filter')?.value || 'searchboost';
+  try {
+    // Generera 2 inlägg (nästa tis + tors)
+    await Promise.all([
+      api('/api/social/generate', 'POST', { customer_id: customerId, platform: 'linkedin', post_type: 'tip', schedule_now: true }),
+      api('/api/social/generate', 'POST', { customer_id: customerId, platform: 'linkedin', post_type: 'trend', schedule_now: true }),
+    ]);
+    await loadSocialPlanner();
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '\u2728 Auto-generera vecka'; }
+  }
+}
+
+// ── Credentials modal ──
+
+function openSocialCredsModal() {
+  document.getElementById('sp-creds-modal').style.display = 'flex';
+  document.getElementById('sp-creds-status').textContent = '';
+}
+function closeSocialCredsModal() {
+  document.getElementById('sp-creds-modal').style.display = 'none';
+}
+
+async function saveSocialCreds() {
+  const token     = document.getElementById('sp-cred-li-token').value.trim();
+  const companyId = document.getElementById('sp-cred-li-company').value.trim();
+  const statusEl  = document.getElementById('sp-creds-status');
+
+  if (!token || !companyId) {
+    statusEl.textContent = 'Fyll i båda fälten';
+    statusEl.style.color = '#f44';
+    return;
+  }
+
+  statusEl.textContent = 'Sparar...';
+  statusEl.style.color = '#888';
+
+  try {
+    const res = await api('/api/social/credentials/searchboost', 'POST', {
+      platform: 'linkedin',
+      access_token: token,
+      company_id: companyId,
+    });
+    if (res?.success) {
+      statusEl.textContent = 'Sparat! LinkedIn kopplat.';
+      statusEl.style.color = 'var(--green)';
+      document.getElementById('sp-cred-li-token').value   = '';
+      document.getElementById('sp-cred-li-company').value = '';
+      setTimeout(closeSocialCredsModal, 1500);
+    } else {
+      statusEl.textContent = 'Fel: ' + (res?.error || 'okänt');
+      statusEl.style.color = '#f44';
+    }
+  } catch (e) {
+    statusEl.textContent = 'Fel: ' + e.message;
+    statusEl.style.color = '#f44';
+  }
+}
+
+// Behåll bakåtkompatibilitet med gamla funktioner
 async function generateLinkedInPost() {
   const type = $('#li-type').value;
   const topic = $('#li-topic').value.trim();
@@ -4354,4 +5080,866 @@ async function updateDraftStatus(id, status) {
     const draftsData = await api('/api/linkedin/drafts');
     if (draftsData?.drafts) renderLinkedInDrafts(draftsData.drafts);
   }
+}
+
+// ── Ranking History Chart ──
+let _rankingChart = null;
+
+async function loadRankingHistory() {
+  const days = document.getElementById('ranking-days-select')?.value || 30;
+  const cid = _currentCustomerId;
+  if (!cid) return;
+
+  const canvas = document.getElementById('ranking-history-chart');
+  const emptyEl = document.getElementById('ranking-history-empty');
+  if (!canvas) return;
+
+  const data = await api(`/api/customers/${cid}/rankings/history?days=${days}&topN=10`);
+
+  if (!data || !data.series || data.series.length === 0) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    canvas.style.display = 'none';
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+  canvas.style.display = 'block';
+
+  // Förstör gammalt chart om det finns
+  if (_rankingChart) { _rankingChart.destroy(); _rankingChart = null; }
+
+  // Alla unika datum i stigande ordning
+  const allDates = [...new Set(data.series.flatMap(s => s.data.map(d => d.date)))].sort();
+
+  // 10 distinkta färger (Searchboost-paletten)
+  const COLORS = ['#e91e8c','#00d4ff','#00e676','#7c4dff','#ff9100','#ff5252','#40c4ff','#b2ff59','#ea80fc','#ffd740'];
+
+  const datasets = data.series.map((serie, i) => ({
+    label: serie.query,
+    data: allDates.map(date => {
+      const point = serie.data.find(d => d.date === date);
+      return point ? point.position : null;
+    }),
+    borderColor: COLORS[i % COLORS.length],
+    backgroundColor: 'transparent',
+    tension: 0.3,
+    spanGaps: true,
+    pointRadius: 3,
+  }));
+
+  _rankingChart = new Chart(canvas, {
+    type: 'line',
+    data: { labels: allDates, datasets },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          reverse: true, // position 1 är bäst = högst upp
+          min: 1,
+          title: { display: true, text: 'Position', color: '#888' },
+          ticks: { color: '#888' },
+          grid: { color: '#2a2a3e' }
+        },
+        x: {
+          ticks: { color: '#888', maxTicksLimit: 8 },
+          grid: { color: '#2a2a3e' }
+        }
+      },
+      plugins: {
+        legend: { labels: { color: '#ccc', boxWidth: 12, padding: 8 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: pos ${ctx.parsed.y?.toFixed(1)}`
+          }
+        }
+      }
+    }
+  });
+}
+
+// ── Google Business Profile ──────────────────────────────────────────────────
+
+let _gbpCurrentReviewId = null;
+
+async function loadGbpStatus(customerId) {
+  const card = $('#gbp-card');
+  const badge = $('#gbp-status-badge');
+  if (!card) return;
+
+  try {
+    const data = await api(`/api/customers/${customerId}/gbp/status`);
+    if (!data) return;
+
+    if (data.configured) {
+      card.style.display = '';
+      badge.textContent = 'Kopplat';
+      badge.className = 'badge badge--active';
+    } else {
+      card.style.display = '';
+      badge.textContent = 'Ej kopplat';
+      badge.className = 'badge badge--inactive';
+      $('#gbp-reviews-list').innerHTML = '<p class="empty">GBP är inte konfigurerat. Klicka "Anslut / Byt konto" för att komma igång.</p>';
+    }
+  } catch (err) {
+    console.error('[GBP] loadGbpStatus fel:', err);
+  }
+}
+
+async function loadGbpReviews() {
+  const listEl = $('#gbp-reviews-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<p class="empty">Hämtar recensioner...</p>';
+
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/reviews?limit=20`);
+    if (!data || !data.success) {
+      listEl.innerHTML = `<p class="empty">${data?.error || 'Kunde inte hämta recensioner.'}</p>`;
+      return;
+    }
+    if (!data.reviews || data.reviews.length === 0) {
+      listEl.innerHTML = '<p class="empty">Inga recensioner hittades.</p>';
+      return;
+    }
+    renderGbpReviews(data.reviews, listEl);
+  } catch (err) {
+    console.error('[GBP] loadGbpReviews fel:', err);
+    listEl.innerHTML = '<p class="empty">Fel vid hämtning av recensioner.</p>';
+  }
+}
+
+function renderGbpReviews(reviews, container) {
+  const starsHtml = (value) => {
+    const full = Math.round(value || 0);
+    return Array.from({ length: 5 }, (_, i) =>
+      `<span class="gbp-star${i < full ? ' gbp-star--filled' : ''}">${i < full ? '&#9733;' : '&#9734;'}</span>`
+    ).join('');
+  };
+
+  const dateStr = (iso) => {
+    if (!iso) return '';
+    try { return new Date(iso).toLocaleDateString('sv-SE'); } catch (e) { return iso.split('T')[0]; }
+  };
+
+  const html = reviews.map(r => `
+    <div class="gbp-review" data-review-id="${r.reviewId}">
+      <div class="gbp-review-header">
+        <span class="gbp-stars">${starsHtml(r.ratingValue)}</span>
+        <span class="gbp-review-author">${r.author}</span>
+        <span class="gbp-review-date">${dateStr(r.createTime)}</span>
+      </div>
+      ${r.comment ? `<p class="gbp-review-comment">${r.comment}</p>` : '<p class="gbp-review-comment" style="color:#475569;font-style:italic">Ingen text — bara betyg</p>'}
+      ${r.replied
+        ? `<div class="gbp-reply-existing"><span class="gbp-reply-label">Ert svar:</span> ${r.replyComment}</div>`
+        : `<div class="gbp-review-actions">
+             <button class="btn-sm btn-outline" onclick="openGbpReplyModal('${r.reviewId}', ${r.ratingValue}, ${JSON.stringify(r.comment || '').replace(/"/g, '&quot;')}, '${r.author}')">Svara</button>
+             <button class="btn-sm btn-ghost" onclick="generateAndPreviewReply('${r.reviewId}')">AI-svar</button>
+           </div>`
+      }
+    </div>
+  `).join('');
+
+  container.innerHTML = html || '<p class="empty">Inga recensioner.</p>';
+}
+
+function openGbpReplyModal(reviewId, ratingValue, comment, author) {
+  _gbpCurrentReviewId = reviewId;
+
+  const starsHtml = Array.from({ length: 5 }, (_, i) =>
+    `<span class="${i < ratingValue ? 'gbp-star--filled' : ''}" style="color:${i < ratingValue ? '#f9ab00' : '#475569'}">&#9733;</span>`
+  ).join('');
+
+  const preview = $('#gbp-reply-review-preview');
+  if (preview) {
+    preview.innerHTML = `
+      <div class="gbp-reply-review-card">
+        <div class="gbp-reply-meta">${starsHtml} <strong>${author}</strong></div>
+        <p style="margin:6px 0 0;font-size:13px;color:#cbd5e1">${comment || '(Ingen text)'}</p>
+      </div>`;
+  }
+  $('#gbp-reply-text').value = '';
+  $('#gbp-reply-status').textContent = '';
+  $('#gbp-reply-modal').style.display = 'flex';
+}
+
+function closeGbpReplyModal() {
+  $('#gbp-reply-modal').style.display = 'none';
+  _gbpCurrentReviewId = null;
+}
+
+async function generateAiReply() {
+  if (!_gbpCurrentReviewId) return;
+  const btn = $('#gbp-ai-reply-btn');
+  const statusEl = $('#gbp-reply-status');
+  btn.disabled = true;
+  btn.textContent = 'Genererar...';
+  statusEl.textContent = '';
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/reviews/${_gbpCurrentReviewId}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ autoGenerate: true, preview: true })
+    });
+    if (data?.replyText) {
+      $('#gbp-reply-text').value = data.replyText;
+      statusEl.style.color = '#22c55e';
+      statusEl.textContent = 'AI-svar genererat. Redigera om du vill innan du skickar.';
+    } else {
+      statusEl.style.color = '#ef4444';
+      statusEl.textContent = data?.error || 'Kunde inte generera AI-svar.';
+    }
+  } catch (err) {
+    console.error('[GBP] generateAiReply fel:', err);
+    statusEl.style.color = '#ef4444';
+    statusEl.textContent = 'Fel vid AI-generering.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'AI-svar';
+  }
+}
+
+async function generateAndPreviewReply(reviewId) {
+  const listEl = $('#gbp-reviews-list');
+  const statusSpan = listEl?.querySelector(`[data-review-id="${reviewId}"] .gbp-review-actions`);
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/reviews/${reviewId}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ autoGenerate: true, preview: true })
+    });
+    if (data?.replyText && data?.review) {
+      openGbpReplyModal(reviewId, data.review.ratingValue, data.review.comment, data.review.author);
+      setTimeout(() => { $('#gbp-reply-text').value = data.replyText; }, 50);
+    }
+  } catch (err) {
+    console.error('[GBP] generateAndPreviewReply fel:', err);
+  }
+}
+
+async function submitGbpReply() {
+  if (!_gbpCurrentReviewId) return;
+  const replyText = $('#gbp-reply-text').value.trim();
+  const statusEl = $('#gbp-reply-status');
+  if (!replyText) { statusEl.style.color = '#ef4444'; statusEl.textContent = 'Ange ett svar.'; return; }
+
+  statusEl.style.color = '#94a3b8';
+  statusEl.textContent = 'Skickar...';
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/reviews/${_gbpCurrentReviewId}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ replyText })
+    });
+    if (data?.success) {
+      statusEl.style.color = '#22c55e';
+      statusEl.textContent = 'Svar skickat!';
+      setTimeout(() => { closeGbpReplyModal(); loadGbpReviews(); }, 1200);
+    } else {
+      statusEl.style.color = '#ef4444';
+      statusEl.textContent = data?.error || 'Misslyckades att skicka svar.';
+    }
+  } catch (err) {
+    console.error('[GBP] submitGbpReply fel:', err);
+    statusEl.style.color = '#ef4444';
+    statusEl.textContent = 'Nätverksfel.';
+  }
+}
+
+function showGbpConnectModal() {
+  $('#gbp-account-id').value = '';
+  $('#gbp-location-id').value = '';
+  $('#gbp-access-token').value = '';
+  $('#gbp-refresh-token').value = '';
+  $('#gbp-connect-status').textContent = '';
+  $('#gbp-connect-modal').style.display = 'flex';
+}
+
+function closeGbpModal() {
+  $('#gbp-connect-modal').style.display = 'none';
+}
+
+async function saveGbpCreds() {
+  const accountId    = $('#gbp-account-id').value.trim();
+  const locationId   = $('#gbp-location-id').value.trim();
+  const accessToken  = $('#gbp-access-token').value.trim();
+  const refreshToken = $('#gbp-refresh-token').value.trim();
+  const statusEl = $('#gbp-connect-status');
+
+  if (!accountId || !locationId || !accessToken) {
+    statusEl.style.color = '#ef4444';
+    statusEl.textContent = 'Account ID, Location ID och Access Token krävs.';
+    return;
+  }
+
+  statusEl.style.color = '#94a3b8';
+  statusEl.textContent = 'Sparar...';
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/connect`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ accountId, locationId, accessToken, ...(refreshToken ? { refreshToken } : {}) })
+    });
+    if (data?.success) {
+      statusEl.style.color = '#22c55e';
+      statusEl.textContent = 'Sparades! Laddar GBP-status...';
+      setTimeout(() => { closeGbpModal(); loadGbpStatus(_currentCustomerId); }, 1000);
+    } else {
+      statusEl.style.color = '#ef4444';
+      statusEl.textContent = data?.error || 'Misslyckades att spara credentials.';
+    }
+  } catch (err) {
+    console.error('[GBP] saveGbpCreds fel:', err);
+    statusEl.style.color = '#ef4444';
+    statusEl.textContent = 'Nätverksfel.';
+  }
+}
+
+function showGbpPostModal() {
+  $('#gbp-post-summary').value = '';
+  $('#gbp-post-action-type').value = '';
+  $('#gbp-post-action-url').value = '';
+  $('#gbp-post-status').textContent = '';
+  $('#gbp-post-modal').style.display = 'flex';
+}
+
+function closeGbpPostModal() {
+  $('#gbp-post-modal').style.display = 'none';
+}
+
+// ── Client Health Score ───────────────────────────────────────
+async function loadHealthScore(customerId) {
+  const circle = document.getElementById('health-score-circle');
+  const gradeEl = document.getElementById('health-score-grade');
+  const trendEl = document.getElementById('health-score-trend');
+  const barsEl  = document.getElementById('health-score-bars');
+  if (!circle) return;
+
+  // Reset
+  circle.textContent = '…';
+  circle.style.borderColor = '#475569';
+  circle.style.color = '#94a3b8';
+  gradeEl.textContent = 'Beräknar...';
+  gradeEl.style.color = '#94a3b8';
+  trendEl.textContent = '';
+  barsEl.innerHTML = '';
+
+  const data = await api(`/api/customers/${customerId}/health-score`);
+  if (!data) {
+    gradeEl.textContent = 'Ej tillgänglig';
+    return;
+  }
+
+  const gradeColors = { A: '#00e676', B: '#69f0ae', C: '#fb8c00', D: '#ff5252', F: '#f44336' };
+  const gradeLabels = { A: 'Utmärkt', B: 'Bra', C: 'OK', D: 'Svag', F: 'Kritisk' };
+  const trendLabels = { improving: 'Stigande trend', stable: 'Stabil', declining: 'Sjunkande trend' };
+  const trendColors = { improving: '#00e676', stable: '#94a3b8', declining: '#ff5252' };
+
+  const color = gradeColors[data.grade] || '#94a3b8';
+  circle.textContent = data.score;
+  circle.style.borderColor = color;
+  circle.style.color = color;
+  gradeEl.textContent = `${data.grade} \u2014 ${gradeLabels[data.grade] || ''}`;
+  gradeEl.style.color = color;
+  trendEl.textContent = trendLabels[data.trend] || '';
+  trendEl.style.color = trendColors[data.trend] || '#94a3b8';
+
+  // Mini-bars för varje kategori
+  const cats = [
+    { key: 'traffic',       label: 'Trafik' },
+    { key: 'position',      label: 'Position' },
+    { key: 'optimizations', label: 'Opt.' },
+    { key: 'keywords',      label: 'KW' },
+    { key: 'queue',         label: 'Ko' }
+  ];
+  barsEl.innerHTML = cats.map(cat => {
+    const b = data.breakdown[cat.key];
+    if (!b) return '';
+    const pct = Math.round((b.score / b.max) * 100);
+    const barColor = pct >= 75 ? '#00e676' : pct >= 40 ? '#fb8c00' : '#ff5252';
+    const barH = Math.max(4, Math.round(pct * 0.22));
+    return `<div title="${cat.label}: ${b.score}/${b.max} \u2014 ${b.detail}" style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:default">
+      <div style="width:18px;height:${barH}px;background:${barColor};border-radius:2px 2px 0 0"></div>
+      <span style="font-size:9px;color:#64748b">${cat.label}</span>
+    </div>`;
+  }).join('');
+}
+
+async function createGbpPost() {
+  const summary    = $('#gbp-post-summary').value.trim();
+  const actionType = $('#gbp-post-action-type').value;
+  const actionUrl  = $('#gbp-post-action-url').value.trim();
+  const statusEl   = $('#gbp-post-status');
+
+  if (!summary) { statusEl.style.color = '#ef4444'; statusEl.textContent = 'Text krävs.'; return; }
+
+  statusEl.style.color = '#94a3b8';
+  statusEl.textContent = 'Publicerar...';
+  try {
+    const data = await api(`/api/customers/${_currentCustomerId}/gbp/posts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ summary, actionType: actionType || undefined, actionUrl: actionUrl || undefined })
+    });
+    if (data?.success) {
+      statusEl.style.color = '#22c55e';
+      statusEl.textContent = 'Inlägg publicerat!';
+      setTimeout(() => closeGbpPostModal(), 1500);
+    } else {
+      statusEl.style.color = '#ef4444';
+      statusEl.textContent = data?.error || 'Misslyckades att publicera.';
+    }
+  } catch (err) {
+    console.error('[GBP] createGbpPost fel:', err);
+    statusEl.style.color = '#ef4444';
+    statusEl.textContent = 'Nätverksfel.';
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// Möjligheter-vy
+// ══════════════════════════════════════════════════════════════
+
+const OPP_TYPE_LABELS = {
+  near_page1:      'Nära sida 1',
+  low_ctr:         'Låg CTR',
+  zero_click:      'Noll klick',
+  cannibalization: 'Kannibalisering',
+};
+const OPP_TYPE_COLORS = {
+  near_page1:      '#00e676',
+  low_ctr:         '#fb8c00',
+  zero_click:      '#2196f3',
+  cannibalization: '#e91e8c',
+};
+
+async function loadOpportunities() {
+  const customerFilter = document.getElementById('opp-customer-filter')?.value || '';
+  const typeFilter     = document.getElementById('opp-type-filter')?.value || '';
+  const statusFilter   = document.getElementById('opp-status-filter')?.value || '';
+
+  const params = new URLSearchParams();
+  if (customerFilter) params.set('customerId', customerFilter);
+  if (typeFilter)     params.set('type', typeFilter);
+  if (statusFilter)   params.set('status', statusFilter);
+  params.set('limit', '200');
+
+  const tbody = document.getElementById('opportunities-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:20px;color:#888">Laddar...</td></tr>';
+
+  try {
+    const data = await api(`/api/opportunities?${params.toString()}`);
+    const opps = data.opportunities || [];
+
+    // Uppdatera stats
+    const counts = { near_page1: 0, low_ctr: 0, zero_click: 0, cannibalization: 0 };
+    opps.forEach(o => { if (counts[o.opportunity_type] !== undefined) counts[o.opportunity_type]++; });
+    document.getElementById('opp-stat-near-p1').textContent        = counts.near_page1;
+    document.getElementById('opp-stat-low-ctr').textContent        = counts.low_ctr;
+    document.getElementById('opp-stat-zero-click').textContent     = counts.zero_click;
+    document.getElementById('opp-stat-cannibalization').textContent = counts.cannibalization;
+    const countEl = document.getElementById('opp-count');
+    if (countEl) countEl.textContent = `${opps.length} möjligheter`;
+
+    if (!tbody) return;
+    if (opps.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;color:#888">Inga möjligheter hittade. Kör content-gap-analyzer Lambda för att generera data.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = opps.map(o => {
+      const color = OPP_TYPE_COLORS[o.opportunity_type] || '#888';
+      const label = OPP_TYPE_LABELS[o.opportunity_type] || o.opportunity_type;
+      const scoreColor = o.potential_score >= 70 ? '#00e676' : o.potential_score >= 40 ? '#fb8c00' : '#888';
+      const statusBadge = o.status === 'done'
+        ? '<span style="color:#00e676;font-size:11px">Klar</span>'
+        : o.status === 'in_queue'
+          ? '<span style="color:#fb8c00;font-size:11px">I kö</span>'
+          : `<button onclick="markOppDone('${o.opp_id}')" style="font-size:11px;padding:2px 8px;border-radius:4px;border:1px solid #333;background:transparent;color:#888;cursor:pointer">Bocka av</button>`;
+
+      return `<tr>
+        <td><span style="display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;background:${color}22;color:${color};white-space:nowrap">${label}</span></td>
+        <td style="font-size:13px;color:#888">${o.customer_id}</td>
+        <td style="font-weight:500;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${o.query}">${o.query}</td>
+        <td style="text-align:center;color:#ccc">${o.current_position || '—'}</td>
+        <td style="text-align:center;color:#ccc">${(o.impressions_7d || 0) * 4}</td>
+        <td style="text-align:center;font-weight:600;color:${scoreColor}">${o.potential_score}</td>
+        <td style="font-size:12px;color:#aaa;max-width:250px">${o.recommendation || ''}</td>
+        <td style="text-align:center">${statusBadge}</td>
+      </tr>`;
+    }).join('');
+
+    // Bygg kundfilter-dropdown om inte redan populated
+    const customerSelect = document.getElementById('opp-customer-filter');
+    if (customerSelect && customerSelect.options.length <= 1) {
+      const uniqueCustomers = [...new Set(opps.map(o => o.customer_id))].sort();
+      uniqueCustomers.forEach(cid => {
+        const opt = document.createElement('option');
+        opt.value = cid;
+        opt.textContent = cid;
+        customerSelect.appendChild(opt);
+      });
+    }
+  } catch (err) {
+    if (tbody) tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;padding:20px;color:#ef4444">Fel: ${err.message}</td></tr>`;
+  }
+}
+
+async function markOppDone(oppId) {
+  try {
+    await api(`/api/opportunities/${oppId}`, { method: 'PATCH', body: JSON.stringify({ status: 'done' }) });
+    loadOpportunities();
+  } catch (err) {
+    alert('Kunde inte uppdatera: ' + err.message);
+  }
+}
+
+// Hook in i view-switcher
+const _origShowView = window.showView;
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-view="opportunities"]').forEach(el => {
+    el.addEventListener('click', () => loadOpportunities());
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+// INTERNAL LINKING ANALYZER
+// ══════════════════════════════════════════════════════════════
+
+async function loadInternalLinks(customerId) {
+  if (!customerId) return;
+  const card = document.getElementById('internal-links-card');
+  const summaryEl = document.getElementById('internal-links-summary');
+  const suggestionsEl = document.getElementById('internal-links-suggestions');
+  const orphansEl = document.getElementById('internal-links-orphans');
+  if (!card) return;
+
+  card.style.display = '';
+  summaryEl.innerHTML = '<span class="il-stat" style="color:#94a3b8">Laddar...</span>';
+  suggestionsEl.innerHTML = '';
+  orphansEl.innerHTML = '';
+
+  try {
+    const data = await api(`/api/customers/${customerId}/internal-links`);
+    if (!data) {
+      summaryEl.innerHTML = '<span style="color:#ef4444">Kunde inte ladda internlanksanalys.</span>';
+      return;
+    }
+
+    // Sammanfattning
+    summaryEl.innerHTML = `
+      <div class="il-stat"><div class="il-stat-value">${data.totalPages}</div><div class="il-stat-label">Totalt sidor</div></div>
+      <div class="il-stat"><div class="il-stat-value" style="color:#ef4444">${data.orphanPages.length}</div><div class="il-stat-label">Orphan-sidor</div></div>
+      <div class="il-stat"><div class="il-stat-value">${data.avgLinksPerPage}</div><div class="il-stat-label">Snitt inkommande/sida</div></div>
+      <div class="il-stat"><div class="il-stat-value" style="color:#f59e0b">${data.lowLinked ? data.lowLinked.length : 0}</div><div class="il-stat-label">Underslankar (&lt;2)</div></div>
+    `;
+
+    // Claude-forslag
+    if (data.suggestions && data.suggestions.length) {
+      suggestionsEl.innerHTML = '<div style="font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:8px">Forslag fran AI</div>' +
+        data.suggestions.map((s, i) => `
+          <div class="il-suggestion">
+            <span style="flex:1">${s}</span>
+            <button class="btn-sm btn-outline" style="margin-left:8px;font-size:11px" onclick="navigator.clipboard.writeText(${JSON.stringify(s)}).then(()=>this.textContent='Kopierat!').catch(()=>{})">Kopiera</button>
+          </div>
+        `).join('');
+    } else {
+      suggestionsEl.innerHTML = '<p style="color:#64748b;font-size:13px">Inga AI-forslag genererades.</p>';
+    }
+
+    // Orphan-sidor
+    if (data.orphanPages && data.orphanPages.length) {
+      orphansEl.innerHTML = '<div style="font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:8px">Orphan-sidor (0 inkommande lankar)</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:6px">' +
+        data.orphanPages.map(p => `<span class="il-orphan" title="${p.url}">${p.title || p.url}</span>`).join('') +
+        '</div>';
+    } else {
+      orphansEl.innerHTML = '<p style="color:#22c55e;font-size:13px">Inga orphan-sidor — bra jobbat!</p>';
+    }
+  } catch (err) {
+    summaryEl.innerHTML = `<span style="color:#ef4444">Fel: ${err.message}</span>`;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// BULK META OPTIMIZER
+// ══════════════════════════════════════════════════════════════
+
+function openBulkMetaModal() {
+  const modal = document.getElementById('bulk-meta-modal');
+  if (!modal) return;
+  // Aterstall state
+  document.getElementById('bulk-meta-result').innerHTML = '';
+  document.getElementById('bulk-dry-btn').disabled = false;
+  document.getElementById('bulk-apply-btn').disabled = false;
+  document.getElementById('bulk-dry-btn').textContent = 'Forhandsgranska (dry run)';
+  modal.style.display = 'flex';
+}
+
+function closeBulkMetaModal() {
+  const modal = document.getElementById('bulk-meta-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+async function runBulkMeta(isDryRun) {
+  const customerId = _currentCustomerId;
+  if (!customerId) return;
+
+  const resultEl = document.getElementById('bulk-meta-result');
+  const dryBtn   = document.getElementById('bulk-dry-btn');
+  const applyBtn = document.getElementById('bulk-apply-btn');
+
+  dryBtn.disabled  = true;
+  applyBtn.disabled = true;
+  resultEl.innerHTML = '<p style="color:#94a3b8">Analyserar sidor och genererar forslag med Claude AI... Det tar 15-30 sekunder.</p>';
+
+  try {
+    const data = await api(`/api/customers/${customerId}/bulk-optimize-meta`, {
+      method: 'POST',
+      body: JSON.stringify({ dryRun: isDryRun })
+    });
+
+    if (!data) {
+      resultEl.innerHTML = '<p style="color:#ef4444">Fick inget svar fran servern.</p>';
+      dryBtn.disabled = false;
+      applyBtn.disabled = false;
+      return;
+    }
+
+    if (isDryRun) {
+      // Visa tabell med forslag
+      if (!data.results || data.results.length === 0) {
+        resultEl.innerHTML = `<p style="color:#22c55e">${data.message || 'Inga sidor behoVer optimering.'}</p>`;
+        dryBtn.disabled = false;
+        applyBtn.disabled = false;
+        return;
+      }
+
+      const tableRows = data.results.map(r => `
+        <tr>
+          <td style="padding:6px 8px;color:#94a3b8;font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.url}">${r.url.replace(/.*\/\/[^/]+/, '')}</td>
+          <td style="padding:6px 8px;font-size:12px"><div style="color:#ef4444;font-size:11px">${r.oldTitle || '(saknas)'}</div><div style="color:#22c55e">${r.newTitle}</div></td>
+          <td style="padding:6px 8px;font-size:12px"><div style="color:#ef4444;font-size:11px">${(r.oldDesc || '(saknas)').substring(0, 80)}</div><div style="color:#22c55e">${(r.newDesc || '').substring(0, 80)}</div></td>
+        </tr>
+      `).join('');
+
+      resultEl.innerHTML = `
+        <p style="color:#94a3b8;font-size:13px;margin-bottom:8px">${data.results.length} sidor foreslagna for optimering (${data.skipped} redan OK).</p>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead>
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.1)">
+                <th style="padding:6px 8px;text-align:left;color:#64748b">URL</th>
+                <th style="padding:6px 8px;text-align:left;color:#64748b">Title (rod=gammal, gron=ny)</th>
+                <th style="padding:6px 8px;text-align:left;color:#64748b">Description</th>
+              </tr>
+            </thead>
+            <tbody>${tableRows}</tbody>
+          </table>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn-primary" onclick="runBulkMeta(false)" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">Bekrafta och tillAmpa</button>
+          <button class="btn-sm btn-outline" onclick="closeBulkMetaModal()">Avbryt</button>
+        </div>
+      `;
+      dryBtn.disabled = false;
+      applyBtn.disabled = false;
+    } else {
+      // Tillampat — visa resultat
+      const errorHtml = data.errors && data.errors.length
+        ? `<div style="margin-top:8px;color:#f59e0b;font-size:12px">Fel pa ${data.errors.length} sidor: ${data.errors.map(e => e.url).join(', ')}</div>`
+        : '';
+      resultEl.innerHTML = `
+        <div style="color:#22c55e;font-size:16px;font-weight:600">${data.optimized} sidor optimerade!</div>
+        <div style="color:#94a3b8;font-size:13px;margin-top:4px">${data.skipped} sidor hoppades over (redan OK).</div>
+        ${errorHtml}
+        <button class="btn-sm btn-outline" onclick="closeBulkMetaModal()" style="margin-top:12px">Stang</button>
+      `;
+    }
+  } catch (err) {
+    resultEl.innerHTML = `<p style="color:#ef4444">Fel: ${err.message}</p>`;
+    dryBtn.disabled = false;
+    applyBtn.disabled = false;
+  }
+}
+
+// ── LLM.TXT Generator ─────────────────────────────────────────
+async function generateLlmTxt(customerId) {
+  const resultDiv = document.getElementById('llm-txt-result');
+  const contentEl = document.getElementById('llm-txt-content');
+  const uploadBtn = document.getElementById('llm-upload-btn');
+  const statusEl  = document.getElementById('llm-upload-status');
+  if (!resultDiv) return;
+
+  resultDiv.style.display = 'block';
+  contentEl.textContent = 'Genererar llm.txt med AI...';
+  uploadBtn.disabled = true;
+  statusEl.textContent = '';
+
+  try {
+    const data = await api(`/api/customers/${customerId}/generate-llm-txt`, {
+      method: 'POST',
+      body: JSON.stringify({ upload: false }),
+    });
+    contentEl.textContent = data.llm_txt || '';
+    uploadBtn.disabled = false;
+    statusEl.textContent = `${data.char_count} tecken | ${data.pages_analyzed} sidor analyserade | ${data.keywords_used} nyckelord`;
+  } catch (err) {
+    contentEl.textContent = `Fel: ${err.message}`;
+  }
+}
+
+// ── Per-kund Social Media ─────────────────────────────────────────────────
+
+async function loadCustomerSocialPosts() {
+  const customerId = _currentCustomerId;
+  if (!customerId) return;
+  const platform = document.getElementById('social-filter-platform')?.value || '';
+  const status   = document.getElementById('social-filter-status')?.value || '';
+  const listEl   = document.getElementById('customer-social-posts-list');
+  if (!listEl) return;
+  listEl.innerHTML = '<p class="empty">Laddar...</p>';
+
+  try {
+    let url = `/api/customers/${customerId}/social/posts?days=30`;
+    if (platform) url += `&platform=${encodeURIComponent(platform)}`;
+    if (status)   url += `&status=${encodeURIComponent(status)}`;
+    const data = await api(url);
+    const posts = data.posts || [];
+
+    if (posts.length === 0) {
+      listEl.innerHTML = '<p class="empty">Inga inlägg hittades.</p>';
+      return;
+    }
+
+    const platformLabel = { linkedin: 'LinkedIn', instagram: 'Instagram', facebook: 'Facebook' };
+    const statusColors  = { draft: '#94a3b8', approved: '#3b82f6', scheduled: '#f59e0b', posted: '#22c55e', failed: '#ef4444' };
+
+    listEl.innerHTML = posts.map(p => {
+      const color   = statusColors[p.status] || '#94a3b8';
+      const dateStr = p.posted_at
+        ? `Postad: ${new Date(p.posted_at).toLocaleString('sv-SE')}`
+        : `Schemalagd: ${new Date(p.scheduled_at).toLocaleString('sv-SE')}`;
+      const preview   = (p.hook || p.full_text || '').substring(0, 120);
+      const canDelete = p.status !== 'posted';
+
+      return `<div class="social-post-row">
+        <div class="social-post-meta">
+          <span class="social-platform-badge">${platformLabel[p.platform] || p.platform}</span>
+          <span class="social-status-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">${p.status}</span>
+          <span class="social-post-date">${dateStr}</span>
+          ${canDelete ? `<button class="btn-icon-sm" onclick="deleteCustomerSocialPost('${p.post_id}')" title="Ta bort">&#x2715;</button>` : ''}
+        </div>
+        <p class="social-post-preview">${preview}${preview.length >= 120 ? '...' : ''}</p>
+      </div>`;
+    }).join('');
+  } catch (err) {
+    listEl.innerHTML = `<p class="empty" style="color:#ef4444">Fel: ${err.message}</p>`;
+  }
+}
+
+async function scheduleCustomerPost() {
+  const customerId = _currentCustomerId;
+  if (!customerId) return;
+  const platform     = document.getElementById('social-platform')?.value;
+  const message      = document.getElementById('social-message')?.value?.trim();
+  const imageUrl     = document.getElementById('social-image-url')?.value?.trim();
+  const scheduleTime = document.getElementById('social-schedule-time')?.value;
+  const statusEl     = document.getElementById('social-post-status');
+
+  if (!message) { statusEl.textContent = 'Meddelande krävs.'; return; }
+  statusEl.textContent = 'Schemalägger...';
+  try {
+    const body = { platform, message, scheduleTime: scheduleTime || null };
+    if (imageUrl) body.imageUrl = imageUrl;
+    await api(`/api/customers/${customerId}/social/post`, 'POST', body);
+    statusEl.innerHTML = '<span style="color:#22c55e">Schemalagt!</span>';
+    document.getElementById('social-message').value = '';
+    document.getElementById('social-image-url').value = '';
+    document.getElementById('social-schedule-time').value = '';
+    await loadCustomerSocialPosts();
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color:#ef4444">Fel: ${err.message}</span>`;
+  }
+}
+
+async function postCustomerNow() {
+  const customerId = _currentCustomerId;
+  if (!customerId) return;
+  const platform = document.getElementById('social-platform')?.value;
+  const message  = document.getElementById('social-message')?.value?.trim();
+  const imageUrl = document.getElementById('social-image-url')?.value?.trim();
+  const statusEl = document.getElementById('social-post-status');
+
+  if (!message) { statusEl.textContent = 'Meddelande krävs.'; return; }
+  if (!confirm(`Posta direkt till ${platform} nu?`)) return;
+  statusEl.textContent = 'Postar...';
+  try {
+    const body = { platform, message };
+    if (imageUrl) body.imageUrl = imageUrl;
+    const res = await api(`/api/customers/${customerId}/social/post-now`, 'POST', body);
+    statusEl.innerHTML = `<span style="color:#22c55e">Postad! Post-ID: ${res.platform_post_id || 'ok'}</span>`;
+    document.getElementById('social-message').value = '';
+    document.getElementById('social-image-url').value = '';
+    await loadCustomerSocialPosts();
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color:#ef4444">Fel: ${err.message}</span>`;
+  }
+}
+
+async function generateAISocialPost() {
+  const customerId = _currentCustomerId;
+  if (!customerId) return;
+  const platform = document.getElementById('social-platform')?.value;
+  const topic    = document.getElementById('social-message')?.value?.trim();
+  const statusEl = document.getElementById('social-post-status');
+  statusEl.textContent = 'Genererar med AI...';
+  try {
+    const body = { platform, message: topic || '', useAI: true };
+    const res = await api(`/api/customers/${customerId}/social/post`, 'POST', body);
+    if (res.post?.full_text) {
+      document.getElementById('social-message').value = res.post.full_text;
+      statusEl.innerHTML = '<span style="color:#22c55e">AI-text klar! Redigera och schemalägg/posta.</span>';
+    } else {
+      statusEl.innerHTML = '<span style="color:#22c55e">Schemalagt som utkast!</span>';
+    }
+    await loadCustomerSocialPosts();
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color:#ef4444">Fel: ${err.message}</span>`;
+  }
+}
+
+async function deleteCustomerSocialPost(postId) {
+  const customerId = _currentCustomerId;
+  if (!customerId || !postId) return;
+  if (!confirm('Ta bort detta inlägg?')) return;
+  try {
+    await api(`/api/customers/${customerId}/social/posts/${postId}`, 'DELETE');
+    await loadCustomerSocialPosts();
+  } catch (err) {
+    alert(`Kunde inte ta bort: ${err.message}`);
+  }
+}
+
+async function uploadLlmTxt(customerId) {
+  const uploadBtn = document.getElementById('llm-upload-btn');
+  const statusEl  = document.getElementById('llm-upload-status');
+  uploadBtn.disabled = true;
+  statusEl.textContent = 'Laddar upp...';
+
+  try {
+    const data = await api(`/api/customers/${customerId}/generate-llm-txt`, {
+      method: 'POST',
+      body: JSON.stringify({ upload: true }),
+    });
+    if (data.upload?.action === 'created' || data.upload?.action === 'updated') {
+      statusEl.innerHTML = `<span style="color:#22c55e">Uppladdad: <a href="${data.upload.url}" target="_blank" style="color:#58a6ff">${data.upload.url}</a></span>`;
+    } else if (data.upload?.error) {
+      statusEl.innerHTML = `<span style="color:#ef4444">Fel vid uppladdning: ${data.upload.error}</span>`;
+    } else {
+      statusEl.textContent = 'Klar';
+    }
+  } catch (err) {
+    statusEl.innerHTML = `<span style="color:#ef4444">Fel: ${err.message}</span>`;
+  }
+  uploadBtn.disabled = false;
 }

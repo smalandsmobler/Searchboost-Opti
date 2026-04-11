@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=20260223b">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
   <!-- LOGIN -->
@@ -41,6 +42,7 @@
         <a href="#" class="nav-link" data-view="content-blueprint">Content</a>
         <a href="#" class="nav-link" data-view="security">Säkerhet</a>
         <a href="#" class="nav-link" data-view="linkedin">LinkedIn</a>
+        <a href="#" class="nav-link" data-view="opportunities">Möjligheter</a>
       </nav>
       <div class="header-status">
         <select id="salesperson-filter" class="form-select salesperson-select" onchange="filterBySalesperson(this.value)" style="display:none">
@@ -194,6 +196,17 @@
           <span id="onboard-summary" class="onboard-summary"></span>
         </div>
         <div id="onboarding-table" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+
+      <!-- Ads Upsell Overview (sales role only) -->
+      <div id="ads-upsell-overview" class="card" style="margin-top:24px;display:none">
+        <div class="card-title-row">
+          <h2 class="card-title">Annonsstatus per kund</h2>
+          <span id="ads-upsell-summary" class="onboard-summary"></span>
+        </div>
+        <div id="ads-upsell-table" class="card-body">
           <p class="empty">Laddar...</p>
         </div>
       </div>
@@ -523,6 +536,32 @@
         </div>
       </div>
 
+      <!-- Health Score Widget -->
+      <div id="health-score-widget" style="display:flex;align-items:center;gap:16px;padding:12px 0 20px">
+        <div id="health-score-circle" style="width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;border:4px solid #888;color:#fff;background:#1e293b;flex-shrink:0">—</div>
+        <div>
+          <div id="health-score-grade" style="font-size:20px;font-weight:600;color:#94a3b8">Laddar...</div>
+          <div id="health-score-trend" style="font-size:13px;color:#64748b;margin-top:2px"></div>
+          <div id="health-score-bars" style="display:flex;gap:4px;margin-top:8px;align-items:flex-end;height:28px"></div>
+        </div>
+      </div>
+
+      <!-- SEO-verktyg snabbknappar -->
+      <div id="seo-tools-bar" style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:12px">
+        <button class="btn-sm btn-outline" onclick="loadInternalLinks(_currentCustomerId)">Analysera internlankar</button>
+        <button class="btn-sm btn-outline" onclick="openBulkMetaModal()">Bulk-optimera meta</button>
+        <button class="btn-sm btn-outline" onclick="generateLlmTxt(_currentCustomerId)" title="Genererar AI-läsbar fil för ChatGPT, Perplexity etc.">Generera llm.txt</button>
+      </div>
+      <!-- llm.txt result -->
+      <div id="llm-txt-result" style="display:none;margin-bottom:12px" class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-weight:600;color:#3fb950">llm.txt genererad</span>
+          <button class="btn-sm btn-outline" onclick="uploadLlmTxt(_currentCustomerId)" id="llm-upload-btn">Ladda upp till sajt</button>
+        </div>
+        <pre id="llm-txt-content" style="background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:12px;font-size:12px;color:#e6edf3;overflow:auto;max-height:300px;white-space:pre-wrap"></pre>
+        <div id="llm-upload-status" style="font-size:12px;margin-top:6px;color:#64748b"></div>
+      </div>
+
       <!-- NEXT ACTION CARD — Guided workflow -->
       <div id="next-action-card" class="next-action-card" style="display:none"></div>
 
@@ -615,62 +654,291 @@
         </div>
       </div>
 
-      <!-- Ads Dashboard -->
+      <!-- Ads Dashboard v2 -->
       <div class="card ads-dashboard-card" id="ads-dashboard-card" style="display:none">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-          <h3 style="color:#fff;margin:0">Annonsering</h3>
-          <span id="ads-platforms-count" style="color:#888;font-size:12px"></span>
+
+        <!-- Header -->
+        <div class="ads-header">
+          <div class="ads-header-left">
+            <h3>Annonsering</h3>
+            <span id="ads-platforms-count" class="ads-status-badge"></span>
+          </div>
+          <div class="ads-header-right">
+            <select id="ads-period-select" class="ads-period-select">
+              <option value="7">7 dagar</option>
+              <option value="30" selected>30 dagar</option>
+              <option value="90">90 dagar</option>
+            </select>
+            <button class="btn-sm btn-outline" onclick="showAdsCredentialsModal()">+ Koppla plattform</button>
+          </div>
         </div>
+
+        <!-- ROAS Hero row -->
+        <div class="ads-roas-row" id="ads-roas-row">
+          <div class="ads-kpi-card ads-kpi-roas">
+            <div class="ads-kpi-label">ROAS</div>
+            <div class="ads-kpi-value" id="ads-kpi-roas">--</div>
+            <div class="ads-kpi-sub">kr intäkt / kr spend</div>
+          </div>
+          <div class="ads-kpi-card">
+            <div class="ads-kpi-label">Total spend</div>
+            <div class="ads-kpi-value" id="ads-kpi-spend">--</div>
+            <div class="ads-kpi-sub" id="ads-kpi-spend-sub"></div>
+          </div>
+          <div class="ads-kpi-card">
+            <div class="ads-kpi-label">Konverteringar</div>
+            <div class="ads-kpi-value" id="ads-kpi-conv">--</div>
+            <div class="ads-kpi-sub" id="ads-kpi-cpa">CPA: --</div>
+          </div>
+          <div class="ads-kpi-card">
+            <div class="ads-kpi-label">Klick</div>
+            <div class="ads-kpi-value" id="ads-kpi-clicks">--</div>
+            <div class="ads-kpi-sub" id="ads-kpi-ctr">CTR: --</div>
+          </div>
+        </div>
+
+        <!-- Platform cards -->
         <div id="ads-spend-grid" class="ads-spend-grid">
           <div class="ads-platform-card" data-platform="google_ads">
-            <div class="ads-platform-icon">G</div>
-            <div class="ads-platform-info">
+            <div class="ads-platform-header">
+              <div class="ads-platform-icon" style="background:#4285F4">G</div>
               <div class="ads-platform-name">Google Ads</div>
-              <div class="ads-platform-spend" id="ads-google-spend">--</div>
+              <div class="ads-platform-badge" id="ads-badge-google_ads"></div>
             </div>
+            <div class="ads-platform-spend" id="ads-google-spend">--</div>
             <div class="ads-platform-metrics">
               <span id="ads-google-clicks">-- klick</span>
               <span id="ads-google-conv">-- konv</span>
+              <span id="ads-google-roas" class="ads-roas-pill"></span>
             </div>
+            <canvas class="ads-sparkline" id="spark-google_ads" width="120" height="28"></canvas>
           </div>
           <div class="ads-platform-card" data-platform="meta_ads">
-            <div class="ads-platform-icon" style="background:linear-gradient(135deg,#1877f2,#e91e8c)">M</div>
-            <div class="ads-platform-info">
+            <div class="ads-platform-header">
+              <div class="ads-platform-icon" style="background:linear-gradient(135deg,#1877f2,#e91e8c)">M</div>
               <div class="ads-platform-name">Meta Ads</div>
-              <div class="ads-platform-spend" id="ads-meta-spend">--</div>
+              <div class="ads-platform-badge" id="ads-badge-meta_ads"></div>
             </div>
+            <div class="ads-platform-spend" id="ads-meta-spend">--</div>
             <div class="ads-platform-metrics">
               <span id="ads-meta-clicks">-- klick</span>
               <span id="ads-meta-conv">-- konv</span>
+              <span id="ads-meta-roas" class="ads-roas-pill"></span>
             </div>
+            <canvas class="ads-sparkline" id="spark-meta_ads" width="120" height="28"></canvas>
           </div>
           <div class="ads-platform-card" data-platform="linkedin_ads">
-            <div class="ads-platform-icon" style="background:#0a66c2">in</div>
-            <div class="ads-platform-info">
+            <div class="ads-platform-header">
+              <div class="ads-platform-icon" style="background:#0A66C2">in</div>
               <div class="ads-platform-name">LinkedIn</div>
-              <div class="ads-platform-spend" id="ads-linkedin-spend">--</div>
+              <div class="ads-platform-badge" id="ads-badge-linkedin_ads"></div>
             </div>
+            <div class="ads-platform-spend" id="ads-linkedin-spend">--</div>
             <div class="ads-platform-metrics">
               <span id="ads-linkedin-clicks">-- klick</span>
               <span id="ads-linkedin-conv">-- konv</span>
+              <span id="ads-linkedin-roas" class="ads-roas-pill"></span>
             </div>
+            <canvas class="ads-sparkline" id="spark-linkedin_ads" width="120" height="28"></canvas>
           </div>
           <div class="ads-platform-card" data-platform="tiktok_ads">
-            <div class="ads-platform-icon" style="background:#000;color:#fe2c55">T</div>
-            <div class="ads-platform-info">
+            <div class="ads-platform-header">
+              <div class="ads-platform-icon" style="background:#010101;color:#FE2C55">T</div>
               <div class="ads-platform-name">TikTok</div>
-              <div class="ads-platform-spend" id="ads-tiktok-spend">--</div>
+              <div class="ads-platform-badge" id="ads-badge-tiktok_ads"></div>
             </div>
+            <div class="ads-platform-spend" id="ads-tiktok-spend">--</div>
             <div class="ads-platform-metrics">
               <span id="ads-tiktok-clicks">-- klick</span>
               <span id="ads-tiktok-conv">-- konv</span>
+              <span id="ads-tiktok-roas" class="ads-roas-pill"></span>
             </div>
+            <canvas class="ads-sparkline" id="spark-tiktok_ads" width="120" height="28"></canvas>
           </div>
         </div>
+
+        <!-- Total bar -->
         <div id="ads-total-bar" class="ads-total-bar">
           <span>Total: <strong id="ads-total-spend">0 kr</strong></span>
           <span id="ads-total-clicks">0 klick</span>
           <span id="ads-total-conv">0 konverteringar</span>
+          <span id="ads-total-roas" class="ads-total-roas"></span>
+        </div>
+
+        <!-- Campaign drill-down -->
+        <div id="ads-campaigns-section" class="ads-campaigns-section" style="display:none">
+          <div class="ads-campaigns-header">
+            <span>Kampanjer</span>
+            <button class="btn-sm btn-ghost" onclick="toggleAdsCampaigns()">Stäng</button>
+          </div>
+          <div id="ads-campaigns-table-wrap">
+            <table class="ads-campaigns-table" id="ads-campaigns-table">
+              <thead>
+                <tr>
+                  <th>Kampanj</th>
+                  <th>Plattform</th>
+                  <th>Status</th>
+                  <th>Spend</th>
+                  <th>Klick</th>
+                  <th>Konv</th>
+                  <th>ROAS</th>
+                  <th>CPA</th>
+                </tr>
+              </thead>
+              <tbody id="ads-campaigns-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Upsell row — visas när plattformar saknas -->
+        <div id="ads-upsell-row" class="ads-upsell-row" style="display:none">
+          <div class="ads-upsell-icon">📈</div>
+          <div class="ads-upsell-text">
+            <strong>Maximera synligheten</strong>
+            <span id="ads-upsell-msg">Koppla fler annonsplattformar för komplett rapportering</span>
+          </div>
+          <button class="btn-sm btn-pink" onclick="showAdsCredentialsModal()">Koppla nu</button>
+        </div>
+      </div>
+
+      <!-- Google Business Profile -->
+      <div class="card gbp-card" id="gbp-card" style="display:none">
+        <div class="card-header">
+          <div class="gbp-card-header-left">
+            <div class="gbp-logo-icon">G</div>
+            <h3>Google Business Profile</h3>
+          </div>
+          <span id="gbp-status-badge" class="badge badge--inactive">Ej kopplat</span>
+        </div>
+        <div id="gbp-reviews-list" class="gbp-reviews-list">
+          <p class="empty">Klicka "Ladda recensioner" för att hämta.</p>
+        </div>
+        <div class="gbp-actions">
+          <button onclick="loadGbpReviews()" class="btn-secondary btn-sm">Ladda recensioner</button>
+          <button onclick="showGbpPostModal()" class="btn-secondary btn-sm">+ Nytt inlägg</button>
+          <button onclick="showGbpConnectModal()" class="btn-outline btn-sm">Anslut / Byt konto</button>
+        </div>
+      </div>
+
+      <!-- GBP Connect Modal -->
+      <div id="gbp-connect-modal" class="modal" style="display:none">
+        <div class="modal-box" style="max-width:480px">
+          <div class="modal-header">
+            <h3>Anslut Google Business Profile</h3>
+            <button class="modal-close" onclick="closeGbpModal()">&#215;</button>
+          </div>
+          <div class="modal-body">
+            <p style="font-size:13px;color:#94a3b8;margin-bottom:16px">Skaffa tokens via Google OAuth2 Playground eller din OAuth-app. Account ID och Location ID finns i GBP-webgränssnittet under Inställningar.</p>
+            <div class="form-group">
+              <label>Account ID</label>
+              <input id="gbp-account-id" class="input" placeholder="accounts/123456789">
+            </div>
+            <div class="form-group">
+              <label>Location ID</label>
+              <input id="gbp-location-id" class="input" placeholder="locations/987654321">
+            </div>
+            <div class="form-group">
+              <label>Access Token</label>
+              <input id="gbp-access-token" class="input" type="password" placeholder="ya29.xxx...">
+            </div>
+            <div class="form-group">
+              <label>Refresh Token <span style="color:#64748b;font-size:12px">(valfritt, för automatisk förnyelse)</span></label>
+              <input id="gbp-refresh-token" class="input" type="password" placeholder="1//xxx...">
+            </div>
+            <div id="gbp-connect-status" style="margin-top:10px;font-size:13px"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeGbpModal()">Avbryt</button>
+            <button class="btn-primary" onclick="saveGbpCreds()">Spara</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GBP Post Modal -->
+      <div id="gbp-post-modal" class="modal" style="display:none">
+        <div class="modal-box" style="max-width:480px">
+          <div class="modal-header">
+            <h3>Skapa GBP-inlägg</h3>
+            <button class="modal-close" onclick="closeGbpPostModal()">&#215;</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Text (max 1500 tecken)</label>
+              <textarea id="gbp-post-summary" class="input" rows="5" maxlength="1500" placeholder="Skriv ditt inlägg här..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Call-to-action (valfritt)</label>
+              <select id="gbp-post-action-type" class="input">
+                <option value="">Ingen</option>
+                <option value="LEARN_MORE">Lär dig mer</option>
+                <option value="BOOK">Boka</option>
+                <option value="ORDER">Beställ</option>
+                <option value="SHOP">Handla</option>
+                <option value="SIGN_UP">Registrera dig</option>
+                <option value="CALL">Ring</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>URL för CTA (valfritt)</label>
+              <input id="gbp-post-action-url" class="input" type="url" placeholder="https://...">
+            </div>
+            <div id="gbp-post-status" style="margin-top:10px;font-size:13px"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeGbpPostModal()">Avbryt</button>
+            <button class="btn-primary" onclick="createGbpPost()">Publicera</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- GBP Reply Modal -->
+      <div id="gbp-reply-modal" class="modal" style="display:none">
+        <div class="modal-box" style="max-width:520px">
+          <div class="modal-header">
+            <h3>Svara på recension</h3>
+            <button class="modal-close" onclick="closeGbpReplyModal()">&#215;</button>
+          </div>
+          <div class="modal-body">
+            <div id="gbp-reply-review-preview" class="gbp-reply-preview"></div>
+            <div class="form-group" style="margin-top:14px">
+              <label>Svar</label>
+              <textarea id="gbp-reply-text" class="input" rows="5" placeholder="Skriv ditt svar..."></textarea>
+            </div>
+            <div id="gbp-reply-status" style="margin-top:10px;font-size:13px"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeGbpReplyModal()">Avbryt</button>
+            <button class="btn-outline btn-sm" onclick="generateAiReply()" id="gbp-ai-reply-btn">AI-svar</button>
+            <button class="btn-primary" onclick="submitGbpReply()">Skicka svar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ads Credentials Modal -->
+      <div id="ads-credentials-modal" class="modal" style="display:none">
+        <div class="modal-box" style="max-width:520px">
+          <div class="modal-header">
+            <h3>Koppla annonsplattform</h3>
+            <button class="modal-close" onclick="closeAdsModal()">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label>Plattform</label>
+              <select id="ads-cred-platform" onchange="renderAdsCredFields()">
+                <option value="">Välj plattform...</option>
+                <option value="google_ads">Google Ads</option>
+                <option value="meta_ads">Meta Ads (Facebook/Instagram)</option>
+                <option value="linkedin_ads">LinkedIn Ads</option>
+                <option value="tiktok_ads">TikTok Ads</option>
+              </select>
+            </div>
+            <div id="ads-cred-fields"></div>
+            <div id="ads-cred-status" style="margin-top:12px;font-size:13px"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeAdsModal()">Avbryt</button>
+            <button class="btn-primary" onclick="saveAdsCredentials()">Spara</button>
+          </div>
         </div>
       </div>
 
@@ -804,6 +1072,7 @@
           <button class="tab-btn" data-tab="tab-plan" onclick="switchTab(this)">Åtgärdsplan</button>
           <button class="tab-btn" data-tab="tab-worklog" onclick="switchTab(this)">Logga arbete</button>
           <button class="tab-btn" data-tab="tab-credentials" onclick="switchTab(this)">Credentials</button>
+          <button class="tab-btn" data-tab="tab-social" onclick="switchTab(this);loadCustomerSocialPosts()">Social Media</button>
         </div>
 
         <!-- Tab 1: SEO Audit -->
@@ -929,6 +1198,72 @@
           <div id="cred-test-result" style="margin-top:12px"></div>
           <div id="cred-current" style="margin-top:16px"></div>
         </div>
+
+        <!-- Tab 6: Social Media -->
+        <div id="tab-social" class="tab-content">
+          <p style="color:#94a3b8;margin:0 0 16px">Schemalägg eller posta direkt till Facebook, Instagram och LinkedIn för denna kund.</p>
+
+          <!-- Nytt inlägg -->
+          <div class="social-post-form">
+            <h3 class="social-form-title">Nytt inlägg</h3>
+            <div class="form-row" style="gap:10px;flex-wrap:wrap">
+              <div>
+                <label class="form-label">Plattform</label>
+                <select id="social-platform" class="form-select">
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                </select>
+              </div>
+              <div style="flex:1;min-width:200px">
+                <label class="form-label">Schemalägg (lämna tomt = nästa lediga slot)</label>
+                <input type="datetime-local" id="social-schedule-time" class="form-input">
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <label class="form-label">Meddelande</label>
+              <textarea id="social-message" class="form-textarea" rows="5" placeholder="Skriv inläggstexten här..."></textarea>
+            </div>
+
+            <div style="margin-top:12px">
+              <label class="form-label">Bild-URL (valfritt)</label>
+              <input type="url" id="social-image-url" class="form-input" placeholder="https://example.com/bild.jpg">
+            </div>
+
+            <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+              <button class="btn-primary" onclick="scheduleCustomerPost()">Schemalägg</button>
+              <button class="btn-secondary" onclick="postCustomerNow()">Posta direkt nu</button>
+              <button class="btn-outline" onclick="generateAISocialPost()">AI-generera</button>
+              <span id="social-post-status" class="save-status"></span>
+            </div>
+          </div>
+
+          <!-- Lista på inlägg -->
+          <div style="margin-top:24px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <h3 style="margin:0;color:#e2e8f0;font-size:15px;font-weight:600">Inlägg (30 dagar)</h3>
+              <div style="display:flex;gap:8px">
+                <select id="social-filter-platform" class="form-select" style="width:auto;padding:4px 8px;font-size:13px" onchange="loadCustomerSocialPosts()">
+                  <option value="">Alla plattformar</option>
+                  <option value="linkedin">LinkedIn</option>
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                </select>
+                <select id="social-filter-status" class="form-select" style="width:auto;padding:4px 8px;font-size:13px" onchange="loadCustomerSocialPosts()">
+                  <option value="">Alla statusar</option>
+                  <option value="draft">Utkast</option>
+                  <option value="approved">Godkänd</option>
+                  <option value="posted">Postad</option>
+                  <option value="failed">Misslyckad</option>
+                </select>
+              </div>
+            </div>
+            <div id="customer-social-posts-list">
+              <p class="empty">Laddar inlägg...</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="card" style="margin-bottom: 24px">
@@ -937,6 +1272,57 @@
           <p class="empty">Laddar...</p>
         </div>
       </div>
+
+      <div class="card" id="ranking-history-card" style="margin-bottom: 24px">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+          <h3 style="margin:0">Positionshistorik — Top 10 sökord</h3>
+          <div class="chart-controls">
+            <select id="ranking-days-select" class="form-select" onchange="loadRankingHistory()" style="width:auto;padding:4px 8px">
+              <option value="14">14 dagar</option>
+              <option value="30" selected>30 dagar</option>
+              <option value="90">90 dagar</option>
+            </select>
+          </div>
+        </div>
+        <div style="position:relative;height:300px;margin-top:16px">
+          <canvas id="ranking-history-chart"></canvas>
+        </div>
+        <p id="ranking-history-empty" style="display:none;color:#888;text-align:center;padding:20px">
+          Ingen historisk data ännu — samlas in dagligen via data-collector.
+        </p>
+      </div>
+
+      <!-- Internal Linking Analyzer -->
+      <div class="card" id="internal-links-card" style="display:none;margin-bottom:24px">
+        <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+          <h3 style="margin:0">Internlankar</h3>
+          <button class="btn-sm btn-outline" onclick="loadInternalLinks(_currentCustomerId)">Analysera igen</button>
+        </div>
+        <div id="internal-links-summary" style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;margin-top:12px"></div>
+        <div id="internal-links-suggestions" style="margin-bottom:12px"></div>
+        <div id="internal-links-orphans"></div>
+      </div>
+
+      <!-- Bulk Meta Optimizer -->
+      <div id="bulk-meta-modal" class="modal" style="display:none">
+        <div class="modal-box" style="max-width:700px">
+          <div class="modal-header">
+            <h3>Bulk-optimera meta</h3>
+            <button class="modal-close" onclick="closeBulkMetaModal()">&#215;</button>
+          </div>
+          <div class="modal-body">
+            <div id="bulk-meta-body">
+              <p style="color:#94a3b8;margin-bottom:16px">Analyserar sidor som behover optimerad title/description och genererar forslag med Claude AI.</p>
+              <div style="display:flex;gap:10px">
+                <button class="btn-primary" onclick="runBulkMeta(true)" id="bulk-dry-btn">Forhandsgranska (dry run)</button>
+                <button class="btn-primary" onclick="runBulkMeta(false)" id="bulk-apply-btn" style="background:linear-gradient(135deg,#e91e8c,#7c4dff)">Optimera direkt</button>
+              </div>
+              <div id="bulk-meta-result" style="margin-top:16px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card" style="margin-bottom: 24px">
         <h2 class="card-title">Åtgärdsplan (3 månader)</h2>
         <div id="detail-action-plan" class="card-body">
@@ -1118,47 +1504,225 @@
 
     </section>
 
-    <!-- ── LinkedIn Content Automation ── -->
-    <section id="view-linkedin" class="view" style="display:none">
-      <div class="card" style="margin-bottom:20px">
-        <h2 style="color:#fff;margin:0 0 4px 0">LinkedIn Content</h2>
-        <p style="color:#888;margin:0;font-size:13px">2x/vecka — Tisdag &amp; Torsdag</p>
-      </div>
+    <!-- ── Social Planner ── -->
+    <section id="view-linkedin" class="view">
 
-      <!-- Generator -->
-      <div class="card" style="margin-bottom:20px" id="linkedin-generator">
-        <h3 style="color:#fff;margin:0 0 16px 0">Generera nytt inlägg</h3>
-        <select id="li-type" class="form-select" style="margin-bottom:8px">
-          <option value="tip">SEO-tips</option>
-          <option value="case_study">Kundcase</option>
-          <option value="insight">Insikt</option>
-          <option value="news">Nyhet</option>
-        </select>
-        <input type="text" id="li-topic" class="form-input" placeholder="Ämne (t.ex. 'lokal SEO för restauranger')" style="margin-bottom:8px" />
-        <button class="btn btn-primary" onclick="generateLinkedInPost()">Generera</button>
-        <div id="li-result" style="display:none;margin-top:16px">
-          <textarea id="li-post-text" class="form-input" rows="6" style="resize:vertical;font-family:inherit"></textarea>
-          <p id="li-char-count" style="color:#888;font-size:12px;margin:4px 0 8px"></p>
-          <p id="li-hashtags" style="color:#0077b5;font-size:13px;margin:0 0 12px"></p>
-          <p id="li-image-prompt" style="color:#64748b;font-size:12px;font-style:italic;margin:0 0 12px"></p>
-          <div style="display:flex;gap:8px">
-            <button class="btn btn-primary" onclick="saveDraft()">Spara utkast</button>
-            <button class="btn btn-secondary" onclick="copyLinkedInPost()">Kopiera</button>
-          </div>
-          <span id="li-save-status" class="save-status" style="margin-left:8px"></span>
+      <!-- Header rad -->
+      <div class="sp-header-row">
+        <div>
+          <h2 class="sp-title">Social Planner</h2>
+          <p class="sp-subtitle">LinkedIn · Instagram · Facebook &nbsp;·&nbsp; Searchboost + kunder</p>
+        </div>
+        <div class="sp-header-actions">
+          <select id="sp-customer-filter" class="form-select sp-select" onchange="loadSocialPlanner()">
+            <option value="searchboost">Searchboost AB</option>
+          </select>
+          <select id="sp-platform-filter" class="form-select sp-select" onchange="loadSocialPlanner()">
+            <option value="">Alla plattformar</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="instagram">Instagram</option>
+            <option value="facebook">Facebook</option>
+          </select>
+          <button class="btn-primary sp-btn-new" onclick="openPostComposer()">+ Nytt inlägg</button>
+          <button class="btn-secondary sp-btn-creds" onclick="openSocialCredsModal()" title="Koppla konton">&#9881;</button>
         </div>
       </div>
 
-      <!-- Kalender / schema -->
-      <div class="card" style="margin-bottom:20px">
-        <h3 style="color:#fff;margin:0 0 16px 0">Publiceringsschema</h3>
-        <div id="li-calendar"></div>
+      <!-- Statsrad -->
+      <div class="sp-stats-row">
+        <div class="sp-stat-card">
+          <div class="sp-stat-val" id="sp-stat-upcoming">–</div>
+          <div class="sp-stat-lbl">Schemalagda</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-val" id="sp-stat-drafts">–</div>
+          <div class="sp-stat-lbl">Utkast</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-val sp-stat-green" id="sp-stat-posted">–</div>
+          <div class="sp-stat-lbl">Postade (7d)</div>
+        </div>
+        <div class="sp-stat-card">
+          <div class="sp-stat-val" id="sp-stat-next-date">–</div>
+          <div class="sp-stat-lbl">Nästa post</div>
+        </div>
       </div>
 
-      <!-- Utkast -->
+      <!-- Kalender + kö-lista sida vid sida -->
+      <div class="sp-grid">
+        <!-- Vänster: kalender -->
+        <div class="card sp-calendar-card">
+          <div class="sp-card-hdr">
+            <span>Publiceringsschema</span>
+            <button class="btn-sm btn-secondary" onclick="autoGeneratePosts()">&#x2728; Auto-generera vecka</button>
+          </div>
+          <div id="sp-calendar" class="sp-calendar">
+            <p class="empty">Laddar...</p>
+          </div>
+        </div>
+
+        <!-- Höger: utkast + godkänn-kö -->
+        <div class="card sp-queue-card">
+          <div class="sp-card-hdr">
+            <span>Utkast &amp; att godkänna</span>
+            <span id="sp-drafts-count" class="sp-badge">0</span>
+          </div>
+          <div id="sp-drafts" class="sp-drafts-list">
+            <p class="empty">Inga utkast</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Postade inlägg -->
+      <div class="card sp-recent-card">
+        <div class="sp-card-hdr"><span>Postade inlägg (7 dagar)</span></div>
+        <div id="sp-recent" class="sp-recent-list">
+          <p class="empty">Inga postade inlägg ännu</p>
+        </div>
+      </div>
+
+      <!-- ── Post Composer Modal ── -->
+      <div id="sp-composer-modal" class="modal" style="display:none" onclick="if(event.target===this)closePostComposer()">
+        <div class="modal-box sp-composer-box">
+          <div class="modal-header">
+            <span>Skapa inlägg</span>
+            <button class="modal-close" onclick="closePostComposer()">&#x2715;</button>
+          </div>
+          <div class="modal-body">
+            <div class="sp-compose-row">
+              <select id="sp-compose-platform" class="form-select" style="flex:1">
+                <option value="linkedin">LinkedIn</option>
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+              </select>
+              <select id="sp-compose-type" class="form-select" style="flex:1">
+                <option value="tip">SEO-tips</option>
+                <option value="trend">Trend</option>
+                <option value="case">Kundcase</option>
+                <option value="question">Fråga till community</option>
+                <option value="story">Story</option>
+              </select>
+            </div>
+            <input type="text" id="sp-compose-topic" class="form-input" placeholder="Ämne (valfritt, t.ex. 'Core Web Vitals 2025')" style="margin-bottom:10px">
+            <div class="sp-compose-actions-row">
+              <button class="btn-primary" onclick="aiGenerateCompose()" id="sp-btn-generate">&#x2728; Generera med AI</button>
+              <span id="sp-compose-status" style="font-size:13px;color:#888"></span>
+            </div>
+            <textarea id="sp-compose-text" class="form-input sp-compose-textarea" placeholder="Skriv inlägget här, eller klicka Generera med AI..." rows="10"></textarea>
+            <div class="sp-compose-meta-row">
+              <span id="sp-compose-chars" class="sp-char-count">0 tecken</span>
+              <input type="datetime-local" id="sp-compose-schedule" class="form-input sp-schedule-input" title="Schemalägg för">
+            </div>
+            <div id="sp-compose-image-hint" class="sp-image-hint" style="display:none"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closePostComposer()">Avbryt</button>
+            <button class="btn-secondary" onclick="saveComposeDraft()">Spara utkast</button>
+            <button class="btn-primary" onclick="approveAndSchedule()">Godkänn &amp; schemalägg</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Credentials Modal ── -->
+      <div id="sp-creds-modal" class="modal" style="display:none" onclick="if(event.target===this)closeSocialCredsModal()">
+        <div class="modal-box" style="max-width:480px">
+          <div class="modal-header">
+            <span>Koppla sociala konton</span>
+            <button class="modal-close" onclick="closeSocialCredsModal()">&#x2715;</button>
+          </div>
+          <div class="modal-body">
+            <p style="color:#888;font-size:13px;margin:0 0 16px">Koppla Searchboost ABs konton för automatisk publicering.</p>
+            <label class="form-label">LinkedIn Access Token</label>
+            <input type="password" id="sp-cred-li-token" class="form-input" placeholder="eyJ...">
+            <label class="form-label" style="margin-top:10px">LinkedIn Company ID</label>
+            <input type="text" id="sp-cred-li-company" class="form-input" placeholder="12345678 (siffror från URL:en)">
+            <div style="margin-top:14px;padding:12px;background:rgba(0,212,255,0.05);border-radius:6px;border:1px solid rgba(0,212,255,0.1)">
+              <div style="font-size:12px;color:#00d4ff;margin-bottom:4px;font-weight:600">Hur hämtar du LinkedIn Access Token?</div>
+              <div style="font-size:12px;color:#888;line-height:1.6">
+                1. Gå till <a href="https://www.linkedin.com/developers/apps" target="_blank" style="color:#00d4ff">linkedin.com/developers/apps</a><br>
+                2. Skapa app → lägg till "Share on LinkedIn" + "Marketing Developer Platform"<br>
+                3. OAuth 2.0 → Generate token med scope: <code>w_organization_social</code><br>
+                4. Company ID finns i din company page URL
+              </div>
+            </div>
+            <div id="sp-creds-status" style="margin-top:10px;font-size:13px"></div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" onclick="closeSocialCredsModal()">Stäng</button>
+            <button class="btn-primary" onclick="saveSocialCreds()">Spara credentials</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Möjligheter ── -->
+    <section id="view-opportunities" class="view">
+      <div class="view-header">
+        <h1>Möjligheter</h1>
+        <p class="view-subtitle">SEO-möjligheter identifierade av content gap-analysen</p>
+      </div>
+
+      <!-- Filter-bar -->
+      <div class="opp-filters card" style="padding:16px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <select id="opp-customer-filter" onchange="loadOpportunities()" style="padding:6px 12px;border-radius:6px;border:1px solid #333;background:#1a1a2e;color:#fff">
+          <option value="">Alla kunder</option>
+        </select>
+        <select id="opp-type-filter" onchange="loadOpportunities()" style="padding:6px 12px;border-radius:6px;border:1px solid #333;background:#1a1a2e;color:#fff">
+          <option value="">Alla typer</option>
+          <option value="near_page1">Nära sida 1</option>
+          <option value="low_ctr">Låg CTR</option>
+          <option value="zero_click">Noll klick</option>
+          <option value="cannibalization">Kannibalisering</option>
+        </select>
+        <select id="opp-status-filter" onchange="loadOpportunities()" style="padding:6px 12px;border-radius:6px;border:1px solid #333;background:#1a1a2e;color:#fff">
+          <option value="pending">Väntande</option>
+          <option value="">Alla</option>
+          <option value="done">Klara</option>
+        </select>
+        <button onclick="loadOpportunities()" class="btn-secondary" style="margin-left:auto">Uppdatera</button>
+        <span id="opp-count" style="color:#888;font-size:14px"></span>
+      </div>
+
+      <!-- Stats-rad -->
+      <div class="opp-stats" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div class="card" style="padding:16px;text-align:center">
+          <div id="opp-stat-near-p1" style="font-size:28px;font-weight:700;color:#00e676">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px">Nära sida 1</div>
+        </div>
+        <div class="card" style="padding:16px;text-align:center">
+          <div id="opp-stat-low-ctr" style="font-size:28px;font-weight:700;color:#fb8c00">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px">Låg CTR</div>
+        </div>
+        <div class="card" style="padding:16px;text-align:center">
+          <div id="opp-stat-zero-click" style="font-size:28px;font-weight:700;color:#2196f3">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px">Noll klick</div>
+        </div>
+        <div class="card" style="padding:16px;text-align:center">
+          <div id="opp-stat-cannibalization" style="font-size:28px;font-weight:700;color:#e91e8c">—</div>
+          <div style="font-size:12px;color:#888;margin-top:4px">Kannibalisering</div>
+        </div>
+      </div>
+
+      <!-- Opportunities list -->
       <div class="card">
-        <h3 style="color:#fff;margin:0 0 16px 0">Sparade utkast</h3>
-        <div id="li-drafts-list"></div>
+        <table class="data-table" style="width:100%">
+          <thead>
+            <tr>
+              <th>Typ</th>
+              <th>Kund</th>
+              <th>Sökord</th>
+              <th style="text-align:center">Pos</th>
+              <th style="text-align:center">Imp/mån</th>
+              <th style="text-align:center">Poäng</th>
+              <th>Åtgärd</th>
+              <th style="text-align:center">Status</th>
+            </tr>
+          </thead>
+          <tbody id="opportunities-tbody">
+            <tr><td colspan="8" style="text-align:center;padding:32px;color:#888">Laddar möjligheter...</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 

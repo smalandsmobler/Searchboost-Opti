@@ -95,7 +95,8 @@ async function getApiKey() {
 
 app.use(async (req, res, next) => {
   // Öppna routes: statiska filer, health, OPTIONS, PDF reports
-  if (!req.path.startsWith('/api/')) return next();
+  if (!req.path.startsWith('/api/')) return next(); // Inkl. /oauth/* — öppna
+
   if (req.method === 'OPTIONS') return next();
   if (req.path.startsWith('/api/reports/pdf/') || req.path.startsWith('/api/reports/download/')) return next();
   if (req.path === '/api/portal/login') return next(); // Kundportal login behöver ingen API-nyckel
@@ -4557,6 +4558,208 @@ app.get('/api/customers/:id/ads/platforms', async (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// Supermetrics Connector + Enhanced Ads Endpoints
+// ═══════════════════════════════════════════════════════════════
+const supermetrics = require('./supermetrics-connector');
+
+// GET /api/customers/:id/ads/campaigns — Kampanjnivå-data per plattform
+app.get('/api/customers/:id/ads/campaigns', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const platform = req.query.platform || null; // optional: google_ads | meta_ads | linkedin_ads | tiktok_ads
+    const days = parseInt(req.query.days || '30');
+
+    let data;
+    if (platform === 'google_ads') {
+      const googleAds = require('./integrations/google-ads');
+      data = await googleAds.getGoogleAdsData(customerId, getParam);
+    } else if (platform === 'meta_ads') {
+      const metaAds = require('./integrations/meta-ads');
+      data = await metaAds.getMetaAdsData(customerId, getParam);
+    } else {
+      // Hämta från alla
+      data = await integrations.getAllAdsData(customerId, getParam);
+    }
+
+    res.json(data);
+  } catch (err) {
+    console.error('Ads campaigns error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/ads/roas — ROAS + nyckelmätvärden
+app.get('/api/customers/:id/ads/roas', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    const sql = `
+      SELECT
+        platform,
+        SUM(spend) AS total_spend,
+        SUM(conversions) AS total_conversions,
+        SUM(conversion_value) AS total_revenue,
+        SUM(clicks) AS total_clicks,
+        SUM(impressions) AS total_impressions,
+        SAFE_DIVIDE(SUM(conversion_value), SUM(spend)) AS roas,
+        SAFE_DIVIDE(SUM(spend), SUM(conversions)) AS cpa,
+        SAFE_DIVIDE(SUM(clicks), SUM(impressions)) AS ctr
+      FROM \`${bq.projectId}.${datasetId}.ads_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+      GROUP BY platform
+      ORDER BY total_spend DESC
+    `;
+
+    const [rows] = await bq.query({ query: sql, params: { customerId, days } });
+
+    const overall = {
+      totalSpend: rows.reduce((s, r) => s + parseFloat(r.total_spend || 0), 0),
+      totalRevenue: rows.reduce((s, r) => s + parseFloat(r.total_revenue || 0), 0),
+      totalConversions: rows.reduce((s, r) => s + parseInt(r.total_conversions || 0), 0),
+      totalClicks: rows.reduce((s, r) => s + parseInt(r.total_clicks || 0), 0),
+    };
+    overall.roas = overall.totalSpend > 0
+      ? parseFloat((overall.totalRevenue / overall.totalSpend).toFixed(2))
+      : null;
+    overall.cpa = overall.totalConversions > 0
+      ? parseFloat((overall.totalSpend / overall.totalConversions).toFixed(2))
+      : null;
+
+    res.json({ customerId, days, byPlatform: rows, overall });
+  } catch (err) {
+    console.error('ROAS error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/ads/trends — Daglig trend senaste N dagar
+app.get('/api/customers/:id/ads/trends', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const platform = req.query.platform || null;
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    let sql = `
+      SELECT
+        date,
+        platform,
+        SUM(spend) AS spend,
+        SUM(clicks) AS clicks,
+        SUM(impressions) AS impressions,
+        SUM(conversions) AS conversions,
+        SUM(conversion_value) AS conversion_value,
+        SAFE_DIVIDE(SUM(conversion_value), SUM(spend)) AS roas,
+        SAFE_DIVIDE(SUM(spend), NULLIF(SUM(conversions), 0)) AS cpa
+      FROM \`${bq.projectId}.${datasetId}.ads_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+    `;
+    const params = { customerId, days };
+    if (platform) { sql += ' AND platform = @platform'; params.platform = platform; }
+    sql += ' GROUP BY date, platform ORDER BY date ASC';
+
+    const [rows] = await bq.query({ query: sql, params });
+    const trend = supermetrics.buildROASTrend(rows);
+
+    res.json({ customerId, days, platform, trend, rowCount: rows.length });
+  } catch (err) {
+    console.error('Ads trends error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/ads/upsell — Uppförsäljningsstatus per kund
+app.get('/api/customers/:id/ads/upsell', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const status = await supermetrics.getUpsellStatus(customerId);
+    res.json(status);
+  } catch (err) {
+    console.error('Upsell status error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/ads/credentials — Spara annonsplattform-credentials
+app.post('/api/customers/:id/ads/credentials', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { platform, ...credentials } = req.body;
+
+    if (!platform) return res.status(400).json({ error: 'platform krävs' });
+    const result = await supermetrics.saveCredentials(customerId, platform, credentials);
+    res.json(result);
+  } catch (err) {
+    console.error('Ads credentials error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/ads/link — Länka Supermetrics account-ID
+app.post('/api/customers/:id/ads/link', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { platform, account_id } = req.body;
+    if (!platform || !account_id) return res.status(400).json({ error: 'platform + account_id krävs' });
+    const result = await supermetrics.linkAccount(customerId, platform, account_id);
+    res.json(result);
+  } catch (err) {
+    console.error('Link account error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/ads/accounts — Kopplade Supermetrics-konton
+app.get('/api/customers/:id/ads/accounts', async (req, res) => {
+  try {
+    const accounts = await supermetrics.getLinkedAccounts(req.params.id);
+    res.json(accounts);
+  } catch (err) {
+    console.error('Ads accounts error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/ads/upsell-overview — Alla kunder: vilka saknar annonskoppling
+app.get('/api/ads/upsell-overview', async (req, res) => {
+  try {
+    const customers = await getWordPressSites();
+    const summary = await supermetrics.getAllCustomersAdsSummary(customers);
+    const withoutAds = summary.filter(c => c.linkedPlatforms === 0);
+    const withAds = summary.filter(c => c.linkedPlatforms > 0);
+    res.json({
+      total: summary.length,
+      withAds: withAds.length,
+      withoutAds: withoutAds.length,
+      upsellTargets: withoutAds.map(c => ({ customerId: c.customerId, name: c.name })),
+      activeCustomers: withAds,
+    });
+  } catch (err) {
+    console.error('Upsell overview error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/ads/budget-recommendation — Budgetrekommendation för en kund
+app.get('/api/ads/budget-recommendation', async (req, res) => {
+  try {
+    const { industry, monthly_revenue } = req.query;
+    const rec = supermetrics.getBudgetRecommendation(
+      industry || 'default',
+      parseFloat(monthly_revenue || 0)
+    );
+    res.json(rec);
+  } catch (err) {
+    console.error('Budget recommendation error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
 // EduAdmin API (kurshantering for Kompetensutveckla m.fl.)
 // ═══════════════════════════════════════════════════════════════
 const eduadmin = require('./integrations/eduadmin');
@@ -6543,6 +6746,1797 @@ process.on('unhandledRejection', (reason) => {
   slackAlert(`Ohanterat Promise-fel: ${reason}`, 'warning');
 });
 
+// ══════════════════════════════════════════════════════════════
+// Social Planner — Content-schemaläggning + AI-generering
+// ══════════════════════════════════════════════════════════════
+
+const socialPlanner = require('./social-planner');
+
+// Säkerställ BQ-tabell vid uppstart
+async function ensureSocialQueueTable() {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const ds = bq.dataset(dataset);
+    await ds.createTable('social_content_queue', {
+      schema: { fields: socialPlanner.SOCIAL_QUEUE_SCHEMA },
+      timePartitioning: { type: 'DAY', field: 'scheduled_at' },
+      clustering: { fields: ['customer_id', 'platform', 'status'] },
+    });
+    console.log('social_content_queue tabell skapad');
+  } catch (e) {
+    if (!e.message.includes('Already Exists')) console.log('social_content_queue:', e.message);
+  }
+}
+
+// GET /api/social/posts — Hämta inlägg (filter: customerId, platform, status)
+app.get('/api/social/posts', async (req, res) => {
+  try {
+    const { customer_id, platform, status, days = 30 } = req.query;
+    const { bq, dataset } = await getBigQuery();
+
+    let where = `scheduled_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL ${parseInt(days)} DAY)`;
+    const params = {};
+    if (customer_id) { where += ' AND customer_id = @cid'; params.cid = customer_id; }
+    if (platform)    { where += ' AND platform = @plat';   params.plat = platform; }
+    if (status)      { where += ' AND status = @status';   params.status = status; }
+
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.social_content_queue\` WHERE ${where} ORDER BY scheduled_at ASC LIMIT 100`,
+      params,
+    });
+    res.json({ posts: rows || [] });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/social/generate — Generera AI-inlägg (spara som draft)
+app.post('/api/social/generate', async (req, res) => {
+  try {
+    const { customer_id = 'searchboost', platform = 'linkedin', topic, post_type = 'tip', schedule_now = false } = req.body;
+    const anthropicKey = await getParam('/seo-mcp/anthropic/api-key');
+
+    // Hämta kunddata för kontext
+    let keywords = [], gscTopQueries = [], customerName = customer_id;
+    try {
+      const companyName = await getParamSafe(`/seo-mcp/integrations/${customer_id}/company-name`);
+      if (companyName) customerName = companyName;
+    } catch {}
+
+    const post = await socialPlanner.generatePost({
+      platform,
+      topic,
+      postType: post_type,
+      customerId: customer_id,
+      customerName,
+      keywords,
+      gscTopQueries,
+      anthropicKey,
+    });
+
+    // Bestäm schemaläggningsdatum
+    let scheduledAt;
+    if (schedule_now) {
+      const nextDates = socialPlanner.getNextPostDates(1);
+      scheduledAt = nextDates[0];
+    } else {
+      // Draft — schemalägg till nästa lediga slot
+      const nextDates = socialPlanner.getNextPostDates(1);
+      scheduledAt = nextDates[0];
+    }
+
+    const row = {
+      post_id: `${customer_id}_${platform}_${Date.now()}`,
+      customer_id,
+      platform,
+      status: 'draft',
+      hook: post.hook,
+      body: post.body,
+      full_text: post.full_text,
+      hashtags: (post.hashtags || []).join(','),
+      char_count: post.char_count,
+      suggested_image_prompt: post.suggested_image_prompt || '',
+      topic: post.topic || '',
+      post_type: post.post_type,
+      scheduled_at: scheduledAt,
+      created_at: new Date().toISOString(),
+      posted_at: null,
+      linkedin_post_id: null,
+      error_message: null,
+    };
+
+    const { bq, dataset } = await getBigQuery();
+    const table = bq.dataset(dataset).table('social_content_queue');
+    await table.insert([row]);
+
+    res.json({ success: true, post: row });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/social/posts/:postId/approve — Godkänn ett utkast
+app.post('/api/social/posts/:postId/approve', async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { scheduled_at } = req.body; // Valfritt: ändra schemaläggningsdatum
+    const { bq, dataset, projectId } = await getBigQuery();
+
+    const updateFields = ['status = @status'];
+    const params = { id: postId, status: 'approved' };
+
+    if (scheduled_at) {
+      updateFields.push('scheduled_at = @sat');
+      params.sat = scheduled_at;
+    }
+
+    await bq.query({
+      query: `UPDATE \`${projectId}.${dataset}.social_content_queue\`
+              SET ${updateFields.join(', ')}
+              WHERE post_id = @id`,
+      params,
+    });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/social/posts/:postId/update — Redigera text + schema
+app.post('/api/social/posts/:postId/update', async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { full_text, scheduled_at, status } = req.body;
+    const { bq, dataset, projectId } = await getBigQuery();
+
+    const sets = [];
+    const params = { id: postId };
+    if (full_text)    { sets.push('full_text = @ft');     params.ft = full_text; }
+    if (scheduled_at) { sets.push('scheduled_at = @sat'); params.sat = scheduled_at; }
+    if (status)       { sets.push('status = @st');        params.st = status; }
+
+    if (sets.length === 0) return res.json({ success: true, message: 'Inget att uppdatera' });
+
+    await bq.query({
+      query: `UPDATE \`${projectId}.${dataset}.social_content_queue\`
+              SET ${sets.join(', ')}
+              WHERE post_id = @id`,
+      params,
+    });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// DELETE /api/social/posts/:postId — Ta bort utkast
+app.delete('/api/social/posts/:postId', async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { bq, dataset, projectId } = await getBigQuery();
+    await bq.query({
+      query: `DELETE FROM \`${projectId}.${dataset}.social_content_queue\` WHERE post_id = @id AND status != 'posted'`,
+      params: { id: postId },
+    });
+    res.json({ success: true });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/social/posts/:postId/post-now — Posta direkt (utan att vänta på Lambda)
+app.post('/api/social/posts/:postId/post-now', async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const { bq, dataset, projectId } = await getBigQuery();
+
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.social_content_queue\` WHERE post_id = @id LIMIT 1`,
+      params: { id: postId },
+    });
+    if (!rows || rows.length === 0) return res.status(404).json({ error: 'Inlägg ej hittat' });
+
+    const post = rows[0];
+    const creds = await getPostingCredentials(post.customer_id, post.platform);
+    const result = await socialPlanner.publishScheduledPost(post, creds);
+
+    await bq.query({
+      query: `UPDATE \`${projectId}.${dataset}.social_content_queue\`
+              SET status = 'posted', posted_at = CURRENT_TIMESTAMP(), linkedin_post_id = @pid
+              WHERE post_id = @id`,
+      params: { id: postId, pid: result.post_id || '' },
+    });
+
+    res.json({ success: true, linkedin_post_id: result.post_id, url: result.url });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/social/calendar — Kalendervy (alla inlägg nästa 30 dagar)
+app.get('/api/social/calendar', async (req, res) => {
+  try {
+    const { customer_id } = req.query;
+    const { bq, dataset } = await getBigQuery();
+
+    let where = 'scheduled_at >= CURRENT_TIMESTAMP() AND scheduled_at <= TIMESTAMP_ADD(CURRENT_TIMESTAMP(), INTERVAL 60 DAY)';
+    const params = {};
+    if (customer_id) { where += ' AND customer_id = @cid'; params.cid = customer_id; }
+
+    const [upcoming] = await bq.query({
+      query: `SELECT post_id, customer_id, platform, status, hook, scheduled_at, posted_at, post_type
+              FROM \`${dataset}.social_content_queue\`
+              WHERE ${where}
+              ORDER BY scheduled_at ASC`,
+      params,
+    });
+
+    // Även senaste 7 dagars postade inlägg
+    const [recent] = await bq.query({
+      query: `SELECT post_id, customer_id, platform, status, hook, scheduled_at, posted_at, post_type, linkedin_post_id
+              FROM \`${dataset}.social_content_queue\`
+              WHERE status = 'posted'
+                AND posted_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY)
+              ORDER BY posted_at DESC LIMIT 20`,
+    });
+
+    res.json({ upcoming: upcoming || [], recent: recent || [] });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/social/credentials/:customerId — Vilka plattformar är kopplade
+app.get('/api/social/credentials/:customerId', async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    const isSearchboost = customerId === 'searchboost';
+    const prefix = isSearchboost ? '/seo-mcp/searchboost' : `/seo-mcp/integrations/${customerId}`;
+
+    const [liToken, liCompany, metaToken, igId, fbId] = await Promise.all([
+      getParamSafe(`${prefix}/linkedin-access-token`),
+      getParamSafe(`${prefix}/linkedin-company-id`),
+      getParamSafe(`${isSearchboost ? '/seo-mcp/searchboost' : `/seo-mcp/integrations/${customerId}`}/meta-access-token`),
+      getParamSafe(`/seo-mcp/integrations/${customerId}/instagram-business-id`),
+      getParamSafe(`/seo-mcp/integrations/${customerId}/facebook-page-id`),
+    ]);
+
+    res.json({
+      linkedin:  { linked: !!(liToken && liCompany),  has_token: !!liToken, has_company_id: !!liCompany },
+      instagram: { linked: !!(metaToken && igId),      has_token: !!metaToken, has_business_id: !!igId },
+      facebook:  { linked: !!(metaToken && fbId),      has_token: !!metaToken, has_page_id: !!fbId },
+    });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/social/credentials/:customerId — Spara LinkedIn credentials
+app.post('/api/social/credentials/:customerId', async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    const { platform, access_token, company_id, page_id, business_id } = req.body;
+    const { SSMClient, PutParameterCommand } = require('@aws-sdk/client-ssm');
+    const ssmWrite = new SSMClient({ region: REGION });
+
+    const isSearchboost = customerId === 'searchboost';
+    const prefix = isSearchboost ? '/seo-mcp/searchboost' : `/seo-mcp/integrations/${customerId}`;
+
+    const puts = [];
+    if (platform === 'linkedin') {
+      if (access_token) puts.push([`${prefix}/linkedin-access-token`, access_token]);
+      if (company_id)   puts.push([`${prefix}/linkedin-company-id`,    company_id]);
+    } else if (platform === 'instagram' || platform === 'facebook') {
+      if (access_token) puts.push([`${prefix}/meta-access-token`,          access_token]);
+      if (business_id)  puts.push([`/seo-mcp/integrations/${customerId}/instagram-business-id`, business_id]);
+      if (page_id)      puts.push([`/seo-mcp/integrations/${customerId}/facebook-page-id`,      page_id]);
+    }
+
+    await Promise.all(puts.map(([name, value]) =>
+      ssmWrite.send(new (require('@aws-sdk/client-ssm').PutParameterCommand)({
+        Name: name, Value: value, Type: 'SecureString', Overwrite: true,
+      }))
+    ));
+
+    res.json({ success: true, saved: puts.length });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// ── Helper: hämta posting-credentials (används av post-now endpoint) ──
+async function getPostingCredentials(customerId, platform) {
+  const isSearchboost = customerId === 'searchboost';
+  const prefix = isSearchboost ? '/seo-mcp/searchboost' : `/seo-mcp/integrations/${customerId}`;
+
+  if (platform === 'linkedin') {
+    return {
+      accessToken:    await getParamSafe(`${prefix}/linkedin-access-token`),
+      organizationId: await getParamSafe(`${prefix}/linkedin-company-id`),
+      personUrn:      await getParamSafe(`${prefix}/linkedin-person-urn`),
+    };
+  }
+  if (platform === 'instagram') {
+    return {
+      accessToken:         await getParamSafe(`${prefix}/meta-access-token`),
+      instagramBusinessId: await getParamSafe(`/seo-mcp/integrations/${customerId}/instagram-business-id`),
+    };
+  }
+  if (platform === 'facebook') {
+    return {
+      accessToken:    await getParamSafe(`${prefix}/meta-access-token`),
+      facebookPageId: await getParamSafe(`/seo-mcp/integrations/${customerId}/facebook-page-id`),
+    };
+  }
+  throw new Error(`Okänd plattform: ${platform}`);
+}
+
+// ══════════════════════════════════════════════════════════════
+// LinkedIn OAuth 2.0 — Hämta access token för company page
+// ══════════════════════════════════════════════════════════════
+
+// GET /oauth/linkedin — Starta OAuth-flöde (öppnas i browser av Mikael)
+app.get('/oauth/linkedin', async (req, res) => {
+  try {
+    const clientId = await getParam('/seo-mcp/searchboost/linkedin-client-id');
+    const redirectUri = encodeURIComponent('http://51.21.116.7/oauth/linkedin/callback');
+    // w_member_social: posta som person
+    // w_organization_social: posta som företagssida (kräver att användaren är admin)
+    // r_organization_social: läsa org-info (för att auto-hitta company ID)
+    // openid + profile: hämta person-ID via userinfo
+    const scope = encodeURIComponent('w_member_social w_organization_social r_organization_social openid profile');
+    const state = Math.random().toString(36).substring(2);
+
+    // Spara state tillfälligt (enkel in-memory, räcker för en session)
+    app._liOAuthState = state;
+
+    const authUrl = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}`;
+    res.redirect(authUrl);
+  } catch (e) {
+    res.send(`<h2>Fel: ${e.message}</h2><p>Säkerställ att /seo-mcp/searchboost/linkedin-client-id finns i SSM.</p>`);
+  }
+});
+
+// POST /api/social/linkedin/set-company — Manuellt sätta company ID
+app.post('/api/social/linkedin/set-company', async (req, res) => {
+  try {
+    const { company_id } = req.body;
+    if (!company_id) return res.status(400).json({ error: 'company_id krävs' });
+    const numericId = String(company_id).replace(/\D/g, '');
+    if (!numericId) return res.status(400).json({ error: 'Ogiltigt company_id — ange numeriskt ID' });
+    const ssmW = new SSMClient({ region: REGION });
+    await ssmW.send(new PutParameterCommand({
+      Name: '/seo-mcp/searchboost/linkedin-company-id',
+      Value: numericId,
+      Type: 'String',
+      Overwrite: true,
+    }));
+    res.json({ success: true, company_id: numericId, urn: `urn:li:organization:${numericId}` });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /oauth/linkedin/callback — LinkedIn skickar hit efter godkännande
+app.get('/oauth/linkedin/callback', async (req, res) => {
+  const { code, state, error, error_description } = req.query;
+
+  if (error) {
+    return res.send(`<h2>LinkedIn nekade: ${error}</h2><p>${error_description}</p>`);
+  }
+
+  if (!code) {
+    return res.status(400).send('<h2>Ingen kod mottagen från LinkedIn</h2>');
+  }
+
+  try {
+    const clientId     = await getParam('/seo-mcp/searchboost/linkedin-client-id');
+    const clientSecret = await getParam('/seo-mcp/searchboost/linkedin-client-secret');
+    const redirectUri  = 'http://51.21.116.7/oauth/linkedin/callback';
+    const ax = require('axios');
+
+    // Byt kod mot access token
+    const tokenRes = await ax.post(
+      'https://www.linkedin.com/oauth/v2/accessToken',
+      new URLSearchParams({
+        grant_type:    'authorization_code',
+        code,
+        redirect_uri:  redirectUri,
+        client_id:     clientId,
+        client_secret: clientSecret,
+      }).toString(),
+      { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000 }
+    );
+
+    const { access_token, expires_in } = tokenRes.data;
+    if (!access_token) throw new Error('Ingen access_token i svaret');
+
+    // Hämta person-ID via userinfo (openid scope)
+    let personUrn = null;
+    let personName = null;
+    try {
+      const userinfoRes = await ax.get('https://api.linkedin.com/v2/userinfo', {
+        headers: { 'Authorization': `Bearer ${access_token}` },
+        timeout: 10000,
+      });
+      const sub = userinfoRes.data?.sub;
+      personName = userinfoRes.data?.name || userinfoRes.data?.given_name || null;
+      if (sub) personUrn = `urn:li:person:${sub}`;
+    } catch (userinfoErr) {
+      console.warn('LinkedIn userinfo misslyckades:', userinfoErr.message);
+      // Fallback: token introspection
+      try {
+        const introspectRes = await ax.post(
+          'https://www.linkedin.com/oauth/v2/introspectToken',
+          new URLSearchParams({ token: access_token }).toString(),
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
+            },
+            timeout: 10000,
+          }
+        );
+        const sub = introspectRes.data?.sub;
+        if (sub) personUrn = `urn:li:person:${sub}`;
+      } catch (introspectErr) {
+        console.warn('LinkedIn introspection misslyckades:', introspectErr.message);
+      }
+    }
+
+    // Försök hämta organisations-ID (kräver r_organization_social)
+    let organizations = [];
+    let autoCompanyId = null;
+    try {
+      const orgRes = await ax.get(
+        'https://api.linkedin.com/v2/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&count=10',
+        {
+          headers: {
+            'Authorization': `Bearer ${access_token}`,
+            'X-Restli-Protocol-Version': '2.0.0',
+          },
+          timeout: 10000,
+        }
+      );
+      const elements = orgRes.data?.elements || [];
+      for (const el of elements) {
+        const orgUrn = el.organization || el.organizationUrn || '';
+        const numericId = orgUrn.replace('urn:li:organization:', '');
+        if (numericId) {
+          // Hämta org-namn
+          let orgName = numericId;
+          try {
+            const orgDetailRes = await ax.get(
+              `https://api.linkedin.com/v2/organizations/${numericId}?projection=(id,localizedName)`,
+              { headers: { 'Authorization': `Bearer ${access_token}` }, timeout: 8000 }
+            );
+            orgName = orgDetailRes.data?.localizedName || numericId;
+          } catch {}
+          organizations.push({ id: numericId, name: orgName });
+        }
+      }
+      if (organizations.length === 1) autoCompanyId = organizations[0].id;
+    } catch (orgErr) {
+      console.warn('LinkedIn org fetch misslyckades:', orgErr.message);
+    }
+
+    // Spara i SSM
+    const ssmW = new SSMClient({ region: REGION });
+    const puts = [
+      ssmW.send(new PutParameterCommand({
+        Name: '/seo-mcp/searchboost/linkedin-access-token',
+        Value: access_token,
+        Type: 'SecureString',
+        Overwrite: true,
+      })),
+    ];
+    if (personUrn) {
+      puts.push(ssmW.send(new PutParameterCommand({
+        Name: '/seo-mcp/searchboost/linkedin-person-urn',
+        Value: personUrn,
+        Type: 'String',
+        Overwrite: true,
+      })));
+    }
+    if (autoCompanyId) {
+      puts.push(ssmW.send(new PutParameterCommand({
+        Name: '/seo-mcp/searchboost/linkedin-company-id',
+        Value: autoCompanyId,
+        Type: 'String',
+        Overwrite: true,
+      })));
+    }
+    await Promise.all(puts);
+
+    const expiresDate = new Date(Date.now() + expires_in * 1000).toLocaleDateString('sv-SE');
+    const orgListHtml = organizations.length > 0
+      ? `<div style="text-align:left;margin-top:16px">
+          <p style="color:#00e676;font-size:13px">Hittade ${organizations.length} företagssida(or) du administrerar:</p>
+          ${organizations.map(o => `<div style="background:#111;padding:10px;border-radius:6px;margin:6px 0;font-size:13px">
+            <strong>${o.name}</strong><br>
+            <span style="color:#888">ID: ${o.id}</span>
+            ${autoCompanyId === o.id ? ' <span style="color:#00e676">✓ Auto-sparad</span>' : ''}
+          </div>`).join('')}
+        </div>`
+      : `<div style="margin-top:16px;padding:12px;background:#2a1a0a;border-radius:8px;font-size:13px">
+          <p style="color:#f90;margin:0">Hittade ingen företagssida automatiskt.</p>
+          <p style="color:#888;margin:8px 0 4px">Hitta ditt Company Page ID:</p>
+          <ol style="color:#888;margin:0;padding-left:18px;font-size:12px">
+            <li>Gå till linkedin.com/company/searchboost-ab/admin/</li>
+            <li>Ta siffran i URL:en (t.ex. .../admin/<strong>12345678</strong>/)</li>
+          </ol>
+          <form onsubmit="saveCompanyId(event)" style="margin-top:12px">
+            <input id="cid" type="text" placeholder="Numeriskt company ID" style="padding:8px;border-radius:4px;border:1px solid #444;background:#1a1a2e;color:#fff;width:180px">
+            <button type="submit" style="padding:8px 16px;background:#0077b5;color:#fff;border:none;border-radius:4px;cursor:pointer;margin-left:8px">Spara</button>
+          </form>
+          <p id="cid-status" style="color:#00e676;font-size:12px;margin-top:8px"></p>
+        </div>`;
+
+    res.send(`<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>LinkedIn kopplat!</title>
+<style>body{font-family:sans-serif;max-width:540px;margin:60px auto;text-align:center;background:#0e0c19;color:#fff}
+.ok{color:#00e676;font-size:48px}.card{background:#1a1a2e;border-radius:12px;padding:28px;margin-top:24px}
+a{color:#00d4ff}</style></head>
+<body>
+  <div class="ok">&#10003;</div>
+  <h2>LinkedIn kopplat!</h2>
+  <div class="card">
+    <p>Access token sparad i SSM.</p>
+    ${personName ? `<p style="color:#00e676;font-size:13px">Inloggad som: <strong>${personName}</strong></p>` : ''}
+    ${personUrn ? `<p style="color:#888;font-size:12px">Person URN: ${personUrn}</p>` : ''}
+    <p style="color:#888;font-size:14px">Token giltigt till: ${expiresDate}</p>
+    ${orgListHtml}
+    <p style="margin-top:20px"><a href="http://51.21.116.7/">Gå tillbaka till dashboarden &rarr;</a></p>
+  </div>
+<script>
+async function saveCompanyId(e) {
+  e.preventDefault();
+  const id = document.getElementById('cid').value.trim();
+  if (!id) return;
+  const r = await fetch('/api/social/linkedin/set-company', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json', 'X-Api-Key': '${process.env.DASHBOARD_API_KEY || 'sb-api-key'}'},
+    body: JSON.stringify({company_id: id})
+  });
+  const d = await r.json();
+  document.getElementById('cid-status').textContent = d.success
+    ? 'Sparat! Company ID: ' + d.company_id + ' (' + d.urn + ')'
+    : 'Fel: ' + (d.error || 'okänt');
+}
+</script>
+</body>
+</html>`);
+
+  } catch (e) {
+    res.send(`<h2 style="color:red">Fel: ${e.message}</h2><p>${e.response?.data ? JSON.stringify(e.response.data) : ''}</p>`);
+  }
+});
+
+// ── Rankings history — top N sökord med positionsdata över tid ──
+app.get('/api/customers/:id/rankings/history', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = parseInt(req.query.days || '30');
+    const topN = parseInt(req.query.topN || '10');
+
+    const { bq, dataset: datasetId } = await getBigQuery();
+
+    const sql = `
+      SELECT
+        query,
+        date,
+        AVG(position) as avg_position,
+        SUM(clicks) as clicks,
+        SUM(impressions) as impressions
+      FROM \`${bq.projectId}.${datasetId}.gsc_daily_metrics\`
+      WHERE customer_id = @customerId
+        AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+        AND query IN (
+          SELECT query FROM \`${bq.projectId}.${datasetId}.gsc_daily_metrics\`
+          WHERE customer_id = @customerId
+            AND date >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY)
+          GROUP BY query ORDER BY SUM(clicks) DESC LIMIT @topN
+        )
+      GROUP BY query, date
+      ORDER BY query, date ASC
+    `;
+
+    const [rows] = await bq.query({ query: sql, params: { customerId, days, topN } });
+
+    // Normalize BigQuery DATE objects
+    const normalized = rows.map(r => ({
+      query: r.query,
+      date: r.date?.value || r.date,
+      avg_position: typeof r.avg_position === 'number' ? r.avg_position : parseFloat(r.avg_position) || null,
+      clicks: parseInt(r.clicks) || 0,
+      impressions: parseInt(r.impressions) || 0,
+    }));
+
+    // Gruppera per sökord
+    const seriesMap = {};
+    for (const row of normalized) {
+      if (!seriesMap[row.query]) seriesMap[row.query] = [];
+      seriesMap[row.query].push({ date: row.date, position: row.avg_position, clicks: row.clicks });
+    }
+
+    const queries = Object.keys(seriesMap);
+    const series = queries.map(q => ({ query: q, data: seriesMap[q] }));
+
+    res.json({ customer_id: customerId, days, queries, series });
+  } catch (err) {
+    if (err.message?.includes('Not found: Table')) {
+      return res.json({ customer_id: req.params.id, days: 0, queries: [], series: [] });
+    }
+    console.error('Rankings history error:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ── Dessa endpoints är öppna (ingen API-nyckel krävs) ──
+// Lägg till i middleware-whitelist nedan om den körs innan auth
+// (OAuth-callback måste vara tillgänglig utan API-nyckel)
+
+// ══════════ Google Business Profile ══════════
+const gbp = require('./google-business-profile');
+
+// GET /api/customers/:id/gbp/status — kolla om GBP är konfigurerat
+app.get('/api/customers/:id/gbp/status', async (req, res) => {
+  const customerId = req.params.id;
+  const prefix = `/seo-mcp/integrations/${customerId}`;
+  try {
+    const [accessToken, locationId, accountId] = await Promise.all([
+      getParamSafe(`${prefix}/gbp-access-token`),
+      getParamSafe(`${prefix}/gbp-location-id`),
+      getParamSafe(`${prefix}/gbp-account-id`)
+    ]);
+    const configured = !!(accessToken && locationId && accountId);
+    res.json({
+      configured,
+      hasAccessToken: !!accessToken,
+      hasLocationId: !!locationId,
+      hasAccountId: !!accountId,
+      locationId: configured ? locationId : null,
+      accountId: configured ? accountId : null
+    });
+  } catch (err) {
+    console.error('[GBP status] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/gbp/connect — spara GBP credentials
+app.post('/api/customers/:id/gbp/connect', async (req, res) => {
+  const customerId = req.params.id;
+  const { accessToken, refreshToken, locationId, accountId } = req.body;
+  if (!accessToken || !locationId || !accountId) {
+    return res.status(400).json({ error: 'accessToken, locationId och accountId krävs' });
+  }
+  const prefix = `/seo-mcp/integrations/${customerId}`;
+  try {
+    await Promise.all([
+      ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-access-token`,  Value: accessToken,  Type: 'SecureString', Overwrite: true })),
+      ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-location-id`,   Value: locationId,   Type: 'String',       Overwrite: true })),
+      ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-account-id`,    Value: accountId,    Type: 'String',       Overwrite: true })),
+      ...(refreshToken ? [ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-refresh-token`, Value: refreshToken, Type: 'SecureString', Overwrite: true }))] : [])
+    ]);
+    // Rensa cache sa att nya värden hämtas direkt
+    delete paramCache[`${prefix}/gbp-access-token`];
+    delete paramCache[`${prefix}/gbp-refresh-token`];
+    delete paramCache[`${prefix}/gbp-location-id`];
+    delete paramCache[`${prefix}/gbp-account-id`];
+    res.json({ success: true, message: 'GBP-credentials sparade' });
+  } catch (err) {
+    console.error('[GBP connect] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/gbp/reviews — hämta recensioner
+app.get('/api/customers/:id/gbp/reviews', async (req, res) => {
+  const customerId = req.params.id;
+  const prefix = `/seo-mcp/integrations/${customerId}`;
+  const limit = parseInt(req.query.limit, 10) || 20;
+  try {
+    let accessToken = await getParamSafe(`${prefix}/gbp-access-token`);
+    const locationId = await getParamSafe(`${prefix}/gbp-location-id`);
+    if (!accessToken || !locationId) {
+      return res.status(400).json({ error: 'GBP inte konfigurerat för denna kund', configured: false });
+    }
+    // Försök förnya token om refresh-token finns
+    const refreshToken  = await getParamSafe(`${prefix}/gbp-refresh-token`);
+    const clientId      = await getParamSafe('/seo-mcp/integrations/gbp-client-id');
+    const clientSecret  = await getParamSafe('/seo-mcp/integrations/gbp-client-secret');
+    if (refreshToken && clientId && clientSecret) {
+      try {
+        const refreshed = await gbp.refreshAccessToken(refreshToken, clientId, clientSecret);
+        accessToken = refreshed.accessToken;
+        // Uppdatera SSM med ny token i bakgrunden
+        ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-access-token`, Value: accessToken, Type: 'SecureString', Overwrite: true }))
+          .catch(e => console.error('[GBP] SSM token-uppdatering fel:', e.message));
+        delete paramCache[`${prefix}/gbp-access-token`];
+      } catch (e) {
+        console.error('[GBP] Token-förnyelse misslyckades, försöker med befintlig token:', e.message);
+      }
+    }
+    const reviews = await gbp.getReviews(accessToken, locationId, limit);
+    res.json({ success: true, reviews, total: reviews.length });
+  } catch (err) {
+    console.error('[GBP reviews] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/gbp/reviews/:reviewId/reply — svara på recension
+app.post('/api/customers/:id/gbp/reviews/:reviewId/reply', async (req, res) => {
+  const customerId = req.params.id;
+  const reviewId   = req.params.reviewId;
+  const { replyText, autoGenerate } = req.body;
+  const prefix = `/seo-mcp/integrations/${customerId}`;
+
+  if (!autoGenerate && (!replyText || !replyText.trim())) {
+    return res.status(400).json({ error: 'replyText krävs, eller ange autoGenerate: true' });
+  }
+
+  try {
+    let accessToken = await getParamSafe(`${prefix}/gbp-access-token`);
+    const locationId = await getParamSafe(`${prefix}/gbp-location-id`);
+    if (!accessToken || !locationId) {
+      return res.status(400).json({ error: 'GBP inte konfigurerat för denna kund', configured: false });
+    }
+
+    // Tokenförnyelse
+    const refreshToken  = await getParamSafe(`${prefix}/gbp-refresh-token`);
+    const clientId      = await getParamSafe('/seo-mcp/integrations/gbp-client-id');
+    const clientSecret  = await getParamSafe('/seo-mcp/integrations/gbp-client-secret');
+    if (refreshToken && clientId && clientSecret) {
+      try {
+        const refreshed = await gbp.refreshAccessToken(refreshToken, clientId, clientSecret);
+        accessToken = refreshed.accessToken;
+        ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-access-token`, Value: accessToken, Type: 'SecureString', Overwrite: true }))
+          .catch(e => console.error('[GBP] SSM token-uppdatering fel:', e.message));
+        delete paramCache[`${prefix}/gbp-access-token`];
+      } catch (e) {
+        console.error('[GBP] Token-förnyelse misslyckades:', e.message);
+      }
+    }
+
+    let finalReplyText = replyText;
+
+    if (autoGenerate) {
+      // Hämta recensionens innehåll för AI
+      const reviews = await gbp.getReviews(accessToken, locationId, 50);
+      const review = reviews.find(r => r.reviewId === reviewId);
+      if (!review) return res.status(404).json({ error: 'Recensionen hittades inte' });
+
+      const anthropicKey = await getParamSafe('/seo-mcp/anthropic/api-key');
+      const companyName  = await getParamSafe(`${prefix}/company-name`);
+      const generated = await gbp.generateReviewReply(review, { companyName }, anthropicKey);
+      finalReplyText = generated.replyText;
+
+      // Preview-läge: returnera utan att posta
+      if (req.body.preview) {
+        return res.json({ success: true, preview: true, replyText: finalReplyText, review });
+      }
+    }
+
+    const result = await gbp.replyToReview(accessToken, locationId, reviewId, finalReplyText);
+    res.json({ success: true, result, replyText: finalReplyText });
+  } catch (err) {
+    console.error('[GBP reply] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// POST /api/customers/:id/gbp/posts — skapa GBP-inlägg
+app.post('/api/customers/:id/gbp/posts', async (req, res) => {
+  const customerId = req.params.id;
+  const { summary, actionType, actionUrl, mediaUrl } = req.body;
+  const prefix = `/seo-mcp/integrations/${customerId}`;
+
+  if (!summary || !summary.trim()) {
+    return res.status(400).json({ error: 'summary krävs' });
+  }
+
+  try {
+    let accessToken = await getParamSafe(`${prefix}/gbp-access-token`);
+    const locationId = await getParamSafe(`${prefix}/gbp-location-id`);
+    if (!accessToken || !locationId) {
+      return res.status(400).json({ error: 'GBP inte konfigurerat för denna kund', configured: false });
+    }
+
+    // Tokenförnyelse
+    const refreshToken  = await getParamSafe(`${prefix}/gbp-refresh-token`);
+    const clientId      = await getParamSafe('/seo-mcp/integrations/gbp-client-id');
+    const clientSecret  = await getParamSafe('/seo-mcp/integrations/gbp-client-secret');
+    if (refreshToken && clientId && clientSecret) {
+      try {
+        const refreshed = await gbp.refreshAccessToken(refreshToken, clientId, clientSecret);
+        accessToken = refreshed.accessToken;
+        ssm.send(new PutParameterCommand({ Name: `${prefix}/gbp-access-token`, Value: accessToken, Type: 'SecureString', Overwrite: true }))
+          .catch(e => console.error('[GBP] SSM token-uppdatering fel:', e.message));
+        delete paramCache[`${prefix}/gbp-access-token`];
+      } catch (e) {
+        console.error('[GBP] Token-förnyelse misslyckades:', e.message);
+      }
+    }
+
+    const postData = {
+      summary: summary.trim(),
+      ...(actionType && actionUrl ? { callToAction: { actionType, url: actionUrl } } : {}),
+      ...(mediaUrl ? { media: { url: mediaUrl } } : {})
+    };
+
+    const result = await gbp.createPost(accessToken, locationId, postData);
+    res.json({ success: true, post: result.post });
+  } catch (err) {
+    console.error('[GBP post] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// Möjligheter — Content Opportunities
+// ══════════════════════════════════════════════════════════════
+
+app.get('/api/opportunities', async (req, res) => {
+  try {
+    const { bq, datasetId } = await getBigQuery();
+    const { customerId, type, status, limit = 200 } = req.query;
+    let where = 'WHERE 1=1';
+    const params = { lim: parseInt(limit) };
+    if (customerId) { where += ' AND customer_id = @cid'; params.cid = customerId; }
+    if (type)       { where += ' AND opportunity_type = @type'; params.type = type; }
+    if (status)     { where += ' AND status = @status'; params.status = status; }
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${datasetId}.content_opportunities\` ${where} ORDER BY potential_score DESC, created_at DESC LIMIT @lim`,
+      params,
+    }).catch(() => [[]]);
+    res.json({ opportunities: rows || [] });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+app.patch('/api/opportunities/:oppId', async (req, res) => {
+  try {
+    const { bq, projectId, datasetId } = await getBigQuery();
+    const { status } = req.body;
+    if (!['pending','in_queue','done'].includes(status)) return res.status(400).json({ error: 'Ogiltigt status' });
+    await bq.query({
+      query: `UPDATE \`${projectId}.${datasetId}.content_opportunities\` SET status = @status WHERE opp_id = @oppId`,
+      params: { status, oppId: req.params.oppId },
+    });
+    res.json({ success: true });
+  } catch (e) { res.status(500).json({ error: e.message }); }
+});
+
+// ══════════════════════════════════════════════════════════════
+// CLIENT HEALTH SCORE
+// ══════════════════════════════════════════════════════════════
+
+// GET /api/customers/:id/health-score
+app.get('/api/customers/:id/health-score', async (req, res) => {
+  const customerId = req.params.id;
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const now = new Date();
+    const d7  = new Date(now - 7  * 86400000).toISOString().slice(0, 10);
+    const d14 = new Date(now - 14 * 86400000).toISOString().slice(0, 10);
+    const d30 = new Date(now - 30 * 86400000).toISOString().slice(0, 10);
+
+    // 1. GSC-trafik: clicks senaste 7d vs föregående 7d
+    let trafficScore = 0;
+    let trafficDetail = 'Ingen GSC-data';
+    let trafficTrend = 'stable';
+    try {
+      const [trafficRows] = await bq.query({
+        query: `SELECT
+          COALESCE(SUM(IF(date >= @d7,  clicks, 0)), 0) AS clicks_curr,
+          COALESCE(SUM(IF(date >= @d14 AND date < @d7, clicks, 0)), 0) AS clicks_prev
+          FROM \`${dataset}.gsc_daily_metrics\`
+          WHERE customer_id = @cid AND date >= @d14`,
+        params: { cid: customerId, d7, d14 }
+      });
+      if (trafficRows.length > 0) {
+        const curr = Number(trafficRows[0].clicks_curr || 0);
+        const prev = Number(trafficRows[0].clicks_prev || 0);
+        if (prev === 0 && curr === 0) {
+          trafficScore = 0; trafficDetail = 'Inga klick senaste 14d';
+        } else if (prev === 0) {
+          trafficScore = 25; trafficDetail = `${curr} klick (ingen förra vecka)`; trafficTrend = 'improving';
+        } else {
+          const changePct = Math.round(((curr - prev) / prev) * 100);
+          if (curr > prev * 1.02)  { trafficScore = 25; trafficTrend = 'improving'; }
+          else if (curr >= prev * 0.95) { trafficScore = 15; trafficTrend = 'stable'; }
+          else { trafficScore = 5; trafficTrend = 'declining'; }
+          const sign = changePct >= 0 ? '+' : '';
+          trafficDetail = `${sign}${changePct}% trafik vs förra veckan (${curr} vs ${prev} klick)`;
+        }
+      }
+    } catch (e) { /* GSC-tabell kanske saknas */ }
+
+    // 2. Genomsnittsposition senaste 7d
+    let positionScore = 0;
+    let positionDetail = 'Ingen positionsdata';
+    try {
+      const [posRows] = await bq.query({
+        query: `SELECT AVG(position) AS avg_pos FROM \`${dataset}.gsc_daily_metrics\`
+                WHERE customer_id = @cid AND date >= @d7`,
+        params: { cid: customerId, d7 }
+      });
+      if (posRows.length > 0 && posRows[0].avg_pos != null) {
+        const avgPos = Math.round(Number(posRows[0].avg_pos) * 10) / 10;
+        if (avgPos <= 5)       positionScore = 20;
+        else if (avgPos <= 10) positionScore = 15;
+        else if (avgPos <= 15) positionScore = 10;
+        else if (avgPos <= 20) positionScore = 5;
+        positionDetail = `Snitt pos ${avgPos}`;
+      }
+    } catch (e) { /* */ }
+
+    // 3. Optimeringshistorik senaste 30d
+    let optsScore = 0;
+    let optsDetail = '0 optimeringar senaste 30d';
+    try {
+      const [optsRows] = await bq.query({
+        query: `SELECT COUNT(*) AS cnt FROM \`${dataset}.seo_optimization_log\`
+                WHERE customer_id = @cid AND timestamp >= @d30`,
+        params: { cid: customerId, d30 }
+      });
+      const cnt = Number(optsRows[0]?.cnt || 0);
+      if (cnt >= 10)     optsScore = 20;
+      else if (cnt >= 5) optsScore = 15;
+      else if (cnt >= 1) optsScore = 10;
+      optsDetail = `${cnt} opt senaste 30d`;
+    } catch (e) { /* */ }
+
+    // 4. Keywords på sida 1 (position ≤10) senaste 7d
+    let kwScore = 0;
+    let kwDetail = 'Ingen nyckelordsdata';
+    try {
+      const [kwRows] = await bq.query({
+        query: `SELECT
+          COUNT(DISTINCT query) AS total_kw,
+          COUNTIF(position <= 10) AS top10_kw
+          FROM (
+            SELECT query, AVG(position) AS position
+            FROM \`${dataset}.gsc_daily_metrics\`
+            WHERE customer_id = @cid AND date >= @d7
+            GROUP BY query
+          )`,
+        params: { cid: customerId, d7 }
+      });
+      if (kwRows.length > 0) {
+        const total = Number(kwRows[0].total_kw || 0);
+        const top10 = Number(kwRows[0].top10_kw || 0);
+        if (total > 0) {
+          const pct = Math.round((top10 / total) * 100);
+          if (pct >= 30)     kwScore = 20;
+          else if (pct >= 15) kwScore = 15;
+          else if (pct >= 5)  kwScore = 10;
+          kwDetail = `${pct}% på sida 1 (${top10}/${total} sökord)`;
+        }
+      }
+    } catch (e) { /* */ }
+
+    // 5. Arbetsköstatus — antal pending tasks
+    let queueScore = 15;
+    let queueDetail = '0 väntande uppgifter';
+    try {
+      const [qRows] = await bq.query({
+        query: `SELECT COUNT(*) AS cnt FROM \`${dataset}.seo_work_queue\`
+                WHERE customer_id = @cid AND status = 'pending'`,
+        params: { cid: customerId }
+      });
+      const pending = Number(qRows[0]?.cnt || 0);
+      if (pending === 0)       queueScore = 15;
+      else if (pending <= 3)   queueScore = 10;
+      else if (pending <= 10)  queueScore = 5;
+      else                     queueScore = 0;
+      queueDetail = `${pending} väntande uppgifter`;
+    } catch (e) { /* */ }
+
+    // Totalsumma + betyg
+    const score = trafficScore + positionScore + optsScore + kwScore + queueScore;
+    let grade;
+    if (score >= 90) grade = 'A';
+    else if (score >= 70) grade = 'B';
+    else if (score >= 50) grade = 'C';
+    else if (score >= 30) grade = 'D';
+    else grade = 'F';
+
+    let trend;
+    if (trafficTrend === 'improving' || optsScore >= 15) trend = 'improving';
+    else if (trafficTrend === 'declining' && optsScore < 10) trend = 'declining';
+    else trend = 'stable';
+
+    res.json({
+      score,
+      grade,
+      breakdown: {
+        traffic:       { score: trafficScore,  max: 25, detail: trafficDetail },
+        position:      { score: positionScore, max: 20, detail: positionDetail },
+        optimizations: { score: optsScore,     max: 20, detail: optsDetail },
+        keywords:      { score: kwScore,       max: 20, detail: kwDetail },
+        queue:         { score: queueScore,    max: 15, detail: queueDetail }
+      },
+      trend,
+      calculated_at: now.toISOString()
+    });
+  } catch (err) {
+    console.error('[health-score] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// H1 OPTIMIZER
+// ══════════════════════════════════════════════════════════════
+
+// POST /api/customers/:id/optimize-h1
+app.post('/api/customers/:id/optimize-h1', async (req, res) => {
+  const customerId = req.params.id;
+  const { dryRun = true, pageIds } = req.body;
+  try {
+    // Hämta WP-credentials
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site || !site['app-password'] || site['app-password'] === 'placeholder') {
+      return res.status(400).json({ error: 'WordPress-credentials saknas eller ej aktiverade för denna kund.' });
+    }
+
+    // E-handelsskydd via SSM
+    const isEcommerce = await getParam(`/seo-mcp/integrations/${customerId}/is-ecommerce`).catch(() => null);
+
+    // Hämta alla publicerade sidor och inlägg
+    let pages = [], posts = [];
+    try { pages = await wpApi(site, 'GET', '/pages?per_page=100&status=publish'); } catch (e) { /* */ }
+    try { posts = await wpApi(site, 'GET', '/posts?per_page=100&status=publish'); } catch (e) { /* */ }
+
+    let allItems = [...pages.map(p => ({ ...p, _type: 'pages' })), ...posts.map(p => ({ ...p, _type: 'posts' }))];
+
+    // Filtrera på pageIds om angivet
+    if (pageIds && Array.isArray(pageIds) && pageIds.length > 0) {
+      allItems = allItems.filter(item => pageIds.includes(item.id));
+    }
+
+    const claude = await getClaude();
+    const model = await getModel('haiku');
+
+    const suggestions = [];
+    let updated = 0;
+    let skipped_ecommerce = 0;
+
+    for (const item of allItems) {
+      const content = item.content?.rendered || '';
+      const title   = item.title?.rendered || '';
+      const pageUrl = item.link || item.slug || String(item.id);
+
+      // E-handelsskydd
+      const contentHasShopCodes = /\[woocommerce|vc_woocommerce|\[product/i.test(content);
+      if (isEcommerce === 'true' || contentHasShopCodes) {
+        skipped_ecommerce++;
+        continue;
+      }
+
+      // Extrahera befintlig H1
+      const h1Match = content.match(/<h1[^>]*>(.*?)<\/h1>/is);
+      const currentH1 = h1Match ? h1Match[1].replace(/<[^>]+>/g, '').trim() : null;
+
+      // Skippa om H1 redan finns och skiljer sig från sidtiteln (redan optimerad)
+      const cleanTitle = title.replace(/<[^>]+>/g, '').trim();
+      const needsOptimization = !currentH1 || currentH1.toLowerCase() === cleanTitle.toLowerCase();
+      if (!needsOptimization) continue;
+
+      // Claude Haiku: generera förbättrat H1
+      let newH1 = null;
+      try {
+        const prompt = `Du är en SEO-expert. Generera ett optimerat H1-rubrik för denna webbsida.
+Sidtitel: "${cleanTitle}"
+URL: ${pageUrl}
+Nuvarande H1: ${currentH1 ? `"${currentH1}"` : 'saknas'}
+
+Krav:
+- 20-60 tecken
+- Innehåll sökordsfokuserat (svenska)
+- Skilj sig från sidtiteln om möjligt
+- Returnera BARA det nya H1-texten, inget annat`;
+
+        const resp = await claude.messages.create({
+          model,
+          max_tokens: 100,
+          messages: [{ role: 'user', content: prompt }]
+        });
+        newH1 = (resp.content?.[0]?.text || '').trim().replace(/^["']|["']$/g, '');
+      } catch (e) {
+        newH1 = null;
+      }
+
+      if (!newH1) continue;
+
+      suggestions.push({
+        id: item.id,
+        type: item._type,
+        url: pageUrl,
+        current_h1: currentH1,
+        page_title: cleanTitle,
+        suggested_h1: newH1
+      });
+
+      // Om inte dryRun: uppdatera sidan via WP REST API
+      if (!dryRun) {
+        try {
+          let updatedContent;
+          if (currentH1 && h1Match) {
+            // Ersätt befintlig H1
+            updatedContent = content.replace(/<h1[^>]*>.*?<\/h1>/is, `<h1>${newH1}</h1>`);
+          } else {
+            // Lägg till H1 längst upp i innehållet
+            updatedContent = `<h1>${newH1}</h1>\n${content}`;
+          }
+          await wpApi(site, 'POST', `/${item._type}/${item.id}`, { content: updatedContent });
+
+          // Logga i BigQuery
+          await logOptimization({
+            customer_id:       customerId,
+            site_url:          site.url,
+            page_url:          pageUrl,
+            optimization_type: 'h1_optimization',
+            original_value:    currentH1 || '',
+            new_value:         newH1,
+            impact_estimate:   'medium',
+            performed_by:      'h1-optimizer'
+          });
+
+          updated++;
+        } catch (e) {
+          console.error(`[h1-optimizer] Kunde inte uppdatera ${pageUrl}:`, e.message);
+        }
+      }
+    }
+
+    res.json({
+      processed:         suggestions.length + skipped_ecommerce,
+      suggestions,
+      updated:           dryRun ? 0 : updated,
+      skipped_ecommerce,
+      dryRun
+    });
+  } catch (err) {
+    console.error('[h1-optimizer] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// INTERNAL LINKING ANALYZER
+// ══════════════════════════════════════════════════════════════
+
+// GET /api/customers/:id/internal-links
+app.get('/api/customers/:id/internal-links', async (req, res) => {
+  const customerId = req.params.id;
+  try {
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site || !site['app-password'] || site['app-password'] === 'placeholder') {
+      return res.status(400).json({ error: 'WordPress-credentials saknas eller ej aktiverade för denna kund.' });
+    }
+
+    const companyName = await getParam(`/seo-mcp/integrations/${customerId}/company-name`).catch(() => customerId);
+    const siteUrl = site.url.replace(/\/$/, '');
+
+    // Hämta alla publicerade sidor och inlägg
+    let pages = [], posts = [];
+    try { pages = await wpApi(site, 'GET', '/pages?per_page=100&status=publish'); } catch (e) { /* */ }
+    try { posts = await wpApi(site, 'GET', '/posts?per_page=100&status=publish'); } catch (e) { /* */ }
+    await new Promise(r => setTimeout(r, 200));
+
+    const allItems = [
+      ...pages.map(p => ({ id: p.id, url: p.link || '', title: (p.title?.rendered || '').replace(/<[^>]+>/g, '').trim(), content: p.content?.rendered || '', type: 'page' })),
+      ...posts.map(p => ({ id: p.id, url: p.link || '', title: (p.title?.rendered || '').replace(/<[^>]+>/g, '').trim(), content: p.content?.rendered || '', type: 'post' }))
+    ];
+
+    // Bygg URL-index för snabb uppslag
+    const urlSet = new Set(allItems.map(p => p.url.replace(/\/$/, '')));
+
+    // Hjälpfunktion: extrahera interna länkar från HTML-innehåll
+    function extractInternalLinks(html, fromUrl) {
+      const links = [];
+      const re = /<a\s[^>]*href=["']([^"']+)["'][^>]*>/gi;
+      let m;
+      while ((m = re.exec(html)) !== null) {
+        const href = m[1];
+        // Intern länk: börjar med siteUrl eller relativ
+        let fullUrl = href;
+        if (href.startsWith('/') && !href.startsWith('//')) {
+          fullUrl = siteUrl + href;
+        }
+        fullUrl = fullUrl.replace(/\/$/, '').split('#')[0].split('?')[0];
+        if (fullUrl.startsWith(siteUrl) && fullUrl !== fromUrl.replace(/\/$/, '')) {
+          links.push(fullUrl);
+        }
+      }
+      return [...new Set(links)];
+    }
+
+    // Beräkna outbound + bygg inbound-karta
+    const inboundMap = {}; // url -> [källsida-url]
+    allItems.forEach(p => { inboundMap[p.url.replace(/\/$/, '')] = []; });
+
+    const pageData = allItems.map(p => {
+      const outbound = extractInternalLinks(p.content, p.url);
+      return { id: p.id, url: p.url, title: p.title, type: p.type, outboundLinks: outbound, inboundLinks: [] };
+    });
+
+    // Fyll inbound
+    pageData.forEach(p => {
+      p.outboundLinks.forEach(targetUrl => {
+        const key = targetUrl.replace(/\/$/, '');
+        if (inboundMap[key] !== undefined) {
+          inboundMap[key].push(p.url);
+        }
+      });
+    });
+
+    // Tilldela inbound
+    pageData.forEach(p => {
+      p.inboundLinks = [...new Set(inboundMap[p.url.replace(/\/$/, '')] || [])];
+      p.internalLinksCount = p.outboundLinks.length;
+    });
+
+    // Analysresultat
+    const orphanPages    = pageData.filter(p => p.inboundLinks.length === 0);
+    const lowLinked      = pageData.filter(p => p.inboundLinks.length > 0 && p.inboundLinks.length < 2);
+    const topLinked      = [...pageData].sort((a, b) => b.inboundLinks.length - a.inboundLinks.length).slice(0, 5);
+    const avgLinksPerPage = pageData.length ? (pageData.reduce((s, p) => s + p.inboundLinks.length, 0) / pageData.length).toFixed(1) : 0;
+
+    // Claude Haiku: förslag på internlänkningar
+    let suggestions = [];
+    try {
+      const claude = await getClaude();
+      const model  = await getModel('haiku');
+      const prompt = `Analysera dessa internlänkar för ${companyName} och föreslå 3-5 nya länkningar.
+Fokusera på: orphan pages (inga inkommande), sidor med låg synlighet men bra innehåll.
+Svara på svenska med konkreta förslag: "Lägg till länk från /url/ till /url/ med ankartexten 'X'"
+Sidor: ${JSON.stringify(pageData.map(p => ({ url: p.url, title: p.title, inbound: p.inboundLinks.length })))}`;
+
+      const resp = await claude.messages.create({
+        model,
+        max_tokens: 600,
+        messages: [{ role: 'user', content: prompt }]
+      });
+      const raw = (resp.content?.[0]?.text || '').trim();
+      // Dela upp på radbrytningar och filtrera tomma rader
+      suggestions = raw.split('\n').map(s => s.trim()).filter(s => s.length > 10 && /länk/i.test(s));
+      if (!suggestions.length) suggestions = [raw];
+    } catch (e) {
+      console.error('[internal-links] Claude-fel:', e.message);
+    }
+
+    res.json({
+      customerId,
+      totalPages: pageData.length,
+      avgLinksPerPage: Number(avgLinksPerPage),
+      pages: pageData,
+      orphanPages: orphanPages.map(p => ({ id: p.id, url: p.url, title: p.title })),
+      lowLinked: lowLinked.map(p => ({ id: p.id, url: p.url, title: p.title, inboundCount: p.inboundLinks.length })),
+      topLinked: topLinked.map(p => ({ id: p.id, url: p.url, title: p.title, inboundCount: p.inboundLinks.length })),
+      suggestions
+    });
+  } catch (err) {
+    console.error('[internal-links] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// BULK META OPTIMIZER
+// ══════════════════════════════════════════════════════════════
+
+// POST /api/customers/:id/bulk-optimize-meta
+app.post('/api/customers/:id/bulk-optimize-meta', async (req, res) => {
+  const customerId = req.params.id;
+  const { pageIds, dryRun = false } = req.body;
+  try {
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    if (!site || !site['app-password'] || site['app-password'] === 'placeholder') {
+      return res.status(400).json({ error: 'WordPress-credentials saknas eller ej aktiverade för denna kund.' });
+    }
+
+    const companyName = await getParam(`/seo-mcp/integrations/${customerId}/company-name`).catch(() => customerId);
+
+    // Hämta alla publicerade sidor och inlägg
+    let pages = [], posts = [];
+    try { pages = await wpApi(site, 'GET', '/pages?per_page=100&status=publish'); } catch (e) { /* */ }
+    await new Promise(r => setTimeout(r, 200));
+    try { posts = await wpApi(site, 'GET', '/posts?per_page=100&status=publish'); } catch (e) { /* */ }
+
+    let allItems = [
+      ...pages.map(p => ({ ...p, _type: 'pages' })),
+      ...posts.map(p => ({ ...p, _type: 'posts' }))
+    ];
+
+    // Filtrera på pageIds om angivet
+    if (pageIds && Array.isArray(pageIds) && pageIds.length > 0) {
+      allItems = allItems.filter(item => pageIds.includes(item.id));
+    }
+
+    // Hjälpfunktion: kolla om title/description behöver optimering
+    function needsOptimization(item) {
+      const title = (item.yoast_head_json?.title || item.title?.rendered || '').replace(/<[^>]+>/g, '').trim();
+      const desc  = (item.yoast_head_json?.description || item.excerpt?.rendered || '').replace(/<[^>]+>/g, '').trim();
+      const titleBad = !title || title.length < 50 || title.length > 65;
+      const descBad  = !desc  || desc.length < 120  || desc.length > 160;
+      return titleBad || descBad;
+    }
+
+    // Filtrera sidor som behöver optimering
+    const toOptimize = allItems.filter(needsOptimization).slice(0, 20); // max 20 per batch
+    const skippedCount = allItems.length - toOptimize.length;
+
+    if (toOptimize.length === 0) {
+      return res.json({ optimized: 0, skipped: skippedCount, errors: [], results: [], message: 'Alla sidor är redan optimerade.' });
+    }
+
+    // Bygg payload till Claude
+    const pagesPayload = toOptimize.map(item => ({
+      id: item.id,
+      url: item.link || item.slug || String(item.id),
+      title: (item.title?.rendered || '').replace(/<[^>]+>/g, '').trim(),
+      excerpt: (item.excerpt?.rendered || '').replace(/<[^>]+>/g, '').trim().substring(0, 300)
+    }));
+
+    // Batch-anrop till Claude Haiku — ett enda anrop för alla sidor
+    const claude = await getClaude();
+    const model  = await getModel('haiku');
+    const prompt = `Företag: ${companyName}. Optimera SEO title + meta description för dessa ${pagesPayload.length} sidor.
+Svara med BARA ett JSON-array: [{"id":1,"title":"...","description":"..."},...]
+Regler: title 55-65 tecken, description 140-160 tecken, inkludera primärt nyckelord, svenska.
+Sidor: ${JSON.stringify(pagesPayload)}`;
+
+    let claudeResults = [];
+    try {
+      const resp = await claude.messages.create({
+        model,
+        max_tokens: 3000,
+        messages: [{ role: 'user', content: prompt }]
+      });
+      claudeResults = parseClaudeJSON(resp.content[0].text);
+    } catch (e) {
+      return res.status(500).json({ error: 'Claude kunde inte generera förslag: ' + e.message });
+    }
+
+    // Bygg resultat-array med old/new
+    const results = [];
+    const errors  = [];
+    let optimized = 0;
+
+    for (const suggestion of claudeResults) {
+      const item = toOptimize.find(p => p.id === suggestion.id);
+      if (!item) continue;
+
+      const oldTitle = (item.title?.rendered || '').replace(/<[^>]+>/g, '').trim();
+      const oldDesc  = (item.excerpt?.rendered || '').replace(/<[^>]+>/g, '').trim();
+
+      results.push({
+        pageId: item.id,
+        url: item.link || item.slug || String(item.id),
+        type: item._type,
+        oldTitle,
+        newTitle: suggestion.title || oldTitle,
+        oldDesc,
+        newDesc: suggestion.description || oldDesc
+      });
+
+      if (!dryRun) {
+        try {
+          // Uppdatera via WP REST API med Rank Math-meta
+          await wpApi(site, 'POST', `/${item._type}/${item.id}`, {
+            meta: {
+              rank_math_title: suggestion.title,
+              rank_math_description: suggestion.description
+            }
+          });
+          await new Promise(r => setTimeout(r, 200));
+
+          // Logga i BigQuery
+          await logOptimization({
+            customer_id:       customerId,
+            site_url:          site.url,
+            page_url:          item.link || String(item.id),
+            optimization_type: 'bulk_meta',
+            original_value:    oldTitle,
+            new_value:         suggestion.title,
+            impact_estimate:   'medium',
+            performed_by:      'bulk-meta-optimizer'
+          });
+
+          optimized++;
+        } catch (e) {
+          errors.push({ pageId: item.id, url: item.link || String(item.id), error: e.message });
+        }
+      }
+    }
+
+    res.json({
+      optimized: dryRun ? 0 : optimized,
+      skipped: skippedCount,
+      dryRun,
+      errors,
+      results
+    });
+  } catch (err) {
+    console.error('[bulk-meta] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// LLM.TXT GENERATOR — GEO (Generative Engine Optimization)
+// Skapar en AI-läsbar fil för varje kundsite som hjälper
+// ChatGPT Search, Perplexity, Google AI Overviews att förstå sajten.
+// ══════════════════════════════════════════════════════════════
+
+// POST /api/customers/:id/generate-llm-txt
+// body: { upload: true|false (default false = bara returnera), model: 'haiku'|'sonnet' }
+app.post('/api/customers/:id/generate-llm-txt', async (req, res) => {
+  const customerId = req.params.id;
+  const { upload = false } = req.body;
+  try {
+    const companyName = await getParamSafe(`/seo-mcp/integrations/${customerId}/company-name`) || customerId;
+    const siteUrl     = await getParamSafe(`/seo-mcp/wordpress/${customerId}/url`) ||
+                        await getParamSafe(`/seo-mcp/integrations/${customerId}/url`) || '';
+    const wpUser      = await getParamSafe(`/seo-mcp/wordpress/${customerId}/username`);
+    const wpPass      = await getParamSafe(`/seo-mcp/wordpress/${customerId}/app-password`);
+
+    // Hämta sidor och nyckelord för kontext
+    let pages = [], keywords = [];
+    if (siteUrl && wpUser && wpPass && wpPass !== 'placeholder') {
+      try {
+        const pagesRes = await axios.get(`${siteUrl.replace(/\/$/, '')}/wp-json/wp/v2/pages?per_page=20&status=publish&_fields=id,title,link,excerpt`, {
+          auth: { username: wpUser, password: wpPass }, timeout: 10000,
+          httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+        });
+        pages = pagesRes.data || [];
+      } catch { /* WP ej åtkomlig */ }
+    }
+
+    // Hämta keywords från BQ
+    try {
+      const { bq, datasetId } = await getBigQuery();
+      const [rows] = await bq.query({
+        query: `SELECT keyword, classification FROM \`${datasetId}.customer_keywords\` WHERE customer_id = @cid AND classification IN ('A','B') ORDER BY classification, search_volume DESC LIMIT 20`,
+        params: { cid: customerId },
+      }).catch(() => [[]]);
+      keywords = (rows || []).map(r => r.keyword);
+    } catch { /* BQ ej tillgänglig */ }
+
+    // Hämta GSC top queries om tillgängligt
+    let topQueries = [];
+    try {
+      const gscProp = await getParamSafe(`/seo-mcp/integrations/${customerId}/gsc-property`);
+      if (gscProp) {
+        const gscData = await fetchGSCData(customerId, gscProp, 14);
+        topQueries = (gscData || []).slice(0, 10).map(q => q.query).filter(Boolean);
+      }
+    } catch { /* GSC ej tillgänglig */ }
+
+    // Generera llm.txt med Claude
+    const anthropicKey = await getParamSafe('/seo-mcp/anthropic/api-key');
+    if (!anthropicKey) return res.status(500).json({ error: 'Anthropic API-nyckel saknas' });
+
+    const client = new (require('@anthropic-ai/sdk'))({ apiKey: anthropicKey });
+
+    const pageList = pages.slice(0, 15).map(p =>
+      `- [${(p.title?.rendered || '').replace(/<[^>]+>/g,'')}](${p.link}): ${(p.excerpt?.rendered || '').replace(/<[^>]+>/g,'').trim().substring(0,100)}`
+    ).join('\n');
+
+    const prompt = `Skapa en llm.txt-fil för ${companyName} (${siteUrl}).
+
+llm.txt är ett standardformat (inspirerat av robots.txt) som hjälper AI-sökmotorer (ChatGPT, Perplexity, Google AI Overviews) förstå en webbplats.
+
+Format:
+# Företagsnamn
+
+> Kort beskrivning (2-3 meningar) om vad företaget erbjuder
+
+## Om oss
+[2-4 meningar med fakta om företaget]
+
+## Produkter/Tjänster
+[Bullet-lista med huvudprodukter/-tjänster och vad de innebär]
+
+## Vanliga frågor om oss
+[3-5 FAQ-frågor med korta svar som AI:er sannolikt ställer]
+
+## Kontakt
+[Kontaktinfo om tillgänglig]
+
+## Viktiga sidor
+[Lista med de viktigaste sidorna från sidlistan nedan]
+
+---
+Befintliga sidor:
+${pageList || '(inga sidor tillgängliga)'}
+
+Nyckelord vi ranknar för: ${keywords.slice(0,10).join(', ') || '(okänt)'}
+Top sökfrågor: ${topQueries.join(', ') || '(okänt)'}
+
+Svara BARA med llm.txt-filens innehåll, inget annat. Svenska.`;
+
+    const response = await client.messages.create({
+      model: 'claude-3-5-haiku-20241022',
+      max_tokens: 1200,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    const llmTxtContent = response.content[0].text.trim();
+
+    // Om upload=true, ladda upp via WP (skapa/uppdatera sida eller fil)
+    let uploadResult = null;
+    if (upload && siteUrl && wpUser && wpPass && wpPass !== 'placeholder') {
+      try {
+        // Hitta befintlig llm.txt-sida om den finns
+        const searchRes = await axios.get(`${siteUrl.replace(/\/$/, '')}/wp-json/wp/v2/pages?slug=llm-txt&_fields=id`, {
+          auth: { username: wpUser, password: wpPass }, timeout: 10000,
+          httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+        });
+        const existing = (searchRes.data || [])[0];
+
+        const pageData = {
+          title: 'llm.txt',
+          content: `<pre>${llmTxtContent}</pre>`,
+          slug: 'llm-txt',
+          status: 'publish',
+        };
+
+        if (existing) {
+          await axios.post(`${siteUrl.replace(/\/$/, '')}/wp-json/wp/v2/pages/${existing.id}`, pageData, {
+            auth: { username: wpUser, password: wpPass }, timeout: 10000,
+            httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+          });
+          uploadResult = { action: 'updated', url: `${siteUrl.replace(/\/$/, '')}/llm-txt/` };
+        } else {
+          const createRes = await axios.post(`${siteUrl.replace(/\/$/, '')}/wp-json/wp/v2/pages`, pageData, {
+            auth: { username: wpUser, password: wpPass }, timeout: 10000,
+            httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+          });
+          uploadResult = { action: 'created', url: createRes.data?.link || `${siteUrl.replace(/\/$/, '')}/llm-txt/` };
+        }
+      } catch (e) {
+        uploadResult = { action: 'failed', error: e.message };
+      }
+    }
+
+    res.json({
+      customer_id: customerId,
+      company_name: companyName,
+      site_url: siteUrl,
+      llm_txt: llmTxtContent,
+      char_count: llmTxtContent.length,
+      pages_analyzed: pages.length,
+      keywords_used: keywords.length,
+      upload: uploadResult,
+    });
+  } catch (err) {
+    console.error('[llm-txt] fel:', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET /api/customers/:id/llm-txt — hämta befintlig llm.txt (om uppladdad)
+app.get('/api/customers/:id/llm-txt', async (req, res) => {
+  const customerId = req.params.id;
+  try {
+    const siteUrl = await getParamSafe(`/seo-mcp/wordpress/${customerId}/url`) ||
+                    await getParamSafe(`/seo-mcp/integrations/${customerId}/url`) || '';
+    if (!siteUrl) return res.status(404).json({ error: 'Site URL saknas' });
+
+    const llmRes = await axios.get(`${siteUrl.replace(/\/$/, '')}/llm-txt/`, {
+      timeout: 8000,
+      httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false }),
+    }).catch(() => null);
+
+    if (llmRes) {
+      const text = (llmRes.data || '').replace(/<[^>]+>/g, '').trim();
+      res.json({ exists: true, url: `${siteUrl.replace(/\/$/, '')}/llm-txt/`, content: text.substring(0, 3000) });
+    } else {
+      res.json({ exists: false, url: null });
+    }
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// Per-kund Social Media Posting — /api/customers/:id/social/*
+// ══════════════════════════════════════════════════════════════
+
+// POST /api/customers/:id/social/post — Skapa/schemalägga post
+app.post('/api/customers/:id/social/post', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { platform = 'linkedin', message, imageUrl, scheduleTime, post_type = 'tip', topic, useAI = false } = req.body;
+
+    if (!['linkedin', 'instagram', 'facebook'].includes(platform)) {
+      return res.status(400).json({ error: 'Ogiltig plattform. Välj: linkedin, instagram, facebook' });
+    }
+
+    const { bq, dataset } = await getBigQuery();
+
+    let fullText = message;
+    let hook = '', body = '', hashtags = [], suggestedImagePrompt = '';
+
+    // Om useAI=true: generera innehåll med Claude
+    if (useAI) {
+      const anthropicKey = await getParam('/seo-mcp/anthropic/api-key');
+      let customerName = customerId;
+      try { customerName = (await getParamSafe(`/seo-mcp/integrations/${customerId}/company-name`)) || customerId; } catch {}
+
+      const generated = await socialPlanner.generatePost({
+        platform,
+        topic: topic || message,
+        postType: post_type,
+        customerId,
+        customerName,
+        anthropicKey,
+      });
+      fullText = generated.full_text;
+      hook = generated.hook;
+      body = generated.body;
+      hashtags = generated.hashtags || [];
+      suggestedImagePrompt = generated.suggested_image_prompt || '';
+    } else {
+      // Manuell text — dela upp i hook + body
+      const lines = (message || '').split('\n');
+      hook = lines[0] || '';
+      body = lines.slice(1).join('\n').trim();
+    }
+
+    const scheduledAt = scheduleTime ? new Date(scheduleTime).toISOString() : socialPlanner.getNextPostDates(1)[0];
+
+    const row = {
+      post_id: `${customerId}_${platform}_${Date.now()}`,
+      customer_id: customerId,
+      platform,
+      status: 'approved',
+      hook,
+      body,
+      full_text: fullText,
+      hashtags: hashtags.join(','),
+      char_count: (fullText || '').length,
+      suggested_image_prompt: suggestedImagePrompt || imageUrl || '',
+      topic: topic || '',
+      post_type,
+      scheduled_at: scheduledAt,
+      created_at: new Date().toISOString(),
+      posted_at: null,
+      linkedin_post_id: null,
+      error_message: null,
+    };
+
+    const table = bq.dataset(dataset).table('social_content_queue');
+    await table.insert([row]);
+
+    res.json({ success: true, post: row, scheduled_at: scheduledAt });
+  } catch (e) {
+    console.error('[social/post] fel:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// POST /api/customers/:id/social/post-now — Posta direkt
+app.post('/api/customers/:id/social/post-now', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { platform = 'linkedin', message, imageUrl, post_type = 'tip', topic, useAI = false } = req.body;
+
+    if (!['linkedin', 'instagram', 'facebook'].includes(platform)) {
+      return res.status(400).json({ error: 'Ogiltig plattform. Välj: linkedin, instagram, facebook' });
+    }
+
+    let fullText = message;
+
+    if (useAI) {
+      const anthropicKey = await getParam('/seo-mcp/anthropic/api-key');
+      let customerName = customerId;
+      try { customerName = (await getParamSafe(`/seo-mcp/integrations/${customerId}/company-name`)) || customerId; } catch {}
+      const generated = await socialPlanner.generatePost({
+        platform, topic: topic || message, postType: post_type,
+        customerId, customerName, anthropicKey,
+      });
+      fullText = generated.full_text;
+    }
+
+    const creds = await getPostingCredentials(customerId, platform);
+    const result = await socialPlanner.publishScheduledPost(
+      { platform, full_text: fullText, customer_id: customerId },
+      creds
+    );
+
+    // Logga i BQ
+    try {
+      const { bq, dataset } = await getBigQuery();
+      const table = bq.dataset(dataset).table('social_content_queue');
+      await table.insert([{
+        post_id: `${customerId}_${platform}_${Date.now()}`,
+        customer_id: customerId,
+        platform,
+        status: 'posted',
+        hook: (fullText || '').split('\n')[0] || '',
+        body: '',
+        full_text: fullText,
+        hashtags: '',
+        char_count: (fullText || '').length,
+        suggested_image_prompt: imageUrl || '',
+        topic: topic || '',
+        post_type,
+        scheduled_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+        posted_at: new Date().toISOString(),
+        linkedin_post_id: result.post_id || '',
+        error_message: null,
+      }]);
+    } catch (logErr) {
+      console.error('[social/post-now] BQ-logg misslyckades:', logErr.message);
+    }
+
+    res.json({ success: true, platform_post_id: result.post_id, url: result.url || null });
+  } catch (e) {
+    console.error('[social/post-now] fel:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/customers/:id/social/posts — Lista posts (filter: platform, status, days)
+app.get('/api/customers/:id/social/posts', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { platform, status, days = 30 } = req.query;
+    const { bq, dataset } = await getBigQuery();
+
+    let where = `customer_id = @cid AND (
+      scheduled_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL ${parseInt(days)} DAY)
+      OR status IN ('draft', 'approved', 'scheduled')
+    )`;
+    const params = { cid: customerId };
+    if (platform) { where += ' AND platform = @plat'; params.plat = platform; }
+    if (status)   { where += ' AND status = @st';     params.st = status; }
+
+    const [rows] = await bq.query({
+      query: `SELECT * FROM \`${dataset}.social_content_queue\`
+              WHERE ${where}
+              ORDER BY scheduled_at DESC
+              LIMIT 50`,
+      params,
+    });
+
+    res.json({ customer_id: customerId, posts: rows || [] });
+  } catch (e) {
+    console.error('[social/posts] fel:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// DELETE /api/customers/:id/social/posts/:postId — Avbryt/radera schemalagd post
+app.delete('/api/customers/:id/social/posts/:postId', async (req, res) => {
+  try {
+    const { id: customerId, postId } = req.params;
+    const { bq, dataset, projectId } = await getBigQuery();
+
+    await bq.query({
+      query: `DELETE FROM \`${projectId}.${dataset}.social_content_queue\`
+              WHERE post_id = @pid AND customer_id = @cid AND status != 'posted'`,
+      params: { pid: postId, cid: customerId },
+    });
+
+    res.json({ success: true });
+  } catch (e) {
+    console.error('[social/delete] fel:', e.message);
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
@@ -6555,6 +8549,12 @@ app.listen(PORT, async () => {
     console.log('Pipeline tables verified.');
   } catch (e) {
     console.error('Pipeline table init error:', e.message);
+  }
+  // Ensure social content queue table
+  try {
+    await ensureSocialQueueTable();
+  } catch (e) {
+    console.error('Social queue table init error:', e.message);
   }
   // Slack-notis vid uppstart
   slackAlert(`Servern startad — port ${PORT} :rocket:`, 'info');
