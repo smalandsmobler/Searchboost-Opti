@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO-analys — Lidalco AB</title>
+<style>
+  :root {
+    --pink: #e91e8c;
+    --cyan: #00d4ff;
+    --green: #00e676;
+    --purple: #7c4dff;
+    --bg: #0a0a0f;
+    --card: #13131a;
+    --border: #1e1e2e;
+    --text: #e0e0e0;
+    --muted: #888;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  
+  /* Header */
+  .header { background: linear-gradient(135deg, #0a0a0f 0%, #12082a 100%); padding: 48px 0 32px; border-bottom: 1px solid var(--border); }
+  .header-inner { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+  .logo { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: var(--pink); text-transform: uppercase; margin-bottom: 8px; }
+  .report-title { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 4px; }
+  .report-title span { color: var(--cyan); }
+  .domain-badge { font-size: 13px; color: var(--muted); }
+  .score-box { text-align: center; background: var(--card); border: 2px solid #00d4ff; border-radius: 16px; padding: 20px 28px; min-width: 140px; }
+  .score-box .big { font-size: 52px; font-weight: 900; color: #00d4ff; line-height: 1; }
+  .score-box .label { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+  .score-box .status { font-size: 14px; font-weight: 700; color: #00d4ff; margin-top: 6px; }
+  
+  /* Sections */
+  .section { padding: 32px 0; border-bottom: 1px solid var(--border); }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: var(--cyan); display: flex; align-items: center; gap: 8px; }
+  .section-title::before { content: ''; display: block; width: 4px; height: 20px; background: var(--pink); border-radius: 2px; }
+  
+  /* Cards grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .card-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .card-value { font-size: 22px; font-weight: 800; }
+  .card-value.red { color: var(--pink); }
+  .card-value.orange { color: #ff9800; }
+  .card-value.green { color: var(--green); }
+  .card-value.cyan { color: var(--cyan); }
+  
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; }
+  tr:last-child td { border-bottom: none; }
+  .vol { color: var(--cyan); font-weight: 600; }
+  .type { font-weight: 700; color: var(--pink); }
+  .green { color: var(--green); }
+  .cyan { color: var(--cyan); }
+  .score-num { color: var(--muted); font-size: 13px; }
+  
+  /* Bars */
+  .bar-wrap { background: rgba(255,255,255,0.05); border-radius: 4px; height: 8px; width: 180px; }
+  .bar { height: 8px; border-radius: 4px; }
+  
+  /* Issues */
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; font-size: 14px; }
+  h3 { font-size: 15px; margin: 16px 0 8px; font-weight: 700; }
+  
+  /* Exec summary */
+  .exec-summary { background: var(--card); border: 1px solid var(--pink); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .exec-summary p { font-size: 15px; line-height: 1.7; color: var(--text); }
+  
+  /* CTA */
+  .cta-box { background: linear-gradient(135deg, #1a0630 0%, #0d1a2e 100%); border: 1px solid var(--pink); border-radius: 16px; padding: 32px; text-align: center; }
+  .cta-box h2 { font-size: 24px; font-weight: 800; margin-bottom: 12px; }
+  .cta-box p { color: var(--muted); margin-bottom: 24px; }
+  .cta-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; }
+  .cta-item { background: rgba(255,255,255,0.04); border-radius: 10px; padding: 16px; }
+  .cta-item .val { font-size: 20px; font-weight: 800; color: var(--pink); }
+  .cta-item .lbl { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  
+  /* Footer */
+  footer { background: var(--card); border-top: 1px solid var(--border); padding: 20px 0; text-align: center; color: var(--muted); font-size: 13px; }
+  footer strong { color: var(--text); }
+  
+  @media(max-width:640px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .header-inner { flex-direction: column; }
+    .cta-grid { grid-template-columns: 1fr; }
+    .bar-wrap { width: 120px; }
+  }
+  @media print {
+    body { background: white; color: black; }
+    .card { background: #f9f9f9; }
+    .header { background: #f0f0f0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <div class="header-inner">
+      <div>
+        <div class="logo">Searchboost SEO-analys</div>
+        <div class="report-title">SEO-rapport: <span>Lidalco AB</span></div>
+        <div class="domain-badge">lidalco.se &nbsp;·&nbsp; Industri/Kabel &nbsp;·&nbsp; Prioritet: <strong style="color:#ff9800">Medel</strong></div>
+        <div class="domain-badge" style="margin-top:6px">Datum: 2026-04-13 &nbsp;·&nbsp; CMS: WordPress</div>
+      </div>
+      <div class="score-box">
+        <div class="big">55</div>
+        <div class="label">SEO-score</div>
+        <div class="status">Medel</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 1. Executive Summary -->
+  <div class="section">
+    <div class="section-title">Executive Summary</div>
+    <div class="exec-summary">
+      <p><strong>Lidalco AB</strong> (lidalco.se) verkar inom <strong>Industri/Kabel</strong>. Sveriges ledande kabelpartner — levererar avancerade kablar och kabelsystem från europeiska och amerikanska tillverkare.</p>
+      <p style="margin-top:12px">Den nuvarande webbnärvaron har ett SEO-score på <strong style="color:#00d4ff">55/100</strong> vilket klassificeras som <strong style="color:#00d4ff">Medel</strong>. Sajten har viss SEO-implementering men har tydliga möjligheter till förbättring. Med riktad SEO-optimering kan Lidalco AB öka sin organiska synlighet med 200–400% inom 12 månader.</p>
+    </div>
+    
+    <table>
+      <tr><th>Kategori</th><th>Status</th><th>Poäng</th></tr>
+      <tr><td>Teknisk SEO</td><td><div class='bar-wrap'><div class='bar' style='width:75%;background:#00e676'></div></div></td><td class='score-num'>75/100</td></tr><tr><td>On-Page SEO</td><td><div class='bar-wrap'><div class='bar' style='width:65%;background:#00e676'></div></div></td><td class='score-num'>65/100</td></tr><tr><td>Innehåll</td><td><div class='bar-wrap'><div class='bar' style='width:20%;background:#e91e8c'></div></div></td><td class='score-num'>20/100</td></tr><tr><td>Lokal SEO</td><td><div class='bar-wrap'><div class='bar' style='width:40%;background:#ff9800'></div></div></td><td class='score-num'>40/100</td></tr><tr><td>Länkprofil</td><td><div class='bar-wrap'><div class='bar' style='width:35%;background:#e91e8c'></div></div></td><td class='score-num'>35/100</td></tr><tr><td>Mobilanpassning</td><td><div class='bar-wrap'><div class='bar' style='width:70%;background:#00e676'></div></div></td><td class='score-num'>70/100</td></tr><tr><td>SSL/Säkerhet</td><td><div class='bar-wrap'><div class='bar' style='width:90%;background:#00e676'></div></div></td><td class='score-num'>90/100</td></tr><tr><td>Sidhastighet</td><td><div class='bar-wrap'><div class='bar' style='width:50%;background:#ff9800'></div></div></td><td class='score-num'>50/100</td></tr>
+    </table>
+  </div>
+
+  <!-- 2. Teknisk SEO -->
+  <div class="section">
+    <div class="section-title">Teknisk SEO</div>
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-label">SSL/HTTPS</div>
+        <div class="card-value green">Aktiv</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Schema Markup</div>
+        <div class="card-value green">Implementerad</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Meta Descriptions</div>
+        <div class="card-value green">Satta</div>
+      </div>
+      <div class="card">
+        <div class="card-label">CMS</div>
+        <div class="card-value cyan">WordPress</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Sitemap</div>
+        <div class="card-value orange">Ej verifierad</div>
+      </div>
+      <div class="card">
+        <div class="card-label">robots.txt</div>
+        <div class="card-value orange">Ej optimerad</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. On-Page SEO -->
+  <div class="section">
+    <div class="section-title">On-Page SEO</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Innehållsstrategi</div>
+        <div class="card-value red">Ingen blogg</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Sajten saknar en innehållsstrategi. Utan regelbundet innehåll är det svårt att ranka på long-tail sökord.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">Nyckelordsoptimering</div>
+        <div class="card-value orange">Partiell</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Title tags och H1-element är inte fullt optimerade för prioriterade sökord. Märkbar potential att öka CTR med bättre titlar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Nyckelord & Möjligheter -->
+  <div class="section">
+    <div class="section-title">Nyckelord &amp; Möjligheter</div>
+    <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Estimerade månadsvolymer (sv, nationellt). A = primär, B = sekundär, C = long-tail</p>
+    <table>
+      <tr><th>Nyckelord</th><th>Sökvolym/mån</th><th>Typ</th></tr>
+      <tr><td>industriell kabel</td><td class='vol'>720</td><td class='type'>A</td></tr><tr><td>kabelleverantör</td><td class='vol'>380</td><td class='type'>B</td></tr><tr><td>teknisk kabel</td><td class='vol'>540</td><td class='type'>B</td></tr><tr><td>elinstallation kabel</td><td class='vol'>660</td><td class='type'>C</td></tr><tr><td>kabelpartner</td><td class='vol'>220</td><td class='type'>C</td></tr>
+    </table>
+  </div>
+
+  <!-- 5. Lokal SEO -->
+  <div class="section">
+    <div class="section-title">Lokal SEO</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Google Business Profile</div>
+        <div class="card-value orange">Ej optimerad</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Saknar fullständig profilbeskrivning, kategorier, öppettider och regelbundna inlägg.</p>
+      </div>
+      <div class="card">
+        <div class="card-label">LocalBusiness Schema</div>
+        <div class="card-value orange">Partiell</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px">Strukturerade data för lokal sökning hjälper Google att förstå verksamhetens geografi och nisch.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Åtgärdsplan -->
+  <div class="section">
+    <div class="section-title">Åtgärdsplan</div>
+    <h3 style='color:#ff9800'>Höga åtgärder</h3><ul><li>Ingen innehållsstrategi — saknar blogg/kunskapsbank</li><li>Google Business Profile saknar fullständig optimering</li><li>Intern länkstruktur svag — få interna länkar</li></ul><h3 style='color:#00d4ff'>Medel åtgärder</h3><ul><li>Bilder saknar alt-texter</li><li>Sidladdningstid kan optimeras (Core Web Vitals)</li><li>Lokala strukturerade data (LocalBusiness schema) saknas</li></ul>
+  </div>
+
+  <!-- 7. Prognos -->
+  <div class="section">
+    <div class="section-title">12-månadersprognos</div>
+    <table>
+      <tr><th>Period</th><th>Fokus</th><th>Trafiktillväxt</th><th>Rankingposition</th></tr>
+      <tr><td>Månad 1-2</td><td>Teknisk SEO, meta & schema</td><td class='green'>+15-25 impressions</td><td class='cyan'>Position 30-50</td></tr><tr><td>Månad 3-4</td><td>Innehåll & nyckelord</td><td class='green'>+40-60%</td><td class='cyan'>Position 15-30</td></tr><tr><td>Månad 5-6</td><td>Länkbygge & lokal SEO</td><td class='green'>+80-120%</td><td class='cyan'>Position 8-20</td></tr><tr><td>Månad 7-9</td><td>Konverteringsoptimering</td><td class='green'>+150-200%</td><td class='cyan'>Position 5-15</td></tr><tr><td>Månad 10-12</td><td>Skalning & rapportering</td><td class='green'>+250-350%</td><td class='cyan'>Position 3-10</td></tr>
+    </table>
+  </div>
+
+  <!-- 8. Slutsats + CTA -->
+  <div class="section">
+    <div class="section-title">Slutsats &amp; Erbjudande</div>
+    <div class="cta-box">
+      <h2>Lidalco AB — SEO-potential är hög</h2>
+      <p>Med ett strukturerat SEO-arbete kan Lidalco AB ta marknadsandelar digitalt och öka antalet inkommande leads markant.</p>
+      <div class="cta-grid">
+        <div class="cta-item">
+          <div class="val">Från 4 990 kr</div>
+          <div class="lbl">per månad</div>
+        </div>
+        <div class="cta-item">
+          <div class="val">12 månader</div>
+          <div class="lbl">till mätbart resultat</div>
+        </div>
+        <div class="cta-item">
+          <div class="val">Ingen bindningstid</div>
+          <div class="lbl">efter 3 månader</div>
+        </div>
+      </div>
+      <p style="color:var(--text);font-size:15px">Boka ett kostnadsfritt 30-minutersmöte för att gå igenom analysen och diskutera möjligheterna för Lidalco AB.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <strong>Mikael Larsson</strong> &nbsp;|&nbsp; 0728634279 &nbsp;|&nbsp; mikael@searchboost.se &nbsp;|&nbsp; searchboost.se
+  <br><span style="font-size:11px">Konfidentiellt — framtaget för Lidalco AB (lidalco.se)</span>
+</footer>
+
+</body>
+</html>

@@ -438,8 +438,16 @@ const ADS_PLATFORMS = {
   },
 };
 
+// Supermetrics SSM-nyckel per plattform (account ID lagrad separat)
+const SUPERMETRICS_SSM_KEYS = {
+  google_ads:   'supermetrics-gads-account-id',
+  meta_ads:     'supermetrics-meta-account-id',
+  linkedin_ads: 'supermetrics-linkedin-account-id',
+  tiktok_ads:   'supermetrics-tiktok-account-id',
+};
+
 async function collectAdsData(customer, dateStr) {
-  const results = { total: 0, platforms: {} };
+  const results = { total: 0, platforms: {}, supermetricsLinked: {} };
 
   // Parallell credential-check for alla plattformar
   const checks = await Promise.all(
@@ -451,13 +459,24 @@ async function collectAdsData(customer, dateStr) {
         if (!val) { allPresent = false; break; }
         creds[key] = val;
       }
-      return { platform, config, creds, allPresent };
+      // Check if Supermetrics account ID exists (even if direct creds missing)
+      const smKey = SUPERMETRICS_SSM_KEYS[platform];
+      const supermetricsId = smKey
+        ? await getParamSafe(`/seo-mcp/integrations/${customer.id}/${smKey}`)
+        : null;
+      return { platform, config, creds, allPresent, supermetricsId };
     })
   );
 
-  for (const { platform, config, creds, allPresent } of checks) {
+  for (const { platform, config, creds, allPresent, supermetricsId } of checks) {
+    // Track Supermetrics linkage regardless of direct creds
+    if (supermetricsId) {
+      results.supermetricsLinked[platform] = supermetricsId;
+    }
+
     if (!allPresent) {
-      results.platforms[platform] = { collected: 0, error: 'Ej konfigurerad' };
+      const reason = supermetricsId ? 'Supermetrics kopplat (direktAPI saknas)' : 'Ej konfigurerad';
+      results.platforms[platform] = { collected: 0, error: reason };
       continue;
     }
 
@@ -1079,9 +1098,10 @@ exports.handler = async (event) => {
             gsc: data.gsc?.collected || 0,
             ads: data.ads?.total || 0,
             social: data.social?.total || 0,
+            supermetrics_linked: Object.keys(data.ads?.supermetricsLinked || {}).length,
             errors: [
               data.gsc?.error,
-              ...Object.values(data.ads?.platforms || {}).map(p => p.error).filter(e => e && e !== 'Ej konfigurerad'),
+              ...Object.values(data.ads?.platforms || {}).map(p => p.error).filter(e => e && e !== 'Ej konfigurerad' && !e.startsWith('Supermetrics')),
               ...Object.values(data.social?.platforms || {}).map(p => p.error).filter(Boolean),
             ].filter(Boolean),
           },

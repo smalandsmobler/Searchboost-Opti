@@ -154,6 +154,10 @@ async function getParam(name) {
   return res.Parameter.Value;
 }
 
+async function getParamSafe(name) {
+  try { return await getParam(name); } catch { return null; }
+}
+
 // ── Cache for WordPress sites list (24h — same as SSM) ──
 let _sitesCache = null;
 let _sitesCacheTime = 0;
@@ -231,15 +235,16 @@ async function getAllWordPressSites() {
 let bqClient = null;
 let bqDataset = null;
 
+let bqProjectId = null;
 async function getBigQuery() {
-  if (bqClient) return { bq: bqClient, dataset: bqDataset };
+  if (bqClient) return { bq: bqClient, dataset: bqDataset, projectId: bqProjectId };
   const wifConfig = await getParam('/seo-mcp/bigquery/credentials');
-  const projectId = await getParam('/seo-mcp/bigquery/project-id');
+  bqProjectId = await getParam('/seo-mcp/bigquery/project-id');
   bqDataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  bqClient = new BigQuery({ projectId });
-  return { bq: bqClient, dataset: bqDataset };
+  bqClient = new BigQuery({ projectId: bqProjectId });
+  return { bq: bqClient, dataset: bqDataset, projectId: bqProjectId };
 }
 
 // ── AI client (lazy init) — stöder Anthropic direkt eller OpenRouter ──
@@ -6940,14 +6945,20 @@ app.post('/api/social/posts/:postId/post-now', async (req, res) => {
     const creds = await getPostingCredentials(post.customer_id, post.platform);
     const result = await socialPlanner.publishScheduledPost(post, creds);
 
-    await bq.query({
-      query: `UPDATE \`${projectId}.${dataset}.social_content_queue\`
-              SET status = 'posted', posted_at = CURRENT_TIMESTAMP(), linkedin_post_id = @pid
-              WHERE post_id = @id`,
-      params: { id: postId, pid: result.post_id || '' },
-    });
+    // BQ UPDATE kan misslyckas p.g.a. streaming buffer-lock (ny rad < 90 min)
+    // Det påverkar inte om inlägget faktiskt postades — ignorera detta fel
+    try {
+      await bq.query({
+        query: `UPDATE \`${projectId}.${dataset}.social_content_queue\`
+                SET status = 'posted', posted_at = CURRENT_TIMESTAMP(), linkedin_post_id = @pid
+                WHERE post_id = @id`,
+        params: { id: postId, pid: result.post_id || '' },
+      });
+    } catch (bqErr) {
+      console.warn('BQ UPDATE efter posting misslyckades (streaming buffer):', bqErr.message);
+    }
 
-    res.json({ success: true, linkedin_post_id: result.post_id, url: result.url });
+    res.json({ success: true, linkedin_post_id: result.post_id, url: result.url, note: 'Postad!' });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -7080,11 +7091,8 @@ app.get('/oauth/linkedin', async (req, res) => {
   try {
     const clientId = await getParam('/seo-mcp/searchboost/linkedin-client-id');
     const redirectUri = encodeURIComponent('http://51.21.116.7/oauth/linkedin/callback');
-    // w_member_social: posta som person
-    // w_organization_social: posta som företagssida (kräver att användaren är admin)
-    // r_organization_social: läsa org-info (för att auto-hitta company ID)
-    // openid + profile: hämta person-ID via userinfo
-    const scope = encodeURIComponent('w_member_social w_organization_social r_organization_social openid profile');
+    // w_member_social: posta, openid+profile: hämta member ID automatiskt
+    const scope = encodeURIComponent('w_member_social openid profile');
     const state = Math.random().toString(36).substring(2);
 
     // Spara state tillfälligt (enkel in-memory, räcker för en session)
@@ -7094,6 +7102,39 @@ app.get('/oauth/linkedin', async (req, res) => {
     res.redirect(authUrl);
   } catch (e) {
     res.send(`<h2>Fel: ${e.message}</h2><p>Säkerställ att /seo-mcp/searchboost/linkedin-client-id finns i SSM.</p>`);
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+// Mobil-Claude SSM-proxy — hämta WP-creds utan AWS CLI
+// ══════════════════════════════════════════════════════════════
+
+// GET /api/site/:siteId/wp-credentials — returnerar WP URL + username + app-password
+// Kräver X-Api-Key. Används av mobil-Claude som inte har AWS CLI.
+// Exempel: GET /api/site/smalandskontorsmobler/wp-credentials
+app.get('/api/site/:siteId/wp-credentials', async (req, res) => {
+  try {
+    const { siteId } = req.params;
+    const prefix = `/seo-mcp/wordpress/${siteId}`;
+    const [url, username, appPassword] = await Promise.all([
+      getParamSafe(`${prefix}/url`),
+      getParamSafe(`${prefix}/username`),
+      getParamSafe(`${prefix}/app-password`),
+    ]);
+    if (!url) return res.status(404).json({ error: `Ingen site hittad: ${siteId}` });
+    res.json({ site: siteId, url, username, app_password: appPassword });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+// GET /api/sites — lista alla konfigurerade WP-siter
+app.get('/api/sites', async (req, res) => {
+  try {
+    const sites = await getWordPressSites();
+    res.json({ sites: sites.map(s => ({ id: s.customerId, url: s.url, username: s.username })) });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -7151,74 +7192,46 @@ app.get('/oauth/linkedin/callback', async (req, res) => {
     const { access_token, expires_in } = tokenRes.data;
     if (!access_token) throw new Error('Ingen access_token i svaret');
 
-    // Hämta person-ID via userinfo (openid scope)
+    // Hämta person member ID via OpenID Connect userinfo (kräver openid+profile scope)
     let personUrn = null;
-    let personName = null;
+    let memberNumericId = null;
+
+    // Metod 1: OpenID Connect /v2/userinfo — returnerar sub = numeriskt member ID
     try {
       const userinfoRes = await ax.get('https://api.linkedin.com/v2/userinfo', {
         headers: { 'Authorization': `Bearer ${access_token}` },
         timeout: 10000,
       });
       const sub = userinfoRes.data?.sub;
-      personName = userinfoRes.data?.name || userinfoRes.data?.given_name || null;
-      if (sub) personUrn = `urn:li:person:${sub}`;
-    } catch (userinfoErr) {
-      console.warn('LinkedIn userinfo misslyckades:', userinfoErr.message);
-      // Fallback: token introspection
+      if (sub) {
+        memberNumericId = sub;
+        personUrn = `urn:li:person:${sub}`;
+        console.log('LinkedIn member ID via userinfo:', sub);
+      }
+    } catch (uiErr) {
+      console.warn('LinkedIn userinfo misslyckades:', uiErr.response?.data || uiErr.message);
+    }
+
+    // Metod 2: /v2/me (fallback)
+    if (!personUrn) {
       try {
-        const introspectRes = await ax.post(
-          'https://www.linkedin.com/oauth/v2/introspectToken',
-          new URLSearchParams({ token: access_token }).toString(),
-          {
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': 'Basic ' + Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
-            },
-            timeout: 10000,
-          }
-        );
-        const sub = introspectRes.data?.sub;
-        if (sub) personUrn = `urn:li:person:${sub}`;
-      } catch (introspectErr) {
-        console.warn('LinkedIn introspection misslyckades:', introspectErr.message);
+        const meRes = await ax.get('https://api.linkedin.com/v2/me', {
+          headers: { 'Authorization': `Bearer ${access_token}` },
+          timeout: 10000,
+        });
+        const id = meRes.data?.id;
+        if (id) {
+          memberNumericId = id;
+          personUrn = `urn:li:person:${id}`;
+          console.log('LinkedIn member ID via /v2/me:', id);
+        }
+      } catch (meErr) {
+        console.warn('LinkedIn /v2/me misslyckades:', meErr.response?.data || meErr.message);
       }
     }
 
-    // Försök hämta organisations-ID (kräver r_organization_social)
-    let organizations = [];
-    let autoCompanyId = null;
-    try {
-      const orgRes = await ax.get(
-        'https://api.linkedin.com/v2/organizationAcls?q=roleAssignee&role=ADMINISTRATOR&state=APPROVED&count=10',
-        {
-          headers: {
-            'Authorization': `Bearer ${access_token}`,
-            'X-Restli-Protocol-Version': '2.0.0',
-          },
-          timeout: 10000,
-        }
-      );
-      const elements = orgRes.data?.elements || [];
-      for (const el of elements) {
-        const orgUrn = el.organization || el.organizationUrn || '';
-        const numericId = orgUrn.replace('urn:li:organization:', '');
-        if (numericId) {
-          // Hämta org-namn
-          let orgName = numericId;
-          try {
-            const orgDetailRes = await ax.get(
-              `https://api.linkedin.com/v2/organizations/${numericId}?projection=(id,localizedName)`,
-              { headers: { 'Authorization': `Bearer ${access_token}` }, timeout: 8000 }
-            );
-            orgName = orgDetailRes.data?.localizedName || numericId;
-          } catch {}
-          organizations.push({ id: numericId, name: orgName });
-        }
-      }
-      if (organizations.length === 1) autoCompanyId = organizations[0].id;
-    } catch (orgErr) {
-      console.warn('LinkedIn org fetch misslyckades:', orgErr.message);
-    }
+    const organizations = [];
+    const autoCompanyId = null;
 
     // Spara i SSM
     const ssmW = new SSMClient({ region: REGION });
@@ -7283,7 +7296,7 @@ a{color:#00d4ff}</style></head>
   <h2>LinkedIn kopplat!</h2>
   <div class="card">
     <p>Access token sparad i SSM.</p>
-    ${personName ? `<p style="color:#00e676;font-size:13px">Inloggad som: <strong>${personName}</strong></p>` : ''}
+    ${personUrn ? `<p style="color:#00e676;font-size:13px">Person URN sparad: <strong>${personUrn}</strong></p>` : '<p style="color:#f90;font-size:13px">Person URN kunde ej hämtas automatiskt — postar ändå.</p>'}
     ${personUrn ? `<p style="color:#888;font-size:12px">Person URN: ${personUrn}</p>` : ''}
     <p style="color:#888;font-size:14px">Token giltigt till: ${expiresDate}</p>
     ${orgListHtml}

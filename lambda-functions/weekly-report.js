@@ -783,6 +783,8 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
       </tr>
     </table>
 
+    ${buildUpsellOpportunities(groups, allMetrics)}
+
     <h2 style="color:#0e0c19;font-size:16px;border-bottom:2px solid #db007f;padding-bottom:8px;margin-bottom:16px">Per kund</h2>
     ${customerSections || '<p style="color:#999;font-size:14px">Inget arbete loggat denna vecka.</p>'}
 
@@ -798,6 +800,145 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
   </div>
 </body>
 </html>`;
+}
+
+/**
+ * Bygger "Uppförsäljningsmöjligheter"-sektionen för den interna veckorapporten.
+ * Visar kunder med god organisk trafik (>30 klick/vecka) men inga aktiva annonsplattformar.
+ * Inkluderar ROAS-trend för kunder som redan annonserar men har otestad potential.
+ */
+function buildUpsellOpportunities(groups, allMetrics) {
+  // Kunder med GSC-trafik men ingen ads-spend denna vecka
+  const noAdsOpportunities = [];
+  // Kunder med ads men låg ROAS (potential för optimering = upsell på management)
+  const lowRoasOpportunities = [];
+  // Kunder med aktiva annonser — visa för snabb överblick
+  const activeAds = [];
+
+  for (const [customerId, group] of Object.entries(groups)) {
+    if (customerId === '_unmatched') continue;
+    const m = allMetrics && allMetrics[customerId];
+    if (!m) continue;
+    const companyName = group.customer.company_name || customerId;
+
+    const hasAds = m.ads && Number(m.ads.total_spend) > 0;
+    const clicks = m.gsc?.clicks_this_week || 0;
+
+    if (!hasAds && clicks >= 30) {
+      // Uppskatta potentiell budget: ~10% av estimerad månadsintäkt
+      // Vi har inga intäktsdata, men vi kan visa klickvolym som signal
+      const priority = clicks >= 200 ? 'Hög' : clicks >= 80 ? 'Medium' : 'Låg';
+      const priorityColor = clicks >= 200 ? '#e53935' : clicks >= 80 ? '#ffa000' : '#888';
+      noAdsOpportunities.push({ customerId, companyName, clicks, priority, priorityColor });
+    } else if (hasAds) {
+      const roas = Number(m.ads.total_roas) || 0;
+      const spend = Number(m.ads.total_spend) || 0;
+      activeAds.push({ customerId, companyName, spend, roas });
+      if (roas > 0 && roas < 2) {
+        lowRoasOpportunities.push({ customerId, companyName, roas, spend });
+      }
+    }
+  }
+
+  if (noAdsOpportunities.length === 0 && lowRoasOpportunities.length === 0 && activeAds.length === 0) {
+    return '';
+  }
+
+  const noAdsRows = noAdsOpportunities
+    .sort((a, b) => b.clicks - a.clicks)
+    .map(o => `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${o.clicks.toLocaleString('sv-SE')}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center">
+        <span style="color:${o.priorityColor};font-weight:600">${o.priority}</span>
+      </td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">Ej kopplad</td>
+    </tr>`).join('');
+
+  const lowRoasRows = lowRoasOpportunities
+    .sort((a, b) => a.roas - b.roas)
+    .map(o => `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${Math.round(o.spend).toLocaleString('sv-SE')} kr</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center">
+        <span style="color:#e53935;font-weight:600">${o.roas}x ROAS</span>
+      </td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#ffa000">Optimera kampanjer</td>
+    </tr>`).join('');
+
+  const activeAdsRows = activeAds
+    .sort((a, b) => b.spend - a.spend)
+    .map(o => {
+      const roasColor = o.roas >= 4 ? '#00c853' : o.roas >= 2 ? '#ffa000' : '#e53935';
+      return `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${Math.round(o.spend).toLocaleString('sv-SE')} kr</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center;color:${roasColor};font-weight:600">${o.roas > 0 ? o.roas + 'x' : '–'}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#00c853">Aktiv</td>
+    </tr>`;
+    }).join('');
+
+  const noAdsSection = noAdsOpportunities.length > 0 ? `
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:#db007f;text-transform:uppercase;margin-bottom:6px">
+        ${noAdsOpportunities.length} kund(er) utan annonser — sälj in Google Ads
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#fef6fb">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Klick/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">Prioritet</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Status</th>
+        </tr>
+        ${noAdsRows}
+      </table>
+    </div>` : '';
+
+  const lowRoasSection = lowRoasOpportunities.length > 0 ? `
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:#ffa000;text-transform:uppercase;margin-bottom:6px">
+        ${lowRoasOpportunities.length} kund(er) med låg ROAS — kampanjoptimering
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#fffde7">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Spend/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">ROAS</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Åtgärd</th>
+        </tr>
+        ${lowRoasRows}
+      </table>
+    </div>` : '';
+
+  const activeAdsSection = activeAds.length > 0 ? `
+    <div>
+      <div style="font-size:12px;font-weight:600;color:#666;text-transform:uppercase;margin-bottom:6px">
+        Aktiva annonskonton (${activeAds.length} st)
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#f8f9fa">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Spend/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">ROAS</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Status</th>
+        </tr>
+        ${activeAdsRows}
+      </table>
+    </div>` : '';
+
+  return `
+  <div style="margin-bottom:24px;border:2px solid rgba(219,0,127,0.25);border-radius:8px;overflow:hidden">
+    <div style="background:linear-gradient(135deg,rgba(219,0,127,0.08),rgba(0,212,255,0.04));padding:10px 14px;border-bottom:1px solid rgba(219,0,127,0.15)">
+      <strong style="font-size:14px;color:#db007f">Annonsuppförsäljning</strong>
+      <span style="font-size:12px;color:#888;margin-left:8px">Veckans möjligheter</span>
+    </div>
+    <div style="padding:14px">
+      ${noAdsSection}${lowRoasSection}${activeAdsSection}
+    </div>
+  </div>`;
 }
 
 function formatPlatformName(platform) {
