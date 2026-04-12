@@ -925,7 +925,7 @@ async function saveProspect() {
       contact_person: $('#pf-contact').value.trim(),
       contact_email: $('#pf-email').value.trim(),
       prospect_notes: $('#pf-notes').value.trim(),
-      initial_traffic_trend: $('#pf-trend').value
+      initial_traffic_trend: $('#pf-trend')?.value || 'unknown'
     })
   });
 
@@ -938,7 +938,7 @@ async function saveProspect() {
     $('#pf-contact').value = '';
     $('#pf-email').value = '';
     $('#pf-notes').value = '';
-    $('#pf-trend').value = 'unknown';
+    if ($('#pf-trend')) $('#pf-trend').value = 'unknown';
     // Hide form after short delay
     setTimeout(() => { $('#prospect-form').style.display = 'none'; statusEl.textContent = ''; }, 1500);
     // Refresh pipeline

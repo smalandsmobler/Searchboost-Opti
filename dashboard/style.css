@@ -3926,7 +3926,9 @@ footer {
   .ob-step {
     font-size: 12px;
     padding: 10px 12px;
+  }
 }
+
 .worker-job-status.completed { background: #00e676; }
 .worker-job-status.running { background: #00d4ff; animation: pulse-glow 1.5s infinite; }
 .worker-job-status.queued { background: #ffab00; }
