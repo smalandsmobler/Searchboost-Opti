@@ -1379,9 +1379,9 @@ async function showCustomerDetail(customerId, customerUrl) {
   $$('.view').forEach(v => v.classList.remove('active'));
   $('#view-customer-detail').classList.add('active');
 
-  const displayName = CUSTOMER_NAMES[customerId] || customerUrl.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const displayName = CUSTOMER_NAMES[customerId] || (customerUrl || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '') || customerId;
   const initials = displayName.substring(0, 2).toUpperCase();
-  const domain = customerUrl.replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  const domain = (customerUrl || '').replace(/https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
   $('#detail-avatar').textContent = initials;
   $('#detail-name').textContent = displayName;
@@ -2796,9 +2796,8 @@ function renderAnalysisSummary(customer) {
 
 // ── Regenerate PDF for existing customer ──
 async function regeneratePDF(customerId) {
-  const btn = event.target;
-  btn.disabled = true;
-  btn.textContent = 'Genererar...';
+  const btn = event?.target;
+  if (btn) { btn.disabled = true; btn.textContent = 'Genererar...'; }
   try {
     const result = await api('/api/reports/generate-pdf', {
       method: 'POST',
@@ -3711,7 +3710,7 @@ async function runMonitorCheck() {
     }
 
     // 2. Senaste optimering
-    const opts = appCache['/api/optimizations'] || await api('/api/optimizations').catch(() => null);
+    const opts = _apiCache['/api/optimizations']?.data || await api('/api/optimizations').catch(() => null);
     if (opts?.optimizations?.length > 0) {
       const latest = opts.optimizations[0];
       const ts = latest.timestamp?.value || latest.timestamp;
@@ -3724,8 +3723,8 @@ async function runMonitorCheck() {
     }
 
     // 3. Kö
-    const queue = appCache['/api/queue'] || await api('/api/queue').catch(() => null);
-    const pending = queue?.tasks?.filter(t => t.status === 'pending')?.length || 0;
+    const queue = _apiCache['/api/queue']?.data || await api('/api/queue').catch(() => null);
+    const pending = queue?.queue?.filter(t => t.status === 'pending')?.length || 0;
     setCheck('check-queue', pending > 20 ? 'warn' : 'ok', `${pending} st`);
     if (pending > 20) addMonitorLog(`Stor kö: ${pending} väntande`, 'warn');
 

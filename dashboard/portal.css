@@ -1532,6 +1532,10 @@ body {
   margin-top: 4px;
   min-height: 16px;
 }
+.kpi-trend.up      { color: var(--green); }
+.kpi-trend.down    { color: var(--red); }
+.kpi-trend.neutral { color: var(--text-muted); }
+.trend-arrow       { font-size: 0.7rem; margin-right: 2px; }
 
 .kpi-sparkline {
   height: 40px;
@@ -2004,3 +2008,65 @@ body {
 }
 
 /* gauge-grid responsive hanteras redan i befintliga media queries ovan */
+
+/* ── Ads panels + tabs ── */
+.ads-panel { display: none; }
+.ads-panel.active { display: block; }
+.ads-tab-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.ads-tab-dot--google_ads { background: #4285f4; }
+.ads-tab-dot--meta { background: #e1306c; }
+.ads-tab-dot--tiktok { background: #00f2ea; }
+.ads-tab-dot--linkedin { background: #0a66c2; }
+
+/* ── Campaign rows ── */
+.campaign-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.campaign-row:last-child { border-bottom: none; }
+.campaign-info { flex: 1; min-width: 0; }
+.campaign-name { font-size: 0.88rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.campaign-type { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+.campaign-metrics { display: flex; gap: 16px; flex-shrink: 0; }
+.campaign-metric { text-align: right; }
+.campaign-metric-val { font-size: 0.88rem; font-weight: 600; color: var(--text); display: block; }
+.campaign-metric-lbl { font-size: 0.7rem; color: var(--text-muted); }
+
+/* ── ROAS badge ── */
+.roas-badge { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.roas-badge--good { background: rgba(22,163,74,0.15); color: var(--green); }
+.roas-badge--ok   { background: rgba(202,138,4,0.15); color: var(--yellow); }
+.roas-badge--bad  { background: rgba(220,38,38,0.1); color: var(--red); }
+
+/* ── Spend bar segments ── */
+.spend-bar-segment { height: 100%; border-radius: 4px; min-width: 4px; }
+.spend-bar-segment--google_ads { background: #4285f4; }
+.spend-bar-segment--meta { background: #e1306c; }
+.spend-bar-segment--tiktok { background: #00f2ea; }
+.spend-bar-segment--linkedin { background: #0a66c2; }
+.spend-legend-dot--google_ads { background: #4285f4; }
+.spend-legend-dot--meta { background: #e1306c; }
+.spend-legend-dot--tiktok { background: #00f2ea; }
+.spend-legend-dot--linkedin { background: #0a66c2; }
+
+/* ── Channel card states ── */
+.channel-card--active { border-color: rgba(255,255,255,0.12); }
+.channel-status--active { color: var(--green); font-size: 0.75rem; font-weight: 600; }
+.channel-status--inactive { color: var(--text-faint); font-size: 0.75rem; }
+
+/* ── Social cards ── */
+.social-card-followers { font-size: 1.8rem; font-weight: 700; color: var(--text); margin: 8px 0 2px; }
+.social-card-label { font-size: 0.78rem; color: var(--text-muted); }
+.social-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+.social-stat { text-align: center; }
+.social-stat-value { display: block; font-size: 0.92rem; font-weight: 600; color: var(--text); }
+.social-stat-label { font-size: 0.7rem; color: var(--text-muted); }
+.social-card--instagram { border-color: rgba(225,48,108,0.3); }
+.social-card--facebook { border-color: rgba(24,119,242,0.3); }
+.social-card--linkedin { border-color: rgba(10,102,194,0.3); }
+.social-card--tiktok { border-color: rgba(0,242,234,0.3); }
+.social-card-icon--instagram { color: #e1306c; }
+.social-card-icon--facebook { color: #1877f2; }
+.social-card-icon--linkedin { color: #0a66c2; }
+.social-card-icon--tiktok { color: #00f2ea; }
+.engagement-badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; margin-top: 10px; }
+.engagement-badge--high { background: rgba(22,163,74,0.15); color: var(--green); }
+.engagement-badge--medium { background: rgba(202,138,4,0.15); color: var(--yellow); }
+.engagement-badge--low { background: rgba(220,38,38,0.1); color: var(--red); }

@@ -450,7 +450,7 @@ function setDelta(elementId, current, previous, invertScale) {
   const sign = diff > 0 ? '+' : '';
   const displayVal = invertScale ? diff.toFixed(1) : Math.round(diff);
   el.textContent = sign + displayVal + ' från förra veckan';
-  el.className = `gauge-delta ${isPositive ? 'positive' : diff === 0 ? 'neutral' : 'negative'}`;
+  el.className = `gauge-delta ${isPositive ? 'up' : diff === 0 ? 'neutral' : 'down'}`;
 }
 
 async function renderGauges(perfData, rankings, planData) {

@@ -67,7 +67,7 @@ function parseClaudeJSON(text) {
 app.use(express.static(path.join(__dirname, '..', 'dashboard')));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, X-Api-Key');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, X-Api-Key, Authorization');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
   next();
 });
@@ -132,6 +132,14 @@ app.use(async (req, res, next) => {
   if (provided === apiKey) return next();
 
   return res.status(401).json({ error: 'Ogiltig eller saknad API-nyckel', hint: 'Skicka x-api-key header' });
+});
+
+// ── Portal tenant-isolering: kund kan bara se sin egen data ──
+app.use('/api/customers/:id', (req, res, next) => {
+  if (req.portalCustomer && req.params.id !== req.portalCustomer.id) {
+    return res.status(403).json({ error: 'Åtkomst nekad' });
+  }
+  next();
 });
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
@@ -1285,9 +1293,15 @@ app.post('/api/customers/:id/test-wp-connection', async (req, res) => {
 app.get('/api/optimizations', async (req, res) => {
   try {
     const { bq, dataset } = await getBigQuery();
-    const [rows] = await bq.query({
-      query: `SELECT * FROM \`${dataset}.seo_optimization_log\` ORDER BY timestamp DESC LIMIT 50`
-    });
+    const customerId = req.query.customer_id || (req.portalCustomer ? req.portalCustomer.id : null);
+    let query = `SELECT * FROM \`${dataset}.seo_optimization_log\``;
+    const params = {};
+    if (customerId) {
+      query += ` WHERE customer_id = @customerId`;
+      params.customerId = customerId;
+    }
+    query += ` ORDER BY timestamp DESC LIMIT 50`;
+    const [rows] = await bq.query({ query, params });
     res.json({ optimizations: rows });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -5226,18 +5240,27 @@ app.post('/api/security/event', async (req, res) => {
   }
 });
 
-// GET /api/security — hämta alla events + summary per kund
+// GET /api/security — hämta events + summary (filtreras per kund för portalen)
 app.get('/api/security', async (req, res) => {
   try {
     const { bq, dataset } = await getBigQuery();
+    const customerId = req.query.customer_id || (req.portalCustomer ? req.portalCustomer.id : null);
+    let whereClause = '';
+    const params = {};
+    if (customerId) {
+      whereClause = `WHERE se.customer_id = @customerId`;
+      params.customerId = customerId;
+    }
     const [events] = await bq.query({
       query: `SELECT se.event_id, se.customer_id, se.site_url, se.event_type, se.severity,
                      se.details, se.detected_at, se.resolved_at, se.status, se.notified_slack,
                      cp.company_name
               FROM \`${dataset}.security_events\` se
               LEFT JOIN \`${dataset}.customer_pipeline\` cp ON se.customer_id = cp.customer_id
+              ${whereClause}
               ORDER BY se.detected_at DESC
-              LIMIT 200`
+              LIMIT 200`,
+      params
     }).catch(() => [[]]);
 
     // Bygg summary per kund
