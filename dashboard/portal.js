@@ -130,7 +130,10 @@ async function portalApi(endpoint, options) {
 
   const res = await fetch(`${PORTAL_API_BASE}${endpoint}`, options);
   if (res.status === 401) {
-    portalLogout();
+    // Bara logga ut vid explicit auth-anrop (/me), inte vid data-anrop
+    if (endpoint === '/api/portal/me') {
+      portalLogout();
+    }
     throw new Error('Sessionen har gått ut');
   }
   if (!res.ok) {
@@ -149,27 +152,33 @@ async function loadDashboard() {
   const cid = _portalCustomer.id;
 
   const days = _currentPeriod || 30;
-  const [perfData, rankings, stats, planData, optimizations, gscHistory] = await Promise.all([
-    portalApi('/api/customers/' + cid + '/performance').catch(function() { return null; }),
-    portalApi('/api/customers/' + cid + '/rankings').catch(function() { return null; }),
-    portalApi('/api/customers/' + cid + '/stats').catch(function() { return null; }),
-    portalApi('/api/customers/' + cid + '/action-plan').catch(function() { return null; }),
-    portalApi('/api/optimizations?customer_id=' + cid).catch(function() { return null; }),
-    portalApi('/api/customers/' + cid + '/gsc-history?days=' + days).catch(function() { return null; })
-  ]);
+  let perfData = null, rankings = null, stats = null, planData = null, optimizations = null, gscHistory = null;
 
-  renderKpiCards(rankings, stats, gscHistory);
-  renderGauges(perfData, rankings, planData);
-  renderKeywords(rankings, gscHistory);
-  renderOptimizations(optimizations);
-  renderActionPlan(planData);
-  renderAlerts(rankings, gscHistory);
+  try {
+    [perfData, rankings, stats, planData, optimizations, gscHistory] = await Promise.all([
+      portalApi('/api/customers/' + cid + '/performance').catch(function() { return null; }),
+      portalApi('/api/customers/' + cid + '/rankings').catch(function() { return null; }),
+      portalApi('/api/customers/' + cid + '/stats').catch(function() { return null; }),
+      portalApi('/api/customers/' + cid + '/action-plan').catch(function() { return null; }),
+      portalApi('/api/optimizations?customer_id=' + cid).catch(function() { return null; }),
+      portalApi('/api/customers/' + cid + '/gsc-history?days=' + days).catch(function() { return null; })
+    ]);
+  } catch (e) {
+    console.warn('loadDashboard fetch error:', e.message);
+  }
+
+  try { renderKpiCards(rankings, stats, gscHistory); } catch (e) { console.warn('renderKpiCards:', e.message); }
+  try { renderGauges(perfData, rankings, planData); } catch (e) { console.warn('renderGauges:', e.message); }
+  try { renderKeywords(rankings, gscHistory); } catch (e) { console.warn('renderKeywords:', e.message); }
+  try { renderOptimizations(optimizations); } catch (e) { console.warn('renderOptimizations:', e.message); }
+  try { renderActionPlan(planData); } catch (e) { console.warn('renderActionPlan:', e.message); }
+  try { renderAlerts(rankings, gscHistory); } catch (e) { console.warn('renderAlerts:', e.message); }
 
   // Load ads, social, traffic and security data in parallel (non-blocking)
-  loadAdsData();
-  loadSocialData();
-  loadTrafficData();
-  loadSecurityStatus();
+  loadAdsData().catch(function(e) { console.warn('loadAdsData:', e.message); });
+  loadSocialData().catch(function(e) { console.warn('loadSocialData:', e.message); });
+  loadTrafficData().catch(function(e) { console.warn('loadTrafficData:', e.message); });
+  loadSecurityStatus().catch(function(e) { console.warn('loadSecurityStatus:', e.message); });
 
   // Update timestamp
   if (typeof updateTimestamp === 'function') updateTimestamp();

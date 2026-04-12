@@ -353,8 +353,13 @@ module.exports = function(app, getParam, getBigQuery) {
     }
   });
 
-  // ── Make middleware available for other routes that need portal auth ──
+  // ── Make middleware + secret available for other routes that need portal auth ──
   app.portalAuth = verifyPortalToken;
+  // Exponera JWT-secret för index.js middleware (synkad fallback)
+  Object.defineProperty(app, '_portalJwtSecret', {
+    get: () => _jwtSecret,
+    enumerable: false
+  });
 
   console.log('Portal auth routes registered: /api/portal/login, /api/portal/me, /api/portal/users');
 };

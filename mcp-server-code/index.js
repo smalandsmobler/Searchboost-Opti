@@ -106,10 +106,15 @@ app.use(async (req, res, next) => {
   if (authHeader && authHeader.startsWith('Bearer ')) {
     try {
       const token = authHeader.slice(7);
+      // Använd samma JWT-secret som portal-auth.js (inkl fallback)
       let jwtSecret;
       try {
         jwtSecret = await getParam('/seo-mcp/portal/jwt-secret');
-      } catch (e) { /* JWT-secret saknas */ }
+      } catch (e) { /* JWT-secret saknas i SSM */ }
+      // Fallback: hämta från portal-auth modulen om den redan genererat en
+      if (!jwtSecret && app._portalJwtSecret) {
+        jwtSecret = app._portalJwtSecret;
+      }
       if (jwtSecret) {
         const decoded = jwt.verify(token, jwtSecret);
         req.portalCustomer = { id: decoded.customer_id, name: decoded.name, email: decoded.email };
