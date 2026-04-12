@@ -1096,6 +1096,27 @@ app.get('/api/customers/onboarding-status', async (req, res) => {
   }
 });
 
+// GET /api/site/:id/wp-credentials — Fetch WP credentials from SSM
+app.get('/api/site/:id/wp-credentials', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const sites = await getAllWordPressSites();
+    const site = sites.find(s => s.id === id);
+    if (!site) return res.status(404).json({ error: `Kund '${id}' hittades inte i SSM` });
+
+    const hasAppPassword = !!(site['app-password'] && site['app-password'] !== 'placeholder');
+    res.json({
+      customer_id: id,
+      url: site.url || null,
+      username: site.username || null,
+      app_password: site['app-password'] || null,
+      has_valid_credentials: hasAppPassword && !!(site.username && site.username !== 'placeholder'),
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // POST /api/customers/:id/credentials — Update WP credentials + GSC from dashboard
 app.post('/api/customers/:id/credentials', async (req, res) => {
   try {
