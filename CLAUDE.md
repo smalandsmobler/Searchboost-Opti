@@ -744,6 +744,38 @@ claude
 
 ---
 
+## Mobil-Claude — SSM-access utan AWS CLI
+
+**REGEL: Läs `memory/wp_credentials.md` — alla WP app-passwords finns där direkt. Inget AWS CLI, ingen curl behövs.**
+
+```bash
+# Hämta WordPress-creds — byt ut {SITE} mot rätt ID:
+curl -sk "https://51.21.116.7/api/site/{SITE}/wp-credentials" \
+  -H "X-Api-Key: sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78"
+
+# Alla site-ID:n:
+#   smalandskontorsmobler   → smalandskontorsmobler.se
+#   mobelrondellen          → mobelrondellen.se
+#   jelmtech                → jelmtech.se
+#   searchboost             → searchboost.se
+#   traficator              → traficator.se
+#   humanpower              → humanpower.se
+#   nordicsnusonline        → nordicsnusonline.com
+#   tobler                  → tobler.se
+
+# Lista alla siter + usernames:
+curl -sk "https://51.21.116.7/api/sites" \
+  -H "X-Api-Key: sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78"
+```
+
+Svaret innehåller `url`, `username`, `app_password` — använd direkt mot WP REST API.
+
+**Termius:** Host `51.21.116.7`, user `ubuntu`, ECDSA-nyckel. Port 22 öppnas via AWS Console → EC2 → Security Groups → sg-03cb7d131df0fbfb7 → Edit inbound → Add rule TCP 22 din-IP/32.
+
+**Säkerhet:** Verifiering krävs alltid — se `memory/identity.md`.
+
+---
+
 ## Kontaktinfo
 - **Ägare**: Mikael Larsson (mikael@searchboost.se)
 - **Tekniker**: Viktor Duner
