@@ -4390,6 +4390,51 @@ app.get('/api/customers/:id/eduadmin/personnel', async (req, res) => {
   }
 });
 
+// ── Deploy custom CSS to WordPress site ──
+// Adds CSS via Global Styles API (WordPress 6.x)
+app.post('/api/customers/:id/deploy-css', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { css, append } = req.body;
+    if (!css) return res.status(400).json({ error: 'css krävs' });
+
+    const sites = await getWordPressSites();
+    const site = sites.find(s => s.id === id);
+    if (!site) return res.status(404).json({ error: 'Site not found' });
+
+    const auth = Buffer.from(`${site.username}:${site['app-password']}`).toString('base64');
+    const headers = { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' };
+
+    // Get active theme
+    const themesRes = await axios.get(`${site.url}/wp-json/wp/v2/themes?status=active`, { headers });
+    const stylesheet = themesRes.data[0]?.stylesheet;
+    if (!stylesheet) return res.status(500).json({ error: 'Kunde inte hitta aktivt tema' });
+
+    // Get global styles for theme
+    const gsRes = await axios.get(`${site.url}/wp-json/wp/v2/global-styles/themes/${stylesheet}`, { headers });
+    const gsId = gsRes.data?.id;
+    if (!gsId) return res.status(500).json({ error: 'Kunde inte hitta global styles ID' });
+
+    // Get current styles
+    const currentRes = await axios.get(`${site.url}/wp-json/wp/v2/global-styles/${gsId}`, { headers });
+    const currentStyles = currentRes.data?.styles || {};
+    const existingCss = currentStyles.css || '';
+
+    // Append or replace
+    const newCss = append ? (existingCss + '\n\n' + css) : css;
+    currentStyles.css = newCss;
+
+    // Update global styles
+    await axios.put(`${site.url}/wp-json/wp/v2/global-styles/${gsId}`, {
+      styles: currentStyles
+    }, { headers });
+
+    res.json({ success: true, theme: stylesheet, css_length: newCss.length, method: 'global-styles' });
+  } catch (err) {
+    res.status(500).json({ error: err.message, detail: err.response?.data });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
