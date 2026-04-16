@@ -823,7 +823,7 @@ Svara i JSON:
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
-  'missing_alt_text', 'create_article'
+  'missing_alt_text', 'create_article', 'no_internal_links'
 ]);
 
 // ── Main handler ──
@@ -857,7 +857,7 @@ async function getActionPlanTasks(bq, dataset, customerId, maxTasks) {
     // Hitta planens skapandedatum för att räkna ut aktuell månad
     const [planMeta] = await bq.query({
       query: `SELECT MIN(created_at) as created_at FROM \`${dataset}.action_plans\`
-              WHERE customer_id = @cid AND status IN ('planned', 'active')`,
+              WHERE customer_id = @cid AND status IN ('planned', 'active', 'error')`,
       params: { cid: customerId }
     });
     if (!planMeta.length || !planMeta[0].created_at) return [];
@@ -868,7 +868,7 @@ async function getActionPlanTasks(bq, dataset, customerId, maxTasks) {
     const [rows] = await bq.query({
       query: `SELECT * FROM \`${dataset}.action_plans\`
               WHERE customer_id = @cid
-              AND status IN ('planned', 'active')
+              AND status IN ('planned', 'active', 'error')
               AND month_number = @month
               AND target_url IS NOT NULL
               AND target_url != ''

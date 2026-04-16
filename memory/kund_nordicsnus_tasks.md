@@ -17,11 +17,28 @@ type: project
 - **Skyldig per 2026-04-12**: ca 16 571 kr (feb delvis + mars + apr löpande)
 
 ## Nästa steg
-- [ ] Lägg till SA `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com` som Fullständig i GSC → gå till https://search.google.com/search-console/users?resource_id=https%3A%2F%2Fnordicsnusonline.com%2F → Lägg till användare
-- [ ] ABC-keywords
+- [ ] Vecka 22 artiklar (3 st) — skriv nästa batch
+- [ ] GSC-data dyker upp imorgon 04:00 — kolla positioner
 - [ ] Registrera i customer_pipeline
-- [ ] Lägg in contact-email i SSM
-- [ ] Fortsätt artikelproduktion vecka 21 — varumärkesfokus, snusguide nybörjare
+
+## Manuellt i WP admin (Mikael gör)
+- [ ] Rank Math → Sitemap Settings → **Clear Cache** (11 artiklar saknas i sitemap)
+- [ ] Sätt noindex på: varukorg, kassan, mitt-konto, sidan-under-uppbyggnad (Pages → Rank Math → Robots)
+- [ ] Titlar på 5 guide-sidor: 23664, 23675, 23677, 23662, 23663 — korta till max 60 tecken
+- [ ] Startsidans titel — ta bort emojis och CAPS, korta till 50-60 tecken
+- [ ] WPML-inställningar → 301-redirect root `/` till `/sv/` (nu 307 + query-param)
+- [ ] robots.txt → spara om i UTF-8 (nu ISO-8859-1, svenska tecken trasiga)
+- [ ] Focus keyword på alla 11 SEO-artiklar i Rank Math-sidopanelen
+
+## Klart 2026-04-16
+- [x] App-password + URL sparad i SSM (`/seo-mcp/wordpress/nordicsnusonline/` — /sv-prefix)
+- [x] wp_credentials.md uppdaterad med korrekt /sv-URL
+- [x] SEO-sweep: 426 sidor OK, 0 fel
+- [x] 4 arbetsloggar inlagda i veckorapporten
+- [x] 3 artiklar vecka 21 publicerade:
+  - ID:23766 /sv/white-fox-nikotinpasar-guide-2026/ (focus: white fox nikotinpåsar)
+  - ID:23767 /sv/nikotinfritt-snus-guide-2026/ (focus: nikotinfritt snus)
+  - ID:23768 /sv/snus-leverans-snabbast-2026/ (focus: snus leverans)
 
 ## Klart 2026-04-13 (vecka 20)
 - [x] 3 artiklar publicerade vecka 20 (via /sv/ WPML):

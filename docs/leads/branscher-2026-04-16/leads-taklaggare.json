@@ -1,0 +1,663 @@
+{
+  "bransch": "Takläggare",
+  "collected_at": "2026-04-16",
+  "cities_searched": [
+    "Stockholm",
+    "Göteborg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Örebro",
+    "Linköping",
+    "Helsingborg",
+    "Jönköping",
+    "Norrköping"
+  ],
+  "notes": "Domäner extraherade från Google-SERP via WebSearch. Directories (hitta.se, eniro.se, offerta.se, reco.se, allabolag.se, proff.se m.fl.) blockerade vid sökning. Aggregator-sajter (allataklaggare, taklaggaren.com, lokalahantverkarna.se, myhouseprojects24) och icke-företagskällor (facebook.com, trustindex.io, mimoji.com) exkluderade manuellt. Stora kedjor (Vesivek - Nordens största, Swedtak-kedjan) behållna men markerade. Preferens små/mellanstora lokala firmor.",
+  "domains": [
+    {
+      "domain": "alvsjotak.se",
+      "company": "Älvsjö Tak AB",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Takläggare Stockholm. Tak- och fasadrenoveringar sedan 2009."
+    },
+    {
+      "domain": "stadstak.se",
+      "company": "Stadstak",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Utför över 200 takrenoveringar årligen i Stockholm med omnejd."
+    },
+    {
+      "domain": "mjtak.se",
+      "company": "MJ Tak AB",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Takfirma med över 20 års erfarenhet, erbjuder 15 års garanti."
+    },
+    {
+      "domain": "svevitak.se",
+      "company": "Svevitak",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Takrenovering, takbyte, tegel, fasader och solceller."
+    },
+    {
+      "domain": "takjour.se",
+      "company": "Takjour",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Rutinerade och effektiva takläggare i Stockholm."
+    },
+    {
+      "domain": "tiotak.se",
+      "company": "TioTak AB",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Takläggare i Stockholm, Västerås och Enköping."
+    },
+    {
+      "domain": "nytttakisthlm.se",
+      "company": "Nytt Tak AB",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Nytt Tak AB - Takläggare Stockholm."
+    },
+    {
+      "domain": "dbtak.se",
+      "company": "DB Tak & Entreprenad",
+      "city": "Stockholm",
+      "found_via": "takläggare stockholm",
+      "snippet": "Din takläggare Stockholm - DB Tak & Entreprenad."
+    },
+    {
+      "domain": "dmtak.se",
+      "company": "DM TAK",
+      "city": "Stockholm",
+      "found_via": "takfirma stockholm lägga om tak",
+      "snippet": "Familjeföretag med över 20 års erfarenhet, pålitlig takläggning."
+    },
+    {
+      "domain": "taklaggaren.com",
+      "company": "Takläggaren",
+      "city": "Stockholm",
+      "found_via": "takfirma stockholm lägga om tak",
+      "snippet": "Takproffs i Stockholm - byta tak på tegel, plåt, shingel, papp."
+    },
+    {
+      "domain": "takfix.se",
+      "company": "Takfix",
+      "city": "Stockholm",
+      "found_via": "takfirma stockholm lägga om tak",
+      "snippet": "Takfirma i Stockholm med över 20 års erfarenhet, arbetar i Bromma, Nacka, Lidingö."
+    },
+    {
+      "domain": "villatakexperten.se",
+      "company": "Villa Takexperten",
+      "city": "Stockholm",
+      "found_via": "takfirma stockholm lägga om tak",
+      "snippet": "Takläggare i Stockholm - takbyte och reparation av tak."
+    },
+    {
+      "domain": "rudholmstak.se",
+      "company": "Rudholms Tak",
+      "city": "Stockholm",
+      "found_via": "takfirma stockholm lägga om tak",
+      "snippet": "Takläggning Stockholm - Byta tak i Stockholm med Rudholms Tak."
+    },
+    {
+      "domain": "takivast.se",
+      "company": "Tak i Väst",
+      "city": "Göteborg",
+      "found_via": "takläggare göteborg",
+      "snippet": "Specialist på tegel- och betongpannor, takbyte och renovering i Göteborgsregionen."
+    },
+    {
+      "domain": "kungstak.se",
+      "company": "Kungstak",
+      "city": "Göteborg",
+      "found_via": "takläggare göteborg",
+      "snippet": "Komplett takfirma i Göteborg med egna pappläggare och plåtslagare."
+    },
+    {
+      "domain": "kjellbergtak.se",
+      "company": "Kjellberg Tak AB",
+      "city": "Göteborg",
+      "found_via": "takläggare göteborg",
+      "snippet": "Specialist på plana och låglutande papptak i Göteborg."
+    },
+    {
+      "domain": "taklaggaregoteborg.nu",
+      "company": "Takläggare Göteborg",
+      "city": "Göteborg",
+      "found_via": "takläggare göteborg",
+      "snippet": "Takläggare Göteborg - lokal firma."
+    },
+    {
+      "domain": "tisabtak.se",
+      "company": "TISAB Tak",
+      "city": "Göteborg",
+      "found_via": "takläggare göteborg",
+      "snippet": "TISAB - Takläggare Göteborg."
+    },
+    {
+      "domain": "taklaggning-goteborg.se",
+      "company": "Takläggning Göteborg",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Takläggare i Göteborg med fri offert - allt från små läckagereparationer till takrenoveringar."
+    },
+    {
+      "domain": "gotalandstak.com",
+      "company": "Götalands Tak",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Takläggare Göteborg - trygga & nöjda kunder sedan 2001."
+    },
+    {
+      "domain": "goteborg-taklaggare.se",
+      "company": "Göteborg Takläggare",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Takfirma inom takrenovering och byten i Göteborg."
+    },
+    {
+      "domain": "gotatak.se",
+      "company": "Göta Tak",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Expertis på takbyte & takrenovering i Göteborg - familjeföretag."
+    },
+    {
+      "domain": "takteknikab.se",
+      "company": "Götalands Takteknik AB",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Över 30 års erfarenhet inom takbranschen, Göteborg."
+    },
+    {
+      "domain": "taklaggare-hovas.se",
+      "company": "Takläggare Hovås",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Takläggare i Hovås & Göteborg."
+    },
+    {
+      "domain": "takcompagniet.se",
+      "company": "Tak Compagniet AB",
+      "city": "Göteborg",
+      "found_via": "takfirma göteborg takrenovering",
+      "snippet": "Lägger tak i hela Göteborg med omnejd."
+    },
+    {
+      "domain": "bfte.se",
+      "company": "BFTE",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Takläggare Malmö - kostnadsfri offert och garanti."
+    },
+    {
+      "domain": "byggagenten.se",
+      "company": "Byggagenten",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Takläggare Malmö - tryggt takbyte med garanti."
+    },
+    {
+      "domain": "takochplat.se",
+      "company": "Tak och Plåt",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Takläggare Malmö, Staffanstorp, Lomma & Vellinge - takbyte."
+    },
+    {
+      "domain": "skane-taklaggare.se",
+      "company": "Skåne Takläggare",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Takläggare i Malmö & Skåne - byta & renovera tak."
+    },
+    {
+      "domain": "malmo-taklaggare.se",
+      "company": "Malmö Takläggare",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Takrenovering i Malmö - lokal takläggare i Skåne."
+    },
+    {
+      "domain": "taklaggaremalmo.se",
+      "company": "Lomma Tak AB",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Professionell takläggning & plåtslageri i Malmö."
+    },
+    {
+      "domain": "lommatak.se",
+      "company": "Lomma Tak och Plåtslageri",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "På skånska tak sedan 1979 - takläggare Malmö."
+    },
+    {
+      "domain": "malmoekonomitakab.se",
+      "company": "Malmö EkonomiTak AB",
+      "city": "Malmö",
+      "found_via": "takläggare malmö",
+      "snippet": "Väletablerad takfirma med över 30 års erfarenhet - fasad, takrenovering, tegel, papp."
+    },
+    {
+      "domain": "hellensplat.se",
+      "company": "Helléns Plåtslageri AB",
+      "city": "Malmö",
+      "found_via": "takfirma malmö takrenovering",
+      "snippet": "Specialister på högkvalitativa takarbeten i Malmö."
+    },
+    {
+      "domain": "kombyggtak.se",
+      "company": "Kombyggtak",
+      "city": "Malmö",
+      "found_via": "takfirma malmö takrenovering",
+      "snippet": "Takrenovering Malmö - offert på takbyte & reparation. Seriöst bolag sedan 2016."
+    },
+    {
+      "domain": "uppsala-taklaggare.se",
+      "company": "Uppsala Takläggare",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Takläggare i Uppsala - allt inom tak, fri offert."
+    },
+    {
+      "domain": "beckmansbygg.se",
+      "company": "Beckmans Bygg",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Takläggare Uppsala - fri offert, 10 år garanti. Utsedda till Sveriges Bästa Takläggare 2026."
+    },
+    {
+      "domain": "pltak.se",
+      "company": "Patric Lundström Tak & Montage AB (PLTAK)",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Takläggare Uppsala - takbyte, papptak & tegeltak. Över 20 års erfarenhet."
+    },
+    {
+      "domain": "taklaggning-uppsala.se",
+      "company": "Takläggning Uppsala",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Takläggare i Uppsala - takrenovering & takbyten."
+    },
+    {
+      "domain": "sbmuppland.se",
+      "company": "SBM Uppland",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Takläggare Uppsala - vi byter ditt tak."
+    },
+    {
+      "domain": "taklaggareuppsala.nu",
+      "company": "Takläggare Uppsala",
+      "city": "Uppsala",
+      "found_via": "takläggare uppsala",
+      "snippet": "Välkommen till takspecialisten i Uppsala."
+    },
+    {
+      "domain": "lidbackstak.se",
+      "company": "Lidbäcks Tak AB",
+      "city": "Uppsala",
+      "found_via": "takfirma uppsala takomläggning",
+      "snippet": "Tätskikt och takrenovering i Uppsala."
+    },
+    {
+      "domain": "taklaggninguppsala.se",
+      "company": "Takläggning Uppsala",
+      "city": "Uppsala",
+      "found_via": "takfirma uppsala takomläggning",
+      "snippet": "Takläggning Uppsala."
+    },
+    {
+      "domain": "taklaggare-tierp.se",
+      "company": "Takläggare Tierp & Uppsala",
+      "city": "Uppsala",
+      "found_via": "takfirma uppsala takomläggning",
+      "snippet": "Takläggare i Tierp & Uppsala - gratis prisförslag."
+    },
+    {
+      "domain": "vesivek.se",
+      "company": "Vesivek",
+      "city": "Uppsala",
+      "found_via": "takfirma uppsala takomläggning",
+      "snippet": "Nordens största takrenoveringsföretag - över 50 000 renoveringar. OBS: stor kedja."
+    },
+    {
+      "domain": "vasteras-taklaggning.se",
+      "company": "Västerås Takläggning",
+      "city": "Västerås",
+      "found_via": "takläggare västerås",
+      "snippet": "Takläggare i Västerås & Västmanland - fri offert."
+    },
+    {
+      "domain": "takbolaget.nu",
+      "company": "Takbolaget",
+      "city": "Västerås",
+      "found_via": "takläggare västerås",
+      "snippet": "Takläggare Västerås - din takläggare när du behöver nytt tak."
+    },
+    {
+      "domain": "taklaggarevasteras.se",
+      "company": "Takläggare Västerås",
+      "city": "Västerås",
+      "found_via": "takläggare västerås",
+      "snippet": "Takläggare Västerås."
+    },
+    {
+      "domain": "malardalenstakservice.com",
+      "company": "Mälardalens Takservice",
+      "city": "Västerås",
+      "found_via": "takläggare västerås",
+      "snippet": "Takfirma i Västerås med över 30 års erfarenhet."
+    },
+    {
+      "domain": "vte.nu",
+      "company": "Västerås Takentreprenad",
+      "city": "Västerås",
+      "found_via": "takfirma västerås takrenovering",
+      "snippet": "Experter på takläggning och takrenovering, grundat 2012 med drygt 15 medarbetare."
+    },
+    {
+      "domain": "takfirma-orebro.se",
+      "company": "Takfirma Örebro",
+      "city": "Örebro",
+      "found_via": "takläggare örebro",
+      "snippet": "Takfirma i Örebro, Närke - lokal takläggare. Taklägging, fasad och plåt."
+    },
+    {
+      "domain": "dalarnastakmontage.se",
+      "company": "Dalarnas Takmontage",
+      "city": "Örebro",
+      "found_via": "takläggare örebro",
+      "snippet": "Takläggare i Örebro - takläggning och solcellsinstallationer."
+    },
+    {
+      "domain": "taklaggareorebro.nu",
+      "company": "Takläggare Örebro",
+      "city": "Örebro",
+      "found_via": "takläggare örebro",
+      "snippet": "Takläggare Örebro - lokal firma."
+    },
+    {
+      "domain": "eddiesbygg.com",
+      "company": "Eddies Tak, Bygg & Entreprenad AB",
+      "city": "Örebro",
+      "found_via": "takläggare örebro",
+      "snippet": "Din takläggare i Örebro."
+    },
+    {
+      "domain": "takvisionsverige.se",
+      "company": "Takvision Sverige",
+      "city": "Örebro",
+      "found_via": "takläggare örebro",
+      "snippet": "Takläggare i Örebro med 10+ års erfarenhet, hundratals takrenoveringar."
+    },
+    {
+      "domain": "villatakrenovering.se",
+      "company": "Villa Takrenovering",
+      "city": "Örebro",
+      "found_via": "takfirma örebro takomläggning",
+      "snippet": "Din takläggare i Örebro län - takbesiktning, takrenoveringar, takbyten."
+    },
+    {
+      "domain": "takochtatskikt.se",
+      "company": "Tak & Tätskikt i Örebro AB",
+      "city": "Örebro",
+      "found_via": "takfirma örebro takomläggning",
+      "snippet": "Kombinerad erfarenhet över 100 år av tak och tätskikt."
+    },
+    {
+      "domain": "taklaggare-kumla.se",
+      "company": "Takläggare Kumla",
+      "city": "Örebro",
+      "found_via": "takfirma örebro takomläggning",
+      "snippet": "Takläggare i Kumla, Närke & Örebro - fri offert."
+    },
+    {
+      "domain": "garantitak.se",
+      "company": "Garantitak",
+      "city": "Örebro",
+      "found_via": "takfirma örebro takomläggning",
+      "snippet": "Nyproduktion, underhåll, reparation och renovering av tak."
+    },
+    {
+      "domain": "skruvfund.se",
+      "company": "Skruvfund",
+      "city": "Linköping",
+      "found_via": "takläggare linköping",
+      "snippet": "Byggföretag Linköping - takläggare och markskruvsinstallationer."
+    },
+    {
+      "domain": "linkoping-taklaggare.se",
+      "company": "Linköping Takläggare",
+      "city": "Linköping",
+      "found_via": "takläggare linköping",
+      "snippet": "Takläggare i Linköping & Östergötland - fri offert."
+    },
+    {
+      "domain": "berlandtak.se",
+      "company": "Berland Tak",
+      "city": "Linköping",
+      "found_via": "takläggare linköping",
+      "snippet": "60 års erfarenhet - kontor i Linköping, Norrköping och Västervik."
+    },
+    {
+      "domain": "takmastarn.se",
+      "company": "Takmästarn i Linköping AB",
+      "city": "Linköping",
+      "found_via": "takläggare linköping",
+      "snippet": "Liten och flexibel takfirma igång sedan 2009 - papptak, duktak och tegeltak."
+    },
+    {
+      "domain": "taklaggare-linkoping.nu",
+      "company": "Takläggare Linköping",
+      "city": "Linköping",
+      "found_via": "takläggare linköping",
+      "snippet": "Lokal takläggare med 15+ års erfarenhet i Östergötland."
+    },
+    {
+      "domain": "takkedjan.com",
+      "company": "Takkedjan",
+      "city": "Linköping",
+      "found_via": "takfirma linköping takrenovering",
+      "snippet": "Takbyte i Linköping, Mantorp & Åtvidaberg."
+    },
+    {
+      "domain": "platslagare-ostergotland.se",
+      "company": "Plåtslagare Östergötland",
+      "city": "Linköping",
+      "found_via": "takfirma linköping takrenovering",
+      "snippet": "Takläggare & plåtslagare i Linköping, Östergötland."
+    },
+    {
+      "domain": "taklaggarehelsingborg.se",
+      "company": "Takläggare Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Trygg takläggning i Skånes län."
+    },
+    {
+      "domain": "platslagare-skane.se",
+      "company": "Plåtslagare Skåne",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Plåtslagare i Helsingborg, Skåne - takrenovering & takbyte."
+    },
+    {
+      "domain": "taklaggare-helsingborg.se",
+      "company": "Takläggare Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Takläggare Helsingborg."
+    },
+    {
+      "domain": "swedalatak.se",
+      "company": "Swedala Tak",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Takläggare i Helsingborg - byt tak med Swedala Tak."
+    },
+    {
+      "domain": "taklaggare-skane.se",
+      "company": "Takläggare Skåne",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Takläggare i Helsingborg - vi renoverar tak i Skåne."
+    },
+    {
+      "domain": "rtof.se",
+      "company": "Ramlösa Tak och Fasad AB",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Helsingborgs mest etablerade takläggare sedan 2002 i Ramlösa."
+    },
+    {
+      "domain": "skanska-tak.se",
+      "company": "Skånska Tak Entreprenad",
+      "city": "Helsingborg",
+      "found_via": "takläggare helsingborg",
+      "snippet": "Takläggning för privat- och företagskunder i Helsingborg."
+    },
+    {
+      "domain": "swedtak.se",
+      "company": "Swedtak Skåne",
+      "city": "Helsingborg",
+      "found_via": "takfirma helsingborg takomläggning",
+      "snippet": "Pålitliga takläggare i Skåne - takbyte i nordvästra Skåne."
+    },
+    {
+      "domain": "helsingborgsbyggplat.se",
+      "company": "Helsingborgs Byggplåt AB",
+      "city": "Helsingborg",
+      "found_via": "takfirma helsingborg takomläggning",
+      "snippet": "Takentreprenad för husets utsida - tak, fasader, fönster. Grundat 2005."
+    },
+    {
+      "domain": "takmontage.se",
+      "company": "Takmontage AB",
+      "city": "Helsingborg",
+      "found_via": "takfirma helsingborg takomläggning",
+      "snippet": "Takomläggning i Helsingborg - expertis och kvalitet."
+    },
+    {
+      "domain": "taktackarna.se",
+      "company": "Taktäckarna i Jönköping AB",
+      "city": "Jönköping",
+      "found_via": "takläggare jönköping",
+      "snippet": "Takläggare i Jönköping, Vaggeryd, Nässjö, Mullsjö & Habo. Helhetslösningar sedan 2011."
+    },
+    {
+      "domain": "vikantak.se",
+      "company": "Vikan Tak (Smålands Tak & Plåt AB)",
+      "city": "Jönköping",
+      "found_via": "takläggare jönköping",
+      "snippet": "Takläggare Jönköping - takrenovering, takbyte & snickeri. 20 års erfarenhet, baserade i Bankeryd."
+    },
+    {
+      "domain": "bankeryds-taklaggare.se",
+      "company": "Bankeryds Takläggare AB",
+      "city": "Jönköping",
+      "found_via": "takläggare jönköping",
+      "snippet": "Lokal firma i Bankeryd som renoverar och byter tak i Jönköping och Habo kommun."
+    },
+    {
+      "domain": "jonkopingstakteknik.se",
+      "company": "Jönköpings TakTeknik",
+      "city": "Jönköping",
+      "found_via": "takläggare jönköping",
+      "snippet": "Erfarna takläggare i Jönköping - nästan 30 års erfarenhet."
+    },
+    {
+      "domain": "taklaggare-smaland.se",
+      "company": "Takläggare Småland",
+      "city": "Jönköping",
+      "found_via": "takläggare jönköping",
+      "snippet": "Byta tak i Jönköping - takläggning Småland."
+    },
+    {
+      "domain": "byggfirma-jonkoping.se",
+      "company": "Byggfirma Jönköping",
+      "city": "Jönköping",
+      "found_via": "takfirma jönköping takrenovering",
+      "snippet": "Takläggning, takrenovering & takbyten i Jönköping, Småland - fri offert."
+    },
+    {
+      "domain": "takproffsen.com",
+      "company": "Takproffsen AB",
+      "city": "Jönköping",
+      "found_via": "takfirma jönköping takrenovering",
+      "snippet": "Utgår från Jönköping, arbetar i hela södra Sverige."
+    },
+    {
+      "domain": "norrkoping-taklaggare.se",
+      "company": "Norrköping Takläggare",
+      "city": "Norrköping",
+      "found_via": "takläggare norrköping",
+      "snippet": "Takläggare i Norrköping & Östergötland - fri offert."
+    },
+    {
+      "domain": "kimstadsbygg.se",
+      "company": "Kimstads Bygg",
+      "city": "Norrköping",
+      "found_via": "takläggare norrköping",
+      "snippet": "Takrenovering - Takläggare Norrköping."
+    },
+    {
+      "domain": "taklaggarenorrkoping.se",
+      "company": "Takläggare Norrköping",
+      "city": "Norrköping",
+      "found_via": "takläggare norrköping",
+      "snippet": "Takläggare Norrköping - lokal firma."
+    },
+    {
+      "domain": "httab.se",
+      "company": "HT-TAB",
+      "city": "Norrköping",
+      "found_via": "takläggare norrköping",
+      "snippet": "Takläggare Norrköping - bygg, snickeri, markarbete, måleri, vvs, takläggning."
+    },
+    {
+      "domain": "takprojekt.se",
+      "company": "Takprojekt",
+      "city": "Norrköping",
+      "found_via": "takfirma norrköping takomläggning",
+      "snippet": "Takprojekt - takomläggning Norrköping."
+    },
+    {
+      "domain": "tgsplatslageri.se",
+      "company": "TGS Plåtslageri",
+      "city": "Norrköping",
+      "found_via": "takfirma norrköping takomläggning",
+      "snippet": "Takläggare Norrköping - takläggning av licensierade experter."
+    },
+    {
+      "domain": "byggfirma-norrkoping.se",
+      "company": "Byggfirma Norrköping",
+      "city": "Norrköping",
+      "found_via": "takfirma norrköping takomläggning",
+      "snippet": "Takläggning, takrenovering & takbyten - byggfirma i Norrköping & Östergötland."
+    },
+    {
+      "domain": "canovatak.se",
+      "company": "Canova Tak",
+      "city": "Norrköping",
+      "found_via": "takfirma norrköping takomläggning",
+      "snippet": "Professionella taktjänster i Norrköping."
+    },
+    {
+      "domain": "papptaknorrkoping.se",
+      "company": "P Tak Projekt AB",
+      "city": "Norrköping",
+      "found_via": "takfirma norrköping takomläggning",
+      "snippet": "Takrenovering Norrköping - många års erfarenhet, papptak-specialist."
+    }
+  ]
+}

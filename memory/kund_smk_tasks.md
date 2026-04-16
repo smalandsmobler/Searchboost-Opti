@@ -25,6 +25,14 @@ type: project
 ## Pågående
 - Loopia API-user `searchboost@loopiaapi` lösenord: SbLoopia2026! (satt 2026-04-10, DNS-metoder aktiverade)
 
+## Klart 2026-04-13 (internlänkar — kannibalisering)
+- [x] Internlänkar tillagda i 5 artiklar för kontorsstolar, konferensbord, förvaring:
+  - ID:14270 /top-kontorsstolar-for-smaforetag-4/ → "receptionsdiskar" länkat till `/forvaring/`, "Kontorsstolar" länkat till `/kontorsstolar/`
+  - ID:18203 /konferensbord-guide-2026/ → "konferensbord" länkat till `/konferensbord/`
+  - ID:18204 /kontorsforvaring-guide-2026/ → "förvaring" länkat till `/forvaring/`
+  - ID:18199 /kontorsmobler-guide-2026/ → kontorsstolar + förvaring länkade till resp. kategorisidor
+  - ID:18208 /inreda-kontor-guide-2026/ → kontorsstolar + förvaring länkade till resp. kategorisidor
+
 ## Klart 2026-04-13 (kväll)
 - [x] Snippet #141: Frakt inkl. avisering (490 kr) obligatorisk för privatpersoner
 - [x] Snippet #142: Personnummer krävs för privatpersoner + org-nummer krävs för företag + faktura blockeras för privatpersoner

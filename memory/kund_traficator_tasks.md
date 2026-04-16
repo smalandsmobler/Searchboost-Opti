@@ -13,12 +13,31 @@ type: project
 **REGEL**: Patrik vill ha MAIL varje gång vi gör ändringar på sajten. Skicka alltid uppdateringsmail efter arbete.
 
 ## Nästa steg
-- [ ] Nytt möte onsdag 16 april — leverera WOW-känsla
+- [ ] Möte **tisdag 15 april kl 13.30** — genomgång mars-resultat + plan framåt
 - [ ] Bygga branschsidor, materialsidor, jämförelsesidor (expansion — presenterat i PPT slide 13-14)
 - [ ] Sätt upp GSC URL-prefix + SA för Traficator (ej kopplat än)
 - [ ] Följa upp månadsrapport 3 maj (GSC-data för april)
 - [ ] Fortsätta 2-3 artiklar/vecka enligt standard
 - [ ] Pelarartikel-uppföljning: om pressgjutning-aluminium inte når top 10 inom 8 veckor, skriv en stödartikel
+
+## Klart 2026-04-14 (Patriks klagomål — alla fixes live)
+- [x] Sandgjutning (ID:1278) — korrekt intro återställd
+- [x] Metallgjutning (ID:1289) — korrekt intro återställd
+- [x] EN Metal Casting (ID:1543) — korrekt engelska intro
+- [x] EN Sand Casting (ID:1544) — korrekt engelska intro
+- [x] GJUTNING/Metallgjutning — first i Våra tjänster (menu_order:1)
+- [x] Övrigt → "Traficator Plast" (sida + menypost)
+- [x] Engelska meny (ID:94) — fullt återuppbyggd (10 items, korrekta undersidor)
+- [x] Mail skickat till Patrik — ursäkt + bekräftelse på alla fixes + möte imorgon 13.30
+
+## Klart 2026-04-13 (internlänkar — kannibalisering)
+- [x] Internlänkar tillagda i 6 artiklar för aluminiumgjutning + centrifugalgjutning:
+  - ID:1498 /aluminiumgjutning-egenskaper-fordelar-tillampningar/ → länk till `/vara-tjanster/pressgjutning/` (primary för aluminiumgjutning)
+  - ID:1522 /aluminiumgjutning-vs-pressgjutning-skillnader/ → pressgjutning-sidan + precisionsgjutning-sidan länkade i listan
+  - ID:1521 /centrifugalgjutning-sverige-nar-lonar/ → länk till `/vara-tjanster/centrifugalgjutning/` + pressgjutning/sandgjutning i intro
+  - ID:1520 /pressgjutning-aluminium-guide/ → länk till `/vara-tjanster/pressgjutning/` i intro
+  - ID:1630 /gjutgods-guide-2026/ → länk till centrifugalgjutning-tjänstesidan
+  - ID:1638 /formgjutning-guide-2/ → länk till centrifugalgjutning-tjänstesidan
 
 ## Klart 2026-04-13 (vecka 20)
 - [x] 3 artiklar publicerade vecka 20 (kat: Blogg ID:109):

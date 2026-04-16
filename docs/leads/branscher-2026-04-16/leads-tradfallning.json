@@ -1,0 +1,800 @@
+{
+  "bransch": "Trädfällning",
+  "collected_at": "2026-04-16",
+  "cities_searched": [
+    "Stockholm",
+    "Göteborg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Örebro",
+    "Linköping",
+    "Helsingborg",
+    "Jönköping",
+    "Norrköping"
+  ],
+  "search_phrases_used": [
+    "trädfällning {stad}",
+    "trädfällare {stad}",
+    "arborist {stad}",
+    "fälla träd {stad}",
+    "stubbfräsning {stad}",
+    "trädvård {stad}"
+  ],
+  "excluded_directories": [
+    "hitta.se",
+    "eniro.se",
+    "offerta.se",
+    "servicefinder.se",
+    "reco.se",
+    "ratsit.se",
+    "allabolag.se",
+    "proff.se",
+    "byggahus.se"
+  ],
+  "domains": [
+    {
+      "domain": "xn--trdfllningstockholm-hwbc.se",
+      "company": "Trädfällning Stockholm",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Arborist med kunskap och känsla för träd i Stockholm."
+    },
+    {
+      "domain": "wasatradfallning.se",
+      "company": "Wasa Trädfällning",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Professionell arborist i Stockholm."
+    },
+    {
+      "domain": "tradfallare.se",
+      "company": "Tiger Trädfällare",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällare och arborist Stockholm."
+    },
+    {
+      "domain": "svensktradservice.se",
+      "company": "Svensk Trädservice",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällning i Stockholm."
+    },
+    {
+      "domain": "tradfallarna.se",
+      "company": "Trädfällning Allround i Stockholm AB",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällning Allround Stockholm."
+    },
+    {
+      "domain": "xn--timbertrdfllning-2nbc.se",
+      "company": "Timber Trädfällning",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällning i Stockholm."
+    },
+    {
+      "domain": "maxinetradfallning.se",
+      "company": "Maxine Trädfällning",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällning och beskärning i Stockholm."
+    },
+    {
+      "domain": "storholmentrad.com",
+      "company": "Storholmen Träd",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Arborister som utför trädfällning i Stockholm."
+    },
+    {
+      "domain": "stockholmtradvard.se",
+      "company": "Stockholm Trädvård",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Arborist Stockholm, stubbfräsning och trädvård."
+    },
+    {
+      "domain": "simonsviltskog.se",
+      "company": "Simons Vilt och Skog AB",
+      "city": "Stockholm",
+      "found_via": "trädfällning stockholm företag",
+      "snippet": "Trädfällning Stockholm."
+    },
+    {
+      "domain": "arboriststockholm.com",
+      "company": "Arborist Stockholm",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Trädfällningstjänster i Stockholms län."
+    },
+    {
+      "domain": "stockholmarborist.se",
+      "company": "Stockholm Arborist",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Arborister i Stockholm."
+    },
+    {
+      "domain": "arborististockholm.se",
+      "company": "Arborist i Stockholm",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Prisvärd och trygg trädfällning och trädvård."
+    },
+    {
+      "domain": "dinarborist.se",
+      "company": "Din Arborist",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Arborist Stockholm, trädvård och trädfällning."
+    },
+    {
+      "domain": "a4arborist.se",
+      "company": "A4 Arborist",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Trädfällning i Storstockholm, även Västerås."
+    },
+    {
+      "domain": "arboristerna.com",
+      "company": "Arboristerna",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Professionella trädtjänster i Stockholm."
+    },
+    {
+      "domain": "tradmastarna.se",
+      "company": "Trädmästarna",
+      "city": "Stockholm",
+      "found_via": "arborist stockholm trädfällare",
+      "snippet": "Arborist i Stockholm."
+    },
+    {
+      "domain": "arborister.se",
+      "company": "Arborister.se",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Stubbfräsning i Stockholm, RUT."
+    },
+    {
+      "domain": "pvtradfallning.se",
+      "company": "PV Trädfällning & Trädvård AB",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Stubbfräsning i Stockholm."
+    },
+    {
+      "domain": "tippmicke.se",
+      "company": "TippMicke Trädgruppen",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Stubbfräsning Stockholm."
+    },
+    {
+      "domain": "addschakt.se",
+      "company": "Add Schakt",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm trädvård",
+      "snippet": "Trädvård i Stockholm."
+    },
+    {
+      "domain": "veravi.nu",
+      "company": "Veravi",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Professionell stubbfräsning i Stockholm."
+    },
+    {
+      "domain": "arborist-stockholm.se",
+      "company": "Arborist i Stockholm",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Arborist i Stockholm."
+    },
+    {
+      "domain": "stubbfrasning.se",
+      "company": "Stockholm Stubbfräsning AB",
+      "city": "Stockholm",
+      "found_via": "stubbfräsning stockholm",
+      "snippet": "Stockholm Stubbfräsning AB."
+    },
+    {
+      "domain": "tradspecialisterna.se",
+      "company": "Trädspecialisterna i Väst AB",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Certifierade arborister Göteborg, Kungsbacka och Varberg."
+    },
+    {
+      "domain": "tradspecialisten.se",
+      "company": "Trädnu AB / Trädspecialisten",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Trädfällning i Göteborg."
+    },
+    {
+      "domain": "trad.nu",
+      "company": "Trädnu AB",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Trädfällning och trädvård Göteborg."
+    },
+    {
+      "domain": "tradakuten.se",
+      "company": "Trädakuten",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Trädfällning och beskärning i Göteborg, Dalarna, Halland, Skaraborg."
+    },
+    {
+      "domain": "xn--trdfllningigteborg-mtbc00b.se",
+      "company": "Trädfällning i Göteborg",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Säker, effektiv och miljövänlig trädvård."
+    },
+    {
+      "domain": "bergstromstradtjanst.se",
+      "company": "Bergströms Trädtjänst",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Certifierad arborist i Göteborg."
+    },
+    {
+      "domain": "proffscenter.se",
+      "company": "Proffscenter",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Snabb hjälp med träd och sly i Göteborg."
+    },
+    {
+      "domain": "grentradservice.se",
+      "company": "Anders Gren Trädservice AB",
+      "city": "Göteborg",
+      "found_via": "trädfällning göteborg företag",
+      "snippet": "Din arborist i Göteborg, trädfällning."
+    },
+    {
+      "domain": "xn--gteborgtrdfllning-yqbc26a.se",
+      "company": "Göteborg Trädfällning",
+      "city": "Göteborg",
+      "found_via": "arborist göteborg fälla träd",
+      "snippet": "Erfaren arborist med låga priser."
+    },
+    {
+      "domain": "lhtradvard.se",
+      "company": "LH Trädvård",
+      "city": "Göteborg",
+      "found_via": "arborist göteborg fälla träd",
+      "snippet": "Trädfällning i Göteborg med omnejd."
+    },
+    {
+      "domain": "aureliustrad.se",
+      "company": "Aurelius Träd",
+      "city": "Göteborg",
+      "found_via": "arborist göteborg fälla träd",
+      "snippet": "Certifierade arborister i Göteborg, trädfällning och beskärning."
+    },
+    {
+      "domain": "xn--arboristmalm-gjb.se",
+      "company": "Arboristmalmö",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Trädfällning och trädbeskärning av arborist i Malmö."
+    },
+    {
+      "domain": "tradfokussyd.se",
+      "company": "Trädfokus Syd AB",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Arborist Malmö, trädfällning och stubbfräsning."
+    },
+    {
+      "domain": "arborsyd.se",
+      "company": "Arbor Syd",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Arborist i Skåne, beskärning och trädfällning."
+    },
+    {
+      "domain": "acre.se",
+      "company": "Acre AB",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Arborist Skåne, trädfällning och trädbeskärning."
+    },
+    {
+      "domain": "tradvard.com",
+      "company": "Trädvård Skåne",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Arborist Malmö, trädvård och beskärning."
+    },
+    {
+      "domain": "tradfint.se",
+      "company": "Trädfint",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Professionell arborist i Skåne."
+    },
+    {
+      "domain": "malmotradfallning.se",
+      "company": "Malmö Trädfällning",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Trädfällning, arborist och stubbfräsning i Malmö."
+    },
+    {
+      "domain": "arboristexperten.se",
+      "company": "Arboristexperten",
+      "city": "Malmö",
+      "found_via": "trädfällning malmö arborist",
+      "snippet": "Trädfällning och stubbfräsning i Malmö, Linköping, Uppsala."
+    },
+    {
+      "domain": "sekant.se",
+      "company": "Sekant Fastighetsservice",
+      "city": "Malmö",
+      "found_via": "trädfällare malmö stubbfräsning",
+      "snippet": "Trädfällning i Malmö, professionell och säker hjälp."
+    },
+    {
+      "domain": "tradmark.se",
+      "company": "Träd & Marktjänst AB",
+      "city": "Malmö",
+      "found_via": "trädfällare malmö stubbfräsning",
+      "snippet": "Trädfällning, stubbfräsning i Malmö, Helsingborg och Skåne."
+    },
+    {
+      "domain": "avrplatslageri.se",
+      "company": "AVR Bygg / AVR Platslageri",
+      "city": "Malmö",
+      "found_via": "trädfällare malmö stubbfräsning",
+      "snippet": "Trädfällning och stubbfräsning i Malmö, Lund, Eslöv och Ystad."
+    },
+    {
+      "domain": "svearb.se",
+      "company": "SveArb AB",
+      "city": "Malmö",
+      "found_via": "trädfällare malmö stubbfräsning",
+      "snippet": "Arborist i Malmö och Lund i Skåne."
+    },
+    {
+      "domain": "markmiljotjanst.se",
+      "company": "Malmö Mark & Miljö",
+      "city": "Malmö",
+      "found_via": "trädfällare malmö stubbfräsning",
+      "snippet": "Trädfällning i Malmö, fälla träd."
+    },
+    {
+      "domain": "upplandsarborist.se",
+      "company": "Upplands Arborist",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Arborist Uppsala, certifierad trädexpert."
+    },
+    {
+      "domain": "kooperativetarboris.se",
+      "company": "Kooperativet Arboris",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Trädfällning i Uppsala av erfarna arborister."
+    },
+    {
+      "domain": "rangloaxe.se",
+      "company": "Ranglo Axe AB",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Professionell trädfällning och trädvård i Uppsala."
+    },
+    {
+      "domain": "quercustradvard.se",
+      "company": "Hackspetten Trädvård AB",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Arborist och trädbeskärning Stockholm, Uppsala."
+    },
+    {
+      "domain": "arborillatradtjanster.com",
+      "company": "Arborilla Trädtjänster",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Trädfällning och trädvård i Uppsala län."
+    },
+    {
+      "domain": "uppsalatradvard.se",
+      "company": "Uppsala Trädvård AB",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Trädspecialist, arborist, trädfällning, stubbfräsning."
+    },
+    {
+      "domain": "arborist-uppsala.se",
+      "company": "Arborist Uppsala",
+      "city": "Uppsala",
+      "found_via": "trädfällning uppsala arborist",
+      "snippet": "Arborist i Uppsala."
+    },
+    {
+      "domain": "djupeskog.se",
+      "company": "Djupeskog",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Stubbfräsning och trädfällning i Uppsala, RUT."
+    },
+    {
+      "domain": "nordenstenlift.se",
+      "company": "Nordensten Lift AB",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Professionell trädfällning Uppsala och Storvreta."
+    },
+    {
+      "domain": "bjorkens.se",
+      "company": "Björkens Träd & Mark",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Fäller träd och fräser stubbar i Uppsala län."
+    },
+    {
+      "domain": "frasgubben.se",
+      "company": "Fräsgubben Mälardalen AB",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Stubbfräsning till trädfällning, Mälardalen."
+    },
+    {
+      "domain": "tradfallning-uppsala.se",
+      "company": "Trädfällning Uppsala",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Trädfällning Uppsala."
+    },
+    {
+      "domain": "klatterapan.se",
+      "company": "Klätterapan AB",
+      "city": "Uppsala",
+      "found_via": "trädfällare uppsala stubbfräsning",
+      "snippet": "Specialister på avancerad trädfällning."
+    },
+    {
+      "domain": "xn--trdfllningvsters-wnbchy.se",
+      "company": "Trädfällning Västerås (Trädakuten Mälardalen)",
+      "city": "Västerås",
+      "found_via": "trädfällning västerås arborist",
+      "snippet": "Fällt och städat samma dag, RUT -50%."
+    },
+    {
+      "domain": "tradleoparden.se",
+      "company": "Trädleoparden",
+      "city": "Västerås",
+      "found_via": "trädfällning västerås arborist",
+      "snippet": "Arborist i Västerås, professionella trädtjänster."
+    },
+    {
+      "domain": "tradifall.com",
+      "company": "Träd i Fall AB",
+      "city": "Västerås",
+      "found_via": "trädfällning västerås arborist",
+      "snippet": "Säker trädfällning i alla miljöer, Västerås."
+    },
+    {
+      "domain": "dahlgrenallround.se",
+      "company": "Dahlgren Allround",
+      "city": "Västerås",
+      "found_via": "trädfällning västerås arborist",
+      "snippet": "Trädfällning och stubbfräsning i Västerås."
+    },
+    {
+      "domain": "antmanwoodcraft.se",
+      "company": "Antman Woodcraft",
+      "city": "Västerås",
+      "found_via": "trädfällning västerås arborist",
+      "snippet": "Arborist i Västerås för trädvård och trädbeskärning."
+    },
+    {
+      "domain": "m4.se",
+      "company": "M4 Gruppen",
+      "city": "Västerås",
+      "found_via": "trädfällare västerås trädvård",
+      "snippet": "Trädfällning i Mälardalen, trygg och säker."
+    },
+    {
+      "domain": "avtf.se",
+      "company": "Avancerad Trädfällning i Nora AB",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Arboristföretag nära Örebro."
+    },
+    {
+      "domain": "arboterra.se",
+      "company": "Arboterra Trädservice",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Arborist Örebro län, Bergslagen."
+    },
+    {
+      "domain": "arbworks.se",
+      "company": "Arbworks",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Trädfällning Eskilstuna, Örebro, Västerås."
+    },
+    {
+      "domain": "arboristjavisst.se",
+      "company": "Arborist Javisst",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Arborist Javisst i Örebro AB."
+    },
+    {
+      "domain": "lekebergs.se",
+      "company": "Lekebergs Gräv & Trädfällning",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Professionellt arboristföretag i Örebro."
+    },
+    {
+      "domain": "karstaalltjanst.se",
+      "company": "Kårsta Alltjänst",
+      "city": "Örebro",
+      "found_via": "trädfällning örebro arborist",
+      "snippet": "Trädfällning och trädvård."
+    },
+    {
+      "domain": "granalundtradfallning.se",
+      "company": "Granalund Trädfällning",
+      "city": "Örebro",
+      "found_via": "fälla träd örebro stubbfräsning",
+      "snippet": "Trädfällning och stubbfräsning i Örebro län, Vintrosa."
+    },
+    {
+      "domain": "fatreetec.se",
+      "company": "FA TREE-TEC",
+      "city": "Örebro",
+      "found_via": "fälla träd örebro stubbfräsning",
+      "snippet": "Trädfällning och stubbfräsning i Örebro."
+    },
+    {
+      "domain": "tradfallningorebro.nu",
+      "company": "Trädfällning Örebro",
+      "city": "Örebro",
+      "found_via": "fälla träd örebro stubbfräsning",
+      "snippet": "Stubbfräsning, trädfällning Örebro."
+    },
+    {
+      "domain": "servicefirma-orebro.se",
+      "company": "Orava Mark & Trädvård",
+      "city": "Örebro",
+      "found_via": "fälla träd örebro stubbfräsning",
+      "snippet": "Stubbfräsning Örebro."
+    },
+    {
+      "domain": "greenostergotland.se",
+      "company": "Green Östergötland",
+      "city": "Linköping",
+      "found_via": "trädfällning linköping arborist",
+      "snippet": "Arborist Linköping, trädfällning och beskärning."
+    },
+    {
+      "domain": "arbdoc.se",
+      "company": "Lindbäck Arborist & Trädgårdsdoktor AB",
+      "city": "Linköping",
+      "found_via": "trädfällning linköping arborist",
+      "snippet": "Trädfällning och trädvård i Linköping."
+    },
+    {
+      "domain": "arboteket.se",
+      "company": "Arboteket AB",
+      "city": "Linköping",
+      "found_via": "trädfällning linköping arborist",
+      "snippet": "Komplett arboristföretag, Linköping och Stockholm."
+    },
+    {
+      "domain": "xn--linkpingtrdfllning-utbc28a.se",
+      "company": "Linköping Trädfällning",
+      "city": "Linköping",
+      "found_via": "trädfällning linköping arborist",
+      "snippet": "Trädfällning, arborist, stubbfräsning i Linköping."
+    },
+    {
+      "domain": "xn--arborist-linkping-c0b.se",
+      "company": "Arborist Linköping",
+      "city": "Linköping",
+      "found_via": "trädfällning linköping arborist",
+      "snippet": "Anlita oss för trädfällning i Linköping."
+    },
+    {
+      "domain": "xn--trdfllarelinkping-rqbc38a.se",
+      "company": "Trädfällare Linköping",
+      "city": "Linköping",
+      "found_via": "trädfällare linköping trädvård",
+      "snippet": "Erfarna arborister i Linköping."
+    },
+    {
+      "domain": "stubbfrasninglinkoping.se",
+      "company": "Stubbfräsning Linköping",
+      "city": "Linköping",
+      "found_via": "trädfällare linköping trädvård",
+      "snippet": "Stubbfräsning i Linköping, plantering, röjning."
+    },
+    {
+      "domain": "sptradgardsservice.se",
+      "company": "SP Trädgårdsservice",
+      "city": "Linköping",
+      "found_via": "trädfällare linköping trädvård",
+      "snippet": "Trädfällning i Linköping, Norrköping, Mjölby, Motala."
+    },
+    {
+      "domain": "xn--trdfllninghbg-cfbc.se",
+      "company": "Trädfällning Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Certifierad arborist, RUT-avdrag i Helsingborg."
+    },
+    {
+      "domain": "gmtradvard.se",
+      "company": "GM Trädvård",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Arborist Helsingborg, GM Trädvård."
+    },
+    {
+      "domain": "xn--helsingborgtrdfllning-i2bc.se",
+      "company": "Helsingborg Trädfällning",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Helsingborg Trädfällning."
+    },
+    {
+      "domain": "tradfix.se",
+      "company": "Trädfix",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Trädfällning i Helsingborg och Skåne."
+    },
+    {
+      "domain": "kullatrad.se",
+      "company": "Kullaträd",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Arborist Helsingborg, Höganäs."
+    },
+    {
+      "domain": "markarbete-helsingborg.se",
+      "company": "Markföretag Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Trädbeskärning och markföretag i Helsingborg."
+    },
+    {
+      "domain": "xn--arborist-skne-zfb.se",
+      "company": "Arborist Skåne",
+      "city": "Helsingborg",
+      "found_via": "trädfällning helsingborg arborist",
+      "snippet": "Arborist Helsingborg, anlita oss för trädfällning."
+    },
+    {
+      "domain": "essekraft.se",
+      "company": "Essekraft",
+      "city": "Helsingborg",
+      "found_via": "trädfällare helsingborg stubbfräsning",
+      "snippet": "Trädfällning och stubbfräsning i Skåne."
+    },
+    {
+      "domain": "saggubben.se",
+      "company": "Såggubben AB",
+      "city": "Helsingborg",
+      "found_via": "trädfällare helsingborg stubbfräsning",
+      "snippet": "Trädfällning i Skåne."
+    },
+    {
+      "domain": "tradtjanster.se",
+      "company": "Trädtjänster",
+      "city": "Jönköping",
+      "found_via": "trädfällning jönköping arborist",
+      "snippet": "Arborist och trädtjänster i norra Götaland och södra Svealand."
+    },
+    {
+      "domain": "thibomstradvard.se",
+      "company": "Thiboms Trädvård",
+      "city": "Jönköping",
+      "found_via": "trädfällning jönköping arborist",
+      "snippet": "Trädfällning Jönköping och Huskvarna, fälla träd."
+    },
+    {
+      "domain": "xn--trdfllningjnkping-rqbc18ac.se",
+      "company": "Trädfällning Jönköping",
+      "city": "Jönköping",
+      "found_via": "trädfällning jönköping arborist",
+      "snippet": "Professionell och säker trädfällning, RUT-avdrag."
+    },
+    {
+      "domain": "treecareofsweden.se",
+      "company": "Treecare of Sweden AB",
+      "city": "Jönköping",
+      "found_via": "trädfällning jönköping arborist",
+      "snippet": "Trädfällning i Jönköping, arborist."
+    },
+    {
+      "domain": "nordicgreengroup.se",
+      "company": "Nordic Green Group AB",
+      "city": "Jönköping",
+      "found_via": "trädfällning jönköping arborist",
+      "snippet": "Trädvård och arborist i Jönköping, Ljungby, Tidaholm."
+    },
+    {
+      "domain": "xn--trdgrdsarbeten-6hbs.se",
+      "company": "Trädgårdsarbeten",
+      "city": "Jönköping",
+      "found_via": "fälla träd jönköping",
+      "snippet": "Arborist Jönköping, utbildad professionell trädvårdare."
+    },
+    {
+      "domain": "hultings.se",
+      "company": "Hultings",
+      "city": "Jönköping",
+      "found_via": "fälla träd jönköping",
+      "snippet": "Trädfällning Jönköping, stubbfräsning."
+    },
+    {
+      "domain": "xn--trdfllningnorrkping-hwbc12b.se",
+      "company": "Trädfällning Norrköping",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Certifierade skogsspecialister, RUT 50%."
+    },
+    {
+      "domain": "tradfallningnorrkoping.se",
+      "company": "Trädfällning Norrköping",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Trädfällning Norrköping."
+    },
+    {
+      "domain": "rojex.se",
+      "company": "Röjex AB",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Arborist, trädfällning Norrköping från 995 kr."
+    },
+    {
+      "domain": "xn--norrkpingtrdfllning-qwbc00b.se",
+      "company": "Norrköping Trädfällning",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Norrköping Trädfällning."
+    },
+    {
+      "domain": "kuddbytradfallning.se",
+      "company": "Kuddby Trädfällning",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Kuddby Trädfällning, Norrköping."
+    },
+    {
+      "domain": "beaverclimbs.com",
+      "company": "Beaver Climbs",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Arborist och trädfällning i Finspång och Norrköping."
+    },
+    {
+      "domain": "xn--trdochkltterservice-hwbg.se",
+      "company": "Träd & Klätterservice",
+      "city": "Norrköping",
+      "found_via": "trädfällning norrköping arborist",
+      "snippet": "Träd & Klätterservice."
+    },
+    {
+      "domain": "tatradtjanst.se",
+      "company": "TA Trädtjänst AB",
+      "city": "Norrköping",
+      "found_via": "trädfällare norrköping stubbfräsning",
+      "snippet": "Trädfällning Norrköping, TA Trädtjänst AB."
+    }
+  ]
+}

@@ -1,0 +1,574 @@
+[2026-04-16T13:48:35.159Z] Loaded 519 prospects. PSI key=no
+[2026-04-16T13:48:38.870Z] Progress: 10/519
+[2026-04-16T13:48:41.575Z] Progress: 20/519
+[2026-04-16T13:48:43.144Z] Progress: 30/519
+[2026-04-16T13:48:45.160Z] Progress: 40/519
+[2026-04-16T13:48:46.576Z] Progress: 50/519
+[2026-04-16T13:48:49.028Z] Progress: 60/519
+[2026-04-16T13:48:51.670Z] Progress: 70/519
+[2026-04-16T13:48:53.480Z] [DEAD] takprojekt.se — getaddrinfo ENOTFOUND takprojekt.se
+[2026-04-16T13:48:54.379Z] Progress: 80/519
+[2026-04-16T13:48:55.590Z] [DEAD] papptaknorrkoping.se — status=404
+[2026-04-16T13:48:57.149Z] Progress: 90/519
+[2026-04-16T13:48:59.391Z] [DEAD] saneringlinkoping.se — read ECONNRESET
+[2026-04-16T13:48:59.435Z] [DEAD] lf-skane.se — getaddrinfo ENOTFOUND lf-skane.se
+[2026-04-16T13:49:00.182Z] Progress: 100/519
+[2026-04-16T13:49:01.668Z] [DEAD] xn--vgglsstockholm-5hb50a.se — getaddrinfo ENOTFOUND xn--vgglsstockholm-5hb50a.se
+[2026-04-16T13:49:02.919Z] Progress: 110/519
+[2026-04-16T13:49:04.720Z] [DEAD] bolagsfakta.se — status=403
+[2026-04-16T13:49:05.231Z] [DEAD] webinfo.nu — getaddrinfo ENOTFOUND webinfo.nu
+[2026-04-16T13:49:05.618Z] Progress: 120/519
+[2026-04-16T13:49:06.134Z] [DEAD] merinfo.se — status=403
+[2026-04-16T13:49:07.502Z] [DEAD] skadedjursbekampning-vast.se — getaddrinfo ENOTFOUND skadedjursbekampning-vast.se
+[2026-04-16T13:49:09.904Z] Progress: 130/519
+[2026-04-16T13:49:10.933Z] [DEAD] polygongroup.com — timeout
+[2026-04-16T13:49:12.579Z] [DEAD] pestcontrol.se — timeout
+[2026-04-16T13:49:13.798Z] Progress: 140/519
+[2026-04-16T13:49:18.449Z] Progress: 150/519
+[2026-04-16T13:49:22.063Z] Progress: 160/519
+[2026-04-16T13:49:25.975Z] Progress: 170/519
+[2026-04-16T13:49:29.634Z] Progress: 180/519
+[2026-04-16T13:49:29.713Z] [DEAD] avrplatslageri.se — getaddrinfo ENOTFOUND avrplatslageri.se
+[2026-04-16T13:49:32.839Z] [DEAD] uppsalatradvard.se — getaddrinfo ENOTFOUND uppsalatradvard.se
+[2026-04-16T13:49:33.466Z] Progress: 190/519
+[2026-04-16T13:49:36.885Z] Progress: 200/519
+[2026-04-16T13:49:38.108Z] [DEAD] arbworks.se — status=500
+[2026-04-16T13:49:40.397Z] Progress: 210/519
+[2026-04-16T13:49:41.597Z] [DEAD] xn--arborist-linkping-c0b.se — getaddrinfo ENOTFOUND xn--arborist-linkping-c0b.se
+[2026-04-16T13:49:41.636Z] [DEAD] xn--trdfllarelinkping-rqbc38a.se — getaddrinfo ENOTFOUND xn--trdfllarelinkping-rqbc38a.se
+[2026-04-16T13:49:42.033Z] Progress: 220/519
+[2026-04-16T13:49:43.714Z] [DEAD] xn--arborist-skne-zfb.se — getaddrinfo ENOTFOUND xn--arborist-skne-zfb.se
+[2026-04-16T13:49:44.490Z] Progress: 230/519
+[2026-04-16T13:49:48.348Z] Progress: 240/519
+[2026-04-16T13:49:51.469Z] Progress: 250/519
+[2026-04-16T13:49:53.246Z] [DEAD] acreb.se — status=500
+[2026-04-16T13:49:53.638Z] Progress: 260/519
+[2026-04-16T13:49:55.843Z] Progress: 270/519
+[2026-04-16T13:49:56.857Z] [DEAD] teampedersen.nu — getaddrinfo ENOTFOUND teampedersen.nu
+[2026-04-16T13:49:56.938Z] [DEAD] emjoschakt.com — status=403
+[2026-04-16T13:49:57.174Z] Progress: 280/519
+[2026-04-16T13:49:59.263Z] [DEAD] markteknikab.se — getaddrinfo ENOTFOUND markteknikab.se
+[2026-04-16T13:49:59.580Z] Progress: 290/519
+[2026-04-16T13:50:00.021Z] [DEAD] embab.se — status=404
+[2026-04-16T13:50:00.357Z] [DEAD] gravmaskinuppsala.se — getaddrinfo ENOTFOUND gravmaskinuppsala.se
+[2026-04-16T13:50:01.897Z] Progress: 300/519
+[2026-04-16T13:50:01.980Z] [DEAD] skultunamark.nu — getaddrinfo ENOTFOUND skultunamark.nu
+[2026-04-16T13:50:04.068Z] Progress: 310/519
+[2026-04-16T13:50:06.798Z] [DEAD] markarbetenuppsala.se — timeout
+[2026-04-16T13:50:08.313Z] [DEAD] abmarkbygg.se — status=500
+[2026-04-16T13:50:08.313Z] Progress: 320/519
+[2026-04-16T13:50:10.217Z] Progress: 330/519
+[2026-04-16T13:50:11.647Z] Progress: 340/519
+[2026-04-16T13:50:16.007Z] Progress: 350/519
+[2026-04-16T13:50:17.116Z] [DEAD] markarbetennykoping.se — timeout
+[2026-04-16T13:50:19.965Z] Progress: 360/519
+[2026-04-16T13:50:22.098Z] [DEAD] rehabtjanst.se — status=403
+[2026-04-16T13:50:23.177Z] Progress: 370/519
+[2026-04-16T13:50:25.601Z] Progress: 380/519
+[2026-04-16T13:50:26.096Z] [DEAD] evarytterlund.se — status=403
+[2026-04-16T13:50:26.261Z] [DEAD] ullevikliniken.se — status=403
+[2026-04-16T13:50:29.777Z] Progress: 390/519
+[2026-04-16T13:50:32.863Z] Progress: 400/519
+[2026-04-16T13:50:36.296Z] Progress: 410/519
+[2026-04-16T13:50:38.745Z] Progress: 420/519
+[2026-04-16T13:50:38.807Z] [DEAD] fasciaclinics.com — status=403
+[2026-04-16T13:50:41.269Z] Progress: 430/519
+[2026-04-16T13:50:43.127Z] [DEAD] monkskiro.com — status=404
+[2026-04-16T13:50:43.794Z] Progress: 440/519
+[2026-04-16T13:50:46.398Z] Progress: 450/519
+[2026-04-16T13:50:50.248Z] Progress: 460/519
+[2026-04-16T13:50:53.445Z] Progress: 470/519
+[2026-04-16T13:50:57.289Z] Progress: 480/519
+[2026-04-16T13:51:00.146Z] [DEAD] vasastansosteopati.com — status=404
+[2026-04-16T13:51:00.146Z] Progress: 490/519
+[2026-04-16T13:51:02.246Z] [DEAD] molnlyckeryggklinik.se — getaddrinfo ENOTFOUND molnlyckeryggklinik.se
+[2026-04-16T13:51:03.005Z] Progress: 500/519
+[2026-04-16T13:51:04.934Z] Progress: 510/519
+[2026-04-16T13:51:31.393Z] Scan-phase 1 done in 176.2s
+[2026-04-16T13:51:31.394Z] Running PageSpeed for 485 live domains (concurrency 4)...
+[2026-04-16T13:51:31.730Z] [PSI-FAIL] svevitak.se — 429
+[2026-04-16T13:51:31.837Z] [PSI-FAIL] takjour.se — 429
+[2026-04-16T13:51:31.872Z] [PSI-FAIL] alvsjotak.se — 429
+[2026-04-16T13:51:31.878Z] [PSI-FAIL] mjtak.se — 429
+[2026-04-16T13:51:31.896Z] [PSI-FAIL] stadstak.se — 429
+[2026-04-16T13:51:31.942Z] [PSI-FAIL] tiotak.se — 429
+[2026-04-16T13:51:32.049Z] [PSI-FAIL] taklaggaren.com — 429
+[2026-04-16T13:51:32.143Z] [PSI-FAIL] nytttakisthlm.se — 429
+[2026-04-16T13:51:32.145Z] [PSI-FAIL] dmtak.se — 429
+[2026-04-16T13:51:32.175Z] [PSI-FAIL] dbtak.se — 429
+[2026-04-16T13:51:32.334Z] [PSI-FAIL] takfix.se — 429
+[2026-04-16T13:51:32.443Z] [PSI-FAIL] villatakexperten.se — 429
+[2026-04-16T13:51:32.443Z] [PSI-FAIL] rudholmstak.se — 429
+[2026-04-16T13:51:32.443Z] [PSI-FAIL] takivast.se — 429
+[2026-04-16T13:51:32.559Z] [PSI-FAIL] tisabtak.se — 429
+[2026-04-16T13:51:32.594Z] [PSI-FAIL] kungstak.se — 429
+[2026-04-16T13:51:32.689Z] [PSI-FAIL] gotalandstak.com — 429
+[2026-04-16T13:51:32.715Z] [PSI-FAIL] taklaggaregoteborg.nu — 429
+[2026-04-16T13:51:32.715Z] [PSI-FAIL] kjellbergtak.se — 429
+[2026-04-16T13:51:32.831Z] [PSI-FAIL] gotatak.se — 429
+[2026-04-16T13:51:32.833Z] [PSI-FAIL] taklaggning-goteborg.se — 429
+[2026-04-16T13:51:32.934Z] [PSI-FAIL] taklaggare-hovas.se — 429
+[2026-04-16T13:51:32.940Z] [PSI-FAIL] goteborg-taklaggare.se — 429
+[2026-04-16T13:51:33.006Z] [PSI-FAIL] takteknikab.se — 429
+[2026-04-16T13:51:33.123Z] [PSI-FAIL] takcompagniet.se — 429
+[2026-04-16T13:51:33.215Z] [PSI-FAIL] bfte.se — 429
+[2026-04-16T13:51:33.217Z] [PSI-FAIL] byggagenten.se — 429
+[2026-04-16T13:51:33.234Z] [PSI-FAIL] skane-taklaggare.se — 429
+[2026-04-16T13:51:33.317Z] [PSI-FAIL] takochplat.se — 429
+[2026-04-16T13:51:33.335Z] [PSI-FAIL] lommatak.se — 429
+[2026-04-16T13:51:33.488Z] [PSI-FAIL] malmo-taklaggare.se — 429
+[2026-04-16T13:51:33.506Z] [PSI-FAIL] hellensplat.se — 429
+[2026-04-16T13:51:33.514Z] [PSI-FAIL] taklaggaremalmo.se — 429
+[2026-04-16T13:51:33.669Z] [PSI-FAIL] malmoekonomitakab.se — 429
+[2026-04-16T13:51:33.741Z] [PSI-FAIL] beckmansbygg.se — 429
+[2026-04-16T13:51:33.753Z] [PSI-FAIL] kombyggtak.se — 429
+[2026-04-16T13:51:33.781Z] [PSI-FAIL] pltak.se — 429
+[2026-04-16T13:51:33.837Z] [PSI-FAIL] taklaggning-uppsala.se — 429
+[2026-04-16T13:51:33.918Z] [PSI-FAIL] uppsala-taklaggare.se — 429
+[2026-04-16T13:51:33.937Z] [PSI-FAIL] lidbackstak.se — 429
+[2026-04-16T13:51:34.015Z] [PSI-FAIL] sbmuppland.se — 429
+[2026-04-16T13:51:34.026Z] [PSI-FAIL] taklaggninguppsala.se — 429
+[2026-04-16T13:51:34.031Z] [PSI-FAIL] taklaggare-tierp.se — 429
+[2026-04-16T13:51:34.042Z] [PSI-FAIL] taklaggareuppsala.nu — 429
+[2026-04-16T13:51:34.130Z] [PSI-FAIL] vesivek.se — 429
+[2026-04-16T13:51:34.248Z] [PSI-FAIL] takbolaget.nu — 429
+[2026-04-16T13:51:34.251Z] [PSI-FAIL] malardalenstakservice.com — 429
+[2026-04-16T13:51:34.295Z] [PSI-FAIL] taklaggarevasteras.se — 429
+[2026-04-16T13:51:34.355Z] [PSI-FAIL] vte.nu — 429
+[2026-04-16T13:51:34.366Z] [PSI-FAIL] takfirma-orebro.se — 429
+[2026-04-16T13:51:34.403Z] [PSI-FAIL] vasteras-taklaggning.se — 429
+[2026-04-16T13:51:34.489Z] [PSI-FAIL] eddiesbygg.com — 429
+[2026-04-16T13:51:34.494Z] [PSI-FAIL] takvisionsverige.se — 429
+[2026-04-16T13:51:34.566Z] [PSI-FAIL] dalarnastakmontage.se — 429
+[2026-04-16T13:51:34.602Z] [PSI-FAIL] taklaggareorebro.nu — 429
+[2026-04-16T13:51:34.604Z] [PSI-FAIL] villatakrenovering.se — 429
+[2026-04-16T13:51:34.611Z] [PSI-FAIL] takochtatskikt.se — 429
+[2026-04-16T13:51:34.811Z] [PSI-FAIL] taklaggare-kumla.se — 429
+[2026-04-16T13:51:34.860Z] [PSI-FAIL] linkoping-taklaggare.se — 429
+[2026-04-16T13:51:34.867Z] [PSI-FAIL] skruvfund.se — 429
+[2026-04-16T13:51:34.880Z] [PSI-FAIL] garantitak.se — 429
+[2026-04-16T13:51:34.902Z] [PSI-FAIL] berlandtak.se — 429
+[2026-04-16T13:51:34.955Z] [PSI-FAIL] takmastarn.se — 429
+[2026-04-16T13:51:34.956Z] [PSI-FAIL] taklaggare-linkoping.nu — 429
+[2026-04-16T13:51:35.089Z] [PSI-FAIL] platslagare-skane.se — 429
+[2026-04-16T13:51:35.134Z] [PSI-FAIL] takkedjan.com — 429
+[2026-04-16T13:51:35.161Z] [PSI-FAIL] platslagare-ostergotland.se — 429
+[2026-04-16T13:51:35.196Z] [PSI-FAIL] taklaggare-helsingborg.se — 429
+[2026-04-16T13:51:35.216Z] [PSI-FAIL] taklaggarehelsingborg.se — 429
+[2026-04-16T13:51:35.229Z] [PSI-FAIL] swedalatak.se — 429
+[2026-04-16T13:51:35.292Z] [PSI-FAIL] rtof.se — 429
+[2026-04-16T13:51:35.331Z] [PSI-FAIL] skanska-tak.se — 429
+[2026-04-16T13:51:35.351Z] [PSI-FAIL] swedtak.se — 429
+[2026-04-16T13:51:35.389Z] [PSI-FAIL] helsingborgsbyggplat.se — 429
+[2026-04-16T13:51:35.440Z] [PSI-FAIL] taklaggare-skane.se — 429
+[2026-04-16T13:51:35.455Z] [PSI-FAIL] takmontage.se — 429
+[2026-04-16T13:51:35.455Z] [PSI-FAIL] taktackarna.se — 429
+[2026-04-16T13:51:35.522Z] [PSI-FAIL] bankeryds-taklaggare.se — 429
+[2026-04-16T13:51:35.564Z] [PSI-FAIL] jonkopingstakteknik.se — 429
+[2026-04-16T13:51:35.617Z] [PSI-FAIL] byggfirma-jonkoping.se — 429
+[2026-04-16T13:51:35.628Z] [PSI-FAIL] vikantak.se — 429
+[2026-04-16T13:51:35.689Z] [PSI-FAIL] takproffsen.com — 429
+[2026-04-16T13:51:35.734Z] [PSI-FAIL] kimstadsbygg.se — 429
+[2026-04-16T13:51:35.737Z] [PSI-FAIL] taklaggare-smaland.se — 429
+[2026-04-16T13:51:35.875Z] [PSI-FAIL] norrkoping-taklaggare.se — 429
+[2026-04-16T13:51:35.946Z] [PSI-FAIL] taklaggarenorrkoping.se — 429
+[2026-04-16T13:51:36.056Z] [PSI-FAIL] canovatak.se — 429
+[2026-04-16T13:51:36.095Z] [PSI-FAIL] tgsplatslageri.se — 429
+[2026-04-16T13:51:36.113Z] [PSI-FAIL] httab.se — 429
+[2026-04-16T13:51:36.115Z] [PSI-FAIL] byggfirma-norrkoping.se — 429
+[2026-04-16T13:51:36.154Z] [PSI-FAIL] svenskskadedjurssanering.se — 429
+[2026-04-16T13:51:36.202Z] [PSI-FAIL] ocab.se — 429
+[2026-04-16T13:51:36.203Z] [PSI-FAIL] xpertbekampning.se — 429
+[2026-04-16T13:51:36.216Z] [PSI-FAIL] pestpro.se — 429
+[2026-04-16T13:51:36.289Z] [PSI-FAIL] bugsoff.se — 429
+[2026-04-16T13:51:36.315Z] [PSI-FAIL] stockholm-sanering.se — 429
+[2026-04-16T13:51:36.321Z] [PSI-FAIL] begone.se — 429
+[2026-04-16T13:51:36.401Z] [PSI-FAIL] skadedjursbekampning.nu — 429
+[2026-04-16T13:51:36.402Z] [PSI-FAIL] skadedjurshantering.se — 429
+[2026-04-16T13:51:36.416Z] [PSI-FAIL] skadedjursbutiken.se — 429
+[2026-04-16T13:51:36.473Z] [PSI-FAIL] sakon.se — 429
+[2026-04-16T13:51:36.483Z] [PSI-FAIL] stick.se — 429
+[2026-04-16T13:51:36.523Z] [PSI-FAIL] skabent.com — 429
+[2026-04-16T13:51:36.589Z] [PSI-FAIL] saneringsfirma.se — 429
+[2026-04-16T13:51:36.631Z] [PSI-FAIL] qualitydetectiondogs.se — 429
+[2026-04-16T13:51:36.640Z] [PSI-FAIL] tingstad.com — 429
+[2026-04-16T13:51:36.696Z] [PSI-FAIL] ratthund.se — 429
+[2026-04-16T13:51:36.733Z] [PSI-FAIL] insecta.se — 429
+[2026-04-16T13:51:36.735Z] [PSI-FAIL] rodentor.se — 429
+[2026-04-16T13:51:36.787Z] [PSI-FAIL] xn--saneringlinkping-xwb.se — 429
+[2026-04-16T13:51:36.835Z] [PSI-FAIL] entreprenadforetag.se — 429
+[2026-04-16T13:51:36.890Z] [PSI-FAIL] saneringstjanst.se — 429
+[2026-04-16T13:51:36.923Z] [PSI-FAIL] hallandssanering.com — 429
+[2026-04-16T13:51:36.942Z] [PSI-FAIL] forenedeservice.se — 429
+[2026-04-16T13:51:36.971Z] [PSI-FAIL] industrisaneringisverige.se — 429
+[2026-04-16T13:51:37.005Z] [PSI-FAIL] xn--saneringvrmland-8kb.se — 429
+[2026-04-16T13:51:37.027Z] [PSI-FAIL] kryahem.se — 429
+[2026-04-16T13:51:37.072Z] [PSI-FAIL] leadhive.se — 429
+[2026-04-16T13:51:37.188Z] [PSI-FAIL] trustpilot.com — 429
+[2026-04-16T13:51:37.204Z] [PSI-FAIL] abynsbygg.se — 429
+[2026-04-16T13:51:37.284Z] [PSI-FAIL] silvermedaljen.se — 429
+[2026-04-16T13:51:37.289Z] [PSI-FAIL] vaggloss.se — 429
+[2026-04-16T13:51:37.294Z] [PSI-FAIL] newsroom.notified.com — 429
+[2026-04-16T13:51:37.299Z] [PSI-FAIL] press.newsmachine.com — 429
+[2026-04-16T13:51:37.377Z] [PSI-FAIL] allverk.se — 429
+[2026-04-16T13:51:37.377Z] [PSI-FAIL] tyrogroup.com — 429
+[2026-04-16T13:51:37.381Z] [PSI-FAIL] thermacell.se — 429
+[2026-04-16T13:51:37.384Z] [PSI-FAIL] larf.se — 429
+[2026-04-16T13:51:37.489Z] [PSI-FAIL] huge.se — 429
+[2026-04-16T13:51:37.489Z] [PSI-FAIL] einarmattsson.se — 429
+[2026-04-16T13:51:37.490Z] [PSI-FAIL] granngarden.se — 429
+[2026-04-16T13:51:37.490Z] [PSI-FAIL] nykopingshem.se — 429
+[2026-04-16T13:51:37.651Z] [PSI-FAIL] bostaderlidkoping.se — 429
+[2026-04-16T13:51:37.655Z] [PSI-FAIL] alingsashem.se — 429
+[2026-04-16T13:51:37.656Z] [PSI-FAIL] kfast.se — 429
+[2026-04-16T13:51:37.810Z] [PSI-FAIL] xn--trdfllningstockholm-hwbc.se — 429
+[2026-04-16T13:51:37.814Z] [PSI-FAIL] tradfallare.se — 429
+[2026-04-16T13:51:37.815Z] [PSI-FAIL] wasatradfallning.se — 429
+[2026-04-16T13:51:37.907Z] [PSI-FAIL] xn--timbertrdfllning-2nbc.se — 429
+[2026-04-16T13:51:37.976Z] [PSI-FAIL] svensktradservice.se — 429
+[2026-04-16T13:51:38.015Z] [PSI-FAIL] storholmentrad.com — 429
+[2026-04-16T13:51:38.089Z] [PSI-FAIL] tradfallarna.se — 429
+[2026-04-16T13:51:38.090Z] [PSI-FAIL] maxinetradfallning.se — 429
+[2026-04-16T13:51:38.196Z] [PSI-FAIL] stockholmarborist.se — 429
+[2026-04-16T13:51:38.204Z] [PSI-FAIL] arboriststockholm.com — 429
+[2026-04-16T13:51:38.235Z] [PSI-FAIL] stockholmtradvard.se — 429
+[2026-04-16T13:51:38.294Z] [PSI-FAIL] dinarborist.se — 429
+[2026-04-16T13:51:38.295Z] [PSI-FAIL] arborististockholm.se — 429
+[2026-04-16T13:51:38.299Z] [PSI-FAIL] simonsviltskog.se — 429
+[2026-04-16T13:51:38.343Z] [PSI-FAIL] a4arborist.se — 429
+[2026-04-16T13:51:38.502Z] [PSI-FAIL] tradmastarna.se — 429
+[2026-04-16T13:51:38.506Z] [PSI-FAIL] pvtradfallning.se — 429
+[2026-04-16T13:51:38.507Z] [PSI-FAIL] arborister.se — 429
+[2026-04-16T13:51:38.576Z] [PSI-FAIL] arboristerna.com — 429
+[2026-04-16T13:51:38.605Z] [PSI-FAIL] tippmicke.se — 429
+[2026-04-16T13:51:38.611Z] [PSI-FAIL] veravi.nu — 429
+[2026-04-16T13:51:38.611Z] [PSI-FAIL] addschakt.se — 429
+[2026-04-16T13:51:38.689Z] [PSI-FAIL] arborist-stockholm.se — 429
+[2026-04-16T13:51:38.697Z] [PSI-FAIL] tradspecialisten.se — 429
+[2026-04-16T13:51:38.722Z] [PSI-FAIL] tradspecialisterna.se — 429
+[2026-04-16T13:51:38.795Z] [PSI-FAIL] tradakuten.se — 429
+[2026-04-16T13:51:38.795Z] [PSI-FAIL] trad.nu — 429
+[2026-04-16T13:51:38.846Z] [PSI-FAIL] stubbfrasning.se — 429
+[2026-04-16T13:51:38.931Z] [PSI-FAIL] grentradservice.se — 429
+[2026-04-16T13:51:38.988Z] [PSI-FAIL] xn--trdfllningigteborg-mtbc00b.se — 429
+[2026-04-16T13:51:39.045Z] [PSI-FAIL] xn--gteborgtrdfllning-yqbc26a.se — 429
+[2026-04-16T13:51:39.047Z] [PSI-FAIL] proffscenter.se — 429
+[2026-04-16T13:51:39.083Z] [PSI-FAIL] bergstromstradtjanst.se — 429
+[2026-04-16T13:51:39.089Z] [PSI-FAIL] lhtradvard.se — 429
+[2026-04-16T13:51:39.141Z] [PSI-FAIL] aureliustrad.se — 429
+[2026-04-16T13:51:39.190Z] [PSI-FAIL] arborsyd.se — 429
+[2026-04-16T13:51:39.191Z] [PSI-FAIL] tradfokussyd.se — 429
+[2026-04-16T13:51:39.231Z] [PSI-FAIL] acre.se — 429
+[2026-04-16T13:51:39.298Z] [PSI-FAIL] xn--arboristmalm-gjb.se — 429
+[2026-04-16T13:51:39.315Z] [PSI-FAIL] tradfint.se — 429
+[2026-04-16T13:51:39.319Z] [PSI-FAIL] malmotradfallning.se — 429
+[2026-04-16T13:51:39.320Z] [PSI-FAIL] tradvard.com — 429
+[2026-04-16T13:51:39.422Z] [PSI-FAIL] arboristexperten.se — 429
+[2026-04-16T13:51:39.429Z] [PSI-FAIL] sekant.se — 429
+[2026-04-16T13:51:39.438Z] [PSI-FAIL] tradmark.se — 429
+[2026-04-16T13:51:39.438Z] [PSI-FAIL] svearb.se — 429
+[2026-04-16T13:51:39.543Z] [PSI-FAIL] upplandsarborist.se — 429
+[2026-04-16T13:51:39.589Z] [PSI-FAIL] kooperativetarboris.se — 429
+[2026-04-16T13:51:39.589Z] [PSI-FAIL] rangloaxe.se — 429
+[2026-04-16T13:51:39.663Z] [PSI-FAIL] quercustradvard.se — 429
+[2026-04-16T13:51:39.720Z] [PSI-FAIL] markmiljotjanst.se — 429
+[2026-04-16T13:51:39.720Z] [PSI-FAIL] arborillatradtjanster.com — 429
+[2026-04-16T13:51:39.721Z] [PSI-FAIL] arborist-uppsala.se — 429
+[2026-04-16T13:51:39.786Z] [PSI-FAIL] djupeskog.se — 429
+[2026-04-16T13:51:39.821Z] [PSI-FAIL] frasgubben.se — 429
+[2026-04-16T13:51:39.839Z] [PSI-FAIL] nordenstenlift.se — 429
+[2026-04-16T13:51:39.889Z] [PSI-FAIL] tradfallning-uppsala.se — 429
+[2026-04-16T13:51:39.960Z] [PSI-FAIL] klatterapan.se — 429
+[2026-04-16T13:51:39.960Z] [PSI-FAIL] xn--trdfllningvsters-wnbchy.se — 429
+[2026-04-16T13:51:39.981Z] [PSI-FAIL] tradleoparden.se — 429
+[2026-04-16T13:51:40.000Z] [PSI-FAIL] bjorkens.se — 429
+[2026-04-16T13:51:40.065Z] [PSI-FAIL] dahlgrenallround.se — 429
+[2026-04-16T13:51:40.073Z] [PSI-FAIL] antmanwoodcraft.se — 429
+[2026-04-16T13:51:40.108Z] [PSI-FAIL] m4.se — 429
+[2026-04-16T13:51:40.225Z] [PSI-FAIL] arboristjavisst.se — 429
+[2026-04-16T13:51:40.225Z] [PSI-FAIL] tradifall.com — 429
+[2026-04-16T13:51:40.311Z] [PSI-FAIL] avtf.se — 429
+[2026-04-16T13:51:40.316Z] [PSI-FAIL] arboterra.se — 429
+[2026-04-16T13:51:40.326Z] [PSI-FAIL] lekebergs.se — 429
+[2026-04-16T13:51:40.338Z] [PSI-FAIL] karstaalltjanst.se — 429
+[2026-04-16T13:51:40.391Z] [PSI-FAIL] granalundtradfallning.se — 429
+[2026-04-16T13:51:40.408Z] [PSI-FAIL] fatreetec.se — 429
+[2026-04-16T13:51:40.585Z] [PSI-FAIL] tradfallningorebro.nu — 429
+[2026-04-16T13:51:40.598Z] [PSI-FAIL] servicefirma-orebro.se — 429
+[2026-04-16T13:51:40.663Z] [PSI-FAIL] greenostergotland.se — 429
+[2026-04-16T13:51:40.665Z] [PSI-FAIL] arbdoc.se — 429
+[2026-04-16T13:51:40.682Z] [PSI-FAIL] xn--linkpingtrdfllning-utbc28a.se — 429
+[2026-04-16T13:51:40.684Z] [PSI-FAIL] arboteket.se — 429
+[2026-04-16T13:51:40.842Z] [PSI-FAIL] gmtradvard.se — 429
+[2026-04-16T13:51:40.842Z] [PSI-FAIL] xn--trdfllninghbg-cfbc.se — 429
+[2026-04-16T13:51:40.855Z] [PSI-FAIL] sptradgardsservice.se — 429
+[2026-04-16T13:51:40.855Z] [PSI-FAIL] stubbfrasninglinkoping.se — 429
+[2026-04-16T13:51:40.946Z] [PSI-FAIL] tradfix.se — 429
+[2026-04-16T13:51:40.947Z] [PSI-FAIL] markarbete-helsingborg.se — 429
+[2026-04-16T13:51:40.955Z] [PSI-FAIL] kullatrad.se — 429
+[2026-04-16T13:51:40.956Z] [PSI-FAIL] xn--helsingborgtrdfllning-i2bc.se — 429
+[2026-04-16T13:51:41.050Z] [PSI-FAIL] saggubben.se — 429
+[2026-04-16T13:51:41.051Z] [PSI-FAIL] essekraft.se — 429
+[2026-04-16T13:51:41.051Z] [PSI-FAIL] tradtjanster.se — 429
+[2026-04-16T13:51:41.053Z] [PSI-FAIL] thibomstradvard.se — 429
+[2026-04-16T13:51:41.159Z] [PSI-FAIL] xn--trdfllningjnkping-rqbc18ac.se — 429
+[2026-04-16T13:51:41.160Z] [PSI-FAIL] nordicgreengroup.se — 429
+[2026-04-16T13:51:41.175Z] [PSI-FAIL] treecareofsweden.se — 429
+[2026-04-16T13:51:41.207Z] [PSI-FAIL] xn--trdgrdsarbeten-6hbs.se — 429
+[2026-04-16T13:51:41.260Z] [PSI-FAIL] hultings.se — 429
+[2026-04-16T13:51:41.262Z] [PSI-FAIL] xn--trdfllningnorrkping-hwbc12b.se — 429
+[2026-04-16T13:51:41.297Z] [PSI-FAIL] tradfallningnorrkoping.se — 429
+[2026-04-16T13:51:41.309Z] [PSI-FAIL] rojex.se — 429
+[2026-04-16T13:51:41.387Z] [PSI-FAIL] xn--norrkpingtrdfllning-qwbc00b.se — 429
+[2026-04-16T13:51:41.391Z] [PSI-FAIL] kuddbytradfallning.se — 429
+[2026-04-16T13:51:41.412Z] [PSI-FAIL] xn--trdochkltterservice-hwbg.se — 429
+[2026-04-16T13:51:41.436Z] [PSI-FAIL] beaverclimbs.com — 429
+[2026-04-16T13:51:41.506Z] [PSI-FAIL] tatradtjanst.se — 429
+[2026-04-16T13:51:41.507Z] [PSI-FAIL] markentreprenad-stockholm.se — 429
+[2026-04-16T13:51:41.509Z] [PSI-FAIL] stockholm-markarbete.se — 429
+[2026-04-16T13:51:41.549Z] [PSI-FAIL] markarbete-ekero.se — 429
+[2026-04-16T13:51:41.604Z] [PSI-FAIL] markarbete-alvsjo.se — 429
+[2026-04-16T13:51:41.605Z] [PSI-FAIL] markarbete-huddinge.se — 429
+[2026-04-16T13:51:41.690Z] [PSI-FAIL] markarbete-bromma.se — 429
+[2026-04-16T13:51:41.704Z] [PSI-FAIL] markarbete-enskede.se — 429
+[2026-04-16T13:51:41.716Z] [PSI-FAIL] markarbete-malarhojden.se — 429
+[2026-04-16T13:51:41.775Z] [PSI-FAIL] markarbete-stockholm.se — 429
+[2026-04-16T13:51:41.790Z] [PSI-FAIL] stuvstamark.se — 429
+[2026-04-16T13:51:41.795Z] [PSI-FAIL] sbtstockholm.se — 429
+[2026-04-16T13:51:41.803Z] [PSI-FAIL] pesabent.se — 429
+[2026-04-16T13:51:41.885Z] [PSI-FAIL] vanordic.se — 429
+[2026-04-16T13:51:41.886Z] [PSI-FAIL] cavar.se — 429
+[2026-04-16T13:51:41.886Z] [PSI-FAIL] stockholmschakt.com — 429
+[2026-04-16T13:51:41.890Z] [PSI-FAIL] markarbete-danderyd.se — 429
+[2026-04-16T13:51:41.991Z] [PSI-FAIL] markfirma-goteborg.se — 429
+[2026-04-16T13:51:41.992Z] [PSI-FAIL] goteborg-dranering.se — 429
+[2026-04-16T13:51:41.992Z] [PSI-FAIL] markarbete-goteborg.se — 429
+[2026-04-16T13:51:41.992Z] [PSI-FAIL] markarbete-vallingby.se — 429
+[2026-04-16T13:51:42.108Z] [PSI-FAIL] markarbete-molnlycke.se — 429
+[2026-04-16T13:51:42.108Z] [PSI-FAIL] gbgmark.com — 429
+[2026-04-16T13:51:42.110Z] [PSI-FAIL] markarbete-molndal.se — 429
+[2026-04-16T13:51:42.221Z] [PSI-FAIL] markarbete-partille.se — 429
+[2026-04-16T13:51:42.223Z] [PSI-FAIL] markarbete-landvetter.se — 429
+[2026-04-16T13:51:42.227Z] [PSI-FAIL] deramont.se — 429
+[2026-04-16T13:51:42.311Z] [PSI-FAIL] markarbete-goteborg.nu — 429
+[2026-04-16T13:51:42.331Z] [PSI-FAIL] nardiservice.se — 429
+[2026-04-16T13:51:42.343Z] [PSI-FAIL] entreprenad-ystad.se — 429
+[2026-04-16T13:51:42.343Z] [PSI-FAIL] sydsverigeab.se — 429
+[2026-04-16T13:51:42.418Z] [PSI-FAIL] markarbete-malmo.se — 429
+[2026-04-16T13:51:42.427Z] [PSI-FAIL] byggforetag-malmo.se — 429
+[2026-04-16T13:51:42.435Z] [PSI-FAIL] malmo-markarbete.se — 429
+[2026-04-16T13:51:42.436Z] [PSI-FAIL] jtf.nu — 429
+[2026-04-16T13:51:42.523Z] [PSI-FAIL] lcab.se — 429
+[2026-04-16T13:51:42.526Z] [PSI-FAIL] manges-entreprenad.se — 429
+[2026-04-16T13:51:42.543Z] [PSI-FAIL] markarbete-storvreta.se — 429
+[2026-04-16T13:51:42.548Z] [PSI-FAIL] markarbete-uppsala.se — 429
+[2026-04-16T13:51:42.639Z] [PSI-FAIL] svistaab.se — 429
+[2026-04-16T13:51:42.640Z] [PSI-FAIL] svahnmark.se — 429
+[2026-04-16T13:51:42.640Z] [PSI-FAIL] vallgardaentreprenad.se — 429
+[2026-04-16T13:51:42.640Z] [PSI-FAIL] klbygg.se — 429
+[2026-04-16T13:51:42.740Z] [PSI-FAIL] upplandsschakt.se — 429
+[2026-04-16T13:51:42.743Z] [PSI-FAIL] ombmark.se — 429
+[2026-04-16T13:51:42.745Z] [PSI-FAIL] miljoentreprenad.se — 429
+[2026-04-16T13:51:42.753Z] [PSI-FAIL] bodenmark.se — 429
+[2026-04-16T13:51:42.890Z] [PSI-FAIL] h-mark.se — 429
+[2026-04-16T13:51:42.890Z] [PSI-FAIL] markarbete-enkoping.se — 429
+[2026-04-16T13:51:42.891Z] [PSI-FAIL] elui.se — 429
+[2026-04-16T13:51:42.891Z] [PSI-FAIL] vasteras-markarbete.se — 429
+[2026-04-16T13:51:43.000Z] [PSI-FAIL] markbolagen.se — 429
+[2026-04-16T13:51:43.000Z] [PSI-FAIL] btjentreprenad.se — 429
+[2026-04-16T13:51:43.001Z] [PSI-FAIL] areens.se — 429
+[2026-04-16T13:51:43.001Z] [PSI-FAIL] widerstromschakt.se — 429
+[2026-04-16T13:51:43.095Z] [PSI-FAIL] ybentreprenad.se — 429
+[2026-04-16T13:51:43.096Z] [PSI-FAIL] nylandersbygg.se — 429
+[2026-04-16T13:51:43.101Z] [PSI-FAIL] gravmaskinvastmanland.se — 429
+[2026-04-16T13:51:43.101Z] [PSI-FAIL] maeab.se — 429
+[2026-04-16T13:51:43.199Z] [PSI-FAIL] gravfirmaorebro.se — 429
+[2026-04-16T13:51:43.201Z] [PSI-FAIL] markarbetenorebro.com — 429
+[2026-04-16T13:51:43.213Z] [PSI-FAIL] entreprenadorebro.nu — 429
+[2026-04-16T13:51:43.300Z] [PSI-FAIL] markarbete-linkoping.se — 429
+[2026-04-16T13:51:43.300Z] [PSI-FAIL] maentreprenadteknik.se — 429
+[2026-04-16T13:51:43.366Z] [PSI-FAIL] gtbygg.se — 429
+[2026-04-16T13:51:43.417Z] [PSI-FAIL] bgentreprenad.se — 429
+[2026-04-16T13:51:43.417Z] [PSI-FAIL] gravfirma.net — 429
+[2026-04-16T13:51:43.451Z] [PSI-FAIL] geabs.se — 429
+[2026-04-16T13:51:43.453Z] [PSI-FAIL] jr-maskin.se — 429
+[2026-04-16T13:51:43.520Z] [PSI-FAIL] ljungsgarden.se — 429
+[2026-04-16T13:51:43.521Z] [PSI-FAIL] berggardens.se — 429
+[2026-04-16T13:51:43.576Z] [PSI-FAIL] mme.nu — 429
+[2026-04-16T13:51:43.629Z] [PSI-FAIL] dranering-linkoping.se — 429
+[2026-04-16T13:51:43.631Z] [PSI-FAIL] linkopingmarkarbete.se — 429
+[2026-04-16T13:51:43.702Z] [PSI-FAIL] ericssonsentreprenad.se — 429
+[2026-04-16T13:51:43.726Z] [PSI-FAIL] denntek.se — 429
+[2026-04-16T13:51:43.738Z] [PSI-FAIL] markarbetehelsingborg.nu — 429
+[2026-04-16T13:51:43.743Z] [PSI-FAIL] tnilssons.se — 429
+[2026-04-16T13:51:43.821Z] [PSI-FAIL] dunersmaskin.se — 429
+[2026-04-16T13:51:43.828Z] [PSI-FAIL] hfentreprenad.se — 429
+[2026-04-16T13:51:43.834Z] [PSI-FAIL] nyingwik.se — 429
+[2026-04-16T13:51:43.836Z] [PSI-FAIL] sandbergsschakt.se — 429
+[2026-04-16T13:51:43.953Z] [PSI-FAIL] hakarpsjord.se — 429
+[2026-04-16T13:51:43.957Z] [PSI-FAIL] dranering-jonkoping.se — 429
+[2026-04-16T13:51:43.959Z] [PSI-FAIL] abmaskin.se — 429
+[2026-04-16T13:51:43.965Z] [PSI-FAIL] ragges.se — 429
+[2026-04-16T13:51:44.132Z] [PSI-FAIL] leh-ab.se — 429
+[2026-04-16T13:51:44.135Z] [PSI-FAIL] jlbasfalt.se — 429
+[2026-04-16T13:51:44.141Z] [PSI-FAIL] hammarsmark.se — 429
+[2026-04-16T13:51:44.153Z] [PSI-FAIL] gravfirmanorrkoping.se — 429
+[2026-04-16T13:51:44.234Z] [PSI-FAIL] markarbete-norrkoping.se — 429
+[2026-04-16T13:51:44.270Z] [PSI-FAIL] anlaggninglinkoping.se — 429
+[2026-04-16T13:51:44.276Z] [PSI-FAIL] cmef.se — 429
+[2026-04-16T13:51:44.325Z] [PSI-FAIL] stockholmskiropraktorklinik.se — 429
+[2026-04-16T13:51:44.389Z] [PSI-FAIL] kirokliniken.se — 429
+[2026-04-16T13:51:44.390Z] [PSI-FAIL] kirostockholm.se — 429
+[2026-04-16T13:51:44.418Z] [PSI-FAIL] sthlmkirorehab.se — 429
+[2026-04-16T13:51:44.422Z] [PSI-FAIL] kiropraktoristockholm.se — 429
+[2026-04-16T13:51:44.508Z] [PSI-FAIL] kirorehabklinik.se — 429
+[2026-04-16T13:51:44.509Z] [PSI-FAIL] evokliniken.se — 429
+[2026-04-16T13:51:44.510Z] [PSI-FAIL] fridhemsplanskiropraktorklinik.se — 429
+[2026-04-16T13:51:44.689Z] [PSI-FAIL] nordickiropraktik.se — 429
+[2026-04-16T13:51:44.736Z] [PSI-FAIL] kiropraktorvard.se — 429
+[2026-04-16T13:51:44.739Z] [PSI-FAIL] naprawell.se — 429
+[2026-04-16T13:51:44.739Z] [PSI-FAIL] naprapatdoktorerna.se — 429
+[2026-04-16T13:51:44.780Z] [PSI-FAIL] naprapaterna.nu — 429
+[2026-04-16T13:51:44.837Z] [PSI-FAIL] naprapatofstockholm.se — 429
+[2026-04-16T13:51:44.837Z] [PSI-FAIL] naprapatvarden.se — 429
+[2026-04-16T13:51:44.838Z] [PSI-FAIL] kroppsdetektiverna.se — 429
+[2026-04-16T13:51:44.877Z] [PSI-FAIL] naprapatstockholm.nu — 429
+[2026-04-16T13:51:44.933Z] [PSI-FAIL] sergelrehab.se — 429
+[2026-04-16T13:51:44.934Z] [PSI-FAIL] srkc.se — 429
+[2026-04-16T13:51:44.989Z] [PSI-FAIL] helakroppen.se — 429
+[2026-04-16T13:51:45.039Z] [PSI-FAIL] medfit.se — 429
+[2026-04-16T13:51:45.052Z] [PSI-FAIL] arenamotion.se — 429
+[2026-04-16T13:51:45.077Z] [PSI-FAIL] sthlmfysioterapi.se — 429
+[2026-04-16T13:51:45.082Z] [PSI-FAIL] ryggakuten.com — 429
+[2026-04-16T13:51:45.125Z] [PSI-FAIL] goteborgskiropraktorklinik.se — 429
+[2026-04-16T13:51:45.162Z] [PSI-FAIL] patrikerdegard.se — 429
+[2026-04-16T13:51:45.218Z] [PSI-FAIL] ecrc.se — 429
+[2026-04-16T13:51:45.230Z] [PSI-FAIL] andreaserdegard.se — 429
+[2026-04-16T13:51:45.236Z] [PSI-FAIL] sockander.se — 429
+[2026-04-16T13:51:45.290Z] [PSI-FAIL] kiropraktorcentrum.com — 429
+[2026-04-16T13:51:45.320Z] [PSI-FAIL] eurekakiropraktik.se — 429
+[2026-04-16T13:51:45.321Z] [PSI-FAIL] city-kliniken.com — 429
+[2026-04-16T13:51:45.339Z] [PSI-FAIL] napraidrott.se — 429
+[2026-04-16T13:51:45.399Z] [PSI-FAIL] stjarnkliniken.com — 429
+[2026-04-16T13:51:45.411Z] [PSI-FAIL] bodycheck.se — 429
+[2026-04-16T13:51:45.416Z] [PSI-FAIL] ryggochled.se — 429
+[2026-04-16T13:51:45.454Z] [PSI-FAIL] ortomed.se — 429
+[2026-04-16T13:51:45.504Z] [PSI-FAIL] team-halsa.se — 429
+[2026-04-16T13:51:45.516Z] [PSI-FAIL] fysionovaab.se — 429
+[2026-04-16T13:51:45.516Z] [PSI-FAIL] carlanderska.se — 429
+[2026-04-16T13:51:45.590Z] [PSI-FAIL] fysiohuset.se — 429
+[2026-04-16T13:51:45.611Z] [PSI-FAIL] citykiropraktikern.se — 429
+[2026-04-16T13:51:45.616Z] [PSI-FAIL] malmokiropraktorklinik.se — 429
+[2026-04-16T13:51:45.617Z] [PSI-FAIL] theclinic.se — 429
+[2026-04-16T13:51:45.690Z] [PSI-FAIL] kiropraktorlaurin.nu — 429
+[2026-04-16T13:51:45.695Z] [PSI-FAIL] torsokliniken.se — 429
+[2026-04-16T13:51:45.707Z] [PSI-FAIL] chiropraktikakuten.se — 429
+[2026-04-16T13:51:45.711Z] [PSI-FAIL] rmvkiropraktik.se — 429
+[2026-04-16T13:51:45.798Z] [PSI-FAIL] fysiomed.se — 429
+[2026-04-16T13:51:45.810Z] [PSI-FAIL] smood.se — 429
+[2026-04-16T13:51:45.810Z] [PSI-FAIL] malmonaprapatiska.se — 429
+[2026-04-16T13:51:45.810Z] [PSI-FAIL] naprapatcentrum.com — 429
+[2026-04-16T13:51:45.905Z] [PSI-FAIL] trekotor.se — 429
+[2026-04-16T13:51:45.907Z] [PSI-FAIL] idrottsskadeexperten.se — 429
+[2026-04-16T13:51:45.908Z] [PSI-FAIL] fysiocenter.nu — 429
+[2026-04-16T13:51:45.909Z] [PSI-FAIL] friskarefysik.se — 429
+[2026-04-16T13:51:46.005Z] [PSI-FAIL] citysjukgymnasterna.se — 429
+[2026-04-16T13:51:46.006Z] [PSI-FAIL] iklinik.se — 429
+[2026-04-16T13:51:46.011Z] [PSI-FAIL] davidaston.se — 429
+[2026-04-16T13:51:46.117Z] [PSI-FAIL] fysiopunkten.se — 429
+[2026-04-16T13:51:46.118Z] [PSI-FAIL] malmoidrottsklinik.se — 429
+[2026-04-16T13:51:46.118Z] [PSI-FAIL] kiropraktorkliniken.com — 429
+[2026-04-16T13:51:46.188Z] [PSI-FAIL] kulanic.se — 429
+[2026-04-16T13:51:46.203Z] [PSI-FAIL] uppsalakiropraktorklinik.se — 429
+[2026-04-16T13:51:46.207Z] [PSI-FAIL] kiropraktoruppsala.se — 429
+[2026-04-16T13:51:46.208Z] [PSI-FAIL] uppsalanaprapatklinik.se — 429
+[2026-04-16T13:51:46.292Z] [PSI-FAIL] kiropraktiskt.se — 429
+[2026-04-16T13:51:46.294Z] [PSI-FAIL] rosendalkiropraktorklinik.se — 429
+[2026-04-16T13:51:46.296Z] [PSI-FAIL] joylife.se — 429
+[2026-04-16T13:51:46.297Z] [PSI-FAIL] iscuppsala.se — 429
+[2026-04-16T13:51:46.400Z] [PSI-FAIL] naprapatklinik018.se — 429
+[2026-04-16T13:51:46.400Z] [PSI-FAIL] muskelcentrum.se — 429
+[2026-04-16T13:51:46.410Z] [PSI-FAIL] uppsalanaprapat.com — 429
+[2026-04-16T13:51:46.410Z] [PSI-FAIL] naprapatuppsala.com — 429
+[2026-04-16T13:51:46.493Z] [PSI-FAIL] topphalsan.se — 429
+[2026-04-16T13:51:46.505Z] [PSI-FAIL] fysoptima.se — 429
+[2026-04-16T13:51:46.506Z] [PSI-FAIL] citykiropraktik.se — 429
+[2026-04-16T13:51:46.509Z] [PSI-FAIL] aktiverakliniken.se — 429
+[2026-04-16T13:51:46.599Z] [PSI-FAIL] cityklinikenorebro.se — 429
+[2026-04-16T13:51:46.603Z] [PSI-FAIL] orebrokiro.se — 429
+[2026-04-16T13:51:46.603Z] [PSI-FAIL] andersonchiropractic.se — 429
+[2026-04-16T13:51:46.613Z] [PSI-FAIL] vnk.nu — 429
+[2026-04-16T13:51:46.698Z] [PSI-FAIL] ryggcenter.com — 429
+[2026-04-16T13:51:46.704Z] [PSI-FAIL] hanserkiropraktorklinik.se — 429
+[2026-04-16T13:51:46.705Z] [PSI-FAIL] naprapathy.se — 429
+[2026-04-16T13:51:46.710Z] [PSI-FAIL] orebrokiropraktorklinik.se — 429
+[2026-04-16T13:51:46.799Z] [PSI-FAIL] kroppshalsan.se — 429
+[2026-04-16T13:51:46.804Z] [PSI-FAIL] wasahalsan.se — 429
+[2026-04-16T13:51:46.810Z] [PSI-FAIL] nordichealthorebro.se — 429
+[2026-04-16T13:51:46.813Z] [PSI-FAIL] eliasons.se — 429
+[2026-04-16T13:51:46.917Z] [PSI-FAIL] kiropraktoreklund.se — 429
+[2026-04-16T13:51:46.918Z] [PSI-FAIL] kiropraktorhuset.se — 429
+[2026-04-16T13:51:46.918Z] [PSI-FAIL] xn--kiropraktorlinkping-46b.se — 429
+[2026-04-16T13:51:46.988Z] [PSI-FAIL] kiropraktorakuten.com — 429
+[2026-04-16T13:51:47.025Z] [PSI-FAIL] kiropraktorme.se — 429
+[2026-04-16T13:51:47.025Z] [PSI-FAIL] halsogalleriet.se — 429
+[2026-04-16T13:51:47.025Z] [PSI-FAIL] rehabsupport.se — 429
+[2026-04-16T13:51:47.101Z] [PSI-FAIL] curarehab.se — 429
+[2026-04-16T13:51:47.106Z] [PSI-FAIL] sjukgymnastlinkoping.se — 429
+[2026-04-16T13:51:47.112Z] [PSI-FAIL] kiropraktiknordvast.se — 429
+[2026-04-16T13:51:47.112Z] [PSI-FAIL] naprapat.se — 429
+[2026-04-16T13:51:47.191Z] [PSI-FAIL] kiropraktorkliniken.nu — 429
+[2026-04-16T13:51:47.200Z] [PSI-FAIL] oresundskliniken.se — 429
+[2026-04-16T13:51:47.205Z] [PSI-FAIL] clinicus.nu — 429
+[2026-04-16T13:51:47.214Z] [PSI-FAIL] olympiahalsoklinik.se — 429
+[2026-04-16T13:51:47.296Z] [PSI-FAIL] kvinnorehabkliniken.se — 429
+[2026-04-16T13:51:47.297Z] [PSI-FAIL] dinnaprapat.nu — 429
+[2026-04-16T13:51:47.301Z] [PSI-FAIL] naprapat-halsan.se — 429
+[2026-04-16T13:51:47.301Z] [PSI-FAIL] ryggakutenhbg.se — 429
+[2026-04-16T13:51:47.437Z] [PSI-FAIL] nordicrefit.se — 429
+[2026-04-16T13:51:47.437Z] [PSI-FAIL] naprapat-caroline.se — 429
+[2026-04-16T13:51:47.438Z] [PSI-FAIL] careno1.se — 429
+[2026-04-16T13:51:47.438Z] [PSI-FAIL] plushalsan.se — 429
+[2026-04-16T13:51:47.546Z] [PSI-FAIL] kiropraktikare.se — 429
+[2026-04-16T13:51:47.548Z] [PSI-FAIL] kiro-jkpg.se — 429
+[2026-04-16T13:51:47.552Z] [PSI-FAIL] primakiropraktik.se — 429
+[2026-04-16T13:51:47.552Z] [PSI-FAIL] ri-kliniken.se — 429
+[2026-04-16T13:51:47.652Z] [PSI-FAIL] agilokliniken.se — 429
+[2026-04-16T13:51:47.689Z] [PSI-FAIL] plusrehab.se — 429
+[2026-04-16T13:51:47.689Z] [PSI-FAIL] physioformance.se — 429
+[2026-04-16T13:51:47.757Z] [PSI-FAIL] naprapateliten.se — 429
+[2026-04-16T13:51:47.795Z] [PSI-FAIL] ryggakuten.nu — 429
+[2026-04-16T13:51:47.804Z] [PSI-FAIL] andrenspraktik.se — 429
+[2026-04-16T13:51:47.850Z] [PSI-FAIL] medicrehab.se — 429
+[2026-04-16T13:51:47.869Z] [PSI-FAIL] naprapatakuten.net — 429
+[2026-04-16T13:51:47.910Z] [PSI-FAIL] familjekiropraktik.se — 429
+[2026-04-16T13:51:47.911Z] [PSI-FAIL] kiropraktorlund.se — 429
+[2026-04-16T13:51:47.989Z] [PSI-FAIL] lommakiropraktorklinik.se — 429
+[2026-04-16T13:51:47.989Z] [PSI-FAIL] ryggcentrumlund.se — 429
+[2026-04-16T13:51:48.003Z] [PSI-FAIL] lommakiropraktor.se — 429
+[2026-04-16T13:51:48.004Z] [PSI-FAIL] akutkiropraktor.se — 429
+[2026-04-16T13:51:48.105Z] [PSI-FAIL] idrottshalsan.se — 429
+[2026-04-16T13:51:48.106Z] [PSI-FAIL] stortorgetsfysio.se — 429
+[2026-04-16T13:51:48.106Z] [PSI-FAIL] lundsnaprapatklinik.se — 429
+[2026-04-16T13:51:48.106Z] [PSI-FAIL] ryggochidrottskliniken.se — 429
+[2026-04-16T13:51:48.201Z] [PSI-FAIL] stockholmsosteopatklinik.se — 429
+[2026-04-16T13:51:48.204Z] [PSI-FAIL] stockholmsosteopaterna.se — 429
+[2026-04-16T13:51:48.204Z] [PSI-FAIL] stockholmcityosteopat.se — 429
+[2026-04-16T13:51:48.210Z] [PSI-FAIL] ugglamassage.se — 429
+[2026-04-16T13:51:48.305Z] [PSI-FAIL] brommaryggklinik.se — 429
+[2026-04-16T13:51:48.306Z] [PSI-FAIL] stockholmsryggklinik.se — 429
+[2026-04-16T13:51:48.309Z] [PSI-FAIL] odenplansryggklinik.se — 429
+[2026-04-16T13:51:48.311Z] [PSI-FAIL] coryggkliniken.se — 429
+[2026-04-16T13:51:48.403Z] [PSI-FAIL] vigeokliniken.se — 429
+[2026-04-16T13:51:48.403Z] [PSI-FAIL] klinik4.se — 429
+[2026-04-16T13:51:48.404Z] [PSI-FAIL] atlaskiropraktorklinik.se — 429
+[2026-04-16T13:51:48.406Z] [PSI-FAIL] nordiskakiropraktorkliniken.se — 429
+[2026-04-16T13:51:48.500Z] [PSI-FAIL] aktivnaprapati.nu — 429
+[2026-04-16T13:51:48.504Z] [PSI-FAIL] umearygg.se — 429
+[2026-04-16T13:51:48.506Z] [PSI-FAIL] naprapat-kliniken.se — 429
+[2026-04-16T13:51:48.510Z] [PSI-FAIL] fysio.se — 429
+[2026-04-16T13:51:48.602Z] [PSI-FAIL] naprapatsmedjan.se — 429
+[2026-04-16T13:51:48.606Z] [PSI-FAIL] ryggochmuskelakuten.se — 429
+[2026-04-16T13:51:48.607Z] [PSI-FAIL] naprapatakuten-rn.se — 429
+[2026-04-16T13:51:48.611Z] [PSI-FAIL] helheten.nu — 429
+[2026-04-16T13:51:48.834Z] DONE. Counts: {"RING":1,"MEJLA":26,"SKIPPA":458,"DEAD":34}  Total time: 193.7s

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tobler × Searchboost — 14 april 2026</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue: #003087;
+    --blue-dark: #001f5b;
+    --blue-mid: #1a4b9e;
+    --yellow: #F5C500;
+    --yellow-dark: #d4a900;
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --gray: #f4f4f4;
+    --gray-mid: #e0e0e0;
+    --text-light: #444444;
+  }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: #111;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .deck {
+    width: 1280px;
+    height: 720px;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  .slide {
+    display: none;
+    width: 1280px;
+    height: 720px;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .slide.active { display: flex; }
+
+  /* ===== NAV ===== */
+  .nav {
+    position: fixed;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 1000;
+  }
+
+  .nav button {
+    background: var(--yellow);
+    color: var(--blue-dark);
+    border: none;
+    padding: 10px 28px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 4px;
+    letter-spacing: .5px;
+    transition: background .15s;
+  }
+  .nav button:hover { background: var(--yellow-dark); }
+  .nav button:disabled { background: #555; color: #999; cursor: default; }
+
+  .nav .counter {
+    color: #ccc;
+    font-size: 13px;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  /* ===== COVER ===== */
+  .s-cover {
+    background: var(--blue);
+    flex-direction: row;
+  }
+
+  .s-cover .left-bar {
+    width: 14px;
+    background: var(--yellow);
+    height: 100%;
+    flex-shrink: 0;
+  }
+
+  .s-cover .left-panel {
+    width: 360px;
+    background: var(--blue-dark);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 36px;
+    flex-shrink: 0;
+  }
+
+  .s-cover .logo-box {
+    width: 130px;
+    height: 130px;
+    background: var(--yellow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid var(--blue-dark);
+    outline: 8px solid var(--yellow);
+    outline-offset: 4px;
+    margin-bottom: 28px;
+  }
+
+  .s-cover .logo-box span {
+    font-size: 78px;
+    font-weight: 900;
+    color: var(--black);
+    line-height: 1;
+  }
+
+  .s-cover .brand-name {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .s-cover .brand-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,.5);
+    letter-spacing: 1px;
+  }
+
+  .s-cover .right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 60px;
+  }
+
+  .s-cover .badge {
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    display: inline-block;
+    margin-bottom: 28px;
+    border-radius: 2px;
+  }
+
+  .s-cover h1 {
+    font-size: 50px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  .s-cover h1 span { color: var(--yellow); }
+
+  .s-cover .subtitle {
+    font-size: 20px;
+    color: rgba(255,255,255,.65);
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  .s-cover .stats-row {
+    display: flex;
+    gap: 24px;
+  }
+
+  .s-cover .mini-stat {
+    text-align: center;
+    background: rgba(255,255,255,.08);
+    border-radius: 6px;
+    padding: 14px 18px;
+    border-top: 3px solid var(--yellow);
+  }
+
+  .s-cover .mini-stat .v {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+  }
+
+  .s-cover .mini-stat .l {
+    font-size: 11px;
+    color: rgba(255,255,255,.55);
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ===== STANDARD SLIDE ===== */
+  .s-standard {
+    background: var(--white);
+    flex-direction: column;
+  }
+
+  .s-standard .slide-header {
+    background: var(--blue);
+    padding: 24px 52px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .accent-bar {
+    width: 6px;
+    height: 32px;
+    background: var(--yellow);
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .s-standard .slide-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+  }
+
+  .slide-num {
+    margin-left: auto;
+    font-size: 13px;
+    color: rgba(255,255,255,.35);
+    font-weight: 600;
+  }
+
+  .s-standard .slide-body {
+    flex: 1;
+    padding: 32px 52px;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ===== DARK SLIDE ===== */
+  .s-dark {
+    background: var(--blue-dark);
+    flex-direction: column;
+  }
+
+  .s-dark .slide-header {
+    background: var(--blue);
+    border-bottom: 4px solid var(--yellow);
+    padding: 24px 52px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+
+  .s-dark .slide-header h2 {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+  }
+
+  .s-dark .slide-body {
+    flex: 1;
+    padding: 32px 52px;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* ===== TABLE ===== */
+  .ppt-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .ppt-table th {
+    background: var(--blue);
+    color: var(--white);
+    padding: 12px 18px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+
+  .ppt-table td {
+    padding: 11px 18px;
+    border-bottom: 1px solid var(--gray-mid);
+    color: var(--black);
+    font-size: 15px;
+  }
+
+  .ppt-table tr:nth-child(even) td { background: var(--gray); }
+  .ppt-table .hi { color: var(--blue); font-weight: 800; font-size: 16px; }
+  .ppt-table .green { color: #1a7a1a; font-weight: 800; font-size: 16px; }
+
+  /* ===== STAT CARDS ===== */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 26px;
+  }
+
+  .stat-card {
+    border-radius: 8px;
+    padding: 18px 16px;
+    text-align: center;
+    border-top: 5px solid var(--yellow);
+    background: rgba(255,255,255,.08);
+  }
+
+  .stat-card .val {
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-card .lbl {
+    font-size: 12px;
+    color: rgba(255,255,255,.6);
+    letter-spacing: .5px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .stat-card .sub {
+    font-size: 11px;
+    color: rgba(255,255,255,.4);
+    margin-top: 3px;
+  }
+
+  /* Dark table */
+  .s-dark .ppt-table th { background: rgba(255,255,255,.12); color: rgba(255,255,255,.7); }
+  .s-dark .ppt-table td { color: var(--white); border-bottom-color: rgba(255,255,255,.1); }
+  .s-dark .ppt-table tr:nth-child(even) td { background: rgba(255,255,255,.05); }
+  .s-dark .ppt-table .hi { color: var(--yellow); }
+  .s-dark .ppt-table .green { color: #4ade80; }
+
+  /* ===== TWO COL ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    height: 100%;
+  }
+
+  .col-box {
+    background: var(--gray);
+    border-radius: 8px;
+    padding: 24px 22px;
+    border-top: 6px solid var(--blue);
+  }
+
+  .col-box.accent { border-top-color: var(--yellow); }
+  .col-box.muted { border-top-color: #ccc; background: #f9f9f9; }
+
+  .col-box h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .col-box.muted h3 { color: #aaa; }
+
+  /* ===== BULLETS ===== */
+  .bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .bullets li {
+    padding-left: 20px;
+    position: relative;
+    font-size: 15px;
+    color: var(--black);
+    line-height: 1.4;
+  }
+
+  .bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 8px;
+    height: 8px;
+    background: var(--yellow);
+    border: 2px solid var(--blue);
+    border-radius: 2px;
+  }
+
+  .bullets.muted li { color: #999; }
+  .bullets.muted li::before { background: #ccc; border-color: #bbb; }
+
+  /* ===== CHECKLIST ===== */
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+
+  .check-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: rgba(255,255,255,.88);
+    line-height: 1.4;
+  }
+
+  .check-icon {
+    width: 26px;
+    height: 26px;
+    background: var(--yellow);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .check-icon svg { width: 14px; height: 14px; fill: var(--blue-dark); }
+
+  /* light version */
+  .check-list.light li { color: var(--black); }
+  .check-list.light .check-icon { background: var(--blue); }
+  .check-list.light .check-icon svg { fill: var(--yellow); }
+
+  /* ===== STEPS ===== */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .step-num {
+    width: 34px;
+    height: 34px;
+    background: var(--yellow);
+    color: var(--blue-dark);
+    font-weight: 900;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .step-text {
+    font-size: 15px;
+    color: var(--black);
+    line-height: 1.45;
+    padding-top: 6px;
+  }
+
+  .step-text strong { color: var(--blue); }
+
+  /* ===== PRICE CARDS ===== */
+  .price-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    padding: 20px 60px 0;
+    height: 90%;
+    align-items: center;
+  }
+
+  .price-card {
+    border-radius: 12px;
+    padding: 40px 36px;
+    text-align: center;
+  }
+
+  .price-card.blue-card {
+    background: var(--blue);
+    border: 4px solid var(--yellow);
+  }
+
+  .price-card.yellow-card {
+    background: var(--yellow);
+    border: 4px solid var(--blue);
+  }
+
+  .price-card .p-label {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .blue-card .p-label { color: var(--yellow); }
+  .yellow-card .p-label { color: var(--blue); }
+
+  .price-card .p-amount {
+    font-size: 56px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .blue-card .p-amount { color: var(--white); }
+  .yellow-card .p-amount { color: var(--blue-dark); }
+
+  .price-card .p-detail {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .blue-card .p-detail { color: rgba(255,255,255,.65); }
+  .yellow-card .p-detail { color: var(--blue); }
+
+  .price-card .p-note {
+    font-size: 13px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.2);
+  }
+
+  .blue-card .p-note { color: rgba(255,255,255,.5); }
+  .yellow-card .p-note { border-top-color: rgba(0,0,0,.15); color: var(--blue); }
+
+  /* ===== USP BANNER ===== */
+  .usp-banner {
+    background: var(--yellow);
+    color: var(--blue-dark);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 9px 20px;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  /* ===== FOOTER BAR ===== */
+  .footer-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--yellow) 0%, var(--yellow) 55%, var(--blue-mid) 55%);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide s-cover active" id="slide-1">
+    <div class="left-bar"></div>
+    <div class="left-panel">
+      <div class="logo-box"><span>T</span></div>
+      <div class="brand-name">Tobler</div>
+      <div class="brand-sub">Ställningsprodukter</div>
+    </div>
+    <div class="right-panel">
+      <div class="badge">14 april 2026 &nbsp;·&nbsp; Uppföljningsmöte</div>
+      <h1>Uppföljning +<br><span>Uppgradering</span></h1>
+      <div class="subtitle">Searchboost × Tobler — resultat &amp; nästa steg</div>
+      <div class="stats-row">
+        <div class="mini-stat">
+          <div class="v">+347%</div>
+          <div class="l">Klick</div>
+        </div>
+        <div class="mini-stat">
+          <div class="v">+251%</div>
+          <div class="l">Impressioner</div>
+        </div>
+        <div class="mini-stat">
+          <div class="v">24 st</div>
+          <div class="l">Top-10 ord</div>
+        </div>
+        <div class="mini-stat">
+          <div class="v">#4</div>
+          <div class="l">Bästa plats</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+  <!-- SLIDE 2: DISCOVERY -->
+  <div class="slide s-standard" id="slide-2">
+    <div class="slide-header">
+      <div class="accent-bar"></div>
+      <h2>Inledande frågor — Discovery</h2>
+      <div class="slide-num">02 / 09</div>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div class="col-box">
+          <h3>E-handel idag</h3>
+          <ul class="bullets">
+            <li>Hur ser er WooCommerce-checkout ut — är det enkelt för byggföretag att lägga en beställning?</li>
+            <li>Använder ni Crocoblock / JetEngine / JetWooBuilder, eller ren WooCommerce?</li>
+            <li>Hur hanteras produktdata och lager — manuellt i WP eller finns PIM/ERP?</li>
+          </ul>
+        </div>
+        <div class="col-box accent">
+          <h3>Kunder &amp; säljprocess</h3>
+          <ul class="bullets">
+            <li>Mest privat- eller företagskunder online — betalar de med kort eller faktura?</li>
+            <li>Har ni upplevt bedrägerier — falska org.nr, beställningar utan betalning?</li>
+            <li>Levererar ni enbart Sverige eller Norge / Finland / export?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+  <!-- SLIDE 3: RESULTAT -->
+  <div class="slide s-dark" id="slide-3">
+    <div class="slide-header">
+      <h2>Mars — er bästa SEO-månad någonsin</h2>
+      <div class="slide-num">03 / 09</div>
+    </div>
+    <div class="slide-body">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="val">+347%</div>
+          <div class="lbl">Klick</div>
+          <div class="sub">17 &rarr; 76</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">+251%</div>
+          <div class="lbl">Impressioner</div>
+          <div class="sub">~5 000 &rarr; 17 549</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">24 st</div>
+          <div class="lbl">Top-10 nyckelord</div>
+          <div class="sub">Från 0 i februari</div>
+        </div>
+        <div class="stat-card">
+          <div class="val">#4</div>
+          <div class="lbl">Bästa position</div>
+          <div class="sub">"ställningsprodukter"</div>
+        </div>
+      </div>
+      <table class="ppt-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Februari</th>
+            <th>Mars</th>
+            <th>Förändring</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Klick</td><td>17</td><td>76</td><td class="hi">+347%</td></tr>
+          <tr><td>Impressioner</td><td>~5 000</td><td>17 549</td><td class="hi">+251%</td></tr>
+          <tr><td>Top-10 nyckelord</td><td>0</td><td>24</td><td class="green">+24 st</td></tr>
+          <tr><td>Bästa position</td><td>—</td><td>#4 "ställningsprodukter"</td><td class="hi">251 sök/mån</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+  <!-- SLIDE 4: VS FÖRRA BYRÅN -->
+  <div class="slide s-standard" id="slide-4">
+    <div class="slide-header">
+      <div class="accent-bar"></div>
+      <h2>3 månader vs förra byrån (2 år)</h2>
+      <div class="slide-num">04 / 09</div>
+    </div>
+    <div class="slide-body">
+      <table class="ppt-table" style="font-size:15px; margin-top:8px;">
+        <thead>
+          <tr>
+            <th style="width:38%"></th>
+            <th>Förra byrån (2 år)</th>
+            <th>Searchboost (3 mån)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Top-10 nyckelord</td><td>&asymp; 0</td><td class="hi">24 st</td></tr>
+          <tr><td>Klick per månad</td><td>&lt; 10</td><td class="hi">76 i mars</td></tr>
+          <tr><td>Impressioner per månad</td><td>&lt; 5 000</td><td class="hi">17 549 i mars</td></tr>
+          <tr><td>Meta-optimeringar</td><td>Okänt</td><td class="hi">127 st</td></tr>
+          <tr><td>Artiklar publicerade</td><td>0</td><td class="hi">8 st</td></tr>
+          <tr><td>Schemamarkup</td><td>Saknas</td><td class="green">Aktivt</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+  <!-- SLIDE 5: HEMLIG INGREDIENS -->
+  <div class="slide s-standard" id="slide-5">
+    <div class="slide-header">
+      <div class="accent-bar"></div>
+      <h2>Hemlig ingrediens — varför det funkar</h2>
+      <div class="slide-num">05 / 09</div>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div class="col-box accent">
+          <h3>Flatsome &nbsp;✓</h3>
+          <ul class="bullets">
+            <li>Hanterbart, stabilt och SEO-vänligt från start</li>
+            <li>Checkout som fungerar dag ett — ingen komplex setup</li>
+            <li>Ni och vi kan snabbt justera sidor utan att fastna i builder-logik</li>
+            <li>Rätt verktyg för er: tydliga ställningsprodukter, tydliga kategorier</li>
+          </ul>
+        </div>
+        <div class="col-box muted">
+          <h3>Crocoblock / JetEngine &nbsp;✗</h3>
+          <ul class="bullets muted">
+            <li>Kraftfullt men komplext — byggt för 10 000+ dynamiska varianter</li>
+            <li>Fel verktyg för er produktkatalog</li>
+            <li>Svårt att underhålla och optimera löpande</li>
+            <li>Skapar friktion i varje optimering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="usp-banner">Flatsome dag &amp; natt vs Crocoblock &nbsp;|&nbsp; LinkedIn &amp; Facebook postning ingår &nbsp;|&nbsp; 18k faktura 20d / 7k&times;3</div>
+  </div>
+
+  <!-- SLIDE 6: BEDRÄGERISKYDD -->
+  <div class="slide s-dark" id="slide-6">
+    <div class="slide-header">
+      <h2>Bedrägeriskydd — ingår i 18k-paketet</h2>
+      <div class="slide-num">06 / 09</div>
+    </div>
+    <div class="slide-body">
+      <p style="color:rgba(255,255,255,.55); font-size:14px; margin-bottom:24px;">Vid B2B e-handel med faktura uppstår alltid risken för bedrägeri. Vi bygger in skyddet från dag ett.</p>
+      <ul class="check-list">
+        <li>
+          <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+          <div><strong style="color:var(--yellow);">Org.nr-validering</strong> mot Bolagsverket API vid checkout</div>
+        </li>
+        <li>
+          <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+          <div><strong style="color:var(--yellow);">Kreditkontroll</strong> (Bisnode/UC-integration) vid faktura &gt; 10 000 kr</div>
+        </li>
+        <li>
+          <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+          <div><strong style="color:var(--yellow);">Flaggningssystem</strong> — nya kunder, udda adresser, bulk-order = manuell granskning</div>
+        </li>
+        <li>
+          <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+          <div><strong style="color:var(--yellow);">WooCommerce-regler</strong> — faktura blockeras för konton &lt; 30 dagar</div>
+        </li>
+        <li>
+          <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+          <div><strong style="color:var(--yellow);">Loggning</strong> av alla B2B-beställningar med org.nr och kontaktperson</div>
+        </li>
+      </ul>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+  <!-- SLIDE 7: E-HANDEL 18K -->
+  <div class="slide s-standard" id="slide-7">
+    <div class="slide-header">
+      <div class="accent-bar"></div>
+      <h2>E-handel med Flatsome — vad ingår i 18k</h2>
+      <div class="slide-num">07 / 09</div>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <ul class="check-list light">
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+              <div>Komplett WooCommerce-bygge i Flatsome</div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+              <div>Bedrägeriskydd (org.nr + kreditkontroll)</div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+              <div>LinkedIn — postning &amp; organisk närvaro</div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+              <div>Facebook — postning &amp; organisk närvaro</div>
+            </li>
+            <li>
+              <div class="check-icon"><svg viewBox="0 0 16 16"><path d="M13 3L6 11 3 8l-1.5 1.5 4.5 4.5 8.5-9.5z"/></svg></div>
+              <div>Kassaflöde-optimering (B2B-faktura + delbetalning)</div>
+            </li>
+          </ul>
+        </div>
+        <div class="col-box" style="display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:0; border-top-color:var(--yellow);">
+          <div style="font-size:11px; color:#888; text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:6px;">Ni betalar redan</div>
+          <div style="font-size:50px; font-weight:900; color:var(--blue); line-height:1;">15 000 kr</div>
+          <div style="font-size:14px; color:var(--text-light);">/månad — SEO + content + drift</div>
+          <div style="margin-top:18px; padding-top:16px; border-top:2px solid var(--yellow); font-size:14px; color:var(--blue); line-height:1.6; font-weight:700;">
+            18k-paketet är ett engångsprojekt<br>
+            <span style="font-weight:400; color:var(--text-light); font-size:13px;">ovanpå ert befintliga avtal</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="usp-banner">Flatsome dag &amp; natt vs Crocoblock &nbsp;|&nbsp; LinkedIn &amp; Facebook postning ingår &nbsp;|&nbsp; 18k faktura 20d / 7k&times;3</div>
+  </div>
+
+  <!-- SLIDE 8: PRISSÄTTNING -->
+  <div class="slide s-dark" id="slide-8">
+    <div class="slide-header">
+      <h2>Prissättning — Uppgradering 18 000 kr</h2>
+      <div class="slide-num">08 / 09</div>
+    </div>
+    <div class="slide-body" style="display:flex; align-items:center; justify-content:center;">
+      <div class="price-grid">
+        <div class="price-card blue-card">
+          <div class="p-label">Alt A — Engångsfaktura</div>
+          <div class="p-amount">18 000 kr</div>
+          <div class="p-detail">Faktura 20 dagars netto</div>
+          <div class="p-note">Enklast — betala en gång,<br>vi kör igång direkt</div>
+        </div>
+        <div class="price-card yellow-card">
+          <div class="p-label">Alt B — Delbetalning</div>
+          <div class="p-amount">7 000 kr</div>
+          <div class="p-detail">&times; 3 månader = 21 000 kr totalt</div>
+          <div class="p-note">Smidigt för kassaflödet —<br>spread över kvartal</div>
+        </div>
+      </div>
+    </div>
+    <div class="usp-banner">Ert löpande avtal 15 000 kr/mån (SEO + content) fortsätter separat &nbsp;|&nbsp; 18k är ett engångsprojekt</div>
+  </div>
+
+  <!-- SLIDE 9: NÄSTA STEG -->
+  <div class="slide s-standard" id="slide-9">
+    <div class="slide-header">
+      <div class="accent-bar"></div>
+      <h2>Nästa steg</h2>
+      <div class="slide-num">09 / 09</div>
+    </div>
+    <div class="slide-body">
+      <div class="two-col">
+        <div>
+          <div class="section-label">Det vi gör med 18k</div>
+          <div class="steps" style="margin-top:8px;">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-text"><strong>E-handel komplett i Flatsome</strong> — 4–5 veckor</div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-text"><strong>Bedrägeriskydd aktivt</strong> från dag ett</div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-text"><strong>LinkedIn + Facebook + Google Ads</strong> igång vecka 2</div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-text"><strong>Månadsrapport maj:</strong> första konverteringsdata live</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-box accent" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <h3>Det ni gör</h3>
+            <ul class="bullets">
+              <li>Välj betalningsalternativ <strong>A eller B</strong> idag</li>
+              <li>Ge oss produktlista + priser <em>(Excel duger)</em></li>
+              <li>Koppla Google Ads-konto</li>
+            </ul>
+          </div>
+          <div style="margin-top:20px; background:var(--blue); border-radius:8px; padding:18px; text-align:center;">
+            <div style="font-size:11px; color:rgba(255,255,255,.5); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px;">Kontakt</div>
+            <div style="font-size:17px; color:var(--yellow); font-weight:800;">mikael@searchboost.se</div>
+            <div style="font-size:13px; color:rgba(255,255,255,.5); margin-top:2px;">searchboost.se</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar"></div>
+  </div>
+
+</div><!-- /deck -->
+
+<div class="nav">
+  <button id="btn-prev" onclick="go(-1)" disabled>&#9664; Föregående</button>
+  <span class="counter" id="counter">1 / 9</span>
+  <button id="btn-next" onclick="go(1)">Nästa &#9654;</button>
+</div>
+
+<script>
+  let cur = 1;
+  const total = 9;
+  const W = 1280, H = 720;
+
+  function scale() {
+    const navH = 56;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight - navH;
+    const s = Math.min(vw / W, vh / H);
+    document.querySelector('.deck').style.transform = 'scale(' + s + ')';
+    document.querySelector('.deck').style.transformOrigin = 'top center';
+    document.querySelector('.deck').style.marginTop = Math.max(0, (vh - H * s) / 2) + 'px';
+    document.querySelector('.deck').style.height = H + 'px';
+    document.querySelector('.deck').style.width = W + 'px';
+    document.querySelector('.deck').style.position = 'relative';
+  }
+
+  window.addEventListener('resize', scale);
+  scale();
+
+  function go(dir) {
+    document.getElementById('slide-' + cur).classList.remove('active');
+    cur = Math.max(1, Math.min(total, cur + dir));
+    document.getElementById('slide-' + cur).classList.add('active');
+    document.getElementById('counter').textContent = cur + ' / ' + total;
+    document.getElementById('btn-prev').disabled = cur === 1;
+    document.getElementById('btn-next').disabled = cur === total;
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp'   || e.key === 'PageUp')   go(-1);
+  });
+</script>
+
+</body>
+</html>

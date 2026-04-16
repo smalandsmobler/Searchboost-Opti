@@ -247,60 +247,25 @@ async function getBigQuery() {
   return { bq: bqClient, dataset: bqDataset, projectId: bqProjectId };
 }
 
-// ── AI client (lazy init) — stöder Anthropic direkt eller OpenRouter ──
+// ── AI client (lazy init) — Anthropic direkt ──
 let claude = null;
 async function getClaude() {
   if (claude) return claude;
-  // Försök OpenRouter först, annars Anthropic direkt
-  const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
-  if (orKey) {
-    claude = new Anthropic({
-      apiKey: orKey,
-      baseURL: 'https://openrouter.ai/api/v1',
-      defaultHeaders: {
-        'HTTP-Referer': 'https://searchboost.se',
-        'X-Title': 'Searchboost Opti'
-      }
-    });
-    console.log('[AI] Använder OpenRouter');
-  } else {
-    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-    claude = new Anthropic({ apiKey });
-    console.log('[AI] Använder Anthropic direkt');
-  }
+  const apiKey = await getParam('/seo-mcp/anthropic/api-key');
+  claude = new Anthropic({ apiKey });
+  console.log('[AI] Anthropic direkt');
   return claude;
 }
 
-// ── Modellnamn — OpenRouter vs Anthropic direkt ──
-// OpenRouter: "anthropic/claude-sonnet-4-5" | Anthropic direkt: "claude-sonnet-4-5-20250929"
+// ── Modellnamn — renodlad Claude Haiku ──
 // Tier-guide:
-//   cheap   = Gemini Flash 1.5 — gratis/nästan gratis, metadata-generering
-//   haiku   = Claude Haiku — snabb & billig, enkla uppgifter
-//   sonnet  = Claude Sonnet (default) — balanserad kvalitet
-//   grok    = xAI Grok 3 Mini — snabb, bra på SEO-content & listor
-//   kimi    = Moonshot Kimi K2 — utmärkt för design-content & presentationer
-//   opus    = Claude Opus — maxkvalitet, komplexa uppgifter
-let _useOpenRouter = null;
-async function getModel(tier = 'sonnet') {
-  if (_useOpenRouter === null) {
-    const orKey = await getParam('/seo-mcp/openrouter/api-key').catch(() => null);
-    _useOpenRouter = !!orKey;
-  }
-  if (_useOpenRouter) {
-    if (tier === 'cheap') return 'google/gemini-flash-1.5';
-    if (tier === 'haiku') return 'anthropic/claude-haiku-4-5';
-    if (tier === 'grok')  return 'x-ai/grok-3-mini';
-    if (tier === 'kimi')  return 'moonshotai/kimi-k2';
-    if (tier === 'opus')  return 'anthropic/claude-opus-4-5';
-    return 'anthropic/claude-sonnet-4-5';
-  } else {
-    if (tier === 'cheap') return 'claude-3-haiku-20240307';
-    if (tier === 'haiku') return 'claude-3-haiku-20240307';
-    if (tier === 'grok')  return 'claude-sonnet-4-5-20250929'; // fallback utan OpenRouter
-    if (tier === 'kimi')  return 'claude-sonnet-4-5-20250929'; // fallback utan OpenRouter
-    if (tier === 'opus')  return 'claude-opus-4-5-20251101';
-    return 'claude-sonnet-4-5-20250929';
-  }
+//   cheap/haiku = claude-haiku-4-5-20251001 — snabb & billig
+//   sonnet      = claude-sonnet-4-6          — balanserad kvalitet
+//   opus        = claude-opus-4-6            — maxkvalitet
+function getModel(tier = 'sonnet') {
+  if (tier === 'cheap' || tier === 'haiku' || tier === 'grok' || tier === 'kimi') return 'claude-haiku-4-5-20251001';
+  if (tier === 'opus')  return 'claude-opus-4-6';
+  return 'claude-sonnet-4-6';
 }
 
 // ── Trello helpers ──
@@ -1491,10 +1456,17 @@ app.post('/api/queue/purge-junk', async (req, res) => {
 app.get('/api/reports', async (req, res) => {
   try {
     const { bq, dataset } = await getBigQuery();
+    // Hämta kolumnnamn först för att undvika ORDER BY-fel
     const [rows] = await bq.query({
-      query: `SELECT * FROM \`${dataset}.weekly_reports\` ORDER BY email_sent_at DESC LIMIT 10`
+      query: `SELECT * FROM \`${dataset}.weekly_reports\` LIMIT 50`
     });
-    res.json({ reports: rows });
+    // Sortera i JS istället — stöder både email_sent_at och sent_at
+    rows.sort((a, b) => {
+      const ta = a.email_sent_at || a.sent_at || a.created_at || 0;
+      const tb = b.email_sent_at || b.sent_at || b.created_at || 0;
+      return tb > ta ? 1 : -1;
+    });
+    res.json({ reports: rows.slice(0, 10) });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

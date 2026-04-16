@@ -16,8 +16,8 @@ type: credentials
 | jelmtech | https://jelmtech.se | mikael_searchboost | Y63T k99j dfxc sUKC NPop ZhEe |
 | searchboost | https://searchboost.se | mikael@searchboost.se | UB2t Tbni tHpw R3GW kBrl 1rnh |
 | traficator | https://traficator.se | mikael | V7gn HAb6 p9Yn 85BZ ujMi OINQ |
-| humanpower | https://humanpower.se | sbadmin | QMg6 NFuF zUtW awbi xnkw 5ETd |
-| nordicsnusonline | https://nordicsnusonline.com | mikael | nHmn 3xeN onyp UMBI 5doo 5FUq |
+| humanpower | https://humanpower.se | searchboost | JSiE s6jV sw1T LTfz pUnw Xv5X |
+| nordicsnusonline | https://nordicsnusonline.com/sv | mikael | vyRX2gvwC^tp*jy&InIeSnCN |
 | tobler | https://tobler.se | mikael | mxln FGug xkKb eZo6 VKFy SzHm |
 
 ## Användning — WP REST API

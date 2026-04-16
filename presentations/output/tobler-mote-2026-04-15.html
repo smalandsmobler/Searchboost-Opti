@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tobler — Statusmöte April 2026</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --tb-blue:   #32508e;
+      --tb-sky:    #5ba3e0;
+      --tb-orange: #e8891a;
+      --tb-green:  #00e676;
+      --tb-dark:   #07101e;
+      --tb-card:   #0d1a2e;
+      --tb-border: #1a2d4a;
+      --tb-text:   #d8e4f0;
+      --tb-muted:  #5a7090;
+    }
+    .reveal { font-family: 'Inter', -apple-system, sans-serif; color: var(--tb-text); }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { background: var(--tb-dark); height: 100%; padding: 0; overflow: hidden; }
+    .reveal .slides section > * { position: relative; z-index: 1; }
+    .reveal .progress { height: 3px; color: var(--tb-blue); }
+    .reveal .controls { color: var(--tb-sky); }
+    .slide { display: flex; flex-direction: column; height: 720px; padding: 36px 56px 32px; }
+    /* HEADER */
+    .hd { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid var(--tb-border); flex-shrink: 0; }
+    .hd-brand { display: flex; align-items: center; gap: 12px; }
+    .hd-tobler-logo { height: 32px; width: auto; display: block; }
+    .hd-name { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #fff; }
+    .hd-name em { color: var(--tb-sky); font-style: normal; }
+    .hd-meta { font-size: 11px; color: var(--tb-muted); text-align: right; line-height: 1.5; }
+    .hd-meta strong { color: var(--tb-sky); font-weight: 600; }
+    /* BODY */
+    .body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    /* TAGS */
+    .tag { display: inline-block; padding: 3px 12px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 10px; flex-shrink: 0; }
+    .tag-blue   { background: rgba(50,80,142,.18); color: var(--tb-sky); }
+    .tag-sky    { background: rgba(91,163,224,.14);  color: var(--tb-sky); }
+    .tag-green  { background: rgba(0,230,118,.14);  color: var(--tb-green); }
+    .tag-orange { background: rgba(232,137,26,.14); color: var(--tb-orange); }
+    /* HEADINGS */
+    .reveal h2 { font-size: 1.55em; font-weight: 700; color: #fff; margin: 0 0 20px; }
+    .reveal h3 { font-size: .95em; font-weight: 600; color: #fff; margin: 0 0 6px; }
+    /* ACCENT LINES */
+    .lines { display: flex; gap: 6px; margin: 16px 0; flex-shrink: 0; }
+    .lines span { height: 3px; width: 36px; border-radius: 2px; display: block; }
+    .lines span:nth-child(1) { background: var(--tb-blue); }
+    .lines span:nth-child(2) { background: var(--tb-sky); }
+    .lines span:nth-child(3) { background: var(--tb-orange); }
+    /* FOOTER */
+    .ft { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--tb-border); flex-shrink: 0; }
+    .ft-tags { display: flex; gap: 18px; }
+    .ft-tags span { font-size: 11px; font-weight: 600; color: var(--tb-muted); display: flex; align-items: center; gap: 6px; }
+    .ft-tags span::before { content: ''; width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+    .ft-tags .fb::before { background: var(--tb-blue); }
+    .ft-tags .fs::before { background: var(--tb-sky); }
+    .ft-tags .fg::before { background: var(--tb-green); }
+    .ft-tags .fo::before { background: var(--tb-orange); }
+    .ft-presenter { font-size: 11px; color: var(--tb-muted); text-align: right; line-height: 1.5; }
+    .ft-presenter strong { color: #fff; font-size: 12px; display: block; }
+    /* GRIDS */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    /* CARDS */
+    .card { background: var(--tb-card); border: 1px solid var(--tb-border); border-radius: 12px; padding: 18px; }
+    .card-num { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #fff; margin-bottom: 10px; }
+    .card-num.bl { background: var(--tb-blue); }
+    .card-num.sk { background: var(--tb-sky); color: #000; }
+    .card-num.gr { background: var(--tb-green); color: #000; }
+    .card-num.or { background: var(--tb-orange); }
+    .card p { font-size: 12.5px; color: var(--tb-muted); line-height: 1.55; margin: 4px 0 0; }
+    /* STAT BOXES */
+    .stat { background: var(--tb-card); border: 1px solid var(--tb-border); border-radius: 12px; padding: 18px 14px; text-align: center; }
+    .stat-icon { width: 44px; height: 44px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 18px; }
+    .stat-icon.bl { background: rgba(50,80,142,.18); }
+    .stat-icon.sk { background: rgba(91,163,224,.14); }
+    .stat-icon.gr { background: rgba(0,230,118,.14); }
+    .stat-icon.or { background: rgba(232,137,26,.14); }
+    .stat-val { font-size: 1.75em; font-weight: 800; line-height: 1; margin-bottom: 5px; }
+    .stat-val.bl { color: var(--tb-sky); }
+    .stat-val.sk { color: var(--tb-sky); }
+    .stat-val.gr { color: var(--tb-green); }
+    .stat-val.or { color: var(--tb-orange); }
+    .stat-lbl { font-weight: 600; font-size: 13px; color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--tb-muted); margin-top: 3px; line-height: 1.4; }
+    /* STAT CARDS (slide 11) */
+    .stat-card { background: var(--tb-card); border: 1px solid var(--tb-border); border-radius: 12px; padding: 20px 16px; text-align: center; }
+    .stat-num { font-size: 1.8em; font-weight: 800; line-height: 1.1; margin-bottom: 6px; }
+    .stat-num.gr { color: var(--tb-green); }
+    .stat-num.bl { color: var(--tb-sky); }
+    .stat-num.or { color: var(--tb-orange); }
+    .stat-num.cy { color: var(--tb-sky); }
+    .stat-num.pk { color: var(--tb-orange); }
+    .stat-label { font-weight: 600; font-size: 13px; color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--tb-muted); margin-top: 3px; }
+    /* LOG ENTRIES */
+    .log { display: flex; align-items: flex-start; gap: 12px; padding: 9px 14px; background: var(--tb-card); border: 1px solid var(--tb-border); border-radius: 8px; margin-bottom: 7px; }
+    .log-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .log-dot.bl { background: var(--tb-blue); }
+    .log-dot.sk { background: var(--tb-sky); }
+    .log-dot.gr { background: var(--tb-green); }
+    .log-dot.or { background: var(--tb-orange); }
+    .log-text { font-size: 12.5px; color: #fff; line-height: 1.4; }
+    .log-text small { display: block; color: var(--tb-muted); font-size: 11px; margin-top: 1px; }
+    .badge-up { display: inline-block; background: rgba(0,230,118,.14); color: var(--tb-green); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+    /* HBOXES */
+    .hbox { background: linear-gradient(135deg, rgba(91,163,224,.07), rgba(50,80,142,.05)); border: 1px solid rgba(91,163,224,.18); border-radius: 11px; padding: 16px 20px; }
+    .hbox.bl { background: linear-gradient(135deg, rgba(50,80,142,.1), rgba(91,163,224,.04)); border-color: rgba(50,80,142,.3); }
+    .hbox.gr { background: linear-gradient(135deg, rgba(0,230,118,.08), rgba(91,163,224,.04)); border-color: rgba(0,230,118,.2); }
+    .hbox.or { background: linear-gradient(135deg, rgba(232,137,26,.08), rgba(50,80,142,.04)); border-color: rgba(232,137,26,.2); }
+    .hbox h3 { font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--tb-sky); margin-bottom: 6px; }
+    .hbox.bl h3 { color: var(--tb-sky); }
+    .hbox.gr h3 { color: var(--tb-green); }
+    .hbox.or h3 { color: var(--tb-orange); }
+    .hbox p { font-size: 13px; color: var(--tb-text); line-height: 1.6; margin: 0; }
+    /* LAYOUTS */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; min-height: 0; }
+    .two-col-wide { display: grid; grid-template-columns: 3fr 2fr; gap: 28px; flex: 1; min-height: 0; }
+    .col-inner { display: flex; flex-direction: column; gap: 10px; }
+    /* BULLET LIST */
+    .blist { list-style: none; margin: 0; padding: 0; }
+    .blist li { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; font-size: 13px; color: var(--tb-text); border-bottom: 1px solid rgba(26,45,74,.4); line-height: 1.45; }
+    .blist li:last-child { border-bottom: none; }
+    .blist li::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--tb-blue); flex-shrink: 0; margin-top: 5px; }
+    .blist.sk li::before { background: var(--tb-sky); }
+    .blist.gr li::before { background: var(--tb-green); }
+    /* PROGRESS BAR */
+    .prog-bar-wrap { margin-top: 8px; }
+    .prog-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--tb-muted); margin-bottom: 4px; }
+    .prog-bar-label strong { color: #fff; }
+    .prog-bar-track { height: 6px; background: var(--tb-border); border-radius: 3px; overflow: hidden; }
+    .prog-bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--tb-blue), var(--tb-sky)); }
+    /* COVER SLIDE */
+    .cover-slide { display: flex; flex-direction: column; height: 720px; padding: 0; position: relative; }
+    .cover-bg { position: absolute; inset: 0; }
+    .cover-bg-start { background: radial-gradient(ellipse at 70% 50%, rgba(50,80,142,.28) 0%, rgba(91,163,224,.14) 40%, transparent 70%), radial-gradient(ellipse at 20% 80%, rgba(232,137,26,.1) 0%, transparent 50%); }
+    .cover-bg-end   { background: radial-gradient(ellipse at 30% 50%, rgba(0,230,118,.18) 0%, rgba(91,163,224,.12) 40%, transparent 70%), radial-gradient(ellipse at 80% 20%, rgba(50,80,142,.15) 0%, transparent 50%); }
+    .cover-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 60px 72px; justify-content: flex-end; }
+    .cover-tobler-logo { position: absolute; top: 48px; left: 72px; height: 42px; width: auto; }
+    .cover-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--tb-sky); margin-bottom: 16px; }
+    .cover-title { font-size: 3.6em; font-weight: 900; color: #fff; line-height: 1.0; letter-spacing: -2px; margin-bottom: 18px; }
+    .cover-title .bl { color: var(--tb-sky); }
+    .cover-title .gr { color: var(--tb-green); }
+    .cover-title .or { color: var(--tb-orange); }
+    .cover-sub { font-size: 1em; color: var(--tb-muted); line-height: 1.6; max-width: 540px; margin-bottom: 36px; }
+    .cover-meta { display: flex; gap: 32px; align-items: center; padding-top: 24px; border-top: 1px solid var(--tb-border); }
+    .cover-meta-item { font-size: 12px; color: var(--tb-muted); line-height: 1.5; }
+    .cover-meta-item strong { display: block; color: #fff; font-size: 14px; font-weight: 700; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- SLIDE 1: OMSLAG -->
+    <section>
+      <div class="cover-slide">
+        <div class="cover-bg cover-bg-start"></div>
+        <img class="cover-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler">
+        <div class="cover-content">
+          <div class="cover-eyebrow">Searchboost &times; Tobler Ställningsprodukter AB</div>
+          <div class="cover-title">
+            Titta vad vi<br>
+            <span class="gr">åstadkommit</span><br>
+            <span class="bl">tillsammans.</span>
+          </div>
+          <p class="cover-sub">
+            Statusmöte april 2026 — en genomgång av vad vi byggt ihop,
+            vart ni är idag och vad som väntar runt hörnet.
+          </p>
+          <div class="cover-meta">
+            <div class="cover-meta-item"><strong>Tobler.se</strong>Ställningsprodukter &amp; B2B</div>
+            <div class="cover-meta-item"><strong>16 april 2026</strong>Vecka 16-möte</div>
+            <div class="cover-meta-item"><strong>Mikael Larsson</strong>Searchboost.se</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: AGENDA -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-sky">Agenda</div>
+          <h2>Vad vi går igenom idag</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="grid-2" style="flex:1;align-items:start;">
+            <div class="col-inner">
+              <div class="card"><div class="card-num gr">1</div><h3>Resultat vi är stolta över</h3><p>Från ~12 sökord till 43+ — vad vi faktiskt byggt ihop sedan starten.</p></div>
+              <div class="card"><div class="card-num sk">2</div><h3>Mars-rekordet</h3><p>Impressioner och klick slår alla tidigare månader. Siffrorna talar.</p></div>
+            </div>
+            <div class="col-inner">
+              <div class="card"><div class="card-num bl">3</div><h3>43 nya möjligheter vi ser</h3><p>Google visar Tobler på 5 500+ sökningar/mån. Nu tar vi dem.</p></div>
+              <div class="card"><div class="card-num or">4</div><h3>Nästa kapitel</h3><p>E-handel + Google Ads — rätt byggt från start, med SEO som grund.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">SEO</span><span class="fs">Sökordsrankning</span><span class="fb">Tillväxt</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: GRUNDEN VI LAGT -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-green">Grunden vi lagt</div>
+          <h2>Allt vi byggt — på kort tid</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="grid-4" style="margin-bottom:16px;">
+            <div class="stat"><div class="stat-icon gr">&#9998;</div><div class="stat-val gr">18</div><div class="stat-lbl">Artiklar</div><div class="stat-sub">publicerade sedan start</div></div>
+            <div class="stat"><div class="stat-icon sk">&#128247;</div><div class="stat-val sk">284</div><div class="stat-lbl">Bilder</div><div class="stat-sub">alt-texter optimerade</div></div>
+            <div class="stat"><div class="stat-icon bl">&#128196;</div><div class="stat-val bl">135</div><div class="stat-lbl">Meta-beskrivningar</div><div class="stat-sub">skrivna och publicerade</div></div>
+            <div class="stat"><div class="stat-icon or">&#128279;</div><div class="stat-val or">196</div><div class="stat-lbl">Produkter</div><div class="stat-sub">från 95 vid start</div></div>
+          </div>
+          <div class="hbox gr">
+            <h3>Produktkatalog nästintill fördubblad</h3>
+            <p>Från 95 produkter vid start till <strong style="color:var(--tb-green)">196 produkter</strong>. Fler produkter ger Google fler relevanta sidor att indexera — och fler köpmöjligheter för era besökare.</p>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">Innehåll</span><span class="fs">Teknisk SEO</span><span class="fb">Produkter</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: SÖKORDSRESAN -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-blue">Sökordsresan</div>
+          <h2>Från ~12 sökord till 43+ — och uppåt</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <div class="hbox bl" style="margin-bottom:12px;">
+                <h3>Vid start</h3>
+                <p>~12 sökord med någon form av rörelse. Begränsad synlighet på Google.</p>
+              </div>
+              <div class="hbox gr">
+                <h3>Idag — april 2026</h3>
+                <p><strong style="color:var(--tb-green)">43+ sökord</strong> med stark uppåtrörelse. Google visar Tobler på <strong style="color:var(--tb-green)">5 500 sökningar/månad</strong> — och det ökar för varje vecka.</p>
+              </div>
+              <div style="padding:12px 0 0;">
+                <div class="prog-bar-wrap">
+                  <div class="prog-bar-label"><span>Start: ~12 sökord</span><strong>Nu: 43+ sökord</strong></div>
+                  <div class="prog-bar-track"><div class="prog-bar-fill" style="width:75%;"></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Sökordsklättrare</p>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">ramställningspaket<small><span class="badge-up">+28 platser</span> — stark rörelse uppåt</small></div></div>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">sparklist<small><span class="badge-up">position 4</span> — topplacering</small></div></div>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">u ram<small><span class="badge-up">position 3,5</span> — topplacering</small></div></div>
+              <div class="log"><div class="log-dot sk"></div><div class="log-text">fallskydd till tak<small>Pelarartikeln indexerad — klättrar</small></div></div>
+              <div class="log"><div class="log-dot sk"></div><div class="log-text">startpaket ställning<small>Pelarartikeln indexerad — klättrar</small></div></div>
+              <div class="log"><div class="log-dot sk"></div><div class="log-text">formsystem betonggjutning<small>Pelarartikeln indexerad — klättrar</small></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">Rankning</span><span class="fb">Klättrare</span><span class="fs">Synlighet</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: MARS-REKORDET -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-orange">Mars 2026</div>
+          <h2>Rekordet är satt — och kurvan pekar uppåt</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="grid-3" style="margin-bottom:18px;">
+            <div class="stat"><div class="stat-icon or">&#128200;</div><div class="stat-val or">Rekord</div><div class="stat-lbl">Impressioner</div><div class="stat-sub">Bästa månaden hittills på tobler.se</div></div>
+            <div class="stat"><div class="stat-icon gr">&#128432;</div><div class="stat-val gr">Rekord</div><div class="stat-lbl">Klick</div><div class="stat-sub">Fler besökare in än någonsin</div></div>
+            <div class="stat"><div class="stat-icon sk">&#128269;</div><div class="stat-val sk">43+</div><div class="stat-lbl">Sökord med rörelse</div><div class="stat-sub">upp från ~12 vid start</div></div>
+          </div>
+          <div class="hbox" style="margin-bottom:10px;">
+            <h3>Varför händer det nu?</h3>
+            <p>Pelarartiklarna + 135 meta-beskrivningar börjar ge fullt genomslag. SEO är en rörlig kurva — och kurvan pekar uppåt. <strong style="color:var(--tb-sky)">Nästa artikelbatch accelererar detta ytterligare.</strong></p>
+          </div>
+          <div class="hbox or">
+            <h3>En sak som bromsat lite</h3>
+            <p>Er sajt har under en period utsatts för automatiserade inloggningsförsök — en vanlig attackform mot WooCommerce. Google är <strong style="color:var(--tb-orange)">försiktig med crawlbudget</strong> på sajter som har ovanligt hög servertrafik från bots. Det har vi nu åtgärdat, vilket frigör mer av Googles kapacitet att indexera er.</p>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">GSC-data</span><span class="fo">Impressioner</span><span class="fs">Klick</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: ARTIKELARBETET -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-sky">Innehåll</div>
+          <h2>18 artiklar — varje en ingångspunkt</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:6px;">Publicerade artiklar (urval)</p>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">Ramställning vs modulställning — komplett guide<small>Pelarartikeln — genererar organisk trafik</small></div></div>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">Fallskydd till tak — komplett guide<small>Rankar på branschstandard-termer</small></div></div>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">Formsystem för betonggjutning<small>Teknisk guide — hög köpavsikt</small></div></div>
+              <div class="log"><div class="log-dot gr"></div><div class="log-text">Väderskyddstak för ställning<small>Nischad — låg konkurrens, hög relevans</small></div></div>
+              <div class="log"><div class="log-dot sk"></div><div class="log-text">Ställningsentreprenör — certifiering, utbildning och krav<small>Vecka 17</small></div></div>
+              <div class="log"><div class="log-dot sk"></div><div class="log-text">Startpaket ställning — vad ingår och hur väljer du rätt?<small>Vecka 17 — direkt koppling till produkt</small></div></div>
+            </div>
+            <div class="col-inner">
+              <div class="hbox gr" style="margin-bottom:12px;">
+                <h3>Varför artiklar fungerar för Tobler</h3>
+                <p>Ställningsentreprenörer söker branschkunskap innan de köper. <strong style="color:var(--tb-green)">Varje artikel är en ingångspunkt för en potentiell kund</strong> — redan innan de vet att de ska beställa.</p>
+              </div>
+              <div class="hbox">
+                <h3>Kommande batch (vecka 21)</h3>
+                <p>3 artiklar klara och redo att publiceras: byggställning pris, starta ställningsföretag, ställningstrailer.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">Artiklar</span><span class="fs">B2B-innehåll</span><span class="fb">Pelarartiklar</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: 43 MÖJLIGHETER -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-blue">Möjligheter</div>
+          <h2>43 möjligheter — vi ser dem, vi tar dem</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col-wide">
+            <div class="col-inner">
+              <div class="hbox bl" style="margin-bottom:14px;">
+                <h3>Vad de 43 sökordspositionerna berättar</h3>
+                <p>Google visar redan Tobler.se på <strong style="color:var(--tb-sky)">5 500 sökningar per månad</strong>. Det är potentiella kunder som söker och hittar er — och redan nu börjar klicka. Vi ser 43 sökord där en optimerad sida, en ny landningssida eller en artikel kan lyfta Tobler till ännu mer klickbara positioner.</p>
+              </div>
+              <div class="hbox gr">
+                <h3>Det är en positiv signal</h3>
+                <p>Att Google väljer att visa er på 5 500 sökningar visar att algoritmen ser Tobler som relevant. Nu handlar det om att <strong style="color:var(--tb-green)">ta de sista stegen in i topp 5</strong> — där majoriteten av klicken sker.</p>
+              </div>
+            </div>
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Möjligheter vi tar näst</p>
+              <div class="log"><div class="log-dot bl"></div><div class="log-text">köpa ramställning<small>Hög köpavsikt — stark landningssida</small></div></div>
+              <div class="log"><div class="log-dot bl"></div><div class="log-text">ställningsentreprenör certifiering<small>Ny artikel planerad — vecka 22</small></div></div>
+              <div class="log"><div class="log-dot bl"></div><div class="log-text">modulställning pris<small>Kommersielt sökord — produkt + artikel</small></div></div>
+              <div class="log"><div class="log-dot bl"></div><div class="log-text">fallskydd arbete på hög höjd<small>Planerat i nästa batch</small></div></div>
+              <div class="log"><div class="log-dot bl"></div><div class="log-text">ställningstrailer pris<small>Nisch — låg konkurrens, högt värde</small></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fb">43 möjligheter</span><span class="fs">5 500 visningar/mån</span><span class="fg">Konvertering</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: E-HANDEL -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-sky">E-handel</div>
+          <h2>Ni vill satsa på e-handel — vi bygger det rätt</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <div class="hbox gr" style="margin-bottom:14px;">
+                <h3>Optimerad e-handel — rätt från start</h3>
+                <p>Vi bygger om er butik med SEO som grund — snabb laddning, rätt struktur, rätt schema-markup. Ni behöver inte byta plattform. <strong style="color:var(--tb-green)">Vi optimerar det ni redan har</strong> och lyfter det till nästa nivå.</p>
+              </div>
+              <div class="hbox">
+                <h3>SEO + e-handel hand i hand</h3>
+                <p>Vi bygger produktsidorna med rätt schema-markup, optimerade titlar och tydliga internlänkar från artiklarna. <strong style="color:var(--tb-sky)">Varje artikel som rankar driver trafik direkt till produktkategorin.</strong></p>
+              </div>
+            </div>
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Vad vi bygger ihop</p>
+              <ul class="blist sk">
+                <li>196 produkter strukturerade för sök</li>
+                <li>Kategoristruktur optimerad för söktermer</li>
+                <li>Produktsidor med schema-markup (rich results)</li>
+                <li>Internlänkar från artiklar till produkter</li>
+                <li>Snabb laddning — Core Web Vitals i grönt</li>
+                <li>Mobilanpassad vy — B2B köper på mobil</li>
+              </ul>
+              <div class="hbox or" style="margin-top:8px;">
+                <h3>Investering</h3>
+                <p><strong style="color:var(--tb-orange)">20–25 000 kr</strong> — engångskostnad. Resultaten lever kvar och förstärks av SEO-arbetet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fs">WooCommerce</span><span class="fg">Schema</span><span class="fo">E-handel</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: GOOGLE ADS -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-orange">Nästa acceleration</div>
+          <h2>Google Ads — träffsäkert på era bästa sökord</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <div class="hbox or" style="margin-bottom:14px;">
+                <h3>Varför Ads passar Tobler nu</h3>
+                <p>SEO ger er organisk grund — Ads ger er <strong style="color:var(--tb-orange)">omedelbar synlighet på de sökord ni vet konverterar</strong>. När någon söker "startpaket ställning" är de redo att beställa. Då vill ni synas.</p>
+              </div>
+              <div class="hbox gr">
+                <h3>SEO + Ads = dubbel synlighet</h3>
+                <p>Ni rankar organiskt OCH syns i annonsplatsen. <strong style="color:var(--tb-green)">Dubbelt förtroende, dubbla klick-möjligheter.</strong> Konkurrenter som bara kör Ads saknar er trovärdighet.</p>
+              </div>
+            </div>
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Prioriterade sökord för Ads</p>
+              <div class="log"><div class="log-dot or"></div><div class="log-text">startpaket ställning<small>Hög köpavsikt, nisch — bra ROI</small></div></div>
+              <div class="log"><div class="log-dot or"></div><div class="log-text">köpa ställning<small>Bred term — volym + köpavsikt</small></div></div>
+              <div class="log"><div class="log-dot or"></div><div class="log-text">ramställningspaket pris<small>Prissökning = nära köp</small></div></div>
+              <div class="log"><div class="log-dot or"></div><div class="log-text">ställningstrailer<small>Nischprodukt — låg konkurrens i Ads</small></div></div>
+              <div class="log"><div class="log-dot or"></div><div class="log-text">fallskydd tak<small>B2B-köpare — högt ordervärde</small></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fo">Google Ads</span><span class="fg">Köpavsikt</span><span class="fs">ROI</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: ROADMAP -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-green">Roadmap</div>
+          <h2>Vad som händer härnäst</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="grid-3">
+            <div class="card"><div class="card-num sk">Nu</div><h3>Vecka 16–18</h3><p>Publicera 3 klara artiklar (vecka 21-batch). Nästa artikelbatch planeras för vecka 22.</p></div>
+            <div class="card"><div class="card-num gr">Maj</div><h3>Vecka 19–22</h3><p>E-handelslösning optimerad. Produktsidor med schema. Internlänkstruktur på plats.</p></div>
+            <div class="card"><div class="card-num or">Juni</div><h3>Vecka 23–26</h3><p>Google Ads live på "startpaket ställning" + "köpa ställning". Mäta, optimera, skala.</p></div>
+          </div>
+          <div class="hbox gr" style="margin-top:16px;">
+            <h3>Målet: dubbla klicken från organisk trafik före sommaren</h3>
+            <p>Mars slog rekord. Med fler artiklar, bättre e-handel och riktade Ads-kampanjer — <strong style="color:var(--tb-green)">siktar vi på att ta er organiska trafik till en ny nivå innan midsommar.</strong></p>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">Roadmap</span><span class="fs">E-handel</span><span class="fo">Google Ads</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: PAKETET -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-orange">Erbjudandet</div>
+          <h2>"Öka takten"-paketet — april, maj, juni</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Vad ingår</p>
+              <ul class="blist sk">
+                <li>Ny e-handelssajt — snabb, SEO-optimerad, konverteringsredo</li>
+                <li>Rank Math Pro med AI — bättre metadata automatiskt</li>
+                <li>2 artiklar per vecka (dubbel nuvarande takt)</li>
+                <li>1 LinkedIn-inlägg per vecka — bygg varumärket</li>
+                <li>Löpande teknisk SEO + internlänkning</li>
+              </ul>
+              <div class="hbox gr" style="margin-top:10px;">
+                <h3>Efter juni — helt upp till er</h3>
+                <p>Inga bindningstider. Inga dolda avgifter. Ni bestämmer om ni vill fortsätta. Det är så Searchboost jobbar.</p>
+              </div>
+            </div>
+            <div class="col-inner">
+              <div style="background:rgba(50,80,142,.12);border:1px solid rgba(91,163,224,.3);border-radius:12px;padding:24px 20px;text-align:center;margin-bottom:14px;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Månadsvis</div>
+                <div style="font-size:2.8em;font-weight:900;color:#fff;line-height:1;">7 000 kr</div>
+                <div style="font-size:13px;color:var(--tb-muted);margin-top:6px;">per månad &times; 3</div>
+              </div>
+              <div style="background:rgba(232,137,26,.1);border:2px solid rgba(232,137,26,.4);border-radius:12px;padding:24px 20px;text-align:center;position:relative;">
+                <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--tb-orange);color:#fff;font-size:10px;font-weight:800;letter-spacing:1.5px;padding:3px 14px;border-radius:20px;text-transform:uppercase;">Bästa priset</div>
+                <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--tb-muted);margin-bottom:8px;">Betala hela perioden nu</div>
+                <div style="font-size:2.8em;font-weight:900;color:var(--tb-orange);line-height:1;">18 000 kr</div>
+                <div style="font-size:13px;color:var(--tb-muted);margin-top:6px;">april &mdash; juni, allt inkluderat</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fo">Inga bindningstider</span><span class="fg">Transparens</span><span class="fs">No strings attached</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: ORDERS / BEVIS ATT DET FUNKAR -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-brand"><img class="hd-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler"></div>
+          <div class="hd-meta">Tobler Ställningsprodukter AB<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-green">Bevisat ROI</div>
+          <h2>Sajten <span style="color:var(--tb-green)">säljer redan</span> — nu ska den sälja mer</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <p style="color:var(--tb-muted);font-size:14px;margin-bottom:16px;">15 beställningar i WooCommerce sedan april 2024. Alla genomförda, alla färdigbehandlade. Snittorder: ~130 000 kr.</p>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-num gr">15</div><div class="stat-label">Orders totalt</div><div class="stat-sub">apr 2024 → idag</div></div>
+            <div class="stat-card"><div class="stat-num or">~130k</div><div class="stat-label">Snittorder</div><div class="stat-sub">kr per beställning</div></div>
+            <div class="stat-card"><div class="stat-num sk">146 250 kr</div><div class="stat-label">Google-order</div><div class="stat-sub">direkt från organisk sökning</div></div>
+            <div class="stat-card"><div class="stat-num bl">~2 Mkr</div><div class="stat-label">Estimerat ordervärde</div><div class="stat-sub">totalt via sajten</div></div>
+          </div>
+          <div style="background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.25);border-radius:10px;padding:16px 20px;">
+            <p style="color:#fff;font-size:14px;margin:0;line-height:1.7;"><strong style="color:var(--tb-green)">En enda Google-order genererade 146 250 kr.</strong> Det är SEO-avtalet betalt i flera år — på en order. Med fler sökord i topp 10 och en sajt optimerad för konvertering kan vi ta fler sådana orders varje månad.</p>
+          </div>
+        </div>
+        <div class="ft">
+          <div class="ft-tags"><span class="fg">Bevisat ROI</span><span class="fs">Organisk Google</span><span class="fo">Orders</span></div>
+          <div class="ft-presenter"><strong>Mikael Larsson</strong>searchboost.se</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 12: AVSLUTNING -->
+    <section>
+      <div class="cover-slide">
+        <div class="cover-bg cover-bg-end"></div>
+        <img class="cover-tobler-logo" src="https://tobler.se/wp-content/uploads/2024/02/logo-white.png" alt="Tobler">
+        <div class="cover-content">
+          <div class="cover-eyebrow">Searchboost &times; Tobler Ställningsprodukter AB</div>
+          <div class="cover-title">
+            <span class="gr">Titta vad</span><br>
+            som väntar.
+          </div>
+          <p class="cover-sub">
+            Från ~12 sökord till 43+. Mars-rekord satt. 18 artiklar publicerade.
+            284 bilder optimerade. 196 produkter. En Google-order = 146 250 kr.<br><br>
+            Nu bygger vi nästa kapitel — e-handel, Ads och fler sidor som rankar.
+          </p>
+          <div class="cover-meta">
+            <div class="cover-meta-item"><strong>Mikael Larsson</strong>mikael@searchboost.se</div>
+            <div class="cover-meta-item"><strong>searchboost.se</strong>SEO &middot; Innehåll &middot; Ads</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash: true, transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, slideNumber: true, width: 1280, height: 720 });
+</script>
+</body>
+</html>

@@ -1,0 +1,1156 @@
+{
+  "bransch": "Kiropraktor/Sjukgymnast",
+  "collected_at": "2026-04-16",
+  "cities_searched": [
+    "Stockholm",
+    "Göteborg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Örebro",
+    "Linköping",
+    "Helsingborg",
+    "Jönköping",
+    "Norrköping",
+    "Lund",
+    "Sundbyberg/Solna",
+    "Umeå",
+    "Luleå"
+  ],
+  "domains": [
+    {
+      "domain": "sthlmkirorehab.se",
+      "company": "Stockholms Kiropraktor & Rehabklinik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Kiropraktorer, fysioterapeuter, dietister och arbetsterapeuter samarbetar. Karlavägen 98."
+    },
+    {
+      "domain": "stockholmskiropraktorklinik.se",
+      "company": "Stockholms Kiropraktorklinik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Levererar hög kvalité på kiropraktiska tjänster både akut och förebyggande."
+    },
+    {
+      "domain": "kirostockholm.se",
+      "company": "Engelbrekts Kiropraktorcenter",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Erfaren kiropraktor på Östermalm för förbättrad hälsa och livskvalitet."
+    },
+    {
+      "domain": "kirokliniken.se",
+      "company": "KIROKLINIKEN - Liljeholmens Kiropraktor Klinik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Kiropraktorklinik med flera platser inklusive Liljeholmen och Marievik."
+    },
+    {
+      "domain": "kiropraktoristockholm.se",
+      "company": "Kiropraktor Stockholm MARIA",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Kiropraktor på Södermalm."
+    },
+    {
+      "domain": "fridhemsplanskiropraktorklinik.se",
+      "company": "Fridhemsplans Kiropraktorklinik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Fleminggatan 15, 112 26 Stockholm. 08-651 73 10."
+    },
+    {
+      "domain": "evokliniken.se",
+      "company": "Evokliniken",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Legitimerade kiropraktorer på Kungsholmen, kiropraktik, diagnostik och rehabilitering."
+    },
+    {
+      "domain": "kirorehabklinik.se",
+      "company": "Södermalms Kiropraktor och Rehabklinik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Södermalms kiropraktor och rehabklinik."
+    },
+    {
+      "domain": "nordickiropraktik.se",
+      "company": "Nordic Kiropraktik",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Boka tid hos kiropraktor i Stockholm."
+    },
+    {
+      "domain": "kiropraktorvard.se",
+      "company": "Kiropraktorvård",
+      "city": "Stockholm",
+      "found_via": "kiropraktor stockholm klinik",
+      "snippet": "Kiropraktorvård Stockholm Kungsholmen och Göteborg Järntorget."
+    },
+    {
+      "domain": "naprawell.se",
+      "company": "NapraWell Stockholm",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Kammakargatan 35a. Måndag-fredag 7-19, lördagar 10-14."
+    },
+    {
+      "domain": "naprapatdoktorerna.se",
+      "company": "Naprapat Doktorerna",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Sju kliniker i Stockholmsområdet inklusive City, Bromma, Farsta, Skärholmen."
+    },
+    {
+      "domain": "naprapaterna.nu",
+      "company": "Naprapaterna",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Naprapaterna Kungsholmen (Kungsholmsgatan 32) och Vasastan (Tomtebogatan 19)."
+    },
+    {
+      "domain": "naprapatvarden.se",
+      "company": "Naprapatvården Stockholm",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Naprapat Stockholm - vi får dig att må bättre."
+    },
+    {
+      "domain": "kroppsdetektiverna.se",
+      "company": "Kroppsdetektiverna Stockholm",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Sturegatan 18 nära Humlegården, Östermalm."
+    },
+    {
+      "domain": "naprapatofstockholm.se",
+      "company": "Naprapat of Stockholm",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Kungsgatan 84 i centrala Stockholm."
+    },
+    {
+      "domain": "naprapatstockholm.nu",
+      "company": "Naprapat Stockholm",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Naprapat Stockholm."
+    },
+    {
+      "domain": "srkc.se",
+      "company": "Stockholms RehabKlinik CITY",
+      "city": "Stockholm",
+      "found_via": "naprapat stockholm mottagning",
+      "snippet": "Naprapater & Fysioterapeuter i Stockholm. Kungsgatan 35."
+    },
+    {
+      "domain": "rehabtjanst.se",
+      "company": "Rehabtjänst",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Erkända sjukgymnaster och fysioterapeuter i Stockholm. Avtal med Region Stockholm."
+    },
+    {
+      "domain": "sergelrehab.se",
+      "company": "Sergel Rehab & Träning",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Välutbildade fysioterapeuter och sjukgymnaster, ansluten till Region Stockholm."
+    },
+    {
+      "domain": "sthlmfysioterapi.se",
+      "company": "Stockholm Fysioterapi",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Fysioterapi Kungsholmen, bedrivit sedan 1988, ansluten till region Stockholm."
+    },
+    {
+      "domain": "helakroppen.se",
+      "company": "Hela Kroppen",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Sjukgymnast/fysioterapeut mottagning."
+    },
+    {
+      "domain": "medfit.se",
+      "company": "Medfit Träning & Vård",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Sjukgymnast/Fysioterapeut vård."
+    },
+    {
+      "domain": "arenamotion.se",
+      "company": "Arena Motion & Rehab",
+      "city": "Stockholm",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat",
+      "snippet": "Fysioterapi och rehabilitering."
+    },
+    {
+      "domain": "ryggakuten.com",
+      "company": "Ryggakuten Göteborg",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Största kiropraktiska praktiken i Göteborg, etablerad 1992. Flera kliniker."
+    },
+    {
+      "domain": "goteborgskiropraktorklinik.se",
+      "company": "Göteborgs Kiropraktorklinik",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Behandling i centrum."
+    },
+    {
+      "domain": "patrikerdegard.se",
+      "company": "Legitimerad Kiropraktor Patrik Erdegård",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Legitimerad Kiropraktor i Göteborg, akuttider dagligen."
+    },
+    {
+      "domain": "ecrc.se",
+      "company": "Chiro Rehab Center",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Kiropraktor & rehabilitering i Göteborg med legitimerade kiropraktorer."
+    },
+    {
+      "domain": "andreaserdegard.se",
+      "company": "Kiropraktorklinik Andreas Erdegard",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Legitimerad kiropraktor i Göteborg."
+    },
+    {
+      "domain": "sockander.se",
+      "company": "Sockanders Kiropraktor",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Kiropraktor Göteborg & Kungälv."
+    },
+    {
+      "domain": "kiropraktorcentrum.com",
+      "company": "KiropraktorCentrum",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Kungsg. 12, 031-711 66 00. Dagliga akuttider."
+    },
+    {
+      "domain": "eurekakiropraktik.se",
+      "company": "Eureka Kiropraktik",
+      "city": "Göteborg",
+      "found_via": "kiropraktor göteborg",
+      "snippet": "Kiropraktor Göteborg, smärtlindring och hälsa. Även klinik i Helsingborg."
+    },
+    {
+      "domain": "city-kliniken.com",
+      "company": "City-Kliniken",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Naprapat Göteborg, Kungsportsplatsen centralt. Sedan 1994."
+    },
+    {
+      "domain": "napraidrott.se",
+      "company": "Göteborgs Naprapat & Idrottsskadeklinik",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Specialister på idrottsskador. Parkgatan 17."
+    },
+    {
+      "domain": "stjarnkliniken.com",
+      "company": "Stjärnkliniken",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Terapeuter nära dig - Göteborg Haga, flera orter."
+    },
+    {
+      "domain": "evarytterlund.se",
+      "company": "Eva Rytterlund Legitimerad Naprapat",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Wadmansgatan 9 i Göteborg sedan 2015."
+    },
+    {
+      "domain": "bodycheck.se",
+      "company": "Bodycheck Naprapat",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Vasaplatsen, akuttider. Privatpersoner och företag."
+    },
+    {
+      "domain": "ullevikliniken.se",
+      "company": "Ullevikliniken",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Akut naprapati, Ullevikliniken i Göteborg."
+    },
+    {
+      "domain": "ryggochled.se",
+      "company": "Rygg & Led",
+      "city": "Göteborg",
+      "found_via": "naprapat göteborg klinik",
+      "snippet": "Naprapat i Göteborg Centrum, Viktor Rydbergsgatan."
+    },
+    {
+      "domain": "ortomed.se",
+      "company": "Ortomed",
+      "city": "Göteborg",
+      "found_via": "fysioterapeut sjukgymnast göteborg",
+      "snippet": "Ortopedmedicinskt specialiserad fysioterapeut. Även i Stockholm (Odenplan/Vasastan)."
+    },
+    {
+      "domain": "team-halsa.se",
+      "company": "TEAM Hälsa",
+      "city": "Göteborg",
+      "found_via": "fysioterapeut sjukgymnast göteborg",
+      "snippet": "Fysioterapeut i Göteborg/Mölndal med specialisering i ortopedisk medicin."
+    },
+    {
+      "domain": "carlanderska.se",
+      "company": "Carlanderska",
+      "city": "Göteborg",
+      "found_via": "fysioterapeut sjukgymnast göteborg",
+      "snippet": "Rehabilitering, arbetsterapi, sjukgymnastik och SportsMed."
+    },
+    {
+      "domain": "fysionovaab.se",
+      "company": "Fysio Nova",
+      "city": "Göteborg",
+      "found_via": "fysioterapeut sjukgymnast göteborg",
+      "snippet": "Väletablerad privat sjukgymnastik på Kristinedals Träningscenter."
+    },
+    {
+      "domain": "fysiohuset.se",
+      "company": "Fysiohuset Göteborg",
+      "city": "Göteborg",
+      "found_via": "fysioterapeut sjukgymnast göteborg",
+      "snippet": "Fysiohuset Göteborg, fysioterapi med dig i fokus."
+    },
+    {
+      "domain": "malmokiropraktorklinik.se",
+      "company": "Malmö Kiropraktorklinik",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Kiropraktik, akupunktur och massage - tre kiropraktormottagningar i samma lokal."
+    },
+    {
+      "domain": "citykiropraktikern.se",
+      "company": "Citykiropraktikern",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Erfaren kiropraktor i Malmö. Föreningsgatan 26."
+    },
+    {
+      "domain": "theclinic.se",
+      "company": "The Clinic",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Kiropraktor, fysioterapeut & massage. Malmö Kirseberg och Nyhamnen."
+    },
+    {
+      "domain": "kiropraktorlaurin.nu",
+      "company": "Kiropraktorkliniken Laurin",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Kiropraktorkliniken Laurin, Limhamn."
+    },
+    {
+      "domain": "torsokliniken.se",
+      "company": "Torsokliniken",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Din kiropraktor i Malmö & Trelleborg."
+    },
+    {
+      "domain": "chiropraktikakuten.se",
+      "company": "ChiropraktikAkuten",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Kiropraktik och medicinsk massageterapi i Limhamn, Malmö."
+    },
+    {
+      "domain": "rmvkiropraktik.se",
+      "company": "RMV Kiropraktik",
+      "city": "Malmö",
+      "found_via": "kiropraktor malmö klinik",
+      "snippet": "Kiropraktik, hälsa och rådgivning."
+    },
+    {
+      "domain": "fysiomed.se",
+      "company": "Fysiomed",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Naprapat, osteopat och kiropraktor i Malmö."
+    },
+    {
+      "domain": "naprapatcentrum.com",
+      "company": "Naprapatcentrum",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Naprapat i Malmö och Karlskrona. Stora Kvarngatan 32."
+    },
+    {
+      "domain": "malmonaprapatiska.se",
+      "company": "Malmö City Naprapatiska",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Naprapat i Malmö med akuttider, Slottsstaden."
+    },
+    {
+      "domain": "smood.se",
+      "company": "Smood",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Malmös ledande naprapater. Tre kliniker: City, Västra Hamnen, Hyllie."
+    },
+    {
+      "domain": "trekotor.se",
+      "company": "Tre Kotor",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Naprapatmottagning i Malmö."
+    },
+    {
+      "domain": "idrottsskadeexperten.se",
+      "company": "Idrottsskadeexperten",
+      "city": "Malmö",
+      "found_via": "naprapat malmö mottagning",
+      "snippet": "Naprapater och fysioterapeuter, kliniker i Stockholm, Göteborg och Malmö."
+    },
+    {
+      "domain": "friskarefysik.se",
+      "company": "Friskare Fysik",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Centralt belägen hälsomottagning med fysioterapeut, kiropraktor och massageterapeut."
+    },
+    {
+      "domain": "fysiocenter.nu",
+      "company": "Fysio Center",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Legitimerade sjukgymnaster med OMT, akupunktur och idrottsmedicin."
+    },
+    {
+      "domain": "citysjukgymnasterna.se",
+      "company": "Citysjukgymnasterna",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Fysioterapeut i Malmö City."
+    },
+    {
+      "domain": "davidaston.se",
+      "company": "David Aston Sjukgymnast",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Sjukgymnast/fysioterapeut och diplomerad massageterapeut i Limhamn."
+    },
+    {
+      "domain": "iklinik.se",
+      "company": "IKLINIK",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Fysioterapeut i Lund och Malmö. 10 fysioterapeuter, idrottsmedicin, kvinnohälsa."
+    },
+    {
+      "domain": "kulanic.se",
+      "company": "Kulan IC",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Idrottsmedicinsk kompetens för motionärer och elitidrottare."
+    },
+    {
+      "domain": "malmoidrottsklinik.se",
+      "company": "Malmö Idrottsklinik",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Malmö Idrottsklinik."
+    },
+    {
+      "domain": "fysiopunkten.se",
+      "company": "Fysiopunkten",
+      "city": "Malmö",
+      "found_via": "fysioterapeut sjukgymnast malmö privat",
+      "snippet": "Sjukgymnastik/fysioterapi mottagning i Malmö nära triangeln."
+    },
+    {
+      "domain": "kiropraktorkliniken.com",
+      "company": "Kiropraktorkliniken Uppsala",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Sedan 1991, nya lokaler i Boländerna 2025."
+    },
+    {
+      "domain": "uppsalakiropraktorklinik.se",
+      "company": "Uppsala Kiropraktorklinik",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Uppsala Kiropraktorklinik."
+    },
+    {
+      "domain": "uppsalanaprapatklinik.se",
+      "company": "Uppsala Naprapatklinik",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Uppsala Naprapatklinik, även kiropraktor."
+    },
+    {
+      "domain": "kiropraktoruppsala.se",
+      "company": "Kiropraktor Magnus Eriksson Uppsala",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Kiropraktor Magnus Eriksson Uppsala."
+    },
+    {
+      "domain": "kiropraktiskt.se",
+      "company": "Kiropraktiskt Sverige",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Kungsängsvägen 19, Uppsala."
+    },
+    {
+      "domain": "rosendalkiropraktorklinik.se",
+      "company": "Rosendal Kiropraktorklinik",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Legitimerad kiropraktor med 5 års utbildning. 018-13 33 24."
+    },
+    {
+      "domain": "joylife.se",
+      "company": "Joylife",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Naprapater, fysioterapeut, kiropraktorer i Uppsala, Västerås. S:t Olofsgatan 11."
+    },
+    {
+      "domain": "fasciaclinics.com",
+      "company": "Fasciaklinikerna",
+      "city": "Uppsala",
+      "found_via": "kiropraktor uppsala klinik",
+      "snippet": "Kiropraktor i Uppsala, Norrköping, flera orter."
+    },
+    {
+      "domain": "iscuppsala.se",
+      "company": "Idrottsskadecentrum Uppsala",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Naprapat & rehabilitering. Drottninggatan 1A."
+    },
+    {
+      "domain": "muskelcentrum.se",
+      "company": "Muskelcentrum",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Naprapat, fysioterapi & idrottsklinik. Uppsala, Gävle, Västerås, Sigtuna."
+    },
+    {
+      "domain": "naprapatklinik018.se",
+      "company": "Naprapatklinik018",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Naprapat Uppsala, massage, akupunktur."
+    },
+    {
+      "domain": "naprapatuppsala.com",
+      "company": "Naprapat Uppsala",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Naprapat Uppsala."
+    },
+    {
+      "domain": "uppsalanaprapat.com",
+      "company": "Uppsala Naprapati & Rehab",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Fyrisvallsgatan 23, Uppsala."
+    },
+    {
+      "domain": "aktiverakliniken.se",
+      "company": "AktiveraKliniken",
+      "city": "Uppsala",
+      "found_via": "naprapat uppsala fysioterapi",
+      "snippet": "Legitimerade naprapater i Uppsala och Sigtuna."
+    },
+    {
+      "domain": "topphalsan.se",
+      "company": "Topphälsan Kiropraktik Västerås",
+      "city": "Västerås",
+      "found_via": "kiropraktor västerås",
+      "snippet": "Hans Moqvist Leg. Kiropraktor. Centrala Västerås."
+    },
+    {
+      "domain": "citykiropraktik.se",
+      "company": "City Kiropraktik Västerås",
+      "city": "Västerås",
+      "found_via": "kiropraktor västerås",
+      "snippet": "Carl Udden, leg. kiropraktor. 021 80 18 18."
+    },
+    {
+      "domain": "fysoptima.se",
+      "company": "Fysoptima",
+      "city": "Västerås",
+      "found_via": "kiropraktor västerås",
+      "snippet": "Per Drömek, leg. kiropraktor. Västerås."
+    },
+    {
+      "domain": "vnk.nu",
+      "company": "Västerås Naprapatiska Klinik",
+      "city": "Västerås",
+      "found_via": "kiropraktor västerås",
+      "snippet": "Naprapat, kiropraktor, massage. 021-41 61 80."
+    },
+    {
+      "domain": "orebrokiro.se",
+      "company": "Örebro Kiropraktorklinik",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Kiropraktor, hälsa, naturlig."
+    },
+    {
+      "domain": "andersonchiropractic.se",
+      "company": "Anderson Chiropractic",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Angelgatan 11, Örebro. 45 års erfarenhet."
+    },
+    {
+      "domain": "cityklinikenorebro.se",
+      "company": "Citykliniken Örebro",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Nygatan centralt i Örebro. Naprapater, fysioterapeut, kiropraktor."
+    },
+    {
+      "domain": "ryggcenter.com",
+      "company": "Ryggcenter Örebro",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Haga Centrum, Örebro."
+    },
+    {
+      "domain": "hanserkiropraktorklinik.se",
+      "company": "Hanser Kiropraktorklinik",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Legitimerad kiropraktor Adam Hanser. Örebro."
+    },
+    {
+      "domain": "orebrokiropraktorklinik.se",
+      "company": "Örebro Kiropraktorklinik",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Hjälper dig att komma i form."
+    },
+    {
+      "domain": "monkskiro.com",
+      "company": "Monks Kiropraktik",
+      "city": "Örebro",
+      "found_via": "kiropraktor örebro klinik",
+      "snippet": "Kiropraktik Örebro Län."
+    },
+    {
+      "domain": "naprapathy.se",
+      "company": "Strids Naprapatklinik",
+      "city": "Örebro",
+      "found_via": "naprapat örebro mottagning",
+      "snippet": "Naprapati och medicinsk klinik i Örebro."
+    },
+    {
+      "domain": "kroppshalsan.se",
+      "company": "Kroppshälsan",
+      "city": "Örebro",
+      "found_via": "naprapat örebro mottagning",
+      "snippet": "Din naprapat i Örebro, stötvåg, ultraljud."
+    },
+    {
+      "domain": "eliasons.se",
+      "company": "Eliasons Naprapatjouren",
+      "city": "Örebro",
+      "found_via": "naprapat örebro mottagning",
+      "snippet": "Naprapatjouren, Magnus Eliason, sedan 1995."
+    },
+    {
+      "domain": "nordichealthorebro.se",
+      "company": "Nordic Health Örebro",
+      "city": "Örebro",
+      "found_via": "naprapat örebro mottagning",
+      "snippet": "Leg. naprapat i Örebro."
+    },
+    {
+      "domain": "wasahalsan.se",
+      "company": "WasaHälsan",
+      "city": "Örebro",
+      "found_via": "naprapat örebro mottagning",
+      "snippet": "Lövstagatan 7 i Örebro, naprapati."
+    },
+    {
+      "domain": "kiropraktorhuset.se",
+      "company": "Kiropraktorhuset",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Centralt i Linköping, Kungsgatan 26 A. Serhat Can och Erik Malmkvist."
+    },
+    {
+      "domain": "kiropraktoreklund.se",
+      "company": "Kiropraktor Michael Eklund",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Erfaren kiropraktor, över 30 år, 75 000 behandlingar. Repslagaregatan 32A."
+    },
+    {
+      "domain": "kiropraktorakuten.com",
+      "company": "Kiropraktorakuten Linköping",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Hospitalstorget, centrala Linköping."
+    },
+    {
+      "domain": "xn--kiropraktorlinkping-46b.se",
+      "company": "Kiropraktorkliniken i Linköping - Sven Örup",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Sven Örup Leg Kiropraktor."
+    },
+    {
+      "domain": "halsogalleriet.se",
+      "company": "HälsoGalleriet",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Legitimerad kiropraktor på Ågatan 25, Linköping."
+    },
+    {
+      "domain": "kiropraktorme.se",
+      "company": "Kiropraktor Mattias Ekström",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Norrköping och Linköping. Lundatorpsvägen 9."
+    },
+    {
+      "domain": "rehabsupport.se",
+      "company": "Rehab Support",
+      "city": "Linköping",
+      "found_via": "kiropraktor linköping",
+      "snippet": "Fysioterapeuter och kiropraktor i Linköping."
+    },
+    {
+      "domain": "curarehab.se",
+      "company": "CuraRehab Linköping",
+      "city": "Linköping",
+      "found_via": "naprapat linköping fysioterapeut",
+      "snippet": "Fysioterapi, naprapati, massage. Mjärdevi och Drottninggatan."
+    },
+    {
+      "domain": "naprapat.se",
+      "company": "Naprapat Service",
+      "city": "Linköping",
+      "found_via": "naprapat linköping fysioterapeut",
+      "snippet": "Mjärdevi, Linköping, Collegium, Teknikringen 7."
+    },
+    {
+      "domain": "sjukgymnastlinkoping.se",
+      "company": "Institutet för Sjukgymnastik och BeteendeMedicin",
+      "city": "Linköping",
+      "found_via": "naprapat linköping fysioterapeut",
+      "snippet": "Institutet för Sjukgymnastik och BeteendeMedicin, Linköping."
+    },
+    {
+      "domain": "kiropraktiknordvast.se",
+      "company": "Kiropraktorkliniken Nordväst",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Legitimerad kiropraktor Ida Leonhard. Hävertgatan 29."
+    },
+    {
+      "domain": "kiropraktorkliniken.nu",
+      "company": "Kiropraktorkliniken Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Sundstorget 3, Helsingborg."
+    },
+    {
+      "domain": "clinicus.nu",
+      "company": "Clinicus Ryggcenter",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Kiropraktor Helsingborg, Kapplöpningsgatan 14. Helgöppet."
+    },
+    {
+      "domain": "olympiahalsoklinik.se",
+      "company": "Olympia Hälsoklinik",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Kiropraktor i Helsingborg, vuxna och barn."
+    },
+    {
+      "domain": "oresundskliniken.se",
+      "company": "Öresundskliniken",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Din kiropraktor i Helsingborg, Tågaborg."
+    },
+    {
+      "domain": "kvinnorehabkliniken.se",
+      "company": "Kvinnorehabkliniken",
+      "city": "Helsingborg",
+      "found_via": "kiropraktor helsingborg klinik",
+      "snippet": "Kiropraktor med intresse för graviditetsbesvär."
+    },
+    {
+      "domain": "dinnaprapat.nu",
+      "company": "Din Naprapat Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Malin Johansson och David Wahlgren."
+    },
+    {
+      "domain": "naprapat-halsan.se",
+      "company": "Naprapathälsan Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Tågagatan 7, Helsingborg. 042-13 50 50."
+    },
+    {
+      "domain": "ryggakutenhbg.se",
+      "company": "RyggAkuten Helsingborg",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Din naprapat i Helsingborg."
+    },
+    {
+      "domain": "naprapat-caroline.se",
+      "company": "Naprapat Caroline Engstrand",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Södra Helsingborg, Landskronavägen nära Ramlösa."
+    },
+    {
+      "domain": "careno1.se",
+      "company": "Remedy Care",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Naprapatklinik i Råå mellan Rydebäck och Helsingborg."
+    },
+    {
+      "domain": "plushalsan.se",
+      "company": "Plushälsan",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Naprapati och hälsa."
+    },
+    {
+      "domain": "nordicrefit.se",
+      "company": "Nordic Refit",
+      "city": "Helsingborg",
+      "found_via": "naprapat helsingborg mottagning",
+      "snippet": "Naprapat i Helsingborg & Lund."
+    },
+    {
+      "domain": "kiro-jkpg.se",
+      "company": "Kiropraktorerna i Jönköping",
+      "city": "Jönköping",
+      "found_via": "kiropraktor jönköping klinik",
+      "snippet": "Legitimerade kiropraktorer sedan 1979, centrala Jönköping."
+    },
+    {
+      "domain": "primakiropraktik.se",
+      "company": "PRIMA KIROPRAKTIK",
+      "city": "Jönköping",
+      "found_via": "kiropraktor jönköping klinik",
+      "snippet": "Kiropraktor i Jönköping, fokus på spinal struktur."
+    },
+    {
+      "domain": "kiropraktikare.se",
+      "company": "Kiropraktik Åre",
+      "city": "Jönköping",
+      "found_via": "kiropraktor jönköping klinik",
+      "snippet": "Kiropraktik och fysioterapi i Jönköping, Batterigatan A6."
+    },
+    {
+      "domain": "ri-kliniken.se",
+      "company": "Rygg & Idrottskliniken Jönköping",
+      "city": "Jönköping",
+      "found_via": "kiropraktor jönköping klinik",
+      "snippet": "NMES-träning, stötvåg, akupunktur, torrnål, manuell behandling."
+    },
+    {
+      "domain": "plusrehab.se",
+      "company": "Plus Rehab",
+      "city": "Jönköping",
+      "found_via": "kiropraktor jönköping klinik",
+      "snippet": "Naprapat i Jönköping med vårdavtal."
+    },
+    {
+      "domain": "medicrehab.se",
+      "company": "MedicRehab Jönköping",
+      "city": "Jönköping",
+      "found_via": "naprapat jönköping fysioterapi",
+      "snippet": "Rehabilitering av naprapat, fysioterapeut, massageterapeut."
+    },
+    {
+      "domain": "agilokliniken.se",
+      "company": "Agilokliniken",
+      "city": "Jönköping",
+      "found_via": "naprapat jönköping fysioterapi",
+      "snippet": "Västra Storgatan 19B, naprapat och fysioterapi."
+    },
+    {
+      "domain": "physioformance.se",
+      "company": "Physioformance",
+      "city": "Jönköping",
+      "found_via": "naprapat jönköping fysioterapi",
+      "snippet": "Legitimerad fysioterapeut sedan 2014, Jönköpings Södra IF."
+    },
+    {
+      "domain": "naprapateliten.se",
+      "company": "Naprapateliten",
+      "city": "Norrköping",
+      "found_via": "kiropraktor norrköping klinik",
+      "snippet": "Naprapateliten i Norrköping, även kiropraktor."
+    },
+    {
+      "domain": "andrenspraktik.se",
+      "company": "Andréns Praktik",
+      "city": "Norrköping",
+      "found_via": "kiropraktor norrköping klinik",
+      "snippet": "Erfaren kiropraktor och massageterapeut i Norrköping."
+    },
+    {
+      "domain": "ryggakuten.nu",
+      "company": "Ryggakuten Norrköping",
+      "city": "Norrköping",
+      "found_via": "kiropraktor norrköping klinik",
+      "snippet": "Ryggakuten Norrköping."
+    },
+    {
+      "domain": "naprapatakuten.net",
+      "company": "Naprapatakuten Norrköping",
+      "city": "Norrköping",
+      "found_via": "naprapat norrköping mottagning",
+      "snippet": "Etablerad 2003, Andreas Karlsson. Södra Promenaden 32."
+    },
+    {
+      "domain": "kiropraktorlund.se",
+      "company": "Lunds Chiropraktormottagning",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Leg. kiropraktorer Birgitta Anconeus och Kurt Anconeus Richardsson. Gonstead-metoden."
+    },
+    {
+      "domain": "familjekiropraktik.se",
+      "company": "Lunds Familjekiropraktik",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Familjebaserad kiropraktisk klinik. Leg. Kiropraktor Henrik Nordström."
+    },
+    {
+      "domain": "ryggcentrumlund.se",
+      "company": "Ryggcentrum Lund",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Vävaregatan 19. Medicinsk laser, akupunktur, rehab-träning."
+    },
+    {
+      "domain": "lommakiropraktorklinik.se",
+      "company": "Lomma Kiropraktorklinik",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Kiropraktor i Lomma som betjänar Lund-området."
+    },
+    {
+      "domain": "lommakiropraktor.se",
+      "company": "Lomma Kiropraktor",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Fri konsultation kiropraktik."
+    },
+    {
+      "domain": "akutkiropraktor.se",
+      "company": "Akut Kiropraktor",
+      "city": "Lund",
+      "found_via": "kiropraktor lund klinik",
+      "snippet": "Kiropraktor i Lund, akut."
+    },
+    {
+      "domain": "lundsnaprapatklinik.se",
+      "company": "Lunds Naprapatklinik",
+      "city": "Lund",
+      "found_via": "naprapat lund fysioterapeut",
+      "snippet": "Stora Tomegatan sedan 1996. 046-211 06 05."
+    },
+    {
+      "domain": "stortorgetsfysio.se",
+      "company": "Stortorgets Fysioklinik",
+      "city": "Lund",
+      "found_via": "naprapat lund fysioterapeut",
+      "snippet": "Fysioterapi & sjukgymnastik i Lund, mellan Botulfsplatsen och Stortorget."
+    },
+    {
+      "domain": "idrottshalsan.se",
+      "company": "Idrottshälsan i Skåne",
+      "city": "Lund",
+      "found_via": "naprapat lund fysioterapeut",
+      "snippet": "Porfyrvägen 14, 224 78 Lund. 046-157180."
+    },
+    {
+      "domain": "ryggochidrottskliniken.se",
+      "company": "Rygg och Idrottskliniken",
+      "city": "Lund",
+      "found_via": "naprapat lund fysioterapeut",
+      "snippet": "Leg. naprapat i Lund, Fredrik Jensen."
+    },
+    {
+      "domain": "stockholmsosteopaterna.se",
+      "company": "Stockholmsosteopaterna",
+      "city": "Stockholm",
+      "found_via": "osteopat stockholm göteborg malmö",
+      "snippet": "Osteopati och SE i Stockholm, klinik på Södermalm."
+    },
+    {
+      "domain": "ugglamassage.se",
+      "company": "Uggla Massage Osteopati",
+      "city": "Stockholm",
+      "found_via": "osteopat stockholm göteborg malmö",
+      "snippet": "Osteopat i Stockholm och Göteborg."
+    },
+    {
+      "domain": "vasastansosteopati.com",
+      "company": "Vasastans Osteopati",
+      "city": "Stockholm",
+      "found_via": "osteopat stockholm göteborg malmö",
+      "snippet": "Osteopatisk behandling i Stockholm Vasastan."
+    },
+    {
+      "domain": "stockholmsosteopatklinik.se",
+      "company": "Stockholms Osteopatklinik",
+      "city": "Stockholm",
+      "found_via": "osteopat stockholm göteborg malmö",
+      "snippet": "STOCKHOLMS OSTEOPATKLINIK."
+    },
+    {
+      "domain": "stockholmcityosteopat.se",
+      "company": "Stockholm City Osteopathy",
+      "city": "Stockholm",
+      "found_via": "osteopat stockholm göteborg malmö",
+      "snippet": "Registered Osteopath i Östermalm, Stockholm."
+    },
+    {
+      "domain": "brommaryggklinik.se",
+      "company": "Bromma Ryggklinik",
+      "city": "Stockholm",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Din naprapat i Stockholm, Bromma Ryggklinik."
+    },
+    {
+      "domain": "stockholmsryggklinik.se",
+      "company": "Stockholms Ryggklinik",
+      "city": "Stockholm",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Kiropraktor med 25 års erfarenhet i Stockholm."
+    },
+    {
+      "domain": "coryggkliniken.se",
+      "company": "c/o Ryggkliniken",
+      "city": "Stockholm",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Leg naprapat."
+    },
+    {
+      "domain": "odenplansryggklinik.se",
+      "company": "Odenplans Ryggklinik",
+      "city": "Stockholm",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Undersökning och diagnos inleder all behandling."
+    },
+    {
+      "domain": "klinik4.se",
+      "company": "Klinik4 Skärholmens Ortopedmottagning",
+      "city": "Stockholm",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Skärholmens Ortopedmottagning."
+    },
+    {
+      "domain": "molnlyckeryggklinik.se",
+      "company": "Mölnlycke Ryggklinik",
+      "city": "Göteborg",
+      "found_via": "ryggklinik sverige behandling",
+      "snippet": "Osteopati & massage hos Mölnlycke Ryggklinik."
+    },
+    {
+      "domain": "atlaskiropraktorklinik.se",
+      "company": "Atlas Kiropraktorklinik",
+      "city": "Sundbyberg",
+      "found_via": "kiropraktor sundbyberg solna täby",
+      "snippet": "Robert Johansson, leg. kiropraktor. Mariagatan 10 i Sundbyberg."
+    },
+    {
+      "domain": "vigeokliniken.se",
+      "company": "Vigeokliniken",
+      "city": "Solna",
+      "found_via": "kiropraktor sundbyberg solna täby",
+      "snippet": "Kiropraktor i Solna & Stockholm. Råsundavägen sedan 2018."
+    },
+    {
+      "domain": "nordiskakiropraktorkliniken.se",
+      "company": "Nordiska Kiropraktorkliniken",
+      "city": "Sundbyberg",
+      "found_via": "kiropraktor sundbyberg solna täby",
+      "snippet": "Tulegatan 41 i Sundbyberg. Akut och förebyggande kiropraktik."
+    },
+    {
+      "domain": "fysio.se",
+      "company": "Fysio Rehab & Fysioterapi",
+      "city": "Stockholm",
+      "found_via": "kiropraktor sundbyberg solna täby",
+      "snippet": "Fysio Rehab & Fysioterapi."
+    },
+    {
+      "domain": "umearygg.se",
+      "company": "Umeå Rygg & Ledklinik",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Ledande naprapati i Norrland. Naprapati, kiropraktik, osteopati, fysioterapi."
+    },
+    {
+      "domain": "aktivnaprapati.nu",
+      "company": "Aktiv Naprapati Umeå",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Din lokala naprapat i Umeå."
+    },
+    {
+      "domain": "naprapat-kliniken.se",
+      "company": "Naprapatkliniken Åke Häger",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Naprapat och massage i Umeå, Vännäs, Robertsfors, Nordmaling."
+    },
+    {
+      "domain": "naprapatsmedjan.se",
+      "company": "Naprapatsmedjan",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Din naprapat i Umeå med helhetsfokus."
+    },
+    {
+      "domain": "ryggochmuskelakuten.se",
+      "company": "Rygg och Muskelakuten",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Naprapat, Umeå, Vännäs, Robertsfors, Nordmaling."
+    },
+    {
+      "domain": "helheten.nu",
+      "company": "Helheten Massage & Friskvård",
+      "city": "Umeå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Naprapat Ulf Salomonsson."
+    },
+    {
+      "domain": "naprapatakuten-rn.se",
+      "company": "Naprapatakuten Rygg och Ledklinik",
+      "city": "Luleå",
+      "found_via": "naprapat umeå luleå sundsvall",
+      "snippet": "Naprapatakuten Rygg och Ledklinik, Luleå."
+    }
+  ]
+}

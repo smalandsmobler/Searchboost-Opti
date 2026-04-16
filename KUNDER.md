@@ -1,7 +1,7 @@
 # Kunder — Searchboost Opti
 
 > Delad fil. Mikael + Viktor ser samma info. Uppdatera när något ändras.
-> Senast uppdaterad: 2026-02-20
+> Senast uppdaterad: 2026-04-16 (ilmonte hackad — se sektionen nedan)
 
 ---
 
@@ -92,8 +92,38 @@
 ## Il Monte
 
 **Sajt**: ilmonte.se
-**GSC**: Searchboost är inte ägare → be ilmonte-ägaren lägga till service account
+**Status**: 🔴 RETENTION (30 dagar gratis 2026-04-08 → 2026-05-08)
+**Kontakt**: Peter Vikström (sales@ilmonte.se)
+**GSC**: SA verifierad som Fullständig 2026-04-09 (via Code Snippets + meta-tag)
 **Keywords**: 30 st inlagda (9A + 14B + 7C)
+**WP-creds**: OK (`Mikael Larsson` + app-password i SSM)
+
+### 🚨 KRITISKT (upptäckt 2026-04-16 via full audit)
+**Sajten är hackad.** ~4 118 casino/gambling-spam-URL:er serveras dynamiskt och ligger i sitemap:en (`post-sitemap2-22.xml`). Sidorna har fullt SEO-innehåll + `index,follow` men finns **INTE** i WP-databasen (wp-json returnerar 0). Det är alltså kod-injektion — plugin/theme/wp-config eller .htaccess fångar okända URL:er och genererar spam on-the-fly.
+
+**Bevis:**
+- `wp-json/wp/v2/posts?slug=casino-...` → tomt resultat
+- `wp-json/wp/v2/posts` → säger 25 posts totalt
+- Sitemap säger 4 150 posts → diskrepans = 4 125 fake
+
+**Blockerar** all ytterligare SEO-effekt — Google ser ilmonte som en casino-spamsajt.
+
+### Gjorda fixes 2026-04-16 (säkra metadata via Rank Math, ingen risk för e-handel)
+- [x] **Audit-rapport**: `presentations/ilmonte-seo-audit-2026-04-16.md`
+- [x] Title + meta fix: `/ilmofurniture/` (ID 15408), `/tillbehorsshop/` (ID 13814), `/pdf-information/` (ID 24), `/kopvillkor/` (ID 20)
+- [x] Noindex + unik title: `/varukorg/` (ID 9), `/kassan/` (ID 10), `/mitt-konto/` (ID 11)
+- [x] Startsida OG/Twitter: Fixade inkonsekvens — `og:title` var "AB ilmonte", är nu "Eventinredning & eventmöbler | Ilmonte" och matchar `<title>` + meta-desc
+
+### BLOCKERAT (kräver dev/server-access — inte Claude-arbete)
+- [ ] **Malware-cleanup** — inspektion av plugins, theme, wp-config, .htaccess, DB
+- [ ] Byta ALLA credentials efter cleanup (inkl. app-password i SSM)
+- [ ] Nginx: 410 Gone för /casino, /kasino, /bonus, /spin, /spelautomat, /poker, /bingo, /slot, /gratissnurr, /jackpot, /baccarat, /craps, /keno, /megaways
+- [ ] GSC: URL Removal (prefix-matchning) för alla spam-URL:er
+- [ ] Säkerhetsheaders: HSTS, X-Frame-Options, X-Content-Type-Options, CSP
+- [ ] Ta bort duplicerad Organization-schema (finns både via Rank Math + manuell injektion med fel Facebook-URL)
+
+### Action
+**Beslut krävs av Mikael:** Ska Searchboost offerera malware-cleanup som separat uppdrag, eller rekommendera extern dev (Sucuri Remediation ~$200, Wordfence Response ~$490)? Retention-perioden går ut 2026-05-08 — utan cleanup kommer organisk trafik inte komma tillbaka.
 
 ---
 

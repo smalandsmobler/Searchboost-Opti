@@ -432,7 +432,8 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
   // Utfört arbete-rader
   const optItems = optimizations.map(o => {
     const type = formatOptType(o.optimization_type);
-    const page = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '') || '/';
+    const rawPath = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+    const page = rawPath || 'Hela sajten';
     return `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(type)} <span style="color:#999;font-size:12px">(${escapeHtml(page)})</span></li>`;
   });
   const trelloItems = trelloCards.map(c =>
@@ -458,11 +459,16 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
       </tr>`
     ).join('');
 
+    const top10Count = (g.top_keywords || []).filter(k => parseFloat(k.position) <= 10).length;
+    const top10Badge = top10Count > 0
+      ? `<div style="display:inline-block;background:#e8f5e9;color:#2e7d32;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:10px">🏆 ${top10Count} sökord i topp 10</div>`
+      : '';
+
     const risingBlock = (g.rising_keywords || []).length > 0 ? `
-      <div style="margin-top:12px;font-size:12px;color:#666;text-transform:uppercase;font-weight:600;margin-bottom:4px">Klättrat i Google</div>
+      <div style="margin-top:12px;font-size:12px;color:#666;text-transform:uppercase;font-weight:600;margin-bottom:6px">Klättrat i Google denna vecka</div>
       ${g.rising_keywords.map(k =>
-        `<div style="font-size:13px;margin-bottom:4px">
-          <span style="color:#00c853">▲ ${k.gain} platser</span>
+        `<div style="font-size:13px;margin-bottom:5px;padding:4px 8px;background:#f8fdf9;border-radius:4px">
+          <span style="color:#00c853;font-weight:700">▲ +${k.gain} platser</span>
           <span style="color:#333"> — ${escapeHtml(k.query)}</span>
           <span style="color:#999"> (nu pos ${k.position})</span>
         </div>`
@@ -474,6 +480,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
         Trafik från Google (organisk)
       </div>
       <div style="padding:14px">
+        ${top10Badge}
         <table style="width:100%;margin-bottom:8px" cellspacing="0" cellpadding="0">
           <tr>
             <td style="text-align:center;padding:8px">
@@ -618,6 +625,13 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
     </p>
   </div>
 
+  <div style="background:#f0f4ff;padding:14px 20px;border-top:1px solid #dce4f5;text-align:center">
+    <p style="margin:0;font-size:13px;color:#555">
+      Undrar du vad en åtgärd innebär?
+      <a href="https://searchboost.se/seo-optimeringar/" style="color:#db007f;text-decoration:none;font-weight:600">Läs vad vi gör varje vecka →</a>
+    </p>
+  </div>
+
   <div style="background:#f8f9fa;padding:16px;text-align:center;font-size:12px;color:#999;border-top:1px solid #e8e8e8">
     <p style="margin:0">Searchboost — SEO &amp; Digital marknadsföring</p>
     <p style="margin:4px 0 0">searchboost.se | mikael@searchboost.se</p>
@@ -641,10 +655,12 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
     const email = data.customer.contact_email || '—';
     const m = allMetrics && allMetrics[customerId];
 
-    const optRows = data.optimizations.map(o =>
-      `<tr><td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px">${formatOptType(o.optimization_type)}</td>` +
-      `<td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">${truncate(o.page_url || '', 45)}</td></tr>`
-    ).join('');
+    const optRows = data.optimizations.map(o => {
+      const rawPath = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+      const displayUrl = rawPath || 'Hela sajten';
+      return `<tr><td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px">${formatOptType(o.optimization_type)}</td>` +
+        `<td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">${truncate(displayUrl, 45)}</td></tr>`;
+    }).join('');
 
     const trelloRows = data.trelloCards.map(c =>
       `<li style="margin-bottom:4px;font-size:12px">${escapeHtml(c.name)}</li>`
@@ -978,7 +994,10 @@ function formatOptType(type) {
     'content': 'Innehållsoptimering',
     'schema': 'La till schema markup',
     'technical': 'Teknisk SEO-fix',
+    'technical_fix': 'Teknisk SEO-fix',
     'manual': 'Manuell åtgärd',
+    'annat': 'Manuell åtgärd',
+    'Annat': 'Manuell åtgärd',
     'h1': 'La till H1-rubrik',
     'h2_optimization': 'Förbättrade underrubriker',
     'h3_optimization': 'Förbättrade underrubriker',
@@ -987,16 +1006,32 @@ function formatOptType(type) {
     'keywords': 'Nyckelordsoptimering',
     'image': 'Optimerade bilder',
     'images': 'Optimerade bilder',
+    'alt_text': 'La till alt-text på bilder',
+    'bulk_alt_text': 'La till alt-text på bilder (bulk)',
     'speed': 'Förbättrade sidladdning',
     'canonical': 'Satte canonical-länk',
-    'redirect': 'Skapade omdirigering'
+    'redirect': 'Skapade omdirigering',
+    'ai_seo': 'AI-optimering av metadata',
+    'ai_metadata': 'AI-optimering av metadata',
+    'cleanup': 'Teknisk städning',
+    'diagnosis': 'SEO-diagnostik',
+    'audit': 'SEO-genomgång',
+    'presentation': 'Presentationsmaterial framtaget',
+    'article': 'Artikel publicerad',
+    'blog': 'Bloggpost publicerad',
+    'content_creation': 'Nytt innehåll skapat',
+    'onboarding': 'Onboarding & uppstart',
+    'link_building': 'Länkbygge',
+    'bulk_seo': 'Bulk-SEO-optimering',
+    'meta_title': 'Optimerade sidtiteln',
+    'meta_desc': 'Skrev meta-beskrivning',
+    'missing_description': 'Lade till meta-beskrivning'
   };
 
   const mapped = types[type];
   if (mapped) return mapped;
 
-  // Fallback: aldrig visa råa typnamn (kan innehålla tekniska termer)
-  // Rensa bort prefix och returna ett läsbart alternativ
+  // Fallback: rensa råa typnamn till läsbart format
   const cleaned = (type || '')
     .replace(/^auto[_\s]?/i, '')
     .replace(/[_-]/g, ' ')
@@ -1005,7 +1040,8 @@ function formatOptType(type) {
   if (!cleaned) return 'SEO-optimering';
 
   // Slå upp den rensade varianten också
-  return types[cleaned.toLowerCase().replace(/\s/g, '_')] || 'SEO-optimering';
+  const lookupKey = cleaned.toLowerCase().replace(/\s/g, '_');
+  return types[lookupKey] || (cleaned.charAt(0).toUpperCase() + cleaned.slice(1));
 }
 
 function escapeHtml(str) {
@@ -1040,22 +1076,20 @@ exports.handler = async (event) => {
     // EventBridge triggar exakt en gång per fredag 13:00 UTC = 15:00 CEST.
     // Dedupen skyddar mot manuella re-körningar och Lambda-retries.
     if (!force) {
-      const [existingReports] = await bq.query({
-        query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
-                WHERE customer_id = 'internal'
-                AND (
-                  email_sent_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 6 HOUR)
-                  OR DATE(email_sent_at) = CURRENT_DATE()
-                )`
-      });
-      if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
-        console.log('Rapport redan skickad idag (eller senaste 6h) — avbryter (använd force=true för att skicka om)');
-        return {
-          statusCode: 200,
-          body: JSON.stringify({ skipped: true, reason: 'already_sent_today' })
-        };
+      try {
+        const [existingReports] = await bq.query({
+          query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
+                  WHERE customer_id = 'internal'
+                  AND created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 6 HOUR)`
+        });
+        if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
+          console.log('Rapport redan skickad senaste 6h — avbryter (force=true för att skicka om)');
+          return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_sent_today' }) };
+        }
+      } catch (dedupErr) {
+        console.log('Dedup-check misslyckades (ignoreras):', dedupErr.message);
       }
-      console.log('Ingen rapport skickad senaste 6h — kör nu');
+      console.log('Kör rapport nu');
     } else {
       console.log('force=true — skickar rapport oavsett deduplicering');
     }
@@ -1144,20 +1178,13 @@ exports.handler = async (event) => {
 
         // Spara per-kund rapport i BigQuery
         await bq.query({
-          query: `INSERT INTO \`${dataset}.weekly_reports\` (email_sent_at, customer_id, report_html, metrics_json, recipient_list)
-                  VALUES (CURRENT_TIMESTAMP(), @customer_id, @report_html, @metrics_json, @recipient_list)`,
+          query: `INSERT INTO \`${dataset}.weekly_reports\` (customer_id, report_html, optimizations_count, summary, created_at, sent_at)
+                  VALUES (@customer_id, @report_html, @optimizations_count, @summary, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())`,
           params: {
             customer_id: customerId,
             report_html: customerHtml,
-            metrics_json: JSON.stringify({
-              optimizations: group.optimizations.length,
-              trelloCards: group.trelloCards.length,
-              total: group.optimizations.length + group.trelloCards.length,
-              gsc: m.gsc,
-              ads: m.ads ? { total_spend: m.ads.total_spend, total_roas: m.ads.total_roas } : null,
-              social: m.social ? m.social.map(p => ({ platform: p.platform, followers: p.followers, followers_gain: p.followers_gain })) : null
-            }),
-            recipient_list: group.customer.contact_email
+            optimizations_count: group.optimizations.length + group.trelloCards.length,
+            summary: `${group.optimizations.length} opt, ${group.trelloCards.length} kort`
           }
         });
       } catch (emailErr) {
@@ -1178,25 +1205,13 @@ exports.handler = async (event) => {
 
     // Spara intern rapport
     await bq.query({
-      query: `INSERT INTO \`${dataset}.weekly_reports\` (email_sent_at, customer_id, report_html, metrics_json, recipient_list)
-              VALUES (CURRENT_TIMESTAMP(), @customer_id, @report_html, @metrics_json, @recipient_list)`,
+      query: `INSERT INTO \`${dataset}.weekly_reports\` (customer_id, report_html, optimizations_count, summary, created_at, sent_at)
+              VALUES (@customer_id, @report_html, @optimizations_count, @summary, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())`,
       params: {
         customer_id: 'internal',
         report_html: internalHtml,
-        metrics_json: JSON.stringify({
-          total: optimizations.length,
-          trelloCards: trelloCards.length,
-          queueStats,
-          customerResults,
-          metrics_summary: Object.entries(allMetrics).map(([cid, m]) => ({
-            customer_id: cid,
-            gsc_clicks: m.gsc ? m.gsc.clicks_this_week : null,
-            gsc_clicks_diff: m.gsc ? m.gsc.clicks_diff : null,
-            ads_spend: m.ads ? m.ads.total_spend : null,
-            ads_roas: m.ads ? m.ads.total_roas : null
-          }))
-        }),
-        recipient_list: mikaelEmail.join(', ')
+        optimizations_count: optimizations.length + trelloCards.length,
+        summary: `${optimizations.length} opt, ${trelloCards.length} kort`
       }
     });
 

@@ -1,0 +1,902 @@
+{
+  "kept": [
+    {
+      "domain": "hilding.se",
+      "company": "Hilding Anders",
+      "category": "Säng",
+      "segment": "Tillverkare",
+      "city": "Hässleholm",
+      "note": "Världens äldsta sängtillverkare"
+    },
+    {
+      "domain": "carpediem.se",
+      "company": "Carpe Diem Beds",
+      "category": "Säng",
+      "segment": "Premium/Tillverkare",
+      "city": "Orrefors",
+      "note": "Handgjorda lyxsängar"
+    },
+    {
+      "domain": "carpevita.se",
+      "company": "Carpe Vita",
+      "category": "Säng",
+      "segment": "Tillverkare",
+      "city": "Vänersborg",
+      "note": "Svensk sängtillverkare"
+    },
+    {
+      "domain": "englesson.se",
+      "company": "Englesson",
+      "category": "Säng",
+      "segment": "Tillverkare",
+      "city": "Ljusdal",
+      "note": "Familjeägd sängtillverkare"
+    },
+    {
+      "domain": "viking-beds.se",
+      "company": "Viking Beds of Sweden",
+      "category": "Säng",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Premium svenska sängar"
+    },
+    {
+      "domain": "sangjatten.se",
+      "company": "Sängjätten",
+      "category": "Säng",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Största sängkedjan i Sverige"
+    },
+    {
+      "domain": "sangkedjan.se",
+      "company": "Sängkedjan",
+      "category": "Säng",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Nordisk sängkedja"
+    },
+    {
+      "domain": "sangshop.se",
+      "company": "SängShop",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Online sängbutik"
+    },
+    {
+      "domain": "sovea.se",
+      "company": "Sovea",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Online sängspecialist"
+    },
+    {
+      "domain": "sova.se",
+      "company": "Sova",
+      "category": "Säng",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Sova butikskedja"
+    },
+    {
+      "domain": "sangdesign.se",
+      "company": "Säng Design",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Sängspecialist online"
+    },
+    {
+      "domain": "euro-beds.se",
+      "company": "Eurobeds",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Svensk online sängbutik"
+    },
+    {
+      "domain": "madrassonline.se",
+      "company": "Madrass Online",
+      "category": "Madrass",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Specialiserad på madrasser"
+    },
+    {
+      "domain": "mattressonline.se",
+      "company": "Mattress Online SE",
+      "category": "Madrass",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Madrasspecialist"
+    },
+    {
+      "domain": "sangstallet.se",
+      "company": "Sängstället",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängbutik"
+    },
+    {
+      "domain": "sangmagasinet.se",
+      "company": "Sängmagasinet",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängåterförsäljare"
+    },
+    {
+      "domain": "sangpartner.se",
+      "company": "Säng Partner",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Lokal sängkedja"
+    },
+    {
+      "domain": "sängvaruhuset.se",
+      "company": "Sängvaruhuset",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sänghandlare"
+    },
+    {
+      "domain": "sangochmadrass.se",
+      "company": "Säng och Madrass",
+      "category": "Madrass",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "E-handel madrasser"
+    },
+    {
+      "domain": "svanemadrass.se",
+      "company": "Svane",
+      "category": "Madrass",
+      "segment": "Tillverkare",
+      "city": "Skandinavien",
+      "note": "Skandinaviska madrasser"
+    },
+    {
+      "domain": "tempur.se",
+      "company": "Tempur Sweden",
+      "category": "Madrass",
+      "segment": "Premium/Tillverkare",
+      "city": "Riksomfattande",
+      "note": "Memory foam specialist"
+    },
+    {
+      "domain": "wonderland.se",
+      "company": "Wonderland",
+      "category": "Säng",
+      "segment": "Tillverkare",
+      "city": "Norge/Sverige",
+      "note": "Kvalitetssängar"
+    },
+    {
+      "domain": "chilli.se",
+      "company": "Chilli",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Online möbler & inredning"
+    },
+    {
+      "domain": "trendrum.se",
+      "company": "Trendrum",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Trendiga möbler"
+    },
+    {
+      "domain": "nordiskagalleriet.se",
+      "company": "Nordiska Galleriet",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Stockholm",
+      "note": "Designmöbler premium"
+    },
+    {
+      "domain": "svenssons.se",
+      "company": "Svenssons i Lammhult",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Lammhult",
+      "note": "Design & möbler"
+    },
+    {
+      "domain": "sofacompany.com",
+      "company": "Sofa Company",
+      "category": "Soffor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Specialist på soffor"
+    },
+    {
+      "domain": "sofaplus.se",
+      "company": "Sofa Plus",
+      "category": "Soffor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Soffspecialist"
+    },
+    {
+      "domain": "lergerbo.se",
+      "company": "Lergerbo Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Möbelhandlare"
+    },
+    {
+      "domain": "mobelkompaniet.se",
+      "company": "Möbelkompaniet",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Möbelåterförsäljare"
+    },
+    {
+      "domain": "mobelshop.se",
+      "company": "MöbelShop",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Möbler online"
+    },
+    {
+      "domain": "mobler.se",
+      "company": "Möbler.se",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Generisk möbel-portal"
+    },
+    {
+      "domain": "mobel1.se",
+      "company": "Möbel1",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Nätbutik möbler"
+    },
+    {
+      "domain": "chilliseats.com",
+      "company": "Chilli Seats",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Ergonomiska stolar"
+    },
+    {
+      "domain": "kontorsmobler.se",
+      "company": "Kontorsmöbler.se",
+      "category": "Kontor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Kontorsmöbler online"
+    },
+    {
+      "domain": "inr.se",
+      "company": "INR",
+      "category": "Möbler",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Badrumsmöbler"
+    },
+    {
+      "domain": "hadens.se",
+      "company": "Hadéns",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Jönköping",
+      "note": "Möbler & inredning"
+    },
+    {
+      "domain": "mobelrondellen.se",
+      "company": "Möbelrondellen",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Småland",
+      "note": "BEFINTLIG KUND"
+    },
+    {
+      "domain": "smalandskontorsmobler.se",
+      "company": "Smålands Kontorsmöbler",
+      "category": "Kontor",
+      "segment": "Regional",
+      "city": "Småland",
+      "note": "BEFINTLIG KUND"
+    },
+    {
+      "domain": "mobelhuset.se",
+      "company": "Möbelhuset",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Möbelhandel"
+    },
+    {
+      "domain": "mobelriket.se",
+      "company": "Möbelriket",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Möbelåterförsäljare"
+    },
+    {
+      "domain": "mobeltorget.se",
+      "company": "Möbeltorget",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Möbelhandlare"
+    },
+    {
+      "domain": "skovdemobler.se",
+      "company": "Skövde Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Skövde",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "helsingborgmobler.se",
+      "company": "Helsingborg Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Helsingborg",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "stockholmmobel.se",
+      "company": "Stockholm Möbel",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Stockholm",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "goteborgmobel.se",
+      "company": "Göteborg Möbel",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Göteborg",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "malmömobel.se",
+      "company": "Malmö Möbel",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Malmö",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "kungsbackamobler.se",
+      "company": "Kungsbacka Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Kungsbacka",
+      "note": "Lokal möbelhandel"
+    },
+    {
+      "domain": "carlanderska.se",
+      "company": "Carlanderska",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Stockholm",
+      "note": "Antikviteter & designmöbler"
+    },
+    {
+      "domain": "dahlgrensmobler.se",
+      "company": "Dahlgrens Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Familjeföretag"
+    },
+    {
+      "domain": "mellbystrand-mobler.se",
+      "company": "Mellbystrand Möbler",
+      "category": "Möbler",
+      "segment": "Regional",
+      "city": "Halland",
+      "note": "Regional handlare"
+    },
+    {
+      "domain": "artilleriet.se",
+      "company": "Artilleriet",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Göteborg",
+      "note": "Premium design"
+    },
+    {
+      "domain": "designhouse.se",
+      "company": "Design House",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Stockholm",
+      "note": "Design & inredning"
+    },
+    {
+      "domain": "stockholmfurniture.se",
+      "company": "Stockholm Furniture",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Stockholm",
+      "note": "Designmöbler"
+    },
+    {
+      "domain": "smdesign.se",
+      "company": "SM Design",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Sverige",
+      "note": "Designstudio"
+    },
+    {
+      "domain": "kinnarps.com",
+      "company": "Kinnarps",
+      "category": "Kontor",
+      "segment": "Tillverkare",
+      "city": "Kinnarp",
+      "note": "Kontorsmöbeltillverkare"
+    },
+    {
+      "domain": "hag.com",
+      "company": "HÅG",
+      "category": "Kontor",
+      "segment": "Tillverkare",
+      "city": "Norge/SE",
+      "note": "Ergonomiska stolar"
+    },
+    {
+      "domain": "rh-stolen.se",
+      "company": "RH Stolen",
+      "category": "Kontor",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Ergonomiska stolar"
+    },
+    {
+      "domain": "ikeaforbusiness.se",
+      "company": "IKEA for Business",
+      "category": "Kontor",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "IKEA företag"
+    },
+    {
+      "domain": "inhousegroup.se",
+      "company": "Inhouse Group",
+      "category": "Kontor",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Kontorsmöbler"
+    },
+    {
+      "domain": "officesign.se",
+      "company": "Office Sign",
+      "category": "Kontor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Kontorsmöbler online"
+    },
+    {
+      "domain": "martela.se",
+      "company": "Martela",
+      "category": "Kontor",
+      "segment": "Tillverkare",
+      "city": "Finland/SE",
+      "note": "Kontorslösningar"
+    },
+    {
+      "domain": "kontorsmarknaden.se",
+      "company": "Kontorsmarknaden",
+      "category": "Kontor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Kontorsmöbler"
+    },
+    {
+      "domain": "byon.se",
+      "company": "Byon",
+      "category": "Utemöbler",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Design trädgårdsmöbler"
+    },
+    {
+      "domain": "brafab.se",
+      "company": "Brafab",
+      "category": "Utemöbler",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Trädgårdsmöbler"
+    },
+    {
+      "domain": "hammarby-mobler.se",
+      "company": "Hammarby Trädgårdsmöbler",
+      "category": "Utemöbler",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Utemöbler"
+    },
+    {
+      "domain": "utemobelriket.se",
+      "company": "Utemöbelriket",
+      "category": "Utemöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Trädgårdsmöbler"
+    },
+    {
+      "domain": "cinasutemobler.se",
+      "company": "Cinas Utemöbler",
+      "category": "Utemöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Utemöbler"
+    },
+    {
+      "domain": "tradgardstorget.se",
+      "company": "Trädgårdstorget",
+      "category": "Utemöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Trädgårdsmöbler"
+    },
+    {
+      "domain": "babyland.se",
+      "company": "Babyland",
+      "category": "Barnmöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Barn & baby"
+    },
+    {
+      "domain": "barnensmobler.se",
+      "company": "Barnens Möbler",
+      "category": "Barnmöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Barnmöbler"
+    },
+    {
+      "domain": "jollyroom.se",
+      "company": "Jollyroom",
+      "category": "Barnmöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Barn & baby online"
+    },
+    {
+      "domain": "buddybox.se",
+      "company": "Buddy Box",
+      "category": "Barnmöbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Barnmöbler"
+    },
+    {
+      "domain": "ellos.se",
+      "company": "Ellos",
+      "category": "Inredning",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Inredning & möbler"
+    },
+    {
+      "domain": "jotex.se",
+      "company": "Jotex",
+      "category": "Inredning",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Inredning online"
+    },
+    {
+      "domain": "lagerhaus.se",
+      "company": "Lagerhaus",
+      "category": "Inredning",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Inredning"
+    },
+    {
+      "domain": "hm-home.com",
+      "company": "H&M Home",
+      "category": "Inredning",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Inredning"
+    },
+    {
+      "domain": "soffabolaget.se",
+      "company": "Soffabolaget",
+      "category": "Soffor",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Soffor online"
+    },
+    {
+      "domain": "stolaronline.se",
+      "company": "Stolar Online",
+      "category": "Stolar",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Stolar nischat"
+    },
+    {
+      "domain": "matsalsstolar.se",
+      "company": "Matsalsstolar.se",
+      "category": "Stolar",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Matsalsstolar"
+    },
+    {
+      "domain": "bordonline.se",
+      "company": "Bord Online",
+      "category": "Bord",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Bord nischat"
+    },
+    {
+      "domain": "svenskebok.se",
+      "company": "Svenska Ek & Bok",
+      "category": "Möbler",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Massiva träslag"
+    },
+    {
+      "domain": "trehandlarna.se",
+      "company": "Trehandlarna",
+      "category": "Möbler",
+      "segment": "Tillverkare",
+      "city": "Sverige",
+      "note": "Furniturecrafters"
+    },
+    {
+      "domain": "sovrummet.se",
+      "company": "Sovrummet",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängbutik"
+    },
+    {
+      "domain": "drommebadd.se",
+      "company": "Drömmebadd",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Sänge-handel"
+    },
+    {
+      "domain": "sangsalongen.se",
+      "company": "Sängsalongen",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Lokal sängbutik"
+    },
+    {
+      "domain": "sangcentrum.se",
+      "company": "Sängcentrum",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängspecialist"
+    },
+    {
+      "domain": "sanghuset.se",
+      "company": "Sänghuset",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängbutik"
+    },
+    {
+      "domain": "sangportalen.se",
+      "company": "Sängportalen",
+      "category": "Säng",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Säng e-handel"
+    },
+    {
+      "domain": "sangensvarld.se",
+      "company": "Sängens Värld",
+      "category": "Säng",
+      "segment": "Regional",
+      "city": "Sverige",
+      "note": "Sängbutik"
+    }
+  ],
+  "excluded": [
+    {
+      "domain": "hastens.com",
+      "company": "Hästens Sängar",
+      "category": "Säng",
+      "segment": "Premium/Tillverkare",
+      "city": "Köping",
+      "note": "Svensk tillverkare av lyxsängar"
+    },
+    {
+      "domain": "dux.se",
+      "company": "DUX",
+      "category": "Säng",
+      "segment": "Premium/Tillverkare",
+      "city": "Trelleborg",
+      "note": "Svensk tillverkare av kvalitetssängar"
+    },
+    {
+      "domain": "jensen-beds.com",
+      "company": "Jensen",
+      "category": "Säng",
+      "segment": "Premium/Tillverkare",
+      "city": "Norge/Sverige",
+      "note": "Skandinavisk sängtillverkare"
+    },
+    {
+      "domain": "ikea.se",
+      "company": "IKEA",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Största möbelkedjan"
+    },
+    {
+      "domain": "mio.se",
+      "company": "Mio",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Stor svensk möbelkedja"
+    },
+    {
+      "domain": "jysk.se",
+      "company": "Jysk",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Dansk-svensk möbelkedja"
+    },
+    {
+      "domain": "em-home.com",
+      "company": "EM Home",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Möbel- och inredningskedja"
+    },
+    {
+      "domain": "em.se",
+      "company": "EM",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Möbelkedja"
+    },
+    {
+      "domain": "ilva.se",
+      "company": "ILVA",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Nordisk designkedja"
+    },
+    {
+      "domain": "moblex.com",
+      "company": "Möblex",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Möbelåterförsäljare"
+    },
+    {
+      "domain": "rum21.se",
+      "company": "Rum21",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Inredning & möbler online"
+    },
+    {
+      "domain": "royaldesign.se",
+      "company": "RoyalDesign",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Design & möbler online"
+    },
+    {
+      "domain": "furniturebox.se",
+      "company": "Furniturebox",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Möbler online"
+    },
+    {
+      "domain": "granit.com",
+      "company": "Granit",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Inredning & förvaring"
+    },
+    {
+      "domain": "designtorget.se",
+      "company": "Designtorget",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Svensk design"
+    },
+    {
+      "domain": "nordicnest.se",
+      "company": "Nordic Nest",
+      "category": "Möbler",
+      "segment": "Online",
+      "city": "E-handel",
+      "note": "Skandinavisk design"
+    },
+    {
+      "domain": "bolia.com",
+      "company": "Bolia",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Skandinavien",
+      "note": "Designmöbler"
+    },
+    {
+      "domain": "skovby.com",
+      "company": "Skovby",
+      "category": "Möbler",
+      "segment": "Tillverkare",
+      "city": "Danmark/SE",
+      "note": "Dansk möbeltillverkare"
+    },
+    {
+      "domain": "laforma.se",
+      "company": "La Forma",
+      "category": "Möbler",
+      "segment": "Premium",
+      "city": "Sverige",
+      "note": "Designmöbler"
+    },
+    {
+      "domain": "bauhaus.se",
+      "company": "Bauhaus",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Bygg & inredning"
+    },
+    {
+      "domain": "rusta.com",
+      "company": "Rusta",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Lågprismöbler"
+    },
+    {
+      "domain": "hornbach.se",
+      "company": "Hornbach",
+      "category": "Möbler",
+      "segment": "Kedja",
+      "city": "Riksomfattande",
+      "note": "Bygg & inredning"
+    }
+  ]
+}

@@ -11,8 +11,37 @@ type: project
 
 ## Nästa steg
 - [ ] Lägg till SA i GSC: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com (Fullständig) — Mikael gör manuellt i GSC > Inställningar > Användare och behörigheter
-- [ ] Kolla om org.nr finns i footer (ev. sista placeholder kvar)
-- [ ] Ny batch artiklar vecka 21
+- [x] Org.nr i footer: Human Power Sweden AB · Org.nr: 559256-7464 · info@humanpower.se (hittad via allabolag.se, Anette Brink ledamot)
+- [ ] Ny batch artiklar vecka 22
+
+## Klart 2026-04-16
+- [x] Utvecklande samtal (ID 26): hero nu full viewport-bredd. Kadence meta satt: `_kad_post_layout=fullwidth`, `_kad_post_content_style=unboxed`, `_kad_post_vertical_padding=remove`. CSS-override injicerad överst i content för att bryta ut `.wp-block-cover.alignfull` från `.content-container.site-container`.
+- [x] Kosttillskott (ID 27): komplett ombyggd till clean butikssida i SagaPro-stil. Fyra produkter i 2x2-grid med stora burk-bilder på mjuk grön bakgrund, produktnamn (serif), italic quote, 4 fördelar per produkt med gröna checkmarkar, pris (399 kr/burk) och "Se produkten"-CTA. WooCommerce-shortcode ersatt med handbyggd HTML för full kontroll över design. Samma Kadence fullwidth-meta + CSS-override applicerad.
+
+## Klart 2026-04-15 (kväll)
+- [x] Utvecklande samtal-sida (ID 26) helt ombyggd:
+  - Hero: therapy-room.webp (ID 140, stolen/terapirum) — soffa-bilden borttagen
+  - Grön fördelar-box (border-left #3d7a5a, bakgrund #f3faf5)
+  - Mörk citat-ruta (#1F2A28) med grön accenttext för "Det är här skiftet sker"
+  - Praktisk info-kort (vit, grön kantlinje, subtil skugga)
+  - Boka-sektion (mörkgrön #0f1f1a) med CF7-formulär + !important CSS override
+- [x] Kosttillskott-sida (ID 27) helt ombyggd:
+  - Hero 80vh med kosttillskott-hero-1.png + Island-tema
+  - Science strip: 4200+ studier, 100% isländskt, biotillgänglighet, klinisk
+  - Produktgrid 2x2 med rätt burk-bilder (WooCommerce shortcode)
+  - Ursprungssektion med formulaitons-1.jpg + Island-text
+  - Avslutande brand statement-sektion
+- [x] Alla 4 produktbilder fixade: AstaEye→622, AstaSkin→620, SagaPRO→619, Astaxanthin→663
+- [x] wp_credentials.md korrigerad: humanpower username = searchboost, pw = JSiE s6jV sw1T LTfz pUnw Xv5X
+
+## Klart 2026-04-15 (vecka 21)
+- [x] Footer Lorem ipsum ersatt med riktig text: Anette Brink, samtalspedagog och grundare av Human Power (widget block-8)
+- [x] 11 Reboot-bilder konverterade (HEIC→JPEG) och uppladdade (IDs 745-755) med alt-texter
+- [x] Nytt fotogalleri ("Platsen") lagt till på humanpower.se/reboot/
+- [x] 3 artiklar publicerade vecka 21 (kat ID:46 Inspiration & insikt):
+  - ID:739 /sjalvkarlek-sjalvmedkansla-personlig-forandring/ (focus: självkärlek personlig utveckling)
+  - ID:740 /nervsystemet-stress-spanning-i-kroppen/ (focus: nervsystemet stress kroppen)
+  - ID:741 /livshjulet-sjalvinsikt-guide/ (focus: livshjulet självinsikt)
 
 ## Klart 2026-04-13 (vecka 20)
 - [x] 3 artiklar publicerade vecka 20 (kat ID:46):

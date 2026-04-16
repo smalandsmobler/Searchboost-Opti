@@ -12,10 +12,20 @@ type: project
 **Bransch**: B2B produktutveckling — plastkonstruktion, industridesign, prototyper
 
 ## Nästa steg
-- [ ] Fylla meta descriptions på fler sidor (tjänstesidor: 3893, 3901, 3915, 3699, 233)
 - [ ] Interna länkar mellan tjänstesidorna (saknas nästan helt)
-- [ ] Ny batch artiklar vecka 21
-- [ ] Interna länkar mellan tjänstesidorna (saknas nästan helt)
+- [ ] Ny batch artiklar vecka 22
+
+## Klart 2026-04-15 (vecka 21)
+- [x] Meta descriptions + focus keywords satta på 5 tjänstesidor via REST API:
+  - 3893 simulering-analys (157 tecken | kw: simulering plastkonstruktion)
+  - 3901 uppmatning-verifiering (155 tecken | kw: uppmätning verifiering plastdetaljer)
+  - 3915 montage-beskrivningar (159 tecken | kw: montageanvisningar plastkomponenter)
+  - 3699 produktoptimering (155 tecken | kw: produktoptimering formsprutning)
+  - 233 verktygsberedning (156 tecken | kw: verktygsberedning formsprutning)
+- [x] 3 artiklar publicerade vecka 21 (kat ID:48):
+  - ID:7699 /produktutveckling/rostfritt-stal-vs-plast-materialval-produktutveckling/ (focus: materialval produktutveckling)
+  - ID:7700 /produktutveckling/verktygsunderhall-livslangd-formsprutningsverktyg/ (focus: verktygsunderhåll formsprutning)
+  - ID:7701 /produktutveckling/batch-storlek-ekonomi-smaserie-massproduktion/ (focus: småserie formsprutning kostnad)
 
 ## Klart 2026-04-13 (vecka 20)
 - [x] 3 artiklar publicerade vecka 20 (kat ID:48):

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Prospect Follow-up — Searchboost</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0a0a0f; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; padding: 32px 24px; }
+h1 { color: #e91e8c; font-size: 22px; margin-bottom: 4px; }
+.sub { color: #888; font-size: 13px; margin-bottom: 28px; }
+.template-box { background: #13131a; border: 1px solid #e91e8c; border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; max-width: 720px; }
+.template-box h2 { color: #00d4ff; font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px; }
+.template-box pre { white-space: pre-wrap; font-family: inherit; font-size: 13px; color: #ccc; line-height: 1.6; }
+.subject { color: #e91e8c; font-weight: 700; margin-bottom: 10px; font-size: 14px; }
+table { width: 100%; max-width: 900px; border-collapse: collapse; }
+th { text-align: left; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; padding: 8px 12px; border-bottom: 1px solid #1e1e2e; }
+tr:hover td { background: rgba(255,255,255,0.03); }
+td { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.name { font-weight: 600; color: #fff; }
+.email { color: #888; font-size: 12px; }
+.domain { color: #00d4ff; font-size: 12px; }
+.btn { display: inline-block; background: #e91e8c; color: #fff; border-radius: 6px; padding: 6px 14px; font-size: 12px; font-weight: 700; text-decoration: none; cursor: pointer; }
+.btn:hover { background: #c0166e; }
+.count { color: #888; font-size: 12px; margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<h1>Prospect Follow-up</h1>
+<div class="sub">49 prospects — kontaktade okt 2025–jan 2026, inget svar. Sista försöket.</div>
+
+<div class="template-box">
+  <h2>Mall (anpassad per mottagare)</h2>
+  <div class="subject">Ämne: Sista försöket — fick du min analys?</div>
+  <pre>Hej [Namn],
+
+Jag hör av mig en sista gång.
+
+För några månader sedan skickade jag en SEO-analys till er. Fick inget svar — och förstår att det kanske inte var rätt tidpunkt.
+
+Men analysen visar fortfarande samma sak: er sajt syns knappt alls på Google för de sökningar era kunder gör. Och konkurrenterna drar nytta av det varje dag.
+
+Har ni 15 minuter för ett snabbt samtal? Jag visar precis vad som behöver göras — utan förpliktelser.
+
+Mikael Larsson
+Searchboost
+mikael@searchboost.se
+searchboost.se</pre>
+</div>
+
+<table>
+<thead>
+  <tr>
+    <th>#</th>
+    <th>Namn / Domän</th>
+    <th>E-post</th>
+    <th>Skicka</th>
+  </tr>
+</thead>
+<tbody id="prospects"></tbody>
+</table>
+<div class="count" id="cnt"></div>
+
+<script>
+const SUBJ = "Sista f\u00f6rs\u00f6ket \u2014 fick du min analys?";
+
+const BODY_T = (name) => `Hej ${name},
+
+Jag h\u00f6r av mig en sista g\u00e5ng.
+
+F\u00f6r n\u00e5gra m\u00e5nader sedan skickade jag en SEO-analys till er. Fick inget svar \u2014 och f\u00f6rst\u00e5r att det kanske inte var r\u00e4tt tidpunkt.
+
+Men analysen visar fortfarande samma sak: er sajt syns knappt alls p\u00e5 Google f\u00f6r de s\u00f6kningar era kunder g\u00f6r. Och konkurrenterna drar nytta av det varje dag.
+
+Har ni 15 minuter f\u00f6r ett snabbt samtal? Jag visar precis vad som beh\u00f6ver g\u00f6ras \u2014 utan f\u00f6rpliktelser.
+
+Mikael Larsson
+Searchboost
+mikael@searchboost.se
+searchboost.se`;
+
+const BODY_G = () => `Hej,
+
+Jag h\u00f6r av mig en sista g\u00e5ng.
+
+F\u00f6r n\u00e5gra m\u00e5nader sedan skickade jag en SEO-analys till er. Fick inget svar \u2014 och f\u00f6rst\u00e5r att det kanske inte var r\u00e4tt tidpunkt.
+
+Men analysen visar fortfarande samma sak: er sajt syns knappt alls p\u00e5 Google f\u00f6r de s\u00f6kningar era kunder g\u00f6r. Och konkurrenterna drar nytta av det varje dag.
+
+Har ni 15 minuter f\u00f6r ett snabbt samtal? Jag visar precis vad som beh\u00f6ver g\u00f6ras \u2014 utan f\u00f6rpliktelser.
+
+Mikael Larsson
+Searchboost
+mikael@searchboost.se
+searchboost.se`;
+
+const prospects = [
+  ["Gramoz", "gramoz@gksafety.se", "gksafety.se"],
+  ["Nima", "nima@autoparken.se", "autoparken.se"],
+  ["Marcus", "marcus@trygghetspartner.se", "trygghetspartner.se"],
+  ["Magnus", "magnus.heijel@mavis.se", "mavis.se"],
+  [null, "service@tollab.se", "tollab.se"],
+  ["David", "david.landqvist@rallab.se", "rallab.se"],
+  ["Mikael", "mikael.n@smalandsinredningar.se", "smalandsinredningar.se"],
+  ["Eleonor", "Eleonor.rehback@haldotesch.se", "haldotesch.se"],
+  ["Anton", "anton@totallager.se", "totallager.se"],
+  [null, "info@frontsign.se", "frontsign.se"],
+  ["Patrik", "patrik@eabyggtjanst.se", "eabyggtjanst.se"],
+  ["Lars", "lars@thinea.se", "thinea.se"],
+  [null, "workshop@appertiff.com", "appertiff.com"],
+  [null, "info@acriplan.se", "acriplan.se"],
+  ["Jonas", "jonas.svensson@fireseal.se", "fireseal.se"],
+  ["Emma", "emma@tupac.se", "tupac.se"],
+  ["Ulrika", "Ulrika.Porscke@wcr.se", "wcr.se"],
+  ["Andreas", "andreas@objektbyggen.se", "objektbyggen.se"],
+  ["Andre", "andre.norberg@demoleringsgruppen.se", "demoleringsgruppen.se"],
+  ["Mohamed", "mohamed@nykyrkamaskiner.se", "nykyrkamaskiner.se"],
+  ["Mikael", "mikael@sweedhome.se", "sweedhome.se"],
+  ["Ricky", "ricky.nilsson@naturvard.nu", "naturvard.nu"],
+  ["Jonas", "jonas.anundsson@qtsystems.se", "qtsystems.se"],
+  ["Patricia", "patricia@isela.se", "isela.se"],
+  ["Ted", "ted@reklamateljen.se", "reklamateljen.se"],
+  ["Kim", "kim.christiansson@jlmgroup.se", "jlmgroup.se"],
+  [null, "info@ckmarine.se", "ckmarine.se"],
+  ["Anders", "anders.wallenquist@vertel.se", "vertel.se"],
+  ["Daniel", "daniel@boxess.se", "boxess.se"],
+  ["Oliver", "oliver@savehyr.se", "savehyr.se"],
+  ["Jan", "jan.gaardsdal@fouroffice.se", "fouroffice.se"],
+  ["Henrik", "henrik.lennartsson@recoma.se", "recoma.se"],
+  ["Jimmy", "jimmy.westerlund@stalstaden.se", "stalstaden.se"],
+  ["Joakim", "joakim.linden@voidmalardalen.se", "voidmalardalen.se"],
+  ["Johan", "johan@visuellpartner.se", "visuellpartner.se"],
+  ["Mikael", "mikael@visabsanering.se", "visabsanering.se"],
+  [null, "Info@lerich.se", "lerich.se"],
+  ["Alexandra", "alexandra@adeptcollection.se", "adeptcollection.se"],
+  ["Sophia", "sophia@renthus.se", "renthus.se"],
+  ["Marcus", "marcus.jakobsson@kbdab.com", "kbdab.com"],
+  ["Tobias", "tobias.henriksson@adamantgolv.se", "adamantgolv.se"],
+  ["Eva-Lotta", "evalotta@adactapersonalplanering.se", "adactapersonalplanering.se"],
+  [null, "info@zeromaxmovers.se", "zeromaxmovers.se"],
+  [null, "info@hyrabyggstallningar.se", "hyrabyggstallningar.se"],
+  ["Maja", "maja@solcellskompaniet.se", "solcellskompaniet.se"],
+  [null, "Info@design4all.se", "design4all.se"],
+  ["Mattias", "mattias@vtm.se", "vtm.se"],
+  ["Magnus", "magnus@luckyshot.se", "luckyshot.se"],
+  ["David", "david_sprangare@hotmail.com", "privat"]
+];
+
+const tbody = document.getElementById('prospects');
+prospects.forEach(([name, email, domain], i) => {
+  const body = name ? BODY_T(name) : BODY_G();
+  const mailto = `mailto:${email}?subject=${encodeURIComponent(SUBJ)}&body=${encodeURIComponent(body)}`;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="color:#555;font-size:12px">${i+1}</td>
+    <td><div class="name">${name || '—'}</div><div class="domain">${domain}</div></td>
+    <td><div class="email">${email}</div></td>
+    <td><a class="btn" href="${mailto}">Skriv mail</a></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+document.getElementById('cnt').textContent = `${prospects.length} prospects totalt`;
+</script>
+</body>
+</html>

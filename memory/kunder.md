@@ -1,6 +1,6 @@
 # Kundöversikt — Searchboost Opti
 
-Uppdaterad: 2026-04-08 kväll (efter genomgång + avslut av Kompetensutveckla + Wedosigns)
+Uppdaterad: 2026-04-16 (Mobelrondellen full SEO-audit + Sprint 1-3 deployat; Humanpower Utvecklande samtal + Kosttillskott ombyggda)
 
 ## Aktiva kunder
 
@@ -8,12 +8,12 @@ Uppdaterad: 2026-04-08 kväll (efter genomgång + avslut av Kompetensutveckla + 
 |------|----------|-----|----------|--------|
 | searchboost | OK | OK | OK | Aktiv |
 | ilmonte | OK | EJ ägare | OK | **RETENTION** — 30 dagars gratis från 2026-04-08. Handpåläggning + 2–3 artiklar/vecka. Se `ilmonte_retention.md` |
-| mobelrondellen | OK | OK | OK | Aktiv — hemsidan fixad 2026-04-07 (.htaccess + SPA restore) |
+| mobelrondellen | OK | OK | OK | Aktiv — **full SEO-audit + Sprint 1-3 deployat 2026-04-16**: titles/desc/OG/canonical på alla page-types, LocalBusiness + WebSite + FAQ schema, HTTPS+www 301 via .htaccess, /kollektioner/→/produkt-kategori/ 301, /blogg//blog//news/ 301 till /category/blogg/, ny /om-oss/, enriched index.html med H1/H2/schema för bots, robots.txt + llms.txt uppdaterade, noindex på thin content. Se `presentations/mobelrondellen-seo-audit-2026-04-16.md` + `-fixes-deployed-2026-04-16.md`. Active snippets: #55 #58 #64 #70 |
+| humanpower-se | OK | — | OK | Aktiv — **2026-04-16**: Utvecklande samtal hero nu full-width (Kadence fullwidth-meta + CSS override), Kosttillskott-sidan ombyggd i SagaPro-stil med clean 2x2 produktgrid, burk-bilder i fokus, 4 produkter à 399 kr/burk (SagaPRO, Astaxanthin, AstaEye, AstaSkin) med tagline+quote+benefits+CTA per produkt |
 | tobler | OK | — | OK | Aktiv — Tobler Ställningsprodukter AB, Torslanda. Bröderna Viktor & Jakob Frostenäs. B2B-leverantör av byggställningar + fallskydd + formsystem + arbetskläder |
 | traficator | OK | — | OK | Aktiv — `mikael`-konto full admin access (verifierat 2026-04-09 via cred_check.py) |
 | jelmtech | OK | OK | OK | Aktiv — 30 ABC-keywords + audit klar. Saknar artiklar |
 | smalandskontorsmobler | OK | OK | OK | Aktiv — SSM-URL fixad 2026-04-08 (ny.→huvuddomän). Optimizer kör nu |
-| humanpower-se | OK | — | SAKNAS | Aktiv — sajt byggd, Reboot-datum + priser inlagda 2026-04-07 |
 | ferox | OK | — | — | Aktiv — Shopify-migrering pågår, lansering **FLYTTAD** från 2026-04-09 |
 | nordicsnusonline | — | — | — | Prospect/ny — 8 000 kr/mån Premium, AI-sök som enda kanal |
 

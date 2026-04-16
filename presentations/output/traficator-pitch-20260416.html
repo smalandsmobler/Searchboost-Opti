@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Traficator × Searchboost — Möte 16 april 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:#0d0d14;color:#e8e8f0;font-size:14px;line-height:1.6}
+
+.slide{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:64px 80px;border-bottom:1px solid #1a1a2e;position:relative;max-width:1200px;margin:0 auto}
+.slide:last-child{border-bottom:none}
+
+/* COLORS */
+:root{
+  --blue:#1a56db;
+  --light-blue:#4d8af0;
+  --yellow:#f5a623;
+  --green:#00e676;
+  --red:#ff4d6d;
+  --muted:#666;
+  --card:#13131f;
+  --border:#1e1e30;
+}
+
+/* COVER */
+.cover{background:linear-gradient(135deg,#0d0d14 0%,#0f1828 100%)}
+.cover-logo{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--light-blue);margin-bottom:48px}
+.cover h1{font-size:52px;font-weight:800;line-height:1.1;margin-bottom:16px}
+.cover h1 span{color:var(--light-blue)}
+.cover-sub{font-size:18px;color:#888;margin-bottom:48px}
+.cover-meta{display:flex;gap:32px}
+.cover-meta-item{font-size:13px;color:#555}
+.cover-meta-item strong{color:#ccc;display:block;font-size:14px}
+
+/* SECTION TITLE */
+.section-label{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--light-blue);margin-bottom:12px}
+.slide h2{font-size:36px;font-weight:800;margin-bottom:8px;line-height:1.2}
+.slide .sub{font-size:16px;color:#666;margin-bottom:40px}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px 20px}
+.stat-card .num{font-size:42px;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-card .num.green{color:var(--green)}
+.stat-card .num.blue{color:var(--light-blue)}
+.stat-card .num.yellow{color:var(--yellow)}
+.stat-card .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.stat-card .delta{font-size:12px;color:var(--green);margin-top:4px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;margin-bottom:24px}
+th{text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;border-bottom:1px solid var(--border)}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px}
+tr:last-child td{border-bottom:none}
+.pos-good{color:var(--green);font-weight:700}
+.pos-mid{color:var(--yellow);font-weight:700}
+.pos-bad{color:var(--muted)}
+.vol{color:var(--light-blue);font-weight:600}
+
+/* ARTICLE LIST */
+.article-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.article-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.article-item .tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--light-blue);margin-bottom:4px}
+.article-item .title{font-size:13px;font-weight:600;color:#ddd}
+.article-item .url{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* OPPORTUNITY BAR */
+.opp-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:14px 18px;margin-bottom:10px;display:grid;grid-template-columns:240px 1fr 100px 130px;align-items:center;gap:16px}
+.opp-kw{font-size:14px;font-weight:600}
+.bar-wrap{background:rgba(255,255,255,0.06);border-radius:4px;height:6px}
+.bar-fill{height:6px;border-radius:4px;background:var(--light-blue)}
+.opp-pos{font-size:13px;color:var(--yellow);font-weight:700;text-align:right}
+.opp-pot{font-size:12px;color:var(--green);text-align:right}
+
+/* NEXT STEPS */
+.next-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.next-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px}
+.next-card .period{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--light-blue);margin-bottom:8px}
+.next-card h3{font-size:17px;font-weight:700;margin-bottom:12px}
+.next-card ul{list-style:none;padding:0}
+.next-card li{font-size:13px;color:#aaa;padding:4px 0 4px 16px;position:relative}
+.next-card li::before{content:'→';position:absolute;left:0;color:var(--light-blue)}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,#0f1828,#13131f);border:1px solid var(--light-blue);border-radius:16px;padding:48px;text-align:center;max-width:700px;margin:0 auto}
+.cta-box h2{font-size:32px;font-weight:800;margin-bottom:16px}
+.cta-box p{color:#888;font-size:16px;margin-bottom:32px;line-height:1.7}
+.cta-nums{display:flex;justify-content:center;gap:48px;margin-bottom:32px}
+.cta-num .val{font-size:28px;font-weight:800;color:var(--light-blue)}
+.cta-num .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+.price{font-size:48px;font-weight:800;color:var(--light-blue);margin-bottom:4px}
+.price-unit{font-size:14px;color:#555;margin-bottom:24px}
+.badge{display:inline-block;background:var(--light-blue);color:#fff;border-radius:6px;padding:10px 28px;font-size:14px;font-weight:700}
+
+/* QUOTE */
+blockquote{border-left:3px solid var(--light-blue);padding:20px 24px;background:var(--card);border-radius:0 8px 8px 0;margin:24px 0;font-size:16px;color:#ccc;line-height:1.7;font-style:italic}
+
+/* DIVIDER */
+hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+
+@media print{body{background:#fff;color:#000}.slide{page-break-after:always}}
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: COVER -->
+<div class="slide cover">
+  <div class="cover-logo">Searchboost × Traficator</div>
+  <h1>Från osynlig till<br><span>branschledare på Google</span></h1>
+  <div class="cover-sub">Resultat, leveranser och plan framåt — 16 april 2026</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Kund</strong>Traficator AB</div>
+    <div class="cover-meta-item"><strong>Kontakt</strong>Patrik Carlsson</div>
+    <div class="cover-meta-item"><strong>Avtal</strong>Aktiv sedan feb 2026</div>
+    <div class="cover-meta-item"><strong>Möte</strong>Onsdag 16 april 2026</div>
+  </div>
+</div>
+
+<!-- SLIDE 2: RESULTS -->
+<div class="slide">
+  <div class="section-label">Resultat</div>
+  <h2>Mars var er bästa<br>SEO-månad hittills</h2>
+  <div class="sub">Feb → mars 2026 — första hela månaden med Searchboost aktivt</div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="num green">+179%</div>
+      <div class="lbl">Impressioner</div>
+      <div class="delta">525 → 1 463 / mån</div>
+    </div>
+    <div class="stat-card">
+      <div class="num green">+70%</div>
+      <div class="lbl">Klick</div>
+      <div class="delta">10 → 17 / mån</div>
+    </div>
+    <div class="stat-card">
+      <div class="num blue">3</div>
+      <div class="lbl">Keywords top 10</div>
+      <div class="delta">Var 0 vid start</div>
+    </div>
+    <div class="stat-card">
+      <div class="num yellow">54</div>
+      <div class="lbl">Keywords spårade</div>
+      <div class="delta">Dagligen i GSC</div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <th>Nyckelord</th>
+      <th>Position</th>
+      <th>Impressioner/mån</th>
+      <th>Status</th>
+    </tr>
+    <tr>
+      <td>Gjutning aluminiumlegeringar</td>
+      <td class="pos-good">5.9</td>
+      <td class="vol">50</td>
+      <td style="color:var(--green)">Top 10 ✓</td>
+    </tr>
+    <tr>
+      <td>Bearbetning gjutgods</td>
+      <td class="pos-good">8.1</td>
+      <td class="vol">30</td>
+      <td style="color:var(--green)">Top 10 ✓</td>
+    </tr>
+    <tr>
+      <td>Centrifugalgjutning</td>
+      <td class="pos-good">9.0</td>
+      <td class="vol">106</td>
+      <td style="color:var(--green)">Top 10 ✓</td>
+    </tr>
+    <tr>
+      <td>Aluminiumgjutning</td>
+      <td class="pos-mid">14.1</td>
+      <td class="vol">48</td>
+      <td style="color:var(--yellow)">Klättrar</td>
+    </tr>
+    <tr>
+      <td>Pressgjutning aluminium</td>
+      <td class="pos-bad">37.1</td>
+      <td class="vol">166</td>
+      <td style="color:#e91e8c">Stor möjlighet</td>
+    </tr>
+  </table>
+</div>
+
+<!-- SLIDE 3: WHAT WAS DONE -->
+<div class="slide">
+  <div class="section-label">Levererat</div>
+  <h2>Vad vi gjort sedan<br>avtalsstart</h2>
+  <div class="sub">Februari–april 2026 — komplett leveranslista</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Teknisk SEO</div>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;9 tjänstesidor återställda (~37 500 tecken)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;86 sidor fick meta description</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;41 bilder fick auto-alt-text</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;Schema markup (FAQPage, Service, Organization)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;Interna länkar på alla 7 tjänstesidor</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;Internlänkar fixade i 6 bloggartiklar</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;llms.txt publicerad (ChatGPT, Perplexity hittar er)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;Engelska sajten komplett (alla tjänstesidor)</li>
+        <li style="padding:6px 0;font-size:13px">✓ &nbsp;10 dubbletter + stub-sidor städade</li>
+      </ul>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:16px">Innehåll publicerat</div>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;4 pelarartiklar (~8 400 ord) live</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;3 artiklar vecka 18 (sandgjutning, precisionsgjutning, ritningar)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;3 artiklar vecka 19 (formgjutning, zinkgjutning, ytbehandling)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;3 artiklar vecka 20 (pressgjutning-guide 2, DFM, prototyp)</li>
+        <li style="padding:6px 0;border-bottom:1px solid var(--border);font-size:13px">✓ &nbsp;5 engelska artiklar återpublicerade</li>
+        <li style="padding:6px 0;font-size:13px">✓ &nbsp;FAQ-sida skapad med FAQPage-schema</li>
+      </ul>
+      <div style="margin-top:20px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px">
+        <div style="font-size:28px;font-weight:800;color:var(--light-blue)">19+</div>
+        <div style="font-size:12px;color:var(--muted)">artiklar/sidor live — 0 vid start</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: THE BIG OPPORTUNITY -->
+<div class="slide">
+  <div class="section-label">Nästa steg</div>
+  <h2>Pressgjutnings-familjen<br>väntar på er</h2>
+  <div class="sub">Ni visas redan — Google lägger er bara på sida 3–6. Vi knuffar er till topp 3.</div>
+
+  <div class="opp-item">
+    <div class="opp-kw">Pressgjutning</div>
+    <div><div class="bar-wrap"><div class="bar-fill" style="width:90%"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">218 imp/mån</div></div>
+    <div class="opp-pos">Pos 57 → topp 5</div>
+    <div class="opp-pot">+35–50 klick/mån</div>
+  </div>
+  <div class="opp-item">
+    <div class="opp-kw">Pressgjutning aluminium</div>
+    <div><div class="bar-wrap"><div class="bar-fill" style="width:68%"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">166 imp/mån</div></div>
+    <div class="opp-pos">Pos 37 → topp 5</div>
+    <div class="opp-pot">+25–35 klick/mån</div>
+  </div>
+  <div class="opp-item">
+    <div class="opp-kw">Pressgjutning av aluminium</div>
+    <div><div class="bar-wrap"><div class="bar-fill" style="width:55%"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">134 imp/mån</div></div>
+    <div class="opp-pos">Pos 31 → topp 5</div>
+    <div class="opp-pot">+20–30 klick/mån</div>
+  </div>
+  <div class="opp-item">
+    <div class="opp-kw">Aluminiumgjutning</div>
+    <div><div class="bar-wrap"><div class="bar-fill" style="width:30%"></div></div><div style="font-size:11px;color:var(--muted);margin-top:3px">76 imp/mån</div></div>
+    <div class="opp-pos">Pos 14 → topp 3</div>
+    <div class="opp-pot">+12–18 klick/mån</div>
+  </div>
+
+  <blockquote style="margin-top:32px">
+    Totalt potencial: <strong>100–150 nya kvalificerade klick per månad</strong> utan en krona i annonsering. Ni visas redan — innehållet som publicerades i mars/april ska nu driva positionerna uppåt under april–maj.
+  </blockquote>
+</div>
+
+<!-- SLIDE 5: NEXT 90 DAYS -->
+<div class="slide">
+  <div class="section-label">Plan</div>
+  <h2>Nästa 90 dagar</h2>
+  <div class="sub">Grunden är lagd. Nu accelererar vi.</div>
+
+  <div class="next-grid">
+    <div class="next-card">
+      <div class="period">April–Maj</div>
+      <h3>Content-offensiv</h3>
+      <ul>
+        <li>2–3 artiklar per vecka</li>
+        <li>Branschsidor: fordon, marin, energi, medicin</li>
+        <li>Materialsidor: jämförelseguider per legering</li>
+        <li>Pelarartikel pressgjutning klättrar mot topp 5</li>
+        <li>GSC kopplas (URL-prefix + Service Account)</li>
+      </ul>
+    </div>
+    <div class="next-card">
+      <div class="period">Maj–Juni</div>
+      <h3>A-keyword expansion</h3>
+      <ul>
+        <li>Material sourcing (320 sök/mån)</li>
+        <li>CNC-bearbetning leverantör (210/mån)</li>
+        <li>Gjutgods leverantör (110/mån)</li>
+        <li>Sourcing metallprodukter (70/mån)</li>
+        <li>Gjutgods Sverige (90/mån)</li>
+      </ul>
+    </div>
+    <div class="next-card">
+      <div class="period">Juni–Juli</div>
+      <h3>Konvertering + auktoritet</h3>
+      <ul>
+        <li>CTA-optimering på trafiksidor</li>
+        <li>Case studies från ert Asien-sourcing-arbete</li>
+        <li>5–10 backlinks från branschsidor</li>
+        <li>Månadsrapport maj: första GSC-data med trend</li>
+        <li>Mål: 5 000+ impressioner/mån</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 24px;display:flex;gap:32px">
+    <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Vi behöver från er</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;GSC URL-prefix + Service Account-access</li>
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;15 min månatligt samtal (prio-check)</li>
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;Mejla oss när ni vill ha fokus på specifikt nyckelord</li>
+      </ul>
+    </div>
+    <div style="flex:1">
+      <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px">Ni får av oss</div>
+      <ul style="list-style:none;padding:0">
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;2–3 artiklar/vecka publicerade automatiskt</li>
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;Månadsrapport med faktiska GSC-siffror</li>
+        <li style="font-size:13px;padding:3px 0">→ &nbsp;Mail vid varje ändring på sajten</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6: CTA -->
+<div class="slide" style="background:linear-gradient(135deg,#0d0d14 0%,#0f1828 100%)">
+  <div class="cta-box">
+    <div class="section-label" style="margin-bottom:16px">Fortsättning</div>
+    <h2>Fortsätt bygga<br>på momentum</h2>
+    <p>Impressionerna har trefaldigats. Tre keywords är redan i topp 10.<br>19+ artiklar är live. Grunden är starkare än den någonsin varit.<br><br>Nu gäller det att inte tappa farten.</p>
+
+    <div class="cta-nums">
+      <div class="cta-num">
+        <div class="val">+179%</div>
+        <div class="lbl">Impressioner</div>
+      </div>
+      <div class="cta-num">
+        <div class="val">3</div>
+        <div class="lbl">Top 10-ord</div>
+      </div>
+      <div class="cta-num">
+        <div class="val">19+</div>
+        <div class="lbl">Sidor live</div>
+      </div>
+    </div>
+
+    <div class="price">8 000 kr</div>
+    <div class="price-unit">/ månad exkl. moms — samma investering, samma upplägg</div>
+    <div class="badge">Fortsätt — same deal, same team</div>
+  </div>
+</div>
+
+</body>
+</html>

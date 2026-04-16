@@ -1,0 +1,453 @@
+{
+  "bransch": "Skadedjurssanering",
+  "collected_at": "2026-04-16",
+  "cities_searched": [
+    "Stockholm",
+    "Göteborg",
+    "Malmö",
+    "Uppsala",
+    "Västerås",
+    "Örebro",
+    "Linköping",
+    "Helsingborg",
+    "Jönköping",
+    "Norrköping",
+    "Karlstad",
+    "Borås",
+    "Varberg",
+    "Falun",
+    "Dalarna"
+  ],
+  "exclusions_applied": [
+    "Anticimex",
+    "Nomor",
+    "Rentokil",
+    "ISS Facility",
+    "PestNU",
+    "Bemest",
+    "Direktorier (hitta.se, eniro.se, offerta.se, servicefinder.se, reco.se, ratsit.se, allabolag.se, proff.se)",
+    "Media/blogg (aftonbladet.se, expressen.se, boverket.se, 1177.se)"
+  ],
+  "domains": [
+    {
+      "domain": "svenskskadedjurssanering.se",
+      "company": "Svensk Skadedjurssanering AB",
+      "city": "Stockholm",
+      "found_via": "skadedjurssanering stockholm företag",
+      "snippet": "Utför alla typer av saneringar av skadedjur; vägglöss, insekter, fåglar, råttor, myror, getingar. Sex servicebilar som rullar i Storstockholm och Mälardalen."
+    },
+    {
+      "domain": "xpertbekampning.se",
+      "company": "Xpert Bekämpning",
+      "city": "Stockholm",
+      "found_via": "skadedjurssanering stockholm företag",
+      "snippet": "Specialister på skadedjursbekämpning i Stockholm med över 20 års erfarenhet, skräddarsydda lösningar för hem och företag."
+    },
+    {
+      "domain": "ocab.se",
+      "company": "OCAB",
+      "city": "Stockholm/Göteborg/Jönköping/Linköping",
+      "found_via": "skadedjurssanering stockholm företag",
+      "snippet": "Erbjuder tjänster inom skadedjurskontroll för företag, fastighetsbolag, förvaltare, bostadsrättsföreningar och privatpersoner i hela Sverige."
+    },
+    {
+      "domain": "pestpro.se",
+      "company": "Pest Pro AB",
+      "city": "Stockholm",
+      "found_via": "skadedjurssanering stockholm företag",
+      "snippet": "Erbjuder skräddarsydda lösningar för privatpersoner och företag. Jour dygnet runt, kort responstid."
+    },
+    {
+      "domain": "bugsoff.se",
+      "company": "Bugsoff",
+      "city": "Stockholm/Örebro/Västerås",
+      "found_via": "skadedjurssanering stockholm företag",
+      "snippet": "Akut skadedjursbekämpning mot råttor, möss inom 12 timmar, 24/7 året runt."
+    },
+    {
+      "domain": "begone.se",
+      "company": "Begone Skadedjur & Sanering AB",
+      "city": "Stockholm/Norrköping/Linköping/Dalarna",
+      "found_via": "skadedjursbekämpning i norrköping",
+      "snippet": "Skadedjursbekämpning i Stockholm, Uppsala, Gävle, Norrköping, Linköping och Dalarna. Grundat 2022, 5000+ kunder."
+    },
+    {
+      "domain": "sakon.se",
+      "company": "SAKON",
+      "city": "Stockholm/Göteborg/Karlstad",
+      "found_via": "skadedjur stockholm effektiv trygg bekämpning",
+      "snippet": "Professionell service av SAKON i Stockholm, Göteborg och Karlstad. Certifierade tekniker med över 20 års erfarenhet."
+    },
+    {
+      "domain": "stockholm-sanering.se",
+      "company": "Stockholm Sanering",
+      "city": "Stockholm",
+      "found_via": "myror bekämpning Stockholm lokal saneringsföretag",
+      "snippet": "Sanering av råttor, insekter, ohyra & skadedjur i Stockholm. Fri offert inom 48h."
+    },
+    {
+      "domain": "skadedjurshantering.se",
+      "company": "SDH Skadedjurshantering",
+      "city": "Malmö",
+      "found_via": "skadedjurssanering Malmö Skåne",
+      "snippet": "Skadedjurshantering i Malmö, Lund och hela Skåne. Akuta skadedjursärenden med miljövänliga metoder."
+    },
+    {
+      "domain": "skadedjursbekampning.nu",
+      "company": "Skadedjursbekämpning.nu",
+      "city": "Malmö/Helsingborg",
+      "found_via": "skadedjurssanering Malmö Skåne",
+      "snippet": "Hjälper mot alla typer av skadedjur inkl. råttor, möss, vägglöss, kackerlackor och myror."
+    },
+    {
+      "domain": "skadedjursbutiken.se",
+      "company": "Skadedjursbutiken",
+      "city": "Stockholm/Malmö/Göteborg",
+      "found_via": "skadedjurssanering Malmö Skåne",
+      "snippet": "Skadedjursbekämpning Stockholm, Malmö och Göteborg (2026)."
+    },
+    {
+      "domain": "stick.se",
+      "company": "Stick (skadedjursshop + sanering)",
+      "city": "Rikstäckande",
+      "found_via": "vägglöss bekämpning Uppsala företag",
+      "snippet": "Sanering av vägglöss - så går det till. Skadedjursbekämpning - allt du behöver veta."
+    },
+    {
+      "domain": "tingstad.com",
+      "company": "Tingstad",
+      "city": "Jönköping/Rikstäckande",
+      "found_via": "skadedjurssanering Jönköping Småland",
+      "snippet": "Skadedjurskontroll för företag - effektiv bekämpning & sanering. Företagsbutik i Jönköping."
+    },
+    {
+      "domain": "skabent.com",
+      "company": "Skabent AB",
+      "city": "Jönköping",
+      "found_via": "skadedjurssanering Jönköping Småland",
+      "snippet": "Saneringstjänster i Jönköping som hanterar skadedjur, brand, fukt, lukt."
+    },
+    {
+      "domain": "saneringlinkoping.se",
+      "company": "Sanering Linköping",
+      "city": "Linköping",
+      "found_via": "skadedjurssanering Linköping Östergötland",
+      "snippet": "Effektiv skadedjursbekämpning och sanering i Linköping - mögel, kemikalier, skadedjur, klotter."
+    },
+    {
+      "domain": "xn--saneringlinkping-xwb.se",
+      "company": "Sanering Linköping (asbest/total)",
+      "city": "Linköping",
+      "found_via": "skadedjur Linköping Norrköping sanering",
+      "snippet": "Asbestsanering, totalsanering i Linköping."
+    },
+    {
+      "domain": "saneringsfirma.se",
+      "company": "Saneringsfirma.se",
+      "city": "Rikstäckande",
+      "found_via": "skadedjursbekämpning Helsingborg",
+      "snippet": "Skadedjursbekämpning - tjänsteleverantör."
+    },
+    {
+      "domain": "lf-skane.se",
+      "company": "LF Skåne Service & Sanering AB",
+      "city": "Malmö/Skåne",
+      "found_via": "skadedjurssanering Malmö Skåne",
+      "snippet": "Tog över skadedjurssanering som tidigare utfördes av Anticimex från 1 januari 2024. Täcker Malmö, Lund, Helsingborg, Trelleborg."
+    },
+    {
+      "domain": "qualitydetectiondogs.se",
+      "company": "Quality Detection Dogs",
+      "city": "Malmö/Rikstäckande",
+      "found_via": "råttor bekämpning Malmö lokal firma",
+      "snippet": "Första företaget i Sverige med tillstånd att bedriva jakt på råttor med hundar. Tränade sökhundar för vägglöss och råttor."
+    },
+    {
+      "domain": "ratthund.se",
+      "company": "Ratthund",
+      "city": "Malmö/Stockholm",
+      "found_via": "råttor bekämpning Malmö lokal firma",
+      "snippet": "Bekämpning av råttor med hjälp av välutbildade råtthundar. Hjälper företag, BRF och privatpersoner."
+    },
+    {
+      "domain": "rodentor.se",
+      "company": "Rodentor",
+      "city": "Borås/Ulricehamn/Mölndal/Kungsbacka",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan",
+      "snippet": "Skadedjursbekämpning i Borås, Ulricehamn, Bollebygd, Alingsås, Vårgårda, Jönköping, Mölndal, Kungsbacka, Kungälv."
+    },
+    {
+      "domain": "insecta.se",
+      "company": "Insecta AB",
+      "city": "Göteborg/Borås/Ulricehamn",
+      "found_via": "skadedjur Göteborg regional firma bekämpning AB",
+      "snippet": "Företag från 1983 som hjälper privatpersoner och företag i Göteborg, Borås och Varberg med alla typer av skadedjur."
+    },
+    {
+      "domain": "forenedeservice.se",
+      "company": "Forenede Service",
+      "city": "Jönköping/Rikstäckande",
+      "found_via": "skadedjur Jönköping företag bekämpning",
+      "snippet": "Skadedjursbekämpning för företag."
+    },
+    {
+      "domain": "entreprenadforetag.se",
+      "company": "Victor Johansson AB",
+      "city": "Stockholm",
+      "found_via": "vägglöss sanering Stockholm mindre firma",
+      "snippet": "Professionell sanering av vägglöss i Stockholm - även lägenheter och fastigheter."
+    },
+    {
+      "domain": "xn--vgglsstockholm-5hb50a.se",
+      "company": "Vägglöss Stockholm / OCAB Sanering",
+      "city": "Stockholm",
+      "found_via": "vägglöss sanering Stockholm mindre firma",
+      "snippet": "Vägglöss Stockholm - OCAB Sanering AB."
+    },
+    {
+      "domain": "xn--saneringvrmland-8kb.se",
+      "company": "Sanering Värmland",
+      "city": "Karlstad/Sunne/Arvika",
+      "found_via": "sanering skadedjur AB Värmland Karlstad",
+      "snippet": "Sanering Värmland - Karlstad, Sunne, Arvika m.fl."
+    },
+    {
+      "domain": "saneringstjanst.se",
+      "company": "Saneringstjänst i Värmland AB",
+      "city": "Karlstad",
+      "found_via": "sanering skadedjur AB Värmland Karlstad",
+      "snippet": "Saneringstjänst i Värmland AB, Stormgatan 1, 652 21 Karlstad."
+    },
+    {
+      "domain": "hallandssanering.com",
+      "company": "Hallands Sanering / NYA Hallandssanering",
+      "city": "Halmstad/Varberg",
+      "found_via": "skadedjur Växjö Halmstad Varberg sanering",
+      "snippet": "Heltäckande lösningar för skadedjursbekämpning, fuktskador m.m. i Halmstad och Varberg."
+    },
+    {
+      "domain": "industrisaneringisverige.se",
+      "company": "Industrisanering i Sverige",
+      "city": "Stockholm",
+      "found_via": "skadedjur sanering Västerås Mälardalen AB",
+      "snippet": "Asbestsanering, radonsanering, mögel & PCB i Stockholm."
+    },
+    {
+      "domain": "kryahem.se",
+      "company": "Krya Hem AB",
+      "city": "Västerås/Mälardalen",
+      "found_via": "skadedjur sanering Västerås Mälardalen AB",
+      "snippet": "Skadedjursbekämpning i Västerås och Mälardalen."
+    },
+    {
+      "domain": "abynsbygg.se",
+      "company": "Åbyns Bygg Skadeservice",
+      "city": "Umeå",
+      "found_via": "skadedjur Gävle Umeå Luleå sanering",
+      "snippet": "Professionell skadeservice i Umeå med omnejd."
+    },
+    {
+      "domain": "leadhive.se",
+      "company": "LeadHive (offertportal)",
+      "city": "Rikstäckande",
+      "found_via": "skadedjur Gävle Umeå Luleå sanering",
+      "snippet": "Offertportal för sanering av skadedjur."
+    },
+    {
+      "domain": "bolagsfakta.se",
+      "company": "Skadedjursbekämpning i Väst AB (Länsförsäkringar)",
+      "city": "Göteborg",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg",
+      "snippet": "Helägt bolag inom Länsförsäkringar med huvudkontor i Göteborg. Täcker Göteborg, Bohuslän, Älvsborg, Halland, Jönköping, Värmland, Östergötland, Uppsala. 23 anställda, omsättning 26 MSEK."
+    },
+    {
+      "domain": "vaggloss.se",
+      "company": "Vägglöss.se (portal/firmor)",
+      "city": "Uppsala/Rikstäckande",
+      "found_via": "vägglöss bekämpning Uppsala företag",
+      "snippet": "Portal för vägglöss-sanerare i bl.a. Uppsala län."
+    },
+    {
+      "domain": "webinfo.nu",
+      "company": "Sanering Karlstad listing",
+      "city": "Karlstad",
+      "found_via": "sanering skadedjur AB Värmland Karlstad",
+      "snippet": "Sanering Karlstad - Anticimex Karlstad (företagspresentation)."
+    },
+    {
+      "domain": "silvermedaljen.se",
+      "company": "Saneringstjänst i Värmland AB (listing)",
+      "city": "Karlstad",
+      "found_via": "sanering skadedjur AB Värmland Karlstad",
+      "snippet": "Saneringstjänst i Värmland AB - Stormgatan 1, 652 21 Karlstad."
+    },
+    {
+      "domain": "trustpilot.com",
+      "company": "Trustpilot listor skadedjur",
+      "city": "Rikstäckande",
+      "found_via": "skadedjursbekämpning Stockholm oberoende mindre leverantör",
+      "snippet": "Best in Skadedjursbekämpning Sverige - kategori på Trustpilot."
+    },
+    {
+      "domain": "press.newsmachine.com",
+      "company": "Pressmaterial Begone expansion",
+      "city": "Linköping",
+      "found_via": "skadedjur Linköping Norrköping sanering",
+      "snippet": "Begone Skadedjur & Sanering AB expanderar till Linköping."
+    },
+    {
+      "domain": "newsroom.notified.com",
+      "company": "Pressmaterial Begone expansion",
+      "city": "Norrköping",
+      "found_via": "skadedjur Norrköping AB sanering företag",
+      "snippet": "Begone Skadedjur & Sanering AB Expanderar till Norrköping."
+    },
+    {
+      "domain": "allverk.se",
+      "company": "Allverk-listing (BeGone)",
+      "city": "Rikstäckande",
+      "found_via": "skadedjur Linköping Norrköping sanering",
+      "snippet": "BeGone Skadedjur & Sanering AB - företagspresentation via Allverk."
+    },
+    {
+      "domain": "merinfo.se",
+      "company": "Nordisk Skadedjursbekämpning i Väst AB (listing)",
+      "city": "Hisings Backa/Göteborg",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg",
+      "snippet": "Nordisk Skadedjursbekämpning i Väst AB i Hisings backa (556534-8447)."
+    },
+    {
+      "domain": "polygongroup.com",
+      "company": "Polygon Group",
+      "city": "Göteborg/Rikstäckande",
+      "found_via": "råttor sanering Göteborg lokal firma",
+      "snippet": "Sanering - Polygon Group (skadesanering/skadedjur)."
+    },
+    {
+      "domain": "tyrogroup.com",
+      "company": "Tyro Group",
+      "city": "Rikstäckande Europa",
+      "found_via": "pest control Göteborg Västra Götaland företag",
+      "snippet": "Europe's leading pest management group."
+    },
+    {
+      "domain": "larf.se",
+      "company": "LARF Property Management",
+      "city": "Göteborg",
+      "found_via": "pest control Göteborg Västra Götaland företag",
+      "snippet": "Pest control / property management i Göteborgsområdet."
+    },
+    {
+      "domain": "thermacell.se",
+      "company": "Thermacell Europe AB",
+      "city": "Stockholm",
+      "found_via": "pest control Göteborg Västra Götaland företag",
+      "snippet": "Insekt- och skadedjursprodukter. Europe-HQ i Sverige."
+    },
+    {
+      "domain": "skadedjursbekampning-vast.se",
+      "company": "Skadedjursbekämpning i Väst AB",
+      "city": "Göteborg",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg",
+      "snippet": "LF Skadedjursbekämpning - egen domän hos Länsförsäkringar-bolaget."
+    },
+    {
+      "domain": "pestcontrol.se",
+      "company": "Pest Control Sverige (generisk)",
+      "city": "Stockholm",
+      "found_via": "pest control Stockholm",
+      "snippet": "Pest control portal/tjänst."
+    },
+    {
+      "domain": "granngarden.se",
+      "company": "Granngården (produkter + tips)",
+      "city": "Rikstäckande",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan",
+      "snippet": "Skadedjursbekämpning (produkter + guider)."
+    },
+    {
+      "domain": "huge.se",
+      "company": "Huge Fastigheter (fastighetsbolag)",
+      "city": "Stockholm",
+      "found_via": "råttor sanering Göteborg lokal firma",
+      "snippet": "Sanering av skadedjur - information till hyresgäster."
+    },
+    {
+      "domain": "familjebostader.com",
+      "company": "Familjebostäder Stockholm",
+      "city": "Stockholm",
+      "found_via": "skadedjur Stockholm lokalt familjeägt sanering",
+      "snippet": "Sanering av skadedjur - fastighetsbolagets tjänster."
+    },
+    {
+      "domain": "familjebostader.se",
+      "company": "Familjebostäder Göteborg",
+      "city": "Göteborg",
+      "found_via": "skadedjur Göteborg AB bekämpning lokal",
+      "snippet": "Skadedjur - fastighetsbolagets information."
+    },
+    {
+      "domain": "einarmattsson.se",
+      "company": "Einar Mattsson Fastigheter",
+      "city": "Stockholm",
+      "found_via": "skadedjur Stockholm lokalt familjeägt sanering",
+      "snippet": "Skadedjur - information till hyresgäster."
+    },
+    {
+      "domain": "nykopingshem.se",
+      "company": "Nyköpingshem",
+      "city": "Nyköping",
+      "found_via": "skadedjur Nyköping Södermanland sanering",
+      "snippet": "Skadedjurssanering - fastighetsbolagets information."
+    },
+    {
+      "domain": "kfast.se",
+      "company": "Eskilstuna Kommunfastigheter",
+      "city": "Eskilstuna",
+      "found_via": "skadedjur Nyköping Södermanland Eskilstuna sanering",
+      "snippet": "Skadedjur - har avtal med skadedjursfirmor."
+    },
+    {
+      "domain": "alingsashem.se",
+      "company": "Alingsåshem",
+      "city": "Alingsås",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan",
+      "snippet": "Skadedjur i bostad - fastighetsbolagets service."
+    },
+    {
+      "domain": "bostaderlidkoping.se",
+      "company": "AB Bostäder Lidköping",
+      "city": "Lidköping",
+      "found_via": "skadedjur Göteborg AB bekämpning lokal",
+      "snippet": "Skadedjur - bostadsbolagets information."
+    },
+    {
+      "domain": "stockholmshem.se",
+      "company": "Stockholmshem",
+      "city": "Stockholm",
+      "found_via": "skadedjur Stockholm lokalt familjeägt sanering",
+      "snippet": "Undvik att drabbas av skadedjur - hyresgästinformation."
+    },
+    {
+      "domain": "uppsalahem.se",
+      "company": "Uppsalahem",
+      "city": "Uppsala",
+      "found_via": "råttor skadedjur Uppsala lokal",
+      "snippet": "Skadedjur och sanering - fastighetsbolagets FAQ."
+    },
+    {
+      "domain": "mimer.nu",
+      "company": "Mimer (Västerås fastighetsbolag)",
+      "city": "Västerås",
+      "found_via": "skadedjur sanering Västerås Mälardalen AB",
+      "snippet": "Har du fått skadedjur? - göra serviceanmälan direkt."
+    },
+    {
+      "domain": "obo.se",
+      "company": "ÖBO",
+      "city": "Örebro",
+      "found_via": "skadedjursbekämpning Örebro län",
+      "snippet": "Skadedjur - bostadsbolagets info för hyresgäster."
+    }
+  ]
+}

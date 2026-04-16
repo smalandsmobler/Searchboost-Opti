@@ -1,0 +1,4683 @@
+{
+  "kept": [
+    {
+      "domain": "alvsjotak.se",
+      "company": "Älvsjö Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takläggare Stockholm. Tak- och fasadrenoveringar sedan 2009.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "stadstak.se",
+      "company": "Stadstak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Utför över 200 takrenoveringar årligen i Stockholm med omnejd.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "mjtak.se",
+      "company": "MJ Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takfirma med över 20 års erfarenhet, erbjuder 15 års garanti.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "svevitak.se",
+      "company": "Svevitak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takrenovering, takbyte, tegel, fasader och solceller.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "takjour.se",
+      "company": "Takjour",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Rutinerade och effektiva takläggare i Stockholm.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "tiotak.se",
+      "company": "TioTak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takläggare i Stockholm, Västerås och Enköping.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "nytttakisthlm.se",
+      "company": "Nytt Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Nytt Tak AB - Takläggare Stockholm.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "dbtak.se",
+      "company": "DB Tak & Entreprenad",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Din takläggare Stockholm - DB Tak & Entreprenad.",
+      "found_via": "takläggare stockholm"
+    },
+    {
+      "domain": "dmtak.se",
+      "company": "DM TAK",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Familjeföretag med över 20 års erfarenhet, pålitlig takläggning.",
+      "found_via": "takfirma stockholm lägga om tak"
+    },
+    {
+      "domain": "taklaggaren.com",
+      "company": "Takläggaren",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takproffs i Stockholm - byta tak på tegel, plåt, shingel, papp.",
+      "found_via": "takfirma stockholm lägga om tak"
+    },
+    {
+      "domain": "takfix.se",
+      "company": "Takfix",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takfirma i Stockholm med över 20 års erfarenhet, arbetar i Bromma, Nacka, Lidingö.",
+      "found_via": "takfirma stockholm lägga om tak"
+    },
+    {
+      "domain": "villatakexperten.se",
+      "company": "Villa Takexperten",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takläggare i Stockholm - takbyte och reparation av tak.",
+      "found_via": "takfirma stockholm lägga om tak"
+    },
+    {
+      "domain": "rudholmstak.se",
+      "company": "Rudholms Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Takläggning Stockholm - Byta tak i Stockholm med Rudholms Tak.",
+      "found_via": "takfirma stockholm lägga om tak"
+    },
+    {
+      "domain": "takivast.se",
+      "company": "Tak i Väst",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Specialist på tegel- och betongpannor, takbyte och renovering i Göteborgsregionen.",
+      "found_via": "takläggare göteborg"
+    },
+    {
+      "domain": "kungstak.se",
+      "company": "Kungstak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Komplett takfirma i Göteborg med egna pappläggare och plåtslagare.",
+      "found_via": "takläggare göteborg"
+    },
+    {
+      "domain": "kjellbergtak.se",
+      "company": "Kjellberg Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Specialist på plana och låglutande papptak i Göteborg.",
+      "found_via": "takläggare göteborg"
+    },
+    {
+      "domain": "taklaggaregoteborg.nu",
+      "company": "Takläggare Göteborg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Takläggare Göteborg - lokal firma.",
+      "found_via": "takläggare göteborg"
+    },
+    {
+      "domain": "tisabtak.se",
+      "company": "TISAB Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "TISAB - Takläggare Göteborg.",
+      "found_via": "takläggare göteborg"
+    },
+    {
+      "domain": "taklaggning-goteborg.se",
+      "company": "Takläggning Göteborg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Takläggare i Göteborg med fri offert - allt från små läckagereparationer till takrenoveringar.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "gotalandstak.com",
+      "company": "Götalands Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Takläggare Göteborg - trygga & nöjda kunder sedan 2001.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "goteborg-taklaggare.se",
+      "company": "Göteborg Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Takfirma inom takrenovering och byten i Göteborg.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "gotatak.se",
+      "company": "Göta Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Expertis på takbyte & takrenovering i Göteborg - familjeföretag.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "takteknikab.se",
+      "company": "Götalands Takteknik AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Över 30 års erfarenhet inom takbranschen, Göteborg.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "taklaggare-hovas.se",
+      "company": "Takläggare Hovås",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Takläggare i Hovås & Göteborg.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "takcompagniet.se",
+      "company": "Tak Compagniet AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Lägger tak i hela Göteborg med omnejd.",
+      "found_via": "takfirma göteborg takrenovering"
+    },
+    {
+      "domain": "bfte.se",
+      "company": "BFTE",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takläggare Malmö - kostnadsfri offert och garanti.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "byggagenten.se",
+      "company": "Byggagenten",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takläggare Malmö - tryggt takbyte med garanti.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "takochplat.se",
+      "company": "Tak och Plåt",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takläggare Malmö, Staffanstorp, Lomma & Vellinge - takbyte.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "skane-taklaggare.se",
+      "company": "Skåne Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takläggare i Malmö & Skåne - byta & renovera tak.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "malmo-taklaggare.se",
+      "company": "Malmö Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takrenovering i Malmö - lokal takläggare i Skåne.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "taklaggaremalmo.se",
+      "company": "Lomma Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Professionell takläggning & plåtslageri i Malmö.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "lommatak.se",
+      "company": "Lomma Tak och Plåtslageri",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "På skånska tak sedan 1979 - takläggare Malmö.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "malmoekonomitakab.se",
+      "company": "Malmö EkonomiTak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Väletablerad takfirma med över 30 års erfarenhet - fasad, takrenovering, tegel, papp.",
+      "found_via": "takläggare malmö"
+    },
+    {
+      "domain": "hellensplat.se",
+      "company": "Helléns Plåtslageri AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Specialister på högkvalitativa takarbeten i Malmö.",
+      "found_via": "takfirma malmö takrenovering"
+    },
+    {
+      "domain": "kombyggtak.se",
+      "company": "Kombyggtak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Takrenovering Malmö - offert på takbyte & reparation. Seriöst bolag sedan 2016.",
+      "found_via": "takfirma malmö takrenovering"
+    },
+    {
+      "domain": "uppsala-taklaggare.se",
+      "company": "Uppsala Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare i Uppsala - allt inom tak, fri offert.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "beckmansbygg.se",
+      "company": "Beckmans Bygg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare Uppsala - fri offert, 10 år garanti. Utsedda till Sveriges Bästa Takläggare 2026.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "pltak.se",
+      "company": "Patric Lundström Tak & Montage AB (PLTAK)",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare Uppsala - takbyte, papptak & tegeltak. Över 20 års erfarenhet.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "taklaggning-uppsala.se",
+      "company": "Takläggning Uppsala",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare i Uppsala - takrenovering & takbyten.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "sbmuppland.se",
+      "company": "SBM Uppland",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare Uppsala - vi byter ditt tak.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "taklaggareuppsala.nu",
+      "company": "Takläggare Uppsala",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Välkommen till takspecialisten i Uppsala.",
+      "found_via": "takläggare uppsala"
+    },
+    {
+      "domain": "lidbackstak.se",
+      "company": "Lidbäcks Tak AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Tätskikt och takrenovering i Uppsala.",
+      "found_via": "takfirma uppsala takomläggning"
+    },
+    {
+      "domain": "taklaggninguppsala.se",
+      "company": "Takläggning Uppsala",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggning Uppsala.",
+      "found_via": "takfirma uppsala takomläggning"
+    },
+    {
+      "domain": "taklaggare-tierp.se",
+      "company": "Takläggare Tierp & Uppsala",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Takläggare i Tierp & Uppsala - gratis prisförslag.",
+      "found_via": "takfirma uppsala takomläggning"
+    },
+    {
+      "domain": "vesivek.se",
+      "company": "Vesivek",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Nordens största takrenoveringsföretag - över 50 000 renoveringar. OBS: stor kedja.",
+      "found_via": "takfirma uppsala takomläggning"
+    },
+    {
+      "domain": "vasteras-taklaggning.se",
+      "company": "Västerås Takläggning",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Takläggare i Västerås & Västmanland - fri offert.",
+      "found_via": "takläggare västerås"
+    },
+    {
+      "domain": "takbolaget.nu",
+      "company": "Takbolaget",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Takläggare Västerås - din takläggare när du behöver nytt tak.",
+      "found_via": "takläggare västerås"
+    },
+    {
+      "domain": "taklaggarevasteras.se",
+      "company": "Takläggare Västerås",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Takläggare Västerås.",
+      "found_via": "takläggare västerås"
+    },
+    {
+      "domain": "malardalenstakservice.com",
+      "company": "Mälardalens Takservice",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Takfirma i Västerås med över 30 års erfarenhet.",
+      "found_via": "takläggare västerås"
+    },
+    {
+      "domain": "vte.nu",
+      "company": "Västerås Takentreprenad",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Experter på takläggning och takrenovering, grundat 2012 med drygt 15 medarbetare.",
+      "found_via": "takfirma västerås takrenovering"
+    },
+    {
+      "domain": "takfirma-orebro.se",
+      "company": "Takfirma Örebro",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Takfirma i Örebro, Närke - lokal takläggare. Taklägging, fasad och plåt.",
+      "found_via": "takläggare örebro"
+    },
+    {
+      "domain": "dalarnastakmontage.se",
+      "company": "Dalarnas Takmontage",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Takläggare i Örebro - takläggning och solcellsinstallationer.",
+      "found_via": "takläggare örebro"
+    },
+    {
+      "domain": "taklaggareorebro.nu",
+      "company": "Takläggare Örebro",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Takläggare Örebro - lokal firma.",
+      "found_via": "takläggare örebro"
+    },
+    {
+      "domain": "eddiesbygg.com",
+      "company": "Eddies Tak, Bygg & Entreprenad AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Din takläggare i Örebro.",
+      "found_via": "takläggare örebro"
+    },
+    {
+      "domain": "takvisionsverige.se",
+      "company": "Takvision Sverige",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Takläggare i Örebro med 10+ års erfarenhet, hundratals takrenoveringar.",
+      "found_via": "takläggare örebro"
+    },
+    {
+      "domain": "villatakrenovering.se",
+      "company": "Villa Takrenovering",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Din takläggare i Örebro län - takbesiktning, takrenoveringar, takbyten.",
+      "found_via": "takfirma örebro takomläggning"
+    },
+    {
+      "domain": "takochtatskikt.se",
+      "company": "Tak & Tätskikt i Örebro AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Kombinerad erfarenhet över 100 år av tak och tätskikt.",
+      "found_via": "takfirma örebro takomläggning"
+    },
+    {
+      "domain": "taklaggare-kumla.se",
+      "company": "Takläggare Kumla",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Takläggare i Kumla, Närke & Örebro - fri offert.",
+      "found_via": "takfirma örebro takomläggning"
+    },
+    {
+      "domain": "garantitak.se",
+      "company": "Garantitak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Nyproduktion, underhåll, reparation och renovering av tak.",
+      "found_via": "takfirma örebro takomläggning"
+    },
+    {
+      "domain": "skruvfund.se",
+      "company": "Skruvfund",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Byggföretag Linköping - takläggare och markskruvsinstallationer.",
+      "found_via": "takläggare linköping"
+    },
+    {
+      "domain": "linkoping-taklaggare.se",
+      "company": "Linköping Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Takläggare i Linköping & Östergötland - fri offert.",
+      "found_via": "takläggare linköping"
+    },
+    {
+      "domain": "berlandtak.se",
+      "company": "Berland Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "60 års erfarenhet - kontor i Linköping, Norrköping och Västervik.",
+      "found_via": "takläggare linköping"
+    },
+    {
+      "domain": "takmastarn.se",
+      "company": "Takmästarn i Linköping AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Liten och flexibel takfirma igång sedan 2009 - papptak, duktak och tegeltak.",
+      "found_via": "takläggare linköping"
+    },
+    {
+      "domain": "taklaggare-linkoping.nu",
+      "company": "Takläggare Linköping",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Lokal takläggare med 15+ års erfarenhet i Östergötland.",
+      "found_via": "takläggare linköping"
+    },
+    {
+      "domain": "takkedjan.com",
+      "company": "Takkedjan",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Takbyte i Linköping, Mantorp & Åtvidaberg.",
+      "found_via": "takfirma linköping takrenovering"
+    },
+    {
+      "domain": "platslagare-ostergotland.se",
+      "company": "Plåtslagare Östergötland",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Takläggare & plåtslagare i Linköping, Östergötland.",
+      "found_via": "takfirma linköping takrenovering"
+    },
+    {
+      "domain": "taklaggarehelsingborg.se",
+      "company": "Takläggare Helsingborg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Trygg takläggning i Skånes län.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "platslagare-skane.se",
+      "company": "Plåtslagare Skåne",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Plåtslagare i Helsingborg, Skåne - takrenovering & takbyte.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "taklaggare-helsingborg.se",
+      "company": "Takläggare Helsingborg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takläggare Helsingborg.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "swedalatak.se",
+      "company": "Swedala Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takläggare i Helsingborg - byt tak med Swedala Tak.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "taklaggare-skane.se",
+      "company": "Takläggare Skåne",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takläggare i Helsingborg - vi renoverar tak i Skåne.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "rtof.se",
+      "company": "Ramlösa Tak och Fasad AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Helsingborgs mest etablerade takläggare sedan 2002 i Ramlösa.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "skanska-tak.se",
+      "company": "Skånska Tak Entreprenad",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takläggning för privat- och företagskunder i Helsingborg.",
+      "found_via": "takläggare helsingborg"
+    },
+    {
+      "domain": "swedtak.se",
+      "company": "Swedtak Skåne",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Pålitliga takläggare i Skåne - takbyte i nordvästra Skåne.",
+      "found_via": "takfirma helsingborg takomläggning"
+    },
+    {
+      "domain": "helsingborgsbyggplat.se",
+      "company": "Helsingborgs Byggplåt AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takentreprenad för husets utsida - tak, fasader, fönster. Grundat 2005.",
+      "found_via": "takfirma helsingborg takomläggning"
+    },
+    {
+      "domain": "takmontage.se",
+      "company": "Takmontage AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Takomläggning i Helsingborg - expertis och kvalitet.",
+      "found_via": "takfirma helsingborg takomläggning"
+    },
+    {
+      "domain": "taktackarna.se",
+      "company": "Taktäckarna i Jönköping AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Takläggare i Jönköping, Vaggeryd, Nässjö, Mullsjö & Habo. Helhetslösningar sedan 2011.",
+      "found_via": "takläggare jönköping"
+    },
+    {
+      "domain": "vikantak.se",
+      "company": "Vikan Tak (Smålands Tak & Plåt AB)",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Takläggare Jönköping - takrenovering, takbyte & snickeri. 20 års erfarenhet, baserade i Bankeryd.",
+      "found_via": "takläggare jönköping"
+    },
+    {
+      "domain": "bankeryds-taklaggare.se",
+      "company": "Bankeryds Takläggare AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Lokal firma i Bankeryd som renoverar och byter tak i Jönköping och Habo kommun.",
+      "found_via": "takläggare jönköping"
+    },
+    {
+      "domain": "jonkopingstakteknik.se",
+      "company": "Jönköpings TakTeknik",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Erfarna takläggare i Jönköping - nästan 30 års erfarenhet.",
+      "found_via": "takläggare jönköping"
+    },
+    {
+      "domain": "taklaggare-smaland.se",
+      "company": "Takläggare Småland",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Byta tak i Jönköping - takläggning Småland.",
+      "found_via": "takläggare jönköping"
+    },
+    {
+      "domain": "byggfirma-jonkoping.se",
+      "company": "Byggfirma Jönköping",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Takläggning, takrenovering & takbyten i Jönköping, Småland - fri offert.",
+      "found_via": "takfirma jönköping takrenovering"
+    },
+    {
+      "domain": "takproffsen.com",
+      "company": "Takproffsen AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Utgår från Jönköping, arbetar i hela södra Sverige.",
+      "found_via": "takfirma jönköping takrenovering"
+    },
+    {
+      "domain": "norrkoping-taklaggare.se",
+      "company": "Norrköping Takläggare",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takläggare i Norrköping & Östergötland - fri offert.",
+      "found_via": "takläggare norrköping"
+    },
+    {
+      "domain": "kimstadsbygg.se",
+      "company": "Kimstads Bygg",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takrenovering - Takläggare Norrköping.",
+      "found_via": "takläggare norrköping"
+    },
+    {
+      "domain": "taklaggarenorrkoping.se",
+      "company": "Takläggare Norrköping",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takläggare Norrköping - lokal firma.",
+      "found_via": "takläggare norrköping"
+    },
+    {
+      "domain": "httab.se",
+      "company": "HT-TAB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takläggare Norrköping - bygg, snickeri, markarbete, måleri, vvs, takläggning.",
+      "found_via": "takläggare norrköping"
+    },
+    {
+      "domain": "takprojekt.se",
+      "company": "Takprojekt",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takprojekt - takomläggning Norrköping.",
+      "found_via": "takfirma norrköping takomläggning"
+    },
+    {
+      "domain": "tgsplatslageri.se",
+      "company": "TGS Plåtslageri",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takläggare Norrköping - takläggning av licensierade experter.",
+      "found_via": "takfirma norrköping takomläggning"
+    },
+    {
+      "domain": "byggfirma-norrkoping.se",
+      "company": "Byggfirma Norrköping",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takläggning, takrenovering & takbyten - byggfirma i Norrköping & Östergötland.",
+      "found_via": "takfirma norrköping takomläggning"
+    },
+    {
+      "domain": "canovatak.se",
+      "company": "Canova Tak",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Professionella taktjänster i Norrköping.",
+      "found_via": "takfirma norrköping takomläggning"
+    },
+    {
+      "domain": "papptaknorrkoping.se",
+      "company": "P Tak Projekt AB",
+      "category": "Takläggare",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Takrenovering Norrköping - många års erfarenhet, papptak-specialist.",
+      "found_via": "takfirma norrköping takomläggning"
+    },
+    {
+      "domain": "svenskskadedjurssanering.se",
+      "company": "Svensk Skadedjurssanering AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Utför alla typer av saneringar av skadedjur; vägglöss, insekter, fåglar, råttor, myror, getingar. Sex servicebilar som rullar i Storstockholm och Mälardalen.",
+      "found_via": "skadedjurssanering stockholm företag"
+    },
+    {
+      "domain": "xpertbekampning.se",
+      "company": "Xpert Bekämpning",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Specialister på skadedjursbekämpning i Stockholm med över 20 års erfarenhet, skräddarsydda lösningar för hem och företag.",
+      "found_via": "skadedjurssanering stockholm företag"
+    },
+    {
+      "domain": "ocab.se",
+      "company": "OCAB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm/Göteborg/Jönköping/Linköping",
+      "note": "Erbjuder tjänster inom skadedjurskontroll för företag, fastighetsbolag, förvaltare, bostadsrättsföreningar och privatpersoner i hela Sverige.",
+      "found_via": "skadedjurssanering stockholm företag"
+    },
+    {
+      "domain": "pestpro.se",
+      "company": "Pest Pro AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Erbjuder skräddarsydda lösningar för privatpersoner och företag. Jour dygnet runt, kort responstid.",
+      "found_via": "skadedjurssanering stockholm företag"
+    },
+    {
+      "domain": "bugsoff.se",
+      "company": "Bugsoff",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm/Örebro/Västerås",
+      "note": "Akut skadedjursbekämpning mot råttor, möss inom 12 timmar, 24/7 året runt.",
+      "found_via": "skadedjurssanering stockholm företag"
+    },
+    {
+      "domain": "begone.se",
+      "company": "Begone Skadedjur & Sanering AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm/Norrköping/Linköping/Dalarna",
+      "note": "Skadedjursbekämpning i Stockholm, Uppsala, Gävle, Norrköping, Linköping och Dalarna. Grundat 2022, 5000+ kunder.",
+      "found_via": "skadedjursbekämpning i norrköping"
+    },
+    {
+      "domain": "sakon.se",
+      "company": "SAKON",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm/Göteborg/Karlstad",
+      "note": "Professionell service av SAKON i Stockholm, Göteborg och Karlstad. Certifierade tekniker med över 20 års erfarenhet.",
+      "found_via": "skadedjur stockholm effektiv trygg bekämpning"
+    },
+    {
+      "domain": "stockholm-sanering.se",
+      "company": "Stockholm Sanering",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sanering av råttor, insekter, ohyra & skadedjur i Stockholm. Fri offert inom 48h.",
+      "found_via": "myror bekämpning Stockholm lokal saneringsföretag"
+    },
+    {
+      "domain": "skadedjurshantering.se",
+      "company": "SDH Skadedjurshantering",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Skadedjurshantering i Malmö, Lund och hela Skåne. Akuta skadedjursärenden med miljövänliga metoder.",
+      "found_via": "skadedjurssanering Malmö Skåne"
+    },
+    {
+      "domain": "skadedjursbekampning.nu",
+      "company": "Skadedjursbekämpning.nu",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Malmö/Helsingborg",
+      "note": "Hjälper mot alla typer av skadedjur inkl. råttor, möss, vägglöss, kackerlackor och myror.",
+      "found_via": "skadedjurssanering Malmö Skåne"
+    },
+    {
+      "domain": "skadedjursbutiken.se",
+      "company": "Skadedjursbutiken",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm/Malmö/Göteborg",
+      "note": "Skadedjursbekämpning Stockholm, Malmö och Göteborg (2026).",
+      "found_via": "skadedjurssanering Malmö Skåne"
+    },
+    {
+      "domain": "stick.se",
+      "company": "Stick (skadedjursshop + sanering)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "Sanering av vägglöss - så går det till. Skadedjursbekämpning - allt du behöver veta.",
+      "found_via": "vägglöss bekämpning Uppsala företag"
+    },
+    {
+      "domain": "tingstad.com",
+      "company": "Tingstad",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Jönköping/Rikstäckande",
+      "note": "Skadedjurskontroll för företag - effektiv bekämpning & sanering. Företagsbutik i Jönköping.",
+      "found_via": "skadedjurssanering Jönköping Småland"
+    },
+    {
+      "domain": "skabent.com",
+      "company": "Skabent AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Saneringstjänster i Jönköping som hanterar skadedjur, brand, fukt, lukt.",
+      "found_via": "skadedjurssanering Jönköping Småland"
+    },
+    {
+      "domain": "saneringlinkoping.se",
+      "company": "Sanering Linköping",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Effektiv skadedjursbekämpning och sanering i Linköping - mögel, kemikalier, skadedjur, klotter.",
+      "found_via": "skadedjurssanering Linköping Östergötland"
+    },
+    {
+      "domain": "xn--saneringlinkping-xwb.se",
+      "company": "Sanering Linköping (asbest/total)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Asbestsanering, totalsanering i Linköping.",
+      "found_via": "skadedjur Linköping Norrköping sanering"
+    },
+    {
+      "domain": "saneringsfirma.se",
+      "company": "Saneringsfirma.se",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "Skadedjursbekämpning - tjänsteleverantör.",
+      "found_via": "skadedjursbekämpning Helsingborg"
+    },
+    {
+      "domain": "lf-skane.se",
+      "company": "LF Skåne Service & Sanering AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Malmö/Skåne",
+      "note": "Tog över skadedjurssanering som tidigare utfördes av Anticimex från 1 januari 2024. Täcker Malmö, Lund, Helsingborg, Trelleborg.",
+      "found_via": "skadedjurssanering Malmö Skåne"
+    },
+    {
+      "domain": "qualitydetectiondogs.se",
+      "company": "Quality Detection Dogs",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Malmö/Rikstäckande",
+      "note": "Första företaget i Sverige med tillstånd att bedriva jakt på råttor med hundar. Tränade sökhundar för vägglöss och råttor.",
+      "found_via": "råttor bekämpning Malmö lokal firma"
+    },
+    {
+      "domain": "ratthund.se",
+      "company": "Ratthund",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Malmö/Stockholm",
+      "note": "Bekämpning av råttor med hjälp av välutbildade råtthundar. Hjälper företag, BRF och privatpersoner.",
+      "found_via": "råttor bekämpning Malmö lokal firma"
+    },
+    {
+      "domain": "rodentor.se",
+      "company": "Rodentor",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Borås/Ulricehamn/Mölndal/Kungsbacka",
+      "note": "Skadedjursbekämpning i Borås, Ulricehamn, Bollebygd, Alingsås, Vårgårda, Jönköping, Mölndal, Kungsbacka, Kungälv.",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan"
+    },
+    {
+      "domain": "insecta.se",
+      "company": "Insecta AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Göteborg/Borås/Ulricehamn",
+      "note": "Företag från 1983 som hjälper privatpersoner och företag i Göteborg, Borås och Varberg med alla typer av skadedjur.",
+      "found_via": "skadedjur Göteborg regional firma bekämpning AB"
+    },
+    {
+      "domain": "forenedeservice.se",
+      "company": "Forenede Service",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Jönköping/Rikstäckande",
+      "note": "Skadedjursbekämpning för företag.",
+      "found_via": "skadedjur Jönköping företag bekämpning"
+    },
+    {
+      "domain": "entreprenadforetag.se",
+      "company": "Victor Johansson AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Professionell sanering av vägglöss i Stockholm - även lägenheter och fastigheter.",
+      "found_via": "vägglöss sanering Stockholm mindre firma"
+    },
+    {
+      "domain": "xn--vgglsstockholm-5hb50a.se",
+      "company": "Vägglöss Stockholm / OCAB Sanering",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Vägglöss Stockholm - OCAB Sanering AB.",
+      "found_via": "vägglöss sanering Stockholm mindre firma"
+    },
+    {
+      "domain": "xn--saneringvrmland-8kb.se",
+      "company": "Sanering Värmland",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Karlstad/Sunne/Arvika",
+      "note": "Sanering Värmland - Karlstad, Sunne, Arvika m.fl.",
+      "found_via": "sanering skadedjur AB Värmland Karlstad"
+    },
+    {
+      "domain": "saneringstjanst.se",
+      "company": "Saneringstjänst i Värmland AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Karlstad",
+      "note": "Saneringstjänst i Värmland AB, Stormgatan 1, 652 21 Karlstad.",
+      "found_via": "sanering skadedjur AB Värmland Karlstad"
+    },
+    {
+      "domain": "hallandssanering.com",
+      "company": "Hallands Sanering / NYA Hallandssanering",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Halmstad/Varberg",
+      "note": "Heltäckande lösningar för skadedjursbekämpning, fuktskador m.m. i Halmstad och Varberg.",
+      "found_via": "skadedjur Växjö Halmstad Varberg sanering"
+    },
+    {
+      "domain": "industrisaneringisverige.se",
+      "company": "Industrisanering i Sverige",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Asbestsanering, radonsanering, mögel & PCB i Stockholm.",
+      "found_via": "skadedjur sanering Västerås Mälardalen AB"
+    },
+    {
+      "domain": "kryahem.se",
+      "company": "Krya Hem AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Västerås/Mälardalen",
+      "note": "Skadedjursbekämpning i Västerås och Mälardalen.",
+      "found_via": "skadedjur sanering Västerås Mälardalen AB"
+    },
+    {
+      "domain": "abynsbygg.se",
+      "company": "Åbyns Bygg Skadeservice",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Professionell skadeservice i Umeå med omnejd.",
+      "found_via": "skadedjur Gävle Umeå Luleå sanering"
+    },
+    {
+      "domain": "leadhive.se",
+      "company": "LeadHive (offertportal)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "Offertportal för sanering av skadedjur.",
+      "found_via": "skadedjur Gävle Umeå Luleå sanering"
+    },
+    {
+      "domain": "bolagsfakta.se",
+      "company": "Skadedjursbekämpning i Väst AB (Länsförsäkringar)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Helägt bolag inom Länsförsäkringar med huvudkontor i Göteborg. Täcker Göteborg, Bohuslän, Älvsborg, Halland, Jönköping, Värmland, Östergötland, Uppsala. 23 anställda, omsättning 26 MSEK.",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg"
+    },
+    {
+      "domain": "vaggloss.se",
+      "company": "Vägglöss.se (portal/firmor)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Uppsala/Rikstäckande",
+      "note": "Portal för vägglöss-sanerare i bl.a. Uppsala län.",
+      "found_via": "vägglöss bekämpning Uppsala företag"
+    },
+    {
+      "domain": "webinfo.nu",
+      "company": "Sanering Karlstad listing",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Karlstad",
+      "note": "Sanering Karlstad - Anticimex Karlstad (företagspresentation).",
+      "found_via": "sanering skadedjur AB Värmland Karlstad"
+    },
+    {
+      "domain": "silvermedaljen.se",
+      "company": "Saneringstjänst i Värmland AB (listing)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Karlstad",
+      "note": "Saneringstjänst i Värmland AB - Stormgatan 1, 652 21 Karlstad.",
+      "found_via": "sanering skadedjur AB Värmland Karlstad"
+    },
+    {
+      "domain": "trustpilot.com",
+      "company": "Trustpilot listor skadedjur",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "Best in Skadedjursbekämpning Sverige - kategori på Trustpilot.",
+      "found_via": "skadedjursbekämpning Stockholm oberoende mindre leverantör"
+    },
+    {
+      "domain": "press.newsmachine.com",
+      "company": "Pressmaterial Begone expansion",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Begone Skadedjur & Sanering AB expanderar till Linköping.",
+      "found_via": "skadedjur Linköping Norrköping sanering"
+    },
+    {
+      "domain": "newsroom.notified.com",
+      "company": "Pressmaterial Begone expansion",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Begone Skadedjur & Sanering AB Expanderar till Norrköping.",
+      "found_via": "skadedjur Norrköping AB sanering företag"
+    },
+    {
+      "domain": "allverk.se",
+      "company": "Allverk-listing (BeGone)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "BeGone Skadedjur & Sanering AB - företagspresentation via Allverk.",
+      "found_via": "skadedjur Linköping Norrköping sanering"
+    },
+    {
+      "domain": "merinfo.se",
+      "company": "Nordisk Skadedjursbekämpning i Väst AB (listing)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Hisings Backa/Göteborg",
+      "note": "Nordisk Skadedjursbekämpning i Väst AB i Hisings backa (556534-8447).",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg"
+    },
+    {
+      "domain": "polygongroup.com",
+      "company": "Polygon Group",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Göteborg/Rikstäckande",
+      "note": "Sanering - Polygon Group (skadesanering/skadedjur).",
+      "found_via": "råttor sanering Göteborg lokal firma"
+    },
+    {
+      "domain": "tyrogroup.com",
+      "company": "Tyro Group",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande Europa",
+      "note": "Europe's leading pest management group.",
+      "found_via": "pest control Göteborg Västra Götaland företag"
+    },
+    {
+      "domain": "larf.se",
+      "company": "LARF Property Management",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Pest control / property management i Göteborgsområdet.",
+      "found_via": "pest control Göteborg Västra Götaland företag"
+    },
+    {
+      "domain": "thermacell.se",
+      "company": "Thermacell Europe AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Insekt- och skadedjursprodukter. Europe-HQ i Sverige.",
+      "found_via": "pest control Göteborg Västra Götaland företag"
+    },
+    {
+      "domain": "skadedjursbekampning-vast.se",
+      "company": "Skadedjursbekämpning i Väst AB",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "LF Skadedjursbekämpning - egen domän hos Länsförsäkringar-bolaget.",
+      "found_via": "skadedjursbekämpning i väst AB Göteborg"
+    },
+    {
+      "domain": "pestcontrol.se",
+      "company": "Pest Control Sverige (generisk)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Pest control portal/tjänst.",
+      "found_via": "pest control Stockholm"
+    },
+    {
+      "domain": "granngarden.se",
+      "company": "Granngården (produkter + tips)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Rikstäckande",
+      "note": "Skadedjursbekämpning (produkter + guider).",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan"
+    },
+    {
+      "domain": "huge.se",
+      "company": "Huge Fastigheter (fastighetsbolag)",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sanering av skadedjur - information till hyresgäster.",
+      "found_via": "råttor sanering Göteborg lokal firma"
+    },
+    {
+      "domain": "einarmattsson.se",
+      "company": "Einar Mattsson Fastigheter",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Skadedjur - information till hyresgäster.",
+      "found_via": "skadedjur Stockholm lokalt familjeägt sanering"
+    },
+    {
+      "domain": "nykopingshem.se",
+      "company": "Nyköpingshem",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Nyköping",
+      "note": "Skadedjurssanering - fastighetsbolagets information.",
+      "found_via": "skadedjur Nyköping Södermanland sanering"
+    },
+    {
+      "domain": "kfast.se",
+      "company": "Eskilstuna Kommunfastigheter",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Eskilstuna",
+      "note": "Skadedjur - har avtal med skadedjursfirmor.",
+      "found_via": "skadedjur Nyköping Södermanland Eskilstuna sanering"
+    },
+    {
+      "domain": "alingsashem.se",
+      "company": "Alingsåshem",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Alingsås",
+      "note": "Skadedjur i bostad - fastighetsbolagets service.",
+      "found_via": "skadedjurskontroll Borås Skövde Trollhättan"
+    },
+    {
+      "domain": "bostaderlidkoping.se",
+      "company": "AB Bostäder Lidköping",
+      "category": "Skadedjur",
+      "segment": "",
+      "city": "Lidköping",
+      "note": "Skadedjur - bostadsbolagets information.",
+      "found_via": "skadedjur Göteborg AB bekämpning lokal"
+    },
+    {
+      "domain": "xn--trdfllningstockholm-hwbc.se",
+      "company": "Trädfällning Stockholm",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborist med kunskap och känsla för träd i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "wasatradfallning.se",
+      "company": "Wasa Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Professionell arborist i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "tradfallare.se",
+      "company": "Tiger Trädfällare",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällare och arborist Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "svensktradservice.se",
+      "company": "Svensk Trädservice",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "tradfallarna.se",
+      "company": "Trädfällning Allround i Stockholm AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning Allround Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "xn--timbertrdfllning-2nbc.se",
+      "company": "Timber Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "maxinetradfallning.se",
+      "company": "Maxine Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning och beskärning i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "storholmentrad.com",
+      "company": "Storholmen Träd",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborister som utför trädfällning i Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "stockholmtradvard.se",
+      "company": "Stockholm Trädvård",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborist Stockholm, stubbfräsning och trädvård.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "simonsviltskog.se",
+      "company": "Simons Vilt och Skog AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning Stockholm.",
+      "found_via": "trädfällning stockholm företag"
+    },
+    {
+      "domain": "arboriststockholm.com",
+      "company": "Arborist Stockholm",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällningstjänster i Stockholms län.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "stockholmarborist.se",
+      "company": "Stockholm Arborist",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborister i Stockholm.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "arborististockholm.se",
+      "company": "Arborist i Stockholm",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Prisvärd och trygg trädfällning och trädvård.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "dinarborist.se",
+      "company": "Din Arborist",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborist Stockholm, trädvård och trädfällning.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "a4arborist.se",
+      "company": "A4 Arborist",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädfällning i Storstockholm, även Västerås.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "arboristerna.com",
+      "company": "Arboristerna",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Professionella trädtjänster i Stockholm.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "tradmastarna.se",
+      "company": "Trädmästarna",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborist i Stockholm.",
+      "found_via": "arborist stockholm trädfällare"
+    },
+    {
+      "domain": "arborister.se",
+      "company": "Arborister.se",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Stubbfräsning i Stockholm, RUT.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "pvtradfallning.se",
+      "company": "PV Trädfällning & Trädvård AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Stubbfräsning i Stockholm.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "tippmicke.se",
+      "company": "TippMicke Trädgruppen",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Stubbfräsning Stockholm.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "addschakt.se",
+      "company": "Add Schakt",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Trädvård i Stockholm.",
+      "found_via": "stubbfräsning stockholm trädvård"
+    },
+    {
+      "domain": "veravi.nu",
+      "company": "Veravi",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Professionell stubbfräsning i Stockholm.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "arborist-stockholm.se",
+      "company": "Arborist i Stockholm",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Arborist i Stockholm.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "stubbfrasning.se",
+      "company": "Stockholm Stubbfräsning AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Stockholm Stubbfräsning AB.",
+      "found_via": "stubbfräsning stockholm"
+    },
+    {
+      "domain": "tradspecialisterna.se",
+      "company": "Trädspecialisterna i Väst AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Certifierade arborister Göteborg, Kungsbacka och Varberg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "tradspecialisten.se",
+      "company": "Trädnu AB / Trädspecialisten",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Trädfällning i Göteborg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "trad.nu",
+      "company": "Trädnu AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Trädfällning och trädvård Göteborg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "tradakuten.se",
+      "company": "Trädakuten",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Trädfällning och beskärning i Göteborg, Dalarna, Halland, Skaraborg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "xn--trdfllningigteborg-mtbc00b.se",
+      "company": "Trädfällning i Göteborg",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Säker, effektiv och miljövänlig trädvård.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "bergstromstradtjanst.se",
+      "company": "Bergströms Trädtjänst",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Certifierad arborist i Göteborg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "proffscenter.se",
+      "company": "Proffscenter",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Snabb hjälp med träd och sly i Göteborg.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "grentradservice.se",
+      "company": "Anders Gren Trädservice AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Din arborist i Göteborg, trädfällning.",
+      "found_via": "trädfällning göteborg företag"
+    },
+    {
+      "domain": "xn--gteborgtrdfllning-yqbc26a.se",
+      "company": "Göteborg Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Erfaren arborist med låga priser.",
+      "found_via": "arborist göteborg fälla träd"
+    },
+    {
+      "domain": "lhtradvard.se",
+      "company": "LH Trädvård",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Trädfällning i Göteborg med omnejd.",
+      "found_via": "arborist göteborg fälla träd"
+    },
+    {
+      "domain": "aureliustrad.se",
+      "company": "Aurelius Träd",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Certifierade arborister i Göteborg, trädfällning och beskärning.",
+      "found_via": "arborist göteborg fälla träd"
+    },
+    {
+      "domain": "xn--arboristmalm-gjb.se",
+      "company": "Arboristmalmö",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning och trädbeskärning av arborist i Malmö.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "tradfokussyd.se",
+      "company": "Trädfokus Syd AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Arborist Malmö, trädfällning och stubbfräsning.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "arborsyd.se",
+      "company": "Arbor Syd",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Arborist i Skåne, beskärning och trädfällning.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "acre.se",
+      "company": "Acre AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Arborist Skåne, trädfällning och trädbeskärning.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "tradvard.com",
+      "company": "Trädvård Skåne",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Arborist Malmö, trädvård och beskärning.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "tradfint.se",
+      "company": "Trädfint",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Professionell arborist i Skåne.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "malmotradfallning.se",
+      "company": "Malmö Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning, arborist och stubbfräsning i Malmö.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "arboristexperten.se",
+      "company": "Arboristexperten",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning och stubbfräsning i Malmö, Linköping, Uppsala.",
+      "found_via": "trädfällning malmö arborist"
+    },
+    {
+      "domain": "sekant.se",
+      "company": "Sekant Fastighetsservice",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning i Malmö, professionell och säker hjälp.",
+      "found_via": "trädfällare malmö stubbfräsning"
+    },
+    {
+      "domain": "tradmark.se",
+      "company": "Träd & Marktjänst AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning, stubbfräsning i Malmö, Helsingborg och Skåne.",
+      "found_via": "trädfällare malmö stubbfräsning"
+    },
+    {
+      "domain": "avrplatslageri.se",
+      "company": "AVR Bygg / AVR Platslageri",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning och stubbfräsning i Malmö, Lund, Eslöv och Ystad.",
+      "found_via": "trädfällare malmö stubbfräsning"
+    },
+    {
+      "domain": "svearb.se",
+      "company": "SveArb AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Arborist i Malmö och Lund i Skåne.",
+      "found_via": "trädfällare malmö stubbfräsning"
+    },
+    {
+      "domain": "markmiljotjanst.se",
+      "company": "Malmö Mark & Miljö",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Trädfällning i Malmö, fälla träd.",
+      "found_via": "trädfällare malmö stubbfräsning"
+    },
+    {
+      "domain": "upplandsarborist.se",
+      "company": "Upplands Arborist",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Arborist Uppsala, certifierad trädexpert.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "kooperativetarboris.se",
+      "company": "Kooperativet Arboris",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Trädfällning i Uppsala av erfarna arborister.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "rangloaxe.se",
+      "company": "Ranglo Axe AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Professionell trädfällning och trädvård i Uppsala.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "quercustradvard.se",
+      "company": "Hackspetten Trädvård AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Arborist och trädbeskärning Stockholm, Uppsala.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "arborillatradtjanster.com",
+      "company": "Arborilla Trädtjänster",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Trädfällning och trädvård i Uppsala län.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "uppsalatradvard.se",
+      "company": "Uppsala Trädvård AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Trädspecialist, arborist, trädfällning, stubbfräsning.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "arborist-uppsala.se",
+      "company": "Arborist Uppsala",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Arborist i Uppsala.",
+      "found_via": "trädfällning uppsala arborist"
+    },
+    {
+      "domain": "djupeskog.se",
+      "company": "Djupeskog",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Stubbfräsning och trädfällning i Uppsala, RUT.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "nordenstenlift.se",
+      "company": "Nordensten Lift AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Professionell trädfällning Uppsala och Storvreta.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "bjorkens.se",
+      "company": "Björkens Träd & Mark",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Fäller träd och fräser stubbar i Uppsala län.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "frasgubben.se",
+      "company": "Fräsgubben Mälardalen AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Stubbfräsning till trädfällning, Mälardalen.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "tradfallning-uppsala.se",
+      "company": "Trädfällning Uppsala",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Trädfällning Uppsala.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "klatterapan.se",
+      "company": "Klätterapan AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Specialister på avancerad trädfällning.",
+      "found_via": "trädfällare uppsala stubbfräsning"
+    },
+    {
+      "domain": "xn--trdfllningvsters-wnbchy.se",
+      "company": "Trädfällning Västerås (Trädakuten Mälardalen)",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Fällt och städat samma dag, RUT -50%.",
+      "found_via": "trädfällning västerås arborist"
+    },
+    {
+      "domain": "tradleoparden.se",
+      "company": "Trädleoparden",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Arborist i Västerås, professionella trädtjänster.",
+      "found_via": "trädfällning västerås arborist"
+    },
+    {
+      "domain": "tradifall.com",
+      "company": "Träd i Fall AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Säker trädfällning i alla miljöer, Västerås.",
+      "found_via": "trädfällning västerås arborist"
+    },
+    {
+      "domain": "dahlgrenallround.se",
+      "company": "Dahlgren Allround",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Trädfällning och stubbfräsning i Västerås.",
+      "found_via": "trädfällning västerås arborist"
+    },
+    {
+      "domain": "antmanwoodcraft.se",
+      "company": "Antman Woodcraft",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Arborist i Västerås för trädvård och trädbeskärning.",
+      "found_via": "trädfällning västerås arborist"
+    },
+    {
+      "domain": "m4.se",
+      "company": "M4 Gruppen",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Trädfällning i Mälardalen, trygg och säker.",
+      "found_via": "trädfällare västerås trädvård"
+    },
+    {
+      "domain": "avtf.se",
+      "company": "Avancerad Trädfällning i Nora AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Arboristföretag nära Örebro.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "arboterra.se",
+      "company": "Arboterra Trädservice",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Arborist Örebro län, Bergslagen.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "arbworks.se",
+      "company": "Arbworks",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Trädfällning Eskilstuna, Örebro, Västerås.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "arboristjavisst.se",
+      "company": "Arborist Javisst",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Arborist Javisst i Örebro AB.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "lekebergs.se",
+      "company": "Lekebergs Gräv & Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Professionellt arboristföretag i Örebro.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "karstaalltjanst.se",
+      "company": "Kårsta Alltjänst",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Trädfällning och trädvård.",
+      "found_via": "trädfällning örebro arborist"
+    },
+    {
+      "domain": "granalundtradfallning.se",
+      "company": "Granalund Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Trädfällning och stubbfräsning i Örebro län, Vintrosa.",
+      "found_via": "fälla träd örebro stubbfräsning"
+    },
+    {
+      "domain": "fatreetec.se",
+      "company": "FA TREE-TEC",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Trädfällning och stubbfräsning i Örebro.",
+      "found_via": "fälla träd örebro stubbfräsning"
+    },
+    {
+      "domain": "tradfallningorebro.nu",
+      "company": "Trädfällning Örebro",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Stubbfräsning, trädfällning Örebro.",
+      "found_via": "fälla träd örebro stubbfräsning"
+    },
+    {
+      "domain": "servicefirma-orebro.se",
+      "company": "Orava Mark & Trädvård",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Stubbfräsning Örebro.",
+      "found_via": "fälla träd örebro stubbfräsning"
+    },
+    {
+      "domain": "greenostergotland.se",
+      "company": "Green Östergötland",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Arborist Linköping, trädfällning och beskärning.",
+      "found_via": "trädfällning linköping arborist"
+    },
+    {
+      "domain": "arbdoc.se",
+      "company": "Lindbäck Arborist & Trädgårdsdoktor AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Trädfällning och trädvård i Linköping.",
+      "found_via": "trädfällning linköping arborist"
+    },
+    {
+      "domain": "arboteket.se",
+      "company": "Arboteket AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Komplett arboristföretag, Linköping och Stockholm.",
+      "found_via": "trädfällning linköping arborist"
+    },
+    {
+      "domain": "xn--linkpingtrdfllning-utbc28a.se",
+      "company": "Linköping Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Trädfällning, arborist, stubbfräsning i Linköping.",
+      "found_via": "trädfällning linköping arborist"
+    },
+    {
+      "domain": "xn--arborist-linkping-c0b.se",
+      "company": "Arborist Linköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Anlita oss för trädfällning i Linköping.",
+      "found_via": "trädfällning linköping arborist"
+    },
+    {
+      "domain": "xn--trdfllarelinkping-rqbc38a.se",
+      "company": "Trädfällare Linköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Erfarna arborister i Linköping.",
+      "found_via": "trädfällare linköping trädvård"
+    },
+    {
+      "domain": "stubbfrasninglinkoping.se",
+      "company": "Stubbfräsning Linköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Stubbfräsning i Linköping, plantering, röjning.",
+      "found_via": "trädfällare linköping trädvård"
+    },
+    {
+      "domain": "sptradgardsservice.se",
+      "company": "SP Trädgårdsservice",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Trädfällning i Linköping, Norrköping, Mjölby, Motala.",
+      "found_via": "trädfällare linköping trädvård"
+    },
+    {
+      "domain": "xn--trdfllninghbg-cfbc.se",
+      "company": "Trädfällning Helsingborg",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Certifierad arborist, RUT-avdrag i Helsingborg.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "gmtradvard.se",
+      "company": "GM Trädvård",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Arborist Helsingborg, GM Trädvård.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "xn--helsingborgtrdfllning-i2bc.se",
+      "company": "Helsingborg Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Helsingborg Trädfällning.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "tradfix.se",
+      "company": "Trädfix",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Trädfällning i Helsingborg och Skåne.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "kullatrad.se",
+      "company": "Kullaträd",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Arborist Helsingborg, Höganäs.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "markarbete-helsingborg.se",
+      "company": "Markföretag Helsingborg",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Trädbeskärning och markföretag i Helsingborg.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "xn--arborist-skne-zfb.se",
+      "company": "Arborist Skåne",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Arborist Helsingborg, anlita oss för trädfällning.",
+      "found_via": "trädfällning helsingborg arborist"
+    },
+    {
+      "domain": "essekraft.se",
+      "company": "Essekraft",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Trädfällning och stubbfräsning i Skåne.",
+      "found_via": "trädfällare helsingborg stubbfräsning"
+    },
+    {
+      "domain": "saggubben.se",
+      "company": "Såggubben AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Trädfällning i Skåne.",
+      "found_via": "trädfällare helsingborg stubbfräsning"
+    },
+    {
+      "domain": "tradtjanster.se",
+      "company": "Trädtjänster",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Arborist och trädtjänster i norra Götaland och södra Svealand.",
+      "found_via": "trädfällning jönköping arborist"
+    },
+    {
+      "domain": "thibomstradvard.se",
+      "company": "Thiboms Trädvård",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Trädfällning Jönköping och Huskvarna, fälla träd.",
+      "found_via": "trädfällning jönköping arborist"
+    },
+    {
+      "domain": "xn--trdfllningjnkping-rqbc18ac.se",
+      "company": "Trädfällning Jönköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Professionell och säker trädfällning, RUT-avdrag.",
+      "found_via": "trädfällning jönköping arborist"
+    },
+    {
+      "domain": "treecareofsweden.se",
+      "company": "Treecare of Sweden AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Trädfällning i Jönköping, arborist.",
+      "found_via": "trädfällning jönköping arborist"
+    },
+    {
+      "domain": "nordicgreengroup.se",
+      "company": "Nordic Green Group AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Trädvård och arborist i Jönköping, Ljungby, Tidaholm.",
+      "found_via": "trädfällning jönköping arborist"
+    },
+    {
+      "domain": "xn--trdgrdsarbeten-6hbs.se",
+      "company": "Trädgårdsarbeten",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Arborist Jönköping, utbildad professionell trädvårdare.",
+      "found_via": "fälla träd jönköping"
+    },
+    {
+      "domain": "hultings.se",
+      "company": "Hultings",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Trädfällning Jönköping, stubbfräsning.",
+      "found_via": "fälla träd jönköping"
+    },
+    {
+      "domain": "xn--trdfllningnorrkping-hwbc12b.se",
+      "company": "Trädfällning Norrköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Certifierade skogsspecialister, RUT 50%.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "tradfallningnorrkoping.se",
+      "company": "Trädfällning Norrköping",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Trädfällning Norrköping.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "rojex.se",
+      "company": "Röjex AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Arborist, trädfällning Norrköping från 995 kr.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "xn--norrkpingtrdfllning-qwbc00b.se",
+      "company": "Norrköping Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Norrköping Trädfällning.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "kuddbytradfallning.se",
+      "company": "Kuddby Trädfällning",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Kuddby Trädfällning, Norrköping.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "beaverclimbs.com",
+      "company": "Beaver Climbs",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Arborist och trädfällning i Finspång och Norrköping.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "xn--trdochkltterservice-hwbg.se",
+      "company": "Träd & Klätterservice",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Träd & Klätterservice.",
+      "found_via": "trädfällning norrköping arborist"
+    },
+    {
+      "domain": "tatradtjanst.se",
+      "company": "TA Trädtjänst AB",
+      "category": "Trädfällning",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Trädfällning Norrköping, TA Trädtjänst AB.",
+      "found_via": "trädfällare norrköping stubbfräsning"
+    },
+    {
+      "domain": "stockholm-markarbete.se",
+      "company": "Stockholm Markarbete",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbete i Stockholm - Grävfirma från Södermalm, Anlägga Husgrund",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markentreprenad-stockholm.se",
+      "company": "Markentreprenad Stockholm (Österåker)",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Lokal Byggfirma i Österåker, Åkersberga i Stockholm",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-ekero.se",
+      "company": "Markarbete Ekerö",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbete i Ekerö & Stockholm - Lokal Gräventreprenör inom Anläggning, Schaktning, Husgrunder",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-stockholm.se",
+      "company": "Markarbete Stockholm (Upplands Väsby)",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markentreprenör från Upplands Väsby, Sollentuna i Stockholm",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-alvsjo.se",
+      "company": "Markarbete Älvsjö",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbeten i Älvsjö i Stockholm - Lokal Grävfirma",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-huddinge.se",
+      "company": "Markarbete Huddinge",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbeten i Huddinge - Anläggning, Gräv & Schakt",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-bromma.se",
+      "company": "Markarbete Bromma",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbete i Bromma, Stockholm - Lokal Markentreprenör",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-malarhojden.se",
+      "company": "Markarbete Mälarhöjden",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbete i Mälarhöjden, Hägersten i Stockholm - Grävfirma",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "markarbete-enskede.se",
+      "company": "Markfirma Enskede",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markfirma i Enskede & Stockholm - Markarbeten & Anläggning",
+      "found_via": "markentreprenör stockholm grävfirma"
+    },
+    {
+      "domain": "acreb.se",
+      "company": "Acreb Mark & Grund",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbete i Stockholm - Acreb Mark & Grund - Privatpersoner",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "sbtstockholm.se",
+      "company": "SBT Stockholm Markentreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbeten Stockholm | SBT Stockholm – markentreprenad",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "stuvstamark.se",
+      "company": "Stuvsta Mark AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbeten i Huddinge och Stockholm | Stuvsta Mark AB",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "pesabent.se",
+      "company": "PESAB Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markentreprenad Stockholm | PESAB Entreprenad AB",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "vanordic.se",
+      "company": "VA Nordic",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Våra företag - VA Nordic",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "stockholmschakt.com",
+      "company": "Stockholm Schakt & Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Stockholm Schakt & Entreprenad AB - Schaktning, grävning, markarbete",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "cavar.se",
+      "company": "Cavar Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Cavar Entreprenad – Cavar erbjuder tjänster inom Entreprenad branschen",
+      "found_via": "VA-entreprenör Stockholm markarbete"
+    },
+    {
+      "domain": "markarbete-danderyd.se",
+      "company": "Markarbete Danderyd",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Markarbeten i Danderyd - Dränering, Schakt & Stenläggning",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "markarbete-vallingby.se",
+      "company": "Markarbete Vällingby",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Grävning & Schaktning Anläggning & Gräv - Markföretag i Vällingby, Stockholm",
+      "found_via": "markentreprenör västerås grävfirma schaktning"
+    },
+    {
+      "domain": "markarbete-goteborg.se",
+      "company": "Markarbete Göteborg (Dränering & Fuktisolering)",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Dränering & Fuktisolering i Göteborg, Bohuslän",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "goteborg-dranering.se",
+      "company": "Göteborg Dränering",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Dränering i Göteborg, Kungälv, Kungsbacka - Grundisolering",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "markfirma-goteborg.se",
+      "company": "Markfirma Göteborg",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markarbete i Göteborg inom Markanläggning, Schaktning",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "markarbete-molndal.se",
+      "company": "Markarbete Mölndal",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markarbeten i Mölndal, Göteborg - Gratis Prisförslag",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "gbgmark.com",
+      "company": "GBG Mark",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markarbete Göteborg | Markentreprenad Göteborg | GBG Mark",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "markarbete-goteborg.nu",
+      "company": "Markarbete Göteborg",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markarbete Göteborg",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "markarbete-molnlycke.se",
+      "company": "Markföretag Mölnlycke",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markföretag i Mölnlycke, Härryda & Göteborg - Fri Offert",
+      "found_via": "grävfirma göteborg markarbete dränering"
+    },
+    {
+      "domain": "emjoschakt.com",
+      "company": "Emjo Schakt",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Dränering i Göteborg - Experter på Dränering av Husgrund",
+      "found_via": "markarbeten göteborg schaktning husgrund"
+    },
+    {
+      "domain": "markarbete-partille.se",
+      "company": "Partille Markarbeten",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "PARTILLE MARKARBETEN & TRÄDGÅRDSANLÄGGNING I GÖTEBORG",
+      "found_via": "markarbeten göteborg schaktning husgrund"
+    },
+    {
+      "domain": "markarbete-landvetter.se",
+      "company": "Markarbeten Landvetter",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Markarbeten i Landvetter, Göteborg",
+      "found_via": "markarbeten göteborg schaktning husgrund"
+    },
+    {
+      "domain": "deramont.se",
+      "company": "Deramont Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Deramont Entreprenad - Markentreprenör Malmö/Lund och Helsingborg",
+      "found_via": "markentreprenör malmö grävmaskin anläggning"
+    },
+    {
+      "domain": "teampedersen.nu",
+      "company": "Team Pedersen",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Grävarbeten Malmö - Team Pedersen",
+      "found_via": "markentreprenör malmö grävmaskin anläggning"
+    },
+    {
+      "domain": "nardiservice.se",
+      "company": "Nardi Service",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markarbete Malmö - Grävning - Schaktning - Minigrävare",
+      "found_via": "markentreprenör malmö grävmaskin anläggning"
+    },
+    {
+      "domain": "sydsverigeab.se",
+      "company": "Sydsverige AB - Mark",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "MARK – Bygg, Mark & Fastighet - Malmö",
+      "found_via": "markentreprenör malmö grävmaskin anläggning"
+    },
+    {
+      "domain": "entreprenad-ystad.se",
+      "company": "T&H Pettersson Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Grävmaskin Malmö - T&H Pettersson Entreprenad",
+      "found_via": "markentreprenör malmö grävmaskin anläggning"
+    },
+    {
+      "domain": "markarbete-malmo.se",
+      "company": "Markarbete Malmö",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markarbete Malmö",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "malmo-markarbete.se",
+      "company": "Malmö Markarbete (Hus, Uppfarter & Fastigheter)",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markarbete i Malmö – För Hus, Uppfarter & Fastigheter",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "jtf.nu",
+      "company": "JTF Markentreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markentreprenad i Malmö | JTF Markentreprenad AB",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "byggforetag-malmo.se",
+      "company": "Byggföretag Malmö",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Dränering & Tilläggsisolering Husgrund i Malmö, Skåne",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "manges-entreprenad.se",
+      "company": "Manges Entreprenad AB (MEAB)",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markentreprenad i Malmö - MEAB - Manges Entreprenad AB",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "lcab.se",
+      "company": "LCAB Marksektion",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Markanläggning – i utför markarbeten i Malmö",
+      "found_via": "markentreprenör malmö dränering schaktning"
+    },
+    {
+      "domain": "markarbete-uppsala.se",
+      "company": "Markarbete Uppsala",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Markarbete i Uppsala - Grävfirma & Anläggning",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "markarbete-storvreta.se",
+      "company": "Markarbeten Storvreta",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Markarbeten i Storvreta, Uppsala & Uppland",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "vallgardaentreprenad.se",
+      "company": "Vallgårda Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Vallgårda Entreprenad AB - Uppsala (sedan 1997)",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "markteknikab.se",
+      "company": "Johanssons Markteknik AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Grävfirma Uppsala - Johanssons Markteknik AB",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "svistaab.se",
+      "company": "Svista Gräv AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Svista Gräv AB - sedan 1991 i Uppsala",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "klbygg.se",
+      "company": "KL Bygg",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Markarbete Uppsala | Grundläggning & markanläggning | KL Bygg",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "svahnmark.se",
+      "company": "A Svahn Mark",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "A Svahn Mark",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "embab.se",
+      "company": "EMB AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "EMB AB - Dränering och andra markarbeten i Uppsala",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "bodenmark.se",
+      "company": "Bodén Mark och Anläggning",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Bodén mark och anläggning i Mälardalen",
+      "found_via": "grävfirma uppsala mark och anläggning"
+    },
+    {
+      "domain": "gravmaskinuppsala.se",
+      "company": "Grävmaskin Uppsala",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Grävmaskin Uppsala",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "miljoentreprenad.se",
+      "company": "Miljö Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Schaktning - Schakt & Markarbeten i Uppsala - Miljö Entreprenad",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "ombmark.se",
+      "company": "Östlings Mark & Bygg AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Schaktning Uppsala | Professionell Grävning & Schaktarbeten",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "upplandsschakt.se",
+      "company": "Upplands Schakt",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Upplands Schakt - Uppsala",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "elui.se",
+      "company": "Elui Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Markarbete till fast pris | Grävning & schaktning - Elui",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "markarbetenuppsala.se",
+      "company": "Markarbeten Uppsala",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Markarbeten Uppsala – prisvärda schakt- och grävarbeten",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "vasteras-markarbete.se",
+      "company": "Västerås Markarbete",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Markarbete & Schaktning i Västerås, Västmanland",
+      "found_via": "markentreprenör västerås grävfirma schaktning"
+    },
+    {
+      "domain": "markarbete-enkoping.se",
+      "company": "Markarbete Enköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Markarbete i Enköping, Bålsta, Västerås, Uppsala, Sigtuna - Grävfirma",
+      "found_via": "markentreprenör västerås grävfirma schaktning"
+    },
+    {
+      "domain": "skultunamark.nu",
+      "company": "Skultuna Mark AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Grävfirma Västerås | Skultuna Mark AB | Vi gräver allt!",
+      "found_via": "markentreprenör västerås grävfirma schaktning"
+    },
+    {
+      "domain": "h-mark.se",
+      "company": "H mark & Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "H mark & Entreprenad AB - Anläggningsföretag Västerås",
+      "found_via": "markentreprenör västerås grävfirma schaktning"
+    },
+    {
+      "domain": "btjentreprenad.se",
+      "company": "BTJ Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "BTJ Entreprenad AB - Mark- och anläggningsarbeten i Västerås",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "areens.se",
+      "company": "Aréens Mark och Fastighetsskötsel",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Aréens – Mark och Fastighetsskötsel",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "markbolagen.se",
+      "company": "Markbolagen",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Startsidan - MARK i Västerås, Eskilstuna och Örebro",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "widerstromschakt.se",
+      "company": "N-E Widerström Schakt AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "N-E Widerström Schakt AB",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "ybentreprenad.se",
+      "company": "YB Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "ybentreprenad.se",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "maeab.se",
+      "company": "M.Å. Entreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Markarbeten Västerås - Välkommen till M.Å.Entreprenad AB",
+      "found_via": "mark och anläggning västerås företag"
+    },
+    {
+      "domain": "gravmaskinvastmanland.se",
+      "company": "U-Schakt Grävmaskin Västmanland",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Vi är U-Schakt - Grävmaskin Västmanland",
+      "found_via": "grävmaskin uppsala schaktning villa"
+    },
+    {
+      "domain": "nylandersbygg.se",
+      "company": "Nylanders Bygg och Anläggning",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Grävfirma Örebro – Nylanders Bygg och Anläggning",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "entreprenadorebro.nu",
+      "company": "Råsells Mark & VVS AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Entreprenad Örebro - Råsells Mark & VVS AB",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "gravfirmaorebro.se",
+      "company": "Göthbergs Schakt AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Grävfirma Örebro - Göthbergs Schakt AB",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "markarbetenorebro.com",
+      "company": "Markarbeten Örebro",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Markarbeten Örebro",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "gtbygg.se",
+      "company": "GT Bygg Markarbeten",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Markarbeten - Dränering, grävning & övriga markprojekt i Örebro län",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "geabs.se",
+      "company": "Gräv och Entreprenad i Örebro AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Startsida - Gräv och Entreprenad i Örebro AB",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "maentreprenadteknik.se",
+      "company": "MA Mark & Dräneringsteknik",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Markarbeten med ett fackmannamässigt utförande - Örebro omnejd",
+      "found_via": "grävfirma örebro markarbete dränering"
+    },
+    {
+      "domain": "markarbete-linkoping.se",
+      "company": "Markarbete Linköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Markarbete & Schaktning i Linköping & Östergötland",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "gravfirma.net",
+      "company": "MLS Alltjänst & Byggentreprenad AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Grävfirma Linköping - MLS Alltjänst & Byggentreprenad AB",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "bgentreprenad.se",
+      "company": "BG Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Grävning dränering avlopp dikning pool i Linköping - BG",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "abmarkbygg.se",
+      "company": "AB Mark Bygg",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "AB mark bygg i Linköping - byggmaskiner och bygg och anläggning",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "jr-maskin.se",
+      "company": "JR Maskin",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "JR Maskin – entreprenad- och lantbruksmaskiner i Jönköping och Linköping",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "ljungsgarden.se",
+      "company": "Ljungsgården Gräv & Transport",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Markarbeten & entreprenad i Linköping & Motala",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "berggardens.se",
+      "company": "Berggårdens Grävtjänst AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Markanläggning & markarbete i Linköping (sedan 1974)",
+      "found_via": "markentreprenör linköping anläggning grävmaskin"
+    },
+    {
+      "domain": "denntek.se",
+      "company": "Denntek Gräv & Dränering",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Dränering Linköping | Isodrän, Källarisolering & Dagvatten",
+      "found_via": "grävfirma linköping dränering villa"
+    },
+    {
+      "domain": "mme.nu",
+      "company": "MME Gräv",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Dränering av villa eller hyreshus — Grävprojekt i hela Östergötland",
+      "found_via": "grävfirma linköping dränering villa"
+    },
+    {
+      "domain": "linkopingmarkarbete.se",
+      "company": "Linköping Markarbete",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Linköping Markarbete",
+      "found_via": "grävfirma linköping dränering villa"
+    },
+    {
+      "domain": "dranering-linkoping.se",
+      "company": "Dränering Linköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Dränering Linköping",
+      "found_via": "grävfirma linköping dränering villa"
+    },
+    {
+      "domain": "ericssonsentreprenad.se",
+      "company": "Anders Ericssons Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Markarbeten i Helsingborg och nordvästra Skåne",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "tnilssons.se",
+      "company": "T.Nilssons Anläggnings AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Markarbete i Helsingborg - T.Nilssons Anläggnings AB",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "markarbetehelsingborg.nu",
+      "company": "Markarbete Helsingborg",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Markarbete Helsingborg",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "hfentreprenad.se",
+      "company": "HF-Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Grävfirma Helsingborg - HF-Entreprenad",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "dunersmaskin.se",
+      "company": "Dunérs Maskin",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Grävfirma Helsingborg - Dunérs Maskin",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "sandbergsschakt.se",
+      "company": "T. Sandbergs Schakt & Planering",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "T. sandbergs schakt & planering grävmaskin dränering Helsingborg",
+      "found_via": "grävfirma helsingborg markarbete"
+    },
+    {
+      "domain": "nyingwik.se",
+      "company": "Nying & Wik Bygg och Gräv",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Byggfirma och grävtjänster i Jönköping - Nying & Wik",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "dranering-jonkoping.se",
+      "company": "Dränering Jönköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Vår arbetsprocess - Dränering Jönköping",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "hakarpsjord.se",
+      "company": "Hakarps Jord & Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Markentreprenad Jönköping | Hakarps Jord & Entreprenad",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "ragges.se",
+      "company": "Ragges Entreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Grävfirma Jönköping | Avlopp, Markarbete - Ragges Entreprenad",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "abmaskin.se",
+      "company": "AB Maskin Support",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Gräv Jönköping - Professionella Markarbeten med AB Maskin Support",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "leh-ab.se",
+      "company": "Lennartssons Entreprenad Hakarp AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Dränering Jönköping - Lennartssons Entreprenad Hakarp AB",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "jlbasfalt.se",
+      "company": "JLB Asfalt Markentreprenad",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Markentreprenad - JLB Asfalt",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "hammarsmark.se",
+      "company": "Hammars Markentreprenad i Jönköping AB",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Hammars Markentreprenad I Jönköping AB",
+      "found_via": "markentreprenör jönköping grävfirma dränering"
+    },
+    {
+      "domain": "gravfirmanorrkoping.se",
+      "company": "MLS Grävfirma Norrköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Markarbeten Norrköping - MLS Alltjänst & Byggentreprenad AB",
+      "found_via": "grävfirma norrköping markarbete anläggning"
+    },
+    {
+      "domain": "markarbetennykoping.se",
+      "company": "TGT AB Markarbeten",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Grävfirma Norrköping - TGT AB",
+      "found_via": "grävfirma norrköping markarbete anläggning"
+    },
+    {
+      "domain": "markarbete-norrkoping.se",
+      "company": "Markarbete Norrköping",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Markarbeten i Norrköping, Östergötland - Sten- & Anläggning",
+      "found_via": "grävfirma norrköping markarbete anläggning"
+    },
+    {
+      "domain": "cmef.se",
+      "company": "Mattsson Mark & Anläggning",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Start — Mattsson Mark & Anläggning",
+      "found_via": "grävfirma norrköping markarbete anläggning"
+    },
+    {
+      "domain": "anlaggninglinkoping.se",
+      "company": "Paulsson Mark och Trädgård",
+      "category": "Markentreprenörer",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Markarbeten Norrköping | Paulsson Mark och Trädgård",
+      "found_via": "grävfirma norrköping markarbete anläggning"
+    },
+    {
+      "domain": "sthlmkirorehab.se",
+      "company": "Stockholms Kiropraktor & Rehabklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kiropraktorer, fysioterapeuter, dietister och arbetsterapeuter samarbetar. Karlavägen 98.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "stockholmskiropraktorklinik.se",
+      "company": "Stockholms Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Levererar hög kvalité på kiropraktiska tjänster både akut och förebyggande.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "kirostockholm.se",
+      "company": "Engelbrekts Kiropraktorcenter",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Erfaren kiropraktor på Östermalm för förbättrad hälsa och livskvalitet.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "kirokliniken.se",
+      "company": "KIROKLINIKEN - Liljeholmens Kiropraktor Klinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kiropraktorklinik med flera platser inklusive Liljeholmen och Marievik.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "kiropraktoristockholm.se",
+      "company": "Kiropraktor Stockholm MARIA",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kiropraktor på Södermalm.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "fridhemsplanskiropraktorklinik.se",
+      "company": "Fridhemsplans Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Fleminggatan 15, 112 26 Stockholm. 08-651 73 10.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "evokliniken.se",
+      "company": "Evokliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Legitimerade kiropraktorer på Kungsholmen, kiropraktik, diagnostik och rehabilitering.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "kirorehabklinik.se",
+      "company": "Södermalms Kiropraktor och Rehabklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Södermalms kiropraktor och rehabklinik.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "nordickiropraktik.se",
+      "company": "Nordic Kiropraktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Boka tid hos kiropraktor i Stockholm.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "kiropraktorvard.se",
+      "company": "Kiropraktorvård",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kiropraktorvård Stockholm Kungsholmen och Göteborg Järntorget.",
+      "found_via": "kiropraktor stockholm klinik"
+    },
+    {
+      "domain": "naprawell.se",
+      "company": "NapraWell Stockholm",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kammakargatan 35a. Måndag-fredag 7-19, lördagar 10-14.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "naprapatdoktorerna.se",
+      "company": "Naprapat Doktorerna",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sju kliniker i Stockholmsområdet inklusive City, Bromma, Farsta, Skärholmen.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "naprapaterna.nu",
+      "company": "Naprapaterna",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Naprapaterna Kungsholmen (Kungsholmsgatan 32) och Vasastan (Tomtebogatan 19).",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "naprapatvarden.se",
+      "company": "Naprapatvården Stockholm",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Naprapat Stockholm - vi får dig att må bättre.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "kroppsdetektiverna.se",
+      "company": "Kroppsdetektiverna Stockholm",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sturegatan 18 nära Humlegården, Östermalm.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "naprapatofstockholm.se",
+      "company": "Naprapat of Stockholm",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kungsgatan 84 i centrala Stockholm.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "naprapatstockholm.nu",
+      "company": "Naprapat Stockholm",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Naprapat Stockholm.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "srkc.se",
+      "company": "Stockholms RehabKlinik CITY",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Naprapater & Fysioterapeuter i Stockholm. Kungsgatan 35.",
+      "found_via": "naprapat stockholm mottagning"
+    },
+    {
+      "domain": "rehabtjanst.se",
+      "company": "Rehabtjänst",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Erkända sjukgymnaster och fysioterapeuter i Stockholm. Avtal med Region Stockholm.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "sergelrehab.se",
+      "company": "Sergel Rehab & Träning",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Välutbildade fysioterapeuter och sjukgymnaster, ansluten till Region Stockholm.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "sthlmfysioterapi.se",
+      "company": "Stockholm Fysioterapi",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Fysioterapi Kungsholmen, bedrivit sedan 1988, ansluten till region Stockholm.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "helakroppen.se",
+      "company": "Hela Kroppen",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sjukgymnast/fysioterapeut mottagning.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "medfit.se",
+      "company": "Medfit Träning & Vård",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Sjukgymnast/Fysioterapeut vård.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "arenamotion.se",
+      "company": "Arena Motion & Rehab",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Fysioterapi och rehabilitering.",
+      "found_via": "sjukgymnast fysioterapeut stockholm privat"
+    },
+    {
+      "domain": "ryggakuten.com",
+      "company": "Ryggakuten Göteborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Största kiropraktiska praktiken i Göteborg, etablerad 1992. Flera kliniker.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "goteborgskiropraktorklinik.se",
+      "company": "Göteborgs Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Behandling i centrum.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "patrikerdegard.se",
+      "company": "Legitimerad Kiropraktor Patrik Erdegård",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Legitimerad Kiropraktor i Göteborg, akuttider dagligen.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "ecrc.se",
+      "company": "Chiro Rehab Center",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Kiropraktor & rehabilitering i Göteborg med legitimerade kiropraktorer.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "andreaserdegard.se",
+      "company": "Kiropraktorklinik Andreas Erdegard",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Legitimerad kiropraktor i Göteborg.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "sockander.se",
+      "company": "Sockanders Kiropraktor",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Kiropraktor Göteborg & Kungälv.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "kiropraktorcentrum.com",
+      "company": "KiropraktorCentrum",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Kungsg. 12, 031-711 66 00. Dagliga akuttider.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "eurekakiropraktik.se",
+      "company": "Eureka Kiropraktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Kiropraktor Göteborg, smärtlindring och hälsa. Även klinik i Helsingborg.",
+      "found_via": "kiropraktor göteborg"
+    },
+    {
+      "domain": "city-kliniken.com",
+      "company": "City-Kliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Naprapat Göteborg, Kungsportsplatsen centralt. Sedan 1994.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "napraidrott.se",
+      "company": "Göteborgs Naprapat & Idrottsskadeklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Specialister på idrottsskador. Parkgatan 17.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "stjarnkliniken.com",
+      "company": "Stjärnkliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Terapeuter nära dig - Göteborg Haga, flera orter.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "evarytterlund.se",
+      "company": "Eva Rytterlund Legitimerad Naprapat",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Wadmansgatan 9 i Göteborg sedan 2015.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "bodycheck.se",
+      "company": "Bodycheck Naprapat",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Vasaplatsen, akuttider. Privatpersoner och företag.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "ullevikliniken.se",
+      "company": "Ullevikliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Akut naprapati, Ullevikliniken i Göteborg.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "ryggochled.se",
+      "company": "Rygg & Led",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Naprapat i Göteborg Centrum, Viktor Rydbergsgatan.",
+      "found_via": "naprapat göteborg klinik"
+    },
+    {
+      "domain": "ortomed.se",
+      "company": "Ortomed",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Ortopedmedicinskt specialiserad fysioterapeut. Även i Stockholm (Odenplan/Vasastan).",
+      "found_via": "fysioterapeut sjukgymnast göteborg"
+    },
+    {
+      "domain": "team-halsa.se",
+      "company": "TEAM Hälsa",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Fysioterapeut i Göteborg/Mölndal med specialisering i ortopedisk medicin.",
+      "found_via": "fysioterapeut sjukgymnast göteborg"
+    },
+    {
+      "domain": "carlanderska.se",
+      "company": "Carlanderska",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Rehabilitering, arbetsterapi, sjukgymnastik och SportsMed.",
+      "found_via": "fysioterapeut sjukgymnast göteborg"
+    },
+    {
+      "domain": "fysionovaab.se",
+      "company": "Fysio Nova",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Väletablerad privat sjukgymnastik på Kristinedals Träningscenter.",
+      "found_via": "fysioterapeut sjukgymnast göteborg"
+    },
+    {
+      "domain": "fysiohuset.se",
+      "company": "Fysiohuset Göteborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Fysiohuset Göteborg, fysioterapi med dig i fokus.",
+      "found_via": "fysioterapeut sjukgymnast göteborg"
+    },
+    {
+      "domain": "malmokiropraktorklinik.se",
+      "company": "Malmö Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Kiropraktik, akupunktur och massage - tre kiropraktormottagningar i samma lokal.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "citykiropraktikern.se",
+      "company": "Citykiropraktikern",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Erfaren kiropraktor i Malmö. Föreningsgatan 26.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "theclinic.se",
+      "company": "The Clinic",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Kiropraktor, fysioterapeut & massage. Malmö Kirseberg och Nyhamnen.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "kiropraktorlaurin.nu",
+      "company": "Kiropraktorkliniken Laurin",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Kiropraktorkliniken Laurin, Limhamn.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "torsokliniken.se",
+      "company": "Torsokliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Din kiropraktor i Malmö & Trelleborg.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "chiropraktikakuten.se",
+      "company": "ChiropraktikAkuten",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Kiropraktik och medicinsk massageterapi i Limhamn, Malmö.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "rmvkiropraktik.se",
+      "company": "RMV Kiropraktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Kiropraktik, hälsa och rådgivning.",
+      "found_via": "kiropraktor malmö klinik"
+    },
+    {
+      "domain": "fysiomed.se",
+      "company": "Fysiomed",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Naprapat, osteopat och kiropraktor i Malmö.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "naprapatcentrum.com",
+      "company": "Naprapatcentrum",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Naprapat i Malmö och Karlskrona. Stora Kvarngatan 32.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "malmonaprapatiska.se",
+      "company": "Malmö City Naprapatiska",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Naprapat i Malmö med akuttider, Slottsstaden.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "smood.se",
+      "company": "Smood",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Malmös ledande naprapater. Tre kliniker: City, Västra Hamnen, Hyllie.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "trekotor.se",
+      "company": "Tre Kotor",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Naprapatmottagning i Malmö.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "idrottsskadeexperten.se",
+      "company": "Idrottsskadeexperten",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Naprapater och fysioterapeuter, kliniker i Stockholm, Göteborg och Malmö.",
+      "found_via": "naprapat malmö mottagning"
+    },
+    {
+      "domain": "friskarefysik.se",
+      "company": "Friskare Fysik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Centralt belägen hälsomottagning med fysioterapeut, kiropraktor och massageterapeut.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "fysiocenter.nu",
+      "company": "Fysio Center",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Legitimerade sjukgymnaster med OMT, akupunktur och idrottsmedicin.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "citysjukgymnasterna.se",
+      "company": "Citysjukgymnasterna",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Fysioterapeut i Malmö City.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "davidaston.se",
+      "company": "David Aston Sjukgymnast",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Sjukgymnast/fysioterapeut och diplomerad massageterapeut i Limhamn.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "iklinik.se",
+      "company": "IKLINIK",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Fysioterapeut i Lund och Malmö. 10 fysioterapeuter, idrottsmedicin, kvinnohälsa.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "kulanic.se",
+      "company": "Kulan IC",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Idrottsmedicinsk kompetens för motionärer och elitidrottare.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "malmoidrottsklinik.se",
+      "company": "Malmö Idrottsklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Malmö Idrottsklinik.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "fysiopunkten.se",
+      "company": "Fysiopunkten",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Malmö",
+      "note": "Sjukgymnastik/fysioterapi mottagning i Malmö nära triangeln.",
+      "found_via": "fysioterapeut sjukgymnast malmö privat"
+    },
+    {
+      "domain": "kiropraktorkliniken.com",
+      "company": "Kiropraktorkliniken Uppsala",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Sedan 1991, nya lokaler i Boländerna 2025.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "uppsalakiropraktorklinik.se",
+      "company": "Uppsala Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Uppsala Kiropraktorklinik.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "uppsalanaprapatklinik.se",
+      "company": "Uppsala Naprapatklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Uppsala Naprapatklinik, även kiropraktor.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "kiropraktoruppsala.se",
+      "company": "Kiropraktor Magnus Eriksson Uppsala",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Kiropraktor Magnus Eriksson Uppsala.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "kiropraktiskt.se",
+      "company": "Kiropraktiskt Sverige",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Kungsängsvägen 19, Uppsala.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "rosendalkiropraktorklinik.se",
+      "company": "Rosendal Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Legitimerad kiropraktor med 5 års utbildning. 018-13 33 24.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "joylife.se",
+      "company": "Joylife",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Naprapater, fysioterapeut, kiropraktorer i Uppsala, Västerås. S:t Olofsgatan 11.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "fasciaclinics.com",
+      "company": "Fasciaklinikerna",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Kiropraktor i Uppsala, Norrköping, flera orter.",
+      "found_via": "kiropraktor uppsala klinik"
+    },
+    {
+      "domain": "iscuppsala.se",
+      "company": "Idrottsskadecentrum Uppsala",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Naprapat & rehabilitering. Drottninggatan 1A.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "muskelcentrum.se",
+      "company": "Muskelcentrum",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Naprapat, fysioterapi & idrottsklinik. Uppsala, Gävle, Västerås, Sigtuna.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "naprapatklinik018.se",
+      "company": "Naprapatklinik018",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Naprapat Uppsala, massage, akupunktur.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "naprapatuppsala.com",
+      "company": "Naprapat Uppsala",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Naprapat Uppsala.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "uppsalanaprapat.com",
+      "company": "Uppsala Naprapati & Rehab",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Fyrisvallsgatan 23, Uppsala.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "aktiverakliniken.se",
+      "company": "AktiveraKliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Uppsala",
+      "note": "Legitimerade naprapater i Uppsala och Sigtuna.",
+      "found_via": "naprapat uppsala fysioterapi"
+    },
+    {
+      "domain": "topphalsan.se",
+      "company": "Topphälsan Kiropraktik Västerås",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Hans Moqvist Leg. Kiropraktor. Centrala Västerås.",
+      "found_via": "kiropraktor västerås"
+    },
+    {
+      "domain": "citykiropraktik.se",
+      "company": "City Kiropraktik Västerås",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Carl Udden, leg. kiropraktor. 021 80 18 18.",
+      "found_via": "kiropraktor västerås"
+    },
+    {
+      "domain": "fysoptima.se",
+      "company": "Fysoptima",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Per Drömek, leg. kiropraktor. Västerås.",
+      "found_via": "kiropraktor västerås"
+    },
+    {
+      "domain": "vnk.nu",
+      "company": "Västerås Naprapatiska Klinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Västerås",
+      "note": "Naprapat, kiropraktor, massage. 021-41 61 80.",
+      "found_via": "kiropraktor västerås"
+    },
+    {
+      "domain": "orebrokiro.se",
+      "company": "Örebro Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Kiropraktor, hälsa, naturlig.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "andersonchiropractic.se",
+      "company": "Anderson Chiropractic",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Angelgatan 11, Örebro. 45 års erfarenhet.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "cityklinikenorebro.se",
+      "company": "Citykliniken Örebro",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Nygatan centralt i Örebro. Naprapater, fysioterapeut, kiropraktor.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "ryggcenter.com",
+      "company": "Ryggcenter Örebro",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Haga Centrum, Örebro.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "hanserkiropraktorklinik.se",
+      "company": "Hanser Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Legitimerad kiropraktor Adam Hanser. Örebro.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "orebrokiropraktorklinik.se",
+      "company": "Örebro Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Hjälper dig att komma i form.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "monkskiro.com",
+      "company": "Monks Kiropraktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Kiropraktik Örebro Län.",
+      "found_via": "kiropraktor örebro klinik"
+    },
+    {
+      "domain": "naprapathy.se",
+      "company": "Strids Naprapatklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Naprapati och medicinsk klinik i Örebro.",
+      "found_via": "naprapat örebro mottagning"
+    },
+    {
+      "domain": "kroppshalsan.se",
+      "company": "Kroppshälsan",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Din naprapat i Örebro, stötvåg, ultraljud.",
+      "found_via": "naprapat örebro mottagning"
+    },
+    {
+      "domain": "eliasons.se",
+      "company": "Eliasons Naprapatjouren",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Naprapatjouren, Magnus Eliason, sedan 1995.",
+      "found_via": "naprapat örebro mottagning"
+    },
+    {
+      "domain": "nordichealthorebro.se",
+      "company": "Nordic Health Örebro",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Leg. naprapat i Örebro.",
+      "found_via": "naprapat örebro mottagning"
+    },
+    {
+      "domain": "wasahalsan.se",
+      "company": "WasaHälsan",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Örebro",
+      "note": "Lövstagatan 7 i Örebro, naprapati.",
+      "found_via": "naprapat örebro mottagning"
+    },
+    {
+      "domain": "kiropraktorhuset.se",
+      "company": "Kiropraktorhuset",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Centralt i Linköping, Kungsgatan 26 A. Serhat Can och Erik Malmkvist.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "kiropraktoreklund.se",
+      "company": "Kiropraktor Michael Eklund",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Erfaren kiropraktor, över 30 år, 75 000 behandlingar. Repslagaregatan 32A.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "kiropraktorakuten.com",
+      "company": "Kiropraktorakuten Linköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Hospitalstorget, centrala Linköping.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "xn--kiropraktorlinkping-46b.se",
+      "company": "Kiropraktorkliniken i Linköping - Sven Örup",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Sven Örup Leg Kiropraktor.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "halsogalleriet.se",
+      "company": "HälsoGalleriet",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Legitimerad kiropraktor på Ågatan 25, Linköping.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "kiropraktorme.se",
+      "company": "Kiropraktor Mattias Ekström",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Norrköping och Linköping. Lundatorpsvägen 9.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "rehabsupport.se",
+      "company": "Rehab Support",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Fysioterapeuter och kiropraktor i Linköping.",
+      "found_via": "kiropraktor linköping"
+    },
+    {
+      "domain": "curarehab.se",
+      "company": "CuraRehab Linköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Fysioterapi, naprapati, massage. Mjärdevi och Drottninggatan.",
+      "found_via": "naprapat linköping fysioterapeut"
+    },
+    {
+      "domain": "naprapat.se",
+      "company": "Naprapat Service",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Mjärdevi, Linköping, Collegium, Teknikringen 7.",
+      "found_via": "naprapat linköping fysioterapeut"
+    },
+    {
+      "domain": "sjukgymnastlinkoping.se",
+      "company": "Institutet för Sjukgymnastik och BeteendeMedicin",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Linköping",
+      "note": "Institutet för Sjukgymnastik och BeteendeMedicin, Linköping.",
+      "found_via": "naprapat linköping fysioterapeut"
+    },
+    {
+      "domain": "kiropraktiknordvast.se",
+      "company": "Kiropraktorkliniken Nordväst",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Legitimerad kiropraktor Ida Leonhard. Hävertgatan 29.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "kiropraktorkliniken.nu",
+      "company": "Kiropraktorkliniken Helsingborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Sundstorget 3, Helsingborg.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "clinicus.nu",
+      "company": "Clinicus Ryggcenter",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Kiropraktor Helsingborg, Kapplöpningsgatan 14. Helgöppet.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "olympiahalsoklinik.se",
+      "company": "Olympia Hälsoklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Kiropraktor i Helsingborg, vuxna och barn.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "oresundskliniken.se",
+      "company": "Öresundskliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Din kiropraktor i Helsingborg, Tågaborg.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "kvinnorehabkliniken.se",
+      "company": "Kvinnorehabkliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Kiropraktor med intresse för graviditetsbesvär.",
+      "found_via": "kiropraktor helsingborg klinik"
+    },
+    {
+      "domain": "dinnaprapat.nu",
+      "company": "Din Naprapat Helsingborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Malin Johansson och David Wahlgren.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "naprapat-halsan.se",
+      "company": "Naprapathälsan Helsingborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Tågagatan 7, Helsingborg. 042-13 50 50.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "ryggakutenhbg.se",
+      "company": "RyggAkuten Helsingborg",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Din naprapat i Helsingborg.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "naprapat-caroline.se",
+      "company": "Naprapat Caroline Engstrand",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Södra Helsingborg, Landskronavägen nära Ramlösa.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "careno1.se",
+      "company": "Remedy Care",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Naprapatklinik i Råå mellan Rydebäck och Helsingborg.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "plushalsan.se",
+      "company": "Plushälsan",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Naprapati och hälsa.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "nordicrefit.se",
+      "company": "Nordic Refit",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Helsingborg",
+      "note": "Naprapat i Helsingborg & Lund.",
+      "found_via": "naprapat helsingborg mottagning"
+    },
+    {
+      "domain": "kiro-jkpg.se",
+      "company": "Kiropraktorerna i Jönköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Legitimerade kiropraktorer sedan 1979, centrala Jönköping.",
+      "found_via": "kiropraktor jönköping klinik"
+    },
+    {
+      "domain": "primakiropraktik.se",
+      "company": "PRIMA KIROPRAKTIK",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Kiropraktor i Jönköping, fokus på spinal struktur.",
+      "found_via": "kiropraktor jönköping klinik"
+    },
+    {
+      "domain": "kiropraktikare.se",
+      "company": "Kiropraktik Åre",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Kiropraktik och fysioterapi i Jönköping, Batterigatan A6.",
+      "found_via": "kiropraktor jönköping klinik"
+    },
+    {
+      "domain": "ri-kliniken.se",
+      "company": "Rygg & Idrottskliniken Jönköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "NMES-träning, stötvåg, akupunktur, torrnål, manuell behandling.",
+      "found_via": "kiropraktor jönköping klinik"
+    },
+    {
+      "domain": "plusrehab.se",
+      "company": "Plus Rehab",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Naprapat i Jönköping med vårdavtal.",
+      "found_via": "kiropraktor jönköping klinik"
+    },
+    {
+      "domain": "medicrehab.se",
+      "company": "MedicRehab Jönköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Rehabilitering av naprapat, fysioterapeut, massageterapeut.",
+      "found_via": "naprapat jönköping fysioterapi"
+    },
+    {
+      "domain": "agilokliniken.se",
+      "company": "Agilokliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Västra Storgatan 19B, naprapat och fysioterapi.",
+      "found_via": "naprapat jönköping fysioterapi"
+    },
+    {
+      "domain": "physioformance.se",
+      "company": "Physioformance",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Jönköping",
+      "note": "Legitimerad fysioterapeut sedan 2014, Jönköpings Södra IF.",
+      "found_via": "naprapat jönköping fysioterapi"
+    },
+    {
+      "domain": "naprapateliten.se",
+      "company": "Naprapateliten",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Naprapateliten i Norrköping, även kiropraktor.",
+      "found_via": "kiropraktor norrköping klinik"
+    },
+    {
+      "domain": "andrenspraktik.se",
+      "company": "Andréns Praktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Erfaren kiropraktor och massageterapeut i Norrköping.",
+      "found_via": "kiropraktor norrköping klinik"
+    },
+    {
+      "domain": "ryggakuten.nu",
+      "company": "Ryggakuten Norrköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Ryggakuten Norrköping.",
+      "found_via": "kiropraktor norrköping klinik"
+    },
+    {
+      "domain": "naprapatakuten.net",
+      "company": "Naprapatakuten Norrköping",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Norrköping",
+      "note": "Etablerad 2003, Andreas Karlsson. Södra Promenaden 32.",
+      "found_via": "naprapat norrköping mottagning"
+    },
+    {
+      "domain": "kiropraktorlund.se",
+      "company": "Lunds Chiropraktormottagning",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Leg. kiropraktorer Birgitta Anconeus och Kurt Anconeus Richardsson. Gonstead-metoden.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "familjekiropraktik.se",
+      "company": "Lunds Familjekiropraktik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Familjebaserad kiropraktisk klinik. Leg. Kiropraktor Henrik Nordström.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "ryggcentrumlund.se",
+      "company": "Ryggcentrum Lund",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Vävaregatan 19. Medicinsk laser, akupunktur, rehab-träning.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "lommakiropraktorklinik.se",
+      "company": "Lomma Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Kiropraktor i Lomma som betjänar Lund-området.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "lommakiropraktor.se",
+      "company": "Lomma Kiropraktor",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Fri konsultation kiropraktik.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "akutkiropraktor.se",
+      "company": "Akut Kiropraktor",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Kiropraktor i Lund, akut.",
+      "found_via": "kiropraktor lund klinik"
+    },
+    {
+      "domain": "lundsnaprapatklinik.se",
+      "company": "Lunds Naprapatklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Stora Tomegatan sedan 1996. 046-211 06 05.",
+      "found_via": "naprapat lund fysioterapeut"
+    },
+    {
+      "domain": "stortorgetsfysio.se",
+      "company": "Stortorgets Fysioklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Fysioterapi & sjukgymnastik i Lund, mellan Botulfsplatsen och Stortorget.",
+      "found_via": "naprapat lund fysioterapeut"
+    },
+    {
+      "domain": "idrottshalsan.se",
+      "company": "Idrottshälsan i Skåne",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Porfyrvägen 14, 224 78 Lund. 046-157180.",
+      "found_via": "naprapat lund fysioterapeut"
+    },
+    {
+      "domain": "ryggochidrottskliniken.se",
+      "company": "Rygg och Idrottskliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Lund",
+      "note": "Leg. naprapat i Lund, Fredrik Jensen.",
+      "found_via": "naprapat lund fysioterapeut"
+    },
+    {
+      "domain": "stockholmsosteopaterna.se",
+      "company": "Stockholmsosteopaterna",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Osteopati och SE i Stockholm, klinik på Södermalm.",
+      "found_via": "osteopat stockholm göteborg malmö"
+    },
+    {
+      "domain": "ugglamassage.se",
+      "company": "Uggla Massage Osteopati",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Osteopat i Stockholm och Göteborg.",
+      "found_via": "osteopat stockholm göteborg malmö"
+    },
+    {
+      "domain": "vasastansosteopati.com",
+      "company": "Vasastans Osteopati",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Osteopatisk behandling i Stockholm Vasastan.",
+      "found_via": "osteopat stockholm göteborg malmö"
+    },
+    {
+      "domain": "stockholmsosteopatklinik.se",
+      "company": "Stockholms Osteopatklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "STOCKHOLMS OSTEOPATKLINIK.",
+      "found_via": "osteopat stockholm göteborg malmö"
+    },
+    {
+      "domain": "stockholmcityosteopat.se",
+      "company": "Stockholm City Osteopathy",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Registered Osteopath i Östermalm, Stockholm.",
+      "found_via": "osteopat stockholm göteborg malmö"
+    },
+    {
+      "domain": "brommaryggklinik.se",
+      "company": "Bromma Ryggklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Din naprapat i Stockholm, Bromma Ryggklinik.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "stockholmsryggklinik.se",
+      "company": "Stockholms Ryggklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Kiropraktor med 25 års erfarenhet i Stockholm.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "coryggkliniken.se",
+      "company": "c/o Ryggkliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Leg naprapat.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "odenplansryggklinik.se",
+      "company": "Odenplans Ryggklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Undersökning och diagnos inleder all behandling.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "klinik4.se",
+      "company": "Klinik4 Skärholmens Ortopedmottagning",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Skärholmens Ortopedmottagning.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "molnlyckeryggklinik.se",
+      "company": "Mölnlycke Ryggklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Göteborg",
+      "note": "Osteopati & massage hos Mölnlycke Ryggklinik.",
+      "found_via": "ryggklinik sverige behandling"
+    },
+    {
+      "domain": "atlaskiropraktorklinik.se",
+      "company": "Atlas Kiropraktorklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Sundbyberg",
+      "note": "Robert Johansson, leg. kiropraktor. Mariagatan 10 i Sundbyberg.",
+      "found_via": "kiropraktor sundbyberg solna täby"
+    },
+    {
+      "domain": "vigeokliniken.se",
+      "company": "Vigeokliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Solna",
+      "note": "Kiropraktor i Solna & Stockholm. Råsundavägen sedan 2018.",
+      "found_via": "kiropraktor sundbyberg solna täby"
+    },
+    {
+      "domain": "nordiskakiropraktorkliniken.se",
+      "company": "Nordiska Kiropraktorkliniken",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Sundbyberg",
+      "note": "Tulegatan 41 i Sundbyberg. Akut och förebyggande kiropraktik.",
+      "found_via": "kiropraktor sundbyberg solna täby"
+    },
+    {
+      "domain": "fysio.se",
+      "company": "Fysio Rehab & Fysioterapi",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Stockholm",
+      "note": "Fysio Rehab & Fysioterapi.",
+      "found_via": "kiropraktor sundbyberg solna täby"
+    },
+    {
+      "domain": "umearygg.se",
+      "company": "Umeå Rygg & Ledklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Ledande naprapati i Norrland. Naprapati, kiropraktik, osteopati, fysioterapi.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "aktivnaprapati.nu",
+      "company": "Aktiv Naprapati Umeå",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Din lokala naprapat i Umeå.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "naprapat-kliniken.se",
+      "company": "Naprapatkliniken Åke Häger",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Naprapat och massage i Umeå, Vännäs, Robertsfors, Nordmaling.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "naprapatsmedjan.se",
+      "company": "Naprapatsmedjan",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Din naprapat i Umeå med helhetsfokus.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "ryggochmuskelakuten.se",
+      "company": "Rygg och Muskelakuten",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Naprapat, Umeå, Vännäs, Robertsfors, Nordmaling.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "helheten.nu",
+      "company": "Helheten Massage & Friskvård",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Umeå",
+      "note": "Naprapat Ulf Salomonsson.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    },
+    {
+      "domain": "naprapatakuten-rn.se",
+      "company": "Naprapatakuten Rygg och Ledklinik",
+      "category": "Kiropraktor/Sjukgymnast",
+      "segment": "",
+      "city": "Luleå",
+      "note": "Naprapatakuten Rygg och Ledklinik, Luleå.",
+      "found_via": "naprapat umeå luleå sundsvall"
+    }
+  ],
+  "generated_at": "2026-04-16",
+  "branscher": [
+    "Takläggare",
+    "Skadedjur",
+    "Trädfällning",
+    "Markentreprenörer",
+    "Kiropraktor/Sjukgymnast"
+  ]
+}

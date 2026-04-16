@@ -1,0 +1,103 @@
+[2026-04-16T09:08:11.552Z] Loaded 90 prospects. PSI key=no
+[2026-04-16T09:08:11.576Z] [DEAD] carpevita.se — getaddrinfo ENOTFOUND carpevita.se
+[2026-04-16T09:08:11.623Z] [DEAD] viking-beds.se — getaddrinfo ENOTFOUND viking-beds.se
+[2026-04-16T09:08:11.688Z] [DEAD] sangkedjan.se — getaddrinfo ENOTFOUND sangkedjan.se
+[2026-04-16T09:08:11.894Z] [DEAD] euro-beds.se — getaddrinfo ENOTFOUND euro-beds.se
+[2026-04-16T09:08:11.895Z] [DEAD] sangdesign.se — getaddrinfo ENOTFOUND sangdesign.se
+[2026-04-16T09:08:11.918Z] [DEAD] sovea.se — status=409
+[2026-04-16T09:08:11.955Z] [DEAD] mattressonline.se — getaddrinfo ENOTFOUND mattressonline.se
+[2026-04-16T09:08:11.956Z] [DEAD] madrassonline.se — getaddrinfo ENOTFOUND madrassonline.se
+[2026-04-16T09:08:12.019Z] [DEAD] sangstallet.se — getaddrinfo ENOTFOUND sangstallet.se
+[2026-04-16T09:08:12.020Z] [DEAD] sangmagasinet.se — getaddrinfo ENOTFOUND sangmagasinet.se
+[2026-04-16T09:08:12.020Z] Progress: 10/90
+[2026-04-16T09:08:12.094Z] [DEAD] sangpartner.se — getaddrinfo ENOTFOUND sangpartner.se
+[2026-04-16T09:08:12.186Z] [DEAD] sangochmadrass.se — getaddrinfo ENOTFOUND sangochmadrass.se
+[2026-04-16T09:08:12.242Z] [DEAD] svanemadrass.se — getaddrinfo ENOTFOUND svanemadrass.se
+[2026-04-16T09:08:12.973Z] [DEAD] sofaplus.se — getaddrinfo ENOTFOUND sofaplus.se
+[2026-04-16T09:08:13.074Z] [DEAD] lergerbo.se — getaddrinfo ENOTFOUND lergerbo.se
+[2026-04-16T09:08:13.228Z] [DEAD] mobelkompaniet.se — getaddrinfo ENOTFOUND mobelkompaniet.se
+[2026-04-16T09:08:13.440Z] Progress: 20/90
+[2026-04-16T09:08:13.976Z] [DEAD] mobel1.se — getaddrinfo ENOTFOUND mobel1.se
+[2026-04-16T09:08:14.096Z] [DEAD] chilliseats.com — getaddrinfo ENOTFOUND chilliseats.com
+[2026-04-16T09:08:14.635Z] [DEAD] hadens.se — getaddrinfo ENOTFOUND hadens.se
+[2026-04-16T09:08:18.770Z] Progress: 30/90
+[2026-04-16T09:08:18.854Z] [DEAD] mobeltorget.se — getaddrinfo ENOTFOUND mobeltorget.se
+[2026-04-16T09:08:18.937Z] [DEAD] skovdemobler.se — getaddrinfo ENOTFOUND skovdemobler.se
+[2026-04-16T09:08:18.998Z] [DEAD] helsingborgmobler.se — getaddrinfo ENOTFOUND helsingborgmobler.se
+[2026-04-16T09:08:19.060Z] [DEAD] stockholmmobel.se — getaddrinfo ENOTFOUND stockholmmobel.se
+[2026-04-16T09:08:19.129Z] [DEAD] goteborgmobel.se — getaddrinfo ENOTFOUND goteborgmobel.se
+[2026-04-16T09:08:19.180Z] [DEAD] malmömobel.se — getaddrinfo ENOTFOUND xn--malmmobel-37a.se
+[2026-04-16T09:08:19.255Z] [DEAD] kungsbackamobler.se — getaddrinfo ENOTFOUND kungsbackamobler.se
+[2026-04-16T09:08:20.514Z] [DEAD] dahlgrensmobler.se — getaddrinfo ENOTFOUND dahlgrensmobler.se
+[2026-04-16T09:08:20.514Z] Progress: 40/90
+[2026-04-16T09:08:20.560Z] [DEAD] mellbystrand-mobler.se — getaddrinfo ENOTFOUND mellbystrand-mobler.se
+[2026-04-16T09:08:21.905Z] [DEAD] smdesign.se — getaddrinfo ENOTFOUND smdesign.se
+[2026-04-16T09:08:24.109Z] [DEAD] ikeaforbusiness.se — getaddrinfo ENOTFOUND ikeaforbusiness.se
+[2026-04-16T09:08:24.109Z] [DEAD] rh-stolen.se — getaddrinfo ENOTFOUND rh-stolen.se
+[2026-04-16T09:08:24.109Z] Progress: 50/90
+[2026-04-16T09:08:24.181Z] [DEAD] officesign.se — getaddrinfo ENOTFOUND officesign.se
+[2026-04-16T09:08:24.354Z] [DEAD] kontorsmarknaden.se — getaddrinfo ENOTFOUND kontorsmarknaden.se
+[2026-04-16T09:08:25.482Z] [DEAD] hammarby-mobler.se — getaddrinfo ENOTFOUND hammarby-mobler.se
+[2026-04-16T09:08:25.651Z] [DEAD] utemobelriket.se — getaddrinfo ENOTFOUND utemobelriket.se
+[2026-04-16T09:08:25.666Z] [DEAD] cinasutemobler.se — getaddrinfo ENOTFOUND cinasutemobler.se
+[2026-04-16T09:08:25.725Z] [DEAD] tradgardstorget.se — getaddrinfo ENOTFOUND tradgardstorget.se
+[2026-04-16T09:08:25.979Z] [DEAD] barnensmobler.se — getaddrinfo ENOTFOUND barnensmobler.se
+[2026-04-16T09:08:25.979Z] Progress: 60/90
+[2026-04-16T09:08:27.851Z] [DEAD] soffabolaget.se — getaddrinfo ENOTFOUND soffabolaget.se
+[2026-04-16T09:08:27.929Z] [DEAD] stolaronline.se — getaddrinfo ENOTFOUND stolaronline.se
+[2026-04-16T09:08:27.987Z] [DEAD] matsalsstolar.se — getaddrinfo ENOTFOUND matsalsstolar.se
+[2026-04-16T09:08:28.051Z] [DEAD] bordonline.se — getaddrinfo ENOTFOUND bordonline.se
+[2026-04-16T09:08:28.051Z] Progress: 70/90
+[2026-04-16T09:08:28.112Z] [DEAD] svenskebok.se — getaddrinfo ENOTFOUND svenskebok.se
+[2026-04-16T09:08:28.192Z] [DEAD] trehandlarna.se — getaddrinfo ENOTFOUND trehandlarna.se
+[2026-04-16T09:08:28.478Z] [DEAD] sovrummet.se — status=403
+[2026-04-16T09:08:28.497Z] [DEAD] drommebadd.se — getaddrinfo ENOTFOUND drommebadd.se
+[2026-04-16T09:08:28.538Z] [DEAD] sangsalongen.se — getaddrinfo ENOTFOUND sangsalongen.se
+[2026-04-16T09:08:28.578Z] [DEAD] sangcentrum.se — getaddrinfo ENOTFOUND sangcentrum.se
+[2026-04-16T09:08:28.661Z] [DEAD] sangportalen.se — getaddrinfo ENOTFOUND sangportalen.se
+[2026-04-16T09:08:28.933Z] [DEAD] sangensvarld.se — getaddrinfo ENOTFOUND sangensvarld.se
+[2026-04-16T09:08:28.933Z] Progress: 80/90
+[2026-04-16T09:08:38.647Z] Progress: 90/90
+[2026-04-16T09:08:38.652Z] Scan-phase 1 done in 27.1s
+[2026-04-16T09:08:38.653Z] Running PageSpeed for 40 live domains (concurrency 4)...
+[2026-04-16T09:08:38.947Z] [PSI-FAIL] carpediem.se — 429
+[2026-04-16T09:08:39.097Z] [PSI-FAIL] hilding.se — 429
+[2026-04-16T09:08:39.110Z] [PSI-FAIL] sangjatten.se — 429
+[2026-04-16T09:08:39.113Z] [PSI-FAIL] englesson.se — 429
+[2026-04-16T09:08:39.204Z] [PSI-FAIL] sangshop.se — 429
+[2026-04-16T09:08:39.205Z] [PSI-FAIL] sängvaruhuset.se — 429
+[2026-04-16T09:08:39.205Z] [PSI-FAIL] sova.se — 429
+[2026-04-16T09:08:39.304Z] [PSI-FAIL] chilli.se — 429
+[2026-04-16T09:08:39.395Z] [PSI-FAIL] tempur.se — 429
+[2026-04-16T09:08:39.400Z] [PSI-FAIL] nordiskagalleriet.se — 429
+[2026-04-16T09:08:39.467Z] [PSI-FAIL] trendrum.se — 429
+[2026-04-16T09:08:39.475Z] [PSI-FAIL] wonderland.se — 429
+[2026-04-16T09:08:39.493Z] [PSI-FAIL] svenssons.se — 429
+[2026-04-16T09:08:39.502Z] [PSI-FAIL] sofacompany.com — 429
+[2026-04-16T09:08:39.574Z] [PSI-FAIL] mobler.se — 429
+[2026-04-16T09:08:39.726Z] [PSI-FAIL] mobelshop.se — 429
+[2026-04-16T09:08:39.757Z] [PSI-FAIL] inr.se — 429
+[2026-04-16T09:08:39.774Z] [PSI-FAIL] kontorsmobler.se — 429
+[2026-04-16T09:08:39.819Z] [PSI-FAIL] mobelrondellen.se — 429
+[2026-04-16T09:08:39.820Z] [PSI-FAIL] smalandskontorsmobler.se — 429
+[2026-04-16T09:08:39.853Z] [PSI-FAIL] mobelhuset.se — 429
+[2026-04-16T09:08:39.910Z] [PSI-FAIL] artilleriet.se — 429
+[2026-04-16T09:08:39.924Z] [PSI-FAIL] carlanderska.se — 429
+[2026-04-16T09:08:39.978Z] [PSI-FAIL] designhouse.se — 429
+[2026-04-16T09:08:40.005Z] [PSI-FAIL] stockholmfurniture.se — 429
+[2026-04-16T09:08:40.030Z] [PSI-FAIL] mobelriket.se — 429
+[2026-04-16T09:08:40.083Z] [PSI-FAIL] hag.com — 429
+[2026-04-16T09:08:40.103Z] [PSI-FAIL] inhousegroup.se — 429
+[2026-04-16T09:08:40.168Z] [PSI-FAIL] kinnarps.com — 429
+[2026-04-16T09:08:40.190Z] [PSI-FAIL] brafab.se — 429
+[2026-04-16T09:08:40.263Z] [PSI-FAIL] babyland.se — 429
+[2026-04-16T09:08:40.285Z] [PSI-FAIL] martela.se — 429
+[2026-04-16T09:08:40.288Z] [PSI-FAIL] byon.se — 429
+[2026-04-16T09:08:40.399Z] [PSI-FAIL] jotex.se — 429
+[2026-04-16T09:08:40.488Z] [PSI-FAIL] jollyroom.se — 429
+[2026-04-16T09:08:40.537Z] [PSI-FAIL] buddybox.se — 429
+[2026-04-16T09:08:40.552Z] [PSI-FAIL] ellos.se — 429
+[2026-04-16T09:08:40.586Z] [PSI-FAIL] hm-home.com — 429
+[2026-04-16T09:08:40.647Z] [PSI-FAIL] lagerhaus.se — 429
+[2026-04-16T09:08:40.829Z] [PSI-FAIL] sanghuset.se — 429
+[2026-04-16T09:08:41.107Z] DONE. Counts: {"RING":0,"MEJLA":5,"SKIPPA":35,"DEAD":50}  Total time: 29.6s
