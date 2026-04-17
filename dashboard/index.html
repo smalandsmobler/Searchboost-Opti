@@ -40,6 +40,7 @@
         <a href="#" class="nav-link" data-view="queue">Arbetsflode</a>
         <a href="#" class="nav-link" data-view="reports">Rapporter</a>
         <a href="#" class="nav-link" data-view="content-blueprint">Content</a>
+        <a href="#" class="nav-link" data-view="ace">ACE</a>
         <a href="#" class="nav-link" data-view="security">Säkerhet</a>
         <a href="#" class="nav-link" data-view="linkedin">LinkedIn</a>
         <a href="#" class="nav-link" data-view="opportunities">Möjligheter</a>
@@ -478,6 +479,28 @@
       <div class="card">
         <h2 class="card-title">Veckorapporter</h2>
         <div id="reports-list" class="card-body">
+          <p class="empty">Laddar...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACE — Adaptive Content Engine -->
+    <section id="view-ace" class="view">
+      <div class="view-header">
+        <h1>Adaptive Content Engine</h1>
+        <button class="btn btn-primary" onclick="loadACE()">Uppdatera</button>
+      </div>
+      <div class="ace-legend">
+        <span class="ace-badge ace-boom">BOOM</span> Momentum &ge;+15 — lyft premiumvaror &nbsp;|&nbsp;
+        <span class="ace-badge ace-neutral">NEUTRAL</span> Stabil &nbsp;|&nbsp;
+        <span class="ace-badge ace-slump">SLUMP</span> Momentum &le;&minus;15 — lyft lockvaror &amp; prisbudskap
+      </div>
+      <div id="ace-grid" class="ace-grid">
+        <p class="empty">Laddar...</p>
+      </div>
+      <div class="card" style="margin-top:24px">
+        <h2 class="card-title">Historik — senaste beslut per kund</h2>
+        <div id="ace-history" class="card-body">
           <p class="empty">Laddar...</p>
         </div>
       </div>

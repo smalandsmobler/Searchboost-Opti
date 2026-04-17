@@ -8522,6 +8522,90 @@ app.delete('/api/customers/:id/social/posts/:postId', async (req, res) => {
   }
 });
 
+// ═══════════════════════════════════════════════════════════
+// ACE — Adaptive Content Engine endpoints
+// ═══════════════════════════════════════════════════════════
+
+// GET /api/ace/status — Senaste beslut per kund + historik (30 dagar)
+app.get('/api/ace/status', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+
+    // Senaste beslut per kund
+    const [latestRows] = await bq.query({
+      query: `
+        SELECT
+          customer_id, decision_date, strategy, momentum_score,
+          gsc_clicks_7d, gsc_clicks_prev7d, gsc_delta_pct,
+          ga4_sessions_7d, ga4_sessions_prev7d, ga4_delta_pct,
+          wc_revenue_7d, wc_revenue_prev7d, wc_delta_pct,
+          actions_taken
+        FROM (
+          SELECT *, ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY decision_date DESC) rn
+          FROM \`${dataset}.ace_decisions\`
+        )
+        WHERE rn = 1
+        ORDER BY momentum_score DESC
+      `,
+    });
+
+    // Historik senaste 30 dagar
+    const [historyRows] = await bq.query({
+      query: `
+        SELECT customer_id, decision_date, strategy, momentum_score,
+               gsc_delta_pct, ga4_delta_pct, wc_delta_pct
+        FROM \`${dataset}.ace_decisions\`
+        WHERE decision_date >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY)
+        ORDER BY decision_date DESC, customer_id
+        LIMIT 200
+      `,
+    });
+
+    res.json({
+      customers: latestRows.map(r => ({
+        ...r,
+        decision_date:  r.decision_date?.value || r.decision_date,
+        momentum_score: parseFloat(r.momentum_score || 0),
+        gsc_delta_pct:  parseFloat(r.gsc_delta_pct || 0),
+        ga4_delta_pct:  parseFloat(r.ga4_delta_pct || 0),
+        wc_delta_pct:   parseFloat(r.wc_delta_pct || 0),
+      })),
+      history: historyRows.map(r => ({
+        ...r,
+        decision_date:  r.decision_date?.value || r.decision_date,
+        momentum_score: parseFloat(r.momentum_score || 0),
+        gsc_delta_pct:  parseFloat(r.gsc_delta_pct || 0),
+        ga4_delta_pct:  parseFloat(r.ga4_delta_pct || 0),
+        wc_delta_pct:   parseFloat(r.wc_delta_pct || 0),
+      })),
+    });
+  } catch (e) {
+    console.error('[ace/status] fel:', e.message);
+    // Returnera tom data om tabellen inte skapats än
+    res.json({ customers: [], history: [], note: 'ACE-data byggs upp när Lambda kört minst en gång.' });
+  }
+});
+
+// POST /api/ace/run — Manuell trigga ACE för en kund (för testning)
+app.post('/api/ace/run', async (req, res) => {
+  const { customer_id } = req.body || {};
+  if (!customer_id) return res.status(400).json({ error: 'customer_id krävs' });
+
+  try {
+    const lambda = new (require('@aws-sdk/client-lambda').LambdaClient)({ region: REGION });
+    const { InvokeCommand } = require('@aws-sdk/client-lambda');
+    const result = await lambda.send(new InvokeCommand({
+      FunctionName: 'adaptive-merchandiser',
+      InvocationType: 'RequestResponse',
+      Payload: Buffer.from(JSON.stringify({ customers: [customer_id] })),
+    }));
+    const payload = JSON.parse(Buffer.from(result.Payload));
+    res.json({ success: true, result: payload });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 // ── Start server ──
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {

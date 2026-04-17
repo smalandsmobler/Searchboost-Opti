@@ -5943,3 +5943,82 @@ async function uploadLlmTxt(customerId) {
   }
   uploadBtn.disabled = false;
 }
+
+// ═══════════════════════════════════════════════════════════
+// ACE — Adaptive Content Engine
+// ═══════════════════════════════════════════════════════════
+
+async function loadACE() {
+  const grid    = document.getElementById('ace-grid');
+  const history = document.getElementById('ace-history');
+  if (!grid) return;
+  grid.innerHTML    = '<p class="empty">Hämtar data...</p>';
+  history.innerHTML = '<p class="empty">Hämtar historik...</p>';
+
+  try {
+    const data = await api('/api/ace/status');
+
+    if (!data.customers || data.customers.length === 0) {
+      grid.innerHTML = '<p class="empty">Inga ACE-data ännu — systemet kör kl 06:00 varje dag.</p>';
+      return;
+    }
+
+    const stratIcon = { BOOM: '🚀', NEUTRAL: '➡️', SLUMP: '📉' };
+    const stratClass = { BOOM: 'ace-boom', NEUTRAL: 'ace-neutral', SLUMP: 'ace-slump' };
+
+    grid.innerHTML = data.customers.map(c => `
+      <div class="ace-card ${stratClass[c.strategy] || ''}">
+        <div class="ace-card-header">
+          <span class="ace-icon">${stratIcon[c.strategy] || '?'}</span>
+          <span class="ace-customer">${c.customer_id}</span>
+          <span class="ace-badge ${stratClass[c.strategy] || ''}">${c.strategy}</span>
+        </div>
+        <div class="ace-score">Score: <strong>${(c.momentum_score || 0).toFixed(1)}</strong></div>
+        <div class="ace-metrics">
+          <div class="ace-metric">
+            <span class="ace-label">GSC klick</span>
+            <span class="ace-val">${c.gsc_clicks_7d || 0} <em class="${(c.gsc_delta_pct||0)>=0?'pos':'neg'}">${(c.gsc_delta_pct||0)>=0?'+':''}${(c.gsc_delta_pct||0).toFixed(1)}%</em></span>
+          </div>
+          <div class="ace-metric">
+            <span class="ace-label">GA4 sessioner</span>
+            <span class="ace-val">${c.ga4_sessions_7d || 0} <em class="${(c.ga4_delta_pct||0)>=0?'pos':'neg'}">${(c.ga4_delta_pct||0)>=0?'+':''}${(c.ga4_delta_pct||0).toFixed(1)}%</em></span>
+          </div>
+          ${c.wc_revenue_7d ? `<div class="ace-metric">
+            <span class="ace-label">WC intäkt</span>
+            <span class="ace-val">${Math.round(c.wc_revenue_7d).toLocaleString('sv-SE')} kr <em class="${(c.wc_delta_pct||0)>=0?'pos':'neg'}">${(c.wc_delta_pct||0)>=0?'+':''}${(c.wc_delta_pct||0).toFixed(1)}%</em></span>
+          </div>` : ''}
+        </div>
+        <div class="ace-date">Senaste beslut: ${c.decision_date || '—'}</div>
+      </div>
+    `).join('');
+
+    // Historik-tabell
+    if (data.history && data.history.length > 0) {
+      history.innerHTML = `<table class="ace-history-table">
+        <thead><tr><th>Datum</th><th>Kund</th><th>Strategi</th><th>Score</th><th>GSC Δ</th><th>GA4 Δ</th><th>WC Δ</th></tr></thead>
+        <tbody>${data.history.map(h => `
+          <tr>
+            <td>${h.decision_date}</td>
+            <td>${h.customer_id}</td>
+            <td><span class="ace-badge ${stratClass[h.strategy] || ''}">${h.strategy}</span></td>
+            <td>${(h.momentum_score||0).toFixed(1)}</td>
+            <td class="${(h.gsc_delta_pct||0)>=0?'pos':'neg'}">${(h.gsc_delta_pct||0)>=0?'+':''}${(h.gsc_delta_pct||0).toFixed(1)}%</td>
+            <td class="${(h.ga4_delta_pct||0)>=0?'pos':'neg'}">${(h.ga4_delta_pct||0)>=0?'+':''}${(h.ga4_delta_pct||0).toFixed(1)}%</td>
+            <td class="${(h.wc_delta_pct||0)>=0?'pos':'neg'}">${(h.wc_delta_pct||0)>=0?'+':''}${(h.wc_delta_pct||0).toFixed(1)}%</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>`;
+    } else {
+      history.innerHTML = '<p class="empty">Historik byggs upp dag för dag.</p>';
+    }
+  } catch (err) {
+    grid.innerHTML = `<p class="empty" style="color:#ef4444">Fel: ${err.message}</p>`;
+  }
+}
+
+// Ladda ACE när fliken öppnas
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.nav-link[data-view="ace"]').forEach(el => {
+    el.addEventListener('click', () => setTimeout(loadACE, 100));
+  });
+});

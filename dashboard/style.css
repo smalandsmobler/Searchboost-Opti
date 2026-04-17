@@ -4849,3 +4849,84 @@ footer {
 .btn-icon-sm:hover {
   background: rgba(239, 68, 68, 0.12);
 }
+
+/* ═══════════════════════════════════════
+   ACE — Adaptive Content Engine
+   ═══════════════════════════════════════ */
+
+.ace-legend {
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary, #94a3b8);
+}
+
+.ace-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.ace-boom    { background: rgba(0,230,118,0.15); color: #00e676; border: 1px solid #00e676; }
+.ace-neutral { background: rgba(0,212,255,0.12); color: #00d4ff; border: 1px solid #00d4ff; }
+.ace-slump   { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid #ef4444; }
+
+.ace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.ace-card {
+  background: var(--card-bg, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 12px;
+  padding: 20px;
+  transition: box-shadow 0.2s;
+}
+.ace-card.ace-boom    { border-color: #00e67640; box-shadow: 0 0 12px rgba(0,230,118,0.08); }
+.ace-card.ace-slump   { border-color: #ef444440; box-shadow: 0 0 12px rgba(239,68,68,0.08); }
+
+.ace-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.ace-icon     { font-size: 1.4rem; }
+.ace-customer { flex: 1; font-weight: 600; font-size: 0.95rem; }
+
+.ace-score {
+  font-size: 1.1rem;
+  margin-bottom: 14px;
+  color: var(--text-secondary, #94a3b8);
+}
+.ace-score strong { color: var(--text, #e2e8f0); font-size: 1.3rem; }
+
+.ace-metrics { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.ace-metric  { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
+.ace-label   { color: var(--text-secondary, #94a3b8); }
+.ace-val     { font-weight: 500; }
+.ace-val em  { font-style: normal; font-size: 0.8rem; margin-left: 4px; }
+
+.pos { color: #00e676; }
+.neg { color: #ef4444; }
+
+.ace-date { font-size: 0.75rem; color: var(--text-secondary, #64748b); }
+
+.ace-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.ace-history-table th,
+.ace-history-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border, #334155);
+  text-align: left;
+}
+.ace-history-table th { color: var(--text-secondary, #94a3b8); font-weight: 600; }
+.ace-history-table tr:hover td { background: rgba(255,255,255,0.03); }
