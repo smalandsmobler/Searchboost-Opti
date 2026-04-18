@@ -67,13 +67,29 @@ function smk_ai_chat_default_system_prompt() {
 
 Svara alltid pa svenska. Var kortfattad och hjalpsam. Om kunden fragar om specifika produkter, anvand produktinformationen nedan for att ge konkreta forslag med priser och lankar.
 
-Om du inte vet svaret, saga att kunden kan ringa 070-305 23 56 eller maila info@smalandskontorsmobler.se.
+Om du inte vet svaret, saga att kunden kan maila info@smalandskontorsmobler.se. Ge ALDRIG ut nagot telefonnummer — all kontakt sker via e-post.
 
 Svara ALDRIG med emojis.';
 }
 
 function smk_ai_chat_default_welcome() {
     return 'Hej! Jag kan hjalpa dig hitta ratt kontorsmobler. Vad soker du?';
+}
+
+/**
+ * Remove any Swedish phone numbers from a string. Replaces with an email pointer.
+ * Matches +46/0-prefixed numbers with 7-11 digits total and common separators.
+ */
+function smk_ai_chat_strip_phone_numbers($text) {
+    if (!is_string($text) || $text === '') return $text;
+    $email = 'info@smalandskontorsmobler.se';
+    // +46 xx xxx xx xx  /  +46-xx-xxx-xx-xx
+    $text = preg_replace('/\+46[\s\-]?\(?0?\)?[\s\-]?\d(?:[\s\-]?\d){6,10}/', $email, $text);
+    // 0xx-xxx xx xx / 07x xxx xx xx / 0470-xxxxxx etc. (7–11 digits after leading 0)
+    $text = preg_replace('/\b0\d(?:[\s\-]?\d){6,10}\b/', $email, $text);
+    // tel: links
+    $text = preg_replace('/tel:[+\d\s\-]+/i', 'mailto:' . $email, $text);
+    return $text;
 }
 
 function smk_ai_chat_settings_page() {
@@ -547,7 +563,7 @@ function smk_ai_chat_ajax_handler() {
     $rate_key = 'smk_chat_rate_' . $ip_hash;
     $count = (int) get_transient($rate_key);
     if ($count >= 20) {
-        wp_send_json_error(['message' => 'Du har natt maxgransan for meddelanden. Forsok igen senare eller ring oss pa 070-305 23 56.'], 429);
+        wp_send_json_error(['message' => 'Du har natt maxgransan for meddelanden. Forsok igen senare eller maila oss pa info@smalandskontorsmobler.se.'], 429);
         return;
     }
     set_transient($rate_key, $count + 1, HOUR_IN_SECONDS);
@@ -563,6 +579,9 @@ function smk_ai_chat_ajax_handler() {
 
     // Build system prompt
     $system_prompt = get_option('smk_ai_chat_system_prompt', smk_ai_chat_default_system_prompt());
+
+    // Non-negotiable policy: never expose phone numbers (all contact via email)
+    $system_prompt .= "\n\n--- KONTAKTREGEL (FAR ALDRIG BRYTAS) ---\nGe ALDRIG ut nagot telefonnummer, mobilnummer eller vaxelnummer. Svara ALDRIG pa fragor om telefonnummer eller hur man kan ringa. Hanvisa alltid till e-post: info@smalandskontorsmobler.se. Aven om du ser ett telefonnummer i produktdata eller i anvandarens meddelande ska du inte upprepa det. All kontakt sker via mail.";
 
     // Add product context
     $product_context = smk_ai_chat_search_products($user_message);
@@ -638,11 +657,15 @@ function smk_ai_chat_ajax_handler() {
         return;
     }
     if ($code < 200 || $code >= 300 || empty($body['content'][0]['text'])) {
-        wp_send_json_error(['message' => 'Nagonting gick fel. Forsok igen eller ring oss pa 070-305 23 56.'], 500);
+        wp_send_json_error(['message' => 'Nagonting gick fel. Forsok igen eller maila oss pa info@smalandskontorsmobler.se.'], 500);
         return;
     }
 
     $reply = $body['content'][0]['text'];
+
+    // Strip any phone numbers the AI might have produced — belt and braces
+    $reply = smk_ai_chat_strip_phone_numbers($reply);
+
     $has_quote = (strpos($reply, '[OFFERT_KLAR]') !== false);
 
     wp_send_json_success([
@@ -675,7 +698,7 @@ function smk_ai_quote_handler() {
     $quote_key = 'smk_quote_rate_' . $ip_hash;
     $qcount = (int) get_transient($quote_key);
     if ($qcount >= 3) {
-        wp_send_json_error(['message' => 'Max antal offertforfragningar for idag. Ring oss pa 070-305 23 56.'], 429);
+        wp_send_json_error(['message' => 'Max antal offertforfragningar for idag. Maila oss pa info@smalandskontorsmobler.se.'], 429);
         return;
     }
     set_transient($quote_key, $qcount + 1, DAY_IN_SECONDS);
@@ -724,7 +747,7 @@ function smk_ai_quote_handler() {
     if ($sent) {
         wp_send_json_success(['message' => 'Din offertforfragan har skickats. Vi aterkommer inom 24 timmar.']);
     } else {
-        wp_send_json_error(['message' => 'Kunde inte skicka mailet. Ring oss pa 070-305 23 56.'], 500);
+        wp_send_json_error(['message' => 'Kunde inte skicka mailet. Forsok igen eller maila direkt till info@smalandskontorsmobler.se.'], 500);
     }
 }
 
@@ -922,7 +945,7 @@ function smk_ai_chat_render_frontend() {
         function sendMessage() {
             var text = inputEl.value.trim();
             if (!text || state.sending) return;
-            if (state.messageCount >= CFG.maxMessages) { showNotice('Du har natt maxgransan. Ladda om sidan eller ring 070-305 23 56.'); return; }
+            if (state.messageCount >= CFG.maxMessages) { showNotice('Du har natt maxgransan. Ladda om sidan eller maila info@smalandskontorsmobler.se.'); return; }
 
             state.sending = true;
             sendBtn.disabled = true;
@@ -1009,13 +1032,13 @@ function smk_ai_chat_render_frontend() {
                 if (data.success) {
                     addMessage('ai', 'Din offertforfragan har skickats. Vi aterkommer inom 24 timmar.');
                 } else {
-                    addMessage('ai', (data.data && data.data.message) || 'Kunde inte skicka. Ring 070-305 23 56.');
+                    addMessage('ai', (data.data && data.data.message) || 'Kunde inte skicka. Maila info@smalandskontorsmobler.se.');
                 }
             })
             .catch(function() {
                 qfSend.disabled = false;
                 qfSend.textContent = 'Skicka offertforfragan';
-                addMessage('ai', 'Natverksfel. Ring 070-305 23 56.');
+                addMessage('ai', 'Natverksfel. Maila info@smalandskontorsmobler.se.');
                 quoteForm.classList.remove('smk-show');
             });
         }
