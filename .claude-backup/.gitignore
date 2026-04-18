@@ -1,0 +1,8 @@
+# Filer med credentials/PIN-koder - lagras INTE i GitHub
+ferox_shopify.md
+api-keys.md
+identity.md
+kunder.md
+kunder_humanpower.md
+settings.json
+*.env
