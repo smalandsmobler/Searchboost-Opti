@@ -17,7 +17,21 @@ type: project
 - **Skyldig per 2026-04-12**: ca 16 571 kr (feb delvis + mars + apr löpande)
 
 ## Nästa steg
-- [ ] Vecka 22 artiklar (3 st) — skriv nästa batch
+- [ ] Vecka 24 artiklar (3 st)
+
+## Klart 2026-04-20 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:307):
+  - ID:23834 /sv/nikotinpasar-styrka-guide/ (focus: nikotinpåsar styrka)
+  - ID:23835 /sv/zyn-nikotinpasar-guide/ (focus: zyn nikotinpåsar)
+  - ID:23836 /sv/nikotinpasar-utan-tobak-guide/ (focus: nikotinpåsar utan tobak)
+- [x] Rank Math-metadata via `/sv/wp-json/rankmath/v1/updateMeta` (WPML-path)
+  *OBS: wp_credentials.md kan vara inaktuell — rätt app-password ligger i SSM `/seo-mcp/wordpress/nordicsnusonline/app-password`*
+
+## Klart 2026-04-20 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:307):
+  - ID:23831 /sv/slim-nikotinpasar-guide/ (focus: slim nikotinpåsar)
+  - ID:23832 /sv/snus-vs-nikotinpasar-skillnad/ (focus: snus vs nikotinpåsar)
+  - ID:23833 /sv/kopa-nikotinpasar-online-sverige/ (focus: köpa nikotinpåsar online)
 - [ ] GSC-data dyker upp imorgon 04:00 — kolla positioner
 - [ ] Registrera i customer_pipeline
 

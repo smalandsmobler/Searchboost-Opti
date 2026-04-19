@@ -6,13 +6,27 @@ type: project
 
 # Ilmonte — Tasks
 
-**Status**: 🔴 RETENTION + 🚨 MALWARE INCIDENT
-**Retention**: 30 dagar gratis från 2026-04-08 till ~2026-05-08
+**Status**: 🟡 RETENTION — väntar på beslut 9 maj
+**Retention**: 30 dagar gratis, slutar ~2026-05-09
 **Kontakt**: Peter Vikström (sales@ilmonte.se)
-**Site**: https://ilmonte.se
+**Site**: https://ilmonte.se (migrerad till Loopia — OK)
 **WP-creds**: OK (Mikael Larsson-konto, app-password i SSM)
 
-## 🚨 HÖGSTA PRIO — Malware-cleanup (BLOCKERAR ALLT ANNAT)
+## Fakturering
+
+- **Faktura skickad 2026-04-19**: 5 000 kr — akutinsats hackattack (malware-rensning ×4, databasexponering, migration Loopia, forensisk rapport 11 sidor). Betalvillkor 11 dagar → förfall ~2026-04-30.
+- **Beslutspunkt 9 maj**: Om Peter fortsätter → 2 fakturor samma dag (retention-period + ny månad SEO). Om han hoppar av → inga fler fakturor.
+
+## Malware — LÖST 2026-04-19
+
+Allt nedan är åtgärdat:
+- ~4 118 casino/spam-URL:er rensade
+- Databas exponerad på Beebyte — stängd
+- Malware rensad 4 omgångar
+- Sajten migrerad till Loopia
+- 11-sidig forensisk rapport skriven och levererad
+
+## 🚨 ~~HÖGSTA PRIO — Malware-cleanup~~ (LÖST)
 
 **Upptäckt 2026-04-16 via full SEO-audit.**
 
@@ -94,6 +108,24 @@ type: project
 - [ ] Dölj `x-powered-by:` (PHP-version exponeras)
 
 ---
+
+## Klart 2026-04-20 (vecka 26)
+- [x] 3 artiklar publicerade vecka 26 (kat ID:1068):
+  - ID:20694 /ljudsystem-event-guide/ (focus: ljudsystem event)
+  - ID:20695 /eventbelysning-hyra-guide/ (focus: eventbelysning hyra)
+  - ID:20696 /cocktailbord-hyra-event/ (focus: cocktailbord hyra event)
+
+## Klart 2026-04-20 (vecka 25)
+- [x] 3 artiklar publicerade vecka 25 (kat ID:1068):
+  - ID:20691 /bakgrundsvagg-event/ (focus: bakgrundsvägg event)
+  - ID:20692 /scendekoration/ (focus: scendekoration)
+  - ID:20693 /scenljus-hyra/ (focus: scenljus hyra)
+
+## Klart 2026-04-20 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:1068):
+  - ID:20686 /hyra-scenpodium/ (focus: hyra scenpodium)
+  - ID:20687 /eventmobler-konferens/ (focus: eventmöbler konferens)
+  - ID:20688 /talarpodium/ (focus: talarpodium)
 
 ## Tidigare klart
 

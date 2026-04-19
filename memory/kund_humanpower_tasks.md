@@ -12,7 +12,29 @@ type: project
 ## Nästa steg
 - [ ] Lägg till SA i GSC: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com (Fullständig) — Mikael gör manuellt i GSC > Inställningar > Användare och behörigheter
 - [x] Org.nr i footer: Human Power Sweden AB · Org.nr: 559256-7464 · info@humanpower.se (hittad via allabolag.se, Anette Brink ledamot)
-- [ ] Ny batch artiklar vecka 22
+- [ ] Ny batch artiklar vecka 24
+
+## Klart 2026-04-20 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:46 Inspiration & insikt):
+  - ID:824 /andningsovningar-angest-guide/ (focus: andningsövningar ångest)
+  - ID:825 /somnproblem-stress-guide/ (focus: sömnproblem stress)
+  - ID:826 /inre-kritiker-overvinna-guide/ (focus: inre kritiker övervinna)
+
+## Klart 2026-04-20 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:46 Inspiration & insikt):
+  - ID:821 /mindfulness-ovningar-hemma/ (focus: mindfulness övningar)
+  - ID:822 /satta-granser/ (focus: sätta gränser)
+  - ID:823 /tacksamhetsdagbok/ (focus: tacksamhetsdagbok)
+- [x] Mail skickat till Anette 2026-04-19
+- [ ] Bio + foto från Anette: hennes presentation (Human Power) + hon & David (Reboot)
+- [ ] Körresa-priser: Anette ska tydliggöra exakt vilket avsnitt/sida som avses
+
+## Klart 2026-04-19 (Anette-feedback)
+- [x] **Kosttillskott (ID 27)**: Hero bytt till isländskt landskapsfoto (ID 815). Alla 4 produktkort uppdaterade med officiella SagaNatura burk-bilder (IDs 816-819). WooCommerce produktbilder också uppdaterade.
+- [x] **WooCommerce priser**: `woocommerce_tax_display_cart` satt till `incl` → 14 895 kr visas nu konsekvent i shop + kassa (var 11 916 kr exkl. moms i kassan).
+- [x] **Reboot datum (ID 23)**: Datum 15-19 april (fixat från 16-19). "Exkl. flyg" tillagt vid alla prisceller.
+- [x] **Utvecklande samtal (ID 26)**: "Varje session är 75 min." tillagt i anmälningsformulärets placseholder-text. Alt-text "Terapirum" korrigerad till "Samtalsrum".
+- [x] **Mailmall sparad**: `content-pages/mail-humanpower-anette-uppdat.md` — listar allt klart + frågar om körresa-priser och bio/foto.
 
 ## Klart 2026-04-16
 - [x] Utvecklande samtal (ID 26): hero nu full viewport-bredd. Kadence meta satt: `_kad_post_layout=fullwidth`, `_kad_post_content_style=unboxed`, `_kad_post_vertical_padding=remove`. CSS-override injicerad överst i content för att bryta ut `.wp-block-cover.alignfull` från `.content-container.site-container`.

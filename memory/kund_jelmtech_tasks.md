@@ -12,8 +12,22 @@ type: project
 **Bransch**: B2B produktutveckling — plastkonstruktion, industridesign, prototyper
 
 ## Nästa steg
-- [ ] Interna länkar mellan tjänstesidorna (saknas nästan helt)
-- [ ] Ny batch artiklar vecka 22
+- [x] Interna länkar mellan tjänstesidorna — 5 sidor uppdaterade 2026-04-20 med "Relaterade tjänster"-block (simulering↔produktoptimering↔verktygsberedning↔uppmätning↔montage)
+- [ ] Ny batch artiklar vecka 24
+
+## Klart 2026-04-20 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:48 Produktutveckling):
+  - ID:7730 /produktutveckling/polyamid-formsprutning-guide/ (focus: polyamid formsprutning)
+  - ID:7731 /produktutveckling/insert-moulding-guide/ (focus: insert moulding plast)
+  - ID:7732 /produktutveckling/konstruktionsplast-egenskaper-guide/ (focus: konstruktionsplast egenskaper)
+- [x] Rank Math metadata verifierad korrekt (Code Snippet ID:18 fungerande)
+
+## Klart 2026-04-20 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:48 Produktutveckling):
+  - ID:7719 /produktutveckling/2k-formsprutning-guide/ (focus: 2K formsprutning)
+  - ID:7725 /produktutveckling/ytbehandling-plast/ (focus: ytbehandling plast)
+  - ID:7726 /produktutveckling/teknisk-dokumentation-produktutveckling/ (focus: teknisk dokumentation produktutveckling)
+- [x] Rank Math metadata satt på ovanstående (fokusord, SEO-titel, metabeskrivning)
 
 ## Klart 2026-04-15 (vecka 21)
 - [x] Meta descriptions + focus keywords satta på 5 tjänstesidor via REST API:

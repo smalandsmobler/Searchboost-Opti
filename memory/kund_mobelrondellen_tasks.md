@@ -6,13 +6,40 @@ type: project
 
 # Möbelrondellen — Tasks
 
-**Status**: Aktiv
+**Status**: Aktiv — relation reparerad
 **Kontakt**: Mattias (mattias@mobelrondellen.se)
 **Site**: https://mobelrondellen.se (React SPA + WP/WooCommerce hybrid, Sucuri WAF)
 
+## Fakturering
+
+- **Faktura skickad 2026-04-19** (10 dagar försenad): **8 750 kr** — 10 dagars betalvillkor → förfall ~2026-04-29.
+- Mattias var missnöjd ett tag men ger nu positiv feedback. Relationen OK.
+
 ## Nästa steg
 - [ ] Mattias: ladda upp leverantörsbilder som kategori-thumbnails (matmöbler, sängar)
-- [ ] Nästa batch artiklar vecka 21
+- [ ] Nästa batch artiklar vecka 24
+
+## Klart 2026-04-20 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:113 Blogg):
+  - ID:5360 /skrivbord-hemmakontor-guide/ (focus: skrivbord hemmakontor)
+  - ID:5361 /barnmobler-barnrum-guide/ (focus: barnmöbler guide)
+  - ID:5362 /forvaring-sovrum-guide/ (focus: förvaring sovrum)
+  *OBS: Permalink-struktur är date-based (/2026/04/19/slug/) — Mattias behöver byta till /%postname%/ i WP-admin → Inställningar → Permalänkar*
+
+## Klart 2026-04-20 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:113 Blogg):
+  - ID:5357 /sanggavel-guide/ (focus: sänggavel)
+  - ID:5358 /hall-mobbler-guide/ (focus: hall möbler)
+  - ID:5359 /koksstol-guide/ (focus: köksstol)
+
+## Klart 2026-04-20 (vecka 21)
+- [x] 3 artiklar publicerade vecka 21 (kat ID:113 Blogg):
+  - ID:5354 /vardagsrumsmobler-guide/ (focus: vardagsrumsmöbler)
+  - ID:5355 /valja-matbord-storlek-guide/ (focus: matbord storlek)
+  - ID:5356 /byra-sovrum-forvaring-guide/ (focus: byrå sovrum)
+
+## Klart 2026-04-19
+- [x] **Produktgalleri thumbnail-fix** (snippet #112, aktiv): Optimole lazy-loadade galleribilderna EFTER WooCommerce flexslider initierade, vilket fick thumbnail-klick att sluta fungera. Fix: PHP-filter `optml_lazyload_disabled_for_element` exkluderar `.woocommerce-product-gallery` från lazy load + JS MutationObserver reinitar flexslider vid behov. Verifierat live — gallery-bilder har nu riktig `src` (ej bara `data-opt-src`).
 
 ## Klart 2026-04-16
 - [x] **Info-box "Normalt lagervara"** tillagd på produktsidor via Code Snippet #55. Hakar in på `woocommerce_single_product_summary` priority 25.

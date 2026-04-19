@@ -6,10 +6,13 @@ type: project
 
 # Traficator — Tasks
 
-**Status**: Aktiv — möte gick bra, nytt möte onsdag 16 april, förnyelse trolig
+**Status**: Aktiv
 **Kontakt**: Patrik Carlsson (patrik.carlsson@traficator.se)
 **Site**: https://traficator.se (WP 6.9.1 + Flatsome-child v3.0 + Rank Math SEO Pro + Polylang)
 **Admin access**: `mikael`-konto full admin, verifierat 2026-04-09
+
+## Fakturering
+- **Faktura utestående**: 22 500 kr ink moms — förfall **26 april**
 **REGEL**: Patrik vill ha MAIL varje gång vi gör ändringar på sajten. Skicka alltid uppdateringsmail efter arbete.
 
 ## Nästa steg
@@ -102,6 +105,81 @@ type: project
 - ~500 imp/mån på pressgjutning-relaterade sökord i position 14-57
 - Potential: 100-150 nya klick/mån om vi når topp 3 på dessa
 - 4 pelarartiklar ligger nu live som grund för detta
+
+## Klart 2026-04-18 — Full teknisk SEO-audit + fixes
+
+### Audit-resultat (90 items skannade: 49 pages + 41 posts)
+- ✅ 0 pages/posts saknar Rank Math title eller description (metadata-täckning 100%)
+- ✅ 0 bilder saknar alt-text (81 bilder i media-bibl.)
+- ✅ 0 pages i `noindex` av misstag
+- ✅ Schema live: Organization, WebSite, Service, FAQPage, Article, BreadcrumbList
+- ✅ Sitemap OK (Rank Math): post/page/category/local
+- ✅ Homepage TTFB 0,78s / total 0,88s (godtagbart)
+- ⚠️ 3 artiklar publicerade LIVE med placeholder-text `$CONTENT1/2/3` — allvarligt SEO-problem
+- ⚠️ 3 par duplicate-slugs med `-2`-suffix (länkkraft splittrad)
+- ⚠️ 1 kannibalisering (två artiklar med IDENTISKT focus keyword "aluminium zink gjutning")
+- ⚠️ 5 posts saknade focus keyword (har title + desc men Rank Math kan inte poäng-sätta)
+- ⚠️ Sida `/guider/` hade fel Rank Math title ("Pressgjutning aluminium" — kopiering)
+
+### Utfört (12 fixes, alla verifierade)
+| # | Fix | Detalj |
+|---|-----|--------|
+| 1 | DRAFT post 1633 `sandgjutning-aluminium-guide` | Innehöll bara `$CONTENT1` placeholder |
+| 2 | DRAFT post 1634 `precisionsgjutning-vaxgjutning-guide` | Innehöll bara `$CONTENT2` placeholder |
+| 3 | DRAFT post 1635 `gjutet-gods-tekniska-ritningar-toleranser` | Innehöll bara `$CONTENT3` placeholder |
+| 4 | DRAFT post 1639 `aluminium-vs-zink-gjutning-2` | Kannibaliserade 1637 (samma focus kw, kortare innehåll) |
+| 5 | Focus kw på 1501 | `stål vs aluminium gjutgods` |
+| 6 | Focus kw på 1498 | `aluminiumgjutning egenskaper` |
+| 7 | Focus kw på 1495 | `material sourcing guide` |
+| 8 | Focus kw på 1494 | `sourcing asien kvalitet` |
+| 9 | Focus kw på 1493 | `sandgjutning vs pressgjutning` |
+| 10 | Rank Math title + desc + kw på sida 1573 `/guider/` | Ny title: "Guider om gjutning, bearbetning och sourcing \| Traficator" |
+| 11 | Rename slug 1638 | `formgjutning-guide-2` → `formgjutning-vilka-metoder` (301 verifierad) |
+| 12 | Rename slug 1641 | `pressgjutning-aluminium-guide-2` → `pressgjutning-aluminium-process` (301 verifierad) |
+
+Gamla URL:er ger 301 → nya slugs via WordPress native `_wp_old_slug`. Sitemapen är rensad.
+
+### Att skriva (blockerar inte SEO nu men är innehålls-luckor)
+- [ ] Innehåll för **sandgjutning-aluminium-guide** (ID 1633) — fokus: sandgjutning aluminium
+- [ ] Innehåll för **precisionsgjutning-vaxgjutning-guide** (ID 1634) — fokus: precisionsgjutning
+- [ ] Innehåll för **gjutet-gods-tekniska-ritningar-toleranser** (ID 1635) — fokus: gjutgods ritning
+  *(Publicera om som `publish` när innehåll finns. Artiklarna ligger som draft i admin.)*
+
+### Mail till Patrik — säg ungefär
+> Hej Patrik,
+>
+> Vi körde en komplett teknisk SEO-audit på traficator.se idag och åtgärdade 12 punkter:
+>
+> **Kritiskt åtgärdat:** Vi hittade 3 artiklar som råkat publiceras med platshållartext istället för innehåll — de serverades live till besökare och Google. Avpublicerade omedelbart, kommer skrivas färdigt nästa vecka.
+>
+> **Kannibalisering fixad:** En kortare dubblett-artikel med samma fokusord som en längre pelarartikel avpublicerad — nu konkurrerar de inte längre om samma sökord.
+>
+> **Länkstruktur städad:** Två artiklar hade URL:er med `-2`-suffix (t.ex. `/formgjutning-guide-2/`). Omdöpta till beskrivande slugs som reflekterar innehållet — 301-redirects på plats så ingenting tappas.
+>
+> **Metadata:** 5 pelarartiklar saknade fokusord i Rank Math — ifyllda. En kategorisida hade fel meta-titel — rättad.
+>
+> **Bekräftat välfungerande:** 100% meta-täckning, 0 bilder utan alt-text, schema (Organization/Service/FAQPage) live på alla viktiga sidor, sitemap ren.
+>
+> Totalt positiv effekt på ranking förväntas inom 2–4 veckor när Google reindexerar.
+>
+> /Mikael
+
+🔓 **UPPLÅST 2026-04-18** — audit + implementation klart.
+
+## Klart 2026-04-20 (vecka 21 — DRAFT, väntar på Mikaels mail)
+- [ ] Publicera + skicka mail till Patrik (patrik.carlsson@traficator.se) om 3 nya vecka 21-artiklar
+- [x] 3 artiklar sparade som draft (kat: Blogg ID:109):
+  - ID:1774 /stalgjutning-guide/ (focus: stålgjutning) — draft
+  - ID:1775 /magnesiumgjutning-guide/ (focus: magnesiumgjutning) — draft
+  - ID:1776 /gjutgods-efterbearbetning/ (focus: gjutgods efterbearbetning) — draft
+  *Admin-admin: post.php?post=1774/1775/1776&action=edit*
+
+## Klart 2026-04-20 (vecka 18 fix — DRAFT, väntar på Mikaels mail)
+- [ ] Publicera + skicka mail till Patrik om de 3 fixade artiklarna (1633/1634/1635)
+- [x] Riktigt innehåll inskrivet (ersätter gamla placeholder-texter):
+  - ID:1633 /sandgjutning-aluminium-guide/ — ~1 250 ord, ISO 8062-3, EN AC-legeringar, interna länkar — draft
+  - ID:1634 /precisionsgjutning-vaxgjutning-guide/ — ~1 410 ord, investment casting, CT4-CT6, materialregister — draft
+  - ID:1635 /gjutet-gods-tekniska-ritningar-toleranser/ — ~1 550 ord, GD&T ISO 1101, draft angle, EN-nummer — draft
 
 ## Pausad
 (inget)

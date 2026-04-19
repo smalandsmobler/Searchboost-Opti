@@ -25,6 +25,24 @@ type: project
 ## Pågående
 - Loopia API-user `searchboost@loopiaapi` lösenord: SbLoopia2026! (satt 2026-04-10, DNS-metoder aktiverade)
 
+## Klart 2026-04-20 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:180 Guider):
+  - ID:18340 /stabord-kontor-guide/ (focus: ståbord kontor)
+  - ID:18341 /loungemobler-kontor-guide/ (focus: loungemöbler kontor)
+  - ID:18342 /kontorsstol-ergonomi-guide/ (focus: kontorsstol ergonomi)
+
+## Klart 2026-04-20 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:180 Guider):
+  - ID:18337 /pausrum-moblerguide/ (focus: pausrum möbler)
+  - ID:18338 /skarmvagg-kontor-guide/ (focus: skärmvägg kontor)
+  - ID:18339 /motesstol-guide-konferensrum/ (focus: mötesstol)
+
+## Klart 2026-04-20 (vecka 21)
+- [x] 3 artiklar publicerade vecka 21 (kat ID:180 Guider):
+  - ID:18334 /kontorsmobler-begagnade-guide/ (focus: kontorsmöbler begagnade)
+  - ID:18335 /moblera-mottagning-receptionsmobler/ (focus: möblera mottagning)
+  - ID:18336 /tysta-rum-kontor-fokuszoner-akustik/ (focus: tysta rum kontor)
+
 ## Klart 2026-04-13 (internlänkar — kannibalisering)
 - [x] Internlänkar tillagda i 5 artiklar för kontorsstolar, konferensbord, förvaring:
   - ID:14270 /top-kontorsstolar-for-smaforetag-4/ → "receptionsdiskar" länkat till `/forvaring/`, "Kontorsstolar" länkat till `/kontorsstolar/`
