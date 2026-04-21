@@ -16,12 +16,14 @@ type: project
 **REGEL**: Patrik vill ha MAIL varje gång vi gör ändringar på sajten. Skicka alltid uppdateringsmail efter arbete.
 
 ## Nästa steg
-- [ ] Möte **tisdag 15 april kl 13.30** — genomgång mars-resultat + plan framåt
+- [x] ~~Möte tisdag 15 april kl 13.30~~ — genomfört
+- [ ] **FREDAG 24 APRIL**: Möte med Patrik — pitch Traficator Plast ny hemsida + SEO. Se `presentations/traficator-plast-pitch-2026-04-24.md`
 - [ ] Bygga branschsidor, materialsidor, jämförelsesidor (expansion — presenterat i PPT slide 13-14)
-- [ ] Sätt upp GSC URL-prefix + SA för Traficator (ej kopplat än)
+- [ ] GSC SA för Traficator — property https://traficator.se/ finns, verifiera SA-access
 - [ ] Följa upp månadsrapport 3 maj (GSC-data för april)
-- [ ] Fortsätta 2-3 artiklar/vecka enligt standard
-- [ ] Pelarartikel-uppföljning: om pressgjutning-aluminium inte når top 10 inom 8 veckor, skriv en stödartikel
+- [ ] Verifiera GA4 i GTM-container GTM-KRTLTBXM (logga in på tagmanager.google.com)
+- [x] hreflang på 10 SV/EN-par — Code Snippet #33 live 2026-04-21 (4 artiklar + 6 sidor)
+- [ ] Skicka uppdateringsmail till Patrik (draft klar: r2990589525910774283)
 
 ## Klart 2026-04-14 (Patriks klagomål — alla fixes live)
 - [x] Sandgjutning (ID:1278) — korrekt intro återställd
@@ -166,20 +168,43 @@ Gamla URL:er ger 301 → nya slugs via WordPress native `_wp_old_slug`. Sitemape
 
 🔓 **UPPLÅST 2026-04-18** — audit + implementation klart.
 
-## Klart 2026-04-20 (vecka 21 — DRAFT, väntar på Mikaels mail)
-- [ ] Publicera + skicka mail till Patrik (patrik.carlsson@traficator.se) om 3 nya vecka 21-artiklar
-- [x] 3 artiklar sparade som draft (kat: Blogg ID:109):
-  - ID:1774 /stalgjutning-guide/ (focus: stålgjutning) — draft
-  - ID:1775 /magnesiumgjutning-guide/ (focus: magnesiumgjutning) — draft
-  - ID:1776 /gjutgods-efterbearbetning/ (focus: gjutgods efterbearbetning) — draft
-  *Admin-admin: post.php?post=1774/1775/1776&action=edit*
+## Klart 2026-04-20 (QA + sitemap)
+- [x] Dublettkontroll — 0 slug-dubbletter, 0 focus keyword-dubbletter
+- [x] Internlänkar — alla 6 nya artiklar har 2–4 interna länkar till tjänstesidor
+- [x] Sitemap rensad via Code Snippets (snippet 19, one-shot): 3 → 47 URL:er — alla 44 bloggartiklar nu indexerade
+- [x] Dubblerad Organization-schema fixad: snippet 8 uppdaterad + custom HTML-widget tömd
+- [ ] hreflang på 10 SV/EN-artikelpar (SEO-risk för duplicate content)
 
-## Klart 2026-04-20 (vecka 18 fix — DRAFT, väntar på Mikaels mail)
-- [ ] Publicera + skicka mail till Patrik om de 3 fixade artiklarna (1633/1634/1635)
-- [x] Riktigt innehåll inskrivet (ersätter gamla placeholder-texter):
-  - ID:1633 /sandgjutning-aluminium-guide/ — ~1 250 ord, ISO 8062-3, EN AC-legeringar, interna länkar — draft
-  - ID:1634 /precisionsgjutning-vaxgjutning-guide/ — ~1 410 ord, investment casting, CT4-CT6, materialregister — draft
-  - ID:1635 /gjutet-gods-tekniska-ritningar-toleranser/ — ~1 550 ord, GD&T ISO 1101, draft angle, EN-nummer — draft
+## Klart 2026-04-20 (vecka 21 — LIVE)
+- [x] 3 artiklar publicerade vecka 21 (kat: Blogg ID:109):
+  - ID:1774 /stalgjutning-guide/ (focus: stålgjutning)
+  - ID:1775 /magnesiumgjutning-guide/ (focus: magnesiumgjutning)
+  - ID:1776 /gjutgods-efterbearbetning/ (focus: gjutgods efterbearbetning)
+- [ ] Skicka uppdateringsmail till Patrik — utkast: `content-pages/mail-traficator-patrik-artiklar-live.md`
+- [ ] hreflang på 10 SV/EN-par (saknas — Google kan tolka som duplicerat innehåll)
+
+## Klart 2026-04-20 (vecka 18 fix — LIVE)
+- [x] Riktigt innehåll inskrivet + publicerat (ersätter gamla placeholder-texter):
+  - ID:1633 /sandgjutning-aluminium-guide/ — ~1 250 ord, ISO 8062-3, EN AC-legeringar
+  - ID:1634 /precisionsgjutning-vaxgjutning-guide/ — ~1 410 ord, investment casting, CT4-CT6
+  - ID:1635 /gjutet-gods-tekniska-ritningar-toleranser/ — ~1 550 ord, GD&T ISO 1101, draft angle
+
+## Klart 2026-04-21 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat: Blogg ID:109):
+  - ID:1788 /magnesiumgjutning-guide-2/ (focus: magnesiumgjutning) — slug fick -2 pga ID:1775
+  - ID:1789 /kvalitetskontroll-gjutgods-metoder/ (focus: kvalitetskontroll gjutgods)
+  - ID:1790 /gjutgods-fordonsindustrin-guide/ (focus: gjutgods fordonsindustrin)
+- [x] Rank Math meta satt via WP post meta API (Wordfence WAF blockerar rankmath/v1-endpointen)
+
+## Klart 2026-04-21 (nattjobb)
+- [x] 3 artiklar publicerade vecka 22 (kat: Blogg ID:109):
+  - ID:1785 /koppargjutning-guide/ (focus: koppargjutning)
+  - ID:1786 /zinkgjutning-pressgjutning-guide/ (focus: zinkgjutning)
+  - ID:1787 /konstruktionsregler-gjutgods-dfm/ (focus: konstruktionsregler gjutgods)
+- [x] Interna länkar tillagda på /referensprojekt/ (6 länkade tjänstesidor)
+- [x] GTM-container GTM-KRTLTBXM + GTM-TT4X9H5M registrerade i SSM
+- [x] Patrik-mail draft klar (r2990589525910774283)
+- [x] Traficator Plast pitch klar: `presentations/traficator-plast-pitch-2026-04-24.md`
 
 ## Pausad
 (inget)

@@ -17,7 +17,13 @@ type: project
 
 ## Nästa steg
 - [ ] Mattias: ladda upp leverantörsbilder som kategori-thumbnails (matmöbler, sängar)
-- [ ] Nästa batch artiklar vecka 24
+- [x] Nästa batch artiklar vecka 24 — publicerade 2026-04-21
+
+## Klart 2026-04-21 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:113 Blogg):
+  - ID:5369 /inreda-vardagsrum-guide/ (focus: inreda vardagsrum)
+  - ID:5370 /koksbord-guide-valja-ratt/ (focus: köksbord guide)
+  - ID:5371 /sovrum-inredning-guide/ (focus: sovrum inredning)
 
 ## Klart 2026-04-20 (vecka 23)
 - [x] 3 artiklar publicerade vecka 23 (kat ID:113 Blogg):

@@ -12,7 +12,13 @@ type: project
 ## Nästa steg
 - [ ] Lägg till SA i GSC: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com (Fullständig) — Mikael gör manuellt i GSC > Inställningar > Användare och behörigheter
 - [x] Org.nr i footer: Human Power Sweden AB · Org.nr: 559256-7464 · info@humanpower.se (hittad via allabolag.se, Anette Brink ledamot)
-- [ ] Ny batch artiklar vecka 24
+- [x] Ny batch artiklar vecka 24 — publicerade 2026-04-21
+
+## Klart 2026-04-21 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:46 Inspiration & insikt):
+  - ID:835 /utmattningssyndrom-varningstecken-guide/ (focus: utmattningssyndrom varningstecken)
+  - ID:836 /aterhamtning-utbrandhet-guide/ (focus: återhämtning utbrändhet)
+  - ID:837 /stresshantering-arbetsplatsen-metoder/ (focus: stresshantering arbetsplatsen)
 
 ## Klart 2026-04-20 (vecka 23)
 - [x] 3 artiklar publicerade vecka 23 (kat ID:46 Inspiration & insikt):
