@@ -12,7 +12,7 @@ type: project
 
 ## Nästa steg
 - [ ] Byt avsändarnamn i WC → Inställningar → E-post om kunden vill ha annat visningsnamn än "Smålands Kontorsmöbler"
-- [ ] Följ upp med Micke: var är ordrarna sedan 2026-03-28?
+- [x] Följ upp med Micke — löst 2026-04-21
 - [ ] Byt permalink-struktur från date-based till /%postname%/ i WP-admin → Inställningar → Permalänkar (artiklar ligger just nu under /2026/04/12/slug/)
 - [ ] Skapa GSC URL-prefix property + SA-access
 - [ ] Möbelrondellen GA4 — ingen analytics-kod i React SPA. Behöver GA4 Measurement ID från Mikael innan vi kan lägga till det.
@@ -24,6 +24,25 @@ type: project
 
 ## Pågående
 - Loopia API-user `searchboost@loopiaapi` lösenord: SbLoopia2026! (satt 2026-04-10, DNS-metoder aktiverade)
+
+## Klart 2026-04-22 (nattjobb) — stor SEO-audit
+- [x] **GSC sitemap_index.xml submittad** och **Lyckades** — 1 093 upptäckta sidor (property: https://www.smalandskontorsmobler.se/)
+- [x] **Interlinking 71/71 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + kategorilänkar (/sittmobler/kontorsstolar/, /bord/hoj-och-sankbara-skrivbord/, /butik/). Ämnes-matchning: stol/skrivbord/förvaring/konferens/ergonomi/akustik/belysning/reception/lounge
+- [x] **llms.txt expanderad** (1017 → 5 474 bytes, snippet #15) — full produktkategori-träd, 15 top guides, landningssidor, villkor. Cache-Control: max-age=300.
+- [x] **robots.txt härdning** — nytt snippet #171 "SBS: robots.txt härdning". Disallow: /cart/, /checkout/, /my-account/, /varukorg/, /?s=, /?orderby=, /?filter_*, /?min_price=, /?max_price=, /?pa_*, /search/, /feed/, /xmlrpc.php. Allow Googlebot-Image på /wp-content/uploads/.
+- [x] **ContactPage + AboutPage schema** (snippet #173) — JSON-LD på /kontakt/ (ContactPage + ContactPoint) och /om-oss/ (AboutPage). Verifierat live.
+- [x] **H-struktur fixad** — 3 artiklar hade duplicate H1 (content + Flatsome entry-title): 18342 kontorsstol-ergonomi-guide, 17820 konferensmobler-guide, 18334 kontorsmobler-begagnade. Content-H1 konverterad till H2.
+- [x] **Schema-audit OK** — Organization+LocalBusiness (startsida), BlogPosting+BreadcrumbList (artiklar), Product+BreadcrumbList (produkter), CollectionPage (kategorier), FAQPage (/vanliga-fragor/).
+- [x] **Snippets rensade**: #153 ONE-SHOT deaktiverad, #150 fått namn "SBS: Rank Math taxonomy meta REST". 170 totalt, 39 aktiva.
+- [x] **Flatsome demo-post** ID 17854 trashad.
+- [x] **Sanity-check**: Startsida + kategorier + produkt + artikel + /kontakt/ + /om-oss/ = alla 200 OK, 0 fatal errors, 1 H1 per sida, CSS intakt.
+
+## Klart 2026-04-21 (nattjobb — vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:180 Guider):
+  - ID:18343 /kontorsmobler-oppet-kontorslandskap/ (focus: kontorsmöbler öppet kontorslandskap)
+  - ID:18344 /chefsstol-guide/ (focus: chefsstol)
+  - ID:18345 /konferensbord-motesrum-guide/ (focus: konferensbord mötesrum)
+- [x] SMK-mail till Micke om bilder (draft: r-1165472324737637616) — "antingen skickar du bilderna eller AI-genererar vi"
 
 ## Klart 2026-04-20 (vecka 23)
 - [x] 3 artiklar publicerade vecka 23 (kat ID:180 Guider):
