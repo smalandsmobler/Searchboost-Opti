@@ -5,15 +5,58 @@
  */
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
 const { BigQuery } = require('@google-cloud/bigquery');
-const Anthropic = require('@anthropic-ai/sdk');
 const axios = require('axios');
 const fs = require('fs');
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
 
-// Module-level — sätts om i handler beroende på OpenRouter-nyckel
-let AI_MODEL = process.env.AI_MODEL || 'claude-haiku-4-5-20251001';
+// OpenRouter gratis-modeller (Qwen, Llama, DeepSeek, Gemini) — roterar var 6:e timme
+const FREE_MODELS = [
+  'qwen/qwen3-235b-a22b:free',
+  'meta-llama/llama-4-maverick:free',
+  'deepseek/deepseek-r1-0528:free',
+  'google/gemini-2.0-flash-exp:free'
+];
+
+// Module-level — sätts i handler
+let AI_MODEL = FREE_MODELS[0];
+
+/**
+ * OpenRouter-klient som efterliknar Anthropics messages.create()-API.
+ * OpenRouter är OpenAI-kompatibelt (/chat/completions), inte Anthropic-kompatibelt.
+ */
+function createOpenRouterClient(apiKey) {
+  return {
+    messages: {
+      create: async (params) => {
+        const { model, max_tokens, messages } = params;
+        // Konvertera Anthropic-format → OpenAI-format
+        const openAiMessages = messages.map(m => ({
+          role: m.role,
+          content: typeof m.content === 'string' ? m.content
+            : (m.content || []).map(c => c.text || '').join('')
+        }));
+        const resp = await axios.post(
+          'https://openrouter.ai/api/v1/chat/completions',
+          { model, max_tokens, messages: openAiMessages, temperature: 0.7 },
+          {
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': 'https://searchboost.se',
+              'X-Title': 'Searchboost Opti'
+            },
+            timeout: 60000
+          }
+        );
+        const text = resp.data.choices?.[0]?.message?.content || '';
+        // Returnera i Anthropics format (content[0].text)
+        return { content: [{ type: 'text', text }] };
+      }
+    }
+  };
+}
 
 async function getParam(name) {
   const res = await ssm.send(new GetParameterCommand({ Name: name, WithDecryption: true }));
@@ -1022,6 +1065,13 @@ async function wpApiByUrl(site, targetUrl) {
     });
     if (res.data && res.data.length > 0) return { post: res.data[0], wpType: 'posts' };
   } catch (e) {}
+  // Försök WooCommerce products (viktigt för kunder med WC-butik som ilmonte)
+  try {
+    const res = await axios.get(`${site.url}/wp-json/wc/v3/products?slug=${slug}&status=publish`, {
+      headers: { 'Authorization': `Basic ${auth}` }, timeout: 15000
+    });
+    if (res.data && res.data.length > 0) return { post: res.data[0], wpType: 'products' };
+  } catch (e) {}
   // Försök pages
   try {
     const res = await axios.get(`${site.url}/wp-json/wp/v2/pages?slug=${slug}&status=publish`, {
@@ -1038,14 +1088,40 @@ exports.handler = async (event) => {
   // Budget per körning — höjt tillfälligt för veckorapport-deadline
   const MAX_TASKS_PER_CUSTOMER = parseInt(process.env.MAX_TASKS_PER_CUSTOMER || '8', 10);
   const MAX_TOTAL = parseInt(process.env.MAX_TOTAL || '50', 10);
+  const LOCK_PARAM = '/seo-mcp/optimizer-running-lock';
+  const LOCK_TTL_MS = 12 * 60 * 1000; // 12 minuter — Lambda timeout är 15 min
+
+  // ── Concurrent execution guard (SSM-lås) ──
+  let lockAcquired = false;
+  try {
+    const { SSMClient, GetParameterCommand, PutParameterCommand, DeleteParameterCommand } = require('@aws-sdk/client-ssm');
+    const ssmLock = new SSMClient({ region: process.env.AWS_REGION || 'eu-north-1' });
+    try {
+      const existing = await ssmLock.send(new GetParameterCommand({ Name: LOCK_PARAM }));
+      const lockTime = parseInt(existing.Parameter.Value, 10);
+      if (!isNaN(lockTime) && Date.now() - lockTime < LOCK_TTL_MS) {
+        console.log(`En annan instans kör redan (lås från ${new Date(lockTime).toISOString()}) — avslutar.`);
+        return { status: 'skipped', reason: 'concurrent-execution' };
+      }
+    } catch (e) { /* Parametern finns inte — OK att fortsätta */ }
+    await ssmLock.send(new PutParameterCommand({
+      Name: LOCK_PARAM, Value: String(Date.now()), Type: 'String', Overwrite: true
+    }));
+    lockAcquired = true;
+    console.log('SSM-lås satt.');
+  } catch (lockErr) {
+    console.warn('Kunde inte sätta SSM-lås (fortsätter ändå):', lockErr.message);
+  }
 
   try {
     const { bq, dataset } = await getBigQuery();
     const sites = await getWordPressSites();
 
-    // Force Anthropic direkt — OpenRouter-nyckel utgången och grok-3-mini-slug 404
-    const claude = new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
-    AI_MODEL = 'claude-haiku-4-5-20251001';
+    // OpenRouter gratis-modeller: Qwen, Llama, DeepSeek, Gemini (roterar var 6:e timme)
+    const orKey = await getParam('/seo-mcp/openrouter/api-key');
+    AI_MODEL = FREE_MODELS[Math.floor(Date.now() / (6 * 3600 * 1000)) % FREE_MODELS.length];
+    const claude = createOpenRouterClient(orKey);
+    console.log(`AI: OpenRouter → ${AI_MODEL}`);
 
     const blockedCustomers = new Set();
     const results = [];
@@ -1204,6 +1280,16 @@ exports.handler = async (event) => {
   } catch (err) {
     console.error('Optimizer misslyckades:', err);
     return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+  } finally {
+    // ── Frigör SSM-låset ──
+    if (lockAcquired) {
+      try {
+        const { SSMClient, DeleteParameterCommand } = require('@aws-sdk/client-ssm');
+        const ssmLock = new SSMClient({ region: process.env.AWS_REGION || 'eu-north-1' });
+        await ssmLock.send(new DeleteParameterCommand({ Name: LOCK_PARAM }));
+        console.log('SSM-lås frigjort.');
+      } catch (e) { console.warn('Kunde inte frigöra SSM-lås:', e.message); }
+    }
   }
 };
 
