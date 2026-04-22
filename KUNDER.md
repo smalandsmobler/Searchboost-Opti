@@ -5,7 +5,18 @@
 
 ## SEO-lyft 2026-04-22 (sammanfattning)
 
-**353 artiklar** fick "Relaterade artiklar"-block. **2 kritiska SEO-head-fixar** (HP + JT — Rank Math emittade 0 schema). **1 sitemap-bug** fixad (JT /sitemap.xml dead-redirect). **robots.txt härdad** på alla 8 kunder. **llms.txt** expanderad där relevant. Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
+**353 artiklar** fick "Relaterade artiklar"-block. **2 kritiska SEO-head-fixar** (HP + JT — Rank Math emittade 0 schema). **1 sitemap-bug** fixad (JT /sitemap.xml dead-redirect). **robots.txt härdad** på alla 8 kunder. **llms.txt** expanderad där relevant.
+
+**Schema markup-pass 2026-04-22 (rond 2):** Audit av article-schema visade att 5 av 8 saknade BreadcrumbList på artiklar. MR saknade dessutom Article-schema helt (Rank Math-output blockerad av snippet #64). Nu fixat med dedikerade snippets:
+
+- **MR snippet #124**: Article + BreadcrumbList JSON-LD på posts
+- **TR snippet #35, TB snippet #53, IM snippet #35**: BreadcrumbList JSON-LD på posts
+- **NS**: 403 — `mikael`-kontot saknar manage_options. Mikael behöver ge admin-perms till `mikael`-kontot för Code Snippets, eller logga in med annat admin-konto.
+- **TB+NS**: Fixade duplicate H1 i 2 artiklar (byggstalning-sakerhetskrav, zyn-nikotinpasar-guide)
+
+Resultat: 8/8 har Article + 7/8 har BreadcrumbList (NS väntar på perms).
+
+Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
 
 | Kund | Interlinks | Övriga fynd 2026-04-22 |
 |------|-----------|------------------------|
