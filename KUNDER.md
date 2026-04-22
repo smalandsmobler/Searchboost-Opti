@@ -1,7 +1,22 @@
 # Kunder — Searchboost Opti
 
 > Delad fil. Mikael + Viktor ser samma info. Uppdatera när något ändras.
-> Senast uppdaterad: 2026-04-16 (ilmonte hackad — se sektionen nedan)
+> Senast uppdaterad: 2026-04-22 (stort tekniskt SEO-lyft på 8 kunder + Nordic Snus mötesunderlag)
+
+## SEO-lyft 2026-04-22 (sammanfattning)
+
+**353 artiklar** fick "Relaterade artiklar"-block. **2 kritiska SEO-head-fixar** (HP + JT — Rank Math emittade 0 schema). **1 sitemap-bug** fixad (JT /sitemap.xml dead-redirect). **robots.txt härdad** på alla 8 kunder. **llms.txt** expanderad där relevant. Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
+
+| Kund | Interlinks | Övriga fynd 2026-04-22 |
+|------|-----------|------------------------|
+| SMK | 71/71 | Köp-knappar (#174), SEO accordion (#175), CSS-skydd (#176), JS-läcka borttagen, slideshow fixad, leveranstid 2-3d på alla 25 produkter med avvikande värden |
+| HP | 33/33 | **KRITISK**: SEO head emitter (#24) — Rank Math emittade 0 JSON-LD |
+| JT | 64/64 | **KRITISK**: sitemap.xml-redirect bug fixad + SEO head emitter (#25) |
+| TR | 53/53 | Allt OK, bara content+robots |
+| NS | 44/44 | + Mötesunderlag fredag 25 april (`presentations/nordic-snus-mote-2026-04-25.md`) |
+| TB | 13/13 | Allt OK, bara content+robots |
+| IM | 43/43 | Retention-läge — beslut 9 maj |
+| MR | 32/32 | Sucuri WAF kräver browser-UA för API |
 
 ---
 
@@ -129,8 +144,23 @@
 
 ## Tobler
 
-**Sajt**: tobler.se
+**Sajt (live)**: tobler.se
+**Staging**: tobler.searchboost.se (Flatsome + WooCommerce, bygge pågår)
 **Status**: Aktiv, GSC ej kopplat ännu
+**Avtal**: 18k-paket + 15k skuld = 33 000 kr fakturerat (deal klar 2026-04-16)
+
+**Pågående bygge på staging:**
+- Flatsome-tema + WooCommerce, 4-toppkategorier (Byggställningar, Fallskydd, Byggverktyg, Arbetskläder)
+- Header: logga vänster, nav bottom-alignat, tax-toggle (Privat/Företag) i CSS grid OVANför varukorgen, KONTAKT-knapp, AI-FAB bottom-right
+- Footer: Tobler-blå, 4 widgets som staplas <900px, kontaktpersoner med egna rader
+- LocalBusiness JSON-LD + FAQPage-schema (FAQ-sida 1436)
+- 19 blogginlägg med Rank Math meta + featured images (4 bilder uppladdade från extract)
+- Custom CSS lagras i post 1994 (`theme_mods.custom_css_post_id`) + `html_scripts_header` för tillägg
+
+**Pending (se `kund_tobler_tasks.md`):**
+- Fortnox API-nyckel + produktbilder (Jakob)
+- 3 FB-annonser (FB Manager under granskning)
+- Migrera till tobler.se när staging är godkänd
 
 ---
 
@@ -192,3 +222,4 @@
 **SSM**: URL + company-name + gsc-property skapade (WP-creds = placeholder)
 **Saknas**: WP app-password, GSC SA-access, kontraktssignering
 **Onboardad**: 2026-03-24
+**SEO-fixar 2026-04-21**: Rank Math är aktivt. Startsida (ID:61) fick SEO-titel + meta description + fokusord via Rank Math updateMeta REST API. Veriferat i HTML-källkod.
