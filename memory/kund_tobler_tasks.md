@@ -15,11 +15,17 @@ type: project
 **Bransch**: B2B — byggställningar (ramställning + modulställning), formsystem för betonggjutning, fallskydd/taksäkerhet, väderskyddstak, ställningstrailer, arbetskläder (Portwest, Blåkläder, Snickers, L.Brador)
 **Målgrupp**: Ställningsentreprenörer + byggföretag + nya ställningsbolag (startpaket)
 
+## Klart 2026-04-22 (nattjobb)
+- [x] **Interlinking 13/13 artiklar** — "Relaterade artiklar"-block med 3 ämnesmatchade länkar (ställning/tak/form/väder/besiktning/köp/trapp/planera) + landningssidor /produkt-kategori/byggstallningar/, /fallskydd-taksakerhet/, /formsystem/.
+- [x] **robots.txt härdning** (snippet #52) — Disallow cart/checkout/my-account/varukorg/kassan/?s=/?orderby=/?filter_*/feed/xmlrpc. Googlebot-Image allow uploads.
+- [x] **SEO-grund verifierad OK**: Sitemap (213 URLer), Rank Math emittar JSON-LD + 7 OG + meta desc + canonical, llms.txt (1671 chars med alla produktkategorier).
+
 ## Status 2026-04-16
 **DEAL KLART.** Möte 16 april — de köpte 18k-paketet + betalar 15k-skulden.
 
-**15k-skulden betald ✅ (2026-04-19)**
-**18k faktura skickas 23 april** — Jakob ska se tobler.searchboost.se staging först.
+**15k-skulden betald ✅** — Viktor Frostenäs (Jakobs storebror) betalade på studs vid mötet
+**18k faktura skickad ✅ (2026-04-21)** — Faktura #135, 22 500 kr ink moms, förfall 2026-05-11
+⏳ **18k EJ betald ännu** — förfaller 2026-05-11
 
 ### Deal — vad som ingår i 18k
 - Ny hemsida i Flatsome (WooCommerce)
@@ -32,6 +38,7 @@ type: project
 
 ## Status 2026-04-16 kväll
 - ✅ FB Business Manager godkänt 2026-04-20 — BM ID: 667764620301167
+- ✅ **Meta Pixel skapad + installerad 2026-04-20** — Pixel ID: `1997637907505774` ("Tobler Ställningsprodukter AB"), live på tobler.se via Code Snippets (snippet #16), sparad i SSM
 - ⏳ **Jakob fixar imorgon:** Produktbilder (3 st) + Fortnox API-nyckel + eventuellt annat
 - ✅ WP credentials för tobler.se finns i SSM (username: mikael, app-password: mxln FGug xkKb eZo6 VKFy SzHm)
 - ✅ Beebyte hosting-credentials sparade i SSM:
@@ -98,6 +105,13 @@ type: project
   - ID:2094 /ipaf-utbildning-stallning-guide/ (focus: IPAF utbildning ställning)
   - ID:2095 /besiktning-byggstallning-guide/ (focus: besiktning ställning)
   - ID:2096 /fasadrenovering-stallning-guide/ (focus: fasadrenovering ställning)
+
+## LinkedIn — postningsschema
+- **Frekvens**: 2 ggr/vecka — torsdag + söndag
+- **Innehåll**: Samma artiklar som publiceras på hemsidan
+- **Första posten**: Skickad till Jakob 2026-04-21 — postar själv tills admin-access är given
+- **Admin-access**: Jakob ska lägga till mikaeldaniellarsson@gmail.com som sidadmin
+- **Nästa post**: Torsdag 2026-04-24 — artikel: /rullstallning-guide-3/ eller /fasadstallning-guide/
 
 ## Nästa steg (imorgon när Jakob skickar material)
 - [ ] Motta bilder + Fortnox API-nyckel från Jakob
