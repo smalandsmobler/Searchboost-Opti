@@ -25,6 +25,13 @@ type: project
 - [x] hreflang på 10 SV/EN-par — Code Snippet #33 live 2026-04-21 (4 artiklar + 6 sidor)
 - [ ] Skicka uppdateringsmail till Patrik (draft klar: r2990589525910774283)
 
+## Klart 2026-04-22 (nattjobb)
+- [x] **Interlinking 53/53 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar (press/sand/centrifugal/prec/koppar/zink/alu/cnc/smide/magnesium/plast/kval/fordon/konst/gjut) + landningssidor (/vara-tjanster/metallgjutning/, /pressgjutning/, /sandgjutning/, /bearbetning/).
+- [x] **llms.txt expanderad** (snippet #7) — alla gjuttjänster, referensprojekt, 15 top artiklar, Traficator Plast-notering.
+- [x] **robots.txt härdning** (snippet #34) — Disallow wp-login/?s=/search/feed/xmlrpc. Googlebot-Image allow uploads.
+- [x] **Sanity-check**: / + /vara-tjanster/ + alla tjänstesidor + /referensprojekt/ + /om-oss/ + /kontakt/ = 200 OK, 0 fatal, 1 H1. Tjänstesidor har jsonld=3 (Organization + Service + FAQPage via snippet #8/#14). Startsida jsonld=1.
+- [x] **Sitemap verifierad**: /sitemap_index.xml 200 OK (Rank Math, 4 sub-sitemaps, 99 URLs). /sitemap.xml + /wp-sitemap.xml → 301 till sitemap_index.xml. robots.txt pekar rätt.
+
 ## Klart 2026-04-14 (Patriks klagomål — alla fixes live)
 - [x] Sandgjutning (ID:1278) — korrekt intro återställd
 - [x] Metallgjutning (ID:1289) — korrekt intro återställd
