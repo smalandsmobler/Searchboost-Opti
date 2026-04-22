@@ -13,7 +13,40 @@ type: project
 
 ## Nästa steg
 - [x] Interna länkar mellan tjänstesidorna — 5 sidor uppdaterade 2026-04-20 med "Relaterade tjänster"-block (simulering↔produktoptimering↔verktygsberedning↔uppmätning↔montage)
-- [ ] Ny batch artiklar vecka 24
+- [x] Sitemap fixad 2026-04-20 — se nedan
+- [x] Startsidans SEO-meta uppdaterad 2026-04-21 (titel + description + fokusord)
+- [x] Google Analyticator (döt plugin v6.5.4) deaktiverat 2026-04-21
+- [x] Ny batch artiklar vecka 24 — publicerade 2026-04-21
+- [ ] Utred varför Rank Math inte emittar head — setup wizard kanske oavslutad. SEO-head-emitter (snippet #25) täcker nu allt tills RM fixas.
+
+## Klart 2026-04-22 (nattjobb) — stor SEO-fix
+- [x] **Kritisk upptäckt**: Rank Math emittade 0 JSON-LD blocks, ofullständiga OG (bara 1 tag), ingen canonical, ingen twitter:card. Meta description emitterades dock (av Divi eller snippet). 
+- [x] **SBS SEO head emitter** (snippet #25) — full head-output: OG (7 tags), Twitter cards (4 tags), canonical, JSON-LD (4 blocks: Organization + WebSite + Article/WebPage + BreadcrumbList).
+- [x] **Sitemap-fix**: /sitemap.xml **301 → /wp-sitemap.xml (som 404:ar!)** — troliga orsaken Mikael sett i GSC. Ny snippet #26 ändrar redirect till /sitemap_index.xml. **/sitemap.xml** nu 301 → /sitemap_index.xml (200 OK).
+- [x] **robots.txt omskriven** via snippet #27 + `sbs/v1/write-robots`-endpoint. Nu innehåller: Disallow wp-admin/wp-includes/wp-login.php/?s=/search/feed/xmlrpc.php, Allow admin-ajax.php, Googlebot-Image allow uploads, sitemap_index.xml.
+- [x] **Interlinking 64/64 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + landningssidor (/plastkonstruktion/, /industridesign/, /prototyptillverkning/). Ämnesmatchning: plast/prototyp/formsprut/design/material/mekanisk/kvalitet/hållbar/overmould/cert.
+- [x] **llms.txt expanderad** (ca 700 → 3 162 bytes, snippet #7) — produktutveckling-tjänster, 15 top artiklar, kontaktinfo (Ängelholm/Valhall Park).
+- [x] **Sanity-check**: Startsida + /kontakt/, /nyheter/, /hallbar-produktutveckling/, /jobba-hos-oss/, artikel — alla 200 OK, 0 fatal, 4 JSON-LD blocks. Artikel visar Relaterade artiklar.
+- Anm: `/om-oss/` saknas på JT (använd `/tjanster/` + `/kontakt/` istället). `/produktutveckling/` är blog-kategori utan H1 — behöver Rank Math category-intro text.
+
+
+
+## Klart 2026-04-20 (sitemap-fix)
+- [x] **sitemap_index.xml** fungerar nu — HTTP 200, korrekt XML
+  - Root cause: Rank Math's sitemap-modul initierades aldrig (hooks saknades i template_redirect)
+  - Fix: Code Snippet #23 (persistent) — custom sitemap-generator via `template_redirect` pri 0
+  - Fix: WP core sitemaps avaktiverade via `wp_sitemaps_enabled` → `false`
+  - **post-sitemap.xml**: 57 URLs (alla publicerade inlägg)
+  - **page-sitemap.xml**: 17 URLs (alla publicerade sidor)
+- [x] **robots.txt** uppdaterad: `Sitemap: https://jelmtech.se/sitemap_index.xml`
+- Aktiva snippets som hanterar sitemap: #14 (robots_txt filter), #17 (fysisk robots.txt), #23 (sitemap generator)
+
+## Klart 2026-04-21 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:48 Produktutveckling):
+  - ID:7739 /produktutveckling/glasfiberarmerad-plast-guide-2/ (focus: glasfiberarmerad plast)
+  - ID:7741 /produktutveckling/kostnad-formsprutningsverktyg/ (focus: kostnad formsprutningsverktyg)
+  - ID:7742 /produktutveckling/bioplast-produktutveckling-guide/ (focus: bioplast produktutveckling)
+- [x] Rank Math metadata satt på samtliga (SEO-titel, description, fokusord)
 
 ## Klart 2026-04-20 (vecka 23)
 - [x] 3 artiklar publicerade vecka 23 (kat ID:48 Produktutveckling):
