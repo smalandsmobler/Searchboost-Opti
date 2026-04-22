@@ -1,0 +1,66 @@
+{
+  "home": [
+    "[LAYOUT] 6 inline fix-width>414px (t.ex. [680, 680, 1300]) → horisontell scroll risk",
+    "[LÄSBARHET] 8 font-size < 12px",
+    "[BANDBREDD] 36/36 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 197KB, img: 36, script-tags: 44",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "sortiment": [
+    "[BANDBREDD] 13/42 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 250KB, img: 42, script-tags: 55",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "kat-kontorsstolar": [
+    "[BANDBREDD] 12/27 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 245KB, img: 27, script-tags: 60",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "landing-kontorsstolar": [
+    "[BANDBREDD] 12/40 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 258KB, img: 40, script-tags: 60",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "om-oss": [
+    "[LAYOUT] 4 inline fix-width>414px (t.ex. [900, 1100, 1100]) → horisontell scroll risk",
+    "[BANDBREDD] 12/12 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 162KB, img: 12, script-tags: 43",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "kontakt": [
+    "[BANDBREDD] 13/13 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 162KB, img: 13, script-tags: 43",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "artiklar": [
+    "[BANDBREDD] 12/12 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 172KB, img: 12, script-tags: 41",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "artikel": [
+    "[BANDBREDD] 12/13 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 171KB, img: 13, script-tags: 40",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "varukorg": [
+    "[BANDBREDD] 12/16 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 2 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 415KB, img: 16, script-tags: 109",
+    "[PRESTANDA] Inline JS 269KB (blockerar render)",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ],
+  "produkt": [
+    "[BANDBREDD] 12/24 bilder utan srcset (onödig data på mobil)",
+    "[PRESTANDA] 3 img med width=4+ siffror (stor originalfil)",
+    "[INFO] HTML: 218KB, img: 24, script-tags: 57",
+    "[LAYOUT] body.overflow-x inte explicit hidden"
+  ]
+}
