@@ -21,3 +21,15 @@
 - Inline JS 269KB på varukorg (optimization för WC scripts)
 - Home: 6 inline widths 680-1300px (via HOME content — fixas manuellt)
 
+
+## Final state — 2026-04-22 kväll
+
+**Aktiva snippets för mobil:**
+- **#177** SBS: Mobil layout v3 (kampanjer + kategorier + bild-containment + bästsäljare)
+- **#179** SBS: Global Mobil-fixpaket (overflow-x hidden, 44px touch, font-min 13px, inline-width override)
+- **#180** SBS: Mobil-fix .smk-hfd2 Vi är också företagare (1-kol + bild/text under)
+
+**Deaktiverat:**
+- #178 SBS: LÅST Mobil Header (alla försök att ersätta Flatsome default-header ledde till problem — Flatsome native mobile header är bra)
+
+**Användarens verdict:** "Perfekt" ✓
