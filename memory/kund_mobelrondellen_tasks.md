@@ -22,6 +22,8 @@ type: project
 ## Klart 2026-04-22 (nattjobb)
 - [x] **Interlinking 32/32 artiklar** — "Relaterade artiklar"-block med 3 ämnesmatchade länkar (sovrum/kök/vardagsrum/utomhus/förvaring/barn/hall/inredning) + landningssidor /butik/, /produkt-kategori/sovrum/, /vardagsrum/.
 - [x] **SEO-grund OK**: Sitemap (/wp-sitemap.xml — WP core), Rank Math fungerar (2 JSON-LD blocks + 7 OG + meta desc + canonical), llms.txt 2872 chars, robots.txt redan härdad. Sucuri WAF blockerar default UA — kräver browser-UA för API-åtkomst.
+- [x] **Yoast → Rank Math meta-migration** (snippet #125 ONE-SHOT) — alla 157 Yoast-meta-rows kopierade till rank_math_*. Snippet #126 registrerar rank_math meta i REST API. Yoast plugin redan inactive (kan raderas).
+- [x] **Rank Math emittar nu fullt schema** — verifierat: home + articles ger Article + Person + Organization + ImageObject + WebPage + BreadcrumbList + ListItem (~7 schema-typer per artikelsida).
 
 ## Klart 2026-04-21 (vecka 24)
 - [x] 3 artiklar publicerade vecka 24 (kat ID:113 Blogg):
