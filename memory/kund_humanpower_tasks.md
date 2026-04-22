@@ -13,6 +13,15 @@ type: project
 - [ ] Lägg till SA i GSC: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com (Fullständig) — Mikael gör manuellt i GSC > Inställningar > Användare och behörigheter
 - [x] Org.nr i footer: Human Power Sweden AB · Org.nr: 559256-7464 · info@humanpower.se (hittad via allabolag.se, Anette Brink ledamot)
 - [x] Ny batch artiklar vecka 24 — publicerade 2026-04-21
+- [ ] Utred varför Rank Math inte emittar head — setup wizard kanske oavslutad. SEO-head-emitter (snippet #24) täcker nu allt tills RM fixas.
+
+## Klart 2026-04-22 (nattjobb) — KRITISK SEO-FIX
+- [x] **Upptäckt**: Rank Math installerat men emittade **0 meta tags på hela sajten**. 0 description, 0 OG, 0 Twitter cards, 0 JSON-LD. Post-meta (rank_math_title/description) sparat korrekt men aldrig renderat.
+- [x] **SBS SEO head emitter** (snippet #24) deployad — full head-output: title, meta description, OG (7 tags), Twitter (4 tags), JSON-LD (4 blocks: Organization + WebSite + Article/WebPage + BreadcrumbList). Läser från rank_math_* meta med fallback till post-excerpt/title.
+- [x] **Interlinking 33/33 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + landningssidor (/reboot/, /utvecklande-samtal/, /kosttillskott/). Ämnesmatchning: retreat/samtal/stress/coaching/kost/själv/bi/holistisk.
+- [x] **llms.txt expanderad** (328 → 3 334 bytes, snippet #9) — retreat-aktiviteter, samtalstyper, kosttillskotts-serie, 15 top artiklar, kontakt.
+- [x] **robots.txt härdning** (snippet #25) — Disallow: /cart/, /varukorg/, /checkout/, /kassan/, /my-account/, /mitt-konto/, /?s=, /?orderby=, /?filter_*, /?pa_*, /feed/, /xmlrpc.php. Googlebot-Image Allow på uploads.
+- [x] **Sanity-check** — 10/10 kritiska sidor (/, /reboot/, /kosttillskott/, /utvecklande-samtal/, /om-oss/, /kontakt/, /astaxanthin/, /mental-halsa/, /inspiration/, /livshjulet/): 200 OK, 0 fatal, 1 H1, 4 JSON-LD blocks, OG tags.
 
 ## Klart 2026-04-21 (vecka 24)
 - [x] 3 artiklar publicerade vecka 24 (kat ID:46 Inspiration & insikt):
