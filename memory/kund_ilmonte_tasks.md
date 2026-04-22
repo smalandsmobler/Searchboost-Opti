@@ -12,6 +12,10 @@ type: project
 **Site**: https://ilmonte.se (migrerad till Loopia — OK)
 **WP-creds**: OK (Mikael Larsson-konto, app-password i SSM)
 
+## Klart 2026-04-22 (nattjobb)
+- [x] **Interlinking 43/43 artiklar** — "Relaterade artiklar"-block med 3 ämnesmatchade länkar (scen/matta/event/belysning/textil/möbler/konferens/ridå/akustik) + landningssidor /produkt-kategori/scenpodier/, /eventmobler/, /g-track/.
+- [x] SEO-grund verifierad: Sitemap (773 URLer, 8 sub-sitemaps), Rank Math fungerar (1 JSON-LD + 6 OG + canonical + meta desc), robots.txt redan härdad 2026-04-18 av Searchboost.
+
 ## Fakturering
 
 - **Faktura skickad 2026-04-19**: 5 000 kr — akutinsats hackattack (malware-rensning ×4, databasexponering, migration Loopia, forensisk rapport 11 sidor). Betalvillkor 11 dagar → förfall ~2026-04-30.
@@ -88,6 +92,105 @@ Allt nedan är åtgärdat:
   - ID:20625 /ridaskenor-scenridaer-guide/ — Ridaskenor och scenridåer
 - [x] **Mail till Peter** — Gmail-draft skapad (2026-04-16), vecka 16-uppdatering + malware-fråga
 - [x] **Veckorapport-logg** — 7 entries loggade i BQ seo_optimization_log
+
+## Bilder — 398/401 KLART 2026-04-21
+
+**Slutresultat: 398 gröna, 3 orange kvar (kräver bilder från Henrik)**
+
+### Uppdatering 2026-04-21 (morgon)
+Henrik skickade två Google Drive-mappar:
+- "Det sista 260421" — 8 projektfoton för 3 produkter
+- "Hittade några fel, radera filen när du ändrat" — 19 rätta bilder för scenpodier/tillbehör
+
+**Åtgärdat 2026-04-21:**
+- [x] ID 15340 Stolsrenovering Hammarskjöldsalen — 4 bilder (Elmia) satta
+- [x] ID 14889 Stolsrenovering Intiman — 2 bilder (Intimateatern Stockholm) satta
+- [x] ID 14949 Stolsrenovering Kulturen i Vårgårda — 2 bilder satta
+- [x] 17 scenpodier/tillbehörsprodukter fick rätta bilder:
+  - Rapid scenpodium standard (2008), svart variant (2017)
+  - Rapid trekantigt podium brun (1949)
+  - Lastfördelare ändlock 40x40 (3682), 60x60 (3686)
+  - Lastfördelare metall ställbar 40x40 (3684)
+  - Lastfördelare till trappa (2671)
+  - Teleskopbenset 40x40 25-36cm (2414), 40-60cm (2415), 60x60 (2420)
+  - 4-bensklammer 40x40 (2109)
+  - Vingskruv 40x40 (14520), 60x60 (14523)
+  - Podieplatta svart standard (2629), brun utomhus (2631), generisk (2628)
+- NOTE: 1607 "Rapid, ställbar Lastfördelare" — 2 bilder fick ingen produktmatchning. Fråga Henrik vilket produkt-ID.
+
+**Fortfarande saknar bild (3 kvar):**
+- ID 10694 — Athene (Pagunette, sannolikt utgången)
+- ID 12474 — Dutch Houses 140cm (Pagunette)
+- ID 15577 — Gradäng Butterfly Schillerska (projektfoto)
+
+**Fortfarande fel platshållarbild (9 st — lägre prioritet):**
+- COS.be ×5: 15898, 15343, 15874, 15868, 15599 (archive.org-logotyp)
+- Krzesla ×4: 3152, 11436, 3348, 3186 (fel Gerriets-bild)
+
+**Slutresultat efter 9 sweep-pass: 395 gröna, 6 orange kvar (TIDIGARE)**
+
+### Svep 1 (Excel 1 — 401 produkter)
+- **149 FIXADE automatiskt**: 146 Gerriets (Shopware API) + 3 AL-Color (zip från Henrik)
+- **24 EJ HITTADE**: Gerriets-tillbehör som saknas i Shopware (Bottenrör, Spårmutter, Löpvagnar etc.)
+- Resultatfil: `ilmonte-bilder-rapport-2026-04-20.xlsx`
+
+### Svep 2 (Excel 2 — 201 vita produkter)
+- **159 FIXADE automatiskt**: Gerriets (Shopware) + Kleu (kleu.de scraping) + Krzesla (krzesla.com.pl)
+- **42 EJ HITTADE initialt**: Pagunette, Rosco, diverse tillbehör + projektstolar
+- Resultatfil: `ilmonte-bilder-rapport-FINAL-2026-04-20.xlsx`
+
+### Svep 3–9 (autonoma sweep-pass, 2026-04-20)
+- **+87 FIXADE** via systematisk webskanning: Shopware API (Gerriets), Krzesla.com.pl, Pagunette-scraping, Daplast.com, fallback-bilder för scenequipment
+- Scripts: `/tmp/sweep5.py` → `/tmp/sweep_final.py`
+- **Slutläge: 395 gröna av 401**
+
+### 6 kvar som KRÄVER MANUELL BILD FRÅN HENRIK/PETER
+
+**Pagunette — ej i online-katalog (produkterna är sannolikt utgångna):**
+- ID 10694 — Athene (SKU 102-7069)
+- ID 12474 — Dutch Houses, bredd 140 cm (SKU 102-4783)
+
+**Ilmonte-projektfoton — finns bara internt hos Ilmonte:**
+- ID 15340 — Stolsrenovering Hammarskjöldsalen
+- ID 14889 — Stolsrenovering Intiman
+- ID 14949 — Stolsrenovering Kulturen i Vårgårda
+- ID 15577 — Gradäng Butterfly Schillerska
+
+### OBS — Platshållarbilder som bör bytas ut
+Följande produkter har fått platshållarbilder som är fel men bättre än tomma. Henrik bör ersätta med rätt bilder:
+
+**COS.be-produkter (5 st) — har fått archive.org-logotyp:**
+- ID 15898 — Cosmo COS
+- ID 15343 — Cosmos COS
+- ID 15874 — Gaia COS
+- ID 15868 — Orbital COS
+- ID 15599 — Terra COS
+
+**Krzesla-stolar (4 st) — har fått fel Gerriets-bild (kopplingsvinkel):**
+- ID 3152 — Ilmo Olymp
+- ID 11436 — Krakus
+- ID 3348 — C42
+- ID 3186 — VP91
+
+- [x] Excel skickad till Henrik 2026-04-20 (draft r-5788715033544556141)
+- [ ] Fortfarande kvar: 3 produkter saknar bild (se ovan). Fråga Henrik om Schillerska-foto + Pagunette-status.
+- [ ] Fråga Henrik: vilken produkt tillhör de 2 "1607 Rapid, ställbar Lastfördelare"-bilderna?
+
+## Upsell — nästa steg med Peter (PRIO)
+
+**Strategi 2026-04-21**: Öka befintliga kunder istället för ny kundanskaffning.
+
+- [ ] **FB Pixel** — installera Meta Pixel på ilmonte.se (liknande Tobler, via Code Snippets). Pitcha: remarketing mot besökare + Lookalike-målgrupper för eventbranschen.
+- [ ] **LinkedIn** — organisk postning + eventuellt annonser. 2 000 kr/3 mån postning. Ilmontes målgrupp (eventbolag, kommuner, skolor) är på LinkedIn.
+- [ ] **Webbutveckling** — ilmonte.se är WooCommerce men ser daterad ut. Paketera om sajten med nytt tema/Flatsome? Kan kombineras med WooCommerce-optimering. Pitcha 15–25k.
+- [ ] **Google Ads** — ilmonte säljer eventmöbler/scenpodier. Sökord som "hyra scenpodium", "eventmöbler" har klickbar CPC. Pitcha som tillväxtpaket.
+- [ ] **Mail till Peter** — efter 9 maj-beslutet, om han fortsätter: presentera upsell-paketet med ovan.
+
+**Faktureringsstatus:**
+- 5 000 kr skickad 2026-04-19 (malware-akutinsats), förfall ~2026-04-30
+- 9 maj: om fortsätter → 2 fakturor (retention-period + ny månad)
+
+---
 
 ## Kvar att göra (SPRINT 2 — efter malware-cleanup)
 
