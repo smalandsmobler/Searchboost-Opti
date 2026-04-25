@@ -12,6 +12,18 @@ type: project
 
 ## Nästa steg
 - [ ] Byt avsändarnamn i WC → Inställningar → E-post om kunden vill ha annat visningsnamn än "Smålands Kontorsmöbler"
+- [ ] Granska produktsidor djupare: saknade per-färgbilder på 8 variabla produkter (Micke laddar upp)
+- [ ] Permalink-struktur: byt från date-based till /%postname%/ i WP → Inställningar → Permalänkar
+- [ ] **LinkedIn**: Väntar på att Micke skapar LinkedIn-företagssida för SMK (mail skickat 2026-04-24) — när klar: lägg till artikel-skribenten så han kan posta artikel-länkar
+
+## Klart 2026-04-23 — Mobil total-audit (alla sidor)
+- [x] **404-fix komplett** — snippet #17 med 29 redirect-regler: /butik/, /foretag-b2b/, /kampanjer/, /leverans/, gamla /product-category/-sökvägar, stads-landing-sidor m.fl.
+- [x] **Mobil produkt-grid** — snippet #177 v12: WC-produkter 1-kolumn, cover-bilder 260px, Flatsome flex-rows kollapsade, sticky header. Alla 30+ sidor testade, 0 horisontell scroll.
+- [x] **Hover back-images dolda** — `.back-image { display: none }` i snippet #177 CSS-block. Löste overflow på `/produkt-kategori/ljudabsorbenter/`.
+- [x] **Inline-style grids** (om-oss, foretag) — `[style*="grid-template-columns"]` selector i snippet #22.
+- [x] **WooCommerce svenska** — snippet #188: gettext-filter (klassisk WC) + JS MutationObserver (WC block-kundvagn). "Din varukorg är tom!" ✓
+- [x] **Varukorg page återställd** (av misstag skriven över → återhämtad från revision 14003) + "New in store" → "Nytt i butiken" i page content.
+- [x] **Sidor auditerade** (Playwright mobil 390px): startsida, sortiment, alla kategorier, alla underkategorier, 3 produktsidor, kassa, mitt konto, varukorg, kontakt, kundservice, vanliga frågor, om oss, företag, kontorsmöbler-jönköping, cookie policy, köpvillkor, 3 bloggar, sökresultat — samtliga 0 horizontal scroll.
 - [x] Följ upp med Micke — löst 2026-04-21
 - [ ] Byt permalink-struktur från date-based till /%postname%/ i WP-admin → Inställningar → Permalänkar (artiklar ligger just nu under /2026/04/12/slug/)
 - [ ] Skapa GSC URL-prefix property + SA-access

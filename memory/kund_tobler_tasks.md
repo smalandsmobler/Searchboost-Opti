@@ -110,8 +110,15 @@ type: project
 - **Frekvens**: 2 ggr/vecka — torsdag + söndag
 - **Innehåll**: Samma artiklar som publiceras på hemsidan
 - **Första posten**: Skickad till Jakob 2026-04-21 — postar själv tills admin-access är given
-- **Admin-access**: Jakob ska lägga till mikaeldaniellarsson@gmail.com som sidadmin
 - **Nästa post**: Torsdag 2026-04-24 — artikel: /rullstallning-guide-3/ eller /fasadstallning-guide/
+
+## LinkedIn API — Status 2026-04-24
+- **App**: "Searchboost Social Tobler" — Client ID: `77ka4qh59sk857`, Client Secret: `WPL_AP1.5yYw4vJcMxHWBIKy`
+- **Community Management API**: Ansökan inskickad 2026-04-24 — **Review in progress** (1-5 dagar)
+- **Redirect URI**: `http://localhost:3579/callback` — tillagd i appen
+- **Blockerat**: Alla produkter låsta under granskning — "Share on LinkedIn" + "Sign In with OpenID Connect" kan ej aktiveras förrän LinkedIn godkänner
+- **När godkänt**: Kör `LI_CLIENT_ID=77ka4qh59sk857 LI_CLIENT_SECRET="WPL_AP1.5yYw4vJcMxHWBIKy" CUSTOMER=tobler node scripts/linkedin-oauth-setup.js` → token sparas i SSM → autopostning live
+- **OAuth script**: `scripts/linkedin-oauth-setup.js` — uppdaterat med scopes: w_member_social, w_organization_social, r_organization_social, openid, profile, email
 
 ## Nästa steg (imorgon när Jakob skickar material)
 - [ ] Motta bilder + Fortnox API-nyckel från Jakob

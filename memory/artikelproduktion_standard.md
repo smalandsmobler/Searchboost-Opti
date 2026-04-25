@@ -63,6 +63,19 @@ Se `kunder.md` för full info. Kort:
 - **Status**: 0 artiklar producerade sen onboarding. Måste in i flödet direkt.
 - **Kritiska tekniska fixar kvar**: language en-US→sv-SE, ingen SEO-plugin installerad, tunna meta-desc
 
+## SOP: Sitemap ingår alltid i audit
+
+**Regel (2026-04-20):** Sitemap-kontroll och rensning är en obligatorisk del av varje SEO-audit och varje nytt artikelbatch. Utförs ALLTID — inte bara om det verkar vara ett problem.
+
+Steg:
+1. Hämta `sitemap_index.xml` — finns den?
+2. Hämta `post-sitemap.xml` — stämmer antal URL:er mot antal publicerade posts?
+3. Om diskrepans → Code Snippets one-shot: rensa Rank Math transients + `flush_rewrite_rules()`
+4. Verifiera att sitemap uppdaterades efter rensning
+5. Logga i task-fil: "Sitemap: X → Y URL:er"
+
+Bakgrund: Traficator 2026-04-20 — 44 artiklar saknades i sitemap (3 av 47). Google hittar aldrig artiklarna utan detta.
+
 ## SOP: Artikelproduktion per artikel
 
 1. Välj keyword från A-tier (högst volym, lägst position)

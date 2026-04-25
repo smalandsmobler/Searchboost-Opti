@@ -15,15 +15,61 @@ type: project
 - **Faktura utestående**: 22 500 kr ink moms — förfall **26 april**
 **REGEL**: Patrik vill ha MAIL varje gång vi gör ändringar på sajten. Skicka alltid uppdateringsmail efter arbete.
 
+## AKUT — Site nere (väntar på cPanel-fix från Sven-Erik/Patrik)
+**Status**: traficator.se returnerar 500. Sven-Erik (seutsi@gmail.com) försökte fixa via recovery mode men recovery mode är tillfälligt — plugin re-aktiveras efter session.
+**Orsak**: Snippet #44 "SBS: RM Sitemap Deep Invalidation (ONE-SHOT)" — `Call to undefined method RankMath\Sitemap\Sitemap::invalidate_sitemap()`. Kraschar ALLA requests inkl REST API.
+**Recovery URL förbrukad** (Sven-Erik använde den — ny krävs eller cPanel-fix).
+**Fix som krävs — cPanel phpMyAdmin**:
+  `UPDATE wp_snippets SET active=0 WHERE id=44;` → sen re-aktivera Code Snippets plugin i WP admin.
+**Mail skickat till Sven-Erik**: draft r-5669747148509373159 — SKICKA DETTA!
+**Mail till Patrik om AKUT**: r-7853756144723746915 (skickades 2026-04-24 21:29 UTC)
+**OBS efter fix**: Code Snippets plugin inaktiverades av Sven-Erik → alla snippets (llms.txt, schema, hreflang, robots.txt, UX) är inaktiva. Återaktivera plugin → verifiera snippets #7, #8, #14, #33, #34, #36, #52.
+**Hosting**: Oderland, clio.oderland.com, cPanel https://traficator.se:2083/, WP-path `/home/traficat/public_html/`
+**Interlinking**: Skript klart: `/tmp/traficator_interlinking_local.py` — kör när site är uppe.
+
 ## Nästa steg
+
+### OMEDELBART — NÄR SITEN ÄR UPP
+1. [ ] **Skicka draft r-5669747148509373159** till Sven-Erik — cPanel phpMyAdmin fix-instruktioner (UPDATE wp_snippets SET active=0 WHERE id=44)
+2. [ ] **Verifiera snippets** efter Code Snippets re-aktivering: #7 (llms.txt), #8/#14 (schema), #33 (hreflang), #34 (robots.txt), #36 (UX-fix), #52 (robots.txt alt). Avaktivera snippet #44 permanent.
+3. [ ] **Kör interlinking-skript**: `python3 /tmp/traficator_interlinking_local.py` — lägger "Relaterade sidor"-block på alla 8 lokala SEO-sidor
+4. [ ] **Kundmail** — draft r-986303352788039 SKICKAS EJ av Claude. Mikael läser igenom och skickar själv.
+
+### PÅGÅENDE / NÄSTA
 - [x] ~~Möte tisdag 15 april kl 13.30~~ — genomfört
-- [ ] **FREDAG 24 APRIL**: Möte med Patrik — pitch Traficator Plast ny hemsida + SEO. Se `presentations/traficator-plast-pitch-2026-04-24.md`
+- [x] ~~FREDAG 24 APRIL: Möte med Patrik~~ — genomfört (pitch Traficator Plast)
 - [ ] Bygga branschsidor, materialsidor, jämförelsesidor (expansion — presenterat i PPT slide 13-14)
 - [ ] GSC SA för Traficator — property https://traficator.se/ finns, verifiera SA-access
 - [ ] Följa upp månadsrapport 3 maj (GSC-data för april)
 - [ ] Verifiera GA4 i GTM-container GTM-KRTLTBXM (logga in på tagmanager.google.com)
 - [x] hreflang på 10 SV/EN-par — Code Snippet #33 live 2026-04-21 (4 artiklar + 6 sidor)
-- [ ] Skicka uppdateringsmail till Patrik (draft klar: r2990589525910774283)
+
+## Klart 2026-04-24 (SEO Bulk-audit — slutförd)
+- [x] **55 meta descriptions utökade** — alla sidor/inlägg med desc < 120 tecken utökade till 130-155 tecken med fokuskeyword + CTA. Alla 55/55 OK via WP REST API.
+- [x] **21 långa titlar förkortade** — alla titlar > 68 tecken kortades till ≤67 tecken (inkl " | Traficator"). Alla 21/21 OK.
+- [x] **14 MULTI_H1 fixade** — (klart i föregående session) första `<h1>` i content → `<h2>` på alla 14 inlägg.
+- [x] **Sitemap saknar 8 sidor** — mitigerat: Polylang SV-språk tilldelat på alla 8 sidor via classic editor form submit (message=1 på alla). Post-titlar uppdaterade (placeholder → riktiga stadsnamn). Rank Math transients rensade (4 st). 8 URL:er skickade via IndexNow (Rank Math Instant Indexing → "8 URL:er inskickade."). Sidor är indexerbara; sitemap kan självläka vid nästa Flatsome-redigering.
+- [x] **Uppdateringsmail** till Patrik — ny draft r-986303352788039 klar (full sammanfattning 24 april inkl lokal SEO + audit + incident)
+
+## Klart 2026-04-24 (UX-fixar)
+- [x] **Hero-bild live** — bakgrundsbild satt direkt på `.bg.fill.bg-fill` i page 59 HTML; `bg-grayscale` borttagen; röd overlay `rgba(192,57,43,0.80)` via inline style. Industriell gjutgods-bild synlig bakom overlay.
+- [x] **Ikoner fixade** — snippet #36 `SBS: Startsida UX-fix`: CSS `background-color: #c0392b` + `filter: brightness(0) invert(1)` på `.has-icon-bg .icon-inner img`. Alla 3 ikoner (hjärta/tjänster/kontakt) syns som vita symboler på röda cirklar.
+- [x] **Offertformulär** — /offert/ (ID:1596) ombyggd: H1 + 1-rad intro → CF7-formulär direkt (ej nedan fold) → HR → Vad-vi-behöver-grid + process-lista.
+- [x] **Stockholm-sida** (ID:1861) + **gjutgods-leverantör-sida** (ID:1867) — nya landningssidor skapade.
+- [x] **Guider** — /gjutjarn-guide/ (ID:1863) + /smide-guide/ (ID:1864) publicerade.
+- [x] **CTR-fix** — 24 artiklar fick utökade meta descriptions (65-90 → 130-160 tecken) för att motverka CTR-kollaps (746% impressioner, +22% klick).
+
+## Klart 2026-04-24 (lokal SEO)
+- [x] **6 stadssidor skapade** (lokal SEO mot tillverkningstäta städer):
+  - ID:1847 /gjuteri-jonkoping/ — Jönköping, Husqvarna/Kinnarps, Gnosjöregionen proximity
+  - ID:1849 /gjuteri-gnosjoregionen/ — GGVV-klustret, 10 000+ tillverkare, "Gnosjöandan"
+  - ID:1851 /gjuteri-goteborg/ — Volvo Cars/Trucks, SKF, fordonsleverantörer
+  - ID:1853 /gjuteri-eskilstuna/ — "Sveriges Sheffield", Volvo CE, Komatsu Forest
+  - ID:1855 /gjuteri-malmo/ — Alfa Laval (Lund), Skånes tillverkningsindustri
+  - ID:1857 /gjuteri-vasteras/ — ABB headquarters, Hitachi Energy, elektroteknisk industri
+- [x] **Hub-sida /gjuteri-smaland/ uppdaterad** — "Lokala marknader vi betjänar"-grid med 6 stadslänkar
+- [x] **Hub-sida /gjuteri-sverige/ (ID:1599) uppdaterad** — "Lokala marknader vi betjänar"-grid med 7 sidor (alla 6 städer + Småland)
+- [x] **llms.txt (snippet #7) uppdaterad** — ny sektion "Lokala landningssidor" med alla 8 lokalsidor, senast uppdaterad 2026-04-24
 
 ## Klart 2026-04-22 (nattjobb)
 - [x] **Interlinking 53/53 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar (press/sand/centrifugal/prec/koppar/zink/alu/cnc/smide/magnesium/plast/kval/fordon/konst/gjut) + landningssidor (/vara-tjanster/metallgjutning/, /pressgjutning/, /sandgjutning/, /bearbetning/).
