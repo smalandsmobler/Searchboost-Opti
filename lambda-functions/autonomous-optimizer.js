@@ -724,23 +724,19 @@ Max 60 tecken, inkludera primärt keyword. Svara i JSON: {"h1": "...", "reasonin
 
   const result = parseClaudeJSON(suggestion.content[0].text);
 
-  // BUG FIX: De flesta WP-teman renderar post.title.rendered som <h1> i frontend.
-  // Lägg INTE till <h1> i content (ger 2x H1). Optimera istället Rank Math-titeln
-  // och spara H1-texten som Rank Math-fältet, som visas i strukturerad data.
-  let h1Method = 'rank_math_meta';
-  try {
-    await wpApi(site, 'POST', `/${wpType}/${postId}`, {
-      meta: { rank_math_title: result.h1 }
-    });
-  } catch (e) {
-    // Rank Math ej tillgängligt — uppdatera post title istället (inte content)
-    h1Method = 'post_title';
-    await wpApi(site, 'POST', `/${wpType}/${postId}`, {
-      title: result.h1
-    });
-  }
+  // Lägg in <h1> som första element i content — det enda sättet att garantera H1 i DOM.
+  // Temat kanske renderar post-titeln som H1, men vi kan inte veta det säkert.
+  // En explicit <h1> i content är alltid rätt och fungerar på alla teman.
+  const h1Tag = `<!-- wp:heading {"level":1} -->\n<h1 class="wp-block-heading">${result.h1}</h1>\n<!-- /wp:heading -->`;
+  const updatedContent = h1Tag + '\n' + post.content.rendered;
+  await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
 
-  return { type: 'missing_h1', h1: result.h1, method: h1Method, reasoning: result.reasoning };
+  await trelloCard(
+    `H1 tillagd: ${post.title.rendered.substring(0, 40)}`,
+    `**H1-rubrik**\nSida: ${post.link}\nH1: ${result.h1}\n${result.reasoning}`
+  );
+
+  return { type: 'missing_h1', h1: result.h1, method: 'content_prepend', reasoning: result.reasoning };
 }
 
 async function optimizeH2H3(site, task, claude, bq, dataset) {

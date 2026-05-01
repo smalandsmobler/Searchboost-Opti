@@ -308,8 +308,8 @@ async function auditSite(site) {
       if (wordCount < 300) problems.push({ type: 'thin_content', severity: 'high', wordCount });
       if (wordCount >= 300 && wordCount < 500) problems.push({ type: 'thin_content', severity: 'medium', wordCount });
 
-      // H1
-      if (!content.match(/<h1/i)) problems.push({ type: 'missing_h1', severity: 'medium' });
+      // H1 — kritisk, hög prioritet
+      if (!content.match(/<h1/i)) problems.push({ type: 'missing_h1', severity: 'high' });
 
 
       // H2-rubriker — om sidan har innehåll men inga/få H2
@@ -326,8 +326,10 @@ async function auditSite(site) {
       const imgsNoAlt = (content.match(/<img(?![^>]*alt=["'][^"']+["'])[^>]*>/gi) || []).length;
       if (imgsNoAlt > 0) problems.push({ type: 'missing_alt_text', severity: 'medium', count: imgsNoAlt });
 
-      // Schema markup
-      if (!content.includes('application/ld+json')) problems.push({ type: 'no_schema', severity: 'medium' });
+      // Schema markup — kontrollera Rank Math meta-fält + content
+      const hasRankMathSchema = item.meta && (item.meta.rank_math_rich_snippet_type || item.meta.rank_math_schema_data);
+      const hasInlineSchema = content.includes('application/ld+json');
+      if (!hasRankMathSchema && !hasInlineSchema) problems.push({ type: 'no_schema', severity: 'medium' });
 
       if (problems.length > 0) {
         issues.push({
