@@ -3,6 +3,14 @@
 > Kund sedan: 2026-02-18 | Deal: 24 000 SEK | Sajt: jelmtech.se
 > Senast uppdaterad: 2026-05-04
 
+## Regressionsvarningar
+
+### 2026-05-04 (måndag — v18)
+**Status: Ej kontrollerad — GSC ej konfigurerad för jelmtech**
+
+Jelmtech har ingen GSC-property kopplad (inte ägare/ej konfigurerad).
+Ingen GSC-data i BigQuery. Regressionscheck ej möjlig.
+
 ## Publicerade artiklar
 
 | Datum      | Titel | URL | Fokuskeyword |
