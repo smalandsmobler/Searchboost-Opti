@@ -41,3 +41,6 @@ node scripts/publish-jelmtech-abs-artikel.js
 - GSC: Ej kopplad (inte ägare / ej konfigurerad)
 - Rank Math: Används (se befintliga artiklar)
 - Kategori-ID: 48 (Produktutveckling)
+
+## Vecka-briefing-länk
+- 2026-05-04: content-pages/weekly-briefing/2026-05-04.md
