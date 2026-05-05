@@ -13,6 +13,12 @@ Senaste check: 2026-05-05
 
 - SEO-skola (https://searchboost.se/seo-skola/)
 
+## LinkedIn-inlägg
+
+| Datum | Ämne | Post-ID | URL |
+|-------|------|---------|-----|
+| 2026-05-05 (tisdag) | SEO-automation resultat — 7 kunder, AI-optimering var 6:e timme | urn:li:share:7457354911865831424 | https://www.linkedin.com/feed/update/urn:li:share:7457354911865831424/ |
+
 ## Status
 - WP-creds: OK
 - GSC: OK (https://searchboost.se/)
