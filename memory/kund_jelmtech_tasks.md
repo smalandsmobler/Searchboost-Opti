@@ -1,7 +1,13 @@
 # Jelmtech — Content & SEO Tasks
 
 > Kund sedan: 2026-02-18 | Deal: 24 000 SEK | Sajt: jelmtech.se
-> Senast uppdaterad: 2026-05-04
+> Senast uppdaterad: 2026-05-05
+
+## Regressionsvarningar
+
+_Ingen GSC-data: Ej kopplad (inte ägare / ej konfigurerad). Regressionscheck ej möjlig._
+
+Senaste check: 2026-05-05
 
 ## Publicerade artiklar
 
