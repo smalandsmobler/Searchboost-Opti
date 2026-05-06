@@ -1,13 +1,13 @@
 # tobler — Tasks & Status
 
 > Kund: tobler.se | GSC: Ej konfigurerad | WP-creds: OK
-> Senast uppdaterad: 2026-05-05
+> Senast uppdaterad: 2026-05-06
 
 ## Regressionsvarningar
 
 _Ingen GSC-data: GSC ej konfigurerad. Regressionscheck ej möjlig._
 
-Senaste check: 2026-05-05
+Senaste check: 2026-05-06
 
 ## Publicerade artiklar
 

@@ -17,6 +17,28 @@
 | humanpower      | (ej registrerad)                      | —          | — |
 | nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
 
+## Regressionscheck — Veckosammanfattning 2026-05-06
+
+**Status: Blockerad — data ej tillgänglig**
+
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| mobelrondellen | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| smalandskontorsmobler | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
+
+**Keywords upp/ner:** Ej tillgänglig (ingen dataåtkomst)
+
+**Åtgärd krävs:** Autentisera Supermetrics GSC via länken i `kund_searchboost_tasks.md` för att möjliggöra regressionscheck utan EC2-åtkomst.
+
+---
+
 ## Nästa kund att prioritera
 1. **ilmonte** — artikel skriven 2026-05-06, väntar på deploy (kör publish-script från EC2)
 2. **traficator** — WP REST ger 500, undersök manuellt

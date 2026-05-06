@@ -1,13 +1,18 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-05
+> Senast uppdaterad: 2026-05-06
 
 ## Regressionsvarningar
 
-_Ingen data — EC2-servern returnerade 503 vid senaste check (2026-05-05). Kör `node scripts/regression-check.js` när servern är uppe._
+_Ingen data — Dubbelt blockerad (2026-05-06):_
+- _EC2-API ej nåbar från sandbox (503/TLS)_
+- _Supermetrics GSC ej autentiserad — logga in via länk nedan för att låsa upp_
 
-Senaste check: 2026-05-05
+**Åtgärd för att låsa upp:** Mikael loggar in på Supermetrics GSC med Google-kontot som äger GSC-properties:
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/bRndbWCv_XlncdY2NHrK_C4KVQRFUOEVmqX5NVwrb9Au58dUEA`
+
+Senaste check: 2026-05-06
 
 ## Publicerade artiklar
 

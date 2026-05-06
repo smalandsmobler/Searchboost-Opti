@@ -1,13 +1,13 @@
 # nordicsnusonline — Tasks & Status
 
 > Kund: nordicsnusonline.se (prospekt/okänd status) | GSC: Ej aktiv
-> Senast uppdaterad: 2026-05-05
+> Senast uppdaterad: 2026-05-06
 
 ## Regressionsvarningar
 
 _Ingen GSC-data: Ej aktiv kund i systemet. Regressionscheck ej möjlig._
 
-Senaste check: 2026-05-05
+Senaste check: 2026-05-06
 
 ## Status
 - Inte registrerad i BigQuery/customer_pipeline
