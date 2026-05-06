@@ -17,6 +17,15 @@ Senaste check: 2026-05-05
 |-------|-------|-----|
 | 2026-04-25 | Scenpodium-guide | https://ilmonte.se/produktutveckling/scenpodium-guide-hojd-storlek-ratt-val/ |
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv köpguide: "Köpa scenpodium 2026 — storlekar, material och priser" | **HÖG** | Alla konkurrenter (Evivent, Eventpatrullen) täcker hyra-intention — ingen täcker köp-intention |
+| Lägg till Product schema på alla scenpodium-produktsidor | **HÖG** | Inga konkurrenter har Product schema — stor SEO-möjlighet |
+| Skriv artikel: "Hyra eller köpa scenpodium? — 5 faktorer som avgör" | **HÖG** | Obestridd nisch — ta uthyrningstrafiken och konvertera till köp |
+| Lägg till FAQ-schema på scenpodium-kategorisida (höjder, material, storlekar) | Medel | Inga konkurrenter har FAQ schema |
+
 ## Keywords
 - 30 st inlagda (9A + 14B + 7C)
 
