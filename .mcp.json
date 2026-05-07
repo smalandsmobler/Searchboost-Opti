@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "web-to-mcp": {
+      "type": "http",
+      "url": "https://web-to-mcp.com/mcp/5dd66374-b95e-4f05-9a03-86e813d2cde7/"
+    },
+    "perispa": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/perispa/index.js"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    }
+  }
+}
