@@ -1,224 +1,37 @@
----
-name: Möbelrondellen tasks
-description: Möbelrondellen task-checklista
-type: project
----
+# mobelrondellen — Tasks & Status
 
-# Möbelrondellen — Tasks
+> Kund: mobelrondellen.se | GSC: OK | WP-creds: OK
+> Senast uppdaterad: 2026-05-07
 
-**Status**: Aktiv — relation reparerad
-**Kontakt**: Mattias (mattias@mobelrondellen.se)
-**Site**: https://mobelrondellen.se (React SPA + WP/WooCommerce hybrid, Sucuri WAF)
+## Regressionsvarningar
 
-## Fakturering
+_Ingen data — Dubbelt blockerad (2026-05-07):_
+- _EC2-API ej nåbar från sandbox (503) — servern nere_
+- _Supermetrics GSC ej autentiserad — se searchboost-filen för ny inloggningslänk_
 
-- **Faktura skickad 2026-04-19** (10 dagar försenad): **8 750 kr** — 10 dagars betalvillkor → förfall ~2026-04-29.
-- Mattias var missnöjd ett tag men ger nu positiv feedback. Relationen OK.
+Senaste check: 2026-05-07
 
-## Nästa steg
-- [ ] Mattias: ladda upp leverantörsbilder som kategori-thumbnails (matmöbler, sängar)
-- [ ] Nästa batch artiklar vecka 24
-- [ ] **robots.txt fixad**: Sucuri WAF blockerar externa curl-anrop (455). Mikael: gå in manuellt på mobelrondellen.se/robots.txt i browser och ta bort alla Sitemap-rader som pekar på `/sitemap_index.xml` (ger 404). Lägg bara in korrekt sitemap om den finns.
+## Publicerade artiklar
 
-## Klart 2026-04-20 (SEO-audit)
-- [x] Teknisk SEO-audit genomförd: GA4 OK, GTM OK (Site Kit installerat), Rank Math aktiv
-- [x] robots.txt: Sucuri WAF blockerar Claude (455) — Mikael behöver kolla manuellt
+| Datum | Titel | URL |
+|-------|-------|-----|
+| 2026-04-29 | Fåtölj guide 2026 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
 
-## Klart 2026-04-19 (vecka 23)
-- [x] 3 artiklar publicerade vecka 23 (kat ID:113 Blogg):
-  - ID:5351 /valja-ratt-soffa-guide-till-material-storlek-och-stil/ (focus: välja rätt soffa)
-  - ID:5352 /ratt-sang-for-battre-somn-guide-till-madrasser-och-baddval/ (focus: rätt säng bättre sömn)
-  - ID:5353 /inreda-litet-vardagsrum-8-smarta-tips-for-mer-yta/ (focus: inreda litet vardagsrum)
-- [x] Mobilfix öppettider-sidan (Snippet ID:110) — sökfält dolt, grid en-kolumn, tabeller fixade
+## Utfört arbete (historik)
+- Plugin-cleanup: 325 → 7 plugins
+- Kontaktsida: CF7-formulär städat
+- Varumärken-sida: HTML-grid med 18 varumärken
+- Slider Revolution: verifierad OK
 
-## Klart 2026-04-17 (SEO-batch kvällsoptimering)
-- [x] Redan optimerad — Code Snippet #64 genererar custom meta output (title/desc/OG/Twitter/canonical) för alla page-types. Ingen ytterligare meta-optimering behövdes. Sucuri WAF blockerar curl men alla snippets är aktiva.
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
 
-## Klart 2026-04-17 (vecka 22 — vecka 21 hoppades över)
-- [x] 3 artiklar publicerade vecka 22 (kat ID:113 Blogg) — Rank Math meta satt + verifierad via snippet #73 (one-shot) + #74 (temp verify, deaktiverad):
-  - ID:5341 /2026/04/16/valja-matstolar-guide/ (focus: matstolar)
-  - ID:5343 /2026/04/16/inreda-liten-hall-tips/ (focus: inreda liten hall)
-  - ID:5345 /2026/04/16/lampor-vardagsrum-kombinationer/ (focus: lampor vardagsrum)
-  - Alla artiklar internlänkar till `/hitta-hit/` + `/butik/` (min 2 interna länkar per artikel)
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv köpguide: "Bästa soffan 2026 — guide för dig som vill ha kvalitet" | **HÖG** | Furniturebox/Trademax saknar rådgivande innehåll — gap att fylla |
+| Lokalt SEO-inlägg: "Möbler Mora — vad du bör tänka på" | **HÖG** | Inga konkurrenter har lokalt innehåll för Mora/Dalarna |
+| Komplettera fåtölj-guiden med Product + FAQ schema | Medel | Ingen konkurrent har schema på köpguider |
 
-## Klart 2026-04-16
-- [x] **Info-box "Normalt lagervara"** tillagd på produktsidor via Code Snippet #55. Hakar in på `woocommerce_single_product_summary` priority 25.
-- [x] **Komplett SEO-audit 2026-04-16** — `presentations/mobelrondellen-seo-audit-2026-04-16.md`.
-- [x] **SEO-audit Sprint 1+2+3 deployat 2026-04-16**: 11 nya/uppdaterade Code Snippets (#55-70) + ny `/om-oss/` (ID 5340) + rewritten `.htaccess`, `robots.txt`, `llms.txt`, `index.html`. Se `presentations/mobelrondellen-seo-fixes-deployed-2026-04-16.md` för full lista.
-  - **Custom meta output** (snippet #64, aktivt): title/desc/OG/Twitter/canonical för home/shop/product/product_cat/category/brand/post/page — ersätter Rank Math Frontend som inte laddas (plugin-bugg).
-  - **LocalBusiness + WebSite schema** (snippet #58, aktivt): FurnitureStore på home/kontakt/hitta-hit/oppettider/leveranser/om-oss. WebSite+SearchAction på home.
-  - **FAQ schema + synlig FAQ-sektion** (snippet #70, aktivt): på 3 toppartiklar (bokhylla 5294, tv-bänk 5293, köp madrass 5291) med 4 Q&A var.
-  - **.htaccess omskriven** (snippet #66, one-shot): HTTPS+www 301, `/kollektioner/*` → `/produkt-kategori/*` 301, `/blogg/`+`/blog/`+`/news/` → `/category/blogg/` 301, `/produkt-kategori/` → `/butik/` 301. Backup sparad som `.htaccess.bak-YYYYMMDD-HHMMSS`.
-  - **robots.txt** (snippet #68): nytt med Disallow för wp-admin/cart/checkout/mitt-konto/sök-params/filter/produkt-tagg. Pekar nu på `/wp-sitemap.xml` + `/sitemap_index.xml`. Legacy static `/sitemap.xml` raderad.
-  - **llms.txt** (snippet #9+#67): alla `/kollektioner/*` URL:er ersatta med `/produkt-kategori/*`. Fler kategorier listade.
-  - **index.html (home)** (snippet #69, one-shot): enriched med meta description, OG, Twitter, canonical, WebSite + FurnitureStore JSON-LD schema. Body har nu H1 "Möbelrondellen i Mora", H2, 4 kategori-kort, intro-text och kontaktinfo (synligt för bots innan React tar över). HTML lang satt till `sv-SE`.
-  - **Rank Math templates + wizard** (snippet #56 #62, one-shot): konfig sparad i options (homepage/product/category/brand templates) + setup wizard markerad complete. OBS: Rank Math Frontend modulen laddas fortfarande inte (bug i Registration-gating). Mikael kan klicka igenom wp-admin för att slutföra aktivering senare — templates är då redo att användas.
-  - **/om-oss/** (page ID 5340): ny sida med innehåll om företaget sedan 1990, kategorilänkar, CTA till butik/kontakt.
-  - **Noindex för thin content**: produkt-tagg, post-tag, author, date, search, 404 — via Rank Math templates + min egen wp_head snippet för säkerhets skull.
-  - **Shop (/butik/)**: custom title "Webbutik — alla möbler | Möbelrondellen i Mora" + description.
-  - **Active snippets efter cleanup**: #55 (lagervara info-box), #58 (schema), #64 (meta output), #70 (FAQ). Alla one-shot:ar (#56, #57, #62, #66, #67, #68, #69) deactiverade men kvar.
-- **Fortfarande kvar**: Permalink-migration från `/YYYY/MM/DD/slug/` till `/%postname%/` (kräver Mikaels godkännande då det bryter befintliga länkar).
-
-## Klart 2026-04-17 (SPRINT 2 fortsättning)
-- [x] **Alt-text audit**: 158 produkter scannade via Code Snippet #75 (one-shot, deaktiverad). 48 bilder uppdaterade (tidigare tomma eller tunna: "Manchester", "Verona", "Tea time" → fullständiga beskrivningar). 241 bilder hade redan bra alt-text. Format: `{produktnamn} – {kategori} | Möbelrondellen Mora` (med `– bild N`-suffix för gallery-bilder 2+). Snippet #75 kan reaktiveras om nya produkter läggs till.
-
-## Klart 2026-04-14 (kväll — avslut)
-- [x] **Footer** 3-kolumns layout (Snippet #46 v3): Möbelrondellen | Kontakt | Öppettider
-- [x] **Junk-sidor rensade**: under-bearbetning, quiz, 3 tomma blogginlägg → draft
-- [x] **Header alignment CSS** tillagd i snippet #42 — logo + sökfält vertikalt centrerade
-- [x] **Respira-beroenden verifierade**: Allt i Code Snippets + WP REST — Respira kan tas bort
-- [x] Snippet #42 (design) active ✓ | Snippet #45 (brand) active ✓ | Snippet #46 (footer) active ✓
-
-## Klart 2026-04-14 (WP-sidor ombyggda)
-- [x] **6 statiska sidor ombyggda** med clean modern HTML via WP REST API:
-  - Kontakt (ID:325): 2-kolumn CF7-form + adresskort
-  - Öppettider (ID:16): 2 kort — normala tider + storhelger med tabeller
-  - Hitta hit (ID:330): adresskort + Google Maps iframe + vägbeskrivning-länk
-  - Leveranser (ID:20): 6 priskort per region (Mora, Älvdalen, Rättvik, Malung, Idre + gratis släplån)
-  - Delbetalning (ID:18): krav-lista + 4 betalningsalternativskort + Ansök-knapp → apply.resurs.com/QP6F9
-  - Varumärken (ID:1948): 18-varumärkesgrid med design system-styling
-- [x] **Font fix**: `*{font-family:inherit!important}` tillagd i snippet #42 → Inter cascadar till ALLA element
-- [x] **Banner full-width fix**: `.woocommerce-products-header` får `width:calc(100%+48px);margin-left:-24px` → bryter ut ur site-main padding
-- [x] Sidebar fix: `body.mr-wc-page aside.widget-area{float:none;width:100%}` i snippet #42
-
-## Klart 2026-04-14 (WP-design ombyggnad)
-- [x] **CSS design system injekterat** via Code Snippets #42 (global scope)
-  - Inter + Playfair Display fonts via Google Fonts
-  - Primary color: #b5203c (burgundy) på priser, badges, knappar, breadcrumbs
-  - Product grid: auto-fill minmax(260px, 1fr), gap 28px, rounded cards
-  - Hover effects: bild zoom scale(1.06) + card lift translateY(-4px) + shadow
-  - Button hover: darker #8f192f + glow box-shadow rgba(181,32,60,.40)
-  - `.btn-product-read-more` (custom theme class) inkluderad i button-selectors
-  - Footer: dark #1a1a1a, Inter text, burgundy link hover
-  - Forms: border-radius, focus glow i burgundy
-  - Responsive: 2-col grid på tablet, 1-col på mobil
-- [x] **Lazy loading**: native WP wp_lazy_loading_enabled=true (Optimole CDN hanterar resten)
-
-## Klart 2026-04-14
-- [x] **"Utforska sortimentet"-fix**: Capture-fas click-interceptor tillagd i `assets/img-updater.js` — intercepts React Router-klick och tvingar riktig sidnavigering → snippet #7 PHP-redirect körs → `/butik/?product_cat=...`
-- [x] **Bildcachning fix**: Snippet #19 uppdaterad med `rest_pre_serve_request` + PHP `header()` direkt → API returnerar nu `Cache-Control: no-store, no-cache, must-revalidate, max-age=0` (verifierat)
-- [x] **index.html rekonstruerad**: Råkade tömmas under diagnostik, återställd med korrekt React-bundle-referens + img-updater.js
-
-## Klart 2026-04-13 (internlänkar — kannibalisering)
-- [x] Internlänkar tillagda i 3 artiklar → primary `/hitta-hit/` (möbelaffär i Mora):
-  - ID:5294 /bokhylla-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - ID:5293 /tv-bank-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - ID:5291 /kopa-madrass-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - Strategi: secondary-artiklarna signalerar nu tydligt till Google att `/hitta-hit/` är primary för lokala sökord
-
-## Klart 2026-04-16
-- [x] **Info-box "Normalt lagervara"** tillagd på produktsidor via Code Snippet #55. Hakar in på `woocommerce_single_product_summary` priority 25.
-- [x] **Komplett SEO-audit 2026-04-16** — `presentations/mobelrondellen-seo-audit-2026-04-16.md`.
-- [x] **SEO-audit Sprint 1+2+3 deployat 2026-04-16**: 11 nya/uppdaterade Code Snippets (#55-70) + ny `/om-oss/` (ID 5340) + rewritten `.htaccess`, `robots.txt`, `llms.txt`, `index.html`. Se `presentations/mobelrondellen-seo-fixes-deployed-2026-04-16.md` för full lista.
-  - **Custom meta output** (snippet #64, aktivt): title/desc/OG/Twitter/canonical för home/shop/product/product_cat/category/brand/post/page — ersätter Rank Math Frontend som inte laddas (plugin-bugg).
-  - **LocalBusiness + WebSite schema** (snippet #58, aktivt): FurnitureStore på home/kontakt/hitta-hit/oppettider/leveranser/om-oss. WebSite+SearchAction på home.
-  - **FAQ schema + synlig FAQ-sektion** (snippet #70, aktivt): på 3 toppartiklar (bokhylla 5294, tv-bänk 5293, köp madrass 5291) med 4 Q&A var.
-  - **.htaccess omskriven** (snippet #66, one-shot): HTTPS+www 301, `/kollektioner/*` → `/produkt-kategori/*` 301, `/blogg/`+`/blog/`+`/news/` → `/category/blogg/` 301, `/produkt-kategori/` → `/butik/` 301. Backup sparad som `.htaccess.bak-YYYYMMDD-HHMMSS`.
-  - **robots.txt** (snippet #68): nytt med Disallow för wp-admin/cart/checkout/mitt-konto/sök-params/filter/produkt-tagg. Pekar nu på `/wp-sitemap.xml` + `/sitemap_index.xml`. Legacy static `/sitemap.xml` raderad.
-  - **llms.txt** (snippet #9+#67): alla `/kollektioner/*` URL:er ersatta med `/produkt-kategori/*`. Fler kategorier listade.
-  - **index.html (home)** (snippet #69, one-shot): enriched med meta description, OG, Twitter, canonical, WebSite + FurnitureStore JSON-LD schema. Body har nu H1 "Möbelrondellen i Mora", H2, 4 kategori-kort, intro-text och kontaktinfo (synligt för bots innan React tar över). HTML lang satt till `sv-SE`.
-  - **Rank Math templates + wizard** (snippet #56 #62, one-shot): konfig sparad i options (homepage/product/category/brand templates) + setup wizard markerad complete. OBS: Rank Math Frontend modulen laddas fortfarande inte (bug i Registration-gating). Mikael kan klicka igenom wp-admin för att slutföra aktivering senare — templates är då redo att användas.
-  - **/om-oss/** (page ID 5340): ny sida med innehåll om företaget sedan 1990, kategorilänkar, CTA till butik/kontakt.
-  - **Noindex för thin content**: produkt-tagg, post-tag, author, date, search, 404 — via Rank Math templates + min egen wp_head snippet för säkerhets skull.
-  - **Shop (/butik/)**: custom title "Webbutik — alla möbler | Möbelrondellen i Mora" + description.
-  - **Active snippets efter cleanup**: #55 (lagervara info-box), #58 (schema), #64 (meta output), #70 (FAQ). Alla one-shot:ar (#56, #57, #62, #66, #67, #68, #69) deactiverade men kvar.
-- **Fortfarande kvar**: Alt-text audit på 163 produktbilder. Permalink-migration från `/YYYY/MM/DD/slug/` till `/%postname%/` (kräver Mikaels godkännande då det bryter befintliga länkar).
-
-## Klart 2026-04-14 (kväll — avslut)
-- [x] **Footer** 3-kolumns layout (Snippet #46 v3): Möbelrondellen | Kontakt | Öppettider
-- [x] **Junk-sidor rensade**: under-bearbetning, quiz, 3 tomma blogginlägg → draft
-- [x] **Header alignment CSS** tillagd i snippet #42 — logo + sökfält vertikalt centrerade
-- [x] **Respira-beroenden verifierade**: Allt i Code Snippets + WP REST — Respira kan tas bort
-- [x] Snippet #42 (design) active ✓ | Snippet #45 (brand) active ✓ | Snippet #46 (footer) active ✓
-
-## Klart 2026-04-14 (WP-sidor ombyggda)
-- [x] **6 statiska sidor ombyggda** med clean modern HTML via WP REST API:
-  - Kontakt (ID:325): 2-kolumn CF7-form + adresskort
-  - Öppettider (ID:16): 2 kort — normala tider + storhelger med tabeller
-  - Hitta hit (ID:330): adresskort + Google Maps iframe + vägbeskrivning-länk
-  - Leveranser (ID:20): 6 priskort per region (Mora, Älvdalen, Rättvik, Malung, Idre + gratis släplån)
-  - Delbetalning (ID:18): krav-lista + 4 betalningsalternativskort + Ansök-knapp → apply.resurs.com/QP6F9
-  - Varumärken (ID:1948): 18-varumärkesgrid med design system-styling
-- [x] **Font fix**: `*{font-family:inherit!important}` tillagd i snippet #42 → Inter cascadar till ALLA element
-- [x] **Banner full-width fix**: `.woocommerce-products-header` får `width:calc(100%+48px);margin-left:-24px` → bryter ut ur site-main padding
-- [x] Sidebar fix: `body.mr-wc-page aside.widget-area{float:none;width:100%}` i snippet #42
-
-## Klart 2026-04-14 (WP-design ombyggnad)
-- [x] **CSS design system injekterat** via Code Snippets #42 (global scope)
-  - Inter + Playfair Display fonts via Google Fonts
-  - Primary color: #b5203c (burgundy) på priser, badges, knappar, breadcrumbs
-  - Product grid: auto-fill minmax(260px, 1fr), gap 28px, rounded cards
-  - Hover effects: bild zoom scale(1.06) + card lift translateY(-4px) + shadow
-  - Button hover: darker #8f192f + glow box-shadow rgba(181,32,60,.40)
-  - `.btn-product-read-more` (custom theme class) inkluderad i button-selectors
-  - Footer: dark #1a1a1a, Inter text, burgundy link hover
-  - Forms: border-radius, focus glow i burgundy
-  - Responsive: 2-col grid på tablet, 1-col på mobil
-- [x] **Lazy loading**: native WP wp_lazy_loading_enabled=true (Optimole CDN hanterar resten)
-
-## Klart 2026-04-14
-- [x] **"Utforska sortimentet"-fix**: Capture-fas click-interceptor tillagd i `assets/img-updater.js` — intercepts React Router-klick och tvingar riktig sidnavigering → snippet #7 PHP-redirect körs → `/butik/?product_cat=...`
-- [x] **Bildcachning fix**: Snippet #19 uppdaterad med `rest_pre_serve_request` + PHP `header()` direkt → API returnerar nu `Cache-Control: no-store, no-cache, must-revalidate, max-age=0` (verifierat)
-- [x] **index.html rekonstruerad**: Råkade tömmas under diagnostik, återställd med korrekt React-bundle-referens + img-updater.js
-
-## Klart 2026-04-13 (internlänkar — kannibalisering)
-- [x] Internlänkar tillagda i 3 artiklar → primary `/hitta-hit/` (möbelaffär i Mora):
-  - ID:5294 /bokhylla-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - ID:5293 /tv-bank-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - ID:5291 /kopa-madrass-guide-2026/ — H2-rubrik + intro-stycke länkade med anchor "Möbelrondellen i Mora"
-  - Strategi: secondary-artiklarna signalerar nu tydligt till Google att `/hitta-hit/` är primary för lokala sökord
-
-## Klart 2026-04-13 (vecka 20)
-- [x] 3 artiklar publicerade vecka 20 (kat ID:113 Blogg):
-  - ID:5292 /kopa-madrass-guide-2026-2/ (focus: köpa madrass guide)
-  - ID:5293 /tv-bank-guide-2026/ (focus: tv-bänk guide)
-  - ID:5294 /bokhylla-guide-2026/ (focus: bokhylla välja)
-
-## Klart 2026-04-12 (kväll)
-- [x] 3 artiklar publicerade vecka 19 (kat ID:113 Blogg):
-  - ID:5288 /baddsoffa-guide-2026/ (focus: bäddsoffa)
-  - ID:5289 /fatol-vardagsrum-guide/ (focus: fåtölj vardagsrum)
-  - ID:5290 /soffbord-guide-2026/ (focus: soffbord)
-
-## Klart 2026-04-12
-- [x] 3 artiklar publicerade vecka 18 (kat ID:113 Blogg):
-  - ID:5285 /kopa-soffa-guide-2026/ (focus: köpa soffa)
-  - ID:5286 /sang-guide-2026-madrass-sangram/ (focus: köpa säng)
-  - ID:5287 /inreda-vardagsrum-tips/ (focus: inreda vardagsrum)
-
-## Klart 2026-04-10
-- [x] 3 artiklar publicerade (Blogg, kat ID:113):
-  - ID:5282 /soffgrupper-2026-stor-guide-till-soffa-och-soffbord-for-vardagsrummet/
-  - ID:5283 /kontorsstol-2026-vad-du-ska-tanka-pa-nar-du-koper-kontorsstol/
-  - ID:5284 /matgrupp-guide-till-ratt-matbord-och-stolar-for-koket/
-
-## Mail skickat 2026-04-10
-- [x] Mail till Mattias: förklarat bilduppdatering (kategori-thumbnails i WP) + bekräftat att "Utforska sortimentet"-knappen är fixad med 301-redirects
-
-## Arkitektur — klarlagt 2026-04-10
-- React SPA fetchar redan LIVE från WP REST API (`/wp-json/wp/v2/product?product_cat=...`)
-- Kategori-korten visar featured image på produkterna i respektive kategori (dynamiskt från WP)
-- "F5 krävs" = browser cachade API-svaret → FIXAT: snippet #19 sätter `Cache-Control: no-store` på `/wp/v2/product` endpoints
-- `/images/category-*.jpg` = React placeholder-bilder som visas under < 1 sek medan API:t laddar (ofarliga, behöver ej bytas)
-- Sucuri WAF strippar inline `<script>` och `<script src>` som lagts till i index.html — script-injection-approach fungerar ej
-- Snippet #18 (cat-images endpoint) och snippet #17 (writefile) kan ligga kvar som infrastruktur
-
-## Klart 2026-04-10
-- [x] "Utforska sortimentet"-knappen fixad — /kollektioner/* redirectar 301 → /butik/?product_cat= med slug-mappning (snippet 7)
-- [x] Bilder-caching fixad — snippet #19 sätter no-cache headers på `/wp/v2/product` REST API så nya bilder syns direkt utan F5
-- [x] Arkitektur kartlagd: bilder är redan dynamiska från WP REST API (inte hårdkodade i bundle)
-
-## Klart tidigare
-- [x] Kontakt-sidan CF7 honeypot borttaget
-- [x] Varumärken-sidan grid av 18 varumärken via SiteOrigin PB
-- [x] SPA restore + .htaccess hybrid routing
-- [x] Hummingbird cache av (var cached stale content)
-
-## Arkitekturproblem (dokumenterat)
-SPA (React) = startsida + kollektions-vyer hårdkodade med bilder i JS-bundle.
-WP/WooCommerce = produkter, kategorier, artiklar, kontakt.
-Ny bild i WP → syns inte på startsidan förrän JS-bundlen byggs om.
-Fix: konvertera SPA att fetch:a bilder från WP REST API vid runtime.
-
-## Referenser
-- `kunder.md`
+## Status
+- WP-creds: OK
+- GSC: OK (https://www.mobelrondellen.se/)
+- OBS: Sucuri WAF — curl ger HTTP 455 men sidan fungerar i browser

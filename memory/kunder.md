@@ -1,127 +1,46 @@
-# Kundöversikt — Searchboost Opti
+# Kunder — Content-rotation
 
-Uppdaterad: 2026-04-25 (Rank Math Pro installerat på alla kunder utom NSO via mikael.searchboost@gmail.com-licensen)
+> Uppdateras varje körning av content-fabriken.
+> Senast uppdaterad: 2026-05-06
 
-## Aktiva kunder
+## Senaste artikel per kund
 
-| Kund | WP-creds | GSC | Keywords | Status |
-|------|----------|-----|----------|--------|
-| searchboost | OK | OK | OK | Aktiv — **2026-04-18**: Full audit via Perispa (100 SEO-meta, 63 internlankar, 24 schema, 3 artiklar, 7 plugins bort). Leadgen-infra bygd: /partner/ (ID:2890), /nyhetsbrev/ (ID:2891), /gratis-seo-analys/ uppgraderad, exit-intent popup live (Snippet#13), 3-mail email-sekvens skriven, agency directory-profiler klara. Kvar: Mailchimp-koppling, faktisk PDF, GBP-optimering, LinkedIn-strategi. |
-| ilmonte | OK | ÄGARE (SA + Mikael) | OK | **RETENTION** — 30 dagars gratis t.o.m. 2026-05-08 + fakturerbar malware-räddning separat. **2026-04-17→18**: Live på Loopia (DNS 17/4 ~15:00), DB-sanering (~20 000 obj), 4 samarbetspartnerskonton bortkopplade (Matti ASOS, Fredric/Mastodont, Thomas, Henrik), GSC hackar-tokens borttagna, Dajana bort. SEO-stack fullt återställd: robots.txt (2166 b), llms.txt, produktschema brand+image på 730, placeholder på 401 obilderade, H1 på alla toppsidor, notis-sanering. 28 nya guide-artiklar sedan 8/4. **Forensisk rapport (11-sidig PDF) + mail SKICKAT till Peter 2026-04-18**. Kundmapp: `leveranser/ilmonte/`. |
-| mobelrondellen | OK | OK | OK | Aktiv — **full SEO-audit + Sprint 1-3 deployat 2026-04-16**: titles/desc/OG/canonical på alla page-types, LocalBusiness + WebSite + FAQ schema, HTTPS+www 301 via .htaccess, /kollektioner/→/produkt-kategori/ 301, /blogg//blog//news/ 301 till /category/blogg/, ny /om-oss/, enriched index.html med H1/H2/schema för bots, robots.txt + llms.txt uppdaterade, noindex på thin content. Se `presentations/mobelrondellen-seo-audit-2026-04-16.md` + `-fixes-deployed-2026-04-16.md`. Active snippets: #55 #58 #64 #70 |
-| humanpower-se | OK | — | OK | Aktiv — meta batch 2026-04-17 (8 upd). **2026-04-16**: Utvecklande samtal hero nu full-width (Kadence fullwidth-meta + CSS override), Kosttillskott-sidan ombyggd i SagaPro-stil med clean 2x2 produktgrid, burk-bilder i fokus, 4 produkter à 399 kr/burk (SagaPRO, Astaxanthin, AstaEye, AstaSkin) med tagline+quote+benefits+CTA per produkt |
-| tobler | OK | — | OK | Aktiv — Tobler Ställningsprodukter AB, Torslanda. Bröderna Viktor & Jakob Frostenäs. B2B-leverantör av byggställningar + fallskydd + formsystem + arbetskläder |
-| traficator | OK | — | OK | Aktiv — `mikael`-konto full admin access (verifierat 2026-04-09 via cred_check.py) |
-| jelmtech | OK | OK | OK | Aktiv — 30 ABC-keywords + audit klar. Saknar artiklar |
-| smalandskontorsmobler | OK | OK | OK | Aktiv — SSM-URL fixad 2026-04-08 (ny.→huvuddomän). Optimizer kör nu |
-| ferox | OK | — | — | Aktiv — Shopify-migrering pågår, lansering **FLYTTAD** från 2026-04-09 |
-| nordicsnusonline | — | — | — | Prospect/ny — 8 000 kr/mån Premium, AI-sök som enda kanal |
+| Kund            | Senaste artikel                        | Datum      | URL |
+|-----------------|---------------------------------------|------------|-----|
+| jelmtech        | ABS-plast guide                       | 2026-05-04 | Publiceras — kör scripts/publish-jelmtech-abs-artikel.js |
+| ilmonte         | Hyra eller köpa scenpodium? (⚠ ej deployad) | 2026-05-06 | Kör scripts/publish-ilmonte-hyra-kopa-scenpodium.js från EC2 |
+| mobelrondellen  | Fåtölj 2026                           | 2026-04-29 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
+| tobler          | Modulställning                        | 2026-05-03 | https://tobler.se/produktutveckling/kopa-modulstallning-vad-du-behover-veta-om-system-pris-och-leverantorer/ |
+| traficator      | (okänt — REST 500)                    | —          | — |
+| searchboost     | SEO-skola artiklar                    | —          | https://searchboost.se/seo-skola/ |
+| smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
+| humanpower      | (ej registrerad)                      | —          | — |
+| nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
 
-## Avslutade kunder (SSM-creds raderade)
+## Regressionscheck — Veckosammanfattning 2026-05-06
 
-- **Kompetensutveckla** — AVSLUTAD 2026-03-13 (SSM redan tomt vid check 2026-04-08)
-- **Wedosigns** — AVSLUTAD 2026-04-03, SSM raderat 2026-04-08 kväll (faktura bestrids)
-- **Phvast** — AVSLUTAD 2026-04-07, SSM raderat 2026-04-07
+**Status: Blockerad — data ej tillgänglig**
 
-## SSM-sökvägar (credentials)
-- WP: `/seo-mcp/wordpress/{id}/` OCH `/seo-mcp/integrations/{id}/` — kolla BÅDA
-- GSC: `/seo-mcp/integrations/{id}/gsc-property`
-- Email: `/seo-mcp/integrations/{id}/contact-email`
-- Shopify: `/seo-mcp/shopify/{shop-slug}/access-token` (efter OAuth-flow deployat)
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| mobelrondellen | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| smalandskontorsmobler | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
 
-## Portalanvändare (skapade 2026-02-20)
-Alla aktiva kunder har konton i portalen. Email = användarnamn.
-Lösenord finns i `/tmp/portal_credentials.json` (lokal maskin).
+**Keywords upp/ner:** Ej tillgänglig (ingen dataåtkomst)
 
----
-
-## Smålands Kontorsmöbler (SMK)
-
-**WooCommerce-sajt**: https://smalandskontorsmobler.se (INTE ny. — 2026-04-08 fix)
-**WP-login**: searchboost / SmkWoo2026!Sb
-**WP App Password**: ySlF 8pM4 AAS3 i8aB dK9g g51C (genererat 2026-03-12)
-**WP App Password (sbadmin)**: RX0e iWOT 1w4A aWC5 Yiel nxj7 (genererat 2026-03-31)
-**FTP**: smkadmin / SmkFtp2026Sb @ ftpcluster.loopia.se (451-fel >10KB → använd base64+PHP)
-**Loopia**: smalandsmobler.se / zzEM3CEkD6jq (kundnr FA47-72-74-1576)
-**Kontakt**: Mikael Nilsson, mikael@smalandskontorsmobler.se
-**Deal**: 6 mån × 7 000 kr = 42 000 kr (WooCommerce-migrering från Abicart)
-**GSC**: https://www.smalandskontorsmobler.se/
-**GA4**: 395555935
-**Swedbank Pay**: payee-id + token i SSM
-
-Nuläge (2026-04-08):
-- 898 produkter, alla med bilder/priser/beskrivningar
-- Kassa fungerar (fix 2026-04-07: shortcode tillbaka, billing_company optional, FCF avaktiverad)
-- DNS: SPF + DMARC fixade 2026-04-07 (via Loopia API, user `searchboost@loopiaapi`)
-- SMTP: wp-mail-smtp aktiv, Micke fick Loopia-lösen via kundzon (ej bekräftat)
-- Optimizer: SSM-URL fixad 2026-04-08 kväll, första körning pågår
-- Bloggartiklar: 5+ i mars 2026 (bra takt)
-- Senaste riktiga order: 2026-03-28 (10 dagar sen — ovanligt)
-
-Kvar att göra: se `smk_status_2026-04-08.md`.
+**Åtgärd krävs:** Autentisera Supermetrics GSC via länken i `kund_searchboost_tasks.md` för att möjliggöra regressionscheck utan EC2-åtkomst.
 
 ---
 
-## Ilmonte — RETENTION-LÄGE
-
-**Sajt**: ilmonte.se
-**WP-login**: Mikael Larsson (id 1097, administrator) — app-password i SSM
-**Kontakt**: Peter Vikström, sales@ilmonte.se
-**Bransch**: scenpodier, dansmattor, scentextil, eventinredning
-**GA4**: 331290031
-**GSC**: ej ägare (kräver åtgärd från Peter)
-**Beebyte API key**: i SSM
-
-**Status 2026-04-08**: Risk att förlora kunden. Mikael har erbjudit 30 dagars gratis från ikväll. Plan: handpåläggning + 2–3 artiklar/vecka + tekniska fixar. Se fullständig plan i `ilmonte_retention.md`.
-
----
-
-## Jelmtech
-
-**Sajt**: jelmtech.se
-**WP-login**: mikael_searchboost / A@JzJb6GSJJsDkMRWtzbmk$O
-**WP-admin (gammal)**: web@searchboost.se / G53(k06yd(0N55H85agcbu@V (ej verifierat)
-**App-password**: searchboost / 5vLsLvE&TBG4qDVf0ZTxNyYE (var ogiltig — behöver verifieras/förnyas)
-**CMS**: WordPress + Divi-tema
-**Kontakt**: Camilla Lundström, camilla.lundstrom@jelmtech.se
-**Deal**: 3 mån × 8 000 kr = 24 000 kr (Standard)
-**GSC**: https://jelmtech.se/
-**Customer ID**: jelmtech-se
-**Portal**: camilla.lundstrom@jelmtech.se / 634T7jIrKUZS
-**Onboardad**: 2026-03-07
-
-**Status**:
-- Audit klar 2026-02-17 (score 62/100)
-- 30 ABC-nyckelord inlagda
-- B2B produktutveckling — plastkonstruktioner, industridesign, prototyper
-- Kritiska fixar: language en-US→sv-SE, ingen SEO-plugin, tunna meta-desc
-- **HAR redan fått artiklar** (Mikael korrigerade 2026-04-09 — tidigare notering var fel)
-- **NYA artiklar behövs nu** — dags för nästa batch
-
----
-
-## Traficator
-
-**Sajt**: traficator.se
-**WP-login**: searchboost (begränsat) / `mikael` (administrator — full access)
-**SSM-creds**: `/seo-mcp/wordpress/traficator/{url,username,app-password}` → `mikael`-kontot har full admin via REST (verifierat 2026-04-09)
-**CMS**: WordPress 6.9.1 + Flatsome-tema + Rank Math SEO Pro
-**Kontakt**: patrik.carlsson@traficator.se
-**Status**: Aktiv, GSC ej kopplat
-**Not**: GAMMAL felinfo "rest_cannot_create" gällde searchboost-user, inte `mikael`. Cred-check 2026-04-09 bekräftar: `mikael` kan skapa posts, publicera, manage options.
-
----
-
-## Nordic Snus Online (prospect/ny)
-
-**Avtal**: 8 000 kr/mån Premium
-**Nyckelvinkel**: Kan inte använda Google Ads/Meta → AI-sök är enda kanalen
-**Briefing**: `docs/briefing-ai-search-produktfeed-2026.md`
-
----
-
-## Ferox Konsult AB
-
-Se fullständig info i `ferox_shopify.md`.
-
-**Kort**: Shopify-migrering från gamla feroxkonsult.se. 17 produkter redan importerade. Markets + betalning + moms klara. Väntar på Andreas fraktpriser + GSC-ägarskap + domän-koppling. **Lansering flyttad från 2026-04-09** — vi jobbar vidare med hans input.
+## Nästa kund att prioritera
+1. **ilmonte** — artikel skriven 2026-05-06, väntar på deploy (kör publish-script från EC2)
+2. **traficator** — WP REST ger 500, undersök manuellt
+3. **jelmtech** — ABS-artikel skriven men ej deployad (kör publish-script från EC2)
+4. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
