@@ -1,18 +1,18 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-06
+> Senast uppdaterad: 2026-05-07
 
 ## Regressionsvarningar
 
-_Ingen data — Dubbelt blockerad (2026-05-06):_
-- _EC2-API ej nåbar från sandbox (503/TLS)_
+_Ingen data — Dubbelt blockerad (2026-05-07):_
+- _EC2-API ej nåbar från sandbox (503) — servern nere_
 - _Supermetrics GSC ej autentiserad — logga in via länk nedan för att låsa upp_
 
 **Åtgärd för att låsa upp:** Mikael loggar in på Supermetrics GSC med Google-kontot som äger GSC-properties:
-`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/bRndbWCv_XlncdY2NHrK_C4KVQRFUOEVmqX5NVwrb9Au58dUEA`
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/oWSriELaHRJP7vljkcakijikJhMiJsBg1EJP3Pe0P1wS8xJCwQ`
 
-Senaste check: 2026-05-06
+Senaste check: 2026-05-07
 
 ## Publicerade artiklar
 

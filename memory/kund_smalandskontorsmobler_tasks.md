@@ -1,15 +1,15 @@
 # smalandskontorsmobler — Tasks & Status
 
 > Kund: smalandskontorsmobler.se (ny: ny.smalandskontorsmobler.se) | GSC: OK | WP-creds: SAKNAS
-> Senast uppdaterad: 2026-05-06
+> Senast uppdaterad: 2026-05-07
 
 ## Regressionsvarningar
 
-_Ingen data — Dubbelt blockerad (2026-05-06):_
-- _EC2-API ej nåbar från sandbox (503/TLS)_
-- _Supermetrics GSC ej autentiserad — se searchboost-filen för inloggningslänk_
+_Ingen data — Dubbelt blockerad (2026-05-07):_
+- _EC2-API ej nåbar från sandbox (503) — servern nere_
+- _Supermetrics GSC ej autentiserad — se searchboost-filen för ny inloggningslänk_
 
-Senaste check: 2026-05-06
+Senaste check: 2026-05-07
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
