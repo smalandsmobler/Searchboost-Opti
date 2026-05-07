@@ -23,6 +23,7 @@ Senaste check: 2026-05-07
 | Datum | Ämne | Post-ID | URL |
 |-------|------|---------|-----|
 | 2026-05-05 (tisdag) | SEO-automation resultat — 7 kunder, AI-optimering var 6:e timme | urn:li:share:7457354911865831424 | https://www.linkedin.com/feed/update/urn:li:share:7457354911865831424/ |
+| 2026-05-07 (torsdag) | Parallell content-publicering — 7 kunder samma vecka, SEO-content factory | urn:li:share:7458079749756702720 | https://www.linkedin.com/feed/update/urn:li:share:7458079749756702720/ |
 
 ## Status
 - WP-creds: OK
