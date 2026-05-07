@@ -97,7 +97,7 @@ Plattformen kör på AWS (EC2 + Lambda + BigQuery) och integrerar med WordPress,
 │                        DASHBOARD                                    │
 │                                                                     │
 │  URL: http://51.21.116.7/                                          │
-│  Login: searchboost.web@gmail.com / Opti0195                       │
+│  Login: mikael.searchboost@gmail.com / Opti0195                       │
 │         mikael.searchboost@gmail.com / Opti0195                    │
 │                                                                     │
 │  6 vyer:                                                           │
@@ -397,7 +397,7 @@ aws ec2 revoke-security-group-ingress --group-id sg-03cb7d131df0fbfb7 \
 
 | Problem | Orsak | Lösning |
 |---------|-------|---------|
-| ilmonte.se GSC | searchboost.web inte ägare | Be ilmonte-ägaren lägga till SA |
+| ilmonte.se GSC | mikael.searchboost inte ägare | Be ilmonte-ägaren lägga till SA |
 | 8 kunder har "placeholder" WP-creds | Inte aktiverade ännu | Generera app-passwords i varje kunds WP |
 | SE Ranking API 403 | Kontot saknar API-addon | Uppgradra SE Ranking eller använd enbart GSC |
 | Divi strippar `<script>` | Divi-tema säkerhetsfilter | Använd `wp_footer`-hook i WP-plugin |
@@ -740,7 +740,7 @@ claude
 # CLAUDE.md läses automatiskt — Claude har full systemkontext
 ```
 
-**Dashboard-login**: `searchboost.web@gmail.com` / `Opti0195`
+**Dashboard-login**: `mikael.searchboost@gmail.com` / `Opti0195`
 
 ---
 
@@ -838,5 +838,5 @@ Sätt låset → gör jobbet → ta bort det. Lås >2h = stale, ignoreras.
 
 ## Kontaktinfo
 - **Ägare**: Mikael Larsson (mikael@searchboost.se)
-- **Konto**: searchboost.web@gmail.com / mikael.searchboost@gmail.com
+- **Konto**: mikael.searchboost@gmail.com / mikael.searchboost@gmail.com
 - **Dashboard**: http://51.21.116.7/ (Opti0195)

@@ -1,15 +1,15 @@
 # Kundöversikt — Searchboost Opti
 
-Uppdaterad: 2026-04-16 (Mobelrondellen full SEO-audit + Sprint 1-3 deployat; Humanpower Utvecklande samtal + Kosttillskott ombyggda)
+Uppdaterad: 2026-04-25 (Rank Math Pro installerat på alla kunder utom NSO via mikael.searchboost@gmail.com-licensen)
 
 ## Aktiva kunder
 
 | Kund | WP-creds | GSC | Keywords | Status |
 |------|----------|-----|----------|--------|
-| searchboost | OK | OK | OK | Aktiv |
-| ilmonte | OK | EJ ägare | OK | **RETENTION** — 30 dagars gratis från 2026-04-08. Handpåläggning + 2–3 artiklar/vecka. Se `ilmonte_retention.md` |
+| searchboost | OK | OK | OK | Aktiv — **2026-04-18**: Full audit via Perispa (100 SEO-meta, 63 internlankar, 24 schema, 3 artiklar, 7 plugins bort). Leadgen-infra bygd: /partner/ (ID:2890), /nyhetsbrev/ (ID:2891), /gratis-seo-analys/ uppgraderad, exit-intent popup live (Snippet#13), 3-mail email-sekvens skriven, agency directory-profiler klara. Kvar: Mailchimp-koppling, faktisk PDF, GBP-optimering, LinkedIn-strategi. |
+| ilmonte | OK | ÄGARE (SA + Mikael) | OK | **RETENTION** — 30 dagars gratis t.o.m. 2026-05-08 + fakturerbar malware-räddning separat. **2026-04-17→18**: Live på Loopia (DNS 17/4 ~15:00), DB-sanering (~20 000 obj), 4 samarbetspartnerskonton bortkopplade (Matti ASOS, Fredric/Mastodont, Thomas, Henrik), GSC hackar-tokens borttagna, Dajana bort. SEO-stack fullt återställd: robots.txt (2166 b), llms.txt, produktschema brand+image på 730, placeholder på 401 obilderade, H1 på alla toppsidor, notis-sanering. 28 nya guide-artiklar sedan 8/4. **Forensisk rapport (11-sidig PDF) + mail SKICKAT till Peter 2026-04-18**. Kundmapp: `leveranser/ilmonte/`. |
 | mobelrondellen | OK | OK | OK | Aktiv — **full SEO-audit + Sprint 1-3 deployat 2026-04-16**: titles/desc/OG/canonical på alla page-types, LocalBusiness + WebSite + FAQ schema, HTTPS+www 301 via .htaccess, /kollektioner/→/produkt-kategori/ 301, /blogg//blog//news/ 301 till /category/blogg/, ny /om-oss/, enriched index.html med H1/H2/schema för bots, robots.txt + llms.txt uppdaterade, noindex på thin content. Se `presentations/mobelrondellen-seo-audit-2026-04-16.md` + `-fixes-deployed-2026-04-16.md`. Active snippets: #55 #58 #64 #70 |
-| humanpower-se | OK | — | OK | Aktiv — **2026-04-16**: Utvecklande samtal hero nu full-width (Kadence fullwidth-meta + CSS override), Kosttillskott-sidan ombyggd i SagaPro-stil med clean 2x2 produktgrid, burk-bilder i fokus, 4 produkter à 399 kr/burk (SagaPRO, Astaxanthin, AstaEye, AstaSkin) med tagline+quote+benefits+CTA per produkt |
+| humanpower-se | OK | — | OK | Aktiv — meta batch 2026-04-17 (8 upd). **2026-04-16**: Utvecklande samtal hero nu full-width (Kadence fullwidth-meta + CSS override), Kosttillskott-sidan ombyggd i SagaPro-stil med clean 2x2 produktgrid, burk-bilder i fokus, 4 produkter à 399 kr/burk (SagaPRO, Astaxanthin, AstaEye, AstaSkin) med tagline+quote+benefits+CTA per produkt |
 | tobler | OK | — | OK | Aktiv — Tobler Ställningsprodukter AB, Torslanda. Bröderna Viktor & Jakob Frostenäs. B2B-leverantör av byggställningar + fallskydd + formsystem + arbetskläder |
 | traficator | OK | — | OK | Aktiv — `mikael`-konto full admin access (verifierat 2026-04-09 via cred_check.py) |
 | jelmtech | OK | OK | OK | Aktiv — 30 ABC-keywords + audit klar. Saknar artiklar |

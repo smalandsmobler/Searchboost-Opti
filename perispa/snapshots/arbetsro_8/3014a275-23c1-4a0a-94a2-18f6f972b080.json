@@ -1,0 +1,16 @@
+{
+  "id": "3014a275-23c1-4a0a-94a2-18f6f972b080",
+  "created": "2026-04-29T20:23:19.959Z",
+  "site": "arbetsro",
+  "page_id": 8,
+  "type": "page",
+  "label": "auto-fix 2026-04-29",
+  "title": "Mitt konto",
+  "content": "<!-- wp:shortcode -->[woocommerce_my_account]<!-- /wp:shortcode -->",
+  "excerpt": "",
+  "meta": {
+    "footnotes": ""
+  },
+  "status": "publish",
+  "content_hash": "1c299487464a4380d640cc95c3b8087e"
+}

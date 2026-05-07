@@ -4,12 +4,15 @@
   "description": "Lambda functions for SEO MCP system",
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.0",
+    "@aws-sdk/client-lambda": "^3.709.0",
     "@aws-sdk/client-ses": "^3.709.0",
     "@aws-sdk/client-ssm": "^3.709.0",
+    "@google-analytics/data": "^4.12.1",
     "@google-cloud/bigquery": "^7.9.0",
     "axios": "^1.7.9",
     "google-auth-library": "^9.14.0",
     "googleapis": "^144.0.0",
+    "langfuse": "^3.38.20",
     "nodemailer": "^6.10.1"
   }
 }

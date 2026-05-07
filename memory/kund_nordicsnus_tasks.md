@@ -16,30 +16,82 @@ type: project
 - Apr 2026: löpande = 8 000 kr/mån
 - **Skyldig per 2026-04-12**: ca 16 571 kr (feb delvis + mars + apr löpande)
 
+## 🟢 KLART 2026-04-20 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:307 Värt att veta om snus):
+  - ID:23841 /sv/kopa-snus-online-allt-du-behover-veta-2026/ (focus: köpa snus online)
+  - ID:23842 /sv/vitt-snus-vad-ar-det-och-vilka-ar-bast-2026/ (focus: vitt snus)
+  - ID:23843 /sv/nikotinpasar-guide-till-tobaksfria-marken-och-styrkor/ (focus: nikotinpåsar)
+
 ## Nästa steg
-- [ ] Vecka 24 artiklar (3 st)
+- [ ] GSC-positioner — kolla om vecka 23-artiklarna börjat ranka
+- [ ] **Intern länkning**: startsidan → shop, brands, kategorier, artiklar
+- [ ] **Produktbilder** på startsidan — hero med produkter, grid med kategorier
+- [ ] **Social proof**: antal kunder, leveransländer, Trustpilot-betyg
+- [ ] Radera 6 inaktiva plugins (WP admin)
 
-## Klart 2026-04-20 (vecka 23)
-- [x] 3 artiklar publicerade vecka 23 (kat ID:307):
-  - ID:23834 /sv/nikotinpasar-styrka-guide/ (focus: nikotinpåsar styrka)
-  - ID:23835 /sv/zyn-nikotinpasar-guide/ (focus: zyn nikotinpåsar)
-  - ID:23836 /sv/nikotinpasar-utan-tobak-guide/ (focus: nikotinpåsar utan tobak)
-- [x] Rank Math-metadata via `/sv/wp-json/rankmath/v1/updateMeta` (WPML-path)
-  *OBS: wp_credentials.md kan vara inaktuell — rätt app-password ligger i SSM `/seo-mcp/wordpress/nordicsnusonline/app-password`*
+## Manuellt i WP admin (Mikael)
+- [ ] **Rank Math PRO aktivera** — Network Admin → Plugins → Network Activate (licens kan behöva förnyas)
+- [ ] Rank Math → Sitemap Settings → Clear Cache (11 artiklar saknas i sitemap)
+- [ ] Noindex på: varukorg, kassan, mitt-konto, sidan-under-uppbyggnad
+- [ ] WPML: 301-redirect root `/` → `/sv/` (nu 307)
+- [ ] robots.txt → spara om i UTF-8 (nu ISO-8859-1)
+- [ ] Focus keyword på alla 11 SEO-artiklar i Rank Math
 
-## Klart 2026-04-20 (vecka 22)
-- [x] 3 artiklar publicerade vecka 22 (kat ID:307):
-  - ID:23831 /sv/slim-nikotinpasar-guide/ (focus: slim nikotinpåsar)
-  - ID:23832 /sv/snus-vs-nikotinpasar-skillnad/ (focus: snus vs nikotinpåsar)
-  - ID:23833 /sv/kopa-nikotinpasar-online-sverige/ (focus: köpa nikotinpåsar online)
+## Klart 2026-04-30 (UI/UX-fix)
+- [x] Produkter synliga — `visibility="hidden"` borttagen på best_selling_products
+- [x] H1-rubrik tillagd på startsidan
+- [x] Meta description satt: "Buy tobacco-free nicotine pouches online from Sweden..."
+- [x] Focus keyword satt: "buy nicotine pouches online"
+- [x] CTA-knappar tillagda: "Shop All Products" + "Browse Brands"
+
+## Klart 2026-04-20 (vecka 24 artiklar)
+- [x] 3 artiklar publicerade vecka 24:
+  - ID:23841 /sv/kopa-snus-online-allt-du-behover-veta-2026/ (focus: köpa snus online)
+  - ID:23842 /sv/vitt-snus-vad-ar-det-och-vilka-ar-bast-2026/ (focus: vitt snus)
+  - ID:23843 /sv/nikotinpasar-guide-till-tobaksfria-marken-och-styrkor/ (focus: nikotinpåsar)
+
+## Klart 2026-04-19 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23:
+  - ID:23828 /sv/snus-smaker-komplett-guide-till-smaktyper-2026/ (focus: snus smaker)
+  - ID:23829 /sv/nikotinpasar-vs-snus-allt-du-behover-veta/ (focus: nikotinpåsar vs snus)
+  - ID:23830 /sv/snusets-historia-fran-1700-tal-till-moderna-nikotinpasar/ (focus: snus historia)
 - [ ] GSC-data dyker upp imorgon 04:00 — kolla positioner
 - [ ] Registrera i customer_pipeline
+- [ ] Aktivera månad 1 i åtgärdsplanen (5 uppgifter)
+
+## Klart 2026-04-18 (SEO-audit + Opti-dashboard)
+- [x] 20 ABC-nyckelord inlagda i Opti-dashboard (6A + 7B + 7C)
+  - A: köpa snus online, snus online, nikotinpåsar, vitt snus, snus leverans, beställa snus
+  - B: snus på nätet, nikotinpåsar utan tobak, bästa snus, starkt snus, snusvarumärken, tobaksfritt snus, snus billigt
+  - C: nordic snus, snus hemleverans, snus prenumeration, velo nikotinpåsar, zyn snus, snus sorter, snusjämförelse
+- [x] 3-månaders åtgärdsplan skapad i Opti-dashboard (13 uppgifter):
+  - Månad 1: Teknisk SEO-audit, meta-titlar/beskrivningar A-nyckelord, kategoritexter, schema markup, intern länkstruktur
+  - Månad 2: 4 bloggartiklar, bildoptimering, varumärkessidor, jämförelsesidor
+  - Månad 3: Länkbygge, FAQ-sida, konverteringsoptimering, uppföljning/finjustering
+
+## Klart 2026-04-17 (SEO-batch kvällsoptimering)
+- [x] 35 meta descriptions uppdaterade:
+  - 22 varumärkessidor (Zone, Zolt, XR, Voom, Volt, Thunder, The Lab, Swave, Sting, Skåne, R42, Qvitt, Onico, on!, Kurwa, Kronan, Klint, Kelly White, Kapten, Kaliber, Jakobssons, Iceberg, Helwit, Grov, Granit, Göteborgs Rapé, Fedrs, Ettan, Dope)
+  - 4 jämförelsesidor (skruf-vs-knox, killa-vs-pablo, granit-vs-knox, dope-vs-killa)
+  - 1 alternativ-sida (alternativ-till-general)
+  - 1 kategori-sida (/vitt-snus/ — emojis borttagna)
+  - Alla trimmade/optimerade till 115-155 tecken med sökords-CTA
+
+## Klart 2026-04-17
+- [x] 3 artiklar vecka 22 publicerade:
+  - ID:23797 /sv/zyn-vs-velo-skillnader-2026/ (focus: zyn vs velo)
+  - ID:23798 /sv/smakfulla-nikotinpasar-2026/ (focus: smakfulla nikotinpåsar)
+  - ID:23799 /sv/snus-utan-tobak-guide-2026/ (focus: snus utan tobak)
+- [x] SSM `/seo-mcp/wordpress/nordicsnusonline/app-password` återställd — `TSfP Cz27...` (v3 hade blivit överskriven med wp-login)
+
+## Klart 2026-04-20 (SEO-audit fixes)
+- [x] Startsidans titel fixad — emojis borttagna. Ny titel: "Köp snus online – Stort sortiment & bra priser | Nordic Snus Online" (via Rank Math updateMeta API för page ID:61)
+- [x] Meta description startsidan satt: "Köp snus online hos Nordic Snus Online. Vi erbjuder ett stort sortiment av snus, nikotinpåsar och tobaksfria alternativ till bra priser. Snabb leverans."
 
 ## Manuellt i WP admin (Mikael gör)
 - [ ] Rank Math → Sitemap Settings → **Clear Cache** (11 artiklar saknas i sitemap)
 - [ ] Sätt noindex på: varukorg, kassan, mitt-konto, sidan-under-uppbyggnad (Pages → Rank Math → Robots)
 - [ ] Titlar på 5 guide-sidor: 23664, 23675, 23677, 23662, 23663 — korta till max 60 tecken
-- [ ] Startsidans titel — ta bort emojis och CAPS, korta till 50-60 tecken
 - [ ] WPML-inställningar → 301-redirect root `/` till `/sv/` (nu 307 + query-param)
 - [ ] robots.txt → spara om i UTF-8 (nu ISO-8859-1, svenska tecken trasiga)
 - [ ] Focus keyword på alla 11 SEO-artiklar i Rank Math-sidopanelen

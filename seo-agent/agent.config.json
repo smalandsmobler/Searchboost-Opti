@@ -1,0 +1,8 @@
+{
+  "name": "Searchboost SEO Agent",
+  "model": "nvidia/nemotron-3-super-120b-a12b:free",
+  "maxSteps": 40,
+  "maxCost": 0.05,
+  "sessionEnabled": true,
+  "sessionDir": ".sessions"
+}

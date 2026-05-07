@@ -28,55 +28,40 @@ type: project
 **Interlinking**: Skript klart: `/tmp/traficator_interlinking_local.py` — kör när site är uppe.
 
 ## Nästa steg
-
-### OMEDELBART — NÄR SITEN ÄR UPP
-1. [ ] **Skicka draft r-5669747148509373159** till Sven-Erik — cPanel phpMyAdmin fix-instruktioner (UPDATE wp_snippets SET active=0 WHERE id=44)
-2. [ ] **Verifiera snippets** efter Code Snippets re-aktivering: #7 (llms.txt), #8/#14 (schema), #33 (hreflang), #34 (robots.txt), #36 (UX-fix), #52 (robots.txt alt). Avaktivera snippet #44 permanent.
-3. [ ] **Kör interlinking-skript**: `python3 /tmp/traficator_interlinking_local.py` — lägger "Relaterade sidor"-block på alla 8 lokala SEO-sidor
-4. [ ] **Kundmail** — draft r-986303352788039 SKICKAS EJ av Claude. Mikael läser igenom och skickar själv.
-
-### PÅGÅENDE / NÄSTA
-- [x] ~~Möte tisdag 15 april kl 13.30~~ — genomfört
-- [x] ~~FREDAG 24 APRIL: Möte med Patrik~~ — genomfört (pitch Traficator Plast)
 - [ ] Bygga branschsidor, materialsidor, jämförelsesidor (expansion — presenterat i PPT slide 13-14)
 - [ ] GSC SA för Traficator — property https://traficator.se/ finns, verifiera SA-access
 - [ ] Följa upp månadsrapport 3 maj (GSC-data för april)
-- [ ] Verifiera GA4 i GTM-container GTM-KRTLTBXM (logga in på tagmanager.google.com)
-- [x] hreflang på 10 SV/EN-par — Code Snippet #33 live 2026-04-21 (4 artiklar + 6 sidor)
+- [ ] Fortsätta 2-3 artiklar/vecka enligt standard
+- [ ] Pelarartikel-uppföljning: om pressgjutning-aluminium inte når top 10 inom 8 veckor, skriv en stödartikel
+- [ ] **Dubbel GTM KVAR** — GTM-KRTLTBXM + GTM-TT4X9H5M körs båda. Snippet 17 (option-filter) fungerar ej — troligen för att gtm4wp_options är NULL i DB och GTM-KRTLTBXM kommer från okänd källa (ej Flatsome options, ej DB). Mikael: logga in i GTM-kontot och avgör vilken container som är rätt, sedan deaktivera GTM4WP-pluginet manuellt i WP-admin. OBS: skicka mail till Patrik efteråt.
 
-## Klart 2026-04-24 (SEO Bulk-audit — slutförd)
-- [x] **55 meta descriptions utökade** — alla sidor/inlägg med desc < 120 tecken utökade till 130-155 tecken med fokuskeyword + CTA. Alla 55/55 OK via WP REST API.
-- [x] **21 långa titlar förkortade** — alla titlar > 68 tecken kortades till ≤67 tecken (inkl " | Traficator"). Alla 21/21 OK.
-- [x] **14 MULTI_H1 fixade** — (klart i föregående session) första `<h1>` i content → `<h2>` på alla 14 inlägg.
-- [x] **Sitemap saknar 8 sidor** — mitigerat: Polylang SV-språk tilldelat på alla 8 sidor via classic editor form submit (message=1 på alla). Post-titlar uppdaterade (placeholder → riktiga stadsnamn). Rank Math transients rensade (4 st). 8 URL:er skickade via IndexNow (Rank Math Instant Indexing → "8 URL:er inskickade."). Sidor är indexerbara; sitemap kan självläka vid nästa Flatsome-redigering.
-- [x] **Uppdateringsmail** till Patrik — ny draft r-986303352788039 klar (full sammanfattning 24 april inkl lokal SEO + audit + incident)
+## Klart 2026-04-20 (SEO-audit fixes)
+- [x] SEO-audit genomförd: GA4 OK (G-CM832CYYRS), GTM OK, Rank Math Pro aktiv, Sitemap OK, HTTPS OK
+- [x] Dubbel GTM identifierat: GTM-KRTLTBXM (GTM4WP-plugin, troligen gammal) + GTM-TT4X9H5M (Site Kit)
+- [x] Code Snippet 17 skapad (men ej verifierat löst — se Nästa steg ovan)
 
-## Klart 2026-04-24 (UX-fixar)
-- [x] **Hero-bild live** — bakgrundsbild satt direkt på `.bg.fill.bg-fill` i page 59 HTML; `bg-grayscale` borttagen; röd overlay `rgba(192,57,43,0.80)` via inline style. Industriell gjutgods-bild synlig bakom overlay.
-- [x] **Ikoner fixade** — snippet #36 `SBS: Startsida UX-fix`: CSS `background-color: #c0392b` + `filter: brightness(0) invert(1)` på `.has-icon-bg .icon-inner img`. Alla 3 ikoner (hjärta/tjänster/kontakt) syns som vita symboler på röda cirklar.
-- [x] **Offertformulär** — /offert/ (ID:1596) ombyggd: H1 + 1-rad intro → CF7-formulär direkt (ej nedan fold) → HR → Vad-vi-behöver-grid + process-lista.
-- [x] **Stockholm-sida** (ID:1861) + **gjutgods-leverantör-sida** (ID:1867) — nya landningssidor skapade.
-- [x] **Guider** — /gjutjarn-guide/ (ID:1863) + /smide-guide/ (ID:1864) publicerade.
-- [x] **CTR-fix** — 24 artiklar fick utökade meta descriptions (65-90 → 130-160 tecken) för att motverka CTR-kollaps (746% impressioner, +22% klick).
+## Klart 2026-04-19 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat: Blogg ID:109):
+  - ID:1770 /kokillgjutning-komplett-guide-om-metod-och-fordelar/ (focus: kokillgjutning guide)
+  - ID:1771 /gjutjarn-vs-stal-ratt-materialval-for-gjutgods/ (focus: gjutjärn vs stål)
+  - ID:1772 /cnc-bearbetning-av-gjutgods-toleranser-och-metoder/ (focus: CNC-bearbetning gjutgods)
+- [x] Internlänkar till pressgjutning, sandgjutning, bearbetning
 
-## Klart 2026-04-24 (lokal SEO)
-- [x] **6 stadssidor skapade** (lokal SEO mot tillverkningstäta städer):
-  - ID:1847 /gjuteri-jonkoping/ — Jönköping, Husqvarna/Kinnarps, Gnosjöregionen proximity
-  - ID:1849 /gjuteri-gnosjoregionen/ — GGVV-klustret, 10 000+ tillverkare, "Gnosjöandan"
-  - ID:1851 /gjuteri-goteborg/ — Volvo Cars/Trucks, SKF, fordonsleverantörer
-  - ID:1853 /gjuteri-eskilstuna/ — "Sveriges Sheffield", Volvo CE, Komatsu Forest
-  - ID:1855 /gjuteri-malmo/ — Alfa Laval (Lund), Skånes tillverkningsindustri
-  - ID:1857 /gjuteri-vasteras/ — ABB headquarters, Hitachi Energy, elektroteknisk industri
-- [x] **Hub-sida /gjuteri-smaland/ uppdaterad** — "Lokala marknader vi betjänar"-grid med 6 stadslänkar
-- [x] **Hub-sida /gjuteri-sverige/ (ID:1599) uppdaterad** — "Lokala marknader vi betjänar"-grid med 7 sidor (alla 6 städer + Småland)
-- [x] **llms.txt (snippet #7) uppdaterad** — ny sektion "Lokala landningssidor" med alla 8 lokalsidor, senast uppdaterad 2026-04-24
+## Klart 2026-04-17 (SEO-batch kvällsoptimering)
+- [x] 67 meta descriptions uppdaterade — ersatte Rank Math auto-genererade platshållare med riktiga SEO-descriptions
+  - 18 svenska sidor (startsida, tjänstesidor, kontakt, branschsidor)
+  - 14 engelska sidor (services, about, FAQ, contact)
+  - 22 svenska bloggartiklar
+  - 13 engelska bloggartiklar
 
-## Klart 2026-04-22 (nattjobb)
-- [x] **Interlinking 53/53 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar (press/sand/centrifugal/prec/koppar/zink/alu/cnc/smide/magnesium/plast/kval/fordon/konst/gjut) + landningssidor (/vara-tjanster/metallgjutning/, /pressgjutning/, /sandgjutning/, /bearbetning/).
-- [x] **llms.txt expanderad** (snippet #7) — alla gjuttjänster, referensprojekt, 15 top artiklar, Traficator Plast-notering.
-- [x] **robots.txt härdning** (snippet #34) — Disallow wp-login/?s=/search/feed/xmlrpc. Googlebot-Image allow uploads.
-- [x] **Sanity-check**: / + /vara-tjanster/ + alla tjänstesidor + /referensprojekt/ + /om-oss/ + /kontakt/ = 200 OK, 0 fatal, 1 H1. Tjänstesidor har jsonld=3 (Organization + Service + FAQPage via snippet #8/#14). Startsida jsonld=1.
-- [x] **Sitemap verifierad**: /sitemap_index.xml 200 OK (Rank Math, 4 sub-sitemaps, 99 URLs). /sitemap.xml + /wp-sitemap.xml → 301 till sitemap_index.xml. robots.txt pekar rätt.
+## Klart 2026-04-17 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat: Blogg ID:109):
+  - ID:1767 /kvalitetssakring-metallgjutning-metoder-standarder/ (focus: kvalitetssäkring metallgjutning)
+  - ID:1768 /utvardera-gjuteri-leverantor-checklista/ (focus: gjuteri leverantör)
+  - ID:1769 /energieffektivt-gjuteri-utslapp-teknik-2026/ (focus: energieffektivt gjuteri)
+- [x] Internlänkar (2-3/artikel) till pressgjutning / sandgjutning / centrifugalgjutning / precisionsgjutning
+- [x] Rank Math meta (focus keyword + description) satt via REST
+- [x] Uppdateringsmail skickat till Patrik
 
 ## Klart 2026-04-14 (Patriks klagomål — alla fixes live)
 - [x] Sandgjutning (ID:1278) — korrekt intro återställd

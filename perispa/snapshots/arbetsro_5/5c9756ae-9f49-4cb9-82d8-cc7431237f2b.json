@@ -1,0 +1,16 @@
+{
+  "id": "5c9756ae-9f49-4cb9-82d8-cc7431237f2b",
+  "created": "2026-04-29T19:56:29.387Z",
+  "site": "arbetsro",
+  "page_id": 5,
+  "type": "page",
+  "label": "före produktkort+ljus-fix 2026-04-29",
+  "title": "Butik",
+  "content": "<!-- wp:html -->\n<div class=\"page-shop arb-shop-wrapper\" style=\"padding:0;margin:0 0 56px\">\n\n  <section style=\"position:relative;width:100%;min-height:380px;background:#F0EBE1;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;margin:0\">\n    <div style=\"padding:80px 60px;display:flex;flex-direction:column;justify-content:center\">\n      <p style=\"font-family:Inter,sans-serif;font-size:11px;letter-spacing:5px;text-transform:uppercase;color:#6B8C7A;margin:0 0 22px\">Sortimentet</p>\n      <h1 style=\"font-family:'Playfair Display',serif;font-style:italic;font-weight:400;font-size:clamp(36px,4.5vw,60px);line-height:1.1;color:#2C3E2D;margin:0 0 22px;letter-spacing:-.01em\">Färre saker.<br>Bättre saker.</h1>\n      <p style=\"font-family:Inter,sans-serif;font-size:16.5px;line-height:1.85;font-weight:300;color:#2C2925;max-width:480px;margin:0\">Varje produkt här är handplockat ur ett hav av alternativ. Det som är kvar är det som förtjänar att finnas på din arbetsplats — möbler som klarar ett decennium, inte bara två säsonger.</p>\n    </div>\n    <div style=\"background:url('https://arbetsro.searchboost.nu/wp-content/uploads/2026/04/arbetsro-balans-skog.png') center/cover;min-height:280px\"></div>\n  </section>\n\n</div>\n<!-- /wp:html -->",
+  "excerpt": "<p>Sortimentet Färre saker.Bättre saker. Varje produkt här är handplockat ur ett hav av alternativ. Det som är kvar är det som förtjänar att finnas på din arbetsplats — möbler som klarar ett decennium, inte bara två säsonger.</p>\n",
+  "meta": {
+    "footnotes": ""
+  },
+  "status": "publish",
+  "content_hash": "8ec5d403410ab5de790c184a9cd62103"
+}

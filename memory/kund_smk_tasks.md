@@ -37,42 +37,17 @@ type: project
 ## Pågående
 - Loopia API-user `searchboost@loopiaapi` lösenord: SbLoopia2026! (satt 2026-04-10, DNS-metoder aktiverade)
 
-## Klart 2026-04-22 (nattjobb) — stor SEO-audit
-- [x] **GSC sitemap_index.xml submittad** och **Lyckades** — 1 093 upptäckta sidor (property: https://www.smalandskontorsmobler.se/)
-- [x] **Interlinking 71/71 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + kategorilänkar (/sittmobler/kontorsstolar/, /bord/hoj-och-sankbara-skrivbord/, /butik/). Ämnes-matchning: stol/skrivbord/förvaring/konferens/ergonomi/akustik/belysning/reception/lounge
-- [x] **llms.txt expanderad** (1017 → 5 474 bytes, snippet #15) — full produktkategori-träd, 15 top guides, landningssidor, villkor. Cache-Control: max-age=300.
-- [x] **robots.txt härdning** — nytt snippet #171 "SBS: robots.txt härdning". Disallow: /cart/, /checkout/, /my-account/, /varukorg/, /?s=, /?orderby=, /?filter_*, /?min_price=, /?max_price=, /?pa_*, /search/, /feed/, /xmlrpc.php. Allow Googlebot-Image på /wp-content/uploads/.
-- [x] **ContactPage + AboutPage schema** (snippet #173) — JSON-LD på /kontakt/ (ContactPage + ContactPoint) och /om-oss/ (AboutPage). Verifierat live.
-- [x] **H-struktur fixad** — 3 artiklar hade duplicate H1 (content + Flatsome entry-title): 18342 kontorsstol-ergonomi-guide, 17820 konferensmobler-guide, 18334 kontorsmobler-begagnade. Content-H1 konverterad till H2.
-- [x] **Schema-audit OK** — Organization+LocalBusiness (startsida), BlogPosting+BreadcrumbList (artiklar), Product+BreadcrumbList (produkter), CollectionPage (kategorier), FAQPage (/vanliga-fragor/).
-- [x] **Snippets rensade**: #153 ONE-SHOT deaktiverad, #150 fått namn "SBS: Rank Math taxonomy meta REST". 170 totalt, 39 aktiva.
-- [x] **Flatsome demo-post** ID 17854 trashad.
-- [x] **Sanity-check**: Startsida + kategorier + produkt + artikel + /kontakt/ + /om-oss/ = alla 200 OK, 0 fatal errors, 1 H1 per sida, CSS intakt.
+## Klart 2026-04-17 (SEO-batch kvällsoptimering)
+- [x] 17 meta descriptions uppdaterade:
+  - 5 sidor: cookie-policy, artiklar, my-account, checkout, varukorg — hade generisk/auto-genererad text
+  - 5 posts: kontorsmobler-guide, hoj-sankbart-skrivbord-guide, ergonomiska-kontorsmobler-guide, kontorsstol-hemmakontor, konferensmobler-guide — hade generisk mall
+  - 7 posts: trimmade från >155 tecken till 116-128 tecken (ergonomiska stolar, hållbara möbler, skjutdörrsskåp m.m.)
 
-## Klart 2026-04-21 (nattjobb — vecka 24)
-- [x] 3 artiklar publicerade vecka 24 (kat ID:180 Guider):
-  - ID:18343 /kontorsmobler-oppet-kontorslandskap/ (focus: kontorsmöbler öppet kontorslandskap)
-  - ID:18344 /chefsstol-guide/ (focus: chefsstol)
-  - ID:18345 /konferensbord-motesrum-guide/ (focus: konferensbord mötesrum)
-- [x] SMK-mail till Micke om bilder (draft: r-1165472324737637616) — "antingen skickar du bilderna eller AI-genererar vi"
-
-## Klart 2026-04-20 (vecka 23)
-- [x] 3 artiklar publicerade vecka 23 (kat ID:180 Guider):
-  - ID:18340 /stabord-kontor-guide/ (focus: ståbord kontor)
-  - ID:18341 /loungemobler-kontor-guide/ (focus: loungemöbler kontor)
-  - ID:18342 /kontorsstol-ergonomi-guide/ (focus: kontorsstol ergonomi)
-
-## Klart 2026-04-20 (vecka 22)
-- [x] 3 artiklar publicerade vecka 22 (kat ID:180 Guider):
-  - ID:18337 /pausrum-moblerguide/ (focus: pausrum möbler)
-  - ID:18338 /skarmvagg-kontor-guide/ (focus: skärmvägg kontor)
-  - ID:18339 /motesstol-guide-konferensrum/ (focus: mötesstol)
-
-## Klart 2026-04-20 (vecka 21)
-- [x] 3 artiklar publicerade vecka 21 (kat ID:180 Guider):
-  - ID:18334 /kontorsmobler-begagnade-guide/ (focus: kontorsmöbler begagnade)
-  - ID:18335 /moblera-mottagning-receptionsmobler/ (focus: möblera mottagning)
-  - ID:18336 /tysta-rum-kontor-fokuszoner-akustik/ (focus: tysta rum kontor)
+## Klart 2026-04-17 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:180 Guider), internlänkar till /kontorsstolar/, /hoj-sankbara-skrivbord/, /konferensbord/, /forvaring/:
+  - ID:18320 /2026/04/17/tyst-kontorslandskap-akustik/ (focus: tyst kontorslandskap)
+  - ID:18322 /2026/04/17/ratt-ljus-pa-kontoret/ (focus: belysning kontor)
+  - ID:18324 /2026/04/17/hemmakontor-under-10000-kr/ (focus: hemmakontor budget)
 
 ## Klart 2026-04-13 (internlänkar — kannibalisering)
 - [x] Internlänkar tillagda i 5 artiklar för kontorsstolar, konferensbord, förvaring:

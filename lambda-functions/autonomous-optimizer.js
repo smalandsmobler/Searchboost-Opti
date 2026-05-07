@@ -7,6 +7,8 @@ const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('
 const { BigQuery } = require('@google-cloud/bigquery');
 const axios = require('axios');
 const fs = require('fs');
+let Langfuse, langfuseClient;
+try { ({ Langfuse } = require('langfuse')); } catch(e) { /* optional */ }
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
@@ -56,6 +58,109 @@ function createOpenRouterClient(apiKey) {
       }
     }
   };
+}
+
+// PROMPT CACHING (2026-05-01)
+// Cachning kräver minst 1024 tokens preamble för att aktiveras. Vi lägger en
+// gemensam SYSTEM_PROMPT som identifierar Searchboost SEO-agenten + output-regler.
+// Per-Anthropic dokumentation sparar detta 90% input-cost för calls som upprepar
+// systemet inom 5 min (Lambda invocation = en burst → cache hits från call 2+).
+const SYSTEM_PROMPT_CACHED = [
+  {
+    type: 'text',
+    text: `Du är en autonom SEO-agent på Searchboost — en svensk byrå som optimerar WordPress-sajter via Rank Math + WP REST API.
+
+REGLER FÖR ALLA OUTPUT:
+1. Skriv ALLTID på korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar (a/o/e för å/ö/ä).
+2. Title-tags: max 60 tecken, primärt keyword tidigt, naturligt svenskt språk.
+3. Meta-descriptions: 120-160 tecken, inkludera 1-2 keywords, avsluta med uppmaning.
+4. JSON-output: rena JSON-objekt utan markdown-fences.
+5. Inga emojis i output om inte explicit ombett.
+6. När du föreslår content-fixar: leverera HTML, ALDRIG Markdown.
+7. Schema.org JSON-LD: använd korrekt @context och @type, validera mentalt mot schema.org.
+
+KONTEXT: Du arbetar autonomt, men flera output-typer kräver mänsklig granskning innan deploy. Var tydlig med 'reasoning'-fält i JSON-svar så Mikael kan kalibrera framtida körningar.
+
+Output-format-disciplin är kritiskt — Lambda parsar JSON direkt. En ogiltig JSON innebär förlorad uppgift.`,
+    cache_control: { type: 'ephemeral' }
+  }
+];
+
+// ── SPECIALIST SYSTEM PROMPTS (2026-05-01) ──
+// Används för riktade AI-anrop. Varje specialist har ett snävt fokusområde
+// för att maximera output-kvalitet per uppgiftstyp.
+
+const META_SPECIALIST_PROMPT = `Du är en specialist på SEO-titlar och meta descriptions för svenska WordPress-sajter.
+Din enda uppgift är att skriva titlar (max 60 tecken) och meta descriptions (130-155 tecken) som:
+1. Innehåller primärt keyword naturligt och tidigt
+2. Är klickvärda och väcker nyfikenhet utan att vara clickbait
+3. Speglar sidans faktiska innehåll exakt
+4. Avslutar descriptions med en tydlig uppmaning (Läs mer, Köp nu, Boka idag etc)
+5. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
+6. Aldrig keyword-stuffing eller onaturliga fraser
+Output: Alltid JSON med fälten title, description, reasoning.`;
+
+const SCHEMA_SPECIALIST_PROMPT = `Du är en specialist på Schema.org strukturerad data för svenska WordPress-sajter.
+Din uppgift är att generera korrekt JSON-LD schema markup. Regler:
+1. Välj rätt @type baserat på sidans innehåll (Article, Product, LocalBusiness, FAQPage, HowTo, BreadcrumbList)
+2. Fyll i alla relevanta properties — aldrig tomma strängar
+3. Använd korrekt @context: "https://schema.org"
+4. För FAQPage: extrahera frågor och svar från sidinnehållet
+5. För Article: inkludera author, datePublished, publisher
+6. Validera mentalt mot schema.org-specifikationen
+7. Output: Alltid raw JSON-LD utan markdown-fences, redo att injiceras i <script type="application/ld+json">`;
+
+const CONTENT_SPECIALIST_PROMPT = `Du är en specialist på SEO-innehåll för svenska WordPress-sajter.
+Din uppgift är att förbättra och komplettera befintligt innehåll:
+1. Lead-paragrafer ska svara direkt på sidans primära fråga inom 90 ord (AEO-optimerat)
+2. Rubriker (H2, H3) ska innehålla sekundära keywords naturligt
+3. Fakta ska vara specifika: siffror, datum, processer — inte vaga påståenden
+4. FAQ-sektioner ska ha 5-7 konkreta frågor med direkta svar
+5. Intern länkning: föreslå 3-5 relevanta interna sidor att länka till
+6. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
+7. Output: HTML (inte Markdown), inkludera reasoning-fältet`;
+
+const REPORT_SPECIALIST_PROMPT = `Du är en specialist på kundkommunikation för en SEO-byrå (Searchboost).
+Din uppgift är att sammanfatta SEO-arbete på ett sätt som är:
+1. Konkret och faktabaserat — specifika siffror, inte fluff
+2. Förståeligt för en icke-teknisk företagare
+3. Kopplat till affärsvärde (klick = potentiella kunder)
+4. Ärligt om vad som fungerat och vad som behöver tid
+5. Framåtblickande — vad händer nästa period
+6. Max 300 ord, aldrig bullet-listor med mer än 5 punkter
+7. Alltid korrekt svenska med ÅÄÖ`;
+
+// ── A/B PROMPT SELECTION (2026-05-01) ──
+// 50/50-split: version A = standardprompt, version B = specialist-prompt
+function selectPromptVersion(specialist) {
+  // 50/50 A/B split — A = standard prompt, B = experimental variant
+  const version = Math.random() < 0.5 ? 'A' : 'B';
+  return version;
+}
+
+// Samlar A/B-loggposter under körningens livstid, skrivs till BQ i slutet
+const abLogEntries = [];
+
+// SAFE-MODE GUARD (2026-05-01)
+// När SAFE_MODE_NO_CONTENT_WRITES=true skriver optimizern ALDRIG till `content`-fältet.
+// Detta skyddar Gutenberg-blocks, Divi-shortcodes, Flatsome UX-builder-data från att förstöras.
+// Endast Rank Math meta-fält (title, description, schema, focus_keyword) skrivs.
+// Content-fixar (internlänkar, tunna sidor, alt-text, H2/H3, synonymer) flaggas istället
+// till manuell review via Trello/task-fil.
+// Sätt env var SAFE_MODE_NO_CONTENT_WRITES=false för att stänga av (när säker content-write byggts).
+const SAFE_MODE_NO_CONTENT_WRITES = process.env.SAFE_MODE_NO_CONTENT_WRITES !== 'false';
+
+async function flagForManualReview(taskType, postLink, reason) {
+  try {
+    await trelloCard(
+      `[MANUAL] ${taskType}: ${postLink.substring(0, 60)}`,
+      `**Säker autonom optimering — flaggad för manuell review**\n` +
+      `Sida: ${postLink}\n` +
+      `Anledning: ${reason}\n` +
+      `Optimizer kan inte göra denna fix säkert utan att riskera page-builder-data. ` +
+      `Hantera via Perispa MCP eller direkt i WP-admin.`
+    );
+  } catch (e) { /* Trello unreachable */ }
 }
 
 async function getParam(name) {
@@ -127,6 +232,21 @@ async function wpApi(site, method, endpoint, data = null) {
   };
   if (data) config.data = data;
   return (await axios(config)).data;
+}
+
+// ── WooCommerce REST API (wc/v3) ──
+async function wcApi(site, method, endpoint, data = null, params = null) {
+  const auth = Buffer.from(`${site.username}:${site['app-password']}`).toString('base64');
+  const config = {
+    method,
+    url: `${site.url}/wp-json/wc/v3${endpoint}`,
+    headers: { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' },
+    timeout: 20000
+  };
+  if (data) config.data = data;
+  if (params) config.params = params;
+  const res = await axios(config);
+  return { data: res.data, total: parseInt(res.headers['x-wp-total'] || '0', 10) };
 }
 
 async function getBigQuery() {
@@ -289,7 +409,8 @@ async function fixMetadata(site, task, claude, bq, dataset) {
   const pageText = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 500);
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('meta_title'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 800,
     messages: [{
       role: 'user',
@@ -336,7 +457,8 @@ async function fixInternalLinks(site, task, claude, bq, dataset) {
     : '';
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('internal_links'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 1000,
     messages: [{
       role: 'user',
@@ -359,6 +481,11 @@ Svara i JSON: {"links": [{"anchorText": "...", "targetUrl": "..."}]}`
   }
 
   if (added > 0) {
+    if (SAFE_MODE_NO_CONTENT_WRITES) {
+      await flagForManualReview('internal_links', post.link,
+        `${added} interna länkar föreslås: ${result.links.map(l => l.anchorText + ' → ' + l.targetUrl).join(', ')}`);
+      return { type: 'internal_links', action: 'flagged_safe_mode', suggested: added };
+    }
     await wpApi(site, 'POST', `/${wpType}/${postId}`, { content });
     await trelloCard(
       `Internlänkar: +${added} på ${post.title.rendered.substring(0, 30)}`,
@@ -396,7 +523,8 @@ async function fixThinContent(site, task, claude, bq, dataset) {
     : '';
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('content_fix'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -418,6 +546,12 @@ Svara i JSON:
   });
 
   const result = parseClaudeJSON(suggestion.content[0].text);
+  if (SAFE_MODE_NO_CONTENT_WRITES) {
+    await flagForManualReview('thin_content', post.link,
+      `${wordCount} ord. Förslag på 250 ord finns. Anledning: ${result.reasoning}. ` +
+      `Föreslagen text:\n${result.newParagraph?.substring(0, 500) || '(saknas)'}`);
+    return { type: 'thin_content', action: 'flagged_safe_mode', wordCount };
+  }
   const updatedContent = post.content.rendered + '\n' + result.newParagraph;
   await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
 
@@ -454,7 +588,8 @@ async function fixMissingAltText(site, task, claude) {
     const filename = src.split('/').pop().replace(/[-_]/g, ' ').replace(/\.[^.]+$/, '');
 
     const suggestion = await claude.messages.create({
-      model: AI_MODEL,
+      model: selectModel('alt_text'),
+    system: SYSTEM_PROMPT_CACHED,
       max_tokens: 100,
       messages: [{
         role: 'user',
@@ -477,6 +612,12 @@ async function fixMissingAltText(site, task, claude) {
   }
 
   if (fixed > 0) {
+    if (SAFE_MODE_NO_CONTENT_WRITES) {
+      await flagForManualReview('missing_alt_text', post.link,
+        `${fixed} bilder saknar alt-text. Detta kräver content-skrivning som kan förstöra page-builder. ` +
+        `Använd Perispa MCP \`perispa_fix_missing_alt\` istället.`);
+      return { type: 'missing_alt_text', action: 'flagged_safe_mode', count: fixed };
+    }
     await wpApi(site, 'POST', `/${wpType}/${postId}`, { content });
   }
 
@@ -497,7 +638,8 @@ async function fixNoSchema(site, task, claude) {
   const text = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 800);
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('schema'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 1000,
     messages: [{
       role: 'user',
@@ -528,14 +670,19 @@ Svara i JSON: {"schemaType": "...", "schemaJson": {...}, "reasoning": "..."}`
     });
     schemaSaved = true;
   } catch (e) {
-    // Rank Math ej aktiverat — försök med custom_html-blocket istället
-    try {
-      // Lägg schema i ett HTML-kommentarsskyddat script-block som är safer
-      const schemaBlock = `<!-- wp:html -->\n<script type="application/ld+json">\n${JSON.stringify(result.schemaJson, null, 2)}\n</script>\n<!-- /wp:html -->`;
-      const updatedContent = post.content.rendered + '\n' + schemaBlock;
-      await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
-      schemaSaved = true;
-    } catch (e2) { /* Schema kunde ej sparas */ }
+    // Rank Math ej aktiverat — flagga för manuell hantering
+    if (SAFE_MODE_NO_CONTENT_WRITES) {
+      await flagForManualReview('no_schema', post.link,
+        `Rank Math saknas. Schema ${result.schemaType} föreslås. Hantera manuellt eller installera Rank Math.`);
+    } else {
+      // Bara om SAFE_MODE explicit avstängt: lägg schema som content (riskabelt)
+      try {
+        const schemaBlock = `<!-- wp:html -->\n<script type="application/ld+json">\n${JSON.stringify(result.schemaJson, null, 2)}\n</script>\n<!-- /wp:html -->`;
+        const updatedContent = post.content.rendered + '\n' + schemaBlock;
+        await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
+        schemaSaved = true;
+      } catch (e2) { /* Schema kunde ej sparas */ }
+    }
   }
 
   await trelloCard(
@@ -561,7 +708,8 @@ async function fixMissingH1(site, task, claude) {
   }
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('meta_title'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 200,
     messages: [{
       role: 'user',
@@ -619,7 +767,8 @@ async function optimizeH2H3(site, task, claude, bq, dataset) {
   const currentText = post.content.rendered.replace(/<[^>]+>/g, '').substring(0, 1500);
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('content_fix'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 1200,
     messages: [{
       role: 'user',
@@ -700,6 +849,11 @@ Svara i JSON: {"headings": [{"level": "h2", "text": "...", "afterText": "första
   }
 
   if (added > 0) {
+    if (SAFE_MODE_NO_CONTENT_WRITES) {
+      await flagForManualReview('h2_h3_optimization', post.link,
+        `${added} H2/H3-rubriker föreslås. ${result.reasoning}. Hantera manuellt — content-write riskerar page-builder.`);
+      return { type: 'h2_h3_optimization', action: 'flagged_safe_mode', suggested: added };
+    }
     await wpApi(site, 'POST', `/${wpType}/${postId}`, { content });
     await trelloCard(
       `H2/H3 optimerat: ${post.title.rendered.substring(0, 35)}`,
@@ -731,7 +885,8 @@ async function enrichWithSynonyms(site, task, claude, bq, dataset) {
   }
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('content_fix'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 1500,
     messages: [{
       role: 'user',
@@ -752,6 +907,12 @@ Svara i JSON: {"missingTerms": ["term1", "term2"], "newParagraph": "<p>...</p>",
   });
 
   const result = parseClaudeJSON(suggestion.content[0].text);
+  if (SAFE_MODE_NO_CONTENT_WRITES) {
+    await flagForManualReview('synonym_gap', post.link,
+      `Synonymer/LSI saknas: ${(result.missingTerms || []).join(', ')}. ${result.reasoning}. ` +
+      `Föreslagen text:\n${result.newParagraph?.substring(0, 500) || '(saknas)'}`);
+    return { type: 'synonym_gap', action: 'flagged_safe_mode', terms: result.missingTerms };
+  }
   const updatedContent = post.content.rendered + '\n' + result.newParagraph;
   await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
 
@@ -761,6 +922,335 @@ Svara i JSON: {"missingTerms": ["term1", "term2"], "newParagraph": "<p>...</p>",
   );
 
   return { type: 'synonym_gap', terms: result.missingTerms, reasoning: result.reasoning };
+}
+
+// ═══════════════════════════════════════════════════════════════
+// WOOCOMMERCE HANDLERS — Produktnivå-optimering
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * Kolla om sajten har WooCommerce — returnera false snabbt om inte
+ */
+async function siteHasWooCommerce(site) {
+  try {
+    await wcApi(site, 'GET', '/products', null, { per_page: 1 });
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+/**
+ * Optimera produkttitel + short_description + meta (Rank Math) med Claude
+ * Task-typ: 'product_metadata'
+ */
+async function fixProductMetadata(site, task, claude, bq, dataset) {
+  const context = JSON.parse(task.context_data);
+  const productId = context.id || context.product_id;
+  if (!productId) return { type: 'product_metadata', action: 'no_product_id' };
+
+  let product;
+  try {
+    const res = await wcApi(site, 'GET', `/products/${productId}`);
+    product = res.data;
+  } catch (e) {
+    return { type: 'product_metadata', action: 'product_not_found', error: e.message };
+  }
+
+  if (product.status !== 'publish') return { type: 'product_metadata', action: 'skipped_not_published' };
+
+  const kw = await getCustomerKeywords(bq, dataset, task.customer_id);
+  const kwContext = kw.all.length > 0
+    ? `\nKundens ABC-nyckelord:\nA: ${kw.a.join(', ') || 'saknas'}\nB: ${kw.b.slice(0, 5).join(', ')}\nC: ${kw.c.slice(0, 5).join(', ')}`
+    : '';
+
+  const currentDesc = (product.short_description || '').replace(/<[^>]+>/g, '').substring(0, 300);
+  const fullDesc = (product.description || '').replace(/<[^>]+>/g, '').substring(0, 400);
+
+  const suggestion = await claude.messages.create({
+    model: selectModel('meta_description'),
+    system: SYSTEM_PROMPT_CACHED,
+    max_tokens: 800,
+    messages: [{
+      role: 'user',
+      content: `Optimera SEO för denna WooCommerce-produkt på svenska.
+
+Produktnamn: "${product.name}"
+SKU: ${product.sku || 'saknas'}
+Kategori: ${(product.categories || []).map(c => c.name).join(', ') || 'okänd'}
+Nuvarande short_description: ${currentDesc || 'saknas'}
+Nuvarande description (utdrag): ${fullDesc || 'saknas'}
+Pris: ${product.price || 'saknas'} kr
+${kwContext}
+
+Krav:
+- SEO-titel: max 60 tecken, inkludera primärt keyword + produktnamn
+- Meta description: 130-155 tecken, fokus på värde + nyckelord + uppmaning
+- Short description (HTML): 2-3 meningar, benefits-fokus, max 150 ord
+- Naturlig svenska, aldrig keyword-stuffing
+
+Svara i JSON: {"seoTitle": "...", "seoDescription": "...", "shortDescription": "<p>...</p>", "reasoning": "vilket keyword och varför"}`
+    }]
+  });
+
+  const result = parseClaudeJSON(suggestion.content[0].text);
+
+  // Uppdatera WooCommerce-produkt
+  await wcApi(site, 'PUT', `/products/${productId}`, {
+    short_description: result.shortDescription
+  });
+
+  // Uppdatera Rank Math-meta via WP REST (produkter är custom post type 'product')
+  await wpApi(site, 'POST', `/posts/${productId}`, {
+    meta: { rank_math_title: result.seoTitle, rank_math_description: result.seoDescription }
+  }).catch(() => {/* Rank Math ej installerat — ignorera */});
+
+  await trelloCard(
+    `WooSEO: ${product.name.substring(0, 40)}`,
+    `**Produkt-metadata**\nProdukt: ${product.permalink}\nTitel: ${result.seoTitle}\n${result.reasoning}`
+  );
+
+  return { type: 'product_metadata', productId, result };
+}
+
+/**
+ * Utöka tunn produktbeskrivning med Claude
+ * Task-typ: 'product_description'
+ */
+async function fixProductDescription(site, task, claude, bq, dataset) {
+  const context = JSON.parse(task.context_data);
+  const productId = context.id || context.product_id;
+  if (!productId) return { type: 'product_description', action: 'no_product_id' };
+
+  let product;
+  try {
+    const res = await wcApi(site, 'GET', `/products/${productId}`);
+    product = res.data;
+  } catch (e) {
+    return { type: 'product_description', action: 'product_not_found' };
+  }
+
+  if (product.status !== 'publish') return { type: 'product_description', action: 'skipped' };
+
+  const currentDesc = (product.description || '').replace(/<[^>]+>/g, '');
+  const wordCount = currentDesc.split(/\s+/).filter(Boolean).length;
+
+  if (wordCount >= 200) return { type: 'product_description', action: 'already_sufficient', wordCount };
+
+  const kw = await getCustomerKeywords(bq, dataset, task.customer_id);
+  const kwHint = kw.a.length > 0 ? `\nPrimära nyckelord att inkludera: ${kw.a.slice(0, 3).join(', ')}` : '';
+
+  const suggestion = await claude.messages.create({
+    model: selectModel('content_fix'),
+    system: SYSTEM_PROMPT_CACHED,
+    max_tokens: 1500,
+    messages: [{
+      role: 'user',
+      content: `Skriv en SEO-optimerad produktbeskrivning på svenska för WooCommerce.
+
+Produktnamn: "${product.name}"
+Kategori: ${(product.categories || []).map(c => c.name).join(', ') || 'okänd'}
+Befintlig beskrivning: ${currentDesc.substring(0, 500) || 'Saknas helt'}
+Pris: ${product.price || 'okänt'} kr
+SKU: ${product.sku || 'saknas'}${kwHint}
+
+Krav:
+- 150-300 ord
+- Börja med produktens nytta/problem som löses
+- Inkludera tekniska detaljer som kunder söker efter
+- 2-4 stycken HTML med <p>-taggar, gärna en <ul> med features
+- Naturlig svenska, ingen keyword-stuffing
+
+Svara i JSON: {"description": "<p>...</p>...", "wordCount": 180, "reasoning": "..."}`
+    }]
+  });
+
+  const result = parseClaudeJSON(suggestion.content[0].text);
+
+  await wcApi(site, 'PUT', `/products/${productId}`, {
+    description: result.description
+  });
+
+  await trelloCard(
+    `Produkttext: ${product.name.substring(0, 40)}`,
+    `**Produktbeskrivning utökad**\nFrån ${wordCount} ord → ~${result.wordCount} ord\nProdukt: ${product.permalink}\n${result.reasoning}`
+  );
+
+  return { type: 'product_description', productId, wordCount, newWordCount: result.wordCount, reasoning: result.reasoning };
+}
+
+/**
+ * Fixa saknad alt-text på produktbilder
+ * Task-typ: 'product_images'
+ */
+async function fixProductImages(site, task, claude) {
+  const context = JSON.parse(task.context_data);
+  const productId = context.id || context.product_id;
+  if (!productId) return { type: 'product_images', action: 'no_product_id' };
+
+  let product;
+  try {
+    const res = await wcApi(site, 'GET', `/products/${productId}`);
+    product = res.data;
+  } catch (e) {
+    return { type: 'product_images', action: 'product_not_found' };
+  }
+
+  const images = (product.images || []).filter(img => !img.alt || img.alt.trim() === '');
+  if (images.length === 0) return { type: 'product_images', action: 'all_images_have_alt' };
+
+  const updatedImages = [...(product.images || [])];
+  let fixed = 0;
+
+  for (const img of images.slice(0, 5)) {
+    const filename = (img.src || '').split('/').pop().replace(/[-_]/g, ' ').replace(/\.[^.]+$/, '');
+    const suggestion = await claude.messages.create({
+      model: selectModel('alt_text'),
+    system: SYSTEM_PROMPT_CACHED,
+      max_tokens: 80,
+      messages: [{
+        role: 'user',
+        content: `Alt-text (max 10 ord) för produktbild på "${product.name}". Filnamn: "${filename}". Svara BARA med alt-texten.`
+      }]
+    });
+    const altText = suggestion.content[0].text.trim().replace(/^["']|["']$/g, '');
+    const idx = updatedImages.findIndex(i => i.id === img.id);
+    if (idx !== -1) {
+      updatedImages[idx] = { ...updatedImages[idx], alt: altText };
+      fixed++;
+    }
+  }
+
+  if (fixed > 0) {
+    await wcApi(site, 'PUT', `/products/${productId}`, { images: updatedImages });
+  }
+
+  return { type: 'product_images', productId, fixed };
+}
+
+/**
+ * Lägg till Product schema.org markup på en produkt via Rank Math
+ * Task-typ: 'product_schema'
+ */
+async function fixProductSchema(site, task, claude) {
+  const context = JSON.parse(task.context_data);
+  const productId = context.id || context.product_id;
+  if (!productId) return { type: 'product_schema', action: 'no_product_id' };
+
+  let product;
+  try {
+    const res = await wcApi(site, 'GET', `/products/${productId}`);
+    product = res.data;
+  } catch (e) {
+    return { type: 'product_schema', action: 'product_not_found' };
+  }
+
+  if (product.status !== 'publish') return { type: 'product_schema', action: 'skipped' };
+
+  const schemaJson = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: (product.short_description || product.description || '').replace(/<[^>]+>/g, '').substring(0, 500),
+    url: product.permalink,
+    sku: product.sku || undefined,
+    image: (product.images || []).slice(0, 3).map(i => i.src),
+    offers: {
+      '@type': 'Offer',
+      price: product.price || product.regular_price,
+      priceCurrency: 'SEK',
+      availability: product.stock_status === 'instock'
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      url: product.permalink
+    }
+  };
+
+  // Spara via Rank Math custom meta på 'product' post type
+  try {
+    await wpApi(site, 'POST', `/posts/${productId}`, {
+      meta: {
+        rank_math_rich_snippet_type: 'product',
+        rank_math_schema_data: JSON.stringify(schemaJson)
+      }
+    });
+  } catch (e) {
+    // Rank Math ej tillgängligt — ignorera
+  }
+
+  return { type: 'product_schema', productId, schemaType: 'Product', name: product.name };
+}
+
+/**
+ * WooCommerce-audit: crawla alla produkter, hitta SEO-problem, lägg i work_queue
+ * Kallas autonomt en gång per körning för kunder med WooCommerce + inga woo-tasks i kön
+ */
+async function runWooAudit(site, bq, dataset) {
+  let page = 1;
+  const issues = [];
+  const MAX_PRODUCTS = 200; // Max per körning
+
+  while (issues.length < MAX_PRODUCTS) {
+    let res;
+    try {
+      res = await wcApi(site, 'GET', '/products', null, {
+        per_page: 50, page, status: 'publish',
+        orderby: 'modified', order: 'asc'
+      });
+    } catch (e) { break; }
+
+    if (!res.data || res.data.length === 0) break;
+
+    for (const p of res.data) {
+      const desc = (p.description || '').replace(/<[^>]+>/g, '');
+      const shortDesc = (p.short_description || '').replace(/<[^>]+>/g, '');
+      const descWords = desc.split(/\s+/).filter(Boolean).length;
+      const imgsWithoutAlt = (p.images || []).filter(i => !i.alt || !i.alt.trim()).length;
+
+      if (!shortDesc || shortDesc.length < 30) {
+        issues.push({ type: 'product_metadata', priority: 8, productId: p.id, name: p.name, url: p.permalink });
+      } else if (descWords < 100) {
+        issues.push({ type: 'product_description', priority: 7, productId: p.id, name: p.name, url: p.permalink });
+      }
+      if (imgsWithoutAlt > 0) {
+        issues.push({ type: 'product_images', priority: 6, productId: p.id, name: p.name, url: p.permalink });
+      }
+    }
+
+    if (res.data.length < 50) break;
+    page++;
+  }
+
+  if (issues.length === 0) return 0;
+
+  // Lägg upp till 20 nya tasks i work_queue (undvik dubletter)
+  const [existingRows] = await bq.query({
+    query: `SELECT page_url FROM \`${dataset}.seo_work_queue\`
+            WHERE customer_id = @cid AND task_type LIKE 'product_%' AND status = 'pending'`,
+    params: { cid: site.id }
+  }).catch(() => [[]]);
+  const existingUrls = new Set((existingRows || []).map(r => r.page_url));
+
+  let added = 0;
+  for (const issue of issues.slice(0, 20)) {
+    if (existingUrls.has(issue.url)) continue;
+    await bq.query({
+      query: `INSERT INTO \`${dataset}.seo_work_queue\`
+              (queue_id, customer_id, task_type, page_url, priority, status, context_data, created_at)
+              VALUES (GENERATE_UUID(), @cid, @type, @url, @prio, 'pending', @ctx, CURRENT_TIMESTAMP())`,
+      params: {
+        cid: site.id,
+        type: issue.type,
+        url: issue.url,
+        prio: issue.priority,
+        ctx: JSON.stringify({ id: issue.productId, product_id: issue.productId, url: issue.url, title: issue.name })
+      }
+    });
+    added++;
+  }
+
+  console.log(`  WooAudit ${site.id}: hittade ${issues.length} problem, lade till ${added} tasks`);
+  return added;
 }
 
 // ── Svenska namn för task-typer ──
@@ -785,7 +1275,11 @@ function formatTaskType(type) {
     'content':            'Innehållsoptimering',
     'schema':             'La till schema markup',
     'technical':          'Teknisk SEO-fix',
-    'manual':             'Manuell åtgärd'
+    'manual':             'Manuell åtgärd',
+    'product_metadata':   'WooCommerce produktmetadata optimerad',
+    'product_description':'WooCommerce produktbeskrivning utökad',
+    'product_images':     'WooCommerce produktbilder alt-text fixad',
+    'product_schema':     'WooCommerce produkt-schema tillagd'
   };
   return names[type] || type || 'SEO-optimering';
 }
@@ -808,7 +1302,8 @@ async function createArticle(site, task, claude, bq, dataset) {
   const relatedKws = kw.all.filter(k => k !== primaryKw).slice(0, 5);
 
   const suggestion = await claude.messages.create({
-    model: AI_MODEL,
+    model: selectModel('full_article'),
+    system: SYSTEM_PROMPT_CACHED,
     max_tokens: 3000,
     messages: [{
       role: 'user',
@@ -866,7 +1361,9 @@ Svara i JSON:
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
-  'missing_alt_text', 'create_article', 'no_internal_links'
+  'missing_alt_text', 'create_article', 'no_internal_links',
+  // WooCommerce
+  'product_metadata', 'product_description', 'product_images', 'product_schema'
 ]);
 
 // ── Main handler ──
@@ -883,7 +1380,12 @@ const TASK_HANDLERS = {
   'h3_optimization':      optimizeH2H3,
   'h2_h3_optimization':   optimizeH2H3,
   'synonym_gap':          enrichWithSynonyms,
-  'create_article':       createArticle
+  'create_article':       createArticle,
+  // WooCommerce
+  'product_metadata':     fixProductMetadata,
+  'product_description':  fixProductDescription,
+  'product_images':       fixProductImages,
+  'product_schema':       fixProductSchema
 };
 
 // ── Beräkna aktuell planmånad (månader sedan planen skapades, 1-indexerad, max 3) ──
@@ -1015,7 +1517,16 @@ function mapPlanTaskType(type) {
     'synonym_optimization':  'synonym_gap',
     // Bilder
     'alt_text':              'missing_alt_text',
-    'missing_alt_text':      'missing_alt_text'
+    'missing_alt_text':      'missing_alt_text',
+    // WooCommerce
+    'product_metadata':      'product_metadata',
+    'product_seo':           'product_metadata',
+    'product_title':         'product_metadata',
+    'product_description':   'product_description',
+    'product_content':       'product_description',
+    'product_images':        'product_images',
+    'product_alt':           'product_images',
+    'product_schema':        'product_schema'
     // OBS: 'technical' och 'manual' → ingen handler → graceful skip (korrekt)
   };
   return map[type] || type;
@@ -1083,6 +1594,41 @@ async function wpApiByUrl(site, targetUrl) {
 }
 
 
+// ── A/B LOG WRITER (2026-05-01) ──
+// Skriver ackumulerade A/B-loggposter till BigQuery prompt_ab_log-tabellen.
+// Körs i slutet av varje Lambda-invokation. Fel är icke-kritiska.
+async function writeABLog(bq, dataset) {
+  if (abLogEntries.length === 0) return;
+  try {
+    const table = bq.dataset(dataset).table('prompt_ab_log');
+    // Create table if not exists
+    try {
+      await table.insert(abLogEntries);
+    } catch (e) {
+      if (e.code === 404) {
+        await bq.dataset(dataset).createTable('prompt_ab_log', {
+          schema: {
+            fields: [
+              { name: 'timestamp', type: 'TIMESTAMP' },
+              { name: 'specialist', type: 'STRING' },
+              { name: 'prompt_version', type: 'STRING' },
+              { name: 'model', type: 'STRING' },
+              { name: 'input_tokens', type: 'INTEGER' },
+              { name: 'output_tokens', type: 'INTEGER' },
+              { name: 'optimization_id', type: 'STRING' },
+              { name: 'customer_id', type: 'STRING' }
+            ]
+          }
+        });
+        await bq.dataset(dataset).table('prompt_ab_log').insert(abLogEntries);
+      }
+    }
+    console.log(`A/B log: ${abLogEntries.length} entries written`);
+  } catch (e) {
+    console.error('A/B log write failed (non-critical):', e.message);
+  }
+}
+
 exports.handler = async (event) => {
   console.log('=== Autonomous Optimizer Started ===');
   // Budget per körning — höjt tillfälligt för veckorapport-deadline
@@ -1117,11 +1663,103 @@ exports.handler = async (event) => {
     const { bq, dataset } = await getBigQuery();
     const sites = await getWordPressSites();
 
-    // OpenRouter gratis-modeller: Qwen, Llama, DeepSeek, Gemini (roterar var 6:e timme)
-    const orKey = await getParam('/seo-mcp/openrouter/api-key');
-    AI_MODEL = FREE_MODELS[Math.floor(Date.now() / (6 * 3600 * 1000)) % FREE_MODELS.length];
-    const claude = createOpenRouterClient(orKey);
-    console.log(`AI: OpenRouter → ${AI_MODEL}`);
+    const openrouterKey = await getParam('/seo-mcp/openrouter/api-key');
+
+    // ── INTELLIGENT MODEL ROUTING (2026-05-03) ──
+    // Uppgiftstyp → modell baserat på komplexitet + kostnad
+    // Tier 1 (billig, snabb): meta titles/descriptions, alt-text, enkel klassificering
+    // Tier 2 (medel): schema markup, content-förbättringar, internlänk-förslag
+    // Tier 3 (dyr, kraftfull): komplex content-generering, kundrapporter, strategisk analys
+    const MODEL_TIERS = {
+      tier1: 'google/gemini-2.0-flash-lite-001',      // ~$0.075/1M tokens
+      tier2: 'anthropic/claude-haiku-4-5-20251001',    // ~$0.25/1M input
+      tier3: 'anthropic/claude-sonnet-4-6'             // ~$3/1M input — bara för kundrapporter
+    };
+    function selectModel(taskType) {
+      const tier1Tasks = ['meta_title', 'meta_description', 'alt_text', 'focus_keyword', 'classify', 'validate'];
+      const tier3Tasks = ['customer_report', 'strategy', 'full_article', 'competitor_analysis'];
+      if (tier1Tasks.includes(taskType)) return MODEL_TIERS.tier1;
+      if (tier3Tasks.includes(taskType)) return MODEL_TIERS.tier3;
+      return MODEL_TIERS.tier2; // schema, content_fix, internal_links, faq
+    }
+    AI_MODEL = MODEL_TIERS.tier1; // default fallback
+
+    // Langfuse tracing (cloud.langfuse.com)
+    if (Langfuse) {
+      try {
+        const lfSecret = await getParam('/seo-mcp/langfuse/secret-key');
+        const lfPublic = await getParam('/seo-mcp/langfuse/public-key');
+        langfuseClient = new Langfuse({
+          secretKey: lfSecret,
+          publicKey: lfPublic,
+          baseUrl: 'https://cloud.langfuse.com',
+          flushAt: 50,
+          flushInterval: 10000
+        });
+      } catch(e) { console.log('Langfuse init skip:', e.message); }
+    }
+    const claude = {
+      messages: {
+        create: async ({ model, system, max_tokens, messages }, opts) => {
+          const systemText = Array.isArray(system)
+            ? system.map(s => s.text || '').join('\n')
+            : (system || '');
+          const msgs = systemText
+            ? [{ role: 'system', content: systemText }, ...messages]
+            : messages;
+          const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${openrouterKey}`,
+              'Content-Type': 'application/json',
+              'HTTP-Referer': 'https://searchboost.se',
+              'X-Title': 'Searchboost Opti'
+            },
+            body: JSON.stringify({ model, messages: msgs, max_tokens })
+          });
+          const data = await resp.json();
+          if (data.error) throw new Error(`OpenRouter: ${data.error.message}`);
+
+          const inputTokens = data.usage?.prompt_tokens || 0;
+          const outputTokens = data.usage?.completion_tokens || 0;
+          const outputText = data.choices[0].message.content;
+
+          // A/B logging
+          abLogEntries.push({
+            timestamp: new Date().toISOString(),
+            specialist: opts?.specialist || 'general',
+            prompt_version: opts?.promptVersion || 'A',
+            model: model,
+            input_tokens: inputTokens,
+            output_tokens: outputTokens,
+            optimization_id: opts?.optimizationId || null,
+            customer_id: opts?.customerId || null
+          });
+
+          // Langfuse tracing
+          if (langfuseClient) {
+            try {
+              const generation = langfuseClient.generation({
+                name: opts?.specialist || 'seo-optimization',
+                model: model,
+                input: msgs,
+                output: outputText,
+                metadata: {
+                  specialist: opts?.specialist || 'general',
+                  prompt_version: opts?.promptVersion || 'A',
+                  customer_id: opts?.customerId || null,
+                  optimization_id: opts?.optimizationId || null
+                },
+                usage: { input: inputTokens, output: outputTokens }
+              });
+              generation.end();
+            } catch(e) { /* non-critical */ }
+          }
+
+          return { content: [{ text: outputText }] };
+        }
+      }
+    };
 
     const blockedCustomers = new Set();
     const results = [];
@@ -1275,7 +1913,25 @@ exports.handler = async (event) => {
       }
     }
 
+    // ── WooCommerce-audit: körs efter alla site-loopar ──
+    // Fyller work_queue med produkt-tasks för nästa körning om WooCommerce finns
+    for (const site of sites) {
+      if (blockedCustomers.has(site.id)) continue;
+      try {
+        const hasWoo = await siteHasWooCommerce(site);
+        if (!hasWoo) continue;
+        await runWooAudit(site, bq, dataset);
+      } catch (e) {
+        console.log(`  WooAudit ${site.id} fel: ${e.message}`);
+      }
+    }
+
     console.log(`=== Optimizer klar: ${totalProcessed} uppgifter körda ===`);
+
+    // Skriv A/B-logg till BigQuery (non-critical — påverkar ej resultat vid fel)
+    await writeABLog(bq, dataset);
+    if (langfuseClient) { try { await langfuseClient.flushAsync(); } catch(e) {} }
+
     return { statusCode: 200, body: JSON.stringify({ processed: totalProcessed, results }) };
   } catch (err) {
     console.error('Optimizer misslyckades:', err);
@@ -1293,14 +1949,15 @@ exports.handler = async (event) => {
   }
 };
 
-// ── Kontrollera om en plan-URL är blockad (WooCommerce-sidor etc.) ──
+// ── Kontrollera om en plan-URL är blockad ──
 function shouldSkipPlanUrl(url) {
   if (!url) return true;
   const BLOCKED = [
     /\/(kassan|checkout|varukorg|cart|kassa)(\/|$)/i,
     /\/(min-konto|my-account|mitt-konto)(\/|$)/i,
     /\/(betalning|payment|order-received|orderbekraftelse)(\/|$)/i,
-    /\/(butik|shop|store)(\/|$)/i,
+    // OBS: /butik och /shop blockeras INTE längre — de kan vara produktkategorier
+    // Produktsidor (/produkt/, /product/) är tillåtna och hanteras av WooCommerce-handlers
     /\/(login|logga-in|register|registrera)(\/|$)/i,
     /\/(tack|thank-you|bekraftelse)(\/|$)/i,
     /\/(wp-content|wp-includes|wp-admin)\//i,

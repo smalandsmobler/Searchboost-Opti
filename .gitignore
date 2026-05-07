@@ -7,3 +7,4 @@ tools/feedgen/
 data/seranking-backlinks-dump-2026-02-14.json
 scripts/output/
 data/kompetensutveckla/*.json
+.env

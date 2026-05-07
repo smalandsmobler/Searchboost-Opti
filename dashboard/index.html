@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="style.css?v=20260223b">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.1/dist/apexcharts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <!-- LOGIN -->
@@ -17,10 +18,16 @@
     <div class="login-box">
       <h1><span class="login-brand">Opti</span></h1>
       <p class="login-sub">SEO Dashboard</p>
+
+      <!-- Google Sign-In -->
+      <div id="googleSignInBtn" style="display:flex;justify-content:center;margin-bottom:16px"></div>
+
+      <div class="login-divider"><span>eller</span></div>
+
       <input type="text" id="loginUsername" placeholder="Användarnamn" onkeydown="if(event.key==='Enter')document.getElementById('loginPassword').focus()">
       <input type="password" id="loginPassword" placeholder="Lösenord" onkeydown="if(event.key==='Enter')doLogin()">
       <button onclick="doLogin()">Logga in</button>
-      <div class="login-error" id="loginError">Fel lösenord</div>
+      <div class="login-error" id="loginError">Fel inloggning</div>
     </div>
   </div>
 
@@ -44,7 +51,11 @@
         <a href="#" class="nav-link" data-view="ace">ACE</a>
         <a href="#" class="nav-link" data-view="security">Säkerhet</a>
         <a href="#" class="nav-link" data-view="linkedin">LinkedIn</a>
+        <a href="#" class="nav-link" data-view="prospect-auto">Auto-prospekt</a>
+        <a href="#" class="nav-link" data-view="programmatic-seo">Prog. SEO</a>
+        <a href="#" class="nav-link" data-view="competitor-intel">Konkurrenter</a>
         <a href="#" class="nav-link" data-view="opportunities">Möjligheter</a>
+        <a href="#" class="nav-link" data-view="ace">ACE</a>
       </nav>
       <div class="header-status">
         <select id="salesperson-filter" class="form-select salesperson-select" onchange="filterBySalesperson(this.value)" style="display:none">
@@ -1781,6 +1792,15 @@
 
     </section>
 
+    <!-- ── Auto-prospektering ── -->
+    <section id="view-prospect-auto" class="view"></section>
+
+    <!-- ── Programmatisk SEO ── -->
+    <section id="view-programmatic-seo" class="view"></section>
+
+    <!-- ── Konkurrensintelligens ── -->
+    <section id="view-competitor-intel" class="view"></section>
+
     <!-- ── Möjligheter ── -->
     <section id="view-opportunities" class="view">
       <div class="view-header">
@@ -1846,6 +1866,65 @@
           </thead>
           <tbody id="opportunities-tbody">
             <tr><td colspan="8" style="text-align:center;padding:32px;color:#888">Laddar möjligheter...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── ACE — Adaptive Content Engine ── -->
+    <section id="view-ace" class="view">
+      <div class="view-header">
+        <h1>ACE — Adaptive Content Engine</h1>
+        <p class="view-subtitle">Momentum-styrd innehållsprioritering: BOOM / NEUTRAL / SLUMP per sida</p>
+      </div>
+
+      <div class="ace-toolbar card" style="padding:16px;margin-bottom:20px;display:flex;gap:12px;flex-wrap:wrap;align-items:center">
+        <select id="ace-customer-filter" onchange="loadACE()" style="padding:6px 12px;border-radius:6px;border:1px solid #333;background:#1a1a2e;color:#fff">
+          <option value="">Välj kund</option>
+        </select>
+        <button onclick="triggerACECollect()" class="btn-secondary">Samla GA4 nu</button>
+        <button onclick="triggerACERun()" class="btn-primary">Kör momentum-analys</button>
+        <span id="ace-last-run" style="color:#888;font-size:13px;margin-left:auto"></span>
+      </div>
+
+      <div id="ace-overview" class="ace-overview" style="margin-bottom:20px"></div>
+
+      <div class="ace-classification-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px">
+        <div class="card ace-boom-card" style="padding:20px;border-left:4px solid #00e676">
+          <h3 style="margin:0 0 8px 0;color:#00e676">BOOM</h3>
+          <div id="ace-count-boom" style="font-size:32px;font-weight:700">—</div>
+          <p style="color:#888;margin:4px 0 0 0;font-size:13px">Sidor i uppåtgående trend</p>
+        </div>
+        <div class="card ace-neutral-card" style="padding:20px;border-left:4px solid #888">
+          <h3 style="margin:0 0 8px 0;color:#aaa">NEUTRAL</h3>
+          <div id="ace-count-neutral" style="font-size:32px;font-weight:700">—</div>
+          <p style="color:#888;margin:4px 0 0 0;font-size:13px">Stabila sidor</p>
+        </div>
+        <div class="card ace-slump-card" style="padding:20px;border-left:4px solid #ff5252">
+          <h3 style="margin:0 0 8px 0;color:#ff5252">SLUMP</h3>
+          <div id="ace-count-slump" style="font-size:32px;font-weight:700">—</div>
+          <p style="color:#888;margin:4px 0 0 0;font-size:13px">Sidor som tappar trafik</p>
+        </div>
+      </div>
+
+      <div class="card" style="padding:20px">
+        <h3 style="margin:0 0 16px 0">Momentum-rankning</h3>
+        <table id="ace-table" class="data-table" style="width:100%">
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Sida</th>
+              <th>Momentum</th>
+              <th>Sessions 7d</th>
+              <th>Δ Sessions</th>
+              <th>Klick 7d</th>
+              <th>Δ Klick</th>
+              <th>Engagement</th>
+              <th>Konv.</th>
+            </tr>
+          </thead>
+          <tbody id="ace-tbody">
+            <tr><td colspan="9" style="text-align:center;padding:40px;color:#888">Välj en kund för att se data</td></tr>
           </tbody>
         </table>
       </div>

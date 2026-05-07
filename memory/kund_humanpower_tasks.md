@@ -10,46 +10,45 @@ type: project
 **Site**: https://humanpower.se
 
 ## Nästa steg
+- [ ] **KRITISKT: Installera GA4 + GTM** — Mikael skapar GA4-property för humanpower.se i Google Analytics, ger Claude GA4-ID (G-XXXXXXXX) + GTM-ID, sedan installerar vi via Code Snippet. Utan tracking är allt SEO-arbete omätbart.
+- [ ] **Schema markup** — lägg till Organization + WebSite schema via Rank Math (10 min jobb när GA4 är klart)
+- [ ] **Rank Math-konfiguration** — aktivera meta desc-mall på alla posttyper (pages, posts, products), verifiera startsidans titel/desc
+- [ ] Hastighetsoptimering — svarstid 2,74s (bör vara <1,5s). Aktivera caching plugin.
 - [ ] Lägg till SA i GSC: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com (Fullständig) — Mikael gör manuellt i GSC > Inställningar > Användare och behörigheter
+- [ ] Granska alla nya sidor live i browser — kontrollera layout och mobilvy
+- [ ] Lägg till Livshjulet/Mental hälsa/Balans i livet i footermenyn (om det finns en)
+- [ ] Reboot-aktivitetssidorna saknar bilder — lägg till relevanta bilder när de finns
+
+## Klart 2026-04-20 (SEO-audit)
+- [x] Teknisk SEO-audit genomförd (agent afe4cb30)
+- [x] Kritiska fynd: Ingen GA4/GTM, ingen schema, 28/28 sidor utan meta desc, svarstid 2.74s
 - [x] Org.nr i footer: Human Power Sweden AB · Org.nr: 559256-7464 · info@humanpower.se (hittad via allabolag.se, Anette Brink ledamot)
-- [x] Ny batch artiklar vecka 24 — publicerade 2026-04-21
-- [ ] Utred varför Rank Math inte emittar head — setup wizard kanske oavslutad. SEO-head-emitter (snippet #24) täcker nu allt tills RM fixas.
 
-## Klart 2026-04-22 (nattjobb) — KRITISK SEO-FIX
-- [x] **Upptäckt**: Rank Math installerat men emittade **0 meta tags på hela sajten**. 0 description, 0 OG, 0 Twitter cards, 0 JSON-LD. Post-meta (rank_math_title/description) sparat korrekt men aldrig renderat.
-- [x] **SBS SEO head emitter** (snippet #24) deployad — full head-output: title, meta description, OG (7 tags), Twitter (4 tags), JSON-LD (4 blocks: Organization + WebSite + Article/WebPage + BreadcrumbList). Läser från rank_math_* meta med fallback till post-excerpt/title.
-- [x] **Interlinking 33/33 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + landningssidor (/reboot/, /utvecklande-samtal/, /kosttillskott/). Ämnesmatchning: retreat/samtal/stress/coaching/kost/själv/bi/holistisk.
-- [x] **llms.txt expanderad** (328 → 3 334 bytes, snippet #9) — retreat-aktiviteter, samtalstyper, kosttillskotts-serie, 15 top artiklar, kontakt.
-- [x] **robots.txt härdning** (snippet #25) — Disallow: /cart/, /varukorg/, /checkout/, /kassan/, /my-account/, /mitt-konto/, /?s=, /?orderby=, /?filter_*, /?pa_*, /feed/, /xmlrpc.php. Googlebot-Image Allow på uploads.
-- [x] **Sanity-check** — 10/10 kritiska sidor (/, /reboot/, /kosttillskott/, /utvecklande-samtal/, /om-oss/, /kontakt/, /astaxanthin/, /mental-halsa/, /inspiration/, /livshjulet/): 200 OK, 0 fatal, 1 H1, 4 JSON-LD blocks, OG tags.
-
-## Klart 2026-04-21 (vecka 24)
-- [x] 3 artiklar publicerade vecka 24 (kat ID:46 Inspiration & insikt):
-  - ID:835 /utmattningssyndrom-varningstecken-guide/ (focus: utmattningssyndrom varningstecken)
-  - ID:836 /aterhamtning-utbrandhet-guide/ (focus: återhämtning utbrändhet)
-  - ID:837 /stresshantering-arbetsplatsen-metoder/ (focus: stresshantering arbetsplatsen)
-
-## Klart 2026-04-20 (vecka 23)
+## Klart 2026-04-19 (vecka 23)
 - [x] 3 artiklar publicerade vecka 23 (kat ID:46 Inspiration & insikt):
-  - ID:824 /andningsovningar-angest-guide/ (focus: andningsövningar ångest)
-  - ID:825 /somnproblem-stress-guide/ (focus: sömnproblem stress)
-  - ID:826 /inre-kritiker-overvinna-guide/ (focus: inre kritiker övervinna)
+  - ID:804 /mindfulness-i-vardagen-7-enkla-ovningar-for-stressade/ (focus: mindfulness vardag)
+  - ID:805 /5-bocker-om-personlig-utveckling-som-forandrar-perspektiv/ (focus: personlig utveckling böcker)
+  - ID:806 /utbrandhet-tidiga-tecken-och-hur-du-forebygger/ (focus: utbrändhet förebygga)
 
-## Klart 2026-04-20 (vecka 22)
+## Klart 2026-04-18 (sidor och meny)
+- [x] 4 Reboot aktivitetssidor: BI-terapi (781), Konserter (782), Naturpromenader (783), Livshjulet på retreat (784)
+- [x] 6 kunskapssidor: Livshjulet (785), Samtasterapi (786), Mental hälsa (787), Psykisk ohälsa (788), Balans i livet (789)
+- [x] 4 kosttillskottssidor under /kosttillskott/: Astaxanthin (790), SagaPRO (791), AstaEye (792), AstaSkin (793)
+- [x] WooCommerce produktbeskrivningar uppdaterade (598–601) med fördelar, ingredienser, dosering och länk till kunskapssida
+- [x] 10 nya menyval i Primär meny: 4 under Reboot, 2 under Utvecklande samtal, 4 under Kosttillskott
+
+## Klart 2026-04-17 (SEO-batch kvällsoptimering)
+- [x] 8 meta descriptions uppdaterade:
+  - ID:8 /butik/, ID:9 /varukorg/, ID:10 /kassan/, ID:11 /mitt-konto/, ID:29 /integritetspolicy/ — WooCommerce-sidor med generisk text
+  - ID:721 /samtalspedagog-i-stockholm-guide/ — fixade auto-template med fel nyckelord ("personlig tränare")
+  - ID:722 /livshjulet-personlig-forandring/ — fixade fel fokus
+  - ID:723 /reboot-retreat-litauen-guide/ — fixade auto-template
+
+## Klart 2026-04-17 (vecka 22)
 - [x] 3 artiklar publicerade vecka 22 (kat ID:46 Inspiration & insikt):
-  - ID:821 /mindfulness-ovningar-hemma/ (focus: mindfulness övningar)
-  - ID:822 /satta-granser/ (focus: sätta gränser)
-  - ID:823 /tacksamhetsdagbok/ (focus: tacksamhetsdagbok)
-- [x] Mail skickat till Anette 2026-04-19
-- [ ] Bio + foto från Anette: hennes presentation (Human Power) + hon & David (Reboot)
-- [ ] Körresa-priser: Anette ska tydliggöra exakt vilket avsnitt/sida som avses
-
-## Klart 2026-04-19 (Anette-feedback)
-- [x] **Kosttillskott (ID 27)**: Hero bytt till isländskt landskapsfoto (ID 815). Alla 4 produktkort uppdaterade med officiella SagaNatura burk-bilder (IDs 816-819). WooCommerce produktbilder också uppdaterade.
-- [x] **WooCommerce priser**: `woocommerce_tax_display_cart` satt till `incl` → 14 895 kr visas nu konsekvent i shop + kassa (var 11 916 kr exkl. moms i kassan).
-- [x] **Reboot datum (ID 23)**: Datum 15-19 april (fixat från 16-19). "Exkl. flyg" tillagt vid alla prisceller.
-- [x] **Utvecklande samtal (ID 26)**: "Varje session är 75 min." tillagt i anmälningsformulärets placseholder-text. Alt-text "Terapirum" korrigerad till "Samtalsrum".
-- [x] **Mailmall sparad**: `content-pages/mail-humanpower-anette-uppdat.md` — listar allt klart + frågar om körresa-priser och bio/foto.
+  - ID:773 /somn-djupvila-aterhamtning-nervsystem/ (focus: sömn och återhämtning)
+  - ID:774 /gransattning-relationer-skuld/ (focus: gränssättning i relationer)
+  - ID:775 /andningsovningar-nervsystemet-vagusnerven/ (focus: andningsövningar nervsystemet)
 
 ## Klart 2026-04-16
 - [x] Utvecklande samtal (ID 26): hero nu full viewport-bredd. Kadence meta satt: `_kad_post_layout=fullwidth`, `_kad_post_content_style=unboxed`, `_kad_post_vertical_padding=remove`. CSS-override injicerad överst i content för att bryta ut `.wp-block-cover.alignfull` från `.content-container.site-container`.

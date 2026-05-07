@@ -12,55 +12,61 @@ type: project
 **Bransch**: B2B produktutveckling — plastkonstruktion, industridesign, prototyper
 
 ## Nästa steg
-- [x] Interna länkar mellan tjänstesidorna — 5 sidor uppdaterade 2026-04-20 med "Relaterade tjänster"-block (simulering↔produktoptimering↔verktygsberedning↔uppmätning↔montage)
-- [x] Sitemap fixad 2026-04-20 — se nedan
-- [x] Startsidans SEO-meta uppdaterad 2026-04-21 (titel + description + fokusord)
-- [x] Google Analyticator (döt plugin v6.5.4) deaktiverat 2026-04-21
-- [x] Ny batch artiklar vecka 24 — publicerade 2026-04-21
-- [ ] Utred varför Rank Math inte emittar head — setup wizard kanske oavslutad. SEO-head-emitter (snippet #25) täcker nu allt tills RM fixas.
+- [ ] **KRITISKT: Installera GA4 + GTM** — Jelmtech har noll tracking. Mikael: skapa GA4-property för jelmtech.se, ge Claude GA4-ID (G-XXXXXXXX). Installerar via Code Snippet.
+- [ ] Interna länkar mellan tjänstesidorna (saknas nästan helt)
+- [x] Ny batch artiklar vecka 24 (publicerade 2026-04-20)
 
-## Klart 2026-04-22 (nattjobb) — stor SEO-fix
-- [x] **Kritisk upptäckt**: Rank Math emittade 0 JSON-LD blocks, ofullständiga OG (bara 1 tag), ingen canonical, ingen twitter:card. Meta description emitterades dock (av Divi eller snippet). 
-- [x] **SBS SEO head emitter** (snippet #25) — full head-output: OG (7 tags), Twitter cards (4 tags), canonical, JSON-LD (4 blocks: Organization + WebSite + Article/WebPage + BreadcrumbList).
-- [x] **Sitemap-fix**: /sitemap.xml **301 → /wp-sitemap.xml (som 404:ar!)** — troliga orsaken Mikael sett i GSC. Ny snippet #26 ändrar redirect till /sitemap_index.xml. **/sitemap.xml** nu 301 → /sitemap_index.xml (200 OK).
-- [x] **robots.txt omskriven** via snippet #27 + `sbs/v1/write-robots`-endpoint. Nu innehåller: Disallow wp-admin/wp-includes/wp-login.php/?s=/search/feed/xmlrpc.php, Allow admin-ajax.php, Googlebot-Image allow uploads, sitemap_index.xml.
-- [x] **Interlinking 64/64 artiklar** — "Relaterade artiklar"-block med 3 ämnes-matchade länkar + landningssidor (/plastkonstruktion/, /industridesign/, /prototyptillverkning/). Ämnesmatchning: plast/prototyp/formsprut/design/material/mekanisk/kvalitet/hållbar/overmould/cert.
-- [x] **llms.txt expanderad** (ca 700 → 3 162 bytes, snippet #7) — produktutveckling-tjänster, 15 top artiklar, kontaktinfo (Ängelholm/Valhall Park).
-- [x] **Sanity-check**: Startsida + /kontakt/, /nyheter/, /hallbar-produktutveckling/, /jobba-hos-oss/, artikel — alla 200 OK, 0 fatal, 4 JSON-LD blocks. Artikel visar Relaterade artiklar.
-- Anm: `/om-oss/` saknas på JT (använd `/tjanster/` + `/kontakt/` istället). `/produktutveckling/` är blog-kategori utan H1 — behöver Rank Math category-intro text.
+## Klart 2026-04-20 (vecka 24)
+- [x] 3 artiklar publicerade vecka 24 (kat ID:48):
+  - ID:7733 /produktutveckling/plastkomponenter-en-komplett-guide-for-industriella-tillverkare/ (focus: plastkomponenter)
+  - ID:7734 /produktutveckling/teknisk-plast-egenskaper-material-och-industriella-tillampningar/ (focus: teknisk plast)
+  - ID:7735 /produktutveckling/formsprutad-detalj-fran-konstruktion-till-fardig-komponent/ (focus: formsprutad detalj)
 
+## Klart 2026-04-20 (SEO-audit)
+- [x] Teknisk SEO-audit genomförd: Noll GA4/GTM (kritiskt), Rank Math PRO aktivt, meta på alla sidor verifierat
+- [x] Positivt: Alla sidor och artiklar har meta descriptions (100%), intern länkning förbättrad
 
+## Klart 2026-04-19 (vecka 23)
+- [x] 3 artiklar publicerade vecka 23 (kat ID:48):
+  - ID:7716 /hallbar-plast-cirkular-design-och-atervinning/ (focus: hållbar plast återvinning)
+  - ID:7717 /formsprutning-och-toleranser-hur-tight-kan-du-halla/ (focus: formsprutning toleranser)
+  - ID:7718 /plastdetaljer-for-livsmedelsindustrin-krav-och-material/ (focus: plastdetaljer livsmedelsindustrin)
 
-## Klart 2026-04-20 (sitemap-fix)
-- [x] **sitemap_index.xml** fungerar nu — HTTP 200, korrekt XML
-  - Root cause: Rank Math's sitemap-modul initierades aldrig (hooks saknades i template_redirect)
-  - Fix: Code Snippet #23 (persistent) — custom sitemap-generator via `template_redirect` pri 0
-  - Fix: WP core sitemaps avaktiverade via `wp_sitemaps_enabled` → `false`
-  - **post-sitemap.xml**: 57 URLs (alla publicerade inlägg)
-  - **page-sitemap.xml**: 17 URLs (alla publicerade sidor)
-- [x] **robots.txt** uppdaterad: `Sitemap: https://jelmtech.se/sitemap_index.xml`
-- Aktiva snippets som hanterar sitemap: #14 (robots_txt filter), #17 (fysisk robots.txt), #23 (sitemap generator)
+## Klart 2026-04-18 (SEO-audit + Opti-dashboard)
+- [x] 15 ABC-keywords inlagda i Opti-dashboard (5A / 5B / 5C):
+  - A: formsprutning (880), plastkomponenter (590), teknisk plast (390), formsprutning av plast (320), formsprutad detalj (210)
+  - B: plastformsprutning (260), plastproduktion sverige (170), plastdetaljer tillverkare (140), formsprutningsverktyg (110), tvåkomponentsformsprutning (90)
+  - C: plastkomponenter industri (70), tekniska plastdetaljer (60), injektionsgjutning plast (50), formsprutning prototyp (40), formsprutning liten serie (30)
+- [x] 3-månaders åtgärdsplan skapad (12 tasks):
+  - M1: Teknisk SEO-audit, startsida-optimering, tjänstesida formsprutning, schema markup
+  - M2: Artikel tvåkomponent, artikel materialval, utbyggd plastkomponenter-sida, branschkataloger
+  - M3: Artikel kravspec, artikel prototyp-till-serie, bild-SEO, hastighetsoptimering
 
-## Klart 2026-04-21 (vecka 24)
-- [x] 3 artiklar publicerade vecka 24 (kat ID:48 Produktutveckling):
-  - ID:7739 /produktutveckling/glasfiberarmerad-plast-guide-2/ (focus: glasfiberarmerad plast)
-  - ID:7741 /produktutveckling/kostnad-formsprutningsverktyg/ (focus: kostnad formsprutningsverktyg)
-  - ID:7742 /produktutveckling/bioplast-produktutveckling-guide/ (focus: bioplast produktutveckling)
-- [x] Rank Math metadata satt på samtliga (SEO-titel, description, fokusord)
+## Klart 2026-04-15 (vecka 21)
+- [x] Meta descriptions + focus keywords satta på 5 tjänstesidor via REST API:
+  - 3893 simulering-analys (157 tecken | kw: simulering plastkonstruktion)
+  - 3901 uppmatning-verifiering (155 tecken | kw: uppmätning verifiering plastdetaljer)
+  - 3915 montage-beskrivningar (159 tecken | kw: montageanvisningar plastkomponenter)
+  - 3699 produktoptimering (155 tecken | kw: produktoptimering formsprutning)
+  - 233 verktygsberedning (156 tecken | kw: verktygsberedning formsprutning)
+- [x] 3 artiklar publicerade vecka 21 (kat ID:48):
+  - ID:7699 /produktutveckling/rostfritt-stal-vs-plast-materialval-produktutveckling/ (focus: materialval produktutveckling)
+  - ID:7700 /produktutveckling/verktygsunderhall-livslangd-formsprutningsverktyg/ (focus: verktygsunderhåll formsprutning)
+  - ID:7701 /produktutveckling/batch-storlek-ekonomi-smaserie-massproduktion/ (focus: småserie formsprutning kostnad)
 
-## Klart 2026-04-20 (vecka 23)
-- [x] 3 artiklar publicerade vecka 23 (kat ID:48 Produktutveckling):
-  - ID:7730 /produktutveckling/polyamid-formsprutning-guide/ (focus: polyamid formsprutning)
-  - ID:7731 /produktutveckling/insert-moulding-guide/ (focus: insert moulding plast)
-  - ID:7732 /produktutveckling/konstruktionsplast-egenskaper-guide/ (focus: konstruktionsplast egenskaper)
-- [x] Rank Math metadata verifierad korrekt (Code Snippet ID:18 fungerande)
+## Klart 2026-04-17 (SEO-batch kvällsoptimering)
+- [x] 25 meta descriptions uppdaterade (24 posts + 1 page):
+  - 1 page: ID:6604 /arbetssida/
+  - 24 posts: alla äldre blogginlägg och case studies som saknade descriptions (Thule, deWiz Golf, Celsicom, Zekler, samverkan, plast/cirkularitet, jobbannonsering m.m.)
+  - Alla 125-143 tecken, svenska, B2B-relevanta
+  - Status: 0/19 sidor och 0/54 posts saknar nu meta description
 
-## Klart 2026-04-20 (vecka 22)
-- [x] 3 artiklar publicerade vecka 22 (kat ID:48 Produktutveckling):
-  - ID:7719 /produktutveckling/2k-formsprutning-guide/ (focus: 2K formsprutning)
-  - ID:7725 /produktutveckling/ytbehandling-plast/ (focus: ytbehandling plast)
-  - ID:7726 /produktutveckling/teknisk-dokumentation-produktutveckling/ (focus: teknisk dokumentation produktutveckling)
-- [x] Rank Math metadata satt på ovanstående (fokusord, SEO-titel, metabeskrivning)
+## Klart 2026-04-17 (vecka 22)
+- [x] 3 artiklar publicerade vecka 22 (kat ID:48):
+  - ID:7705 /produktutveckling/tvakomponentsformsprutning-nar-det-lonar-sig/ (focus: tvåkomponentsformsprutning)
+  - ID:7706 /produktutveckling/kravspecifikation-formsprutad-detalj-checklista/ (focus: kravspecifikation formsprutad detalj)
+  - ID:7707 /produktutveckling/mekanisk-testning-plastkomponenter/ (focus: mekanisk testning plastkomponenter)
+- [x] Rank Math focus keyword + meta description + title satt via Code Snippet ID:18 REST-fält (top-level)
 
 ## Klart 2026-04-15 (vecka 21)
 - [x] Meta descriptions + focus keywords satta på 5 tjänstesidor via REST API:

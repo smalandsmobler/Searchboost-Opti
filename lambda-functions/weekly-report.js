@@ -425,7 +425,7 @@ function groupByCustomer(optimizations, trelloCards, customers) {
 }
 
 // ── Kundfacing veckologg — HTML med siffror och utfört arbete ──
-function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel, metrics) {
+function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel, metrics, introMessage) {
   const name = customer.contact_person || 'där';
   const companyName = customer.company_name || customer.customer_id;
 
@@ -434,7 +434,9 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
     const type = formatOptType(o.optimization_type);
     const rawPath = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
     const page = rawPath || 'Hela sajten';
-    return `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(type)} <span style="color:#999;font-size:12px">(${escapeHtml(page)})</span></li>`;
+    // Visa beskrivningen om den finns, annars fallback till typ-etikett
+    const mainText = o.description || o.after_state || type;
+    return `<li style="margin-bottom:8px;font-size:14px;line-height:1.4">${escapeHtml(mainText)} <span style="color:#bbb;font-size:11px;display:inline-block;margin-left:4px">${escapeHtml(page)}</span></li>`;
   });
   const trelloItems = trelloCards.map(c =>
     `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(c.name)}</li>`
@@ -591,6 +593,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
 
   <div style="padding:24px">
     <p style="font-size:15px;margin:0 0 16px">Hej ${escapeHtml(name)}!</p>
+    ${introMessage ? `<div style="margin:0 0 20px;padding:12px 16px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px;font-size:14px;color:#555">${escapeHtml(introMessage)}</div>` : ''}
     <p style="font-size:14px;color:#444;margin:0 0 20px">
       Här är en sammanfattning av vad vi gjort för ${escapeHtml(companyName)} den här veckan,
       samt hur er synlighet i Google ser ut.
@@ -1064,6 +1067,7 @@ exports.handler = async (event) => {
 
   // Tillåt force=true för att köra om en redan skickad rapport (t.ex. vid test)
   const force = event && event.force === true;
+  const introMessage = (event && event.intro_message) ? event.intro_message : null;
 
   try {
     const { bq, dataset } = await getBigQuery();
@@ -1161,7 +1165,8 @@ exports.handler = async (event) => {
         group.optimizations,
         group.trelloCards,
         weekLabel,
-        m
+        m,
+        introMessage
       );
 
       try {

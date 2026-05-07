@@ -1,33 +1,7 @@
 # Kunder — Searchboost Opti
 
 > Delad fil. Mikael + Viktor ser samma info. Uppdatera när något ändras.
-> Senast uppdaterad: 2026-04-22 (stort tekniskt SEO-lyft på 8 kunder + Nordic Snus mötesunderlag)
-
-## SEO-lyft 2026-04-22 (sammanfattning)
-
-**353 artiklar** fick "Relaterade artiklar"-block. **2 kritiska SEO-head-fixar** (HP + JT — Rank Math emittade 0 schema). **1 sitemap-bug** fixad (JT /sitemap.xml dead-redirect). **robots.txt härdad** på alla 8 kunder. **llms.txt** expanderad där relevant.
-
-**Schema markup-pass 2026-04-22 (rond 2):** Audit av article-schema visade att 5 av 8 saknade BreadcrumbList på artiklar. MR saknade dessutom Article-schema helt (Rank Math-output blockerad av snippet #64). Nu fixat med dedikerade snippets:
-
-- **MR snippet #124**: Article + BreadcrumbList JSON-LD på posts
-- **TR snippet #35, TB snippet #53, IM snippet #35**: BreadcrumbList JSON-LD på posts
-- **NS**: 403 — `mikael`-kontot saknar manage_options. Mikael behöver ge admin-perms till `mikael`-kontot för Code Snippets, eller logga in med annat admin-konto.
-- **TB+NS**: Fixade duplicate H1 i 2 artiklar (byggstalning-sakerhetskrav, zyn-nikotinpasar-guide)
-
-Resultat: 8/8 har Article + 7/8 har BreadcrumbList (NS väntar på perms).
-
-Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
-
-| Kund | Interlinks | Övriga fynd 2026-04-22 |
-|------|-----------|------------------------|
-| SMK | 71/71 | Köp-knappar (#174), SEO accordion (#175), CSS-skydd (#176), JS-läcka borttagen, slideshow fixad, leveranstid 2-3d på alla 25 produkter med avvikande värden |
-| HP | 33/33 | **KRITISK**: SEO head emitter (#24) — Rank Math emittade 0 JSON-LD |
-| JT | 64/64 | **KRITISK**: sitemap.xml-redirect bug fixad + SEO head emitter (#25) |
-| TR | 53/53 | Allt OK, bara content+robots |
-| NS | 44/44 | + Mötesunderlag fredag 25 april (`presentations/nordic-snus-mote-2026-04-25.md`) |
-| TB | 13/13 | Allt OK, bara content+robots |
-| IM | 43/43 | Retention-läge — beslut 9 maj |
-| MR | 32/32 | Sucuri WAF kräver browser-UA för API |
+> Senast uppdaterad: 2026-04-18 (Ilmonte: Beebyte → Loopia migration klar, malware sanerad, forensisk rapport skickad till Peter)
 
 ---
 
@@ -35,18 +9,18 @@ Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
 
 | Kund | WP-creds | GSC | Keywords | Portalkon to | Status |
 |------|----------|-----|----------|--------------|--------|
-| searchboost | OK | OK | OK | — | Aktiv |
-| kompetensutveckla | OK | OK | OK | mikael.n@kompetensutveckla.se | Aktiv |
-| ilmonte | OK | Ej ägare | OK | peter.vikstrom@ilmonte.se | Aktiv (ingen GSC-data) |
-| mobelrondellen | OK | OK | OK | mattias@mobelrondellen.se | Aktiv |
+| searchboost | OK | OK | OK | — | Aktiv — **2026-04-18**: Full Perispa-audit (100 SEO-meta, 63 internlankar, 24 schema, 3 artiklar, 7 plugins bort). Leadgen-infra bygd: /partner/ (ID:2890), /nyhetsbrev/ (ID:2891), /gratis-seo-analys/ uppgraderad, exit-intent popup (Snippet#13), 3-mail email-sekvens skriven, agency directory-profiler klara. |
+| kompetensutveckla | OK | OK | OK | mikael.n@kompetensutveckla.se | Avslutad 2026-03-13 |
+| ilmonte | OK (nytt pwd efter migration) | Ägare (SA + Mikael) | OK | peter.vikstrom@ilmonte.se | **RETENTION t.o.m. 2026-05-08 + fakturerbar malware-räddning**. 2026-04-17→18: LIVE på Loopia (DNS 17/4 ~15:00), DB-saneras (~20 000 obj, 8 iterationer), 4 samarbetspartnerkonton bortkopplade (Matti/ASOS, Fredric/Mastodont, Thomas, Henrik), GSC hackar-tokens borttagna. Produktschema brand+image på 730, placeholder på 401 obilderade, robots/llms.txt optimerade, H1 alla toppsidor, notis-sanering. 28 artiklar publ. sedan 8/4. **Forensisk rapport (11 s PDF) + mail SKICKAT**. Kundmapp: `leveranser/ilmonte/`. |
+| mobelrondellen | OK | OK | OK | mattias@mobelrondellen.se | Aktiv — meta via snippet #64 |
 | phvast | OK | OK | OK | arnman@phvast.se | Aktiv |
-| tobler | OK | — | OK | jakob@tobler.se | Aktiv |
-| traficator | OK | — | OK | patrik.carlsson@traficator.se | Aktiv |
-| smalandskontorsmobler | SAKNAS | OK | OK | mikael@smalandskontorsmobler.se | Delvis |
+| tobler | OK | — | OK | jakob@tobler.se | Aktiv — meta batch 2026-04-17 (13 prod) |
+| traficator | OK | — | OK | patrik.carlsson@traficator.se | Aktiv — meta batch 2026-04-17 (67 upd) |
+| smalandskontorsmobler | OK | OK | OK | mikael@smalandskontorsmobler.se | Aktiv — meta batch 2026-04-17 (17 upd) |
 | wedosigns | SAKNAS | 403 | OK | mail@wedosigns.se | Delvis |
 | ferox | SAKNAS | — | SAKNAS | Andreas.Sternberg@feroxkonsult.se | Ej aktiv |
-| jelmtech | OK | 403 | OK (30 st) | camilla.lundstrom@jelmtech.se | Aktiv |
-| nordicsnusonline | placeholder | — | OK (29 st) | — | Uppstart |
+| jelmtech | OK | 403 | OK (30 st) | camilla.lundstrom@jelmtech.se | Aktiv — meta batch 2026-04-17 (25 upd) |
+| nordicsnusonline | OK | OK | OK (29 st) | — | Aktiv — meta batch 2026-04-17 (35 upd) |
 
 **SAKNAS** = WordPress app-password inte inlagt. Kunden är registrerad men automatisk optimering är avstängd.
 
@@ -133,6 +107,16 @@ Se `content-pages/veckorapport-2026-04-22.md` för detaljer.
 - Sitemap säger 4 150 posts → diskrepans = 4 125 fake
 
 **Blockerar** all ytterligare SEO-effekt — Google ser ilmonte som en casino-spamsajt.
+
+### Gjort 2026-04-18 (Full Perispa-audit)
+- [x] **SEO-metadata** på 32/32 sidor och inlägg — titel, description, fokus-sökord via Rank Math API
+- [x] **Schema markup**: LocalBusiness (startsida ID:13581), OfferCatalog (butik ID:14689), Article (25 artiklar)
+- [x] **Internlänkar** på 30 sidor/artiklar — relaterade länkar-sektion appendad
+- [x] **Plugin-cleanup**: Yoast borttaget, Login Lockdown borttaget, Empty Cart borttaget, CookieYes aktiverat (GDPR)
+- [x] **3 nya artiklar publicerade**:
+  - ID:20673 https://ilmonte.se/eventinredning-foretagsgala-guide/ (fokus: eventinredning företagsgala)
+  - ID:20674 https://ilmonte.se/konferensinredning-checklista-mobler/ (fokus: konferensinredning checklista)
+  - ID:20675 https://ilmonte.se/scenpodier-kyrkor-kulturhus-guide/ (fokus: scenpodier kyrkor kulturhus)
 
 ### Gjorda fixes 2026-04-16 (säkra metadata via Rank Math, ingen risk för e-handel)
 - [x] **Audit-rapport**: `presentations/ilmonte-seo-audit-2026-04-16.md`
