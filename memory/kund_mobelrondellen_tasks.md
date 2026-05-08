@@ -16,6 +16,7 @@ Senaste check: 2026-05-07
 | Datum | Titel | URL |
 |-------|-------|-----|
 | 2026-04-29 | Fåtölj guide 2026 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
+| 2026-05-08 | Bästa soffan 2026 — guide för dig som vill ha kvalitet och hållbarhet | ⏳ Kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 |
 
 ## Utfört arbete (historik)
 - Plugin-cleanup: 325 → 7 plugins
