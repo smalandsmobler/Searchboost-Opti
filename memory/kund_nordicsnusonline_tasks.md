@@ -36,7 +36,26 @@ Tidigare försök med 3 produktbilder i hero refuserades av Mikael.
 Favorit: Koncept 2 (typografisk) eller Koncept 5 (vintage-ram).
 Avvaktar Mikaels beslut innan produktion.
 
-### Nästa steg
-- Mikael väljer koncept
-- Implementera i snippet 58 på NSO /sv/
-- Inga gigantiska produktbilder (Mikaels nolltolerans)
+### Implementerat — 2026-05-08 20:00
+
+**Valt koncept**: Koncept 4 – Svensk skogssilhuett (default, Mikael hade ej valt)
+**Teknik**: CSS `::after` pseudo-element på `.nsoh-hero` med inline SVG data URI (3 granar, 17% opacity)
+**Snippet**: 58 'NSO: Home v6 — Lato' uppdaterad kl 18:08
+**Backup**: `/tmp/nso-snippet-58-backup-20260508-180411.json`
+**Screenshots**: `/tmp/nso-hero-final-desktop.png`, `/tmp/nso-hero-final-mobile.png`
+
+#### Tekniska detaljer
+- `.nsoh-hero` fick `position:relative;overflow:hidden`
+- `.nsoh-hero::after`: SVG 3 granar, `width:35%`, `height:100%`, `opacity:0.17`, `bottom:0;right:0`
+- `.nsoh-hero .nsoh-wrap`: `position:relative;z-index:1` (text alltid ovanför grafik)
+- Mobil (`@media max-width:768px`): `display:none` på `::after`
+
+#### Verifiering
+- Computed bg: `rgb(13,38,20)` = #0d2614 (korrekt)
+- ::after: opacity 0.17, width 367.5px, SVG background-image bekräftad
+- Träd synliga på desktop höger, ej på mobil
+- Trust-rad, kategorier, brands — allt renderar korrekt under hero
+- Obs: Playwright desaturerar #0d2614 i headless — ser grå ut i screenshots men korrekt i riktig browser
+
+#### Om Mikael vill rulla tillbaka
+Återställ snippet 58 med backup: `/tmp/nso-snippet-58-backup-20260508-180411.json`
