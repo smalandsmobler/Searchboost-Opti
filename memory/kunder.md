@@ -17,17 +17,19 @@
 | humanpower      | (ej registrerad)                      | —          | — |
 | nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
 
-## Regressionscheck — Veckosammanfattning 2026-05-06
+## Regressionscheck — 2026-05-09
 
-**Status: Blockerad — data ej tillgänglig**
+**Status: Blockerad — Supermetrics GSC ej autentiserad**
 
 | Kund | GSC-status | Check-status | Orsak |
 |------|-----------|-------------|-------|
-| searchboost | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
-| mobelrondellen | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
-| smalandskontorsmobler | OK | ❌ Blockerad | EC2 ej nåbar + Supermetrics ej auth |
-| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| searchboost | OK | ❌ Blockerad | Supermetrics ej auth (ny länk i kund_searchboost_tasks.md) |
+| mobelrondellen | OK | ❌ Blockerad | Supermetrics ej auth |
+| smalandskontorsmobler | OK | ❌ Blockerad | Supermetrics ej auth |
+| kompetensutveckla | OK | ❌ Blockerad | Supermetrics ej auth |
+| phvast | OK | ❌ Blockerad | Supermetrics ej auth |
 | ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
 | tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
 | traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
 | humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
@@ -35,7 +37,11 @@
 
 **Keywords upp/ner:** Ej tillgänglig (ingen dataåtkomst)
 
-**Åtgärd krävs:** Autentisera Supermetrics GSC via länken i `kund_searchboost_tasks.md` för att möjliggöra regressionscheck utan EC2-åtkomst.
+**Åtgärd krävs — EN åtgärd låser upp 5 kunder:**
+Mikael loggar in Supermetrics GSC med denna länk (giltig tills den används):
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/Hdk28CzTe_WGjmliA0VwuhBs_lFjHg9rzqIgsD2_yZdSvwyPLc`
+
+**Alternativ:** Kör `node scripts/regression-check.js` direkt på EC2 (SSH-session, IAM-roll → SSM → BigQuery).
 
 ---
 

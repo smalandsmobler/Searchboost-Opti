@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Dubbelt blockerad (2026-05-08):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block) — kör scriptet direkt på EC2_
-- _Supermetrics GSC ej autentiserad — se searchboost-filen för inloggningslänk_
+_Ingen data — Blockerad (2026-05-09):_
+- _EC2-API ej nåbar från sandbox (TLS-proxy-block)_
+- _Supermetrics GSC ej autentiserad — se kund_searchboost_tasks.md för ny inloggningslänk (2026-05-09)_
 
-**Åtgärd:** Kör `node scripts/regression-check.js` på EC2, eller logga in Supermetrics (se kund_searchboost_tasks.md).
+**Åtgärd:** Logga in Supermetrics (länk i kund_searchboost_tasks.md) eller kör `node scripts/regression-check.js` på EC2.
 
-Senaste check: 2026-05-08
+Senaste check: 2026-05-09
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt

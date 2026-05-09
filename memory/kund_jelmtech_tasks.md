@@ -7,12 +7,12 @@
 
 _Ingen GSC-data: Ej kopplad (inte ägare / ej konfigurerad). Regressionscheck ej möjlig._
 
-Senaste check: 2026-05-08
+Senaste check: 2026-05-09
 
 ## Publicerade artiklar
 
 | Datum      | Titel | URL | Fokuskeyword |
-|------------|-------|-----|--------------|
+|------------|-------|-----|-------------|
 | 2026-04-19 | Konstruktionsplast — materialegenskaper och val | https://jelmtech.se/produktutveckling/konstruktionsplast-egenskaper-guide/ | konstruktionsplast |
 | 2026-04-19 | Insert moulding — ingjutna infästningar | https://jelmtech.se/produktutveckling/insert-moulding-guide/ | insert moulding |
 | 2026-04-19 | Polyamid formsprutning — PA6 och PA66 | https://jelmtech.se/produktutveckling/polyamid-formsprutning-guide/ | polyamid formsprutning |
@@ -27,7 +27,7 @@ Senaste check: 2026-05-08
 ## Nästa artikelidéer (ej skrivna)
 
 | Prioritet | Ämne | Fokuskeyword |
-|-----------|------|--------------|
+|-----------|------|-------------|
 | Hög | PP-plast formsprutning (polypropylen) | PP plast formsprutning |
 | Hög | Plastprototyp — snabbprototyp och metodval | plastprototyp |
 | Medium | POM / acetal formsprutning | POM plast formsprutning |

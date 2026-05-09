@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Dubbelt blockerad (2026-05-08):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block) — kör scriptet direkt på EC2_
-- _Supermetrics GSC ej autentiserad — se searchboost-filen för inloggningslänk_
+_Ingen data — Blockerad (2026-05-09):_
+- _EC2-API ej nåbar från sandbox (TLS-proxy-block)_
+- _Supermetrics GSC ej autentiserad — se kund_searchboost_tasks.md för ny inloggningslänk (2026-05-09)_
 
-**Åtgärd:** Kör `node scripts/regression-check.js` på EC2, eller logga in Supermetrics (se kund_searchboost_tasks.md).
+**Åtgärd:** Logga in Supermetrics (länk i kund_searchboost_tasks.md) eller kör `node scripts/regression-check.js` på EC2.
 
-Senaste check: 2026-05-08
+Senaste check: 2026-05-09
 
 ## Publicerade artiklar
 
@@ -42,7 +42,7 @@ Senaste check: 2026-05-08
 ### Fynd: Öar & svaga sidor
 
 | Sida | Inkommande interna | Problem |
-|------|--------------------|---------|
+|------|--------------------|--------|
 | `/inspiration/` | Noll från innehållssidor | **Ö** — bara footerlänk från andra sidor |
 | `/varumarken-englesson/` | Bara leverantorer + buhrens (trasig URL) | Svag — guide-poster länkar ej hit |
 | `/varumarken-rowico/` | Bara leverantorer | Svag — soffa-guiden länkar ej hit |
@@ -52,7 +52,7 @@ Senaste check: 2026-05-08
 ### Länkmöjligheter identifierade (9 st, max 3/sida)
 
 | Från-sida | Till-sida | Ankartext | Prioritet |
-|-----------|-----------|-----------|-----------|
+|-----------|-----------|-----------|----------|
 | `/inspiration/` | `/2026/04/27/kopa-soffa-guide-2026-2/` | välj rätt soffa för hemmet | HÖG |
 | `/inspiration/` | `/2026/04/29/fatolj-guide-2026/` | guide till att välja fåtölj | HÖG |
 | `/inspiration/` | `/2026/04/29/matbord-guide-2026/` | hitta rätt matbord | HÖG |

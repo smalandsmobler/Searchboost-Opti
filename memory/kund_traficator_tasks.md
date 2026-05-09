@@ -7,7 +7,7 @@
 
 _Ingen GSC-data: GSC ej konfigurerad. Regressionscheck ej möjlig._
 
-Senaste check: 2026-05-08
+Senaste check: 2026-05-09
 
 ## Status
 - WP-creds: OK
