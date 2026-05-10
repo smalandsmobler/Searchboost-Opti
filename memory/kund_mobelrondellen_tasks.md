@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-09):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block)_
-- _Supermetrics GSC ej autentiserad — se kund_searchboost_tasks.md för ny inloggningslänk (2026-05-09)_
+_Ingen data — Blockerad 2:a veckan i rad (2026-05-10):_
+- _EC2-API ej nåbar från sandbox (TLS-proxy-block — HTTPS self-signed cert)_
+- _Supermetrics GSC (GW) NOT_AUTHENTICATED — se kund_searchboost_tasks.md för ny inloggningslänk (2026-05-10)_
 
-**Åtgärd:** Logga in Supermetrics (länk i kund_searchboost_tasks.md) eller kör `node scripts/regression-check.js` på EC2.
+**Åtgärd:** Mikael loggar in Supermetrics GSC (länk i kund_searchboost_tasks.md) eller kör `node scripts/regression-check.js` på EC2.
 
-Senaste check: 2026-05-09
+Senaste check: 2026-05-10
 
 ## Publicerade artiklar
 
