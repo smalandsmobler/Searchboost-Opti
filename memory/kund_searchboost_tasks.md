@@ -1,7 +1,7 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-11
+> Senast uppdaterad: 2026-05-12
 
 ## Vecko-briefing-länk
 - 2026-05-11: [content-pages/weekly-briefing/2026-05-11.md](../content-pages/weekly-briefing/2026-05-11.md)
@@ -41,8 +41,14 @@ Senaste check: 2026-05-12
 | Datum | Bransch | Stad | Fil |
 |-------|---------|------|-----|
 | 2026-05-05 | Redovisning | Jönköping | [content-pages/prospects/2026-05-05-redovisning-jonkoping.md](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md) |
+| 2026-05-12 | Fastighetsmäklare | Lund | [content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md) |
 
 **Top 3 att kontakta (vecka 19):**
 1. redorev.se — kontaktformulär (score 2/10, allra sämst SEO)
 2. jrb.nu — 073-501 50 50 / info@jrb.nu (score 3/10)
 3. braherevision.se — 036-16 93 30 (score 3/10)
+
+**Top 3 att kontakta (vecka 20 — fastighetsmäklare Lund):**
+1. magdeburg.se — verifiera kontaktinfo manuellt (score 3/10, 503-fel = akut tekniskt problem)
+2. fernlundmaklare.se — 046-12 48 40 / ragnhild@fernlundmaklare.se (score 4/10)
+3. bulowlind.se — 046-39 60 60 / info@bulowlind.se (score 4/10)
