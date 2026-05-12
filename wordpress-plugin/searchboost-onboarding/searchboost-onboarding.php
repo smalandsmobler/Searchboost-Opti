@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Searchboost Onboarding
- * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]
- * Version: 1.0.0
+ * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare.
+ * Version: 1.1.0
  * Author: Searchboost
  */
 
@@ -400,3 +400,46 @@ function sb_onboarding_form() {
     <?php
     return ob_get_clean();
 }
+
+// ── LLMs.txt — AI-crawler endpoint (v1.1.0) ──
+// Registrera optionen med show_in_rest:true så WP REST settings-API
+// accepterar skrivning från seo-llms-txt-generator Lambda.
+add_action('init', function () {
+    register_setting('general', 'searchboost_llms_txt', array(
+        'type'              => 'string',
+        'default'           => '',
+        'show_in_rest'      => true,
+        'sanitize_callback' => 'wp_kses_no_null',
+    ));
+    // Rewrite rule: /llms.txt -> intern WP-query
+    add_rewrite_rule('^llms\.txt$', 'index.php?sb_llms_txt=1', 'top');
+});
+
+// Registrera query var
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'sb_llms_txt';
+    return $vars;
+});
+
+// Serva /llms.txt som text/plain
+add_action('template_redirect', function () {
+    if (!get_query_var('sb_llms_txt')) {
+        return;
+    }
+    $content = get_option('searchboost_llms_txt', '');
+    if (empty($content)) {
+        status_header(404);
+        exit('Not found');
+    }
+    header('Content-Type: text/plain; charset=utf-8');
+    header('Cache-Control: public, max-age=86400');
+    header('X-Robots-Tag: noindex');
+    echo $content;
+    exit;
+});
+
+// Spola rewrite rules vid pluginaktivering
+register_activation_hook(__FILE__, function () {
+    add_rewrite_rule('^llms\.txt$', 'index.php?sb_llms_txt=1', 'top');
+    flush_rewrite_rules();
+});

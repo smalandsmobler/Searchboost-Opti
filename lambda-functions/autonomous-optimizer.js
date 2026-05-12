@@ -72,12 +72,21 @@ const SYSTEM_PROMPT_CACHED = [
 
 REGLER FÖR ALLA OUTPUT:
 1. Skriv ALLTID på korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar (a/o/e för å/ö/ä).
-2. Title-tags: max 60 tecken, primärt keyword tidigt, naturligt svenskt språk.
-3. Meta-descriptions: 120-160 tecken, inkludera 1-2 keywords, avsluta med uppmaning.
+2. Title-tags: max 60 tecken, primärt keyword inom de FÖRSTA 30 tecknen, naturligt språk.
+3. Meta-descriptions: 130-155 tecken, inkludera 1-2 keywords + ett trust signal (siffra, år, garanti, antal produkter) om det finns i sidinnehållet, avsluta med uppmaning.
 4. JSON-output: rena JSON-objekt utan markdown-fences.
 5. Inga emojis i output om inte explicit ombett.
 6. När du föreslår content-fixar: leverera HTML, ALDRIG Markdown.
-7. Schema.org JSON-LD: använd korrekt @context och @type, validera mentalt mot schema.org.
+7. Schema.org JSON-LD: alltid @context "https://schema.org", @id med kanonisk URL, @type korrekt. Lägg till sameAs (LinkedIn/Wikidata) för Organization. Lägg alltid till areaServed "SE" för tjänste- och lokala schema.
+
+AEO/AI OVERVIEWS (Googles AI-sammanfattningar — kritiskt 2025):
+8. Öppna varje nytt avsnitt eller stycke med ett DIREKT 1-2-meningssvar på avsnittets fråga — expandera sedan. Google citerar sidor som svarar direkt (answer-first structure).
+9. FAQ-sektioner med FAQPage-schema ökar sannolikheten att citeras i AI-svar med 3x. Prioritera dessa när innehållet är informativt.
+10. Strukturera content med H2/H3 som formuleras som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar användarnas sökfraser direkt.
+
+E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness — Googles kvalitetsstandard 2025):
+11. I titles och descriptions: inkludera konkreta trovärdighetsignaler om de finns (år i branschen, antal kunder, certifieringar, produktantal) — aldrig fabricera.
+12. Article-schema: inkludera alltid author (Person), publisher (Organization), datePublished, dateModified.
 
 KONTEXT: Du arbetar autonomt, men flera output-typer kräver mänsklig granskning innan deploy. Var tydlig med 'reasoning'-fält i JSON-svar så Mikael kan kalibrera framtida körningar.
 
@@ -90,35 +99,42 @@ Output-format-disciplin är kritiskt — Lambda parsar JSON direkt. En ogiltig J
 // Används för riktade AI-anrop. Varje specialist har ett snävt fokusområde
 // för att maximera output-kvalitet per uppgiftstyp.
 
-const META_SPECIALIST_PROMPT = `Du är en specialist på SEO-titlar och meta descriptions för svenska WordPress-sajter.
+const META_SPECIALIST_PROMPT = `Du är en specialist på SEO-titlar och meta descriptions för svenska WordPress-sajter (Google 2025-standard).
 Din enda uppgift är att skriva titlar (max 60 tecken) och meta descriptions (130-155 tecken) som:
-1. Innehåller primärt keyword naturligt och tidigt
-2. Är klickvärda och väcker nyfikenhet utan att vara clickbait
-3. Speglar sidans faktiska innehåll exakt
-4. Avslutar descriptions med en tydlig uppmaning (Läs mer, Köp nu, Boka idag etc)
+1. Primärt keyword INOM DE FÖRSTA 30 TECKNEN i titeln — Google värderar front-loading högt
+2. Titeln är unik, självbeskrivande och korrekt representerar sidans innehåll (Google skriver om ~76% av titlar som är vilseledande)
+3. Meta description: inkludera ett trust signal (specifik siffra, år, produktantal, garanti) om sidinnehållet ger belägg för det
+4. Avslutar descriptions med en tydlig uppmaning (Läs mer, Se sortiment, Boka idag, Köp nu etc)
 5. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
 6. Aldrig keyword-stuffing eller onaturliga fraser
+7. Aldrig fabricera fakta — använd bara trust signals som faktiskt finns i sidinnehållet
 Output: Alltid JSON med fälten title, description, reasoning.`;
 
-const SCHEMA_SPECIALIST_PROMPT = `Du är en specialist på Schema.org strukturerad data för svenska WordPress-sajter.
+const SCHEMA_SPECIALIST_PROMPT = `Du är en specialist på Schema.org strukturerad data för svenska WordPress-sajter (Google + AEO/AI Overviews 2025-standard).
 Din uppgift är att generera korrekt JSON-LD schema markup. Regler:
-1. Välj rätt @type baserat på sidans innehåll (Article, Product, LocalBusiness, FAQPage, HowTo, BreadcrumbList)
-2. Fyll i alla relevanta properties — aldrig tomma strängar
-3. Använd korrekt @context: "https://schema.org"
-4. För FAQPage: extrahera frågor och svar från sidinnehållet
-5. För Article: inkludera author, datePublished, publisher
-6. Validera mentalt mot schema.org-specifikationen
-7. Output: Alltid raw JSON-LD utan markdown-fences, redo att injiceras i <script type="application/ld+json">`;
+1. Välj rätt @type baserat på sidans innehåll (Article, Product, LocalBusiness, FAQPage, HowTo, BreadcrumbList, Service, Organization)
+2. ALLTID inkludera "@id" med kanonisk URL som unik identifierare — detta förankrar entiteten i AI-kunskapsgrafer
+3. ALLTID "@context": "https://schema.org" — aldrig förkortat
+4. Fyll i alla relevanta properties — aldrig tomma strängar, aldrig placeholder-data
+5. För Organization/LocalBusiness: lägg till "sameAs" array med LinkedIn-URL och/eller Wikidata-URL om du kan härleda dem (annars utelämna sameAs)
+6. För Service och Organization: lägg alltid till "areaServed": "SE" — detta är kritiskt för svenska sökresultat
+7. För FAQPage: extrahera 3-5 konkreta frågor och svar från sidinnehållet — frågor MÅSTE vara synliga för användaren på sidan (Google penaliserar dolda FAQs)
+8. För Article/BlogPosting: inkludera author (Person med name), publisher (Organization med logo), datePublished, dateModified, mainEntityOfPage (@id = sidans URL)
+9. För Product: inkludera brand (@type Brand), sku om det finns, offers med priceCurrency "SEK" och availability
+10. FAQPage-schema ökar sannolikheten att citeras i Google AI Overviews med 3x — prioritera detta för informativa sidor
+11. Output: Alltid raw JSON-LD utan markdown-fences, redo att injiceras i <script type="application/ld+json">`;
 
-const CONTENT_SPECIALIST_PROMPT = `Du är en specialist på SEO-innehåll för svenska WordPress-sajter.
+const CONTENT_SPECIALIST_PROMPT = `Du är en specialist på SEO-innehåll för svenska WordPress-sajter (Google Core 2025 + AI Overviews-standard).
 Din uppgift är att förbättra och komplettera befintligt innehåll:
-1. Lead-paragrafer ska svara direkt på sidans primära fråga inom 90 ord (AEO-optimerat)
-2. Rubriker (H2, H3) ska innehålla sekundära keywords naturligt
-3. Fakta ska vara specifika: siffror, datum, processer — inte vaga påståenden
-4. FAQ-sektioner ska ha 5-7 konkreta frågor med direkta svar
-5. Intern länkning: föreslå 3-5 relevanta interna sidor att länka till
-6. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
-7. Output: HTML (inte Markdown), inkludera reasoning-fältet`;
+1. ANSWER-FIRST: Varje H2/H3-avsnitt ska ÖPPNA med ett direkt 1-2-meningssvar på avsnittets rubrikfråga — Google och AI-system (ChatGPT, Claude, Gemini) citerar sidor som svarar direkt
+2. H2/H3-rubriker: formulera som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar sökfraser och AEO-format
+3. Lead-paragrafer ska svara direkt på sidans primära fråga inom 90 ord
+4. Fakta ska vara specifika: siffror, datum, processer — inte vaga påståenden
+5. FAQ-sektion: lägg ALLTID till en "Vanliga frågor"-sektion med 3-5 konkreta frågor och direkta svar i slutet av sidan (dessa ska vara synliga i HTML — FAQPage-schema hänger på att frågorna är synliga)
+6. Rubriker innehåller sekundära keywords och LSI-termer naturligt
+7. Intern länkning: föreslå 3-5 relevanta interna sidor att länka till
+8. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
+9. Output: HTML (inte Markdown), inkludera reasoning-fältet`;
 
 const REPORT_SPECIALIST_PROMPT = `Du är en specialist på kundkommunikation för en SEO-byrå (Searchboost).
 Din uppgift är att sammanfatta SEO-arbete på ett sätt som är:
@@ -640,15 +656,22 @@ async function fixNoSchema(site, task, claude) {
   const suggestion = await claude.messages.create({
     model: selectModel('schema'),
     system: SYSTEM_PROMPT_CACHED,
-    max_tokens: 1000,
+    max_tokens: 1200,
     messages: [{
       role: 'user',
-      content: `Generera schema.org JSON-LD markup för denna WordPress-sida.
+      content: `Generera schema.org JSON-LD markup för denna WordPress-sida (Google 2025-standard + AEO/AI Overviews).
 Titel: ${title}
 URL: ${url}
 Innehållsutdrag: ${text}
 
-Välj lämplig schema-typ (Article, Service, Product, FAQPage, WebPage etc).
+Välj lämplig schema-typ (Article, Service, Product, FAQPage, LocalBusiness, WebPage etc).
+Krav:
+- Inkludera "@id" med kanonisk URL
+- Inkludera "areaServed": "SE" för Service/LocalBusiness
+- För Article: inkludera author, publisher, datePublished, dateModified, mainEntityOfPage
+- För FAQPage: extrahera frågor FRÅN det synliga sidinnehållet (3-5 frågor)
+- För Product: inkludera brand, priceCurrency "SEK", availability
+- Om sidan innehåller FAQ-innehåll: PRIORITERA FAQPage — det ökar AI Overview-citat med 3x
 Svara i JSON: {"schemaType": "...", "schemaJson": {...}, "reasoning": "..."}`
     }]
   });
@@ -691,6 +714,79 @@ Svara i JSON: {"schemaType": "...", "schemaJson": {...}, "reasoning": "..."}`
   );
 
   return { type: 'no_schema', schemaType: result.schemaType, saved: schemaSaved, reasoning: result.reasoning };
+}
+
+// ── FAQ-sektion + FAQPage schema (AEO/AI Overviews 2025) ──
+// FAQPage schema = 3x sannolikhet att citeras i Google AI Overviews (Relixir 2025-studie)
+async function addFaqAeoSection(site, task, claude, bq, dataset) {
+  const context = JSON.parse(task.context_data);
+  const { post, wpType } = await fetchWpPost(site, context);
+  const postId = post.id;
+
+  if (isRedirectPage(post.content.rendered)) {
+    return { type: 'faq_aeo_section', action: 'skipped_redirect_page' };
+  }
+
+  // Hoppa över om FAQPage-schema redan finns
+  const existingContent = post.content.rendered;
+  if (/FAQPage|acceptedAnswer|mainEntity.*Question/i.test(existingContent)) {
+    return { type: 'faq_aeo_section', action: 'faq_already_exists' };
+  }
+
+  const kw = await getCustomerKeywords(bq, dataset, task.customer_id);
+  const pageText = existingContent.replace(/<[^>]+>/g, '').substring(0, 1500);
+  const kwHint = kw.a.length > 0 ? `\nPrimära nyckelord: ${kw.a.slice(0, 4).join(', ')}` : '';
+
+  const suggestion = await claude.messages.create({
+    model: selectModel('schema'),
+    system: SYSTEM_PROMPT_CACHED,
+    max_tokens: 1800,
+    messages: [{
+      role: 'user',
+      content: `Generera en FAQ-sektion med FAQPage schema för denna sida. FAQPage-schema ökar citat i Google AI Overviews med 3x.
+
+Sida: ${post.title.rendered}
+URL: ${post.link}
+Innehåll (utdrag): ${pageText}${kwHint}
+
+Krav:
+- 4-6 frågor och svar baserade på sidans faktiska innehåll och ämne
+- Frågor formulerade som verkliga användarsökfrågor ("Vad kostar X?", "Hur fungerar Y?")
+- Svar: 1-3 meningar, direkt och faktabaserat — answer-first format
+- HTML-sektionen ska vara synlig på sidan (FAQPage-schema kräver synliga Q&As)
+- FAQPage JSON-LD: @context, @id med sidans URL, @type FAQPage, mainEntity-array
+
+Svara i JSON:
+{
+  "htmlSection": "<section class=\\"faq-section\\"><h2>Vanliga frågor</h2><dl><dt>Fråga?</dt><dd>Svar.</dd></dl></section>",
+  "schemaJson": {"@context":"https://schema.org","@id":"URL#faq","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Fråga?","acceptedAnswer":{"@type":"Answer","text":"Svar."}}]},
+  "questions": ["fråga1", "fråga2"],
+  "reasoning": "varför dessa frågor valdes"
+}`
+    }]
+  });
+
+  const result = parseClaudeJSON(suggestion.content[0].text);
+
+  if (SAFE_MODE_NO_CONTENT_WRITES) {
+    await flagForManualReview('faq_aeo_section', post.link,
+      `FAQ-sektion med ${(result.questions || []).length} frågor föreslås för AEO/AI Overviews. ` +
+      `Frågor: ${(result.questions || []).join(', ')}. Hantera via Perispa MCP.`);
+    return { type: 'faq_aeo_section', action: 'flagged_safe_mode', questions: result.questions };
+  }
+
+  // Injicera FAQ-HTML + FAQPage JSON-LD i content
+  const schemaBlock = `\n<!-- wp:html -->\n<script type="application/ld+json">\n${JSON.stringify(result.schemaJson, null, 2)}\n</script>\n<!-- /wp:html -->`;
+  const updatedContent = existingContent + '\n' + result.htmlSection + schemaBlock;
+
+  await wpApi(site, 'POST', `/${wpType}/${postId}`, { content: updatedContent });
+
+  await trelloCard(
+    `FAQ AEO: ${post.title.rendered.substring(0, 40)}`,
+    `**FAQ-sektion + FAQPage schema (AI Overviews)**\nSida: ${post.link}\nFrågor: ${(result.questions || []).join(', ')}\n${result.reasoning}`
+  );
+
+  return { type: 'faq_aeo_section', questions: result.questions, reasoning: result.reasoning };
 }
 
 async function fixMissingH1(site, task, claude) {
@@ -1267,6 +1363,7 @@ function formatTaskType(type) {
     'title':              'Optimerade sidtitel',
     'description':        'Skrev meta-beskrivning',
     'faq_schema':         'La till FAQ-schema',
+    'faq_aeo_section':    'La till FAQ-sektion + FAQPage schema (AI Overviews)',
     'internal_links':     'Förbättrade intern länkning',
     'content':            'Innehållsoptimering',
     'schema':             'La till schema markup',
@@ -1357,7 +1454,7 @@ Svara i JSON:
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
-  'missing_alt_text', 'create_article', 'no_internal_links',
+  'missing_alt_text', 'create_article', 'no_internal_links', 'faq_aeo_section',
   // WooCommerce
   'product_metadata', 'product_description', 'product_images', 'product_schema'
 ]);
@@ -1372,6 +1469,7 @@ const TASK_HANDLERS = {
   'missing_h1':           fixMissingH1,
   'missing_alt_text':     fixMissingAltText,
   'no_schema':            fixNoSchema,
+  'faq_aeo_section':      addFaqAeoSection,
   'h2_optimization':      optimizeH2H3,
   'h3_optimization':      optimizeH2H3,
   'h2_h3_optimization':   optimizeH2H3,
@@ -1503,6 +1601,10 @@ function mapPlanTaskType(type) {
     'schema_markup':         'no_schema',
     'schema':                'no_schema',    // BUG FIX
     'faq_schema':            'no_schema',    // BUG FIX
+    // FAQ AEO
+    'faq_aeo_section':       'faq_aeo_section',
+    'faq_aeo':               'faq_aeo_section',
+    'aeo_faq':               'faq_aeo_section',
     // Rubriker
     'h1_optimization':       'missing_h1',
     'h2_optimization':       'h2_optimization',

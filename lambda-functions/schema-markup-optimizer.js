@@ -159,9 +159,9 @@ async function generateSchema(anthropicKey, page, pageType, companyName, siteUrl
     .trim()
     .substring(0, 600);
 
-  const systemPrompt = `Du är en teknisk SEO-specialist. Generera JSON-LD schema markup för en WordPress-sida.
+  const systemPrompt = `Du är en teknisk SEO-specialist. Generera JSON-LD schema markup för en WordPress-sida (Google 2025-standard + AEO/AI Overviews).
 Svara BARA med ett giltigt JSON-objekt (inga kodblock, ingen förklaring).
-Använd @context: "https://schema.org". Var specifik och konkret.`;
+KRAV: Inkludera alltid "@id" med kanonisk URL. Alltid "@context": "https://schema.org". Inkludera "areaServed": "SE" för Service/LocalBusiness/Organization. Var specifik och konkret — aldrig tomma strängar.`;
 
   const userPrompt = `Företag: ${companyName}
 Webb: ${siteUrl}
@@ -174,7 +174,7 @@ Innehåll (utdrag): ${cleanContent}
 Generera lämplig JSON-LD schema för denna sida. ${getSchemaInstructions(pageType, companyName, siteUrl)}`;
 
   const response = await client.messages.create({
-    model: 'claude-3-5-haiku-20241022',
+    model: 'claude-haiku-4-5-20251001',
     max_tokens: 800,
     system: systemPrompt,
     messages: [{ role: 'user', content: userPrompt }],
@@ -189,17 +189,18 @@ Generera lämplig JSON-LD schema för denna sida. ${getSchemaInstructions(pageTy
 }
 
 function getSchemaInstructions(pageType, companyName, siteUrl) {
+  const base = `Inkludera alltid "@id" med sidans kanoniska URL. `;
   const instructions = {
-    homepage:   `Använd LocalBusiness (eller specifik subtyp) med name, address, telephone, openingHours, url, sameAs.`,
-    service:    `Använd Service med name, description, provider (Organization), areaServed, serviceType.`,
-    product:    `Använd Product med name, description, brand, offers (Offer med price, priceCurrency, availability).`,
-    course:     `Använd Course med name, description, provider (Organization), courseMode, educationalLevel.`,
-    faq:        `Använd FAQPage med mainEntity (array av Question med acceptedAnswer). Extrahera 3-5 frågor från innehållet.`,
-    article:    `Använd Article/BlogPosting med headline, author (Person eller Organization), datePublished, publisher.`,
-    contact:    `Använd ContactPage + LocalBusiness med contactPoint.`,
-    about:      `Använd AboutPage + Organization med foundingDate, numberOfEmployees, description.`,
-    restaurant: `Använd Restaurant med servesCuisine, priceRange, hasMenu, openingHours.`,
-    webpage:    `Använd WebPage med name, description, breadcrumb (BreadcrumbList).`,
+    homepage:   base + `Använd Organization eller LocalBusiness med: name, @id (URL), url, logo, telephone, address (PostalAddress med addressCountry "SE"), openingHours, areaServed "SE". Lägg till sameAs-array med LinkedIn-URL om tillämpligt.`,
+    service:    base + `Använd Service med: name, @id, description, provider (Organization med @id och name), serviceType, areaServed "SE", url. Lägg till hasOfferCatalog om sidan listar specifika erbjudanden.`,
+    product:    base + `Använd Product med: name, @id, description, image, brand (@type Brand med name), sku (om finns), offers (Offer med price, priceCurrency "SEK", availability "InStock" eller "OutOfStock", url). Om sidan har recensioner: lägg till aggregateRating.`,
+    course:     base + `Använd Course med: name, @id, description, provider (Organization), courseMode ("Online" eller "Onsite"), educationalLevel, url.`,
+    faq:        base + `Använd FAQPage med: @id (URL+"#faq"), mainEntity (array av 3-6 Question med acceptedAnswer). Extrahera ENBART frågor som är SYNLIGA i sidinnehållet. PRIORITERA detta format — FAQPage ökar AI Overview-citat 3x.`,
+    article:    base + `Använd Article eller BlogPosting med: headline, @id, author (@type Person med name), publisher (@type Organization med @id, name, logo), datePublished (ISO 8601), dateModified (ISO 8601 — sätt samma som datePublished om okänt), mainEntityOfPage (@type WebPage med @id = URL), image.`,
+    contact:    base + `Använd ContactPage + LocalBusiness med: name, @id, url, contactPoint (@type ContactPoint med contactType "customer service", telephone, areaServed "SE").`,
+    about:      base + `Använd AboutPage + Organization med: name, @id, url, description, foundingDate (om känt), areaServed "SE". Lägg till sameAs-array om företaget har LinkedIn/Wikidata.`,
+    restaurant: base + `Använd Restaurant med: name, @id, servesCuisine, priceRange, url, hasMenu, openingHours, address (PostalAddress med addressCountry "SE").`,
+    webpage:    base + `Använd WebPage med: name, @id, description, breadcrumb (BreadcrumbList med itemListElement-array). BreadcrumbList är kritiskt för e-handelskategorier.`,
   };
   return instructions[pageType] || instructions.webpage;
 }
