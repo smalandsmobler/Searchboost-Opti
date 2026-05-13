@@ -36,6 +36,14 @@ Senaste check: 2026-05-12
 - GSC: OK (https://searchboost.se/)
 - Rank Math: OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv: "AI Overviews och GEO — hur påverkar det din SEO 2026?" → lägg i SEO-skolan under ny kategori "AI & Sökning" | **HÖG** | Timing-fönster öppet: Synlighet och SEO Inc publicerade INTE i maj. Bonzer täcker AI men riktar sig mot stora bolag |
+| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Ingen konkurrent har E-E-A-T anpassat för SME/småföretag |
+| Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Snabb teknisk win, konkurrenter saknar detta |
+
 ## Prospektering
 
 | Datum | Bransch | Stad | Fil |

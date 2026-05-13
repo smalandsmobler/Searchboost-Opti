@@ -25,13 +25,23 @@ Senaste check: 2026-05-12
 - Schema-markup: kör när Rank Math PRO är aktivt
 - WP app-password: SAKNAS — kunden måste generera ett
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| Skriv artikel: "Ergonomi på hemmakontoret 2026 — 7 tips" | **HÖG** | AJ Produkter dominerar ergonomi nationellt — SMK kan äga regionalt (Jönköping/Småland) |
-| Skapa lokala landningssidor: "Kontorsmöbler Jönköping", "Kontorsmöbler Växjö" | **HÖG** | Varken AJ Produkter eller Morekontor har geografiskt fokus |
-| Lägg till FAQ-schema på kategorier (höj-sänkbara skrivbord, kontorsstolar) | Medel | Morekontor har FAQ-sektion men inget schema markup |
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" | **HÖG** | AJ Produkter skiftat till industriell ergonomi (verkstad/tillverkning) — hemmakontor-nischen fri |
+| Skapa lokala landningssidor: /kontorsmobler-jonkoping/ + /kontorsmobler-vaxjo/ | **HÖG** | Varken AJ (nationell) eller Morekontor (Halmstad/storstad) äger Småland-sökorden |
+| Bildoptimering: ~3 700 produkter saknar bilder — prioritera inför WooCommerce-launch | **HÖG** | Blockerar Google Shopping-synlighet vid launch |
+| Lägg till FAQ-schema på kategorier (när Rank Math PRO aktivt) | Medel | Morekontor har FAQ-sektion men inget schema markup |
+| "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv artikel: "Ergonomi på hemmakontoret 2026 — 7 tips" | **HÖG** | Uppdaterad ovan med mer specifik vinkel |
+| Skapa lokala landningssidor: "Kontorsmöbler Jönköping", "Kontorsmöbler Växjö" | **HÖG** | Kvar — ny bekräftelse att ingen konkurrent äger lokala sökord |
+| Lägg till FAQ-schema på kategorier | Medel | Kvar — väntar på Rank Math PRO |
 
 ## Status
 - WP-creds: SAKNAS (automatisk optimering avstängd)

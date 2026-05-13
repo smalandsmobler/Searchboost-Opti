@@ -26,13 +26,22 @@ Senaste check: 2026-05-12
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| Skriv köpguide: "Bästa soffan 2026 — guide för dig som vill ha kvalitet" | **HÖG** | Furniturebox/Trademax saknar rådgivande innehåll — gap att fylla |
-| Lokalt SEO-inlägg: "Möbler Mora — vad du bör tänka på" | **HÖG** | Inga konkurrenter har lokalt innehåll för Mora/Dalarna |
-| Komplettera fåtölj-guiden med Product + FAQ schema | Medel | Ingen konkurrent har schema på köpguider |
+| **DEPLOY soffa-guide** (klar sedan 08/05): kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **BRÅDSKANDE** | BHG-gruppen (Furniturebox/Trademax) implementerade AI-produktoptimering 12/05 — vi måste ha rådgivande content live |
+| Implementera 9 internlänkar via WP-admin (guide i denna fil) | **HÖG** | Inga konkurrenter har internlänkstruktur |
+| Skriv: "Utemöbler 2026: Vad håller i Dalarnas klimat?" — Mora-specifik säsongsguide | **HÖG** | Trademax kör utomhus men inget lokalt, timing rätt i maj |
+| Komplettera fåtölj-guiden + soffa-guiden med FAQ-schema | Medel | Ingen konkurrent har schema på köpguider |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| ~~Skriv köpguide: "Bästa soffan 2026"~~ | ~~HÖG~~ | ✅ Klar — väntar på deploy |
+| Lokalt SEO-inlägg: "Möbler Mora — vad du bör tänka på" | **HÖG** | Ersatt av Dalarna utemöbler-guide ovan |
+| Komplettera fåtölj-guiden med Product + FAQ schema | Medel | Kvar |
 
 ## Internlänkanalys — 2026-05-08
 
