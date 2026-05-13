@@ -1,7 +1,7 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-12
+> Senast uppdaterad: 2026-05-13
 
 ## Vecko-briefing-länk
 - 2026-05-11: [content-pages/weekly-briefing/2026-05-11.md](../content-pages/weekly-briefing/2026-05-11.md)
@@ -22,6 +22,7 @@ Senaste check: 2026-05-12
 ## Publicerade artiklar
 
 - SEO-skola (https://searchboost.se/seo-skola/)
+- AI Overviews och GEO — hur det påverkar din SEO 2026 (⚠ ej deployad) — 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2
 
 ## LinkedIn-inlägg
 
@@ -40,7 +41,7 @@ Senaste check: 2026-05-12
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| Skriv: "AI Overviews och GEO — hur påverkar det din SEO 2026?" → lägg i SEO-skolan under ny kategori "AI & Sökning" | **HÖG** | Timing-fönster öppet: Synlighet och SEO Inc publicerade INTE i maj. Bonzer täcker AI men riktar sig mot stora bolag |
+| ~~Skriv: "AI Overviews och GEO — hur påverkar det din SEO 2026?" → lägg i SEO-skolan under ny kategori "AI & Sökning"~~ | ✅ KLAR 2026-05-13 | content-pages/seo-skola/ai-overviews-geo-seo-2026.html — kör publish-script från EC2 |
 | Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Ingen konkurrent har E-E-A-T anpassat för SME/småföretag |
 | Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Snabb teknisk win, konkurrenter saknar detta |
 

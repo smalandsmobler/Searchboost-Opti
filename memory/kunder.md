@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-05-11
+> Senast uppdaterad: 2026-05-13
 
 ## Senaste artikel per kund
 
@@ -12,7 +12,7 @@
 | mobelrondellen  | Bästa soffan 2026 (⚠ ej deployad)    | 2026-05-08 | Kör scripts/publish-mobelrondellen-soffa-2026.js från EC2 |
 | tobler          | Ställningsnät — krav och typer (⚠ ej deployad) | 2026-05-11 | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
-| searchboost     | SEO-skola artiklar                    | —          | https://searchboost.se/seo-skola/ |
+| searchboost     | AI Overviews och GEO 2026 (⚠ ej deployad) | 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2 |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
 | humanpower      | (ej registrerad)                      | —          | — |
 | nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
@@ -22,7 +22,7 @@
 **Status: Blockerad — Supermetrics GSC ej autentiserad**
 
 | Kund | GSC-status | Check-status | Orsak |
-|------|-----------|-------------|-------|
+|------|-----------|-------------|---------|
 | searchboost | OK | ❌ Blockerad | Supermetrics ej auth (ny länk i kund_searchboost_tasks.md) |
 | mobelrondellen | OK | ❌ Blockerad | Supermetrics ej auth |
 | smalandskontorsmobler | OK | ❌ Blockerad | Supermetrics ej auth |
@@ -51,5 +51,5 @@ Mikael loggar in Supermetrics GSC med denna länk (giltig tills den används):
 3. **traficator** — WP REST ger 500, undersök manuellt
 4. **jelmtech** — ABS-artikel skriven men ej deployad (kör publish-script från EC2)
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy (kör scripts/publish-tobler-stallningsnät.js från EC2)
-6. **searchboost** — ny artikel behövs (senaste: oklart datum)
+6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
