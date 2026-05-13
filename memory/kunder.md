@@ -17,17 +17,17 @@
 | humanpower      | (ej registrerad)                      | —          | — |
 | nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
 
-## Regressionscheck — 2026-05-09
+## Regressionscheck — 2026-05-13
 
-**Status: Blockerad — Supermetrics GSC ej autentiserad**
+**Status: Blockerad — Supermetrics GSC ej autentiserad (3:e gången i rad)**
 
 | Kund | GSC-status | Check-status | Orsak |
-|------|-----------|-------------|---------|
-| searchboost | OK | ❌ Blockerad | Supermetrics ej auth (ny länk i kund_searchboost_tasks.md) |
-| mobelrondellen | OK | ❌ Blockerad | Supermetrics ej auth |
-| smalandskontorsmobler | OK | ❌ Blockerad | Supermetrics ej auth |
-| kompetensutveckla | OK | ❌ Blockerad | Supermetrics ej auth |
-| phvast | OK | ❌ Blockerad | Supermetrics ej auth |
+|------|-----------|-------------|-------|
+| searchboost | OK | ❌ Blockerad | Supermetrics ej auth — ny länk nedan |
+| mobelrondellen | OK | ❌ Blockerad | Supermetrics ej auth — ny länk nedan |
+| smalandskontorsmobler | OK | ❌ Blockerad | Supermetrics ej auth — ny länk nedan |
+| kompetensutveckla | OK | ❌ Blockerad | Supermetrics ej auth — ny länk nedan |
+| phvast | OK | ❌ Blockerad | Supermetrics ej auth — ny länk nedan |
 | ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
 | jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
 | tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
@@ -38,8 +38,8 @@
 **Keywords upp/ner:** Ej tillgänglig (ingen dataåtkomst)
 
 **Åtgärd krävs — EN åtgärd låser upp 5 kunder:**
-Mikael loggar in Supermetrics GSC med denna länk (giltig tills den används):
-`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/Hdk28CzTe_WGjmliA0VwuhBs_lFjHg9rzqIgsD2_yZdSvwyPLc`
+Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/SIk_o9BSrg7B0y36AgXNNSmfVHgwdFSuubbZ0sz9GFznFNStxF`
 
 **Alternativ:** Kör `node scripts/regression-check.js` direkt på EC2 (SSH-session, IAM-roll → SSM → BigQuery).
 

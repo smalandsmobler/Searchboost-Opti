@@ -9,15 +9,15 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-12):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block)_
-- _Supermetrics GSC ej autentiserad (länk genererades 2026-05-09 men ej använd)_
+_Ingen data — Blockerad (2026-05-13):_
+- _EC2-API ej nåbar från sandbox (TLS-proxy-block — kvarstående problem)_
+- _Supermetrics GSC ej autentiserad_
 
 **Åtgärd (välj ett):**
-1. Mikael loggar in på Supermetrics GSC (NY länk 2026-05-12): `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/k_hlUS0x1kXZPipSl88hnR1X7fKcO4SRL4dfTUf_3XCBZkASav`
+1. Mikael loggar in på Supermetrics GSC (NY länk 2026-05-13): `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/SIk_o9BSrg7B0y36AgXNNSmfVHgwdFSuubbZ0sz9GFznFNStxF`
 2. Kör `node scripts/regression-check.js` direkt på EC2 (har IAM-roll → SSM → BigQuery).
 
-Senaste check: 2026-05-12
+Senaste check: 2026-05-13
 
 ## Publicerade artiklar
 
