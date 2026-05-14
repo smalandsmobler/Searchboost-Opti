@@ -9,15 +9,15 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-13):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block — kvarstående problem)_
+_Ingen data — Blockerad (2026-05-14):_
+- _EC2-API returnerar 503 (server nere — PM2-process troligen kraschat)_
 - _Supermetrics GSC ej autentiserad_
 
 **Åtgärd (välj ett):**
-1. Mikael loggar in på Supermetrics GSC (NY länk 2026-05-13): `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/SIk_o9BSrg7B0y36AgXNNSmfVHgwdFSuubbZ0sz9GFznFNStxF`
-2. Kör `node scripts/regression-check.js` direkt på EC2 (har IAM-roll → SSM → BigQuery).
+1. Mikael loggar in på Supermetrics GSC (NY länk 2026-05-14): `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wTReTbkw7Lskw9aJnb0KB38rd8c7McQFqTYWp0PK`
+2. SSH in och kör: `pm2 restart seo-mcp` på EC2 (löser även 6 väntande deploy-scripts).
 
-Senaste check: 2026-05-13
+Senaste check: 2026-05-14
 
 ## Publicerade artiklar
 

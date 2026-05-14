@@ -1,7 +1,43 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-05-13
+> Senast uppdaterad: 2026-05-14
+
+## Regressionscheck — 2026-05-14 (MÅNDAG — Veckosammanfattning)
+
+**Status: Blockerad — EC2 503 + Supermetrics ej autentiserad.**
+
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | OK | ❌ Blockerad | EC2 503 + Supermetrics ej auth |
+| mobelrondellen | OK | ❌ Blockerad | EC2 503 + Supermetrics ej auth |
+| smalandskontorsmobler | OK | ❌ Blockerad | EC2 503 + Supermetrics ej auth |
+| kompetensutveckla | OK | ❌ Blockerad | EC2 503 + Supermetrics ej auth |
+| phvast | OK | ❌ Blockerad | EC2 503 + Supermetrics ej auth |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
+
+**Keywords upp/ner:** ❌ Ej tillgänglig
+
+### Blockerare — kräver manuell åtgärd av Mikael
+
+**Blockerare 1 — EC2-server nere (HTTP 503):**
+```bash
+# SSH in via Instance Connect (se CLAUDE.md), sedan:
+pm2 restart seo-mcp && pm2 status
+# Löser även 6 väntande deploy-scripts (ilmonte, mobelrondellen, jelmtech, tobler, searchboost, traficator)
+```
+
+**Blockerare 2 — Supermetrics GSC ej autentiserad (giltig ~24h, ny 2026-05-14):**
+```
+https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wTReTbkw7Lskw9aJnb0KB38rd8c7McQFqTYWp0PK
+```
+
+---
 
 ## Senaste artikel per kund
 

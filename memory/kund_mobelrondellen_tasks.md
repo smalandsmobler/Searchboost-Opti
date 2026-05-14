@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-13):_
-- _EC2-API ej nåbar från sandbox (TLS-proxy-block — kvarstående problem)_
-- _Supermetrics GSC ej autentiserad — se kund_searchboost_tasks.md för ny inloggningslänk (2026-05-13)_
+_Ingen data — Blockerad (2026-05-14):_
+- _EC2-API returnerar 503 (server nere)_
+- _Supermetrics GSC ej autentiserad — ny loginlänk i kund_searchboost_tasks.md (2026-05-14)_
 
-**Åtgärd:** Logga in Supermetrics (ny länk i kund_searchboost_tasks.md, 2026-05-13) eller kör `node scripts/regression-check.js` på EC2.
+**Åtgärd:** Se kund_searchboost_tasks.md för ny Supermetrics-länk, eller kör `pm2 restart seo-mcp` på EC2.
 
-Senaste check: 2026-05-13
+Senaste check: 2026-05-14
 
 ## Publicerade artiklar
 
@@ -51,7 +51,7 @@ Senaste check: 2026-05-13
 ### Fynd: Öar & svaga sidor
 
 | Sida | Inkommande interna | Problem |
-|------|--------------------|---------|
+|------|--------------------|--------|
 | `/inspiration/` | Noll från innehållssidor | **Ö** — bara footerlänk från andra sidor |
 | `/varumarken-englesson/` | Bara leverantorer + buhrens (trasig URL) | Svag — guide-poster länkar ej hit |
 | `/varumarken-rowico/` | Bara leverantorer | Svag — soffa-guiden länkar ej hit |
