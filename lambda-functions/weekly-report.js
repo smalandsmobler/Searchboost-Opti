@@ -1100,21 +1100,24 @@ exports.handler = async (event) => {
     const emailFrom = await getParam('/seo-mcp/email/from');
     const mikaelEmail = (await getParam('/seo-mcp/email/recipients')).split(',').map(e => e.trim());
 
-    // ── Deduplicering: dubbel kontroll mot BQ ──
-    // 1. Kolla om rapport skickats inom de senaste 6 timmarna (täcker race conditions)
-    // 2. Kolla om rapport skickats idag (kalender-dag, backup)
+    // ── Deduplicering: en rapport per ISO-vecka ──
     // EventBridge triggar exakt en gång per fredag 13:00 UTC = 15:00 CEST.
-    // Dedupen skyddar mot manuella re-körningar och Lambda-retries.
+    // Dedup-fönstret är hela ISO-veckan (mån-sön) baserat på CEST/CET, så manuella
+    // re-runs, Lambda-retries och eventuella miss-triggers samma vecka avvisas alla.
+    // force=true skickar oavsett — använd bara vid medveten omsändning.
     if (!force) {
       try {
         const [existingReports] = await bq.query({
           query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
                   WHERE customer_id = 'internal'
-                  AND created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 6 HOUR)`
+                  AND EXTRACT(ISOWEEK FROM DATETIME(created_at, 'Europe/Stockholm'))
+                      = EXTRACT(ISOWEEK FROM DATETIME(CURRENT_TIMESTAMP(), 'Europe/Stockholm'))
+                  AND EXTRACT(ISOYEAR FROM DATETIME(created_at, 'Europe/Stockholm'))
+                      = EXTRACT(ISOYEAR FROM DATETIME(CURRENT_TIMESTAMP(), 'Europe/Stockholm'))`
         });
         if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
-          console.log('Rapport redan skickad senaste 6h — avbryter (force=true för att skicka om)');
-          return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_sent_today' }) };
+          console.log('Rapport redan skickad denna ISO-vecka — avbryter (force=true för att skicka om)');
+          return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_sent_this_week' }) };
         }
       } catch (dedupErr) {
         console.log('Dedup-check misslyckades (ignoreras):', dedupErr.message);
