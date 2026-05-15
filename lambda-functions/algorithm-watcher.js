@@ -394,7 +394,7 @@ exports.handler = async (event) => {
   // 6. Mejla Mikael
   if (enriched.length > 0 || force) {
     try {
-      const emailFrom = await getParam('/seo-mcp/email/from');
+      const emailFrom = process.env.EMAIL_FROM || await getParam('/seo-mcp/email/from');
       const recipients = (await getParam('/seo-mcp/email/recipients')).split(',').map(e => e.trim());
       const today = new Date();
       const weekNum = Math.ceil((today - new Date(today.getFullYear(), 0, 1)) / (7 * 86400000));
