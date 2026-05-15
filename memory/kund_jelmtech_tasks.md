@@ -23,12 +23,13 @@ Senaste check: 2026-05-14
 | 2026-04-21 | Kostnad för formsprutningsverktyg | https://jelmtech.se/produktutveckling/kostnad-formsprutningsverktyg/ | formsprutningsverktyg kostnad |
 | 2026-04-21 | Bioplast i produktutveckling | https://jelmtech.se/produktutveckling/bioplast-produktutveckling-guide/ | bioplast formsprutning |
 | 2026-05-04 | ABS-plast — egenskaper, formsprutning och industriella tillämpningar | VÄNTAR — kör publish-skript | ABS-plast formsprutning |
+| 2026-05-15 | PP-plast formsprutning — komplett guide till polypropylen | VÄNTAR — kör scripts/publish-jelmtech-pp-plast.js från EC2 | PP plast formsprutning |
 
 ## Nästa artikelidéer (ej skrivna)
 
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
-| Hög | PP-plast formsprutning (polypropylen) | PP plast formsprutning |
+| Hög | Plastprototyp — snabbprototyp och metodval | plastprototyp |
 | Hög | Plastprototyp — snabbprototyp och metodval | plastprototyp |
 | Medium | POM / acetal formsprutning | POM plast formsprutning |
 | Medium | Toleranser vid formsprutning | formsprutning toleranser |
@@ -40,6 +41,7 @@ Senaste check: 2026-05-14
 ```bash
 cd /home/ubuntu/Searchboost-Opti
 node scripts/publish-jelmtech-abs-artikel.js
+node scripts/publish-jelmtech-pp-plast.js
 ```
 
 ## Status
