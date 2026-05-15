@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import LogoCloud from "@/components/LogoCloud";
@@ -11,6 +12,13 @@ import FAQ from "@/components/FAQ";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import InteractiveBackground from "@/components/InteractiveBackground";
+
+export const metadata: Metadata = {
+  title: "AI-driven SEO som optimerar sig själv — Searchboost",
+  description:
+    "Sveriges första SEO-byrå med autonom optimering. Vi mäter, fixar och rapporterar — du ser resultat på Google varje vecka. Gratis SEO-analys utan säljpitch.",
+  alternates: { canonical: "https://searchboost.se" },
+};
 
 export default function Home() {
   return (
