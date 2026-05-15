@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { trackLead } from "./TrackingScripts";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -24,6 +25,7 @@ export default function WaitlistForm() {
         const { error } = await r.json().catch(() => ({ error: "" }));
         throw new Error(error || "Något gick fel — prova igen om en stund");
       }
+      trackLead(0, "SEK");
       setState("success");
     } catch (err) {
       setState("error");

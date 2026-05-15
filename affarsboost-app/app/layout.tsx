@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import TrackingScripts from "@/components/TrackingScripts";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -105,6 +106,10 @@ const jsonLd = {
   ],
 };
 
+const GTM_ID_NOSCRIPT = process.env.NEXT_PUBLIC_GTM_ID
+  ? `<iframe src="https://www.googletagmanager.com/ns.html?id=${process.env.NEXT_PUBLIC_GTM_ID}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`
+  : "";
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="sv" className={`${inter.variable} ${jakarta.variable}`}>
@@ -114,7 +119,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <TrackingScripts />
+        {GTM_ID_NOSCRIPT && (
+          <noscript dangerouslySetInnerHTML={{ __html: GTM_ID_NOSCRIPT }} />
+        )}
+        {children}
+      </body>
     </html>
   );
 }
