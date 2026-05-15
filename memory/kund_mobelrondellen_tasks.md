@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-14):_
-- _EC2-API returnerar 503 (server nere)_
-- _Supermetrics GSC ej autentiserad — ny loginlänk i kund_searchboost_tasks.md (2026-05-14)_
+_Ingen data — Blockerad (2026-05-15):_
+- _EC2-API: SSL-fel (self-signed cert), nås ej från remote environment_
+- _Supermetrics GSC (GW): NOT\_AUTHENTICATED — ny länk i kund\_searchboost\_tasks.md (2026-05-15)_
 
-**Åtgärd:** Se kund_searchboost_tasks.md för ny Supermetrics-länk, eller kör `pm2 restart seo-mcp` på EC2.
+**Åtgärd:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-15).
 
-Senaste check: 2026-05-14
+Senaste check: 2026-05-15
 
 ## Publicerade artiklar
 

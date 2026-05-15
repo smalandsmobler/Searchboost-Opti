@@ -9,15 +9,17 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-14):_
-- _EC2-API returnerar 503 (server nere — PM2-process troligen kraschat)_
-- _Supermetrics GSC ej autentiserad_
+_Ingen data — Blockerad (2026-05-15):_
+- _EC2-API: SSL-fel (self-signed cert) — nås ej från remote environment. Kontrollera om PM2/Nginx är uppe._
+- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED_
 
 **Åtgärd (välj ett):**
-1. Mikael loggar in på Supermetrics GSC (NY länk 2026-05-14): `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wTReTbkw7Lskw9aJnb0KB38rd8c7McQFqTYWp0PK`
-2. SSH in och kör: `pm2 restart seo-mcp` på EC2 (löser även 6 väntande deploy-scripts).
+1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-15):**
+   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/V1J0KKmRVMNEGmFAtKcHIExQYRFhlmsSafYtLXP9QBrsadKPek`
+2. SSH in och verifiera: `pm2 status` + `pm2 restart seo-mcp` om nere.
+3. Åtgärda SSL: ersätt self-signed cert med Let's Encrypt (`certbot --nginx -d din-domän.se`).
 
-Senaste check: 2026-05-14
+_Senaste check: 2026-05-15 — 0 kunder checkbara (2 blockerare kvar)_
 
 ## Publicerade artiklar
 
