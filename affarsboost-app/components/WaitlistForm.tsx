@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { trackLead } from "./TrackingScripts";
+import Turnstile from "./Turnstile";
 
 type State = "idle" | "loading" | "success" | "error";
 
@@ -10,16 +11,38 @@ export default function WaitlistForm() {
   const [segment, setSegment] = useState<"nystartad" | "etablerad" | "">("");
   const [state, setState] = useState<State>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileExpired, setTurnstileExpired] = useState(false);
+
+  const handleToken = useCallback((token: string) => {
+    setTurnstileToken(token);
+    setTurnstileExpired(false);
+  }, []);
+
+  const handleExpire = useCallback(() => {
+    setTurnstileToken(null);
+    setTurnstileExpired(true);
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!turnstileToken) {
+      setErrorMsg("Slutför säkerhetskontrollen nedan innan du skickar.");
+      return;
+    }
     setState("loading");
     setErrorMsg("");
     try {
       const r = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, segment, source: "landing-hero" }),
+        body: JSON.stringify({
+          email,
+          segment,
+          source: "landing-hero",
+          turnstileToken,
+          website: "", // honeypot
+        }),
       });
       if (!r.ok) {
         const { error } = await r.json().catch(() => ({ error: "" }));
@@ -45,6 +68,8 @@ export default function WaitlistForm() {
     );
   }
 
+  const canSubmit = state !== "loading" && !!turnstileToken && !turnstileExpired;
+
   return (
     <form onSubmit={onSubmit} className="space-y-3">
       <div className="flex flex-col sm:flex-row gap-2">
@@ -58,44 +83,50 @@ export default function WaitlistForm() {
         />
         <button
           type="submit"
-          disabled={state === "loading"}
+          disabled={!canSubmit}
           className="btn-primary justify-center disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {state === "loading" ? "Skickar…" : "Notifiera mig"}
         </button>
       </div>
+
+      {/* Segment-val */}
       <div className="flex flex-wrap gap-2 text-xs text-ink-500">
         <span>Jag är:</span>
-        <label className="cursor-pointer">
-          <input
-            type="radio"
-            name="segment"
-            value="nystartad"
-            checked={segment === "nystartad"}
-            onChange={() => setSegment("nystartad")}
-            className="sr-only peer"
-          />
-          <span className="px-2.5 py-1 rounded-full border border-ink-300 peer-checked:bg-navy-700 peer-checked:text-white peer-checked:border-navy-700 transition">
-            nystartad
-          </span>
-        </label>
-        <label className="cursor-pointer">
-          <input
-            type="radio"
-            name="segment"
-            value="etablerad"
-            checked={segment === "etablerad"}
-            onChange={() => setSegment("etablerad")}
-            className="sr-only peer"
-          />
-          <span className="px-2.5 py-1 rounded-full border border-ink-300 peer-checked:bg-emerald-600 peer-checked:text-white peer-checked:border-emerald-600 transition">
-            etablerad
-          </span>
-        </label>
+        {(["nystartad", "etablerad"] as const).map((seg) => (
+          <label key={seg} className="cursor-pointer">
+            <input
+              type="radio"
+              name="segment"
+              value={seg}
+              checked={segment === seg}
+              onChange={() => setSegment(seg)}
+              className="sr-only peer"
+            />
+            <span className={`px-2.5 py-1 rounded-full border border-ink-300 transition
+              peer-checked:text-white peer-checked:border-transparent
+              ${seg === "nystartad" ? "peer-checked:bg-navy-700" : "peer-checked:bg-emerald-600"}
+            `}>
+              {seg}
+            </span>
+          </label>
+        ))}
       </div>
+
+      {/* Cloudflare Turnstile */}
+      <Turnstile onToken={handleToken} onExpire={handleExpire} size="compact" />
+
+      {turnstileExpired && (
+        <p className="text-xs text-amber-600">Säkerhetskontrollen löpte ut — vänta en sekund.</p>
+      )}
+
       {state === "error" && (
         <p className="text-sm text-red-600">{errorMsg}</p>
       )}
+      {!turnstileToken && state === "idle" && errorMsg && (
+        <p className="text-sm text-red-600">{errorMsg}</p>
+      )}
+
       <p className="text-xs text-ink-500">
         Vi använder din mail endast för lanseringsnotis + gratisguiden. Inga andra utskick.
       </p>

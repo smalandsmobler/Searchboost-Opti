@@ -7,6 +7,8 @@ import {
   type ChatMessage,
 } from "@/lib/chat-store";
 import { isLinnéaOnline, getLinnéaInfo } from "@/lib/linnea-schedule";
+import { checkRateLimit, getRateLimitRetryAfter } from "@/lib/rate-limiter";
+import { verifyTurnstile } from "@/lib/turnstile-verify";
 
 const GEMINI_KEY = process.env.GOOGLE_AI_STUDIO_KEY ?? "";
 const GEMINI_MODEL = "gemini-2.0-flash";
@@ -36,27 +38,31 @@ Regler:
 Affärsboost-priser (om någon frågar): 299 kr/mån, ingen bindningstid.
 Webbplats: affarsboost.se`;
 
-async function callGemini(userMessages: ChatMessage[], newUserText: string): Promise<string> {
-  if (!GEMINI_KEY) return "Linnéa är inte konfigurerad just nu.";
+function getClientIp(req: NextRequest): string {
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown"
+  );
+}
 
-  // Bygg konversationshistorik (max 10 senaste par)
-  const history = userMessages
-    .filter((m) => m.role === "user" || m.role === "linnea")
+async function callGemini(history: ChatMessage[], newText: string): Promise<string> {
+  if (!GEMINI_KEY) return "Linnéa är inte konfigurerad just nu — försök igen senare.";
+
+  const contents = history
+    .filter((m) => (m.role === "user" || m.role === "linnea") && !m.pending)
     .slice(-20)
     .map((m) => ({
       role: m.role === "linnea" ? "model" : "user",
       parts: [{ text: m.content }],
     }));
 
-  history.push({ role: "user", parts: [{ text: newUserText }] });
+  contents.push({ role: "user", parts: [{ text: newText }] });
 
   const body = {
     system_instruction: { parts: [{ text: LINNEA_SYSTEM }] },
-    contents: history,
-    generationConfig: {
-      temperature: 0.7,
-      maxOutputTokens: 512,
-    },
+    contents,
+    generationConfig: { temperature: 0.7, maxOutputTokens: 512 },
   };
 
   const res = await fetch(
@@ -69,7 +75,7 @@ async function callGemini(userMessages: ChatMessage[], newUserText: string): Pro
   );
 
   if (!res.ok) {
-    console.error("Gemini error:", await res.text());
+    console.error("Gemini error:", res.status, await res.text());
     return "Något gick fel — försök igen om en stund.";
   }
 
@@ -77,24 +83,50 @@ async function callGemini(userMessages: ChatMessage[], newUserText: string): Pro
   return data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() ?? "Kunde inte generera svar.";
 }
 
-// GET — hämta senaste meddelanden + Linnéas status
+// GET — senaste meddelanden + Linnéas status
 export async function GET() {
   const messages = getRecentMessages(80);
   const info = getLinnéaInfo();
   return NextResponse.json({ messages, linnea: info });
 }
 
-// POST — skicka nytt meddelande
+// POST — skicka meddelande
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+
+  // Rate limit: max 30 meddelanden per IP per timme
+  if (!checkRateLimit(`chat:${ip}`, 30)) {
+    const retryAfter = getRateLimitRetryAfter(`chat:${ip}`);
+    return NextResponse.json(
+      { error: "För många meddelanden. Försök igen om en stund.", retryAfter },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
+  }
+
   const body = await req.json().catch(() => null);
   if (!body?.content || typeof body.content !== "string") {
     return NextResponse.json({ error: "Saknar content" }, { status: 400 });
   }
 
+  // Honeypot — bots fyller i detta fält, riktiga användare gör det inte
+  if (body.website) {
+    return NextResponse.json({ queued: true }); // tyst avvisa
+  }
+
+  // Turnstile-verifiering (krävs vid första meddelandet, dvs när firstMessage=true)
+  if (body.firstMessage) {
+    const valid = await verifyTurnstile(body.turnstileToken, ip);
+    if (!valid) {
+      return NextResponse.json(
+        { error: "Verifiering misslyckades. Ladda om sidan och försök igen." },
+        { status: 403 }
+      );
+    }
+  }
+
   const userName: string = (body.name ?? "Anonym").slice(0, 40);
   const userContent: string = body.content.slice(0, 1000);
 
-  // Spara användarmeddelandet
   const userMsg: ChatMessage = {
     id: generateId(),
     role: "user",
@@ -107,39 +139,35 @@ export async function POST(req: NextRequest) {
   const online = isLinnéaOnline();
 
   if (!online) {
-    // Linnéa offline — spara ett systemmeddelande om nästa online-tid
     const info = getLinnéaInfo();
     const offlineMsg: ChatMessage = {
       id: generateId(),
       role: "system",
       name: "System",
-      content: `Linnéa är offline just nu. ${info.sublabel}. Ditt meddelande är sparat och besvaras när Linnéa är online igen.`,
+      content: `Linnéa är offline just nu. ${info.sublabel}. Ditt meddelande är sparat.`,
       timestamp: new Date().toISOString(),
     };
     appendMessage(offlineMsg);
     return NextResponse.json({ queued: true, info });
   }
 
-  // Linnéa online — generera svar
   const pendingId = generateId();
-  const pendingMsg: ChatMessage = {
+  appendMessage({
     id: pendingId,
     role: "linnea",
     name: "Linnéa",
     content: "",
     timestamp: new Date().toISOString(),
     pending: true,
-  };
-  appendMessage(pendingMsg);
+  });
 
-  // Kalla Gemini asynkront (men vänta på svaret i samma request för enkelhet)
   try {
-    const replyText = await callGemini(msgs, userContent);
-    updateMessage(pendingId, { content: replyText, pending: false });
-    return NextResponse.json({ replied: true, content: replyText });
+    const reply = await callGemini(msgs, userContent);
+    updateMessage(pendingId, { content: reply, pending: false });
+    return NextResponse.json({ replied: true });
   } catch (err) {
     updateMessage(pendingId, {
-      content: "Något gick fel just nu. Försök igen om ett ögonblick.",
+      content: "Något gick fel. Försök igen om ett ögonblick.",
       pending: false,
     });
     console.error("Chat error:", err);
