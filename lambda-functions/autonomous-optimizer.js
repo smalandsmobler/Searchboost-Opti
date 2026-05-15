@@ -68,7 +68,7 @@ function createOpenRouterClient(apiKey) {
 const SYSTEM_PROMPT_CACHED = [
   {
     type: 'text',
-    text: `Du är en autonom SEO-agent på Searchboost — en svensk byrå som optimerar WordPress-sajter via Rank Math + WP REST API.
+    text: `Du är en autonom SEO-agent på Searchboost — en svensk byrå som optimerar webbplatser av alla typer: WordPress (via Rank Math + WP REST API), headless WordPress, Sanity CMS och React/Next.js-sajter.
 
 REGLER FÖR ALLA OUTPUT:
 1. Skriv ALLTID på korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar (a/o/e för å/ö/ä).
@@ -79,18 +79,29 @@ REGLER FÖR ALLA OUTPUT:
 6. När du föreslår content-fixar: leverera HTML, ALDRIG Markdown.
 7. Schema.org JSON-LD: alltid @context "https://schema.org", @id med kanonisk URL, @type korrekt. Lägg till sameAs (LinkedIn/Wikidata) för Organization. Lägg alltid till areaServed "SE" för tjänste- och lokala schema.
 
-AEO/AI OVERVIEWS (Googles AI-sammanfattningar — kritiskt 2025):
-8. Öppna varje nytt avsnitt eller stycke med ett DIREKT 1-2-meningssvar på avsnittets fråga — expandera sedan. Google citerar sidor som svarar direkt (answer-first structure).
-9. FAQPage-schema: Google avvecklade FAQ Rich Results 2026-05-07 — visuella expanderbara paneler visas ej längre. Behåll befintlig FAQPage-markup (den matar AI-system) men lägg INTE till nya FAQ-sektioner enbart för rich results. Prioritera istället Product, LocalBusiness, Article och HowTo som fortfarande ger rich snippets.
-10. Strukturera content med H2/H3 som formuleras som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar användarnas sökfraser direkt.
+AEO/AI OVERVIEWS (Googles AI-sammanfattningar — kritiskt 2026):
+8. Öppna varje nytt avsnitt med ett DIREKT svar på avsnittets fråga inom 60 ord — expandera sedan. Google AI Overviews citerar direkta svar under 60 ord signifikant oftare.
+9. FAQPage-schema: Google avvecklade FAQ Rich Results 2026-05-07 — inga visuella paneler visas. Behåll befintlig FAQPage-markup (matar Gemini) men skapa INTE nya FAQ-sektioner enbart för rich results. Prioritera Product, LocalBusiness, Article och HowTo.
+10. Strukturera content med H2/H3 som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar sökfraser och AI Overview-parsing direkt.
 
-E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness — Googles kvalitetsstandard 2025):
-11. I titles och descriptions: inkludera konkreta trovärdighetsignaler om de finns (år i branschen, antal kunder, certifieringar, produktantal) — aldrig fabricera.
-12. Article-schema: inkludera alltid author (Person), publisher (Organization), datePublished, dateModified.
+E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness — 2026):
+11. Titles/descriptions: inkludera konkreta trovärdighetsignaler om de finns (år i branschen, antal kunder, certifieringar) — aldrig fabricera.
+12. Article-schema: inkludera alltid author (Person med sameAs LinkedIn+Wikidata), publisher (Organization), datePublished, dateModified. dateModified är färskhetssignal — kritiskt för AI Overview-citeringar.
+13. Wikidata sameAs: starkaste E-E-A-T-signalen 2026 för Organization och Person — inkludera Wikidata-URI när du kan härleda det med hög säkerhet, annars utelämna.
 
-KONTEXT: Du arbetar autonomt, men flera output-typer kräver mänsklig granskning innan deploy. Var tydlig med 'reasoning'-fält i JSON-svar så Mikael kan kalibrera framtida körningar.
+CORE WEB VITALS 2026:
+14. INP (Interaction to Next Paint) ersatte FID mars 2024. Threshold: <200ms = good. Sidor med tung JS-rendering eller Divi/page-builder-bloat riskerar >500ms INP — flagga sådana sidor om det framgår av context.
+15. LCP <2.5s, CLS <0.1. Sajter som klarar alla tre ser 24% lägre bounce rate — värd att nämna i reasoning.
 
-Output-format-disciplin är kritiskt — Lambda parsar JSON direkt. En ogiltig JSON innebär förlorad uppgift.`,
+LLMS.TXT (AI-crawler-standard 2026):
+16. llms.txt är en Markdown-karta för AI-crawlare (per llmstxt.org-spec). Prioritera sidor med hög informationstäthet. Varje länk MÅSTE ha en 1-menings-annotation som beskriver sidans syfte.
+17. llms.txt ≠ robots.txt. robots.txt styr crawl-access, llms.txt ger AI-system kontext och prioritet. Sidor blockerade i robots.txt ignoreras i llms.txt.
+
+INTERN LÄNKNING (hub-och-ekrar 2026):
+18. Varje kluster-sida ska länka tillbaka till sin pillar-sida. Nya sidor MÅSTE ha minst 1 intern inkommande länk vid publicering — orphan-sidor indexeras inte av AI-system.
+19. Entity-first: organisera content kring entiteter (varumärken, produkter, begrepp) — inte nyckelordssträngar. AI-modeller löser entiteter innan keyword-relevans analyseras.
+
+KONTEXT: Du arbetar autonomt. Var tydlig med 'reasoning'-fält i JSON-svar. Output-format-disciplin är kritiskt — Lambda parsar JSON direkt. En ogiltig JSON innebär förlorad uppgift.`,
     cache_control: { type: 'ephemeral' }
   }
 ];
@@ -1455,12 +1466,152 @@ Svara i JSON:
   return { type: 'create_article', action: 'published', title: result.title, url: newPost.link, keyword: primaryKw };
 }
 
+// ── llms.txt generator (per sajt — AI-crawler-standard 2026) ──
+// Hämtar alla publicerade sidor + inlägg, bygger en Markdown-karta per llmstxt.org-spec,
+// och sparar den som en WP-sida med slug 'llms-txt-content' (llms-txt-generator Lambda
+// läser denna och publicerar som statisk fil på /llms.txt).
+async function generateLlmsTxt(site, task) {
+  const EXCLUDE_SLUGS = ['checkout', 'cart', 'my-account', 'login', 'tack', 'kassan', 'varukorg', 'kassa', 'bekraftelse'];
+
+  let siteName = site.id;
+  let siteDesc = '';
+  try {
+    const settings = await wpApi(site, 'GET', '/settings');
+    siteName = settings.title || site.id;
+    siteDesc = settings.description || '';
+  } catch (e) { /* inget WP-settings-stöd */ }
+
+  const pages = [];
+  try {
+    let pg = 1;
+    while (pages.length < 60) {
+      const batch = await wpApi(site, 'GET', `/pages?status=publish&per_page=100&page=${pg}&_fields=title,link,excerpt`);
+      if (!batch.length) break;
+      pages.push(...batch);
+      if (batch.length < 100) break;
+      pg++;
+    }
+  } catch (e) { /* pages API ej tillgänglig */ }
+
+  const posts = [];
+  try {
+    const batch = await wpApi(site, 'GET', `/posts?status=publish&per_page=30&orderby=date&order=desc&_fields=title,link,excerpt`);
+    posts.push(...batch);
+  } catch (e) { /* posts API ej tillgänglig */ }
+
+  const filteredPages = pages.filter(p => {
+    const seg = (p.link || '').replace(/\/$/, '').split('/').pop() || '';
+    return !EXCLUDE_SLUGS.some(ex => seg.includes(ex));
+  });
+
+  const siteUrl = site.url.replace(/\/$/, '');
+  const lines = [
+    `# ${siteName}`,
+    '',
+    `> ${siteDesc || `${siteName} — officiell webbplats`}`,
+    '',
+    '## Viktiga sidor',
+    '',
+  ];
+  for (const p of filteredPages.slice(0, 25)) {
+    const title = (p.title.rendered || '').replace(/&#\d+;/g, '').replace(/<[^>]+>/g, '').trim();
+    const excerpt = (p.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().substring(0, 120);
+    if (title) lines.push(`- [${title}](${p.link}): ${excerpt || `Information om ${title.toLowerCase()}`}`);
+  }
+  if (posts.length > 0) {
+    lines.push('');
+    lines.push('## Artiklar och guider');
+    lines.push('');
+    for (const p of posts.slice(0, 20)) {
+      const title = (p.title.rendered || '').replace(/&#\d+;/g, '').replace(/<[^>]+>/g, '').trim();
+      const excerpt = (p.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().substring(0, 120);
+      if (title) lines.push(`- [${title}](${p.link}): ${excerpt || `Artikel: ${title.toLowerCase()}`}`);
+    }
+  }
+
+  const content = lines.join('\n');
+
+  // Spara som WP-sida med slug llms-txt-content (llms-txt-generator Lambda läser denna)
+  const safeContent = `<!-- wp:preformatted --><pre class="wp-block-preformatted">${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre><!-- /wp:preformatted -->`;
+  try {
+    const existing = await wpApi(site, 'GET', '/pages?slug=llms-txt-content&per_page=1&_fields=id');
+    if (existing.length > 0) {
+      await wpApi(site, 'POST', `/pages/${existing[0].id}`, { content: safeContent, status: 'publish' });
+    } else {
+      await wpApi(site, 'POST', '/pages', {
+        title: 'LLMs.txt Content',
+        slug: 'llms-txt-content',
+        content: safeContent,
+        status: 'publish'
+      });
+    }
+  } catch (e) {
+    console.log(`  llms_txt ${site.id}: WP API-fel: ${e.message}`);
+    throw e;
+  }
+  return { type: 'llms_txt', action: 'generated', pages: filteredPages.length, posts: posts.length, chars: content.length };
+}
+
+// ── E-E-A-T author schema (Article + Person + Organization per sida 2026) ──
+// Lägger till/uppdaterar Article-schema med author Person och publisher Organization
+// inkl. sameAs LinkedIn+Wikidata där det kan hämtas ur SSM. dateModified sätts alltid.
+async function addEeatAuthorSchema(site, task, claude, bq, dataset) {
+  const context = JSON.parse(task.context_data);
+  const { post, wpType } = await fetchWpPost(site, context);
+
+  // Hämta kundinfo ur SSM (saknas → tomma strängar)
+  let companyName = site.id;
+  let contactPerson = '';
+  let linkedinUrl = '';
+  try { companyName = await getParam(`/seo-mcp/integrations/${site.id}/company-name`); } catch (e) {}
+  try { contactPerson = await getParam(`/seo-mcp/integrations/${site.id}/contact-person`); } catch (e) {}
+  try { linkedinUrl = await getParam(`/seo-mcp/integrations/${site.id}/linkedin-org-url`); } catch (e) {}
+
+  const siteUrl = site.url.replace(/\/$/, '');
+  const postUrl = (post.link || `${siteUrl}/${post.slug || post.id}`).replace(/\/$/, '');
+  const headline = (post.title?.rendered || post.title || '').replace(/&#\d+;/g, '').replace(/<[^>]+>/g, '').trim();
+  const datePublished = post.date || new Date().toISOString();
+  const dateModified = post.modified || post.date || new Date().toISOString();
+
+  const publisher = {
+    '@type': 'Organization',
+    '@id': `${siteUrl}/#organization`,
+    name: companyName,
+    url: siteUrl,
+    areaServed: 'SE',
+  };
+  if (linkedinUrl) publisher.sameAs = [linkedinUrl];
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    '@id': `${postUrl}#article`,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    headline,
+    datePublished,
+    dateModified,
+    publisher,
+  };
+  if (contactPerson) {
+    schema.author = { '@type': 'Person', name: contactPerson };
+  }
+
+  // Skriv via Rank Math postmeta
+  await wpApi(site, 'POST', `/${wpType}/${post.id}`, {
+    meta: { rank_math_schema_Article: JSON.stringify(schema) }
+  });
+
+  return { type: 'eeat_author_schema', action: 'applied', url: postUrl, headline };
+}
+
 // ── Säkra uppgifter: körs alltid (även utan åtgärdsplan) ──
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
   'missing_alt_text', 'create_article', 'no_internal_links',
   // faq_aeo_section borttagen 2026-05-15: Google avvecklade FAQ Rich Results, ingen visuell SERP-nytta
+  // 2026 AI-crawlare + E-E-A-T
+  'llms_txt', 'eeat_author_schema',
   // WooCommerce
   'product_metadata', 'product_description', 'product_images', 'product_schema'
 ]);
@@ -1481,6 +1632,9 @@ const TASK_HANDLERS = {
   'h2_h3_optimization':   optimizeH2H3,
   'synonym_gap':          enrichWithSynonyms,
   'create_article':       createArticle,
+  // 2026 AI-crawlare + E-E-A-T
+  'llms_txt':             generateLlmsTxt,
+  'eeat_author_schema':   addEeatAuthorSchema,
   // WooCommerce
   'product_metadata':     fixProductMetadata,
   'product_description':  fixProductDescription,
@@ -1626,7 +1780,13 @@ function mapPlanTaskType(type) {
     'product_content':       'product_description',
     'product_images':        'product_images',
     'product_alt':           'product_images',
-    'product_schema':        'product_schema'
+    'product_schema':        'product_schema',
+    // 2026 AI-crawlare + E-E-A-T
+    'llms_txt':              'llms_txt',
+    'llms':                  'llms_txt',
+    'eeat_author_schema':    'eeat_author_schema',
+    'eeat_schema':           'eeat_author_schema',
+    'author_schema':         'eeat_author_schema'
     // OBS: 'technical' och 'manual' → ingen handler → graceful skip (korrekt)
   };
   return map[type] || type;
@@ -1869,6 +2029,21 @@ exports.handler = async (event) => {
       if (totalProcessed >= MAX_TOTAL) break;
       if (blockedCustomers.has(site.id)) continue;
 
+      // Skippa staging/dev/test-miljöer — kör BARA mot livesajter
+      if (!isLiveSite(site.url)) {
+        console.log(`  Skippar ${site.id} (${site.url}) — ej livesajt`);
+        continue;
+      }
+
+      // Kontrollera site-typ via SSM (react-standalone / sanity → ej WP-API, skippa med info)
+      try {
+        const siteType = await getParam(`/seo-mcp/integrations/${site.id}/site-type`).catch(() => 'wordpress');
+        if (siteType === 'react-standalone' || siteType === 'sanity') {
+          console.log(`  Skippar ${site.id} — site-type="${siteType}" kräver anpassad integration (ej WP REST API)`);
+          continue;
+        }
+      } catch(e) { /* SSM-param saknas = WordPress (standard) */ }
+
       // Skippa om inga nyckelord finns
       const customerKw = await getCustomerKeywords(bq, dataset, site.id);
       if (customerKw.all.length === 0) {
@@ -2050,6 +2225,28 @@ exports.handler = async (event) => {
     }
   }
 };
+
+// ── Kontrollera om en sajt-URL är en livesajt (inte staging/dev) ──
+// Regel: optimizern får ALDRIG köra mot staging-, dev- eller testmiljöer.
+// Staging-indikatorer: localhost, .local, staging., dev., test., .wpengine.com,
+// .kinsta.cloud, .wp-staging.com, searchboost.nu (vår stagingdomän),
+// tobler.searchboost.se (tobler staging).
+function isLiveSite(url) {
+  if (!url) return false;
+  const STAGING_PATTERNS = [
+    /^https?:\/\/localhost/i,
+    /\.local(:\d+)?(\/|$)/i,
+    /\bstaging\b/i,
+    /\/\/dev\./i,
+    /\/\/test\./i,
+    /\.wpengine\.com/i,
+    /\.kinsta\.cloud/i,
+    /\.wp-staging\.com/i,
+    /searchboost\.nu/i,
+    /tobler\.searchboost\./i,
+  ];
+  return !STAGING_PATTERNS.some(p => p.test(url));
+}
 
 // ── Kontrollera om en plan-URL är blockad ──
 function shouldSkipPlanUrl(url) {
