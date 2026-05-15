@@ -5,13 +5,12 @@ const rateLimit = require('express-rate-limit');
 // ── Slack-notiser ──
 const SLACK_WEBHOOK = process.env.SLACK_WEBHOOK_URL || '';
 async function slackAlert(message, level = 'warning') {
+  if (!SLACK_WEBHOOK) return; // Ingen webhook konfigurerad — tyst
   const emoji = level === 'critical' ? ':rotating_light:' : level === 'info' ? ':white_check_mark:' : ':warning:';
   try {
-    await axios.post(SLACK_WEBHOOK, {
-      text: `${emoji} *Searchboost Opti* — ${message}`
-    });
-  } catch (e) {
-    console.error('Slack-notis misslyckades:', e.message);
+    await axios.post(SLACK_WEBHOOK, { text: `${emoji} *Searchboost Opti* — ${message}` });
+  } catch {
+    // Tyst fail — Slack är valfritt
   }
 }
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand, PutParameterCommand } = require('@aws-sdk/client-ssm');
@@ -27,7 +26,8 @@ const { generateReportPDF, fetchPageSpeed } = require('./pdf-report-generator');
 
 const app = express();
 app.set('trust proxy', 1); // Nginx reverse proxy sätter X-Forwarded-For
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // ── Security headers ──
 app.use(helmet({
@@ -236,7 +236,19 @@ async function getBigQuery() {
   bqDataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  bqClient = new BigQuery({ projectId });
+  // Billing via seo-aouto (sandbox blockade searchboost-485810 i maj 2026).
+  // Data ligger fortfarande i searchboost-485810 — patchar bq.dataset() att
+  // tvinga rätt projekt, och bq.query() att default:a SQL mot searchboost-485810
+  // så befintliga `${dataset}.tabell`-strängar fortsätter fungera.
+  bqClient = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bqClient.dataset.bind(bqClient);
+  bqClient.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  const _origQuery = bqClient.query.bind(bqClient);
+  bqClient.query = (arg, ...rest) => {
+    const opts = typeof arg === 'string' ? { query: arg } : { ...arg };
+    if (!opts.defaultDataset) opts.defaultDataset = { datasetId: bqDataset, projectId };
+    return _origQuery(opts, ...rest);
+  };
   return { bq: bqClient, dataset: bqDataset };
 }
 
@@ -370,22 +382,16 @@ async function rankMathApi(site, endpoint) {
   return res.data;
 }
 
-// ── BigQuery logging (uses DML INSERT for sandbox compatibility) ──
+// ── BigQuery logging (streaming insert) ──
 async function logOptimization(entry) {
   try {
     const { bq, dataset } = await getBigQuery();
     const row = { timestamp: new Date().toISOString(), ...entry };
-    const cols = Object.keys(row);
-    const vals = cols.map(c => {
-      const v = row[c];
-      if (v === null || v === undefined) return 'NULL';
-      if (typeof v === 'number') return String(v);
-      return `'${String(v).replace(/'/g, "\\'")}'`;
-    });
-    const sql = `INSERT INTO \`${dataset}.seo_optimization_log\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
-    await bq.query(sql);
+    await bq.dataset(dataset).table('seo_optimization_log').insert([row]);
   } catch (err) {
-    console.error('BigQuery log error:', err.message);
+    console.error('BigQuery log error:', err.message || '(no message)', 'name:', err.name, 'code:', err.code);
+    if (err.errors) console.error('  errors:', JSON.stringify(err.errors).slice(0, 500));
+    if (err.response && err.response.insertErrors) console.error('  insertErrors:', JSON.stringify(err.response.insertErrors).slice(0, 500));
   }
 }
 
@@ -398,15 +404,7 @@ async function addToWorkQueue(task) {
       status: 'pending',
       ...task
     };
-    const cols = Object.keys(row);
-    const vals = cols.map(c => {
-      const v = row[c];
-      if (v === null || v === undefined) return 'NULL';
-      if (typeof v === 'number') return String(v);
-      return `'${String(v).replace(/'/g, "\\'")}'`;
-    });
-    const sql = `INSERT INTO \`${dataset}.seo_work_queue\` (${cols.join(', ')}) VALUES (${vals.join(', ')})`;
-    await bq.query(sql);
+    await bq.dataset(dataset).table('seo_work_queue').insert([row]);
   } catch (err) {
     console.error('BigQuery queue error:', err.message);
   }
@@ -2058,6 +2056,367 @@ app.post('/api/customers/:id/manual-work-log', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// ── Keyword density endpoints ──
+const { analyzeDensity, htmlToText } = require('../lambda-functions/lib/keyword-density');
+
+/**
+ * POST /api/keyword-density/analyze
+ * Body: { text: string, keyword: string|string[], options?: { exactOnly, allowCompound } }
+ * Returnerar densitet, count, totalWords, status och rekommendation
+ */
+app.post('/api/keyword-density/analyze', async (req, res) => {
+  try {
+    const { text, keyword, options = {}, html } = req.body;
+    if (!keyword) return res.status(400).json({ error: 'keyword krävs' });
+    const input = html ? htmlToText(html) : (text || '');
+    if (!input) return res.status(400).json({ error: 'text eller html krävs' });
+    const result = analyzeDensity(input, keyword, options);
+    res.json({ success: true, ...result });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * POST /api/keyword-density/bulk
+ * Body: { items: [{ pageId, text|html, keyword }] }
+ * Analyserar flera sidor på en gång och returnerar sammanställd rapport
+ */
+app.post('/api/keyword-density/bulk', async (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'items-array krävs' });
+    }
+    const results = items.map(it => {
+      const text = it.html ? htmlToText(it.html) : (it.text || '');
+      const r = analyzeDensity(text, it.keyword, it.options || {});
+      return { pageId: it.pageId || null, focusKeyword: it.keyword, ...r };
+    });
+    const stats = {
+      total: results.length,
+      thin_content: results.filter(r => r.status === 'thin_content').length,
+      missing: results.filter(r => r.status === 'missing').length,
+      low: results.filter(r => r.status === 'low').length,
+      ok: results.filter(r => r.status === 'ok').length,
+      borderline_high: results.filter(r => r.status === 'borderline_high').length,
+      high: results.filter(r => r.status === 'high').length
+    };
+    res.json({ success: true, stats, results });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/customers/:id/kanban
+ *
+ * Unified customer 360 board — för fysisk tekniker som vill se HELA bilden:
+ *   - Konfig: SSM-status (WP, GSC, GA4, Ads, Social)
+ *   - Backlog: planerade tasks (work_queue pending + nästa steg från task-fil)
+ *   - Pågående: work_queue in_progress
+ *   - Klart denna vecka: seo_optimization_log senaste 7 dagar
+ *   - Klart tidigare: seo_optimization_log 7-30 dagar
+ *   - Pipeline-status: vilket säljstadie + budget
+ *
+ * Allt på en endpoint så front-end bara renderar kolumner.
+ */
+app.get('/api/customers/:id/kanban', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const { bq, dataset } = await getBigQuery();
+    const fs = require('fs');
+    const path = require('path');
+
+    // ── 1. KONFIG: SSM status ──────────────────────────────────────
+    const sites = await getAllWordPressSites();
+    const site = sites.find(s => s.id === customerId);
+    const config = {
+      wp_url: site?.url || null,
+      wp_username: site?.username || null,
+      wp_has_app_password: !!(site?.['app-password'] && site['app-password'] !== 'placeholder'),
+      gsc_property: null,
+      ga4_property: null,
+      gtm_id: null,
+      contact_email: null,
+      company_name: null
+    };
+
+    // Hämta integrations från SSM
+    try {
+      const intParams = [];
+      let token;
+      do {
+        const r = await ssm.send(new GetParametersByPathCommand({
+          Path: `/seo-mcp/integrations/${customerId}/`,
+          Recursive: false,
+          WithDecryption: true,
+          ...(token ? { NextToken: token } : {})
+        }));
+        intParams.push(...(r.Parameters || []));
+        token = r.NextToken;
+      } while (token);
+      for (const p of intParams) {
+        const key = p.Name.split('/').pop();
+        if (key === 'gsc-property') config.gsc_property = p.Value;
+        else if (key === 'ga4-property-id') config.ga4_property = p.Value;
+        else if (key === 'gtm-id') config.gtm_id = p.Value;
+        else if (key === 'contact-email') config.contact_email = p.Value;
+        else if (key === 'company-name') config.company_name = p.Value;
+      }
+    } catch (e) {
+      // SSM kan saknas för enstaka kunder — fortsätt
+    }
+
+    // ── 2. PIPELINE-STATUS från BQ ─────────────────────────────────
+    let pipeline = null;
+    try {
+      const [pipelineRows] = await bq.query({
+        query: `SELECT customer_id, stage, monthly_budget, package, created_at, contract_signed_at
+                FROM \`${dataset}.customer_pipeline\`
+                WHERE customer_id = @cid LIMIT 1`,
+        params: { cid: customerId }
+      });
+      pipeline = pipelineRows[0] || null;
+    } catch (e) { /* table may be missing */ }
+
+    // ── 3. WORK QUEUE: pending + in_progress ──────────────────────
+    const [queueRows] = await bq.query({
+      query: `SELECT queue_id, page_url, issue_type, priority, status, source, created_at, description
+              FROM \`${dataset}.seo_work_queue\`
+              WHERE customer_id = @cid AND status IN ('pending','in_progress')
+              ORDER BY priority ASC, created_at DESC LIMIT 100`,
+      params: { cid: customerId }
+    }).catch(() => [[]]);
+
+    const backlog = queueRows.filter(r => r.status === 'pending');
+    const inProgress = queueRows.filter(r => r.status === 'in_progress');
+
+    // ── 4. OPTIMERINGAR: senaste 30 dagar ──────────────────────────
+    const [optRows] = await bq.query({
+      query: `SELECT optimization_type, page_url, before_state, after_state, claude_reasoning, impact_estimate, timestamp
+              FROM \`${dataset}.seo_optimization_log\`
+              WHERE customer_id = @cid
+                AND timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+              ORDER BY timestamp DESC LIMIT 200`,
+      params: { cid: customerId }
+    }).catch(() => [[]]);
+
+    const now = Date.now();
+    const SEVEN_DAYS = 7 * 24 * 3600 * 1000;
+    const doneThisWeek = [];
+    const doneEarlier = [];
+    for (const o of optRows) {
+      const ts = o.timestamp?.value ? new Date(o.timestamp.value).getTime() : 0;
+      const isManual = String(o.claude_reasoning || '').includes('[Manuellt');
+      const entry = {
+        type: o.optimization_type,
+        page_url: o.page_url,
+        reasoning: o.claude_reasoning,
+        timestamp: o.timestamp?.value || null,
+        impact: o.impact_estimate,
+        source: isManual ? 'manual' : 'auto'
+      };
+      if (now - ts <= SEVEN_DAYS) doneThisWeek.push(entry);
+      else doneEarlier.push(entry);
+    }
+
+    // ── 5. PLANERAT från task-fil (nästa steg, prioriterade uppgifter) ──
+    const taskFilePath = path.join(
+      '/Users/weerayootandersson/Downloads/Searchboost-Opti/memory',
+      `kund_${customerId}_tasks.md`
+    );
+    let planned = [];
+    if (fs.existsSync(taskFilePath)) {
+      try {
+        const txt = fs.readFileSync(taskFilePath, 'utf8');
+        // Plocka rubriker "## Nästa steg" + "## Prioriterade ..." + obockade [ ]
+        const sections = ['Nästa steg', 'Prioriterade', 'Pågående arbete', 'Väntande'];
+        for (const sec of sections) {
+          const re = new RegExp(`##[^\n]*${sec}[^\n]*\n([\\s\\S]*?)(?=\n##|$)`, 'gi');
+          let m;
+          while ((m = re.exec(txt)) !== null) {
+            const body = m[1];
+            // Plocka rader som ser ut som tasks
+            const lines = body.split('\n').filter(l => /^[-*]\s|^\|\s|HÖG|Medel/.test(l)).slice(0, 20);
+            for (const l of lines) {
+              const cleaned = l.replace(/^[-*]\s+/, '').replace(/^\|\s*/, '').trim();
+              if (cleaned && cleaned.length > 8) {
+                planned.push({ section: sec, text: cleaned.substring(0, 200) });
+              }
+            }
+          }
+        }
+        // De-duplicate
+        const seen = new Set();
+        planned = planned.filter(p => {
+          const k = p.text.substring(0, 80);
+          if (seen.has(k)) return false;
+          seen.add(k);
+          return true;
+        }).slice(0, 30);
+      } catch (e) { /* task file may be malformed */ }
+    }
+
+    // ── 6. STATS för översikt ──────────────────────────────────────
+    const stats = {
+      backlog_count: backlog.length,
+      in_progress_count: inProgress.length,
+      done_this_week: doneThisWeek.length,
+      done_last_30_days: optRows.length,
+      manual_this_week: doneThisWeek.filter(d => d.source === 'manual').length,
+      auto_this_week: doneThisWeek.filter(d => d.source === 'auto').length,
+      planned_in_taskfile: planned.length
+    };
+
+    res.json({
+      success: true,
+      customer_id: customerId,
+      generated_at: new Date().toISOString(),
+      stats,
+      columns: {
+        config,
+        pipeline,
+        backlog,
+        in_progress: inProgress,
+        planned_in_taskfile: planned,
+        done_this_week: doneThisWeek,
+        done_earlier_30d: doneEarlier
+      }
+    });
+  } catch (err) {
+    console.error('Kanban error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * GET /api/customers/:id/recent-activity?days=7
+ *
+ * En aggregerad "vad hände senaste N dagar"-vy som BÅDA ytor använder:
+ *   - Opti-dashboard kunddetalj
+ *   - Kundzonen (via portal-wrapper)
+ *
+ * Returnerar:
+ *   - summary: { optimizations_total, manual_count, auto_count, by_type, ranking_change_avg }
+ *   - optimizations: [{type, page, source, reasoning, timestamp}]
+ *   - ranking_movers: { up: [...], down: [...] } från GSC senaste 7 vs föregående 7
+ *   - articles_published: [{title, url, date}] om vi har article-poster
+ *   - manual_work_summary: kort fritext för rapportändamål
+ */
+async function getRecentActivityFor(customerId, days, bq, dataset) {
+  const D = Math.max(1, Math.min(90, Number(days) || 7));
+
+  // 1. Optimeringar senaste N dagar
+  const [optRows] = await bq.query({
+    query: `SELECT optimization_type, page_url, claude_reasoning, impact_estimate, timestamp
+            FROM \`${dataset}.seo_optimization_log\`
+            WHERE customer_id = @cid
+              AND timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL @days DAY)
+            ORDER BY timestamp DESC LIMIT 500`,
+    params: { cid: customerId, days: D }
+  }).catch(() => [[]]);
+
+  const optimizations = optRows.map(o => {
+    const isManual = String(o.claude_reasoning || '').includes('[Manuellt');
+    return {
+      type: o.optimization_type,
+      page_url: o.page_url,
+      source: isManual ? 'manual' : 'auto',
+      reasoning: o.claude_reasoning,
+      impact: o.impact_estimate,
+      timestamp: o.timestamp?.value || null
+    };
+  });
+
+  const byType = {};
+  for (const o of optimizations) {
+    byType[o.type] = (byType[o.type] || 0) + 1;
+  }
+
+  const manualCount = optimizations.filter(o => o.source === 'manual').length;
+  const autoCount = optimizations.length - manualCount;
+
+  const articlesPublished = optimizations
+    .filter(o => ['article', 'blog', 'content_creation'].includes(o.type))
+    .slice(0, 10)
+    .map(o => ({ url: o.page_url, type: o.type, date: o.timestamp, summary: o.reasoning }));
+
+  // 2. GSC-positioner senaste 7 vs föregående 7 (top movers)
+  let rankingMovers = { up: [], down: [], window_days: D };
+  try {
+    const [gscRows] = await bq.query({
+      query: `WITH cur AS (
+                SELECT query, AVG(position) AS pos, SUM(clicks) AS clicks, SUM(impressions) AS impr
+                FROM \`${dataset}.gsc_daily_metrics\`
+                WHERE customer_id = @cid
+                  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY) AND CURRENT_DATE()
+                GROUP BY query
+              ),
+              prev AS (
+                SELECT query, AVG(position) AS pos
+                FROM \`${dataset}.gsc_daily_metrics\`
+                WHERE customer_id = @cid
+                  AND date BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL @days2 DAY)
+                              AND DATE_SUB(CURRENT_DATE(), INTERVAL @days DAY)
+                GROUP BY query
+              )
+              SELECT cur.query, cur.pos AS pos_now, prev.pos AS pos_prev,
+                     (prev.pos - cur.pos) AS delta, cur.clicks, cur.impr
+              FROM cur JOIN prev USING(query)
+              WHERE cur.impr >= 5
+              ORDER BY ABS(prev.pos - cur.pos) DESC LIMIT 50`,
+      params: { cid: customerId, days: D, days2: D * 2 }
+    });
+    const movers = gscRows.map(r => ({
+      query: r.query,
+      pos_now: Number((r.pos_now || 0).toFixed(1)),
+      pos_prev: Number((r.pos_prev || 0).toFixed(1)),
+      delta: Number((r.delta || 0).toFixed(1)),
+      clicks: Number(r.clicks || 0),
+      impressions: Number(r.impr || 0)
+    }));
+    rankingMovers.up = movers.filter(m => m.delta > 0.5).sort((a, b) => b.delta - a.delta).slice(0, 10);
+    rankingMovers.down = movers.filter(m => m.delta < -0.5).sort((a, b) => a.delta - b.delta).slice(0, 10);
+  } catch (e) { /* gsc table may not have data yet */ }
+
+  // 3. Sammanfattning för rapport
+  const summary = {
+    optimizations_total: optimizations.length,
+    manual_count: manualCount,
+    auto_count: autoCount,
+    by_type: byType,
+    articles_published: articlesPublished.length,
+    rankings_up: rankingMovers.up.length,
+    rankings_down: rankingMovers.down.length,
+    period_days: D,
+    generated_at: new Date().toISOString()
+  };
+
+  return {
+    summary,
+    optimizations,
+    ranking_movers: rankingMovers,
+    articles_published: articlesPublished
+  };
+}
+
+app.get('/api/customers/:id/recent-activity', async (req, res) => {
+  try {
+    const customerId = req.params.id;
+    const days = Number(req.query.days) || 7;
+    const { bq, dataset } = await getBigQuery();
+    const data = await getRecentActivityFor(customerId, days, bq, dataset);
+    res.json({ success: true, customer_id: customerId, ...data });
+  } catch (err) {
+    console.error('recent-activity error:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Exponera helpern till portal-auth.js (samma data, JWT-skyddad route)
+app.locals.getRecentActivityFor = getRecentActivityFor;
 
 // ── Get audit summary endpoint ──
 app.get('/api/customers/:id/audit', async (req, res) => {
@@ -5428,7 +5787,13 @@ app.get('/api/content-blueprint/months', async (req, res) => {
 
 // ── Global felhanterare ──
 app.use((err, req, res, next) => {
-  console.error('Unhandled error:', err);
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Begäran för stor', limit: err.limit, received: err.length });
+  }
+  console.error('Unhandled error:', err.message);
+  if (err.status && err.status < 500) {
+    return res.status(err.status).json({ error: err.message });
+  }
   slackAlert(`Serverfel på \`${req.method} ${req.path}\`: ${err.message}`, 'critical');
   res.status(500).json({ error: 'Internt serverfel' });
 });
@@ -6570,7 +6935,7 @@ app.post('/api/ace/collect-ga4', async (req, res) => {
 
 // ── WP API Proxy — för Lambda-calls (Lambda-IPs blockeras av Wordfence etc.) ──
 // Lambda anropar EC2 (IP: 51.21.116.7) som vidarebefordrar till kundens WP
-app.post('/api/wp-proxy', apiKeyAuth, async (req, res) => {
+app.post('/api/wp-proxy', async (req, res) => {
   const { siteId, method, endpoint, data, username, appPassword, wpUrl } = req.body;
   if (!siteId || !method || !endpoint || !username || !appPassword || !wpUrl) {
     return res.status(400).json({ error: 'Obligatoriska fält saknas: siteId, method, endpoint, username, appPassword, wpUrl' });
@@ -6591,6 +6956,27 @@ app.post('/api/wp-proxy', apiKeyAuth, async (req, res) => {
     const body = err.response?.data || { error: err.message };
     res.status(status).json(body);
   }
+});
+
+// ── Kundbilder — serveras för Lambda-image-upload ──
+// GET /api/customer-images/:customerId/:filename
+// Skyddas av den globala API-nyckel-middleware
+app.get('/api/customer-images/:customerId/:filename', (req, res) => {
+  const { customerId, filename } = req.params;
+  // Förhindra path traversal
+  if (filename.includes('/') || filename.includes('..') || customerId.includes('/') || customerId.includes('..')) {
+    return res.status(400).json({ error: 'Ogiltigt filnamn' });
+  }
+  if (!/\.(jpg|jpeg|png)$/i.test(filename)) {
+    return res.status(400).json({ error: 'Endast jpg/png tillåtet' });
+  }
+  const filePath = path.join(__dirname, '..', 'customer-images', customerId, filename);
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: 'Bild saknas' });
+  }
+  const ext = path.extname(filename).toLowerCase();
+  res.setHeader('Content-Type', ext === '.png' ? 'image/png' : 'image/jpeg');
+  res.sendFile(filePath);
 });
 
 // ── Start server ──

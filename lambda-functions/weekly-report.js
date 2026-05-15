@@ -71,9 +71,17 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
+  // Billing via seo-aouto, data i searchboost-485810. Patcha bq.dataset()
+  // och bq.query() att tvinga rätt projekt utan att bryta SQL-strängar.
   const bq = new BigQuery({ projectId: 'seo-aouto' });
   const _origDs = bq.dataset.bind(bq);
   bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  const _origQuery = bq.query.bind(bq);
+  bq.query = (arg, ...rest) => {
+    const opts = typeof arg === 'string' ? { query: arg } : { ...arg };
+    if (!opts.defaultDataset) opts.defaultDataset = { datasetId: dataset, projectId };
+    return _origQuery(opts, ...rest);
+  };
   return { bq, dataset };
 }
 
