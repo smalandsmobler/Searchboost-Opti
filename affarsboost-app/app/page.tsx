@@ -1,5 +1,7 @@
 import WaitlistForm from "@/components/WaitlistForm";
 import LinnéaStatusBadge from "@/components/LinnéaStatusBadge";
+import CheckoutButton from "@/components/CheckoutButton";
+import { TIERS } from "@/lib/pricing";
 
 export default function Home() {
   return (
@@ -251,35 +253,21 @@ export default function Home() {
       <section id="pris" className="py-20 bg-white">
         <div className="max-w-content mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="font-display text-4xl font-bold text-navy-900 mb-3">En prislapp. Inget krångel.</h2>
-            <p className="text-ink-700 text-lg">Direktbetalning. Säg upp när du vill.</p>
-          </div>
-          <div className="max-w-md mx-auto bg-white border-2 border-emerald-500 rounded-2xl p-8 shadow-lg">
-            <div className="inline-block px-3 py-1 rounded-full bg-emerald-500 text-white text-xs font-semibold mb-4 uppercase tracking-wide">
-              Medlemskap
-            </div>
-            <div className="mb-6">
-              <span className="font-display text-5xl font-bold text-navy-900">299 kr</span>
-              <span className="text-ink-500 text-lg">/månad</span>
-            </div>
-            <p className="text-ink-700 mb-6">
-              Allt innehåll, alla mallar, Linnéa AI-coachen och community-tillgång. Inga bindningstider.
-            </p>
-            <ul className="space-y-3 text-ink-700 mb-8">
-              <li className="flex gap-3"><Check /> Veckonyhetsbrev (båda spår)</li>
-              <li className="flex gap-3"><Check /> Hela mallbiblioteket</li>
-              <li className="flex gap-3"><Check /> Linnéa AI-coach (obegränsat)</li>
-              <li className="flex gap-3"><Check /> Startbidrags-bevakning</li>
-              <li className="flex gap-3"><Check /> Community-tillgång</li>
-              <li className="flex gap-3"><Check /> Säg upp när du vill</li>
-            </ul>
-            <a href="#" className="btn-primary w-full justify-center">
-              Bli medlem — 299 kr/mån
-            </a>
-            <p className="text-ink-500 text-xs text-center mt-4">
-              Faktureras månadsvis. Stripe + Swish + Klarna stöds.
+            <h2 className="font-display text-4xl font-bold text-navy-900 mb-3">Välj din nivå</h2>
+            <p className="text-ink-700 text-lg max-w-2xl mx-auto">
+              Från soloföretagaren som vill ha koll, till bolaget som vill implementera AI som konkurrensfördel.
             </p>
           </div>
+
+          <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-5 items-start">
+            {TIERS.map((tier) => (
+              <PricingCard key={tier.id} tier={tier} />
+            ))}
+          </div>
+
+          <p className="text-center text-ink-400 text-sm mt-8">
+            Faktureras månadsvis. Stripe + Swish + Klarna stöds. Priser exkl. moms.
+          </p>
         </div>
       </section>
 
@@ -294,7 +282,7 @@ export default function Home() {
             />
             <Faq
               q="Kan jag säga upp när jag vill?"
-              a="Ja. Du betalar månadsvis och kan säga upp direkt — du har tillgång till nästa fakturadatum."
+              a="Solo (299 kr): säg upp direkt, ingen bindningstid. Tillväxt (1 000 kr): 1 månads uppsägningstid. Business och Partner (5 000–10 000 kr): 3 månaders uppsägningstid."
             />
             <Faq
               q="När svarar Linnéa?"
@@ -305,8 +293,12 @@ export default function Home() {
               a="Du kan ladda ner all din konversationshistorik och sparade mallar i 30 dagar efter att du sagt upp."
             />
             <Faq
-              q="Är det moms på 299 kr?"
-              a="Priset är inklusive moms 25 %. Företagsmedlemmar får en faktura i kvitto-format för avdrag."
+              q="Vilken tier passar mig?"
+              a="Solo (299 kr) passar dig som precis startat eller vill ha koll. Tillväxt (1 000 kr) är för dig som vill ha obegränsad AI-coach och månadsvis affärsrapport. Business (5 000 kr) är för bolag som vill växa digitalt med AI-driven SEO och annonsanalys. Partner (10 000 kr) är för den som vill ha Searchboost-teamet dedikerat och AI implementerat i hela sin marknadsföring."
+            />
+            <Faq
+              q="Är priserna inklusive moms?"
+              a="Priserna är exklusive moms 25 %. Företagsmedlemmar får en faktura i kvitto-format för avdrag."
             />
             <Faq
               q="Vem står bakom Affärsboost?"
@@ -357,6 +349,101 @@ export default function Home() {
         </div>
       </footer>
     </main>
+  );
+}
+
+function PricingCard({ tier }: { tier: import("@/lib/pricing").PricingTier }) {
+  const isRecommended = tier.recommended;
+  const isPremium = tier.highlight;
+
+  const cardClass = isPremium
+    ? "bg-navy-900 text-white border-2 border-navy-700 rounded-2xl p-6 flex flex-col"
+    : isRecommended
+    ? "bg-white border-2 border-emerald-500 rounded-2xl p-6 flex flex-col shadow-lg relative"
+    : "bg-white border border-ink-100 rounded-2xl p-6 flex flex-col";
+
+  const labelBg = isPremium
+    ? "bg-emerald-500 text-white"
+    : isRecommended
+    ? "bg-emerald-500 text-white"
+    : "bg-navy-50 text-navy-700";
+
+  const priceColor = isPremium ? "text-white" : "text-navy-900";
+  const subColor = isPremium ? "text-navy-300" : "text-ink-500";
+  const textColor = isPremium ? "text-navy-200" : "text-ink-700";
+  const featureCheck = isPremium ? "text-emerald-400" : "text-emerald-600";
+  const bindingColor = isPremium ? "text-navy-400" : "text-ink-400";
+
+  const ctaClass = isPremium
+    ? "mt-auto block w-full text-center bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-4 py-3 rounded-xl transition-colors text-sm"
+    : isRecommended
+    ? "mt-auto block w-full text-center bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-3 rounded-xl transition-colors text-sm"
+    : "mt-auto block w-full text-center border border-ink-200 hover:border-emerald-400 text-navy-700 font-semibold px-4 py-3 rounded-xl transition-colors text-sm";
+
+  const isCheckoutTier = tier.id === "solo" || tier.id === "tillvaxt";
+
+  return (
+    <div className={cardClass}>
+      {isRecommended && (
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span className="bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+            Populärast
+          </span>
+        </div>
+      )}
+
+      {/* Header */}
+      <div className="mb-4">
+        <span className={`inline-block text-xs font-semibold px-2.5 py-1 rounded-full mb-3 ${labelBg}`}>
+          {tier.tagline}
+        </span>
+        <h3 className={`font-display font-bold text-xl mb-1 ${priceColor}`}>{tier.name}</h3>
+        <p className={`text-xs leading-snug ${subColor}`}>{tier.target}</p>
+      </div>
+
+      {/* Pris */}
+      <div className="mb-5 pb-5 border-b border-current/10">
+        <span className={`font-display text-4xl font-bold ${priceColor}`}>{tier.priceLabel}</span>
+        <span className={`text-sm ml-1 ${subColor}`}>/mån</span>
+      </div>
+
+      {/* Features */}
+      <ul className={`space-y-2.5 text-sm mb-5 flex-1 ${textColor}`}>
+        {tier.features.map((f) => (
+          <li key={f} className="flex gap-2 items-start">
+            <svg className={`w-4 h-4 flex-shrink-0 mt-0.5 ${featureCheck}`} viewBox="0 0 16 16" fill="currentColor">
+              <path fillRule="evenodd" d="M13.5 4a.75.75 0 010 1.06l-6 6a.75.75 0 01-1.06 0l-3-3a.75.75 0 011.06-1.06L7 9.44l5.47-5.47a.75.75 0 011.03.03z" clipRule="evenodd" />
+            </svg>
+            <span>{f}</span>
+          </li>
+        ))}
+        {tier.notIncluded?.map((f) => (
+          <li key={f} className="flex gap-2 items-start opacity-40">
+            <svg className="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="currentColor">
+              <path fillRule="evenodd" d="M4.47 4.47a.75.75 0 011.06 0L8 6.94l2.47-2.47a.75.75 0 011.06 1.06L9.06 8l2.47 2.47a.75.75 0 01-1.06 1.06L8 9.06l-2.47 2.47a.75.75 0 01-1.06-1.06L6.94 8 4.47 5.53a.75.75 0 010-1.06z" clipRule="evenodd" />
+            </svg>
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Binding */}
+      <p className={`text-xs mb-4 ${bindingColor}`}>{tier.binding}</p>
+
+      {/* CTA */}
+      {isCheckoutTier ? (
+        <CheckoutButton
+          tierId={tier.id as "solo" | "tillvaxt"}
+          className={`${ctaClass} w-full disabled:opacity-60 disabled:cursor-not-allowed`}
+        >
+          {tier.cta}
+        </CheckoutButton>
+      ) : (
+        <a href="mailto:hej@affarsboost.se" className={ctaClass}>
+          {tier.cta}
+        </a>
+      )}
+    </div>
   );
 }
 

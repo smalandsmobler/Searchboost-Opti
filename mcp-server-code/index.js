@@ -597,6 +597,17 @@ async function ensurePipelineTables() {
         mobile_fcp STRING, mobile_lcp STRING, mobile_cls STRING, mobile_tbt STRING,
         desktop_fcp STRING, desktop_lcp STRING, desktop_cls STRING, desktop_tbt STRING,
         scanned_at TIMESTAMP`
+    },
+    {
+      name: 'affarsboost_waitlist',
+      schema: `signed_up_at TIMESTAMP, email STRING, segment STRING, source STRING, ip_hash STRING`
+    },
+    {
+      name: 'affarsboost_subscriptions',
+      schema: `event_id STRING, stripe_subscription_id STRING, stripe_customer_id STRING,
+        stripe_session_id STRING, email STRING, tier STRING, status STRING,
+        amount_sek INT64, currency STRING, started_at TIMESTAMP, current_period_end TIMESTAMP,
+        cancel_at TIMESTAMP, canceled_at TIMESTAMP, created_at TIMESTAMP`
     }
   ];
   for (const t of tables) {
@@ -641,7 +652,10 @@ async function ensurePipelineTables() {
     { table: 'seo_work_queue', column: 'queue_id', type: 'STRING' },
     { table: 'seo_work_queue', column: 'processed_at', type: 'TIMESTAMP' },
     { table: 'seo_work_queue', column: 'description', type: 'STRING' },
-    { table: 'seo_work_queue', column: 'severity', type: 'STRING' }
+    { table: 'seo_work_queue', column: 'severity', type: 'STRING' },
+    // Affärsboost subscriptions
+    { table: 'affarsboost_subscriptions', column: 'cancel_at', type: 'TIMESTAMP' },
+    { table: 'affarsboost_subscriptions', column: 'canceled_at', type: 'TIMESTAMP' }
   ];
   for (const col of alterColumns) {
     try {
@@ -2081,6 +2095,56 @@ app.post('/api/affarsboost/waitlist', async (req, res) => {
     res.json({ success: true });
   } catch (err) {
     console.error('Affärsboost waitlist error:', err.message);
+    res.status(500).json({ error: 'Internal error' });
+  }
+});
+
+// ── Affärsboost subscription webhook relay (anropas från affarsboost-app webhook handler) ──
+app.post('/api/affarsboost/subscription', async (req, res) => {
+  try {
+    const {
+      event_id, stripe_subscription_id, stripe_customer_id, stripe_session_id,
+      email, tier, status, amount_sek, currency,
+      started_at, current_period_end, cancel_at, canceled_at
+    } = req.body || {};
+
+    if (!email || !tier || !status) {
+      return res.status(400).json({ error: 'email, tier och status krävs' });
+    }
+
+    const { bq, dataset } = await getBigQuery();
+
+    // Kontrollera om event redan processats (idempotency)
+    if (event_id) {
+      const [existing] = await bq.query(
+        `SELECT 1 FROM \`${dataset}.affarsboost_subscriptions\` WHERE event_id = @event_id LIMIT 1`,
+        { params: { event_id } }
+      );
+      if (existing.length > 0) {
+        return res.json({ success: true, duplicate: true });
+      }
+    }
+
+    await bq.dataset(dataset).table('affarsboost_subscriptions').insert([{
+      event_id: event_id || null,
+      stripe_subscription_id: stripe_subscription_id || null,
+      stripe_customer_id: stripe_customer_id || null,
+      stripe_session_id: stripe_session_id || null,
+      email: email.trim().toLowerCase(),
+      tier,
+      status,
+      amount_sek: amount_sek || null,
+      currency: currency || 'SEK',
+      started_at: started_at || new Date().toISOString(),
+      current_period_end: current_period_end || null,
+      cancel_at: cancel_at || null,
+      canceled_at: canceled_at || null,
+      created_at: new Date().toISOString(),
+    }]);
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Affärsboost subscription error:', err.message);
     res.status(500).json({ error: 'Internal error' });
   }
 });
