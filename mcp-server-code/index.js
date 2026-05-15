@@ -2057,6 +2057,34 @@ app.post('/api/customers/:id/manual-work-log', async (req, res) => {
   }
 });
 
+// ── Affärsboost waitlist endpoint (anropas från affarsboost-app) ──
+app.post('/api/affarsboost/waitlist', async (req, res) => {
+  try {
+    const { email, segment, source } = req.body || {};
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'Ogiltig e-postadress' });
+    }
+    const crypto = require('crypto');
+    const ipHash = crypto
+      .createHash('sha256')
+      .update(req.ip || req.headers['x-forwarded-for'] || '')
+      .digest('hex')
+      .substring(0, 16);
+    const { bq, dataset } = await getBigQuery();
+    await bq.dataset(dataset).table('affarsboost_waitlist').insert([{
+      signed_up_at: new Date().toISOString(),
+      email: email.trim().toLowerCase(),
+      segment: segment || 'okand',
+      source: source || 'unknown',
+      ip_hash: ipHash,
+    }]);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Affärsboost waitlist error:', err.message);
+    res.status(500).json({ error: 'Internal error' });
+  }
+});
+
 // ── Keyword density endpoints ──
 const { analyzeDensity, htmlToText } = require('../lambda-functions/lib/keyword-density');
 
