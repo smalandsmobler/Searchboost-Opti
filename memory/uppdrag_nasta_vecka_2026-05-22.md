@@ -97,7 +97,24 @@ Autonomous-optimizer har `missing_alt_text`-handler. Hitta sidor med `<img>` uta
 
 Se `arkitektur_kanban_spindel.md` — alla åtgärder ska skapa work_queue-task först, sen done-transition → auto-logg per typ. Detta gör fördelat logg-format till default istället för per-script-bug.
 
+## Lab/testbed: searchboost.se (Next.js)
+
+**searchboost.se kör Next.js/Vercel — inte WordPress.** WP REST API returnerar Next:s landningssida istället för JSON, så mega-runner kan inte optimera där.
+
+Den används istället som **lab-sajt** för att utveckla optimization-stöd för React/Next/headless-sajter. När vi har en fungerande pipeline på searchboost.se kan vi sälja in modernisering till kunder (Jelmtech m.fl.) och rulla ut samma stack där.
+
+Spår att bygga (parallellt med kund-roadmap ovan):
+
+1. **Audit-script** för Next.js — pulla repo, läsa `app/`-mappens `Metadata`-export per route, jämföra med best practice (60-char title, 130-155 description, schema.org structured data, OG-tags, canonical).
+2. **Auto-PR** — generera förbättrade `Metadata`-objekt, skapa branch + commit + push + PR på GitHub. Aldrig auto-merge — Mikael godkänner.
+3. **Sitemap & robots** — säkerställ `sitemap.ts` + `robots.ts` finns i `app/`-roten.
+4. **GSC + AI-bevakning** — algorithm-watcher tasks kan redan landa i `seo_work_queue` med `task_type='manual'` för Next-sajter — vi skriver bara hand-på-koden.
+5. **Loggning** — autonomous-optimizer ska skriva loggrader även för Next-tasks (executor: git-commit istället för WP REST), så veckomail visar enhetlig statistik oavsett stack.
+
+**Förstå-stack-frågor till Mikael (ej besvarade ännu):** repo-URL, hosting (Vercel?), branch-strategi för auto-PR. Tas vid första lab-sessionen.
+
 ## Status
 
 - 2026-05-15: dokumenterat
+- 2026-05-15: searchboost.se identifierad som Next.js (inte WP) — blir lab-sajt
 - Implementation startar måndag 2026-05-18
