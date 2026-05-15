@@ -29,6 +29,7 @@ const CUSTOMERS = [
   { id: 'ilmonte',               name: 'Ilmonte' },
   { id: 'searchboost',           name: 'Searchboost' },
   { id: 'tobler',                name: 'Tobler' },
+  { id: 'jelmtech',              name: 'Jelmtech Produktutveckling AB' },
 ];
 
 async function getParam(name) {
@@ -49,7 +50,10 @@ async function initBQ() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/bq-creds.json', creds);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/bq-creds.json';
-  return { bq: new BigQuery({ projectId }), dataset, projectId };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset, projectId };
 }
 
 async function initGA4Client() {

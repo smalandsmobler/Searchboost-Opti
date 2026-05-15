@@ -61,7 +61,9 @@ async function getBQ() {
   const credsPath = '/tmp/bq-creds.json';
   fs.writeFileSync(credsPath, creds);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = credsPath;
-  _bq = new BigQuery({ projectId: _projectId, keyFilename: credsPath });
+  _bq = new BigQuery({ projectId: 'seo-aouto', keyFilename: credsPath });
+  const _origDs_bq = _bq.dataset.bind(_bq);
+  _bq.dataset = (n, o = {}) => _origDs_bq(n, { projectId: _projectId, ...o });
   return { bq: _bq, projectId: _projectId, datasetId: _datasetId };
 }
 
@@ -158,6 +160,22 @@ async function getPostingCredentials(customerId, platform) {
   throw new Error(`Okänd plattform: ${platform}`);
 }
 
+// ── Encoding-guard ──
+
+function assertSwedishEncoding(text, context = '') {
+  if (!text || text.length < 80) return;
+  if (/[åäöÅÄÖ]/.test(text)) return;
+  const brokenPatterns = [
+    /\bfor\b/i, /\bnar\b/i, /\bgar\b/i, /\bokad\b/i,
+    /\bfoljande\b/i, /\bmalgrupp\b/i, /\bstorre\b/i, /\bsokord\b/i,
+  ];
+  if (brokenPatterns.some(p => p.test(text))) {
+    throw new Error(
+      `[ENCODING-FEL]${context ? ` (${context})` : ''} Inlägget saknar ÅÄÖ och innehåller ASCII-ersättningar. Publicering avbruten.`
+    );
+  }
+}
+
 // ── Main handler ──
 
 exports.handler = async (event) => {
@@ -181,6 +199,7 @@ exports.handler = async (event) => {
     console.log(`  Postar ${post.post_id} → ${post.platform} (${post.customer_id})`);
 
     try {
+      assertSwedishEncoding(post.full_text, `${post.platform}/${post.customer_id}`);
       const creds = await getPostingCredentials(post.customer_id, post.platform);
       const result = await publishScheduledPost(post, creds);
 

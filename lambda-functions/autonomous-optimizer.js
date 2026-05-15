@@ -81,7 +81,7 @@ REGLER FÖR ALLA OUTPUT:
 
 AEO/AI OVERVIEWS (Googles AI-sammanfattningar — kritiskt 2025):
 8. Öppna varje nytt avsnitt eller stycke med ett DIREKT 1-2-meningssvar på avsnittets fråga — expandera sedan. Google citerar sidor som svarar direkt (answer-first structure).
-9. FAQ-sektioner med FAQPage-schema ökar sannolikheten att citeras i AI-svar med 3x. Prioritera dessa när innehållet är informativt.
+9. FAQPage-schema: Google avvecklade FAQ Rich Results 2026-05-07 — visuella expanderbara paneler visas ej längre. Behåll befintlig FAQPage-markup (den matar AI-system) men lägg INTE till nya FAQ-sektioner enbart för rich results. Prioritera istället Product, LocalBusiness, Article och HowTo som fortfarande ger rich snippets.
 10. Strukturera content med H2/H3 som formuleras som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar användarnas sökfraser direkt.
 
 E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness — Googles kvalitetsstandard 2025):
@@ -121,7 +121,7 @@ Din uppgift är att generera korrekt JSON-LD schema markup. Regler:
 7. För FAQPage: extrahera 3-5 konkreta frågor och svar från sidinnehållet — frågor MÅSTE vara synliga för användaren på sidan (Google penaliserar dolda FAQs)
 8. För Article/BlogPosting: inkludera author (Person med name), publisher (Organization med logo), datePublished, dateModified, mainEntityOfPage (@id = sidans URL)
 9. För Product: inkludera brand (@type Brand), sku om det finns, offers med priceCurrency "SEK" och availability
-10. FAQPage-schema ökar sannolikheten att citeras i Google AI Overviews med 3x — prioritera detta för informativa sidor
+10. PRIORITETSORDNING schema-typer (rich snippets 2026): Product+AggregateRating > LocalBusiness > Article/BlogPosting > HowTo > BreadcrumbList > FAQPage. OBS: Google avvecklade FAQ Rich Results 2026-05-07 — FAQPage ger inga visuella snippets men matar AI-system, välj det bara om sidan är utpräglat FAQ-baserad
 11. Output: Alltid raw JSON-LD utan markdown-fences, redo att injiceras i <script type="application/ld+json">`;
 
 const CONTENT_SPECIALIST_PROMPT = `Du är en specialist på SEO-innehåll för svenska WordPress-sajter (Google Core 2025 + AI Overviews-standard).
@@ -130,7 +130,7 @@ Din uppgift är att förbättra och komplettera befintligt innehåll:
 2. H2/H3-rubriker: formulera som frågor ("Vad kostar X?", "Hur väljer man Y?") — matchar sökfraser och AEO-format
 3. Lead-paragrafer ska svara direkt på sidans primära fråga inom 90 ord
 4. Fakta ska vara specifika: siffror, datum, processer — inte vaga påståenden
-5. FAQ-sektion: lägg ALLTID till en "Vanliga frågor"-sektion med 3-5 konkreta frågor och direkta svar i slutet av sidan (dessa ska vara synliga i HTML — FAQPage-schema hänger på att frågorna är synliga)
+5. FAQ-sektion: lägg till en "Vanliga frågor"-sektion BARA om sidan är genuint informativ och frågorna tillför värde för läsaren — Google avvecklade FAQ Rich Results 2026-05-07 så motivet är nu enbart läsbarhet och AI-parsing, inte SERP-display
 6. Rubriker innehåller sekundära keywords och LSI-termer naturligt
 7. Intern länkning: föreslå 3-5 relevanta interna sidor att länka till
 8. Alltid korrekt svenska med ÅÄÖ — aldrig ASCII-ersättningar
@@ -271,7 +271,10 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset };
 }
 
 async function trelloCard(name, desc) {
@@ -671,7 +674,7 @@ Krav:
 - För Article: inkludera author, publisher, datePublished, dateModified, mainEntityOfPage
 - För FAQPage: extrahera frågor FRÅN det synliga sidinnehållet (3-5 frågor)
 - För Product: inkludera brand, priceCurrency "SEK", availability
-- Om sidan innehåller FAQ-innehåll: PRIORITERA FAQPage — det ökar AI Overview-citat med 3x
+- Prioritera Product, LocalBusiness, Article, HowTo — dessa ger fortfarande rich snippets i SERP (2026). FAQPage kan väljas om sidan är FAQ-centrerad men ger inga visuella rich results sedan 2026-05-07
 Svara i JSON: {"schemaType": "...", "schemaJson": {...}, "reasoning": "..."}`
     }]
   });
@@ -716,8 +719,10 @@ Svara i JSON: {"schemaType": "...", "schemaJson": {...}, "reasoning": "..."}`
   return { type: 'no_schema', schemaType: result.schemaType, saved: schemaSaved, reasoning: result.reasoning };
 }
 
-// ── FAQ-sektion + FAQPage schema (AEO/AI Overviews 2025) ──
-// FAQPage schema = 3x sannolikhet att citeras i Google AI Overviews (Relixir 2025-studie)
+// ── FAQ-sektion + FAQPage schema (AI-parsing, ej rich results) ──
+// OBS 2026-05-07: Google avvecklade FAQ Rich Results — inga visuella expanderbara paneler visas längre.
+// FAQPage-schema matar fortfarande Googles AI-system och AI Overviews men ger ingen SERP-display.
+// Denna funktion körs bara i explicit manuellt läge eller om sidan är starkt FAQ-centrerad.
 async function addFaqAeoSection(site, task, claude, bq, dataset) {
   const context = JSON.parse(task.context_data);
   const { post, wpType } = await fetchWpPost(site, context);
@@ -1454,7 +1459,8 @@ Svara i JSON:
 const SAFE_TASK_TYPES = new Set([
   'short_title', 'long_title', 'missing_description', 'missing_h1', 'no_schema', 'thin_content',
   'h2_optimization', 'h3_optimization', 'h2_h3_optimization', 'synonym_gap',
-  'missing_alt_text', 'create_article', 'no_internal_links', 'faq_aeo_section',
+  'missing_alt_text', 'create_article', 'no_internal_links',
+  // faq_aeo_section borttagen 2026-05-15: Google avvecklade FAQ Rich Results, ingen visuell SERP-nytta
   // WooCommerce
   'product_metadata', 'product_description', 'product_images', 'product_schema'
 ]);
@@ -1559,22 +1565,18 @@ async function runActionPlanTask(planTask, site, claude, bq, dataset) {
     params: { pid: planTask.plan_id }
   });
 
-  // Logga i seo_optimization_log
-  await bq.query({
-    query: `INSERT INTO \`${dataset}.seo_optimization_log\`
-            (timestamp, customer_id, site_url, optimization_type, page_url, before_state, after_state, claude_reasoning, impact_estimate)
-            VALUES (CURRENT_TIMESTAMP(), @customer_id, @site_url, @opt_type, @page_url, @before, @after, @reasoning, @impact)`,
-    params: {
-      customer_id: planTask.customer_id,
-      site_url: site.url,
-      opt_type: fakeTask.task_type,
-      page_url: planTask.target_url,
-      before: planTask.task_description || '',
-      after: JSON.stringify(result),
-      reasoning: ('[Plan M' + (planTask.month_number || 1) + '] ' + formatTaskType(fakeTask.task_type) + ': ' + (result.reasoning || result.action || '')).substring(0, 500),
-      impact: String((planTask.priority || 50) / 10)
-    }
-  });
+  // Logga i seo_optimization_log (streaming insert — DML ej tillgängligt i Lambda-kontexten)
+  await bq.dataset(dataset).table('seo_optimization_log').insert([{
+    timestamp: { value: new Date().toISOString() },
+    customer_id: planTask.customer_id,
+    site_url: site.url,
+    optimization_type: fakeTask.task_type,
+    page_url: planTask.target_url,
+    before_state: planTask.task_description || '',
+    after_state: JSON.stringify(result),
+    claude_reasoning: ('[Plan M' + (planTask.month_number || 1) + '] ' + formatTaskType(fakeTask.task_type) + ': ' + (result.reasoning || result.action || '')).substring(0, 500),
+    impact_estimate: String((planTask.priority || 50) / 10)
+  }]);
 
   return result;
 }
@@ -1972,26 +1974,28 @@ exports.handler = async (event) => {
             results.push({ queue_id: task.queue_id, customer_id: site.id, ...result });
             totalProcessed++;
 
-            await bq.query({
-              query: `UPDATE \`${dataset}.seo_work_queue\` SET status = 'completed', processed_at = CURRENT_TIMESTAMP() WHERE queue_id = @qid`,
-              params: { qid: task.queue_id }
-            });
+            // UPDATE via DML — wrappas i try-catch (DML kan misslyckas i sandbox-kontext)
+            try {
+              await bq.query({
+                query: `UPDATE \`${dataset}.seo_work_queue\` SET status = 'completed', processed_at = CURRENT_TIMESTAMP() WHERE queue_id = @qid`,
+                params: { qid: task.queue_id }
+              });
+            } catch (dmlErr) {
+              console.warn(`  [BQ-DML] UPDATE work_queue misslyckades (${dmlErr.message.substring(0, 80)}) — hoppar över, loggar ändå`);
+            }
 
-            await bq.query({
-              query: `INSERT INTO \`${dataset}.seo_optimization_log\`
-                      (timestamp, customer_id, site_url, optimization_type, page_url, before_state, after_state, claude_reasoning, impact_estimate)
-                      VALUES (CURRENT_TIMESTAMP(), @customer_id, @site_url, @opt_type, @page_url, @before, @after, @reasoning, @impact)`,
-              params: {
-                customer_id: task.customer_id,
-                site_url: site.url,
-                opt_type: task.task_type,
-                page_url: task.page_url,
-                before: task.context_data,
-                after: JSON.stringify(result),
-                reasoning: ('[Queue] ' + formatTaskType(task.task_type) + ': ' + (result.reasoning || result.action || '')).substring(0, 500),
-                impact: String((task.priority || 5) / 10) // BUG FIX: priority kan vara null → NaN
-              }
-            });
+            // Streaming insert — DML INSERT INTO fungerar ej i Lambda-kontexten
+            await bq.dataset(dataset).table('seo_optimization_log').insert([{
+              timestamp: { value: new Date().toISOString() },
+              customer_id: task.customer_id,
+              site_url: site.url,
+              optimization_type: task.task_type,
+              page_url: task.page_url,
+              before_state: task.context_data,
+              after_state: JSON.stringify(result),
+              claude_reasoning: ('[Queue] ' + formatTaskType(task.task_type) + ': ' + (result.reasoning || result.action || '')).substring(0, 500),
+              impact_estimate: String((task.priority || 5) / 10)
+            }]);
 
           } catch (err) {
             console.error(`  Fel vid queue-uppgift ${task.queue_id}: ${err.message}`);

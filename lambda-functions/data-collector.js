@@ -137,7 +137,9 @@ async function getBigQuery() {
   fs.writeFileSync(credsPath, credsJson);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = credsPath;
 
-  bq = new BigQuery({ projectId: cachedProjectId, keyFilename: credsPath });
+  bq = new BigQuery({ projectId: 'seo-aouto', keyFilename: credsPath });
+  const _origDsBq = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDsBq(n, { projectId: cachedProjectId, ...o });
   return bq;
 }
 

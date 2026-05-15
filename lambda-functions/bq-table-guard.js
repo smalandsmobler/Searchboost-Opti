@@ -75,7 +75,9 @@ async function snapshotTable(bq, table) {
 
 exports.handler = async () => {
   const credentials = await getBqCredentials();
-  const bq = new BigQuery({ projectId: PROJECT_ID, credentials });
+  const bq = new BigQuery({ projectId: 'seo-aouto', credentials });
+  const _origDsBqg = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDsBqg(n, { projectId: PROJECT_ID, ...o });
   const dataset = bq.dataset(DATASET);
 
   const [tables] = await dataset.getTables();

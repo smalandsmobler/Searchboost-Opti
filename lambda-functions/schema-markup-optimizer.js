@@ -53,7 +53,9 @@ async function getBQ() {
   const credsPath = '/tmp/bq-creds.json';
   fs.writeFileSync(credsPath, creds);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = credsPath;
-  _bq = new BigQuery({ projectId: _projectId, keyFilename: credsPath });
+  _bq = new BigQuery({ projectId: 'seo-aouto', keyFilename: credsPath });
+  const _origDs_bq = _bq.dataset.bind(_bq);
+  _bq.dataset = (n, o = {}) => _origDs_bq(n, { projectId: _projectId, ...o });
   return { bq: _bq, projectId: _projectId, datasetId: _datasetId };
 }
 

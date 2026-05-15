@@ -26,7 +26,7 @@ const SNS_TOPIC = process.env.SNS_TOPIC_ARN
   || 'arn:aws:sns:eu-north-1:176823989073:seo-optimizer-alerts';
 
 const ACTIVE_CUSTOMERS = [
-  'searchboost', 'ilmonte', 'mobelrondellen', 'tobler',
+  'ilmonte', 'mobelrondellen', 'tobler',
   'traficator', 'jelmtech', 'smalandskontorsmobler', 'humanpower',
 ];
 
@@ -151,7 +151,9 @@ exports.handler = async () => {
   // BQ credentials
   const bqCredRaw = await getParam('/seo-mcp/bigquery/credentials', true);
   const bqCred = JSON.parse(bqCredRaw);
-  const bq = new BigQuery({ projectId: PROJECT_ID, credentials: bqCred });
+  const bq = new BigQuery({ projectId: 'seo-aouto', credentials: bqCred });
+  const _origDsCc = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDsCc(n, { projectId: PROJECT_ID, ...o });
 
   // Ensure table exists
   const tableRef = `${PROJECT_ID}.${DATASET}.customer_cred_status`;
@@ -182,8 +184,26 @@ exports.handler = async () => {
   // Check all customers in parallel
   const results = await Promise.all(ACTIVE_CUSTOMERS.map(checkCustomer));
 
-  // Insert to BQ
-  await bq.dataset(DATASET).table('customer_cred_status').insert(results);
+  // Insert to BQ (optional — sandbox-projekt blockerar DML, alert fungerar ändå)
+  try {
+    const rows = results.map((r) => `(
+      TIMESTAMP('${new Date(r.checked_at).toISOString().replace('T', ' ').replace('Z', '')}'),
+      '${r.customer_id}', '${(r.url || '').replace(/'/g, "\\'")}', '${(r.user || '').replace(/'/g, "\\'")}',
+      ${r.auth_ok}, ${r.role ? `'${r.role}'` : 'NULL'},
+      ${!!r.can_edit_posts}, ${!!r.can_publish_posts}, ${!!r.can_manage_options},
+      ${!!r.code_snippets}, ${!!r.rank_math}, ${!!r.woocommerce},
+      ${r.error ? `'${r.error.replace(/'/g, "\\'").slice(0, 500)}'` : 'NULL'}
+    )`).join(',\n');
+    await bq.query({
+      query: `INSERT INTO \`${PROJECT_ID}.${DATASET}.customer_cred_status\`
+        (checked_at, customer_id, url, user, auth_ok, role,
+         can_edit_posts, can_publish_posts, can_manage_options,
+         code_snippets, rank_math, woocommerce, error)
+      VALUES ${rows}`,
+    });
+  } catch (bqErr) {
+    console.warn('BQ insert skipped (sandbox/billing):', bqErr.message);
+  }
 
   // Detect status changes
   const newlyFailed = [];
@@ -212,6 +232,9 @@ exports.handler = async () => {
 
   const ok = results.filter((r) => r.auth_ok).length;
   const fail = results.length - ok;
+  for (const r of results) {
+    if (!r.auth_ok) console.warn(`❌ ${r.customer_id}: ${r.error} (${r.url})`);
+  }
   console.log(`✓ Cred-check klar: ${ok} OK / ${fail} fail`);
   return {
     statusCode: 200,
@@ -219,5 +242,6 @@ exports.handler = async () => {
     ok, fail,
     newly_failed: newlyFailed.map((r) => r.customer_id),
     recovered: recovered.map((r) => r.customer_id),
+    details: results.map((r) => ({ customer_id: r.customer_id, auth_ok: r.auth_ok, error: r.error || null })),
   };
 };

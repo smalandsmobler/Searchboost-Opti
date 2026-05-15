@@ -63,10 +63,9 @@ let bq;
 async function getBQ() {
   if (bq) return bq;
   const creds = await getParam('/seo-mcp/bigquery/credentials');
-  bq = new BigQuery({
-    projectId: PROJECT_ID,
-    credentials: JSON.parse(creds),
-  });
+  bq = new BigQuery({ projectId: 'seo-aouto', credentials: JSON.parse(creds) });
+  const _origDsCt = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDsCt(n, { projectId: PROJECT_ID, ...o });
   return bq;
 }
 

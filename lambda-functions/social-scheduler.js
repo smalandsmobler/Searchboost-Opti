@@ -18,6 +18,7 @@ const { BigQuery } = require('@google-cloud/bigquery');
 const Anthropic = require('@anthropic-ai/sdk');
 const axios = require('axios');
 const fs = require('fs');
+const https = require('https');
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
 const ssm = new SSMClient({ region: REGION });
@@ -51,7 +52,9 @@ async function getBQ() {
   const credsPath = '/tmp/bq-social-scheduler.json';
   fs.writeFileSync(credsPath, creds);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = credsPath;
-  _bq = new BigQuery({ projectId: _projectId, keyFilename: credsPath });
+  _bq = new BigQuery({ projectId: 'seo-aouto', keyFilename: credsPath });
+  const _origDs_bq = _bq.dataset.bind(_bq);
+  _bq.dataset = (n, o = {}) => _origDs_bq(n, { projectId: _projectId, ...o });
   return { bq: _bq, projectId: _projectId, datasetId: _datasetId };
 }
 
@@ -83,6 +86,64 @@ async function getPostingCredentials(customerId, platform) {
   throw new Error(`Okänd plattform: ${platform}`);
 }
 
+// ── Encoding-guard ──
+
+function assertSwedishEncoding(text, context = '') {
+  if (!text || text.length < 80) return;
+  if (/[åäöÅÄÖ]/.test(text)) return;
+  const brokenPatterns = [
+    /\bfor\b/i, /\bnar\b/i, /\bgar\b/i, /\bokad\b/i,
+    /\bfoljande\b/i, /\bmalgrupp\b/i, /\bstorre\b/i, /\bsokord\b/i,
+  ];
+  if (brokenPatterns.some(p => p.test(text))) {
+    throw new Error(
+      `[ENCODING-FEL]${context ? ` (${context})` : ''} Inlägget saknar ÅÄÖ och innehåller ASCII-ersättningar. Publicering avbruten.`
+    );
+  }
+}
+
+// ── LinkedIn bilduppladdning ──
+
+const EC2_BASE = 'https://51.21.116.7';
+const EC2_API_KEY = 'sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78';
+// EC2 kör self-signed cert — inaktivera verifiering för intern trafik
+const internalAgent = new https.Agent({ rejectUnauthorized: false });
+
+async function uploadLinkedInImage(imageBuffer, accessToken, authorUrn) {
+  const registerRes = await axios.post(
+    'https://api.linkedin.com/v2/assets?action=registerUpload',
+    {
+      registerUploadRequest: {
+        recipes: ['urn:li:digitalmediaRecipe:feedshare-image'],
+        owner: authorUrn,
+        serviceRelationships: [{ relationshipType: 'OWNER', identifier: 'urn:li:userGeneratedContent' }],
+      },
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+        'X-Restli-Protocol-Version': '2.0.0',
+      },
+      timeout: 15000,
+    }
+  );
+
+  const value = registerRes.data?.value;
+  const uploadUrl = value?.uploadMechanism?.['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest']?.uploadUrl;
+  const assetUrn = value?.asset;
+  if (!uploadUrl || !assetUrn) throw new Error('LinkedIn: registerUpload returnerade inga URLs');
+
+  await axios.put(uploadUrl, imageBuffer, {
+    headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'image/jpeg' },
+    timeout: 30000,
+    maxBodyLength: Infinity,
+    maxContentLength: Infinity,
+  });
+
+  return assetUrn;
+}
+
 // ── Posting-funktioner ──
 
 async function postToLinkedIn(post, creds) {
@@ -104,14 +165,33 @@ async function postToLinkedIn(post, creds) {
     authorUrn = `urn:li:person:${id}`;
   }
 
+  // Bilduppladdning om image_filename är satt — hämta bytes från EC2
+  let imageAssetUrn = null;
+  if (post.image_filename && post.customer_id) {
+    try {
+      const imgRes = await axios.get(
+        `${EC2_BASE}/api/customer-images/${post.customer_id}/${post.image_filename}`,
+        { headers: { 'X-Api-Key': EC2_API_KEY }, responseType: 'arraybuffer', timeout: 15000, httpsAgent: internalAgent }
+      );
+      imageAssetUrn = await uploadLinkedInImage(Buffer.from(imgRes.data), accessToken, authorUrn);
+    } catch (imgErr) {
+      console.warn(`Lambda bilduppladdning misslyckades (${post.image_filename}):`, imgErr.message);
+    }
+  }
+
+  const shareContent = {
+    shareCommentary: { text: post.full_text },
+    shareMediaCategory: imageAssetUrn ? 'IMAGE' : 'NONE',
+  };
+  if (imageAssetUrn) {
+    shareContent.media = [{ status: 'READY', description: { text: '' }, media: imageAssetUrn, title: { text: '' } }];
+  }
+
   const body = {
     author: authorUrn,
     lifecycleState: 'PUBLISHED',
     specificContent: {
-      'com.linkedin.ugc.ShareContent': {
-        shareCommentary: { text: post.full_text },
-        shareMediaCategory: 'NONE',
-      },
+      'com.linkedin.ugc.ShareContent': shareContent,
     },
     visibility: { 'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC' },
   };
@@ -288,7 +368,7 @@ async function ensureUpcomingPosts(bq, projectId, datasetId) {
   for (let i = 0; i < needed; i++) {
     const { topic, postType } = getNextTopic();
 
-    const systemPrompt = `Du är en expert på digital marknadsföring och SEO i Sverige. Du skriver LinkedIn-inlägg för Searchboost — en SEO-byrå som hjälper svenska företag att synas på Google. Skriv alltid på svenska. Inga emojis.`;
+    const systemPrompt = `Du är en expert på digital marknadsföring och SEO i Sverige. Du skriver LinkedIn-inlägg för Searchboost — en SEO-byrå som hjälper svenska företag att synas på Google. Skriv alltid på svenska. Inga emojis. KRITISKT: Använd alltid svenska tecken — å, ä, ö, Å, Ä, Ö. Ersätt ALDRIG å med a, ä med a, eller ö med o.`;
 
     const postTypeInstructions = {
       tip: `Skriv ett tips-inlägg med 3 konkreta, genomförbara råd. Avsluta med en fråga som uppmuntrar kommentarer.`,
@@ -402,6 +482,7 @@ exports.handler = async (event) => {
     const logId = `${post.post_id} → ${post.platform} (${post.customer_id})`;
     console.log(`  Postar ${logId}`);
     try {
+      assertSwedishEncoding(post.full_text, logId);
       const creds = await getPostingCredentials(post.customer_id, post.platform);
       const result = await publishPost(post, creds);
       await markPosted(bq, projectId, datasetId, post.post_id, result.post_id);

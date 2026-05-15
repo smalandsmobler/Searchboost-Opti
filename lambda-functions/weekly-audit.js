@@ -97,7 +97,10 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset };
 }
 
 /**
@@ -465,16 +468,20 @@ exports.handler = async (event) => {
       console.log(`  ${issues.length} sidor med WP-problem, ${boostedCount} boostade av GSC-signal, ${gscOnlyCount} GSC-only`);
       console.log(`  ${existingRows.length} redan hanterade (URL+task), ${queueItems.length} nya läggs till`);
 
-      // Batch INSERT — bara nya sidor
+      // Batch INSERT — streaming insert (DML ej tillgängligt i Lambda-kontexten)
       if (queueItems.length > 0) {
-        const valueRows = queueItems.map(item => {
-          const esc = (s) => (s || '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
-          return `('${esc(item.queue_id)}', '${esc(item.customer_id)}', '${esc(site.url)}', '${esc(item.task_type)}', '${esc(item.page_url)}', '${esc(item.context_data)}', ${item.priority || 5}, 'pending', CURRENT_TIMESTAMP())`;
-        });
-        await bq.query({
-          query: `INSERT INTO \`${dataset}.seo_work_queue\` (queue_id, customer_id, site_url, task_type, page_url, context_data, priority, status, created_at)
-                  VALUES ${valueRows.join(',\n')}`
-        });
+        const rows = queueItems.map(item => ({
+          queue_id: item.queue_id,
+          customer_id: item.customer_id,
+          site_url: site.url,
+          task_type: item.task_type,
+          page_url: item.page_url,
+          context_data: item.context_data,
+          priority: item.priority || 5,
+          status: 'pending',
+          created_at: { value: new Date().toISOString() }
+        }));
+        await bq.dataset(dataset).table('seo_work_queue').insert(rows);
         console.log(`  Inserted ${queueItems.length} items to work queue`);
       } else {
         console.log(`  Inga nya sidor att lägga till — allt redan hanterat`);
@@ -484,7 +491,7 @@ exports.handler = async (event) => {
       const articleExists = existingRows.some(r => r.task_type === 'create_article');
       if (!articleExists) {
         const articleQueueId = `q-${Date.now()}-article-${Math.random().toString(36).slice(2, 8)}`;
-        const articleItem = {
+        await bq.dataset(dataset).table('seo_work_queue').insert([{
           queue_id: articleQueueId,
           customer_id: site.id,
           site_url: site.url,
@@ -492,13 +499,9 @@ exports.handler = async (event) => {
           page_url: site.url,
           context_data: JSON.stringify({ type: 'auto_article', customer_id: site.id }),
           priority: 3,
-          status: 'pending'
-        };
-        const esc = (s) => (s || '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
-        await bq.query({
-          query: `INSERT INTO \`${dataset}.seo_work_queue\` (queue_id, customer_id, site_url, task_type, page_url, context_data, priority, status, created_at)
-                  VALUES ('${esc(articleItem.queue_id)}', '${esc(articleItem.customer_id)}', '${esc(articleItem.site_url)}', '${esc(articleItem.task_type)}', '${esc(articleItem.page_url)}', '${esc(articleItem.context_data)}', ${articleItem.priority}, 'pending', CURRENT_TIMESTAMP())`
-        });
+          status: 'pending',
+          created_at: { value: new Date().toISOString() }
+        }]);
         console.log(`  Artikelgenerering köad för ${site.id}`);
       }
 
