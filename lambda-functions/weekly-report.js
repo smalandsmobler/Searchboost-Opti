@@ -647,7 +647,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
 }
 
 // ── Intern sammanfattning (Mikaels mail) ──
-function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics) {
+function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics, introMessage) {
   const totalOpts = optimizations.length;
   const totalCards = trelloCards.length;
 
@@ -804,6 +804,8 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
         </td>
       </tr>
     </table>
+
+    ${introMessage ? `<div style="margin:0 0 20px;padding:12px 16px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px;font-size:13px;color:#555">${escapeHtml(introMessage)}</div>` : ''}
 
     ${buildUpsellOpportunities(groups, allMetrics)}
 
@@ -1031,7 +1033,22 @@ function formatOptType(type) {
     'bulk_seo': 'Bulk-SEO-optimering',
     'meta_title': 'Optimerade sidtiteln',
     'meta_desc': 'Skrev meta-beskrivning',
-    'missing_description': 'Lade till meta-beskrivning'
+    'missing_description': 'Lade till meta-beskrivning',
+    'Mobiloptimering': 'Mobiloptimering & responsiv design',
+    'mobiloptimering': 'Mobiloptimering & responsiv design',
+    'mobile': 'Mobiloptimering & responsiv design',
+    'mobile_fix': 'Mobiloptimering & responsiv design',
+    'QA/Verifiering': 'QA & Verifiering',
+    'qa_verifiering': 'QA & Verifiering',
+    'qa': 'QA & Verifiering',
+    'verification': 'QA & Verifiering',
+    'design_fix': 'Design & layoutfix',
+    'layout_fix': 'Design & layoutfix',
+    'css_fix': 'CSS/designfix',
+    'react_deploy': 'Frontend-deploy',
+    'deployment': 'Deployment',
+    'wordpress_snippet': 'WordPress-anpassning',
+    'snippet_fix': 'WordPress-anpassning'
   };
 
   const mapped = types[type];
@@ -1070,7 +1087,13 @@ exports.handler = async (event) => {
 
   // Tillåt force=true för att köra om en redan skickad rapport (t.ex. vid test)
   const force = event && event.force === true;
-  const introMessage = (event && event.intro_message) ? event.intro_message : null;
+  // Denna vecka: extra introtext eftersom vi uppdaterat optimizern till 2026 års standard
+  // (Googles rich snippet-uppdatering 7 maj + AI Overviews/ChatGPT/Claude/Gemini-läsbarhet).
+  // Sätt event.intro_message='' för att stänga av, eller skicka egen text för att skriva över.
+  const DEFAULT_INTRO_2026 = 'Denna vecka blev det ovanligt många optimeringar — vi har uppdaterat vårt system till 2026 års senaste standard för att optimera mot både Google och AI-appar/LLMs (AI Overviews, ChatGPT, Claude, Gemini). Alla dina sidor har fått förbättrade titlar, beskrivningar och strukturerad data så att både Googles sökresultat och AI-tjänster kan läsa och citera din sajt korrekt. Detta är ett svar på Googles rich snippet-uppdatering 7 maj 2026 och den växande andelen sökningar som sker via AI istället för klassisk Google-sökning.';
+  const introMessage = (event && typeof event.intro_message === 'string')
+    ? (event.intro_message || null)
+    : DEFAULT_INTRO_2026;
 
   try {
     const { bq, dataset } = await getBigQuery();
@@ -1202,7 +1225,7 @@ exports.handler = async (event) => {
     }
 
     // ── 2. Intern sammanfattning till Mikael ──
-    const internalHtml = buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics);
+    const internalHtml = buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics, introMessage);
 
     await transporter.sendMail({
       from: `"Searchboost Opti" <${emailFrom}>`,
