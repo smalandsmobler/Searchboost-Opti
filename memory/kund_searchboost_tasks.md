@@ -9,17 +9,17 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-15):_
+_Ingen data — Blockerad (2026-05-16):_
 - _EC2-API: SSL-fel (self-signed cert) — nås ej från remote environment. Kontrollera om PM2/Nginx är uppe._
-- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED_
+- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (2 dagar i rad)_
 
-**Åtgärd (välj ett):**
-1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-15):**
-   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/V1J0KKmRVMNEGmFAtKcHIExQYRFhlmsSafYtLXP9QBrsadKPek`
+**Åtgärd — BRÅDSKANDE (2 missade checks):**
+1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-16):**
+   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/vdcgCoUXoDw1TJ2af88pKN5gXxnxpr_EVsk4etypy2LErgFdyX`
 2. SSH in och verifiera: `pm2 status` + `pm2 restart seo-mcp` om nere.
 3. Åtgärda SSL: ersätt self-signed cert med Let's Encrypt (`certbot --nginx -d din-domän.se`).
 
-_Senaste check: 2026-05-15 — 0 kunder checkbara (2 blockerare kvar)_
+_Senaste check: 2026-05-16 — 0 kunder checkbara (2 blockerare kvar, 2 dagar i rad)_
 
 ## Publicerade artiklar
 
