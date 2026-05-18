@@ -8,6 +8,20 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "SEO-skola — Lär dig sökmotoroptimering | Searchboost",
   description: "Gratis SEO-guider på svenska. Lär dig teknisk SEO, nyckelordsforskning, länkbygge och allt annat du behöver för att ranka högre på Google.",
+  alternates: { canonical: "https://searchboost.se/seo-skola" },
+  openGraph: {
+    title: "SEO-skola — Gratis SEO-guider på svenska | Searchboost",
+    description: "Teknisk SEO, nyckelordsforskning, länkbygge och lokal SEO. Uppdaterade guider 2026.",
+    url: "https://searchboost.se/seo-skola",
+    siteName: "Searchboost",
+    locale: "sv_SE",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SEO-skola — Gratis SEO-guider | Searchboost",
+    description: "Lär dig sökmotoroptimering gratis. Teknisk SEO, nyckelord, länkbygge och mer.",
+  },
 };
 
 const CATEGORY_ORDER = ["Grunderna", "Strategi", "Teknisk", "On-page", "Innehåll", "Off-page", "Lokal", "Verktyg"];

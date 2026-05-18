@@ -9,12 +9,12 @@ import {
 } from "@/lib/articles";
 
 export const metadata: Metadata = {
-  title: "Ledare — Affärsboost",
+  title: "Artiklar — Strategi och insikter för företagare | Affärsboost",
   description:
-    "Ledartexter och insikter för dig som driver eget och vill tänka tydligare om ditt företag.",
+    "Ledartexter och djupanalyser om prissättning, tillväxt, AI i företaget och livet som egenföretagare. Skrivet av Linnéa och Maja.",
   alternates: { canonical: "https://affarsboost.se/artiklar" },
   openGraph: {
-    title: "Ledare — Affärsboost",
+    title: "Artiklar — Insikter för företagare | Affärsboost",
     description:
       "Ledartexter om prissättning, tillväxt, AI och vardagen som företagare.",
     url: "https://affarsboost.se/artiklar",

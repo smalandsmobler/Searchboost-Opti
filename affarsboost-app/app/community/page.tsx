@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import CommunityChat from "@/components/CommunityChat";
+import { verifySession, SESSION_COOKIE } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "Community & AI-rådgivare — Affärsboost",
-  description: "Chatta med Linnéa — Affärsboosts AI-rådgivare — dygnet runt. Ställ frågor om skatt, startbidrag, avtal och tillväxt.",
+  title: "1-1 Chat med Linnéa — Affärsboost",
+  description: "Chatta direkt med Linnéa. Öppen måndag–fredag 8–17 (lunch 12–13). Ställ frågor om skatt, startbidrag, avtal och tillväxt.",
+  robots: { index: false, follow: false },
 };
 
-export default function CommunityPage() {
+export default async function CommunityPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(SESSION_COOKIE)?.value;
+  const session = token ? verifySession(token) : null;
+  if (!session) redirect("/login");
   return (
     <main className="min-h-screen bg-navy-50">
       {/* Header-bar */}
@@ -24,34 +32,35 @@ export default function CommunityPage() {
         <div className="mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-semibold mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
-            AI-community · Öppet 24/7
+            1-1 Chat · Öppen 8–17
           </div>
           <h1 className="font-display text-4xl font-bold text-navy-900 mb-2">
             Chatta med Linnéa
           </h1>
           <p className="text-ink-600 text-lg max-w-2xl">
-            Linnéa är en AI-affärsrådgivare som svarar på frågor om skatt, avdrag, startbidrag, avtal och tillväxt.
-            Communityt är öppet 24/7 — Linnéa är aktiv och svarar direkt måndag–fredag 08–12 och 13–17.
+            Linnéa svarar på frågor om skatt, avdrag, startbidrag, avtal och tillväxt.
+            Öppen måndag–fredag 8–17, lunch 12–13.
           </p>
         </div>
 
-        {/* Bannern: "Det här är AI" */}
+        {/* Info-banner */}
         <div className="bg-navy-800 text-white rounded-2xl px-6 py-4 mb-8 flex items-start gap-4">
-          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5 text-emerald-400">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714a2.25 2.25 0 001.357 2.059l.15.065A3 3 0 0020.25 14.5v1.5" />
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center mt-0.5 text-emerald-400">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 7v5l3 2" />
             </svg>
           </div>
           <div>
-            <p className="font-semibold text-white text-sm mb-0.5">Linnéa är en AI-assistent</p>
+            <p className="font-semibold text-white text-sm mb-0.5">Öppettider: måndag–fredag 8–17 (lunch 12–13)</p>
             <p className="text-navy-200 text-sm">
-              Linnéa drivs av generativ AI och är alltid öppen om det. Råd om skatt och juridik ersätter inte en revisor eller advokat — men det är ett bra ställe att börja.
+              Meddelanden utanför öppettider sparas och besvaras nästa vardag. Råd om skatt och juridik ersätter inte en revisor eller advokat — men det är ett bra ställe att börja.
             </p>
           </div>
         </div>
 
         {/* Chatten */}
-        <CommunityChat />
+        <CommunityChat prefillName={session.nickname ?? session.email.split("@")[0]} prefillTier={session.tier} />
 
         {/* Under chatten */}
         <div className="mt-8 grid md:grid-cols-3 gap-4">
@@ -91,7 +100,7 @@ export default function CommunityPage() {
           <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-5">
             <p className="font-display font-bold text-navy-900 mb-1 text-sm">Bli medlem</p>
             <p className="text-ink-600 text-sm mt-2 mb-4">
-              Som Affärsboost-medlem får du obegränsad AI-coach, mallbibliotek och veckonyhetsbrev. 299 kr/mån.
+              Som Affärsboost-medlem får du obegränsad 1-1 Chat, mallbibliotek och veckonyhetsbrev. 299 kr/mån.
             </p>
             <a href="/#pris" className="btn-primary text-sm justify-center w-full">
               Läs mer →
