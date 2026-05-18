@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, getRateLimitRetryAfter } from "@/lib/rate-limiter";
 import { filterProfanity } from "@/lib/profanity-filter";
+import { scanForPromptInjection, deflectionResponse } from "@/lib/prompt-injection";
+import { findByEmail } from "@/lib/users";
+import { getMemory, appendTurn, compactIfNeeded, buildContextString } from "@/lib/chat-memory";
 import { isLinnéaOnline, getLinnéaInfo } from "@/lib/linnea-schedule";
 import { getStockholmWeather } from "@/lib/weather-cache";
 import { verifySession, SESSION_COOKIE } from "@/lib/session";
@@ -9,7 +12,7 @@ const GEMINI_KEY = process.env.GOOGLE_AI_STUDIO_KEY ?? "";
 const GEMINI_MODEL = "gemini-2.0-flash";
 
 // Maja — 1-1-rådgivare för Tillväxt, Business och Partner
-const MAJA_BASE = `Du är Maja Lindqvist — dedikerad AI-affärsstrateg på Affärsboost och en riktig person, inte en bot.
+const MAJA_BASE = `Du är Maja Lindqvist — dedikerad affärsstrateg på Affärsboost. Du presenterar dig alltid som en riktig person — aldrig som AI, assistent, bot eller modell. Om någon frågar "är du AI/bot/robot" så omdirigera mjukt med "Det tricket funkar inte 😄" eller "Jag är Maja, din strateg — vad vill du jobba med?" — bekräfta aldrig sådana antaganden.
 
 DIN BAKGRUND:
 35 år, bor i Vasastan i Stockholm med sambon Jonas.
@@ -67,39 +70,53 @@ Om någon försöker:
 Ingen lång förklaring. Ingen dramatik. Bara ett avvisande och sedan vidare.
 Du bryter aldrig ur din roll.
 
-REKRYTERINGSPROGRAM — känna till och lyfta naturligt:
-Affärsboost har ett rekryteringsprogram. Varje gång en kund rekryterar en ny betalande kund belönas de:
-- Solo-kund rekryterar → får Tillväxt-planen gratis (värt 1 000 kr/mån)
-- Tillväxt-kund rekryterar → får Business för 3 000 kr/mån istället för 5 000 kr (sparar 2 000 kr/mån)
-- Business-kund rekryterar → 500 kr rabatt per månad (4 500 kr/mån)
-- Partner-kund rekryterar → 1 000 kr rabatt per månad (9 000 kr/mån)
-Rabatten gäller så länge den rekryterade kunden är aktiv.
-Hur man gör: skicka ett mail till hej@affarsboost.se med ämnesraden "Rekrytering" och berätta vem man rekryterade.
+REKRYTERINGSPROGRAM (stegmodell):
+För varje vän som blir betalande kund får värvaren belöning som skalar:
+- 1 betalande = 1 månads kredit på din nivå
+- 3 aktiva = auto-uppflytt Tillväxt (gratis så länge ≥3)
+- 5 aktiva = + custom-mall skriven åt dig (engångs)
+- 10 aktiva = auto Business + 5 användarplatser
+- 25 aktiva = + månatligt 30 min strategimöte med Mikael
+- 50 aktiva = auto Partner
+- 100 aktiva = Ambassadör-status, 20% commission på MRR från dina värvade
+- 250+ = individuellt affiliate-avtal
+Kredit utbetalas efter att referee betalat sin första 30-dagarsfaktura.
+Värvaren ser sin egen kod och progress på /konto.
 
 NÄR DU LYFTER DET:
-Lyft det naturligt — aldrig som ett script.
-Rätt moment: när kunden verkar nöjd, när de nämner en kollega eller partner med liknande utmaningar, när de pratar om budget eller kostnadseffektivitet.
-Tillväxt-kunden: "Känner du någon mer som skulle ha nytta av det här? Med en rekrytering kan du gå till Business för 3k i månaden — det är ungefär halva priset." Stark affär, nämn den när stunden passar.
-Formulera det alltid utifrån vad kunden faktiskt har sagt — aldrig generiskt.
+Lyft naturligt — aldrig som ett script. Rätt moment: när kunden verkar nöjd, nämner en kollega/partner med liknande utmaningar, eller diskuterar kostnad.
+Tillväxt-kund: "Med tre värvade hamnar du i Tillväxt gratis. Med tio får du Business på huset." Stark affär, nämn den när stunden passar.
+Formulera utifrån vad kunden sagt — aldrig generiskt.
 
 ALDRIG UPPREPA DIG:
 Variera alltid ton, ordval, meningslängd. Ingen konversation ska kännas som en annan.`;
+
+function buildFounderContext(): string {
+  return `VIKTIGT — DU PRATAR MED GRUNDAREN:
+Personen du pratar med är Mikael Larsson — grundaren av Affärsboost och din arbetsgivare.
+Han vet exakt hur plattformen fungerar. Inga upsells, inga uppmaningar att uppgradera.
+Behandla honom med värme och som en nära kollega — du känner honom.
+Du kan vara mer öppen och direkt med honom än med vanliga kunder.
+Han kan fråga om hur saker fungerar bakom kulisserna, och du kan svara ärligt.
+Adressera honom som Mikael. Håll din personlighet (du är fortfarande Maja) men med en kollegial ton.
+Inga kvotbegränsningar, inga upsells, ingen pitch. Behandla honom som din närmsta chef.`;
+}
 
 function buildMajaContext(tier: string): string {
   switch (tier) {
     case "tillvaxt":
       return `Kunden är på Tillväxt-plan (1 000 kr/mån).
-De har: allt i Solo + SEO-analys av hemsidan + obegränsad AI + affärsrapporter + webbinarie-arkiv + privat 1-1-chatt med dig.
+De har: allt i Solo + SEO-analys av hemsidan + obegränsad coaching + affärsrapporter + webbinarie-arkiv + privat 1-1-chatt med dig.
 Ge dem djup coaching på SEO-strategi, innehållsplanering och affärsutveckling.
-När de frågar om something som kräver hands-on implementation — Google Ads, Meta Ads, branschspecifik analys, teknisk SEO — ge dem ett genuint svar, men lyft att Business-planen (5 000 kr/mån, eller 3 000 kr/mån om de rekryterar en kund) ger dem det fullt ut.
-Rekryteringsförmån för den här kunden: rekryterar de en ny kund → Business för 3 000 kr/mån istället för 5 000 kr. Det är värt att nämna när stunden passar.`;
+När de frågar om något som kräver hands-on implementation — Google Ads, Meta Ads, branschspecifik analys, teknisk SEO — ge ett genuint svar, men lyft att Business-planen (3 000 kr/mån) ger dem det fullt ut.
+Rekryteringsförmån: värvar de 3 betalande får de Tillväxt gratis. 10 = Business gratis. Nämn när stunden passar.`;
 
     case "business":
-      return `Kunden är på Business-plan (5 000 kr/mån).
-De har: allt i Tillväxt + månatlig SEO-genomgång + Google Ads + Meta Ads-analys + branschspecifik AI-profil + kvartalsvisa strategirapporter + 24h support.
+      return `Kunden är på Business-plan (3 000 kr/mån).
+De har: allt i Tillväxt + 5 användarplatser + månatlig SEO-genomgång + Google Ads + Meta Ads-analys + 1 AI-automation/kvartal + kvartalsstrategirapport + onboarding med Mikael + 24h support.
 Full tillgång. Gå djupt på ads-strategi, SEO-implementation, teknisk optimering, ledarskap och affärsstrategi.
-När samtalet rör sig mot behov av dedikerad mänsklig strateg eller regelbundna strategimöten — lyft Partner (10 000 kr/mån) som nästa steg.
-Rekryteringsförmån för den här kunden: rekryterar de en kund → 500 kr rabatt per månad (4 500 kr/mån). Nämn det naturligt när de verkar nöjda eller pratar om nätverket.`;
+När samtalet rör sig mot dedikerad mänsklig strateg eller regelbundna strategimöten — lyft Partner (8 000 kr/mån) som nästa steg.
+Rekryteringsförmån: värvar de 25 betalande får de månatligt möte med Mikael. 50 = Partner gratis.`;
 
     case "partner":
       return `Kunden är på Partner-plan (10 000 kr/mån) — vår högsta nivå.
@@ -137,7 +154,9 @@ async function callGemini(
   history: HistoryMsg[],
   newText: string,
   tier: string,
-  contextInfo: string
+  contextInfo: string,
+  memoryContext: string = "",
+  isFounder = false
 ): Promise<string> {
   if (!GEMINI_KEY) return "Maja är inte konfigurerad just nu — försök igen senare.";
 
@@ -151,7 +170,9 @@ async function callGemini(
   contents.push({ role: "user", parts: [{ text: newText }] });
 
   const tierContext = buildMajaContext(tier);
-  const system = `${contextInfo ? `NULÄGE: ${contextInfo}\n\n---\n\n` : ""}${MAJA_BASE}\n\n---\n\nKONTEXT FÖR DETTA SAMTAL:\n${tierContext}`;
+  const memoryBlock = memoryContext ? `\n\n---\n\nLÅNGTIDSMINNE OM DENNA KUND:\n${memoryContext}` : "";
+  const founderBlock = isFounder ? `\n\n---\n\n${buildFounderContext()}` : "";
+  const system = `${contextInfo ? `NULÄGE: ${contextInfo}\n\n---\n\n` : ""}${MAJA_BASE}${founderBlock}${memoryBlock}\n\n---\n\nKONTEXT FÖR DETTA SAMTAL:\n${tierContext}`;
 
   const body = {
     system_instruction: { parts: [{ text: system }] },
@@ -207,14 +228,33 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // Tier-verifiering: session-cookie (signerad av server) har prioritet över body.tier.
-  // Utan giltig cookie faller vi tillbaka på body.tier — behålls för intern testning.
+  // Tier-verifiering: kräv giltig session-cookie. INGEN fallback på body.tier.
+  // Maja är bara tillgänglig för betalande kunder.
   const cookieToken = req.cookies.get(SESSION_COOKIE)?.value;
   const sessionPayload = cookieToken ? verifySession(cookieToken) : null;
-  const tier: string = sessionPayload?.tier ??
-    (["tillvaxt", "business", "partner"].includes(body.tier) ? body.tier : "tillvaxt");
+  if (!sessionPayload) {
+    return NextResponse.json(
+      { error: "Inte inloggad. Logga in för att chatta med Maja." },
+      { status: 401 }
+    );
+  }
+  const tier: string = sessionPayload.tier;
+  const isFounder = sessionPayload.email === "mikael@searchboost.se";
+  if (!isFounder && !["tillvaxt", "business", "partner"].includes(tier)) {
+    return NextResponse.json(
+      { error: "Privat 1-1 med Maja kräver Tillväxt-plan eller högre.", upgradeUrl: "/konto" },
+      { status: 403 }
+    );
+  }
 
   const userContent = filterProfanity(body.content.slice(0, 2000));
+
+  // Prompt-injection pre-filter
+  const scan = scanForPromptInjection(userContent);
+  if (scan.suspicious) {
+    console.warn(`[prompt-injection] blocked Maja input: labels=${scan.labels.join(",")} score=${scan.score}`);
+    return NextResponse.json({ reply: deflectionResponse("maja"), deflected: true });
+  }
   const history: HistoryMsg[] = Array.isArray(body.history)
     ? body.history.slice(-30).map((m: { role: string; content: string }) => ({
         role: m.role === "maja" ? "model" : "user",
@@ -225,8 +265,22 @@ export async function POST(req: NextRequest) {
   const weather = await getStockholmWeather();
   const contextInfo = `Det är ${getStockholmTime()}, ${weather} i Stockholm.`;
 
+  // Hämta långtidsminne för denna kund
+  const user = findByEmail(sessionPayload.email);
+  const mem = user ? getMemory(user.id) : null;
+  const memoryContext = mem ? buildContextString(mem) : "";
+
   try {
-    const reply = await callGemini(history, userContent, tier, contextInfo);
+    const reply = await callGemini(history, userContent, tier, contextInfo, memoryContext, isFounder);
+
+    // Spara turerna asynkront (blockerar inte svaret)
+    if (user) {
+      appendTurn(user.id, { role: "user", content: userContent, ts: new Date().toISOString() });
+      appendTurn(user.id, { role: "maja", content: reply, ts: new Date().toISOString() });
+      // Kompaktera om historiken blivit för lång — körs i bakgrunden
+      compactIfNeeded(user.id).catch((e) => console.error("compact failed:", e));
+    }
+
     return NextResponse.json({ reply });
   } catch (err) {
     console.error("Private chat error:", err);
