@@ -19,6 +19,7 @@ Senaste check: 2026-05-16
 |-------|-------|-----|
 | 2026-04-29 | Fåtölj guide 2026 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
 | 2026-05-08 | Bästa soffan 2026 — guide för dig som vill ha kvalitet och hållbarhet | ⏳ Kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 |
+| 2026-05-18 | Utemöbler 2026: Vad håller i Dalarnas klimat? | ⏳ Kör `node scripts/publish-mobelrondellen-utemoebler-2026.js` från EC2 |
 
 ## Utfört arbete (historik)
 - Plugin-cleanup: 325 → 7 plugins
@@ -31,8 +32,9 @@ Senaste check: 2026-05-16
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
 | **DEPLOY soffa-guide** (klar sedan 08/05): kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **BRÅDSKANDE** | BHG-gruppen (Furniturebox/Trademax) implementerade AI-produktoptimering 12/05 — vi måste ha rådgivande content live |
+| **DEPLOY utemöbler-guide** (klar 18/05): kör `node scripts/publish-mobelrondellen-utemoebler-2026.js` från EC2 | **HÖG** | Ny artikel — 1 085 ord, fokus "utemöbler Dalarna", 3 internlänkar, 3 FAQ |
 | Implementera 9 internlänkar via WP-admin (guide i denna fil) | **HÖG** | Inga konkurrenter har internlänkstruktur |
-| Skriv: "Utemöbler 2026: Vad håller i Dalarnas klimat?" — Mora-specifik säsongsguide | **HÖG** | Trademax kör utomhus men inget lokalt, timing rätt i maj |
+| ~~Skriv: "Utemöbler 2026: Vad håller i Dalarnas klimat?"~~ | ~~HÖG~~ | ✅ Klar 2026-05-18 — kör publish-script från EC2 |
 | Komplettera fåtölj-guiden + soffa-guiden med FAQ-schema | Medel | Ingen konkurrent har schema på köpguider |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
