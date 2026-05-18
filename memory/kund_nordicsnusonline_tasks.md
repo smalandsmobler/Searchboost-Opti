@@ -7,7 +7,8 @@
 
 _Ingen GSC-data: Ej aktiv kund i systemet. Regressionscheck ej möjlig._
 
-Senaste check: 2026-05-16
+Inga regressioner 2026-05-18 (ej aktiv kund)
+Senaste check: 2026-05-18
 
 ## Status
 - Inte registrerad i BigQuery/customer_pipeline

@@ -9,17 +9,32 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-16):_
-- _EC2-API: SSL-fel (self-signed cert) — nås ej från remote environment. Kontrollera om PM2/Nginx är uppe._
-- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (2 dagar i rad)_
+### Veckosammanfattning 2026-05-18 (måndag v20)
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
 
-**Åtgärd — BRÅDSKANDE (2 missade checks):**
-1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-16):**
-   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/vdcgCoUXoDw1TJ2af88pKN5gXxnxpr_EVsk4etypy2LErgFdyX`
-2. SSH in och verifiera: `pm2 status` + `pm2 restart seo-mcp` om nere.
-3. Åtgärda SSL: ersätt self-signed cert med Let's Encrypt (`certbot --nginx -d din-domän.se`).
+| Kund | GSC-status | Keywords topp 20 | Regressioner |
+|------|-----------|-----------------|-------------|
+| searchboost | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| mobelrondellen | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| smalandskontorsmobler | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| jelmtech | ⛔ Ej kopplad | — | N/A |
+| ilmonte | ⛔ Ej ägare | — | N/A |
+| humanpower | ⛔ Ej aktiv | — | N/A |
+| nordicsnusonline | ⛔ Ej aktiv | — | N/A |
+| tobler | ⛔ Ej konfigurerad | — | N/A |
+| traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Senaste check: 2026-05-16 — 0 kunder checkbara (2 blockerare kvar, 2 dagar i rad)_
+_Ingen data — Blockerad (2026-05-18, **3 körningar i rad** — 14/16/18 maj):_
+- _EC2-API: HTTP 503 — Envoy-proxy i remote environment blockar self-signed TLS (EC2/PM2 är troligen uppe, men nås ej externt härifrån)_
+- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (4 dagar i rad — sedan 2026-05-14)_
+
+**Åtgärd — ESKALERING KRÄVS (3 missade checks):**
+1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-18):**
+   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/NuDSCSpYrw9CK1tZHY4RZQBF6l3cpGSb9JKvqSSE3Wv90cp4SS`
+2. Permanent fix EC2 SSL: `sudo certbot --nginx` (Let's Encrypt) eller lägg till offentlig domän i Nginx.
+3. Alternativ: Aktivera public BigQuery-endpoint utan EC2-beroende (direkt BigQuery API från remote).
+
+_Senaste check: 2026-05-18 — 0 kunder checkbara (3 körningar i rad, åtgärd brådskande)_
 
 ## Publicerade artiklar
 

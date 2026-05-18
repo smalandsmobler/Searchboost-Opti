@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-16):_
-- _EC2-API: SSL-fel (self-signed cert), nås ej från remote environment_
-- _Supermetrics GSC (GW): NOT\_AUTHENTICATED (2 dagar i rad) — ny länk i kund\_searchboost\_tasks.md (2026-05-16)_
+_Ingen data — Blockerad (2026-05-18, **3 körningar i rad**):_
+- _EC2-API: HTTP 503 (Envoy-proxy blockar self-signed TLS)_
+- _Supermetrics GSC (GW): NOT\_AUTHENTICATED (4 dagar i rad)_
 
-**Åtgärd:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-16).
+**Åtgärd:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-18) + eskaleringsplan.
 
-Senaste check: 2026-05-16
+Senaste check: 2026-05-18
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
