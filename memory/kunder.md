@@ -45,7 +45,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 |-----------------|---------------------------------------|------------|-----|
 | jelmtech        | PP-plast formsprutning (⚠ ej deployad) | 2026-05-15 | Kör scripts/publish-jelmtech-pp-plast.js från EC2 |
 | ilmonte         | Hyra eller köpa scenpodium? (⚠ ej deployad) | 2026-05-06 | Kör scripts/publish-ilmonte-hyra-kopa-scenpodium.js från EC2 |
-| mobelrondellen  | Bästa soffan 2026 (⚠ ej deployad)    | 2026-05-08 | Kör scripts/publish-mobelrondellen-soffa-2026.js från EC2 |
+| mobelrondellen  | Utemöbler 2026: Vad håller i Dalarnas klimat? (⚠ ej deployad) | 2026-05-18 | Kör scripts/publish-mobelrondellen-utemoebler-2026.js från EC2 |
 | tobler          | Ställningsnät — krav och typer (⚠ ej deployad) | 2026-05-11 | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
 | searchboost     | AI Overviews och GEO 2026 (⚠ ej deployad) | 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2 |
