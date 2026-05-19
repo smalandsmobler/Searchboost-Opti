@@ -25,17 +25,17 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-18, **3 körningar i rad** — 14/16/18 maj):_
+_Ingen data — Blockerad (2026-05-19, **4 körningar i rad** — 14/16/18/19 maj):_
 - _EC2-API: HTTP 503 — Envoy-proxy i remote environment blockar self-signed TLS (EC2/PM2 är troligen uppe, men nås ej externt härifrån)_
-- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (4 dagar i rad — sedan 2026-05-14)_
+- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (5 dagar i rad — sedan 2026-05-14)_
 
-**Åtgärd — ESKALERING KRÄVS (3 missade checks):**
-1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-18):**
-   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/NuDSCSpYrw9CK1tZHY4RZQBF6l3cpGSb9JKvqSSE3Wv90cp4SS`
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (4 missade checks i rad):**
+1. **Mikael loggar in på Supermetrics GSC (NY länk 2026-05-19):**
+   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/ghNyHkLNYmI8BSYwMow0BxVoSz_cEv85SXBViklfq8eqSjoGdr`
 2. Permanent fix EC2 SSL: `sudo certbot --nginx` (Let's Encrypt) eller lägg till offentlig domän i Nginx.
 3. Alternativ: Aktivera public BigQuery-endpoint utan EC2-beroende (direkt BigQuery API från remote).
 
-_Senaste check: 2026-05-18 — 0 kunder checkbara (3 körningar i rad, åtgärd brådskande)_
+_Senaste check: 2026-05-19 — 0 kunder checkbara (4 körningar i rad, åtgärd AKUT)_
 
 ## Publicerade artiklar
 
