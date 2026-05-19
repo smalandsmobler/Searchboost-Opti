@@ -70,6 +70,12 @@ _Senaste check: 2026-05-19 — 0 kunder checkbara (4 körningar i rad, åtgärd 
 |-------|---------|------|-----|
 | 2026-05-05 | Redovisning | Jönköping | [content-pages/prospects/2026-05-05-redovisning-jonkoping.md](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md) |
 | 2026-05-12 | Fastighetsmäklare | Lund | [content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md) |
+| 2026-05-19 | Tandläkare | Stockholm | [content-pages/prospects/2026-05-19-tandläkare-stockholm.md](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md) |
+
+**Top 3 att kontakta (vecka 21 — tandläkare Stockholm):**
+1. jtingstam.se — 08-660 22 23 / info@jtingstam.se — Jenny Tingstam (solopraktiker, ej mobilanpassad, score 2/10)
+2. gabriellastandvard.se — 08-660 51 56 / info@gabriellastandvard.se — Gabriella Engberg (ägare namngiven, saknar H1, score 2/10)
+3. ostermalmtandvard.com — 08-414 001 09 / infotanden@gmail.com — Bryar (Gmail-adress = DIY-operatör, score 3/10)
 
 **Top 3 att kontakta (vecka 19):**
 1. redorev.se — kontaktformulär (score 2/10, allra sämst SEO)
