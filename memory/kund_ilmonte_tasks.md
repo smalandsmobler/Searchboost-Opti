@@ -1,7 +1,7 @@
 # ilmonte — Tasks & Status
 
 > Kund: ilmonte.se | GSC: Ej ägare | WP-creds: OK
-> Senast uppdaterad: 2026-05-06
+> Senast uppdaterad: 2026-05-20
 
 ## Regressionsvarningar
 
@@ -35,14 +35,24 @@ node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
 - Kategori: Blogg (ID 1068)
 - ~950 ord, 5 H2:or, 3 FAQ-frågor, 3 interna länkar
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: Artikel "Hyra eller köpa scenpodium?" (klar, se ovan) | **BRÅDSKANDE** | Kör publish-script från EC2 |
-| Skriv köpguide: "Köpa scenpodium 2026 — storlekar, material och priser" | **HÖG** | Alla konkurrenter (Evivent, Eventpatrullen) täcker hyra-intention — ingen täcker köp-intention |
-| Lägg till Product schema på alla scenpodium-produktsidor | **HÖG** | Inga konkurrenter har Product schema — stor SEO-möjlighet |
-| Lägg till FAQ-schema på scenpodium-kategorisida (höjder, material, storlekar) | Medel | Inga konkurrenter har FAQ schema |
+| **DEPLOY**: "Hyra eller köpa scenpodium?" (klar sedan 06/05 — 14 dagar!): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` | **BRÅDSKANDE** | Scenkonsult publicerade hyra-guide 2026 — vi måste möta köp-intention nu |
+| **Skriv**: "Köpa scenpodium 2026 — storlekar, material och priser" (~1200 ord) | **HÖG** | Scenkonsult/Evivent/Eventkraft täcker BARA hyra — köp-intentionen är helt fri |
+| Product schema på de 5 mest sålda produktsidorna | **HÖG** | Ingen konkurrent (Scenkonsult, Evivent, Eventkraft) har Product schema |
+| FAQ-schema på /produkt-kategori/podier/ | Medel | Ingen konkurrent har FAQ schema |
+| Geografisk guide: "Scenpodium för utomhusevenemang — vad ska du tänka på?" | Medel | Scenkonsult = Stockholm only, Evivent = Staffanstorp only |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| ~~DEPLOY: Artikel "Hyra eller köpa scenpodium?"~~ | ~~BRÅDSKANDE~~ | Kvar — ej utförd |
+| Skriv köpguide: "Köpa scenpodium 2026 — storlekar, material och priser" | **HÖG** | Kvar — bekräftad 20/05 |
+| Lägg till Product schema på alla scenpodium-produktsidor | **HÖG** | Kvar |
+| Lägg till FAQ-schema på scenpodium-kategorisida (höjder, material, storlekar) | Medel | Kvar |
 
 ## Keywords
 - 30 st inlagda (9A + 14B + 7C)

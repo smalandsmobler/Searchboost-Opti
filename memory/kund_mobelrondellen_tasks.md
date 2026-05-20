@@ -26,14 +26,23 @@ Senaste check: 2026-05-19
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY soffa-guide** (klar sedan 08/05): kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **BRÅDSKANDE** | BHG-gruppen (Furniturebox/Trademax) implementerade AI-produktoptimering 12/05 — vi måste ha rådgivande content live |
-| Implementera 9 internlänkar via WP-admin (guide i denna fil) | **HÖG** | Inga konkurrenter har internlänkstruktur |
-| Skriv: "Utemöbler 2026: Vad håller i Dalarnas klimat?" — Mora-specifik säsongsguide | **HÖG** | Trademax kör utomhus men inget lokalt, timing rätt i maj |
-| Komplettera fåtölj-guiden + soffa-guiden med FAQ-schema | Medel | Ingen konkurrent har schema på köpguider |
+| **DEPLOY soffa-guide** (klar sedan 08/05 — 12 dagar!): `node scripts/publish-mobelrondellen-soffa-2026.js`. OBS: EC2-API ger 503 — kontrollera PM2-status och öppna SSH om nödvändigt | **BRÅDSKANDE** | Trademax kör "Prispressade utemöbler fr 799 kr", Furniturebox har 3200+ outdoor-produkter med schema — vi behöver rådgivande content live NU |
+| Skriv: "Utemöbler 2026 — vad håller i Dalarnas klimat?" (lokal säsongsguide) | **HÖG** | Royal Design publicerat nationell trendguide, Trademax = priskrig, Furniturebox = volym — ingen lokal vinkel finns |
+| Implementera 9 internlänkar via WP-admin (Viktor kan göra — guide nedan) | **HÖG** | Ingen konkurrent har internlänkstruktur, direkt SEO-win |
+| FAQ-schema på soffa-guiden + fåtölj-guiden | Medel | Furniturebox har product schema på produktsidor men inga guider har FAQ schema |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| ~~DEPLOY soffa-guide~~ | ~~BRÅDSKANDE~~ | Kvar — EC2-503 blockerar |
+| Implementera 9 internlänkar via WP-admin | **HÖG** | Kvar |
+| ~~Skriv: "Utemöbler 2026: Vad håller i Dalarnas klimat?"~~ | ~~HÖG~~ | Kvar — ännu viktigare nu (Royal Design publicerat) |
+| Komplettera fåtölj-guiden + soffa-guiden med FAQ-schema | Medel | Kvar |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
 
