@@ -5,13 +5,13 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-19, **4 körningar i rad** — 14/16/18/19 maj):_
+_Ingen data — Blockerad (2026-05-20, **5 körningar i rad** — 14/16/18/19/20 maj):_
 - _EC2-API: HTTP 503 (Envoy-proxy blockar self-signed TLS)_
-- _Supermetrics GSC (GW): NOT\_AUTHENTICATED (5 dagar i rad — sedan 2026-05-14)_
+- _Supermetrics GSC (GW): NOT\_AUTHENTICATED (6 dagar i rad — sedan 2026-05-14)_
 
-**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-19) + eskaleringsplan.
+**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-20) + eskaleringsplan.
 
-Senaste check: 2026-05-19
+Senaste check: 2026-05-20
 
 ## Publicerade artiklar
 
