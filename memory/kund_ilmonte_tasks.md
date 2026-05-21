@@ -10,7 +10,8 @@ _Ingen GSC-data: Inte ägare i GSC. Regressionscheck ej möjlig._
 Be ilmonte-ägaren lägga till service account `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com` som "Fullständig" i GSC.
 
 Inga regressioner 2026-05-20 (ej ägare i GSC)
-Senaste check: 2026-05-20
+Inga regressioner 2026-05-21 (ej ägare i GSC)
+Senaste check: 2026-05-21
 
 ## Publicerade artiklar
 

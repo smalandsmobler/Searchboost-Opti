@@ -8,7 +8,8 @@
 _Ingen GSC-data: Ej kopplad (inte ägare / ej konfigurerad). Regressionscheck ej möjlig._
 
 Inga regressioner 2026-05-20 (GSC ej konfigurerad)
-Senaste check: 2026-05-20
+Inga regressioner 2026-05-21 (GSC ej konfigurerad)
+Senaste check: 2026-05-21
 
 ## Publicerade artiklar
 
