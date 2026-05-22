@@ -51,6 +51,7 @@ Senaste check: 2026-05-22
 |-------|-------|-----|
 | 2026-04-29 | Fåtölj guide 2026 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
 | 2026-05-08 | Bästa soffan 2026 — guide för dig som vill ha kvalitet och hållbarhet | ⏳ Kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 |
+| 2026-05-22 | Utemöbler 2026 — vad håller i Dalarnas klimat? | ⏳ Kör `node scripts/publish-mobelrondellen-utemobler-dalarna-2026.js` från EC2 |
 
 ## Utfört arbete (historik)
 - Plugin-cleanup: 325 → 7 plugins
@@ -62,8 +63,9 @@ Senaste check: 2026-05-22
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY soffa-guide** (klar sedan 08/05 — 12 dagar!): `node scripts/publish-mobelrondellen-soffa-2026.js`. OBS: EC2-API ger 503 — kontrollera PM2-status och öppna SSH om nödvändigt | **BRÅDSKANDE** | Trademax kör "Prispressade utemöbler fr 799 kr", Furniturebox har 3200+ outdoor-produkter med schema — vi behöver rådgivande content live NU |
-| Skriv: "Utemöbler 2026 — vad håller i Dalarnas klimat?" (lokal säsongsguide) | **HÖG** | Royal Design publicerat nationell trendguide, Trademax = priskrig, Furniturebox = volym — ingen lokal vinkel finns |
+| **DEPLOY soffa-guide** (klar sedan 08/05 — 14 dagar!): `node scripts/publish-mobelrondellen-soffa-2026.js`. OBS: EC2-API ger 503 — kontrollera PM2-status och öppna SSH om nödvändigt | **BRÅDSKANDE** | Trademax kör "Prispressade utemöbler fr 799 kr", Furniturebox har 3200+ outdoor-produkter med schema — vi behöver rådgivande content live NU |
+| **DEPLOY utemöbler Dalarna** (klar 22/05): `node scripts/publish-mobelrondellen-utemobler-dalarna-2026.js` | **BRÅDSKANDE** | Lokal vinkel ingen konkurrent har — publiceringsfönster öppet nu (utomhussäsong pågår) |
+| ~~Skriv: "Utemöbler 2026 — vad håller i Dalarnas klimat?" (lokal säsongsguide)~~ | ~~HÖG~~ | ✅ KLAR 2026-05-22 |
 | Implementera 9 internlänkar via WP-admin (Viktor kan göra — guide nedan) | **HÖG** | Ingen konkurrent har internlänkstruktur, direkt SEO-win |
 | FAQ-schema på soffa-guiden + fåtölj-guiden | Medel | Furniturebox har product schema på produktsidor men inga guider har FAQ schema |
 
