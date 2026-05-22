@@ -11,7 +11,8 @@ Be ilmonte-ägaren lägga till service account `seo-mcp-bigquery@searchboost-485
 
 Inga regressioner 2026-05-20 (ej ägare i GSC)
 Inga regressioner 2026-05-21 (ej ägare i GSC)
-Senaste check: 2026-05-21
+Inga regressioner 2026-05-22 (ej ägare i GSC)
+Senaste check: 2026-05-22
 
 ## Publicerade artiklar
 

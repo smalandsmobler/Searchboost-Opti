@@ -25,17 +25,16 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-21, **6 körningar i rad** — 14/16/18/19/20/21 maj):_
+_Ingen data — Blockerad (2026-05-22, **7 körningar i rad** — 14/16/18/19/20/21/22 maj):_
 - _EC2-API: HTTP 503 — Envoy-proxy i remote environment blockar self-signed TLS (EC2/PM2 är troligen uppe, men nås ej externt härifrån)_
-- _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED (7 dagar i rad — sedan 2026-05-14)_
+- _Supermetrics MCP: Enbart ad-kampanjverktyg tillgängliga (AW/FA/TIK/LIA) — inget GSC-datahämtningsverktyg (ds\_id: GW) i detta MCP-scope_
 
-**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (6 missade checks i rad):**
-1. **Mikael loggar in på Supermetrics GSC (länk från 2026-05-20 — kan vara utgången):**
-   `https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/Hgmqq0hvXC3a9w9SAnFzuT83pspiaOveFgLmZ1uDPXqqZttb3Z`
-2. Permanent fix EC2 SSL: `sudo certbot --nginx` (Let's Encrypt) eller lägg till offentlig domän i Nginx.
-3. Alternativ: Aktivera public BigQuery-endpoint utan EC2-beroende (direkt BigQuery API från remote).
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (7 missade checks i rad):**
+1. **Permanent fix EC2 SSL** (prioritet 1): `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser 503-problemet i remote environment.
+2. **Alternativ — direkt BigQuery**: Lägg BigQuery service account JSON som env-variabel i Claude Code remote environment → ingen EC2-beroende.
+3. **Supermetrics GSC**: Kräver ds\_id GW + auth → ej tillgängligt i nuvarande MCP-konfiguration.
 
-_Senaste check: 2026-05-21 — 0 kunder checkbara (6 körningar i rad, åtgärd AKUT)_
+_Senaste check: 2026-05-22 — 0 kunder checkbara (7 körningar i rad, åtgärd AKUT)_
 
 ## Publicerade artiklar
 
