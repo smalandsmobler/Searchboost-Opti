@@ -1,7 +1,7 @@
 # mobelrondellen — Tasks & Status
 
 > Kund: mobelrondellen.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-08
+> Senast uppdaterad: 2026-05-22
 
 ## Regressionsvarningar
 
@@ -11,7 +11,39 @@ _Ingen data — Blockerad (2026-05-21, **6 körningar i rad** — 14/16/18/19/20
 
 **⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för ny Supermetrics-länk (2026-05-20) + eskaleringsplan.
 
-Senaste check: 2026-05-21
+Senaste check: 2026-05-22
+
+## Internlänk-optimering — 2026-05-22
+
+**Analys:** 47 poster analyserade. Alla använde JSON-escaped hrefs (renderade via Python).
+
+| Post | Slug | Interna (före) | Interna (efter) |
+|------|------|---------------|----------------|
+| 5292 | kopa-madrass-guide-2026-2 | 0 (ö!) | 2 |
+| 5505 | basta-madrassen-guide-2026 | 1 (svag) | 2 |
+| 5503 | kopa-soffa-guide-2026-2 | 2 | 3 |
+| 5528 | nattduksbord-2026-... | 2 | 3 |
+| 5529 | matta-till-vardagsrummet-... | 2 | 3 |
+| 5538 | skank-sideboard-2026-... | 2 | 3 |
+| 5539 | sanggavel-2026-... | 2 | 3 |
+| 5540 | inreda-hall-2026-... | 1 (svag) | 2 |
+
+**Tillagda länk (9 st) — körs via `node scripts/internlankar-mobelrondellen.js` på EC2:**
+
+| Från-post | Ankartext | Till-post | Motivering |
+|-----------|-----------|-----------|------------|
+| 5292 kopa-madrass-guide-2026-2 | "sängen" | sang-guide-2026 | Ö → naturlig koppling sängen↔madrass |
+| 5292 kopa-madrass-guide-2026-2 | "sovrum" | sovrum-inredning-guide | Ö → storlekssektion nämner sovrum |
+| 5505 basta-madrassen | "sängen" | sang-guide-2026 | Svag → stärker madrass/säng-kluster |
+| 5503 kopa-soffa | "fåtöljer" | fatolj-guide-2026 | "kombinera med fåtöljer" — naturlig |
+| 5528 nattduksbord | "förvaring" | forvaring-sovrum-guide | "stil och förvaring" — naturlig |
+| 5529 matta-till-vardagsrummet | "soffa" | kopa-soffa-guide-2026-2 | "åtminstone soffa och fåtöljer" |
+| 5538 skank-sideboard | "förvaring" | forvaring-sovrum-guide | "kombinerar förvaring med stil" |
+| 5539 sanggavel-2026 | "sängen" | sang-guide-2026 | "ramar in sängen" — naturlig |
+| 5540 inreda-hall-2026 | "sideboard" | skank-sideboard-2026 | "Sideboard eller smal konsol" |
+
+**Status:** Script klart (`scripts/internlankar-mobelrondellen.js`). Väntar på EC2-åtkomst för körning.
+**OBS:** EC2-API gav 503 senast — verifiera PM2-status och öppna SSH innan körning.
 
 ## Publicerade artiklar
 
