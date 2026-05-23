@@ -25,16 +25,18 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-22, **7 körningar i rad** — 14/16/18/19/20/21/22 maj):_
-- _EC2-API: HTTP 503 — Envoy-proxy i remote environment blockar self-signed TLS (EC2/PM2 är troligen uppe, men nås ej externt härifrån)_
+_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
+- _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy)_
 - _Supermetrics MCP: Enbart ad-kampanjverktyg tillgängliga (AW/FA/TIK/LIA) — inget GSC-datahämtningsverktyg (ds\_id: GW) i detta MCP-scope_
+- _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
+- _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
 
-**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (7 missade checks i rad):**
-1. **Permanent fix EC2 SSL** (prioritet 1): `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser 503-problemet i remote environment.
-2. **Alternativ — direkt BigQuery**: Lägg BigQuery service account JSON som env-variabel i Claude Code remote environment → ingen EC2-beroende.
-3. **Supermetrics GSC**: Kräver ds\_id GW + auth → ej tillgängligt i nuvarande MCP-konfiguration.
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (8 missade checks i rad):**
+1. **Permanent fix EC2 SSL** (prioritet 1): `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser nåbarheten från remote environment.
+2. **Snabbaste fix — BigQuery env-var**: Lägg BigQuery service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` env-variabel i Claude Code remote environment (Settings → Environment Variables) → ingen EC2-beroende, direkt BigQuery-åtkomst.
+3. **Supermetrics GSC**: Kräver ds\_id GW + autentisering → ej konfigurerat i nuvarande MCP-scope.
 
-_Senaste check: 2026-05-22 — 0 kunder checkbara (7 körningar i rad, åtgärd AKUT)_
+_Senaste check: 2026-05-23 — 0 kunder checkbara (8 körningar i rad, åtgärd AKUT)_
 
 ## Publicerade artiklar
 

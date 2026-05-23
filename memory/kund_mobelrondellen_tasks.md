@@ -5,13 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-22, **7 körningar i rad** — 14/16/18/19/20/21/22 maj):_
-- _EC2-API: HTTP 503 (Envoy-proxy blockar self-signed TLS)_
+_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
+- _EC2-API: Ej nåbar från remote environment_
 - _Supermetrics MCP: Enbart ad-kampanjverktyg — inget GSC-datahämtningsverktyg tillgängligt_
+- _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
 **⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för eskaleringsplan (EC2 Let's Encrypt + direkt BigQuery-alternativ).
 
-Senaste check: 2026-05-22
+Senaste check: 2026-05-23
 
 ## Internlänk-optimering — 2026-05-22
 
