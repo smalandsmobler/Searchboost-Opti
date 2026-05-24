@@ -5,14 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
-- _EC2-API: Ej nåbar från remote environment_
-- _Supermetrics MCP: Enbart ad-kampanjverktyg — inget GSC-datahämtningsverktyg tillgängligt_
+_Ingen data — Blockerad (2026-05-24, **9 körningar i rad** — 14/16/18/19/20/21/22/23/24 maj):_
+- _EC2-API: Ej nåbar från remote environment (self-signed TLS) — kvarstår_
+- _Supermetrics GSC (ds\_id: GW) finns i scope men EJ AUTENTISERAD — se kund_searchboost_tasks.md för login-länk_
 - _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
-**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för eskaleringsplan (EC2 Let's Encrypt + direkt BigQuery-alternativ).
+**⚠️ KRITISK BLOCKERARE:** Supermetrics GSC-inloggning saknas. Se kund_searchboost_tasks.md § "NY ÅTGÄRD" för login-länk.
 
-Senaste check: 2026-05-23
+Senaste check: 2026-05-24
 
 ## Internlänk-optimering — 2026-05-22
 

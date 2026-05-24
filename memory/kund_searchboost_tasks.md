@@ -10,6 +10,12 @@
 
 ## Regressionsvarningar
 
+### Söndagscheck 2026-05-24 (v21 — dag 9 i rad)
+> **0 av 3 GSC-kunder checkbara — men ny lösningsväg identifierad**
+
+**🔓 GENOMBROTT:** Supermetrics GSC (ds_id: GW) är i scope och svarar — SAKNAR BARA AUTENTISERING.
+Klicka på Supermetrics-login-länken nedan (under rubriken "NY ÅTGÄRD") för att låsa upp GSC-data till nästa körning.
+
 ### Veckosammanfattning 2026-05-18 (måndag v20)
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
 
@@ -25,9 +31,14 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
-- _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy)_
-- _Supermetrics MCP: Enbart ad-kampanjverktyg tillgängliga (AW/FA/TIK/LIA) — inget GSC-datahämtningsverktyg (ds\_id: GW) i detta MCP-scope_
+_Ingen data — Blockerad (2026-05-24, **9 körningar i rad** — 14/16/18/19/20/21/22/23/24 maj):_
+- _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy) — kvarstår_
+- _Supermetrics GSC (ds\_id: GW) **finns i scope och svarar** — men är EJ AUTENTISERAD (NOT\_AUTHENTICATED)_
+- _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
+
+**🔑 NY ÅTGÄRD (högsta prioritet):** Logga in på Supermetrics GSC via denna länk (engångslänk, autentiserar kontot):
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/wEOUZNunBV8uwNCUffUiBYQTr8YsEdSGvwZHaYntCpuJVpkFpX`
+→ När autentiserad kan nästa körning hämta topp-20 queries för searchboost, mobelrondellen och SMK direkt!
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
 
