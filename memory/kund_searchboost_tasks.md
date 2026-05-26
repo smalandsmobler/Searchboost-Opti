@@ -3,6 +3,12 @@
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
 > Senast uppdaterad: 2026-05-26
 
+## Prospektlista (Prospekt-scanner)
+- 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
+- 2026-05-19: [Tandläkare / Stockholm](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md)
+- 2026-05-12: [Fastighetsmäklare / Lund](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md)
+- 2026-05-05: [Redovisning / Jönköping](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md)
+
 ## Vecko-briefing-länk
 - 2026-05-25: [content-pages/weekly-briefing/2026-05-25.md](../content-pages/weekly-briefing/2026-05-25.md)
 - 2026-05-18: [content-pages/weekly-briefing/2026-05-18.md](../content-pages/weekly-briefing/2026-05-18.md)
