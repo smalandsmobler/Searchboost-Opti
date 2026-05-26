@@ -1,7 +1,7 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-13
+> Senast uppdaterad: 2026-05-26
 
 ## Vecko-briefing-länk
 - 2026-05-25: [content-pages/weekly-briefing/2026-05-25.md](../content-pages/weekly-briefing/2026-05-25.md)
@@ -11,8 +11,9 @@
 
 ## Regressionsvarningar
 
-### Veckosammanfattning 2026-05-18 (måndag v20)
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
+### Veckosammanfattning 2026-05-25 (måndag v22)
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 9 körningar i rad**
+> **NY MÖJLIGHET: Supermetrics har ds_id GW (GSC) — behöver bara autentisering**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
 |------|-----------|-----------------|-------------|
@@ -26,18 +27,28 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
+_Ingen data — Blockerad (2026-05-26, **9 körningar i rad** — 14/16/18/19/20/21/22/23/26 maj):_
 - _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy)_
-- _Supermetrics MCP: Enbart ad-kampanjverktyg tillgängliga (AW/FA/TIK/LIA) — inget GSC-datahämtningsverktyg (ds\_id: GW) i detta MCP-scope_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
+- _Supermetrics GSC (ds\_id: GW): **FINNS** men NOT\_AUTHENTICATED — kräver engångsinloggning_
 
-**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (8 missade checks i rad):**
-1. **Permanent fix EC2 SSL** (prioritet 1): `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser nåbarheten från remote environment.
-2. **Snabbaste fix — BigQuery env-var**: Lägg BigQuery service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` env-variabel i Claude Code remote environment (Settings → Environment Variables) → ingen EC2-beroende, direkt BigQuery-åtkomst.
-3. **Supermetrics GSC**: Kräver ds\_id GW + autentisering → ej konfigurerat i nuvarande MCP-scope.
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (9 missade checks i rad):**
 
-_Senaste check: 2026-05-23 — 0 kunder checkbara (8 körningar i rad, åtgärd AKUT)_
+**🔓 LÖSNING FUNNEN — Supermetrics GSC (snabbaste vägen, 2 min):**
+Mikael behöver klicka på denna länk för att autentisera Supermetrics mot GSC:
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9eoZq1P_hziTAhMm2frhy9hFlKkuMfMq_bReupocbbziuCCI4T`
+→ Efter inloggning: kör regression-check direkt i nästa session (Supermetrics kan sedan hämta topp 20 queries per GSC-property)
+
+**Alternativa fixar:**
+1. **EC2 SSL**: `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser EC2-API nåbarhet.
+2. **BigQuery env-var**: Lägg service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` i Claude Code Settings → Environment Variables → direkt BigQuery-åtkomst utan EC2.
+
+_Senaste check: 2026-05-26 — 0 kunder checkbara (9 körningar i rad, Supermetrics GSC-autentisering = snabbaste fix)_
+
+### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
+_Arkiverad: se v22-sammanfattning ovan._
 
 ## Publicerade artiklar
 
