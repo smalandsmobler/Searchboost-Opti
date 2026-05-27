@@ -21,29 +21,37 @@ Senaste check: 2026-05-26
 |-------|-------|-----|
 | 2026-04-25 | Scenpodium-guide höjd/storlek | https://ilmonte.se/scenpodium-guide-hojd-storlek-ratt-val/ |
 | 2026-05-06 | Hyra eller köpa scenpodium? — 5 faktorer | *Redo att deployas — kör `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2* |
+| 2026-05-27 | Köpa scenpodium 2026 — storlekar, material och priser | *Redo att deployas — kör `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2* |
 
-## Deploy — väntande artikel (2026-05-06)
+## Deploy — väntande artiklar (2 st)
 
-Artikel skriven och sparad: `content-pages/ilmonte-hyra-eller-kopa-scenpodium.html`
-Publish-script: `scripts/publish-ilmonte-hyra-kopa-scenpodium.js`
-
-**Kör på EC2 (har IAM-roll för SSM):**
-```bash
-node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
-```
-
+**Artikel 1 (sedan 2026-05-06):**
+- Fil: `content-pages/ilmonte-hyra-eller-kopa-scenpodium.html`
+- Script: `scripts/publish-ilmonte-hyra-kopa-scenpodium.js`
 - Titel: "Hyra eller köpa scenpodium? — 5 faktorer som avgör ditt val"
 - Slug: `hyra-eller-kopa-scenpodium-5-faktorer`
 - Focus keyword: `hyra eller köpa scenpodium`
-- Kategori: Blogg (ID 1068)
-- ~950 ord, 5 H2:or, 3 FAQ-frågor, 3 interna länkar
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
+**Artikel 2 (2026-05-27):**
+- Fil: `content-pages/ilmonte-kopa-scenpodium-2026.html`
+- Script: `scripts/publish-ilmonte-kopa-scenpodium-2026.js`
+- Titel: "Köpa scenpodium 2026 — komplett guide till storlekar, material och priser"
+- Slug: `kopa-scenpodium-2026-storlekar-material-priser`
+- Focus keyword: `köpa scenpodium`
+- 988 ord, 5 H2:or + 3 H3:or (FAQ), 3 interna länkar, ÅÄÖ verifierade
+- Kategori: Blogg (ID 1068)
+
+**Kör båda på EC2 (har IAM-roll för SSM):**
+```bash
+node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
+node scripts/publish-ilmonte-kopa-scenpodium-2026.js
+```
+
+## Prioriterade uppgifter — uppdaterad 2026-05-27
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: "Hyra eller köpa scenpodium?" (klar sedan 06/05 — 14 dagar!): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` | **BRÅDSKANDE** | Scenkonsult publicerade hyra-guide 2026 — vi måste möta köp-intention nu |
-| **Skriv**: "Köpa scenpodium 2026 — storlekar, material och priser" (~1200 ord) | **HÖG** | Scenkonsult/Evivent/Eventkraft täcker BARA hyra — köp-intentionen är helt fri |
+| **DEPLOY**: Båda väntande artiklarna — kör scripts ovan från EC2 | **BRÅDSKANDE** | 21 dagar sedan artikel 1 skrevs |
 | Product schema på de 5 mest sålda produktsidorna | **HÖG** | Ingen konkurrent (Scenkonsult, Evivent, Eventkraft) har Product schema |
 | FAQ-schema på /produkt-kategori/podier/ | Medel | Ingen konkurrent har FAQ schema |
 | Geografisk guide: "Scenpodium för utomhusevenemang — vad ska du tänka på?" | Medel | Scenkonsult = Stockholm only, Evivent = Staffanstorp only |
