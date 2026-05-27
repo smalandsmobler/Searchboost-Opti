@@ -26,6 +26,17 @@ Senaste check: 2026-05-26
 - Schema-markup: kör när Rank Math PRO är aktivt
 - WP app-password: SAKNAS — kunden måste generera ett
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **Mikael: Generera WP app-password** (blockerar ALL automation och deploy-scripts) | **BRÅDSKANDE** | Utan detta: noll automatisk optimering, inga scripts kör |
+| Bildoptimering: prioritera top-200 mest sålda produkter inför WooCommerce-launch | **HÖG** | AJ Produkter har Product schema med bilder — Google Shopping kräver detta |
+| Skriv lokal landningssida: `/kontorsmobler-jonkoping/` (~500 ord) | **HÖG** | AJ = nationell, Morekontor = ej Småland — ingen konkurrent äger sökorden |
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" | **HÖG** | AJ Produkter skiftat till industriell ergonomi, Morekontor = storkontors-fokus — hemmakontor-nischen fri |
+| FAQ-schema på kategorisidor (när Rank Math PRO aktivt) | Medel | Morekontor har FAQ schema — SMK bör matcha |
+| Skriv: "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
 
 | Uppgift | Prioritet | Källa |

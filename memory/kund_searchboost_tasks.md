@@ -77,13 +77,22 @@ _Arkiverad: se v22-sammanfattning ovan._
 - GSC: OK (https://searchboost.se/)
 - Rank Math: OK
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **14 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer kör AI-sökevent, Jajja täcker inte ämnet — vi äger nischen NU |
+| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan (~900 ord) | **HÖG** | Bonzer = enterprise, Sunbird = B2B, ingen täcker E-E-A-T för svenska SME |
+| FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | **HÖG** | Jajja/Sunbird/Bonzer saknar FAQ-schema på guider — direkt CTR-win |
+| Skriv: "Lokal SEO 2026 — komplett guide för svenska småföretag" | Medel | Sunbird har stadssidor men ingen praktisk lokal guide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13 (arkiverade)
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
 | ~~Skriv: "AI Overviews och GEO — hur påverkar det din SEO 2026?" → lägg i SEO-skolan under ny kategori "AI & Sökning"~~ | ✅ KLAR 2026-05-13 | content-pages/seo-skola/ai-overviews-geo-seo-2026.html — kör publish-script från EC2 |
-| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Ingen konkurrent har E-E-A-T anpassat för SME/småföretag |
-| Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Snabb teknisk win, konkurrenter saknar detta |
+| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Kvar — bekräftad 27/05 |
+| Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Kvar — uppgraderad till HÖG 27/05 |
 
 ## Prospektering
 

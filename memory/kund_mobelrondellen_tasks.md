@@ -59,6 +59,15 @@ Senaste check: 2026-05-26
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY soffa-guide** (klar sedan 08/05 — **19 dagar under peak-säsong!**): `node scripts/publish-mobelrondellen-soffa-2026.js`. Om EC2-API fortfarande ger 503: SSH in via Instance Connect och kör manuellt | **BRÅDSKANDE** | Royal Design kör OUTDOOR15 (15% rabatt), Trademax 3589 produkter — vi behöver rådgivande content live NU |
+| Skriv: "Utemöbler 2026 — vad håller i Dalarnas klimat?" (700–900 ord, lokal vinkel) | **HÖG** | Royal Design aktivt med OUTDOOR15-kampanj just nu, Trademax = priskrig, ingen lokal guide finns |
+| Viktor: Implementera 9 internlänkar manuellt via WP-admin (EC2 behövs EJ — guide finns nedan) | **HÖG** | Direkt SEO-win, 30 min insats |
+| FAQ-schema på soffa-guiden + fåtölj-guiden | Medel | Ingen konkurrent (Trademax/Furniturebox/Royal Design) har FAQ schema på köpguider |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
 
 | Uppgift | Prioritet | Källa |
