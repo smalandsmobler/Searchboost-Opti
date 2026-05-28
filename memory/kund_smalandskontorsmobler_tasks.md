@@ -5,11 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Dubbelt blockerad (2026-05-07):_
-- _EC2-API ej nåbar från sandbox (503) — servern nere_
-- _Supermetrics GSC ej autentiserad — se searchboost-filen för ny inloggningslänk_
+_Ingen data — Blockerad (2026-05-28, **11 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28 maj):_
+- _EC2-API: Ej nåbar från remote environment_
+- _Supermetrics GSC (ds\_id: GW): **FINNS** men NOT\_AUTHENTICATED — kräver engångsinloggning av Mikael_
+- _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
-Senaste check: 2026-05-07
+**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md — Supermetrics GSC-autentisering = snabbaste fix (2 min).
+
+Senaste check: 2026-05-28
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
@@ -23,13 +26,34 @@ Senaste check: 2026-05-07
 - Schema-markup: kör när Rank Math PRO är aktivt
 - WP app-password: SAKNAS — kunden måste generera ett
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| Skriv artikel: "Ergonomi på hemmakontoret 2026 — 7 tips" | **HÖG** | AJ Produkter dominerar ergonomi nationellt — SMK kan äga regionalt (Jönköping/Småland) |
-| Skapa lokala landningssidor: "Kontorsmöbler Jönköping", "Kontorsmöbler Växjö" | **HÖG** | Varken AJ Produkter eller Morekontor har geografiskt fokus |
-| Lägg till FAQ-schema på kategorier (höj-sänkbara skrivbord, kontorsstolar) | Medel | Morekontor har FAQ-sektion men inget schema markup |
+| **Mikael: Generera WP app-password** (blockerar ALL automation och deploy-scripts) | **BRÅDSKANDE** | Utan detta: noll automatisk optimering, inga scripts kör |
+| Bildoptimering: prioritera top-200 mest sålda produkter inför WooCommerce-launch | **HÖG** | AJ Produkter har Product schema med bilder — Google Shopping kräver detta |
+| Skriv lokal landningssida: `/kontorsmobler-jonkoping/` (~500 ord) | **HÖG** | AJ = nationell, Morekontor = ej Småland — ingen konkurrent äger sökorden |
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" | **HÖG** | AJ Produkter skiftat till industriell ergonomi, Morekontor = storkontors-fokus — hemmakontor-nischen fri |
+| FAQ-schema på kategorisidor (när Rank Math PRO aktivt) | Medel | Morekontor har FAQ schema — SMK bör matcha |
+| Skriv: "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" | **HÖG** | AJ Produkter skiftat till industriell ergonomi (verkstad/tillverkning) — hemmakontor-nischen fri |
+| Skapa lokala landningssidor: /kontorsmobler-jonkoping/ + /kontorsmobler-vaxjo/ | **HÖG** | Varken AJ (nationell) eller Morekontor (Halmstad/storstad) äger Småland-sökorden |
+| Bildoptimering: ~3 700 produkter saknar bilder — prioritera inför WooCommerce-launch | **HÖG** | Blockerar Google Shopping-synlighet vid launch |
+| Lägg till FAQ-schema på kategorier (när Rank Math PRO aktivt) | Medel | Morekontor har FAQ-sektion men inget schema markup |
+| "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| Skriv artikel: "Ergonomi på hemmakontoret 2026 — 7 tips" | **HÖG** | Uppdaterad ovan med mer specifik vinkel |
+| Skapa lokala landningssidor: "Kontorsmöbler Jönköping", "Kontorsmöbler Växjö" | **HÖG** | Kvar — ny bekräftelse att ingen konkurrent äger lokala sökord |
+| Lägg till FAQ-schema på kategorier | Medel | Kvar — väntar på Rank Math PRO |
 
 ## Status
 - WP-creds: SAKNAS (automatisk optimering avstängd)

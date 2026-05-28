@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
  * Regression-vakten — GSC-positionsövervakning per kund
- * Kör: node scripts/regression-check.js
+ * Kör (från mcp-server-code/): npm run regression
+ * Alternativt: cd mcp-server-code && node ../scripts/regression-check.js
  *
+ * OBS: Kör från mcp-server-code/ — scriptet behöver dess node_modules (AWS SDK, BigQuery).
  * Kräver: AWS-profil "mickedanne@gmail.com" + SSM-access (eu-north-1)
  * Hämtar BigQuery-credentials från SSM, kör frågor mot gsc_daily_metrics,
  * jämför senaste 7 dagar mot föregående 7 dagar, flaggar regressioner.
