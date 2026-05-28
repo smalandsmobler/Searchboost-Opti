@@ -1,17 +1,25 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-13
+> Senast uppdaterad: 2026-05-26
+
+## Prospektlista (Prospekt-scanner)
+- 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
+- 2026-05-19: [Tandläkare / Stockholm](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md)
+- 2026-05-12: [Fastighetsmäklare / Lund](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md)
+- 2026-05-05: [Redovisning / Jönköping](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md)
 
 ## Vecko-briefing-länk
+- 2026-05-25: [content-pages/weekly-briefing/2026-05-25.md](../content-pages/weekly-briefing/2026-05-25.md)
 - 2026-05-18: [content-pages/weekly-briefing/2026-05-18.md](../content-pages/weekly-briefing/2026-05-18.md)
 - 2026-05-11: [content-pages/weekly-briefing/2026-05-11.md](../content-pages/weekly-briefing/2026-05-11.md)
 - 2026-05-04: [content-pages/weekly-briefing/2026-05-04.md](../content-pages/weekly-briefing/2026-05-04.md)
 
 ## Regressionsvarningar
 
-### Veckosammanfattning 2026-05-18 (måndag v20)
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
+### Veckosammanfattning 2026-05-25 (måndag v22)
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 11 körningar i rad**
+> **NY MÖJLIGHET: Supermetrics har ds_id GW (GSC) — behöver bara autentisering**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
 |------|-----------|-----------------|-------------|
@@ -25,18 +33,28 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
+_Ingen data — Blockerad (2026-05-27, **10 körningar i rad** — 14/16/18/19/20/21/22/23/26/27 maj):_
 - _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy)_
-- _Supermetrics MCP: Enbart ad-kampanjverktyg tillgängliga (AW/FA/TIK/LIA) — inget GSC-datahämtningsverktyg (ds\_id: GW) i detta MCP-scope_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
+- _Supermetrics GSC (ds\_id: GW): Ej tillgänglig i denna session (campaign mgmt only, ej data query)_
 
-**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (8 missade checks i rad):**
-1. **Permanent fix EC2 SSL** (prioritet 1): `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser nåbarheten från remote environment.
-2. **Snabbaste fix — BigQuery env-var**: Lägg BigQuery service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` env-variabel i Claude Code remote environment (Settings → Environment Variables) → ingen EC2-beroende, direkt BigQuery-åtkomst.
-3. **Supermetrics GSC**: Kräver ds\_id GW + autentisering → ej konfigurerat i nuvarande MCP-scope.
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (10 missade checks i rad):**
 
-_Senaste check: 2026-05-23 — 0 kunder checkbara (8 körningar i rad, åtgärd AKUT)_
+**🔓 LÖSNING FUNNEN — Supermetrics GSC (snabbaste vägen, 2 min):**
+Mikael behöver klicka på denna länk för att autentisera Supermetrics mot GSC:
+`https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9eoZq1P_hziTAhMm2frhy9hFlKkuMfMq_bReupocbbziuCCI4T`
+→ Efter inloggning: kör regression-check direkt i nästa session (Supermetrics kan sedan hämta topp 20 queries per GSC-property)
+
+**Alternativa fixar:**
+1. **EC2 SSL**: `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser EC2-API nåbarhet.
+2. **BigQuery env-var**: Lägg service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` i Claude Code Settings → Environment Variables → direkt BigQuery-åtkomst utan EC2.
+
+_Senaste check: 2026-05-28 — 0 kunder checkbara (**11 körningar i rad**, Supermetrics GSC-autentisering = snabbaste fix)_
+
+### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
+_Arkiverad: se v22-sammanfattning ovan._
 
 ## Publicerade artiklar
 
@@ -52,19 +70,29 @@ _Senaste check: 2026-05-23 — 0 kunder checkbara (8 körningar i rad, åtgärd 
 | 2026-05-10 (söndag) | Rankingpositioner är inte ett mål — datadrivet SEO, egen datapipeline vs Supermetrics | urn:li:share:7459167542821965824 | https://www.linkedin.com/feed/update/urn:li:share:7459167542821965824/ |
 | 2026-05-14 (onsdag) | E-E-A-T för småföretag — tre konkreta åtgärder för att bygga trovärdighet i Googles ögon | urn:li:share:7460616309081534464 | https://www.linkedin.com/feed/update/urn:li:share:7460616309081534464/ |
 | 2026-05-19 (tisdag) | Lokalt SEO — tre branscher, tre städer, ett mönster: vad som saknas på svenska SME-sajter | urn:li:share:7462428838594166784 | https://www.linkedin.com/feed/update/urn:li:share:7462428838594166784/ |
+| 2026-05-26 (måndag) | Schema markup — strukturerad data, rich results, +20-30% CTR, tre minimum-insatser per kund | urn:li:share:7464964904886751233 | https://www.linkedin.com/feed/update/urn:li:share:7464964904886751233/ |
 
 ## Status
 - WP-creds: OK
 - GSC: OK (https://searchboost.se/)
 - Rank Math: OK
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **14 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer kör AI-sökevent, Jajja täcker inte ämnet — vi äger nischen NU |
+| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan (~900 ord) | **HÖG** | Bonzer = enterprise, Sunbird = B2B, ingen täcker E-E-A-T för svenska SME |
+| FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | **HÖG** | Jajja/Sunbird/Bonzer saknar FAQ-schema på guider — direkt CTR-win |
+| Skriv: "Lokal SEO 2026 — komplett guide för svenska småföretag" | Medel | Sunbird har stadssidor men ingen praktisk lokal guide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13 (arkiverade)
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
 | ~~Skriv: "AI Overviews och GEO — hur påverkar det din SEO 2026?" → lägg i SEO-skolan under ny kategori "AI & Sökning"~~ | ✅ KLAR 2026-05-13 | content-pages/seo-skola/ai-overviews-geo-seo-2026.html — kör publish-script från EC2 |
-| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Ingen konkurrent har E-E-A-T anpassat för SME/småföretag |
-| Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Snabb teknisk win, konkurrenter saknar detta |
+| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan | **HÖG** | Kvar — bekräftad 27/05 |
+| Lägg till FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | Medel | Kvar — uppgraderad till HÖG 27/05 |
 
 ## Prospektering
 

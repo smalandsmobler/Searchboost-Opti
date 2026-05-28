@@ -44,7 +44,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | Kund            | Senaste artikel                        | Datum      | URL |
 |-----------------|---------------------------------------|------------|-----|
 | jelmtech        | PP-plast formsprutning (⚠ ej deployad) | 2026-05-15 | Kör scripts/publish-jelmtech-pp-plast.js från EC2 |
-| ilmonte         | Hyra eller köpa scenpodium? (⚠ ej deployad) | 2026-05-06 | Kör scripts/publish-ilmonte-hyra-kopa-scenpodium.js från EC2 |
+| ilmonte         | Köpa scenpodium 2026 — storlekar, material och priser (⚠ ej deployad) | 2026-05-27 | Kör scripts/publish-ilmonte-kopa-scenpodium-2026.js från EC2 |
 | mobelrondellen  | Bästa soffan 2026 (⚠ ej deployad)    | 2026-05-08 | Kör scripts/publish-mobelrondellen-soffa-2026.js från EC2 |
 | tobler          | Ställningsnät — krav och typer (⚠ ej deployad) | 2026-05-11 | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
@@ -82,10 +82,19 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 ---
 
 ## Nästa kund att prioritera
-1. **mobelrondellen** — "Bästa soffan 2026" skriven 2026-05-08, väntar på deploy (kör publish-script från EC2)
-2. **ilmonte** — artikel skriven 2026-05-06, väntar på deploy (kör publish-script från EC2)
+1. **mobelrondellen** — "Bästa soffan 2026" skriven 2026-05-08, väntar på deploy + ny artikel behövs
+2. **ilmonte** — 2 artiklar väntar på deploy (kör publish-scripts från EC2)
 3. **traficator** — WP REST ger 500, undersök manuellt
-4. **jelmtech** — ABS-artikel skriven men ej deployad (kör publish-script från EC2)
-5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy (kör scripts/publish-tobler-stallningsnät.js från EC2)
+4. **jelmtech** — PP-plast ej deployad (kör publish-script från EC2)
+5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-05-27
+
+- **Kund**: ilmonte (äldst med WP-creds OK)
+- **Artikel**: "Köpa scenpodium 2026 — komplett guide till storlekar, material och priser"
+- **Fil**: content-pages/ilmonte-kopa-scenpodium-2026.html
+- **Script**: scripts/publish-ilmonte-kopa-scenpodium-2026.js
+- **Status**: Skriven (988 ord, ÅÄÖ ok) — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga i denna session — använder WP REST API via Node-script istället

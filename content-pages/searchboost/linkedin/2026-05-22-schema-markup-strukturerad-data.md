@@ -1,6 +1,8 @@
 # LinkedIn — 2026-05-22
-**Status**: OPUBLICERAD
+**Status**: PUBLICERAD 2026-05-26
 **Planerad**: 2026-05-22 (torsdag)
+**Post-ID**: urn:li:share:7464964904886751233
+**URL**: https://www.linkedin.com/feed/update/urn:li:share:7464964904886751233/
 **Company Page**: Searchboost AB (110789070)
 
 ---

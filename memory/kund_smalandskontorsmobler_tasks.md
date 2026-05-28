@@ -5,14 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-23, **8 körningar i rad** — 14/16/18/19/20/21/22/23 maj):_
+_Ingen data — Blockerad (2026-05-28, **11 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28 maj):_
 - _EC2-API: Ej nåbar från remote environment_
-- _Supermetrics MCP: Enbart ad-kampanjverktyg — inget GSC-datahämtningsverktyg tillgängligt_
+- _Supermetrics GSC (ds\_id: GW): **FINNS** men NOT\_AUTHENTICATED — kräver engångsinloggning av Mikael_
 - _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
-**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md för eskaleringsplan (EC2 Let's Encrypt + direkt BigQuery-alternativ).
+**⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md — Supermetrics GSC-autentisering = snabbaste fix (2 min).
 
-Senaste check: 2026-05-23
+Senaste check: 2026-05-28
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
@@ -25,6 +25,17 @@ Senaste check: 2026-05-23
 - Swedbank Pay: kunden fixar själv
 - Schema-markup: kör när Rank Math PRO är aktivt
 - WP app-password: SAKNAS — kunden måste generera ett
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **Mikael: Generera WP app-password** (blockerar ALL automation och deploy-scripts) | **BRÅDSKANDE** | Utan detta: noll automatisk optimering, inga scripts kör |
+| Bildoptimering: prioritera top-200 mest sålda produkter inför WooCommerce-launch | **HÖG** | AJ Produkter har Product schema med bilder — Google Shopping kräver detta |
+| Skriv lokal landningssida: `/kontorsmobler-jonkoping/` (~500 ord) | **HÖG** | AJ = nationell, Morekontor = ej Småland — ingen konkurrent äger sökorden |
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" | **HÖG** | AJ Produkter skiftat till industriell ergonomi, Morekontor = storkontors-fokus — hemmakontor-nischen fri |
+| FAQ-schema på kategorisidor (när Rank Math PRO aktivt) | Medel | Morekontor har FAQ schema — SMK bör matcha |
+| Skriv: "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13
 
