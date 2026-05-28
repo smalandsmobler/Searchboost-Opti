@@ -18,7 +18,7 @@
 ## Regressionsvarningar
 
 ### Veckosammanfattning 2026-05-25 (måndag v22)
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 10 körningar i rad**
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 11 körningar i rad**
 > **NY MÖJLIGHET: Supermetrics har ds_id GW (GSC) — behöver bara autentisering**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
@@ -50,7 +50,7 @@ Mikael behöver klicka på denna länk för att autentisera Supermetrics mot GSC
 1. **EC2 SSL**: `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser EC2-API nåbarhet.
 2. **BigQuery env-var**: Lägg service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` i Claude Code Settings → Environment Variables → direkt BigQuery-åtkomst utan EC2.
 
-_Senaste check: 2026-05-27 — 0 kunder checkbara (10 körningar i rad, Supermetrics GSC-autentisering = snabbaste fix)_
+_Senaste check: 2026-05-28 — 0 kunder checkbara (**11 körningar i rad**, Supermetrics GSC-autentisering = snabbaste fix)_
 
 ### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
