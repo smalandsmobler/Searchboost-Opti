@@ -12,8 +12,9 @@ Inga regressioner 2026-05-21 (ej aktiv kund)
 Inga regressioner 2026-05-22 (ej aktiv kund)
 Inga regressioner 2026-05-26 (ej aktiv kund)
 Inga regressioner 2026-05-27 (ej aktiv kund)
+Inga regressioner 2026-05-29 (ej aktiv kund)
 Inga regressioner 2026-05-28 (ej aktiv kund)
-Senaste check: 2026-05-28
+Senaste check: 2026-05-29
 
 ## Status
 - Inte registrerad i BigQuery/customer_pipeline

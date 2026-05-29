@@ -5,14 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-05-28, **11 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28 maj):_
+_Ingen data — Blockerad (2026-05-29, **12 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/29 maj):_
 - _EC2-API: Ej nåbar från remote environment_
 - _Supermetrics GSC (ds\_id: GW): **FINNS** men NOT\_AUTHENTICATED — kräver engångsinloggning av Mikael_
 - _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
 **⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md — Supermetrics GSC-autentisering = snabbaste fix (2 min).
 
-Senaste check: 2026-05-28
+Senaste check: 2026-05-29
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt

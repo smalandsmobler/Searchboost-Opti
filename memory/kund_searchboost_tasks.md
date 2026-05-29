@@ -18,7 +18,7 @@
 ## Regressionsvarningar
 
 ### Veckosammanfattning 2026-05-25 (måndag v22)
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 11 körningar i rad**
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 12 körningar i rad**
 > **NY MÖJLIGHET: Supermetrics har ds_id GW (GSC) — behöver bara autentisering**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
@@ -33,13 +33,13 @@
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-05-27, **10 körningar i rad** — 14/16/18/19/20/21/22/23/26/27 maj):_
+_Ingen data — Blockerad (2026-05-29, **12 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/29 maj):_
 - _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy)_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
 - _Supermetrics GSC (ds\_id: GW): Ej tillgänglig i denna session (campaign mgmt only, ej data query)_
 
-**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (10 missade checks i rad):**
+**⚠️ KRITISK BLOCKERARE — ESKALERING KRÄVS (12 missade checks i rad):**
 
 **🔓 LÖSNING FUNNEN — Supermetrics GSC (snabbaste vägen, 2 min):**
 Mikael behöver klicka på denna länk för att autentisera Supermetrics mot GSC:
@@ -50,7 +50,7 @@ Mikael behöver klicka på denna länk för att autentisera Supermetrics mot GSC
 1. **EC2 SSL**: `sudo certbot --nginx` på EC2 → Let's Encrypt-cert → löser EC2-API nåbarhet.
 2. **BigQuery env-var**: Lägg service account JSON som `GOOGLE_APPLICATION_CREDENTIALS` i Claude Code Settings → Environment Variables → direkt BigQuery-åtkomst utan EC2.
 
-_Senaste check: 2026-05-28 — 0 kunder checkbara (**11 körningar i rad**, Supermetrics GSC-autentisering = snabbaste fix)_
+_Senaste check: 2026-05-29 — 0 kunder checkbara (**12 körningar i rad**, Supermetrics GSC-autentisering = snabbaste fix)_
 
 ### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
