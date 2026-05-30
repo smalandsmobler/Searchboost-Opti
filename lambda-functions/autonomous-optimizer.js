@@ -24,6 +24,24 @@ const FREE_MODELS = [
 // Module-level — sätts i handler
 let AI_MODEL = FREE_MODELS[0];
 
+// ── INTELLIGENT MODEL ROUTING (2026-05-03) ──
+// Måste ligga på modul-scope: fix*-handlers (fixMetadata m.fl.) anropar selectModel().
+// Tier 1 (billig, snabb): meta titles/descriptions, alt-text, enkel klassificering
+// Tier 2 (medel): schema markup, content-förbättringar, internlänk-förslag
+// Tier 3 (dyr, kraftfull): komplex content-generering, kundrapporter, strategisk analys
+const MODEL_TIERS = {
+  tier1: 'google/gemini-2.0-flash-lite-001',      // ~$0.075/1M tokens
+  tier2: 'anthropic/claude-haiku-4.5',              // ~$0.25/1M input
+  tier3: 'anthropic/claude-sonnet-4.6'              // ~$3/1M input — bara för kundrapporter
+};
+function selectModel(taskType) {
+  const tier1Tasks = ['meta_title', 'meta_description', 'alt_text', 'focus_keyword', 'classify', 'validate'];
+  const tier3Tasks = ['customer_report', 'strategy', 'full_article', 'competitor_analysis'];
+  if (tier1Tasks.includes(taskType)) return MODEL_TIERS.tier1;
+  if (tier3Tasks.includes(taskType)) return MODEL_TIERS.tier3;
+  return MODEL_TIERS.tier2; // schema, content_fix, internal_links, faq
+}
+
 /**
  * OpenRouter-klient som efterliknar Anthropics messages.create()-API.
  * OpenRouter är OpenAI-kompatibelt (/chat/completions), inte Anthropic-kompatibelt.
@@ -195,13 +213,41 @@ async function getParam(name) {
   return res.Parameter.Value;
 }
 
+// ── Säker status-DML ──
+// seo-aouto kan vara free-tier/sandbox där DML (UPDATE/DELETE) ger 403 billingNotEnabled.
+// En oskyddad UPDATE kraschar HELA optimizern. All status-uppdatering går via denna helper:
+// misslyckas DML loggas det och körningen fortsätter (optimeringen + streaming-insert till
+// seo_optimization_log sker ändå). Returnerar true vid lyckad DML, false annars.
+async function safeDml(bq, query, params) {
+  try {
+    await bq.query({ query, params });
+    return true;
+  } catch (e) {
+    const msg = (e && e.message ? e.message : String(e)).substring(0, 120);
+    console.warn(`  [BQ-DML] status-uppdatering misslyckades (${msg}) — fortsätter`);
+    return false;
+  }
+}
+
 async function getWordPressSites() {
   // Hämta från gamla sökvägen /seo-mcp/wordpress/
-  const wpRes = await ssm.send(new GetParametersByPathCommand({
-    Path: '/seo-mcp/wordpress/', Recursive: true, WithDecryption: true
-  }));
+  // VIKTIGT: SSM GetParametersByPath returnerar max 10 params per anrop.
+  // Utan paginering trunkeras listan till de 3 första kunderna alfabetiskt
+  // och resten av kunderna blir osynliga för optimizern. Paginera alltid.
+  const wpParams = [];
+  let wpToken;
+  do {
+    const wpRes = await ssm.send(new GetParametersByPathCommand({
+      Path: '/seo-mcp/wordpress/', Recursive: true, WithDecryption: true,
+      MaxResults: 10,
+      ...(wpToken ? { NextToken: wpToken } : {})
+    }));
+    wpParams.push(...(wpRes.Parameters || []));
+    wpToken = wpRes.NextToken;
+  } while (wpToken);
+
   const sites = {};
-  for (const p of (wpRes.Parameters || [])) {
+  for (const p of wpParams) {
     const parts = p.Name.split('/');
     const siteId = parts[3];
     const key = parts[4];
@@ -241,7 +287,7 @@ async function getWordPressSites() {
     }
   }
 
-  const all = Object.values(sites);
+  const all = Object.values(sites).filter(s => !/-staging$/.test(s.id));
   const valid = all.filter(s => s.url && s.username && s.username !== 'placeholder' && s['app-password'] && s['app-password'] !== 'placeholder');
   const skipped = all.filter(s => s.url && (!s.username || s.username === 'placeholder' || !s['app-password'] || s['app-password'] === 'placeholder'));
   console.log(`Found ${valid.length} WordPress sites with valid credentials`);
@@ -282,7 +328,7 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const bq = new BigQuery({ projectId });
   const _origDs = bq.dataset.bind(bq);
   bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
   return { bq, dataset };
@@ -1339,22 +1385,33 @@ async function runWooAudit(site, bq, dataset) {
   }).catch(() => [[]]);
   const existingUrls = new Set((existingRows || []).map(r => r.page_url));
 
-  let added = 0;
+  // Bygg rader för streaming insert (DML INSERT blockeras i free-tier seo-aouto)
+  const rows = [];
   for (const issue of issues.slice(0, 20)) {
     if (existingUrls.has(issue.url)) continue;
-    await bq.query({
-      query: `INSERT INTO \`${dataset}.seo_work_queue\`
-              (queue_id, customer_id, task_type, page_url, priority, status, context_data, created_at)
-              VALUES (GENERATE_UUID(), @cid, @type, @url, @prio, 'pending', @ctx, CURRENT_TIMESTAMP())`,
-      params: {
-        cid: site.id,
-        type: issue.type,
-        url: issue.url,
-        prio: issue.priority,
-        ctx: JSON.stringify({ id: issue.productId, product_id: issue.productId, url: issue.url, title: issue.name })
-      }
+    rows.push({
+      queue_id: `q-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+      customer_id: site.id,
+      site_url: site.url,
+      task_type: issue.type,
+      page_url: issue.url,
+      priority: issue.priority,
+      status: 'pending',
+      context_data: JSON.stringify({ id: issue.productId, product_id: issue.productId, url: issue.url, title: issue.name }),
+      created_at: new Date().toISOString(),
+      source: 'woo_audit'
     });
-    added++;
+  }
+
+  let added = 0;
+  if (rows.length > 0) {
+    try {
+      await bq.dataset(dataset).table('seo_work_queue').insert(rows);
+      added = rows.length;
+    } catch (e) {
+      const msg = (e && e.message ? e.message : String(e)).substring(0, 120);
+      console.warn(`  WooAudit ${site.id}: streaming insert misslyckades (${msg})`);
+    }
   }
 
   console.log(`  WooAudit ${site.id}: hittade ${issues.length} problem, lade till ${added} tasks`);
@@ -1702,22 +1759,16 @@ async function runActionPlanTask(planTask, site, claude, bq, dataset) {
   const handler = TASK_HANDLERS[fakeTask.task_type];
   if (!handler) {
     console.log(`  Ingen handler for plan task_type: ${planTask.task_type} (mappat: ${fakeTask.task_type})`);
-    await bq.query({
-      query: `UPDATE \`${dataset}.action_plans\` SET status = 'skipped' WHERE plan_id = @pid`,
-      params: { pid: planTask.plan_id }
-    });
+    await safeDml(bq, `UPDATE \`${dataset}.action_plans\` SET status = 'skipped' WHERE plan_id = @pid`, { pid: planTask.plan_id });
     return null;
   }
 
   const result = await handler(site, fakeTask, claude, bq, dataset);
 
-  // Markera planen som klar
-  await bq.query({
-    query: `UPDATE \`${dataset}.action_plans\`
+  // Markera planen som klar (DML kan blockeras i free-tier — safeDml sväljer felet)
+  await safeDml(bq, `UPDATE \`${dataset}.action_plans\`
             SET status = 'completed', completed_at = CURRENT_TIMESTAMP()
-            WHERE plan_id = @pid`,
-    params: { pid: planTask.plan_id }
-  });
+            WHERE plan_id = @pid`, { pid: planTask.plan_id });
 
   // Logga i seo_optimization_log (streaming insert — DML ej tillgängligt i Lambda-kontexten)
   await bq.dataset(dataset).table('seo_optimization_log').insert([{
@@ -1925,23 +1976,7 @@ exports.handler = async (event) => {
 
     const openrouterKey = await getParam('/seo-mcp/openrouter/api-key');
 
-    // ── INTELLIGENT MODEL ROUTING (2026-05-03) ──
-    // Uppgiftstyp → modell baserat på komplexitet + kostnad
-    // Tier 1 (billig, snabb): meta titles/descriptions, alt-text, enkel klassificering
-    // Tier 2 (medel): schema markup, content-förbättringar, internlänk-förslag
-    // Tier 3 (dyr, kraftfull): komplex content-generering, kundrapporter, strategisk analys
-    const MODEL_TIERS = {
-      tier1: 'google/gemini-2.0-flash-lite-001',      // ~$0.075/1M tokens
-      tier2: 'anthropic/claude-haiku-4-5-20251001',    // ~$0.25/1M input
-      tier3: 'anthropic/claude-sonnet-4-6'             // ~$3/1M input — bara för kundrapporter
-    };
-    function selectModel(taskType) {
-      const tier1Tasks = ['meta_title', 'meta_description', 'alt_text', 'focus_keyword', 'classify', 'validate'];
-      const tier3Tasks = ['customer_report', 'strategy', 'full_article', 'competitor_analysis'];
-      if (tier1Tasks.includes(taskType)) return MODEL_TIERS.tier1;
-      if (tier3Tasks.includes(taskType)) return MODEL_TIERS.tier3;
-      return MODEL_TIERS.tier2; // schema, content_fix, internal_links, faq
-    }
+    // Model routing (MODEL_TIERS/selectModel) ligger nu på modul-scope (se topp av filen)
     AI_MODEL = MODEL_TIERS.tier1; // default fallback
 
     // Langfuse tracing (cloud.langfuse.com)
@@ -2067,10 +2102,7 @@ exports.handler = async (event) => {
           // Validera target_url mot blocklist
           if (shouldSkipPlanUrl(planTask.target_url)) {
             console.log(`  Skippar plan-uppgift — blockad URL: ${planTask.target_url}`);
-            await bq.query({
-              query: `UPDATE \`${dataset}.action_plans\` SET status = 'skipped' WHERE plan_id = @pid`,
-              params: { pid: planTask.plan_id }
-            });
+            await safeDml(bq, `UPDATE \`${dataset}.action_plans\` SET status = 'skipped' WHERE plan_id = @pid`, { pid: planTask.plan_id });
             continue;
           }
 
@@ -2090,10 +2122,7 @@ exports.handler = async (event) => {
             if (newStatus === 'skipped') {
               console.log(`  Skippar permanent (404): ${planTask.target_url}`);
             }
-            await bq.query({
-              query: `UPDATE \`${dataset}.action_plans\` SET status = @status WHERE plan_id = @pid`,
-              params: { status: newStatus, pid: planTask.plan_id }
-            });
+            await safeDml(bq, `UPDATE \`${dataset}.action_plans\` SET status = @status WHERE plan_id = @pid`, { status: newStatus, pid: planTask.plan_id });
           }
         }
 
@@ -2136,10 +2165,7 @@ exports.handler = async (event) => {
 
           const handler = TASK_HANDLERS[task.task_type];
           if (!handler) {
-            await bq.query({
-              query: `UPDATE \`${dataset}.seo_work_queue\` SET status = 'skipped' WHERE queue_id = @qid`,
-              params: { qid: task.queue_id }
-            });
+            await safeDml(bq, `UPDATE \`${dataset}.seo_work_queue\` SET status = 'skipped' WHERE queue_id = @qid`, { qid: task.queue_id });
             continue;
           }
 
@@ -2149,15 +2175,8 @@ exports.handler = async (event) => {
             results.push({ queue_id: task.queue_id, customer_id: site.id, ...result });
             totalProcessed++;
 
-            // UPDATE via DML — wrappas i try-catch (DML kan misslyckas i sandbox-kontext)
-            try {
-              await bq.query({
-                query: `UPDATE \`${dataset}.seo_work_queue\` SET status = 'completed', processed_at = CURRENT_TIMESTAMP() WHERE queue_id = @qid`,
-                params: { qid: task.queue_id }
-              });
-            } catch (dmlErr) {
-              console.warn(`  [BQ-DML] UPDATE work_queue misslyckades (${dmlErr.message.substring(0, 80)}) — hoppar över, loggar ändå`);
-            }
+            // UPDATE via DML — safeDml sväljer fel (DML kan blockeras i free-tier)
+            await safeDml(bq, `UPDATE \`${dataset}.seo_work_queue\` SET status = 'completed', processed_at = CURRENT_TIMESTAMP() WHERE queue_id = @qid`, { qid: task.queue_id });
 
             // Streaming insert — DML INSERT INTO fungerar ej i Lambda-kontexten
             await bq.dataset(dataset).table('seo_optimization_log').insert([{
@@ -2181,10 +2200,7 @@ exports.handler = async (event) => {
             if (newStatus === 'skipped') {
               console.log(`  Skippar permanent (404): ${task.page_url}`);
             }
-            await bq.query({
-              query: `UPDATE \`${dataset}.seo_work_queue\` SET status = @status WHERE queue_id = @qid`,
-              params: { status: newStatus, qid: task.queue_id }
-            });
+            await safeDml(bq, `UPDATE \`${dataset}.seo_work_queue\` SET status = @status WHERE queue_id = @qid`, { status: newStatus, qid: task.queue_id });
           }
         }
       }

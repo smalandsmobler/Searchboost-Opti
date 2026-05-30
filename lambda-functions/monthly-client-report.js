@@ -189,7 +189,7 @@ async function getCustomerMetrics(bq, dataset, customerId) {
         SELECT COUNT(*) as cnt
         FROM \`${bq.projectId}.${dataset}.seo_optimization_log\`
         WHERE customer_id = @customerId
-          AND created_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
+          AND timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY)
       `,
       params: { customerId }
     });
@@ -435,17 +435,19 @@ function buildInternalSummaryHtml(periodLabel, results) {
 // ── Main handler ──
 
 exports.handler = async (event) => {
-  console.log('Monthly client report started', new Date().toISOString());
+  // dry_run-flagga: generera HTML men skicka INTE mail, logga ej i BQ
+  const DRY_RUN = event?.dry_run === true || process.env.DRY_RUN === 'true';
+  console.log('Monthly client report started', new Date().toISOString(), DRY_RUN ? '(DRY RUN)' : '');
 
   const { bq, dataset } = await getBigQuery();
-  await ensureMonthlyReportLogTable(bq, dataset);
+  if (!DRY_RUN) await ensureMonthlyReportLogTable(bq, dataset);
 
   // Hämta alla aktiva kunder
   const [customers] = await bq.query({
     query: `
       SELECT customer_id, company_name, website_url
       FROM \`${bq.projectId}.${dataset}.customer_pipeline\`
-      WHERE status = 'active'
+      WHERE stage = 'aktiv'
       ORDER BY company_name
     `
   });
@@ -508,8 +510,10 @@ exports.handler = async (event) => {
         portalUrl: `${portalBaseUrl}?customer=${customerId}`,
       });
 
-      // Skicka mail
-      if (transporter) {
+      // Skicka mail (skippa i dry_run)
+      if (DRY_RUN) {
+        console.log(`${customerId}: DRY RUN — mail EJ skickat (HTML genererad, ${htmlBody.length} bytes)`);
+      } else if (transporter) {
         await transporter.sendMail({
           from: `Searchboost SEO <${fromEmail}>`,
           to: contactEmail,
@@ -523,8 +527,8 @@ exports.handler = async (event) => {
         console.warn(`${customerId}: ingen transporter, mail EJ skickat`);
       }
 
-      // Logga i BigQuery
-      await logReport(bq, dataset, {
+      // Logga i BigQuery (skippa i dry_run)
+      if (!DRY_RUN) await logReport(bq, dataset, {
         report_id: reportId,
         customer_id: customerId,
         period_start: periodStart,
@@ -544,7 +548,7 @@ exports.handler = async (event) => {
       console.error(`${customerId} error:`, err.message);
       errorMessage = err.message;
 
-      await logReport(bq, dataset, {
+      if (!DRY_RUN) await logReport(bq, dataset, {
         report_id: reportId,
         customer_id: customerId,
         period_start: periodStart,
@@ -562,9 +566,9 @@ exports.handler = async (event) => {
     }
   }
 
-  // Skicka intern sammanfattning till Mikael
+  // Skicka intern sammanfattning till Mikael (skippa i dry_run)
   try {
-    if (transporter) {
+    if (!DRY_RUN && transporter) {
       const internalHtml = buildInternalSummaryHtml(periodLabel, results);
       await transporter.sendMail({
         from: `Searchboost Opti <${fromEmail}>`,

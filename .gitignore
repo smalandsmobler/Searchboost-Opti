@@ -8,3 +8,19 @@ data/seranking-backlinks-dump-2026-02-14.json
 scripts/output/
 data/kompetensutveckla/*.json
 .env
+.env.*
+!.env.example
+
+# Externt referensrepo (eget git-repo, klonat lokalt — committas aldrig)
+ai-prompts-reference/
+
+# Secrets / credentials — NEVER commit (use SSM for config)
+memory/api-keys.md
+memory/wp_credentials.md
+memory/*credentials*
+perispa/bq-credentials.json
+perispa/config.json
+**/bq-credentials.json
+*service-account*.json
+*-credentials.json
+tools/vendor/
