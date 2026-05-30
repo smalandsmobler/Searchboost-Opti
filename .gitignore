@@ -28,3 +28,4 @@ tools/vendor/
 # Plausible-MCP build artifacts
 tools/vendor/plausible-mcp/node_modules/
 tools/vendor/plausible-mcp/dist/
+tools/plausible-ch-mcp/node_modules/

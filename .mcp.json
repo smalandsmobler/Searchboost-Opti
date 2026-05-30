@@ -19,6 +19,9 @@
         "PLAUSIBLE_BASE_URL": "https://analytics.searchboost.se",
         "PLAUSIBLE_API_KEY": "PLACEHOLDER_REPLACE_WITH_SSM_VALUE"
       }
+    },
+    "plausible-ch": {
+      "command": "/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/plausible-ch-mcp-launcher.sh"
     }
   }
 }

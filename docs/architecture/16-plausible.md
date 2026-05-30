@@ -54,6 +54,27 @@ Loopia XML-RPC API satte A-record `analytics.searchboost.se → 13.63.66.148` (v
 | Backup | ❌ | Snapshot EBS-volym dagligen, eller `pg_dump` + `clickhouse-backup` till S3 |
 | Replacement-pipeline för weekly/monthly-rapporten | ❌ | Lambda `data-collector` ska få ny gren: läs Plausible Stats API → BQ `plausible_daily_metrics` (parallellt med GSC/GA4). Då lever rapporten utan GA4-beroende |
 
+## Två oberoende MCP-vägar (gratis båda)
+
+| Variant | Backend | API-key | Hastighet | När? |
+|---------|---------|---------|-----------|------|
+| `plausible` | Plausibles Stats API v2 | Krävs (gratis på CE, paid på cloud) | Standard | Default — produktionssäker, väldokumenterat shape |
+| `plausible-ch` | ClickHouse direkt via SSH-tunnel | Ingen | Snabbare (direkt SQL) | Backup + custom-aggregat |
+
+Båda exponerar samma 4 verktyg så Claude kan välja vilken som helst beroende på prompt.
+
+### Verifierat: Stats API på CE = gratis
+
+Plausibles prislista (https://plausible.io/#pricing) gäller `plausible.io`-cloud — där låser de Stats API bakom Business-planen ($69/mo). På **Community Edition** (det vi självhostar) ingår alla features inkl. Stats API utan extra kostnad. Källa: https://plausible.io/blog/community-edition + LICENSE i `tools/vendor/plausible-mcp/`. Test mot vår instans 2026-05-31:
+
+```
+$ curl -X POST https://analytics.searchboost.se/api/v2/query -H 'Content-Type: application/json' -d '{...}'
+{"error":"Missing API key. Please use a valid Plausible API key as a Bearer Token."}
+HTTP 401
+```
+
+= endpoint existerar, kräver bara Bearer-key som Mikael genererar i UI utan prenumeration.
+
 ## MCP-server (Claude kopplad mot Plausible)
 
 `getsentry/plausible-mcp` klonad och byggd i `tools/vendor/plausible-mcp/dist/`. Inkopplad i `.mcp.json`:
@@ -81,6 +102,19 @@ Aktiveras så fort Mikael genererar API-key och kör:
 ```bash
 aws ssm put-parameter --name /seo-mcp/plausible/api-key --value '<key>' --type SecureString --overwrite --region eu-north-1 --profile mikael
 ```
+
+### CH-direct MCP (`plausible-ch`)
+
+`tools/plausible-ch-mcp/` — egen MCP-server som skippar Stats API helt. SSH-tunnel till EC2 → ClickHouse på port 18123 lokalt → SQL direkt mot `plausible_events_db.events_v2` + `sessions_v2`.
+
+Launcher: `tools/plausible-ch-mcp-launcher.sh` (hanterar SSH-portöppning + key-push + tunnel-start). Inget API-key behövs — vi har root-access till databasen.
+
+Stödda CH-tabeller:
+- `events_v2` (raw events: pageview + custom goals, kolumner: timestamp, name, site_id, user_id, session_id, hostname, pathname, referrer, country_code, screen_size, browser, OS, UTM, meta.key/value)
+- `sessions_v2` (aggregerade sessioner)
+- `imported_*` (GA4-historik från Plausible-importer)
+
+Aktiveras direkt utan API-key — fungerar så fort tracker börjat skicka data till Plausible (efter onboarding-snippeten är på kundsajten).
 
 ## Tracker-snippet i onboardingen
 
