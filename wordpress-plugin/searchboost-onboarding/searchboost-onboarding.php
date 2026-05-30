@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Searchboost Onboarding
- * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Plausible-tracker mot analytics.searchboost.se.
+ * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Possible-tracker (analytics) mot analytics.searchboost.se.
  * Version: 1.2.0
  * Author: Searchboost
  */

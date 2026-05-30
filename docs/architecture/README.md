@@ -24,7 +24,7 @@ Detta är master-indexet. Varje delfil har en **GÖR vs BORDE GÖRA**-sektion so
 | 13 | [13-kvalitet-och-codereview.md](13-kvalitet-och-codereview.md) | OpenRouter review-pipeline + repos |
 | 14 | [14-sakerhet-och-ssm.md](14-sakerhet-och-ssm.md) | Secret-hygien + SSM-schema |
 | 15 | [15-roadmap-fullservice.md](15-roadmap-fullservice.md) | Vägen till full-service + prioriterade fixar |
-| 16 | [16-plausible.md](16-plausible.md) | Plausible self-hosted analytics (analytics.searchboost.se) |
+| 16 | [16-plausible.md](16-plausible.md) | Possible (vår analytics — driven av Plausible CE) |
 | 17 | [17-billionmail.md](17-billionmail.md) | BillionMail self-hosted utskick (utskick.searchboost.se) |
 | 18 | [18-manadsrapport-pipeline.md](18-manadsrapport-pipeline.md) | Månadsrapport: BQ-view + HTML + Looker Studio |
 | 19 | [19-prospect-analyzer.md](19-prospect-analyzer.md) | Prospekt-SEO-scanner: 2000+ domäner → segment för BillionMail |

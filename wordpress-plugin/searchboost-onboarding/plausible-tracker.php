@@ -1,6 +1,6 @@
 <?php
 /**
- * Searchboost Plausible-tracker.
+ * Searchboost Possible-tracker (driven av Plausible CE).
  * Auto-injecteras i <head> pa alla publika sidor pa kundsajter dar denna plugin ar aktiv.
  *
  * Datakalla: var self-hosted Plausible pa https://analytics.searchboost.se
@@ -44,7 +44,7 @@ add_action('wp_head', function () {
         return;
     }
     $esc_domain = esc_attr($domain);
-    echo "\n<!-- Searchboost Plausible tracker -->\n";
+    echo "\n<!-- Searchboost Possible (analytics) -->\n";
     echo '<script defer data-domain="' . $esc_domain . '" src="https://analytics.searchboost.se/js/script.outbound-links.tagged-events.file-downloads.js"></script>' . "\n";
     echo '<script>window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}</script>' . "\n";
 }, 1);
