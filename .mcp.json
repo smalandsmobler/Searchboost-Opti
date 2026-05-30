@@ -11,6 +11,14 @@
     "sequential-thinking": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "plausible": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/vendor/plausible-mcp/dist/index.js"],
+      "env": {
+        "PLAUSIBLE_BASE_URL": "https://analytics.searchboost.se",
+        "PLAUSIBLE_API_KEY": "PLACEHOLDER_REPLACE_WITH_SSM_VALUE"
+      }
     }
   }
 }

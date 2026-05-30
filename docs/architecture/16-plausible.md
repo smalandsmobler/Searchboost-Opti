@@ -54,6 +54,78 @@ Loopia XML-RPC API satte A-record `analytics.searchboost.se → 13.63.66.148` (v
 | Backup | ❌ | Snapshot EBS-volym dagligen, eller `pg_dump` + `clickhouse-backup` till S3 |
 | Replacement-pipeline för weekly/monthly-rapporten | ❌ | Lambda `data-collector` ska få ny gren: läs Plausible Stats API → BQ `plausible_daily_metrics` (parallellt med GSC/GA4). Då lever rapporten utan GA4-beroende |
 
+## MCP-server (Claude kopplad mot Plausible)
+
+`getsentry/plausible-mcp` klonad och byggd i `tools/vendor/plausible-mcp/dist/`. Inkopplad i `.mcp.json`:
+
+```json
+"plausible": {
+  "command": "node",
+  "args": ["/.../tools/vendor/plausible-mcp/dist/index.js"],
+  "env": {
+    "PLAUSIBLE_BASE_URL": "https://analytics.searchboost.se",
+    "PLAUSIBLE_API_KEY": "<sätts via SSM /seo-mcp/plausible/api-key>"
+  }
+}
+```
+
+Alternativ launcher som hämtar key dynamiskt från SSM: `tools/plausible-mcp-launcher.sh`.
+
+Verktyg som Claude får:
+- `get_timeseries` — trafik och konv-metrics över tid
+- `get_breakdown` — bryt ner per sida, källa, land, device, browser, OS, UTM
+- `get_conversions` — målkonverteringar, valbart per sida
+- `compare_periods` — sida-vid-sida-jämförelse av två tidsperioder
+
+Aktiveras så fort Mikael genererar API-key och kör:
+```bash
+aws ssm put-parameter --name /seo-mcp/plausible/api-key --value '<key>' --type SecureString --overwrite --region eu-north-1 --profile mikael
+```
+
+## Tracker-snippet i onboardingen
+
+### WordPress-kunder (Rank Math + Perispa)
+
+`wordpress-plugin/searchboost-onboarding/plausible-tracker.php` injekterar automatiskt i `<head>` på alla publika sidor när plugin är aktiv. Settings:
+- `sb_plausible_enabled` (default `1`) — toggle
+- `sb_plausible_domain` (default = host från `home_url()`) — visas som site_id i Plausible UI
+
+Plugin version bumpad till 1.2.0. Aktiveras direkt vid plugin-aktivering, inget kund-handpåläggning krävs.
+
+### Next.js / headless-sajter
+
+`searchboost-react/src/lib/plausible.tsx` exporterar `<PlausibleScript domain="..." />` (App Router) + `trackEvent(name, props)`-helper. Användning i `app/layout.tsx`:
+
+```tsx
+import { PlausibleScript } from '@/lib/plausible';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="sv">
+      <head>
+        <PlausibleScript domain="arbetsro.se" />
+      </head>
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+Custom events:
+```tsx
+import { trackEvent } from '@/lib/plausible';
+<button onClick={() => trackEvent('Newsletter Signup', { source: 'footer' })}>Prenumerera</button>
+```
+
+### Tracker-script-build
+
+Vi använder vår hostade `analytics.searchboost.se/js/script.outbound-links.tagged-events.file-downloads.js` — samma JS som `@plausible-analytics/tracker` (https://www.npmjs.com/package/@plausible-analytics/tracker) skulle bunta, men hostat hos oss för att slippa kund-CDN-cache och få full kontroll på versioner.
+
+Features inkluderade i builden:
+- `outbound-links` — spårar klick på externa länkar
+- `tagged-events` — `window.plausible('Goal Name', { props: {...} })`
+- `file-downloads` — pdf/mp3/zip-nedladdningar
+
 ## Stats API (sammandrag)
 
 Plausible Stats API: `GET https://analytics.searchboost.se/api/v1/stats/aggregate?site_id=<domain>&period=30d&metrics=visitors,pageviews,bounce_rate,visit_duration`. Auth: `Authorization: Bearer <api-key>`.

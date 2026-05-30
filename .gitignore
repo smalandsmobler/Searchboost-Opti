@@ -24,3 +24,7 @@ perispa/config.json
 *service-account*.json
 *-credentials.json
 tools/vendor/
+
+# Plausible-MCP build artifacts
+tools/vendor/plausible-mcp/node_modules/
+tools/vendor/plausible-mcp/dist/

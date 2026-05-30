@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name: Searchboost Onboarding
- * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare.
- * Version: 1.1.0
+ * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Plausible-tracker mot analytics.searchboost.se.
+ * Version: 1.2.0
  * Author: Searchboost
  */
 
 if (!defined('ABSPATH')) exit;
+require_once __DIR__ . '/plausible-tracker.php';
 
 // Settings page
 add_action('admin_menu', function() {
