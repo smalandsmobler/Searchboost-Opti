@@ -519,6 +519,8 @@ exports.handler = async (event) => {
           to: contactEmail,
           subject: `Din SEO-rapport för ${periodLabel} — ${companyName}`,
           html: htmlBody,
+          textEncoding: 'base64',
+          headers: { 'Content-Language': 'sv-SE' },
         });
         emailSent = true;
         console.log(`${customerId}: mail skickat till ${contactEmail}`);
@@ -575,6 +577,8 @@ exports.handler = async (event) => {
         to: mikaelEmail,
         subject: `[Intern] Månadsrapporter skickade — ${periodLabel} (${results.filter(r => r.emailSent).length}/${results.length})`,
         html: internalHtml,
+        textEncoding: 'base64',
+        headers: { 'Content-Language': 'sv-SE' },
       });
       console.log('Intern sammanfattning skickad till Mikael');
     }

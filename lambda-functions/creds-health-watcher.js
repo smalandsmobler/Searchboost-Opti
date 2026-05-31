@@ -168,6 +168,9 @@ ${list}
         to: 'mikael@searchboost.se',
         subject: `[Creds-larm] ${newlyBroken.length} kanal${newlyBroken.length>1?'er':''} behöver re-auth`,
         html,
+      ,
+        textEncoding: 'base64',
+        headers: { 'Content-Language': 'sv-SE' }
       });
       console.log('Mail skickat till Mikael.');
     }

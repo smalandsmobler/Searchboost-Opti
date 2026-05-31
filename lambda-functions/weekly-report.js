@@ -14,12 +14,10 @@
  *   - BigQuery: ads_daily_metrics (spend, ROAS per plattform)
  *   - BigQuery: social_daily_metrics (followers, engagement)
  *   - SSM: kontaktuppgifter per kund
- *   - Trello: DONE-kort (senaste 7 dagar)
  */
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
 const { BigQuery } = require('@google-cloud/bigquery');
 const nodemailer = require('nodemailer');
-const axios = require('axios');
 const fs = require('fs');
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
@@ -333,53 +331,17 @@ async function getActiveCustomers() {
   return customers;
 }
 
-async function getTrelloDoneCards() {
-  try {
-    const apiKey = await getParam('/seo-mcp/trello/api-key');
-    const token = await getParam('/seo-mcp/trello/token');
-    const boardId = await getParam('/seo-mcp/trello/board-id');
-
-    const listsRes = await axios.get(`https://api.trello.com/1/boards/${boardId}/lists`, {
-      params: { key: apiKey, token }
-    });
-    const doneList = listsRes.data.find(l => l.name.toLowerCase().includes('done'));
-    if (!doneList) {
-      console.log('No DONE list found on Trello board');
-      return [];
-    }
-
-    const cardsRes = await axios.get(`https://api.trello.com/1/lists/${doneList.id}/cards`, {
-      params: { key: apiKey, token, fields: 'name,desc,dateLastActivity' }
-    });
-
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    return cardsRes.data.filter(card => new Date(card.dateLastActivity) >= sevenDaysAgo);
-  } catch (err) {
-    console.error('Trello fetch error:', err.message);
-    return [];
-  }
-}
-
-function extractCustomerFromCard(card) {
-  const nameMatch = card.name.match(/SEO:\s*(\S+)/i);
-  if (nameMatch) return nameMatch[1];
-  const descMatch = (card.desc || '').match(/\*\*Kund:\*\*\s*(\S+)/);
-  if (descMatch) return descMatch[1];
-  return 'ospecificerad';
-}
-
 /**
  * Matcha optimeringar till kunder baserat på customer_id eller site_url
  */
-function groupByCustomer(optimizations, trelloCards, customers) {
+function groupByCustomer(optimizations, customers) {
   const groups = {};
 
   // Initiera grupper för alla kunder
   for (const customer of customers) {
     groups[customer.customer_id] = {
       customer,
-      optimizations: [],
-      trelloCards: []
+      optimizations: []
     };
   }
 
@@ -407,28 +369,9 @@ function groupByCustomer(optimizations, trelloCards, customers) {
     if (!matched) {
       // Ospecificerad kund
       if (!groups['_unmatched']) {
-        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [], trelloCards: [] };
+        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [] };
       }
       groups['_unmatched'].optimizations.push(opt);
-    }
-  }
-
-  // Gruppera Trello-kort
-  for (const card of trelloCards) {
-    const cardCustomer = extractCustomerFromCard(card);
-    let matched = false;
-    for (const customer of customers) {
-      if (cardCustomer.includes(customer.customer_id) || customer.customer_id.includes(cardCustomer)) {
-        groups[customer.customer_id].trelloCards.push(card);
-        matched = true;
-        break;
-      }
-    }
-    if (!matched) {
-      if (!groups['_unmatched']) {
-        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [], trelloCards: [] };
-      }
-      groups['_unmatched'].trelloCards.push(card);
     }
   }
 
@@ -436,7 +379,7 @@ function groupByCustomer(optimizations, trelloCards, customers) {
 }
 
 // ── Kundfacing veckologg — HTML med siffror och utfört arbete ──
-function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel, metrics, introMessage) {
+function buildCustomerReportHTML(customer, optimizations, weekLabel, metrics, introMessage) {
   const name = customer.contact_person || 'där';
   const companyName = customer.company_name || customer.customer_id;
 
@@ -449,10 +392,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
     const mainText = o.description || o.after_state || type;
     return `<li style="margin-bottom:8px;font-size:14px;line-height:1.4">${escapeHtml(mainText)} <span style="color:#bbb;font-size:11px;display:inline-block;margin-left:4px">${escapeHtml(page)}</span></li>`;
   });
-  const trelloItems = trelloCards.map(c =>
-    `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(c.name)}</li>`
-  );
-  const allItems = [...optItems, ...trelloItems];
+  const allItems = optItems;
 
   // ── Veckans siffror (GSC-block) ──
   let gscBlock = '';
@@ -655,14 +595,13 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
 }
 
 // ── Intern sammanfattning (Mikaels mail) ──
-function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics, introMessage) {
+function buildInternalReportHTML(groups, optimizations, queueStats, weekLabel, allMetrics, introMessage) {
   const totalOpts = optimizations.length;
-  const totalCards = trelloCards.length;
 
   // Filtrera bort _unmatched och tomma grupper
   const activeGroups = Object.entries(groups)
-    .filter(([id, g]) => id !== '_unmatched' && (g.optimizations.length > 0 || g.trelloCards.length > 0 || (allMetrics && allMetrics[id])))
-    .sort((a, b) => (b[1].optimizations.length + b[1].trelloCards.length) - (a[1].optimizations.length + a[1].trelloCards.length));
+    .filter(([id, g]) => id !== '_unmatched' && (g.optimizations.length > 0 || (allMetrics && allMetrics[id])))
+    .sort((a, b) => b[1].optimizations.length - a[1].optimizations.length);
 
   const customerSections = activeGroups.map(([customerId, data]) => {
     const displayName = data.customer.company_name || customerId;
@@ -676,11 +615,10 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
         `<td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">${truncate(displayUrl, 45)}</td></tr>`;
     }).join('');
 
-    const trelloRows = data.trelloCards.map(c =>
-      `<li style="margin-bottom:4px;font-size:12px">${escapeHtml(c.name)}</li>`
-    ).join('');
-
-    const emailStatus = data.customer.contact_email ? 'Skickat' : 'Inget mail';
+    // Speglar tom-mail-gaten i handlern: mail går ut endast vid loggat arbete + e-post.
+    const emailStatus = data.optimizations.length === 0
+      ? 'Inget mail (inget arbete)'
+      : (data.customer.contact_email ? 'Skickat' : 'Inget mail (saknar e-post)');
 
     // GSC-sammanfattning för intern vy
     let gscSummary = '';
@@ -737,7 +675,7 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
     <div style="margin-bottom:16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden">
       <div style="background:#f8f9fa;padding:10px 14px;border-bottom:1px solid #e8e8e8">
         <strong style="font-size:14px">${escapeHtml(displayName)}</strong>
-        <span style="float:right;font-size:12px;color:#666">${data.optimizations.length} opt. | ${data.trelloCards.length} kort | ${emailStatus}</span>
+        <span style="float:right;font-size:12px;color:#666">${data.optimizations.length} opt. | ${emailStatus}</span>
       </div>
       <div style="padding:12px 14px">
         <div style="font-size:11px;color:#999;margin-bottom:8px">Kontakt: ${escapeHtml(email)}</div>
@@ -755,11 +693,6 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
           </tr>
           ${optRows}
         </table>` : ''}
-        ${data.trelloCards.length > 0 ? `
-        <div style="margin-top:8px">
-          <div style="font-size:11px;color:#999;text-transform:uppercase;margin-bottom:4px">Trello (DONE)</div>
-          <ul style="margin:0;padding-left:18px">${trelloRows}</ul>
-        </div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -786,27 +719,22 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
   <div style="padding:24px">
     <table style="width:100%;margin-bottom:24px" cellspacing="0" cellpadding="0">
       <tr>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalOpts}</div>
           <div style="font-size:12px;color:#666">Opt.</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
-          <div style="font-size:28px;font-weight:700;color:#db007f">${totalCards}</div>
-          <div style="font-size:12px;color:#666">Trello</div>
-        </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${customersWithWork}</div>
           <div style="font-size:12px;color:#666">Kunder</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalClicks.toLocaleString('sv-SE')}</div>
           <div style="font-size:12px;color:#666">Klick GSC</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalSpend > 0 ? Math.round(totalSpend).toLocaleString('sv-SE') : '–'}</div>
           <div style="font-size:12px;color:#666">kr ads</div>
         </td>
@@ -1136,14 +1064,13 @@ exports.handler = async (event) => {
     }
 
     // Hämta data parallellt
-    const [optimizationsResult, queueResult, trelloCards, customers] = await Promise.all([
+    const [optimizationsResult, queueResult, customers] = await Promise.all([
       bq.query({
         query: `SELECT * FROM \`${dataset}.seo_optimization_log\` WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY) ORDER BY timestamp DESC`
       }),
       bq.query({
         query: `SELECT status, COUNT(*) as count FROM \`${dataset}.seo_work_queue\` GROUP BY status`
       }),
-      getTrelloDoneCards(),
       getActiveCustomers()
     ]);
 
@@ -1157,9 +1084,9 @@ exports.handler = async (event) => {
     const weekLabel = `Vecka ${getWeekNumber(now)}, ${now.getFullYear()}`;
 
     // Gruppera per kund
-    const groups = groupByCustomer(optimizations, trelloCards, customers);
+    const groups = groupByCustomer(optimizations, customers);
 
-    console.log(`Hittade ${optimizations.length} optimeringar, ${trelloCards.length} Trello-kort, ${customers.length} kunder`);
+    console.log(`Hittade ${optimizations.length} optimeringar, ${customers.length} kunder`);
 
     // ── Hämta GSC + Ads + Social-metrics per kund parallellt ──
     const allMetrics = {};
@@ -1178,29 +1105,35 @@ exports.handler = async (event) => {
 
     // ── 1. Per-kund veckologgar ──
     const customerResults = [];
+    const reportsTable = bq.dataset(dataset).table('weekly_reports');
     for (const [customerId, group] of Object.entries(groups)) {
-      // Skippa unmatched och kunder utan arbete och utan metrics
       if (customerId === '_unmatched') continue;
+      // Skippa searchboost (intern)
+      if (customerId === 'searchboost') {
+        console.log(`Skipping searchboost (intern)`);
+        continue;
+      }
       const m = allMetrics[customerId] || { gsc: null, ads: null, social: null };
-      const hasWork = group.optimizations.length > 0 || group.trelloCards.length > 0;
-      const hasMetrics = (m.gsc && m.gsc.clicks_this_week > 0) || (m.ads && Number(m.ads.total_spend) > 0) || (m.social && m.social.length > 0);
-      if (!hasWork && !hasMetrics) continue;
+
+      // Tom-mail-gate: kundmail går ENDAST ut när det finns loggat arbete denna vecka.
+      // Inga "tomma" åtgärdsmail — metrics ensamt räcker inte. Kunder utan loggat
+      // arbete syns i den interna rapporten + fångas av pre-flight dagen innan.
+      const hasWork = group.optimizations.length > 0;
+      if (!hasWork) {
+        console.log(`Skippar kundmail ${customerId}: inget loggat arbete denna vecka`);
+        customerResults.push({ customer_id: customerId, sent: false, reason: 'no_work_logged' });
+        continue;
+      }
       // Skippa kunder utan e-post
       if (!group.customer.contact_email) {
         console.log(`Skipping ${customerId}: ingen contact_email`);
         customerResults.push({ customer_id: customerId, sent: false, reason: 'no_email' });
         continue;
       }
-      // Skippa searchboost (intern)
-      if (customerId === 'searchboost') {
-        console.log(`Skipping searchboost (intern)`);
-        continue;
-      }
 
       const customerHtml = buildCustomerReportHTML(
         group.customer,
         group.optimizations,
-        group.trelloCards,
         weekLabel,
         m,
         introMessage
@@ -1213,22 +1146,24 @@ exports.handler = async (event) => {
           replyTo: mikaelEmail[0],
           subject: `Veckologg SEO — ${group.customer.company_name} — ${weekLabel}`,
           html: customerHtml
-        });
+        ,
+      textEncoding: 'base64',
+      headers: { 'Content-Language': 'sv-SE' }
+    });
 
         console.log(`✅ Kundmail skickat till ${group.customer.contact_email} (${customerId})`);
         customerResults.push({ customer_id: customerId, sent: true, email: group.customer.contact_email });
 
-        // Spara per-kund rapport i BigQuery
-        await bq.query({
-          query: `INSERT INTO \`${dataset}.weekly_reports\` (customer_id, report_html, optimizations_count, summary, created_at, sent_at)
-                  VALUES (@customer_id, @report_html, @optimizations_count, @summary, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())`,
-          params: {
-            customer_id: customerId,
-            report_html: customerHtml,
-            optimizations_count: group.optimizations.length + group.trelloCards.length,
-            summary: `${group.optimizations.length} opt, ${group.trelloCards.length} kort`
-          }
-        });
+        // Spara per-kund rapport i BigQuery (streaming insert — plain ISO-string för timestamp)
+        const nowIso = new Date().toISOString();
+        await reportsTable.insert([{
+          customer_id: customerId,
+          report_html: customerHtml,
+          optimizations_count: group.optimizations.length,
+          summary: `${group.optimizations.length} opt`,
+          created_at: nowIso,
+          sent_at: nowIso
+        }]);
       } catch (emailErr) {
         console.error(`❌ Kunde inte skicka till ${group.customer.contact_email}: ${emailErr.message}`);
         customerResults.push({ customer_id: customerId, sent: false, reason: emailErr.message, email: group.customer.contact_email });
@@ -1236,31 +1171,33 @@ exports.handler = async (event) => {
     }
 
     // ── 2. Intern sammanfattning till Mikael ──
-    const internalHtml = buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics, introMessage);
+    const internalHtml = buildInternalReportHTML(groups, optimizations, queueStats, weekLabel, allMetrics, introMessage);
 
     await transporter.sendMail({
       from: `"Searchboost Opti" <${emailFrom}>`,
       to: mikaelEmail.join(', '),
-      subject: `Intern veckologg SEO — ${weekLabel} — ${optimizations.length} optimeringar, ${trelloCards.length} kort`,
+      subject: `Intern veckologg SEO — ${weekLabel} — ${optimizations.length} optimeringar`,
       html: internalHtml
+    ,
+      textEncoding: 'base64',
+      headers: { 'Content-Language': 'sv-SE' }
     });
 
-    // Spara intern rapport
-    await bq.query({
-      query: `INSERT INTO \`${dataset}.weekly_reports\` (customer_id, report_html, optimizations_count, summary, created_at, sent_at)
-              VALUES (@customer_id, @report_html, @optimizations_count, @summary, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP())`,
-      params: {
-        customer_id: 'internal',
-        report_html: internalHtml,
-        optimizations_count: optimizations.length + trelloCards.length,
-        summary: `${optimizations.length} opt, ${trelloCards.length} kort`
-      }
-    });
+    // Spara intern rapport (streaming insert — plain ISO-string för timestamp)
+    const internalNowIso = new Date().toISOString();
+    await reportsTable.insert([{
+      customer_id: 'internal',
+      report_html: internalHtml,
+      optimizations_count: optimizations.length,
+      summary: `${optimizations.length} opt`,
+      created_at: internalNowIso,
+      sent_at: internalNowIso
+    }]);
 
     const sentCount = customerResults.filter(r => r.sent).length;
     const failedCount = customerResults.filter(r => !r.sent).length;
 
-    console.log(`=== Klart! ${sentCount} kundmail skickade, ${failedCount} misslyckade, intern rapport skickad till ${mikaelEmail.join(', ')} ===`);
+    console.log(`=== Klart! ${sentCount} kundmail skickade, ${failedCount} hoppade/misslyckade, intern rapport skickad till ${mikaelEmail.join(', ')} ===`);
 
     return {
       statusCode: 200,
@@ -1268,7 +1205,7 @@ exports.handler = async (event) => {
         sent: true,
         internalReport: { recipients: mikaelEmail },
         customerReports: customerResults,
-        summary: { optimizations: optimizations.length, trelloCards: trelloCards.length, customers: customers.length }
+        summary: { optimizations: optimizations.length, customers: customers.length }
       })
     };
   } catch (err) {

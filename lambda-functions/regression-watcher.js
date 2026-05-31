@@ -246,6 +246,9 @@ exports.handler = async (event) => {
         to: mikaelEmail,
         subject: `[Regression] ${regressions.length} SEO-droppar upptäckta`,
         html: buildAlertHtml(regressions),
+      ,
+        textEncoding: 'base64',
+        headers: { 'Content-Language': 'sv-SE' }
       });
       console.log('Alert mail skickat till', mikaelEmail);
     } catch (e) {
