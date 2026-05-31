@@ -1024,7 +1024,7 @@ app.get('/api/customers', async (req, res) => {
   }
 });
 
-// GET /api/customers/channels-overview — Översikt: kund × kanal × status
+// GET /api/customers/channels-overview — Översikt: kund × kanal × status (med creds-health)
 // Driver /customers-overview.html i Opti-dashboard.
 app.get('/api/customers/channels-overview', async (req, res) => {
   try {
@@ -1036,10 +1036,13 @@ app.get('/api/customers/channels-overview', async (req, res) => {
           cp.company_name,
           cp.contact_email,
           cp.stage,
-          ARRAY_AGG(STRUCT(cc.channel, cc.status, cc.next_action) IGNORE NULLS) AS channels
+          ARRAY_AGG(STRUCT(
+            cwh.channel, cwh.status, cwh.next_action,
+            cwh.creds_status, cwh.http_status, cwh.reason, cwh.creds_checked_at
+          ) IGNORE NULLS) AS channels
         FROM \`${bq.projectId}.${dataset}.customer_pipeline\` cp
-        LEFT JOIN \`${bq.projectId}.${dataset}.customer_channels\` cc
-          ON cc.customer_id = cp.customer_id
+        LEFT JOIN \`${bq.projectId}.${dataset}.customer_channels_with_health\` cwh
+          ON cwh.customer_id = cp.customer_id
         WHERE cp.stage IN ('aktiv','active')
         GROUP BY cp.customer_id, cp.company_name, cp.contact_email, cp.stage
         ORDER BY cp.company_name

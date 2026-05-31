@@ -40,9 +40,41 @@ async function getParam(name) {
   return res.Parameter.Value;
 }
 
+/**
+ * Hämta cred från SSM med flera fallback-paths:
+ *   1. /seo-mcp/integrations/<cid>/<key>      (vanligt för kund-integration)
+ *   2. /seo-mcp/<cid>/<key>                   (gammal sökväg, för searchboost-egen)
+ *   3. /seo-mcp/integrations/<cid>/social-<key>  (alternativ-namnschema)
+ */
 async function getCreds(customer_id, key) {
-  try { return await getParam(`/seo-mcp/integrations/${customer_id}/${key}`); }
-  catch { return null; }
+  const paths = [
+    `/seo-mcp/integrations/${customer_id}/${key}`,
+    `/seo-mcp/${customer_id}/${key}`,
+    `/seo-mcp/integrations/${customer_id}/social-${key}`,
+  ];
+  for (const p of paths) {
+    try { return await getParam(p); } catch { /* nästa */ }
+  }
+  return null;
+}
+
+/**
+ * Verifiera LinkedIn-token live mot /v2/userinfo.
+ * Returnerar { ok: true } eller { ok: false, status, reason }.
+ */
+async function verifyLinkedInToken(token) {
+  try {
+    const res = await axios.get('https://api.linkedin.com/v2/userinfo', {
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: 8000,
+      validateStatus: () => true,
+    });
+    if (res.status === 200) return { ok: true, profile: res.data };
+    const reason = res.data?.code || res.data?.message || `HTTP ${res.status}`;
+    return { ok: false, status: res.status, reason };
+  } catch (e) {
+    return { ok: false, status: 0, reason: e.message };
+  }
 }
 
 // ── BQ-loggning (varje åtgärd loggas) ──
@@ -65,29 +97,141 @@ async function logAction({ customer_id, channel, action, status, payload, result
 
 const POSTING_TOOLS = {
   schedule_linkedin_post: {
-    description: 'Schemalägg ett LinkedIn-företagspost. Postas via Marketing API. Kontroll: max 3/vecka per kund (sön/tis/tors-regel).',
+    description: 'Posta direkt eller schemalägg ett LinkedIn-företagspost via UGC API. Vid scheduled_at i framtiden: skrivs till BQ social_content_queue. Annars: publiceras direkt.',
     inputSchema: {
       type: 'object',
       required: ['customer_id', 'content'],
       properties: {
         customer_id: { type: 'string' },
         content: { type: 'string', maxLength: 3000 },
-        image_url: { type: 'string', description: 'Optional. 1200x627 rekommenderat.' },
-        scheduled_at: { type: 'string', description: 'ISO 8601. Default: nästa sön/tis/tors 09:00.' },
+        image_url: { type: 'string', description: 'Optional. Hämtas och uppladdas till LinkedIn Assets.' },
+        scheduled_at: { type: 'string', description: 'ISO 8601. Om i framtiden = schemaläggs i BQ. Om saknas eller i dåtid = publiceras direkt.' },
+        dry_run: { type: 'boolean', description: 'Returnera planerat payload utan att posta.' },
       },
     },
-    handler: async ({ customer_id, content, image_url, scheduled_at }) => {
-      // STUB — full LinkedIn Marketing API impl i separat pass
-      // Kontroll: max 3/vecka via BQ social_content_queue-query
+    handler: async ({ customer_id, content, image_url, scheduled_at, dry_run }) => {
       const token = await getCreds(customer_id, 'linkedin-access-token');
       const companyId = await getCreds(customer_id, 'linkedin-company-id');
       if (!token || !companyId) {
-        return { error: `Saknar LinkedIn-credentials för ${customer_id}. Sätt /seo-mcp/integrations/${customer_id}/linkedin-access-token + linkedin-company-id i SSM.` };
+        return { error: `Saknar LinkedIn-credentials för ${customer_id}.`,
+          fix: `aws ssm put-parameter --name /seo-mcp/integrations/${customer_id}/linkedin-access-token --value '<token>' --type SecureString --overwrite --region eu-north-1 --profile mikael` };
       }
-      // TODO: POST https://api.linkedin.com/v2/ugcPosts (eller via Marketing API om annonser)
-      await logAction({ customer_id, channel: 'linkedin', action: 'schedule_post', status: 'scaffold',
-        payload: { content_chars: content.length, scheduled_at }, result: { scaffolded: true }});
-      return { customer_id, channel: 'linkedin', scheduled_at: scheduled_at || 'next-eligible', status: 'scaffold' };
+
+      // Verifiera token live
+      const v = await verifyLinkedInToken(token);
+      if (!v.ok) {
+        await logAction({ customer_id, channel: 'linkedin', action: 'schedule_post', status: 'token_revoked',
+          payload: { content_chars: content.length }, result: { status: v.status, reason: v.reason } });
+        return {
+          error: `LinkedIn-token för ${customer_id} är ogiltig (${v.reason}).`,
+          action_required: 'Mikael måste re-autentisera kunden via LinkedIn OAuth-flödet och uppdatera SSM-värdet.',
+          ssm_path: `/seo-mcp/integrations/${customer_id}/linkedin-access-token`,
+        };
+      }
+
+      const authorUrn = `urn:li:organization:${companyId}`;
+
+      // Bygg UGC-post payload (text-only eller med bild)
+      const payload = {
+        author: authorUrn,
+        lifecycleState: 'PUBLISHED',
+        specificContent: {
+          'com.linkedin.ugc.ShareContent': {
+            shareCommentary: { text: content },
+            shareMediaCategory: image_url ? 'IMAGE' : 'NONE',
+          },
+        },
+        visibility: { 'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC' },
+      };
+
+      // Om scheduled_at är i framtiden → skriv till BQ-kö istället för att posta
+      if (scheduled_at && new Date(scheduled_at) > new Date()) {
+        try {
+          const bq = new BigQuery({ projectId: 'seo-aouto' });
+          const postId = `lkdn-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+          await bq.dataset('seo_data').table('social_content_queue').insert([{
+            post_id: postId,
+            customer_id,
+            platform: 'linkedin',
+            status: 'queued',
+            hook: content.slice(0, 60),
+            body: content,
+            full_text: content,
+            hashtags: null,
+            char_count: content.length,
+            suggested_image_prompt: image_url || null,
+            topic: null,
+            post_type: image_url ? 'image' : 'text',
+            scheduled_at,
+            created_at: new Date().toISOString(),
+            posted_at: null,
+            linkedin_post_id: null,
+            error_message: null,
+          }]);
+          await logAction({ customer_id, channel: 'linkedin', action: 'schedule_post', status: 'queued',
+            payload: { content_chars: content.length, scheduled_at }, result: { queued: true, post_id: postId } });
+          return { customer_id, channel: 'linkedin', scheduled_at, status: 'queued', post_id: postId,
+            note: 'Skriven till social_content_queue. social-scheduler-Lambdan plockar upp den vid scheduled_at.' };
+        } catch (e) {
+          return { error: `Kunde inte köa: ${e.message}` };
+        }
+      }
+
+      if (dry_run) {
+        return { customer_id, channel: 'linkedin', status: 'dry_run', would_post: payload, profile: v.profile };
+      }
+
+      // Posta direkt mot UGC API
+      let imageAssetUrn = null;
+      if (image_url) {
+        try {
+          // Steg 1: registrera upload
+          const reg = await axios.post('https://api.linkedin.com/v2/assets?action=registerUpload', {
+            registerUploadRequest: {
+              recipes: ['urn:li:digitalmediaRecipe:feedshare-image'],
+              owner: authorUrn,
+              serviceRelationships: [{ relationshipType: 'OWNER', identifier: 'urn:li:userGeneratedContent' }],
+            },
+          }, { headers: { Authorization: `Bearer ${token}`, 'X-Restli-Protocol-Version': '2.0.0' } });
+
+          const uploadUrl = reg.data.value.uploadMechanism['com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest'].uploadUrl;
+          imageAssetUrn = reg.data.value.asset;
+
+          // Steg 2: hämta bild + upload
+          const img = await axios.get(image_url, { responseType: 'arraybuffer', timeout: 15000 });
+          await axios.put(uploadUrl, img.data, {
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': img.headers['content-type'] || 'image/jpeg' },
+            timeout: 30000,
+          });
+
+          payload.specificContent['com.linkedin.ugc.ShareContent'].media = [{
+            status: 'READY',
+            description: { text: '' },
+            media: imageAssetUrn,
+            title: { text: '' },
+          }];
+        } catch (e) {
+          await logAction({ customer_id, channel: 'linkedin', action: 'schedule_post', status: 'image_upload_failed',
+            payload: { image_url }, result: { error: e.message } });
+          return { error: `Bilduppladdning misslyckades: ${e.message}` };
+        }
+      }
+
+      try {
+        const res = await axios.post('https://api.linkedin.com/v2/ugcPosts', payload, {
+          headers: { Authorization: `Bearer ${token}`, 'X-Restli-Protocol-Version': '2.0.0' },
+        });
+        const postId = res.data.id || res.headers['x-restli-id'];
+        const postUrl = postId ? `https://www.linkedin.com/feed/update/${encodeURIComponent(postId)}/` : null;
+        await logAction({ customer_id, channel: 'linkedin', action: 'post_published', status: 'published',
+          payload: { content_chars: content.length, has_image: !!image_url }, result: { post_id: postId, post_url: postUrl } });
+        return { customer_id, channel: 'linkedin', status: 'published', post_id: postId, post_url: postUrl };
+      } catch (e) {
+        const detail = e.response?.data || e.message;
+        await logAction({ customer_id, channel: 'linkedin', action: 'post_failed', status: 'error',
+          payload: { content_chars: content.length }, result: { error: detail } });
+        return { error: `LinkedIn API-fel: ${typeof detail === 'string' ? detail : JSON.stringify(detail)}` };
+      }
     },
   },
 

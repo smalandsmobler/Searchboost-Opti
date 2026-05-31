@@ -146,6 +146,9 @@
   .chip-planned .chip-dot { background: var(--primary); }
   .chip-inactive { background: rgba(122, 110, 144, 0.12); color: var(--text-muted); border-color: rgba(122, 110, 144, 0.3); }
   .chip-inactive .chip-dot { background: var(--text-muted); }
+  .chip-creds-bad { background: rgba(248, 113, 113, 0.12); color: var(--error); border-color: rgba(248, 113, 113, 0.4); }
+  .chip-creds-bad .chip-dot { background: var(--error); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
   .nav-bar {
     display: flex;
@@ -276,9 +279,14 @@ function renderTable(customers) {
         <div class="customer-email">${c.customer_id}</div>
       </td>
       <td style="color: var(--text-muted); font-size: 12px;">${c.contact_email || '—'}</td>
-      <td><div class="channels">${channels.map(ch =>
-        `<span class="chip chip-${ch.status}" title="${ch.next_action || ''}"><span class="chip-dot"></span>${CHANNEL_LABELS[ch.channel] || ch.channel}</span>`
-      ).join('')}</div></td>
+      <td><div class="channels">${channels.map(ch => {
+        const credsBad = ch.creds_status && ch.creds_status !== 'ok' && ch.creds_status !== 'untested';
+        const credsLabel = credsBad ? ` · ${ch.creds_status}` : '';
+        const credsTitle = ch.reason ? ` (${ch.reason})` : '';
+        const cls = credsBad ? 'chip chip-creds-bad' : `chip chip-${ch.status}`;
+        const title = (ch.next_action || '') + (credsBad ? ` — creds: ${ch.creds_status}${credsTitle}` : '');
+        return `<span class="${cls}" title="${title.replace(/"/g, '&quot;')}"><span class="chip-dot"></span>${CHANNEL_LABELS[ch.channel] || ch.channel}${credsLabel}</span>`;
+      }).join('')}</div></td>
       <td style="color: var(--text-secondary); font-size: 13px; text-transform: capitalize;">${c.stage}</td>`;
     tbody.appendChild(tr);
   }
