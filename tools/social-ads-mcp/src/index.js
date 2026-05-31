@@ -77,6 +77,53 @@ async function verifyLinkedInToken(token) {
   }
 }
 
+// ── Google Ads-helpers ──
+// Google Ads API v17 kräver: developer-token (global), OAuth access-token (refreshad), login-customer-id (manager).
+
+const GOOGLE_OAUTH_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+const GOOGLE_ADS_API = 'https://googleads.googleapis.com/v17';
+
+async function getGoogleAccessToken(refreshToken) {
+  const clientId = await getParam('/seo-mcp/google-ads/client-id').catch(() => null);
+  const clientSecret = await getParam('/seo-mcp/google-ads/client-secret').catch(() => null);
+  if (!clientId || !clientSecret) throw new Error('Saknar /seo-mcp/google-ads/client-id+client-secret (OAuth-app i SSM).');
+  const res = await axios.post(GOOGLE_OAUTH_TOKEN_URL,
+    new URLSearchParams({ client_id: clientId, client_secret: clientSecret, refresh_token: refreshToken, grant_type: 'refresh_token' }).toString(),
+    { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 8000 });
+  return res.data.access_token;
+}
+
+async function googleAdsRequest({ customer_id, method, body }) {
+  const refresh = await getCreds(customer_id, 'google-ads-refresh-token');
+  const gAdsCid = (await getCreds(customer_id, 'google-ads-customer-id'))?.replace(/-/g, '');
+  if (!refresh || !gAdsCid) return { error: `Saknar Google Ads-creds för ${customer_id}.` };
+  const devToken = await getParam('/seo-mcp/google-ads/developer-token').catch(() => null);
+  if (!devToken) return { error: 'Saknar /seo-mcp/google-ads/developer-token i SSM.' };
+  const loginCid = await getParam('/seo-mcp/google-ads/login-customer-id').catch(() => null);
+  let access;
+  try { access = await getGoogleAccessToken(refresh); }
+  catch (e) { return { error: `OAuth-refresh misslyckades: ${e.message}`, ssm_path: `/seo-mcp/integrations/${customer_id}/google-ads-refresh-token` }; }
+  try {
+    const res = await axios.post(`${GOOGLE_ADS_API}/customers/${gAdsCid}/${method}`, body, {
+      headers: {
+        Authorization: `Bearer ${access}`,
+        'developer-token': devToken,
+        ...(loginCid ? { 'login-customer-id': loginCid.replace(/-/g, '') } : {}),
+        'Content-Type': 'application/json',
+      },
+      timeout: 15000, validateStatus: () => true,
+    });
+    if (res.status >= 400) return { error: res.data?.error?.message || `Google Ads API HTTP ${res.status}`, detail: res.data };
+    return { data: res.data };
+  } catch (e) { return { error: e.message }; }
+}
+
+function gAdsDateRange(period) {
+  const m = String(period || '30d').match(/^(\d+)d$/);
+  const days = m ? parseInt(m[1], 10) : 30;
+  return `LAST_${days <= 7 ? '7' : days <= 14 ? '14' : days <= 30 ? '30' : '90'}_DAYS`;
+}
+
 // ── BQ-loggning (varje åtgärd loggas) ──
 
 async function logAction({ customer_id, channel, action, status, payload, result }) {
@@ -236,7 +283,7 @@ const POSTING_TOOLS = {
   },
 
   schedule_facebook_post: {
-    description: 'Schemalägg ett Facebook Page-inlägg via Graph API.',
+    description: 'Posta direkt eller schemalägg ett Facebook Page-inlägg via Graph API. Vid scheduled_at >10min framtid: schemalägger via FB:s eget scheduled_publish_time.',
     inputSchema: {
       type: 'object',
       required: ['customer_id', 'content'],
@@ -244,15 +291,72 @@ const POSTING_TOOLS = {
         customer_id: { type: 'string' },
         content: { type: 'string' },
         image_url: { type: 'string' },
-        scheduled_at: { type: 'string' },
+        link: { type: 'string', description: 'Optional länk att inkludera (FB renderar OG-card)' },
+        scheduled_at: { type: 'string', description: 'ISO 8601. Måste vara ≥10 min och ≤6 mån i framtiden.' },
+        dry_run: { type: 'boolean' },
       },
     },
-    handler: async ({ customer_id, content, image_url, scheduled_at }) => {
+    handler: async ({ customer_id, content, image_url, link, scheduled_at, dry_run }) => {
       const token = await getCreds(customer_id, 'facebook-page-token');
       const pageId = await getCreds(customer_id, 'facebook-page-id');
-      if (!token || !pageId) return { error: `Saknar FB-creds för ${customer_id}.` };
-      await logAction({ customer_id, channel: 'facebook', action: 'schedule_post', status: 'scaffold', payload: { content_chars: content.length }, result: {} });
-      return { customer_id, channel: 'facebook', status: 'scaffold' };
+      if (!token || !pageId) {
+        return { error: `Saknar FB-creds för ${customer_id}.`,
+          fix: `aws ssm put-parameter --name /seo-mcp/integrations/${customer_id}/facebook-page-token + facebook-page-id` };
+      }
+
+      // Live token-validering
+      try {
+        const tv = await axios.get(`https://graph.facebook.com/v18.0/${pageId}?access_token=${encodeURIComponent(token)}&fields=id,name`,
+          { timeout: 8000, validateStatus: () => true });
+        if (tv.status !== 200) {
+          await logAction({ customer_id, channel: 'facebook', action: 'token_check_failed', status: 'error',
+            payload: { page_id: pageId }, result: tv.data });
+          return { error: `FB-token ogiltig: ${tv.data?.error?.message || `HTTP ${tv.status}`}`,
+            ssm_path: `/seo-mcp/integrations/${customer_id}/facebook-page-token` };
+        }
+      } catch (e) {
+        return { error: `FB-validering misslyckades: ${e.message}` };
+      }
+
+      const params = new URLSearchParams();
+      params.set('message', content);
+      params.set('access_token', token);
+      if (link) params.set('link', link);
+
+      // Scheduled
+      if (scheduled_at) {
+        const ts = Math.floor(new Date(scheduled_at).getTime() / 1000);
+        const now = Math.floor(Date.now() / 1000);
+        if (ts - now < 600) return { error: 'FB kräver minst 10 min i framtiden för scheduled.' };
+        if (ts - now > 60 * 60 * 24 * 180) return { error: 'FB tillåter max 6 månader framåt.' };
+        params.set('published', 'false');
+        params.set('scheduled_publish_time', String(ts));
+      }
+
+      const endpoint = image_url
+        ? `https://graph.facebook.com/v18.0/${pageId}/photos`
+        : `https://graph.facebook.com/v18.0/${pageId}/feed`;
+      if (image_url) params.set('url', image_url);
+
+      if (dry_run) {
+        return { customer_id, channel: 'facebook', status: 'dry_run', endpoint, params: Object.fromEntries(params.entries()) };
+      }
+
+      try {
+        const res = await axios.post(endpoint, params.toString(),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 20000 });
+        const postId = res.data.id || res.data.post_id;
+        const postUrl = postId ? `https://www.facebook.com/${postId}` : null;
+        await logAction({ customer_id, channel: 'facebook', action: scheduled_at ? 'post_scheduled' : 'post_published',
+          status: 'published', payload: { content_chars: content.length, has_image: !!image_url, scheduled_at },
+          result: { post_id: postId, post_url: postUrl } });
+        return { customer_id, channel: 'facebook', status: scheduled_at ? 'scheduled' : 'published', post_id: postId, post_url: postUrl };
+      } catch (e) {
+        const detail = e.response?.data?.error || e.message;
+        await logAction({ customer_id, channel: 'facebook', action: 'post_failed', status: 'error',
+          payload: { content_chars: content.length }, result: { error: detail } });
+        return { error: `FB Graph API-fel: ${typeof detail === 'string' ? detail : JSON.stringify(detail)}` };
+      }
     },
   },
 
@@ -303,7 +407,7 @@ const POSTING_TOOLS = {
 
 const ADS_TOOLS = {
   list_google_ads_campaigns: {
-    description: 'Lista Google Ads-kampanjer för en kund med status, budget, klick, konv.',
+    description: 'Lista Google Ads-kampanjer för en kund. Kör GAQL via search-endpoint v17.',
     inputSchema: {
       type: 'object',
       required: ['customer_id'],
@@ -313,16 +417,32 @@ const ADS_TOOLS = {
       },
     },
     handler: async ({ customer_id, period = '30d' }) => {
-      const gAdsCustomerId = await getCreds(customer_id, 'google-ads-customer-id');
-      const refreshToken = await getCreds(customer_id, 'google-ads-refresh-token');
-      if (!gAdsCustomerId || !refreshToken) return { error: `Saknar Google Ads-creds för ${customer_id}.` };
-      // TODO: Google Ads API v17 search query
-      return { customer_id, status: 'scaffold', campaigns: [] };
+      const result = await googleAdsRequest({ customer_id, method: 'search',
+        body: { query: `
+          SELECT campaign.id, campaign.name, campaign.status, campaign.advertising_channel_type,
+                 campaign_budget.amount_micros,
+                 metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions
+          FROM campaign
+          WHERE segments.date DURING ${gAdsDateRange(period)}
+          ORDER BY metrics.cost_micros DESC
+          LIMIT 50
+        ` } });
+      if (result.error) return result;
+      const campaigns = (result.data?.results || []).map(r => ({
+        id: r.campaign.id, name: r.campaign.name, status: r.campaign.status,
+        type: r.campaign.advertisingChannelType,
+        daily_budget_sek: r.campaignBudget?.amountMicros ? (Number(r.campaignBudget.amountMicros) / 1_000_000) : null,
+        impressions: Number(r.metrics?.impressions || 0),
+        clicks: Number(r.metrics?.clicks || 0),
+        spend_sek: r.metrics?.costMicros ? Number(r.metrics.costMicros) / 1_000_000 : 0,
+        conversions: Number(r.metrics?.conversions || 0),
+      }));
+      return { customer_id, period, campaigns };
     },
   },
 
   pause_google_ads_campaign: {
-    description: 'Pausa en specifik Google Ads-kampanj.',
+    description: 'Pausa en Google Ads-kampanj (campaign.status = PAUSED via mutate).',
     inputSchema: {
       type: 'object',
       required: ['customer_id', 'campaign_id'],
@@ -333,14 +453,17 @@ const ADS_TOOLS = {
       },
     },
     handler: async ({ customer_id, campaign_id, reason }) => {
-      await logAction({ customer_id, channel: 'google_ads', action: 'pause_campaign', status: 'scaffold',
-        payload: { campaign_id, reason }, result: {} });
-      return { customer_id, campaign_id, status: 'scaffold' };
+      const gAdsCid = (await getCreds(customer_id, 'google-ads-customer-id'))?.replace(/-/g, '');
+      const result = await googleAdsRequest({ customer_id, method: 'campaigns:mutate',
+        body: { operations: [{ update: { resourceName: `customers/${gAdsCid}/campaigns/${campaign_id}`, status: 'PAUSED' }, updateMask: 'status' }] } });
+      await logAction({ customer_id, channel: 'google_ads', action: 'pause_campaign',
+        status: result.error ? 'error' : 'paused', payload: { campaign_id, reason }, result: result.data || result });
+      return result.error ? result : { customer_id, campaign_id, status: 'paused' };
     },
   },
 
   set_google_ads_budget: {
-    description: 'Justera dagsbudget för en Google Ads-kampanj (i SEK).',
+    description: 'Justera dagsbudget för en Google Ads-kampanj (i SEK). Skickar amount_micros = SEK × 1_000_000.',
     inputSchema: {
       type: 'object',
       required: ['customer_id', 'campaign_id', 'daily_budget_sek'],
@@ -350,43 +473,105 @@ const ADS_TOOLS = {
         daily_budget_sek: { type: 'number' },
       },
     },
-    handler: async (args) => {
-      await logAction({ ...args, channel: 'google_ads', action: 'set_budget', status: 'scaffold', payload: args, result: {} });
-      return { ...args, status: 'scaffold' };
+    handler: async ({ customer_id, campaign_id, daily_budget_sek }) => {
+      const gAdsCid = (await getCreds(customer_id, 'google-ads-customer-id'))?.replace(/-/g, '');
+      // Step 1: hämta budget-resource för kampanjen
+      const q = await googleAdsRequest({ customer_id, method: 'search',
+        body: { query: `SELECT campaign_budget.resource_name FROM campaign WHERE campaign.id = ${campaign_id} LIMIT 1` } });
+      if (q.error) return q;
+      const budgetRes = q.data?.results?.[0]?.campaignBudget?.resourceName;
+      if (!budgetRes) return { error: 'Hittade ingen budget-resource för kampanjen.' };
+      const result = await googleAdsRequest({ customer_id,
+        method: `campaignBudgets:mutate`,
+        body: { operations: [{ update: { resourceName: budgetRes, amountMicros: String(Math.round(daily_budget_sek * 1_000_000)) }, updateMask: 'amount_micros' }] } });
+      await logAction({ customer_id, channel: 'google_ads', action: 'set_budget',
+        status: result.error ? 'error' : 'updated', payload: { campaign_id, daily_budget_sek }, result: result.data || result });
+      return result.error ? result : { customer_id, campaign_id, daily_budget_sek, status: 'updated' };
     },
   },
 
   list_meta_ads_campaigns: {
-    description: 'Lista Meta Ads-kampanjer (Facebook + Instagram) för en kund.',
+    description: 'Lista Meta Ads-kampanjer (FB+IG) för en kund med status, daily budget, klick, konv från Insights.',
     inputSchema: {
       type: 'object',
       required: ['customer_id'],
       properties: {
         customer_id: { type: 'string' },
-        period: { type: 'string', default: '30d' },
+        period: { type: 'string', default: '30d', description: 'last_7d, last_30d, last_90d' },
       },
     },
     handler: async ({ customer_id, period = '30d' }) => {
       const token = await getCreds(customer_id, 'meta-access-token');
       const adAccount = await getCreds(customer_id, 'meta-ad-account-id');
       if (!token || !adAccount) return { error: `Saknar Meta Ads-creds för ${customer_id}.` };
-      return { customer_id, status: 'scaffold', campaigns: [] };
+      const acct = adAccount.startsWith('act_') ? adAccount : `act_${adAccount}`;
+      const date_preset = { '7d': 'last_7d', '30d': 'last_30d', '90d': 'last_90d' }[period] || 'last_30d';
+      try {
+        const res = await axios.get(`https://graph.facebook.com/v18.0/${acct}/campaigns`, {
+          params: {
+            access_token: token,
+            fields: `id,name,status,objective,daily_budget,lifetime_budget,insights.date_preset(${date_preset}){impressions,clicks,spend,actions,ctr,cpc}`,
+            limit: 50,
+          },
+          timeout: 15000, validateStatus: () => true,
+        });
+        if (res.status !== 200) return { error: `Meta API: ${res.data?.error?.message || `HTTP ${res.status}`}` };
+        return { customer_id, period, campaigns: res.data.data || [] };
+      } catch (e) { return { error: e.message }; }
     },
   },
 
   pause_meta_ads_campaign: {
-    description: 'Pausa en specifik Meta Ads-kampanj.',
+    description: 'Pausa en specifik Meta Ads-kampanj (status → PAUSED).',
     inputSchema: {
       type: 'object',
       required: ['customer_id', 'campaign_id'],
       properties: {
         customer_id: { type: 'string' },
         campaign_id: { type: 'string' },
+        reason: { type: 'string' },
       },
     },
-    handler: async (args) => {
-      await logAction({ ...args, channel: 'meta_ads', action: 'pause_campaign', status: 'scaffold', payload: args, result: {} });
-      return { ...args, status: 'scaffold' };
+    handler: async ({ customer_id, campaign_id, reason }) => {
+      const token = await getCreds(customer_id, 'meta-access-token');
+      if (!token) return { error: `Saknar Meta-creds för ${customer_id}.` };
+      try {
+        const res = await axios.post(`https://graph.facebook.com/v18.0/${campaign_id}`,
+          new URLSearchParams({ status: 'PAUSED', access_token: token }).toString(),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000, validateStatus: () => true });
+        const ok = res.status === 200 && res.data?.success !== false;
+        await logAction({ customer_id, channel: 'meta_ads', action: 'pause_campaign',
+          status: ok ? 'paused' : 'error', payload: { campaign_id, reason }, result: res.data });
+        if (!ok) return { error: `Meta API: ${res.data?.error?.message || `HTTP ${res.status}`}` };
+        return { customer_id, campaign_id, status: 'paused' };
+      } catch (e) { return { error: e.message }; }
+    },
+  },
+
+  set_meta_ads_budget: {
+    description: 'Justera dagsbudget för en Meta Ads-kampanj (i SEK). Budget skickas i öre (cents).',
+    inputSchema: {
+      type: 'object',
+      required: ['customer_id', 'campaign_id', 'daily_budget_sek'],
+      properties: {
+        customer_id: { type: 'string' },
+        campaign_id: { type: 'string' },
+        daily_budget_sek: { type: 'number' },
+      },
+    },
+    handler: async ({ customer_id, campaign_id, daily_budget_sek }) => {
+      const token = await getCreds(customer_id, 'meta-access-token');
+      if (!token) return { error: `Saknar Meta-creds för ${customer_id}.` };
+      try {
+        const res = await axios.post(`https://graph.facebook.com/v18.0/${campaign_id}`,
+          new URLSearchParams({ daily_budget: String(Math.round(daily_budget_sek * 100)), access_token: token }).toString(),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 10000, validateStatus: () => true });
+        const ok = res.status === 200;
+        await logAction({ customer_id, channel: 'meta_ads', action: 'set_budget',
+          status: ok ? 'updated' : 'error', payload: { campaign_id, daily_budget_sek }, result: res.data });
+        if (!ok) return { error: `Meta API: ${res.data?.error?.message || `HTTP ${res.status}`}` };
+        return { customer_id, campaign_id, daily_budget_sek, status: 'updated' };
+      } catch (e) { return { error: e.message }; }
     },
   },
 };
