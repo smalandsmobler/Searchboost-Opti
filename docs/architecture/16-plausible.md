@@ -1,7 +1,4 @@
-# 16 — Possible (self-hosted analytics — driven av Plausible CE)
-
-> Kundernas och Mikaels label är **Possible**. Tekniskt = Plausible Community Edition v3.2.1 under huven. URL:er och teknisk dokumentation refererar till "Plausible" där det är produktens faktiska namn (npm-paket, tracker-script, MCP-server från Sentry).
-
+# 16 — Plausible (self-hosted analytics)
 
 > Verifierat live 2026-05-31. Ersätter beroendet av kundens GA4. Egen instans → vi äger datan, kunden behöver inte ge åtkomst, weekly/monthly-rapporten slutar blockeras av "analytics saknar data".
 

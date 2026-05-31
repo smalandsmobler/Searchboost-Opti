@@ -22,6 +22,14 @@
     },
     "plausible-ch": {
       "command": "/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/plausible-ch-mcp-launcher.sh"
+    },
+    "social-ads": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/social-ads-mcp/src/index.js"],
+      "env": {
+        "AWS_REGION": "eu-north-1",
+        "AWS_PROFILE": "mikael"
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Searchboost Onboarding
- * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Possible-tracker (analytics) mot analytics.searchboost.se.
+ * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Plausible-tracker mot analytics.searchboost.se.
  * Version: 1.2.0
  * Author: Searchboost
  */
@@ -381,6 +381,102 @@ function sb_onboarding_form() {
                     <label>Pixel ID</label>
                     <input type="text" name="meta_pixel_id" placeholder="123456789012345" />
                     <div class="sb-hint">Hittas i Meta Events Manager → Datakällor → Pixel ID</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strategi & mål -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">🎯</span> Strategi & mål</h3>
+            <p class="sb-desc">Hjälper oss skräddarsy SEO-arbetet — alla fält är valfria men ju mer desto bättre.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Bransch</label>
+                    <input type="text" name="industry" placeholder="t.ex. e-handel, B2B-tjänster, restaurang" />
+                </div>
+                <div class="sb-field">
+                    <label>Geografiskt fokus</label>
+                    <input type="text" name="geographic_focus" placeholder="t.ex. Stockholm, hela Sverige" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Viktigaste mål (3-6 månader)</label>
+                    <input type="text" name="primary_goal" placeholder="t.ex. öka organiska leads med 50%" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Konkurrenter (URL:er, kommaseparerat)</label>
+                    <input type="text" name="competitors" placeholder="https://konkurrent1.se, https://konkurrent2.se" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Tonalitet i copy</label>
+                    <input type="text" name="brand_tone" placeholder="t.ex. expert + vänlig, formell, talspråk" />
+                </div>
+                <div class="sb-field">
+                    <label>Målgrupp (kort)</label>
+                    <input type="text" name="target_audience" placeholder="t.ex. inköpschefer på medelstora företag" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Befintliga kanaler -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">📢</span> Kanaler som körs idag</h3>
+            <p class="sb-desc">Vi syr ihop allt — viktigt att veta var ni redan är aktiva.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>LinkedIn-företagssida (URL)</label>
+                    <input type="url" name="linkedin_url" placeholder="https://www.linkedin.com/company/foretaget" />
+                </div>
+                <div class="sb-field">
+                    <label>Facebook-sida (URL)</label>
+                    <input type="url" name="facebook_url" placeholder="https://www.facebook.com/foretaget" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Instagram</label>
+                    <input type="text" name="instagram_handle" placeholder="@foretaget" />
+                </div>
+                <div class="sb-field">
+                    <label>X / Twitter</label>
+                    <input type="text" name="twitter_handle" placeholder="@foretaget" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Befintlig månadsbudget Google Ads (SEK)</label>
+                    <input type="number" name="budget_google_ads_sek" placeholder="t.ex. 25000" />
+                </div>
+                <div class="sb-field">
+                    <label>Befintlig månadsbudget Meta Ads (SEK)</label>
+                    <input type="number" name="budget_meta_ads_sek" placeholder="t.ex. 15000" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Kontaktpreferenser -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">📬</span> Rapporter & uppföljning</h3>
+            <p class="sb-desc">Hur ni vill ha kommunikation med oss.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Veckorapport-mottagare (utöver huvudkontakt)</label>
+                    <input type="text" name="weekly_recipients" placeholder="anna@x.se, johan@x.se" />
+                </div>
+                <div class="sb-field">
+                    <label>Föredragen kontaktkanal</label>
+                    <input type="text" name="preferred_channel" placeholder="t.ex. email, Slack, sms" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Är det något vi BÖR veta eller undvika?</label>
+                    <input type="text" name="constraints" placeholder="t.ex. vi får inte nämna produkt X i marknadsföring" />
                 </div>
             </div>
         </div>

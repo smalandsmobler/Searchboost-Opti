@@ -1024,6 +1024,33 @@ app.get('/api/customers', async (req, res) => {
   }
 });
 
+// GET /api/customers/channels-overview — Översikt: kund × kanal × status
+// Driver /customers-overview.html i Opti-dashboard.
+app.get('/api/customers/channels-overview', async (req, res) => {
+  try {
+    const { bq, dataset } = await getBigQuery();
+    const [rows] = await bq.query({
+      query: `
+        SELECT
+          cp.customer_id,
+          cp.company_name,
+          cp.contact_email,
+          cp.stage,
+          ARRAY_AGG(STRUCT(cc.channel, cc.status, cc.next_action) IGNORE NULLS) AS channels
+        FROM \`${bq.projectId}.${dataset}.customer_pipeline\` cp
+        LEFT JOIN \`${bq.projectId}.${dataset}.customer_channels\` cc
+          ON cc.customer_id = cp.customer_id
+        WHERE cp.stage IN ('aktiv','active')
+        GROUP BY cp.customer_id, cp.company_name, cp.contact_email, cp.stage
+        ORDER BY cp.company_name
+      `,
+    });
+    res.json({ customers: rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ══════════════════════════════════════════
 // ONBOARDING STATUS API
 // ══════════════════════════════════════════

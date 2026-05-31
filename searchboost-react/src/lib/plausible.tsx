@@ -1,5 +1,5 @@
 /**
- * Searchboost Possible-tracker (driven av Plausible CE under huven) for Next.js App Router.
+ * Searchboost Plausible-tracker for Next.js App Router.
  *
  * Bygger på den hostade tracker-builden på vår self-hosted instans (samma JS som
  * @plausible-analytics/tracker npm-paketet bundlar, men vi pekar mot vår domain
