@@ -6,7 +6,7 @@
     },
     "perispa": {
       "command": "node",
-      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/perispa/index.js"]
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/perispa/server.js"]
     },
     "sequential-thinking": {
       "command": "npx",
