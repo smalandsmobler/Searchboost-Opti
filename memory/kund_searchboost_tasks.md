@@ -1,9 +1,10 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-05-26
+> Senast uppdaterad: 2026-06-02
 
 ## Prospektlista (Prospekt-scanner)
+- 2026-06-02: [Hotell / Uppsala](../content-pages/prospects/2026-06-02-hotell-uppsala.md) — Top 3: Grand Hotell Hörnan (title="Startsida"!), Villa Anna (premium, ingen lokal SEO), Akademihotellet (ny svitavdelning ej synlig)
 - 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
 - 2026-05-19: [Tandläkare / Stockholm](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md)
 - 2026-05-12: [Fastighetsmäklare / Lund](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md)
@@ -109,9 +110,11 @@ _Arkiverad: se v22-sammanfattning ovan._
 
 | Datum | Bransch | Stad | Fil |
 |-------|---------|------|-----|
-| 2026-05-05 | Redovisning | Jönköping | [content-pages/prospects/2026-05-05-redovisning-jonkoping.md](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md) |
-| 2026-05-12 | Fastighetsmäklare | Lund | [content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md) |
+| 2026-06-02 | Hotell | Uppsala | [content-pages/prospects/2026-06-02-hotell-uppsala.md](../content-pages/prospects/2026-06-02-hotell-uppsala.md) |
+| 2026-05-26 | Restaurang | Malmö | [content-pages/prospects/2026-05-26-restaurang-malmo.md](../content-pages/prospects/2026-05-26-restaurang-malmo.md) |
 | 2026-05-19 | Tandläkare | Stockholm | [content-pages/prospects/2026-05-19-tandläkare-stockholm.md](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md) |
+| 2026-05-12 | Fastighetsmäklare | Lund | [content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md](../content-pages/prospects/2026-05-12-fastighetsmäklare-lund.md) |
+| 2026-05-05 | Redovisning | Jönköping | [content-pages/prospects/2026-05-05-redovisning-jonkoping.md](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md) |
 
 **Top 3 att kontakta (vecka 21 — tandläkare Stockholm):**
 1. jtingstam.se — 08-660 22 23 / info@jtingstam.se — Jenny Tingstam (solopraktiker, ej mobilanpassad, score 2/10)
