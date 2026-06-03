@@ -23,26 +23,27 @@ Senaste check: 2026-06-02
 |-------|-------|-----|
 | 2026-05-03 | Modulställning — vad du behöver veta | https://tobler.se/kopa-modulstallning-vad-du-behover-veta-om-system-pris-och-leverantorer/ |
 | 2026-05-11 | Ställningsnät — krav, typer och rätt användning (⚠ ej deployad) | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
+| 2026-06-03 | Skyddsräcke på byggställning — regler, typer och rätt montering (⚠ ej deployad) | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
 
-## Deploy — väntande artikel (2026-05-11)
+## Deploy — väntande artiklar
 
 ```bash
 cd /home/ubuntu/Searchboost-Opti
-node scripts/publish-tobler-stallningsnät.js
+node scripts/publish-tobler-stallningsnät.js   # artikel 2026-05-11
+node scripts/publish-tobler-skyddsracke.js     # artikel 2026-06-03
 ```
 
-**Artikeldetaljer:**
-- Fokuskeyword: `ställningsnät`
+**Artikeldetaljer (2026-06-03):**
+- Fokuskeyword: `skyddsräcke byggställning`
 - Kategori: Branschkunskap (ID: 249)
-- Meta title: Ställningsnät — krav, typer och rätt montering | Tobler
-- Intern länkning: fallskydd-tak, AFS-säkerhetsregler, besiktning-byggstallning
-- Ordantal: ~950 ord (HTML: content-pages/tobler-stallningsnät-guide.html)
+- Meta title: Skyddsräcke på byggställning — regler, typer och montering | Tobler
+- Intern länkning: AFS-säkerhetsregler, besiktning-byggstallning, stallningsnät-guide
+- Ordantal: 943 ord (HTML: content-pages/tobler-skyddsracke-byggstallning.html)
 
 ## Nästa artikelidéer
 
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
-| Hög | Skyddsräcke på byggställning | skyddsräcke byggställning |
 | Hög | Ställning för takrenovering | ställning takrenovering |
 | Medium | Ställningsarbete regler | ställningsarbete regler |
 | Medium | Transport av ställning | transport byggställning |

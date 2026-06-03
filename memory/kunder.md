@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-05-15
+> Senast uppdaterad: 2026-06-03
 
 ## Regressionscheck — 2026-05-14 (MÅNDAG — Veckosammanfattning)
 
@@ -46,7 +46,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | jelmtech        | PP-plast formsprutning (⚠ ej deployad) | 2026-05-15 | Kör scripts/publish-jelmtech-pp-plast.js från EC2 |
 | ilmonte         | Köpa scenpodium 2026 — storlekar, material och priser (⚠ ej deployad) | 2026-05-27 | Kör scripts/publish-ilmonte-kopa-scenpodium-2026.js från EC2 |
 | mobelrondellen  | Utemöbler 2026 — guide till hållbara val (⚠ ej deployad) | 2026-05-29 | Kör scripts/publish-mobelrondellen-utemobler-2026.js från EC2 |
-| tobler          | Ställningsnät — krav och typer (⚠ ej deployad) | 2026-05-11 | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
+| tobler          | Skyddsräcke på byggställning (⚠ ej deployad)   | 2026-06-03 | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
 | searchboost     | AI Overviews och GEO 2026 (⚠ ej deployad) | 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2 |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
@@ -89,6 +89,17 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-03
+
+- **Kund**: tobler (äldst med WP-creds OK sedan 2026-05-11)
+- **Artikel**: "Skyddsräcke på byggställning — regler, typer och rätt montering"
+- **Fokuskeyword**: skyddsräcke byggställning
+- **Fil**: content-pages/tobler-skyddsracke-byggstallning.html
+- **Script**: scripts/publish-tobler-skyddsracke.js
+- **Ordantal**: 943 ord, ÅÄÖ ok (320 tecken), 3 interna länkar
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga i denna session — använder WP REST API via Node-script istället
 
 ## Content-fabrik körning 2026-05-29
 
