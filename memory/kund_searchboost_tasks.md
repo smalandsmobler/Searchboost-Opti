@@ -25,7 +25,7 @@ _Arkiveras — se v23-sammanfattning nedan._
 ---
 
 ### Veckosammanfattning 2026-06-02 (måndag v23) — LIVE
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 13 körningar i rad**
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 14 körningar i rad (senast kontrollerad 2026-06-03)**
 > **ESKALERING NÖDVÄNDIG — 4 veckor utan rankingdata**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
@@ -40,7 +40,7 @@ _Arkiveras — se v23-sammanfattning nedan._
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-06-02, **13 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2 jun):_
+_Ingen data — Blockerad (2026-06-03, **14 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3 jun):_
 - _EC2-API: Ej nåbar (self-signed TLS, `-k` flag fungerar ej i Envoy-miljön)_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
@@ -62,7 +62,7 @@ SSH till EC2, kör: `sudo certbot --nginx -d din-domän.se`
 **🔓 LÖSNING 3 — Supermetrics GSC (2 min, osäker):**
 Autentisera Supermetrics mot GSC via länk i föregående sessions-log.
 
-_Senaste check: 2026-06-02 — 0 kunder checkbara (**13 körningar i rad**)_
+_Senaste check: 2026-06-03 — 0 kunder checkbara (**14 körningar i rad**)_
 
 ### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
