@@ -9,6 +9,7 @@ type: project
 **Status**: 🟡 Shopify-migrering, lansering FLYTTAD (från 2026-04-09)
 **Kontakt**: Andreas Sternberg (Andreas.Sternberg@feroxkonsult.se)
 **Site**: feroxkonsult-se.myshopify.com → feroxkonsult.se (ej kopplad)
+**GSC**: OK | **BQ**: OK (kopplad 2026-06-04)
 
 ## KRITISKA FYND 2026-04-09 (via Hemsida24 sitemap)
 - [ ] **K765 stämpelur SAKNAS i Shopify-importen** — ny produkt finns som dold sida på Hemsida24 (`/sv-SE/stämpelur/k765-46455435`, 3256 chars). Lägg till i butiken innan lansering. Andreas har inte nämnt detta.

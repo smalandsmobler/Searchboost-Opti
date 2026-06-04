@@ -1,23 +1,11 @@
 # ilmonte — Tasks & Status
 
-> Kund: ilmonte.se | GSC: Ej ägare | WP-creds: OK
-> Senast uppdaterad: 2026-05-20
+> Kund: ilmonte.se | GSC: OK | WP-creds: OK | Hosting: Loopia
+> Senast uppdaterad: 2026-06-04
 
-## Regressionsvarningar
-
-_Ingen GSC-data: Inte ägare i GSC. Regressionscheck ej möjlig._
-
-Be ilmonte-ägaren lägga till service account `seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com` som "Fullständig" i GSC.
-
-Inga regressioner 2026-05-20 (ej ägare i GSC)
-Inga regressioner 2026-05-21 (ej ägare i GSC)
-Inga regressioner 2026-05-22 (ej ägare i GSC)
-Inga regressioner 2026-05-26 (ej ägare i GSC)
-Inga regressioner 2026-05-27 (ej ägare i GSC)
-Inga regressioner 2026-05-28 (ej ägare i GSC)
-Senaste check: 2026-05-28
-Inga regressioner 2026-05-27 (ej ägare i GSC)
-Senaste check: 2026-05-26
+## GSC & BQ
+GSC: OK — access bekräftad 2026-06-04. BQ kopplad.
+Hosting: Loopia (INTE one.com — tidigare felnotering).
 
 ## Publicerade artiklar
 
