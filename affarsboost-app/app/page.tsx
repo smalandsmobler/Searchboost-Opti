@@ -1,11 +1,86 @@
+import type { Metadata } from "next";
 import WaitlistForm from "@/components/WaitlistForm";
 import LinnéaStatusBadge from "@/components/LinnéaStatusBadge";
 import CheckoutButton from "@/components/CheckoutButton";
 import { TIERS } from "@/lib/pricing";
 
+export const metadata: Metadata = {
+  title: "Affärsboost — Affärscoaching för svenska soloföretagare",
+  description:
+    "Personlig affärscoaching med Linnéa, Maja och Mikael Larsson. Prissättning, strategi, ledarskap och AI-implementering för soloföretagare och småbolagsägare. Från 297 kr/mån.",
+  alternates: { canonical: "https://affarsboost.se" },
+};
+
+const homeFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Är Linnéa en riktig person?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nej — Linnéa är en AI-rådgivare. Vi är alltid transparenta med det. Hon är tränad på svenska affärsregler, skattefrågor och bidragsinformation och svarar direkt. Råd om komplexa juridiska tvister ger hon inte, men affärsfrågor hanterar hon bra.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Kan jag säga upp när jag vill?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Solo (297 kr): säg upp direkt, ingen bindningstid. Tillväxt (1 000 kr): 1 månads uppsägningstid. Business och Partner: 3 månaders uppsägningstid.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "När svarar Linnéa?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Linnéa är aktiv mån–fre 08:00–17:00 (svensk tid). Utanför dessa tider sparas ditt meddelande och besvaras när hon är online igen.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Vilken plan passar mig?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Solo (297 kr) passar dig som precis startat eller vill ha koll och tillgång till Linnéa. Tillväxt (1 000 kr) är för dig som vill ha obegränsad coaching och privat 1-1 med Maja. Business (3 000 kr) för bolag med team. Partner (10 000 kr) för den som vill ha Mikael Larsson dedikerat.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Vad skiljer Affärsboost från en konsult?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "En konsult fakturerar 3 000–5 000 kr per timme och är tillgänglig vid inbokade möten. Affärsboost kostar från 297 kr/mån och ger dig tillgång till rådgivare som svarar löpande på din specifika situation — inte bara vid planerade tillfällen.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Är priserna inklusive moms?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Nej, priserna är exklusive moms 25 %. Företagsmedlemmar får faktura i kvitto-format för avdrag.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Vem står bakom Affärsboost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Affärsboost grundades av Mikael Larsson och drivs av Searchboost AB. Mikael har 20 års erfarenhet av B2B-affärsutveckling och har arbetat med hundratals svenska företagare.",
+      },
+    },
+  ],
+};
+
 export default function Home() {
   return (
     <main className="min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeFaqSchema) }}
+      />
       {/* Trust bar */}
       <div className="bg-navy-900 text-white text-xs sm:text-sm py-2">
         <div className="max-w-content mx-auto px-6 flex items-center justify-center gap-2 text-center">
@@ -308,10 +383,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AEO — maskinläsbar entitets-definition, dold visuellt men indexerad */}
+      <section aria-label="Om Affärsboost" className="sr-only">
+        <h2>Vad är Affärsboost?</h2>
+        <p>
+          Affärsboost är en coaching-plattform för svenska soloföretagare och småbolagsägare,
+          grundad av Mikael Larsson och driven av Searchboost AB. Plattformen ger tillgång till
+          AI-rådgivaren Linnéa (skatt, avtal, prissättning), tillväxtcoachen Maja (strategi,
+          skalning, ledarskap) och grundaren Mikael Larsson (Partner-plan).
+          Prenumeration börjar på 297 kr per månad exkl. moms. Solo-planen har 3 dagars gratis trial.
+        </p>
+        <p>
+          Affärsboost erbjuder också cohort-baserade program i prissättning, försäljning och
+          digital synlighet — 8–10 veckor, max 12 deltagare, med ett konkret leverabel.
+          Gratis guider om F-skatt, timpris, kundavtal, moms och mer finns på affarsboost.se/guider.
+        </p>
+      </section>
+
       {/* Footer */}
       <footer className="bg-navy-900 text-white py-12">
         <div className="max-w-content mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center">
@@ -320,16 +412,28 @@ export default function Home() {
                 <span className="font-display font-bold text-xl">Affärsboost</span>
               </div>
               <p className="text-navy-100 text-sm leading-relaxed">
-                AI-driven affärsutveckling för svenska företagare. En tjänst från Searchboost AB.
+                Affärscoaching för svenska soloföretagare. Linnéa, Maja och Mikael Larsson.
+                En tjänst från Searchboost AB.
               </p>
             </div>
             <div>
               <h4 className="font-display font-semibold mb-3 text-sm uppercase tracking-wide">Plattform</h4>
               <ul className="space-y-2 text-navy-100 text-sm">
-                <li><a href="#linnea" className="hover:text-white">Träffa Linnéa</a></li>
-                <li><a href="/community" className="hover:text-white">Community & AI-chat</a></li>
-                <li><a href="#vad-du-far" className="hover:text-white">Vad du får</a></li>
-                <li><a href="#pris" className="hover:text-white">Pris</a></li>
+                <li><a href="/om-oss" className="hover:text-white">Om oss</a></li>
+                <li><a href="/program" className="hover:text-white">Program</a></li>
+                <li><a href="/mentorer" className="hover:text-white">Mentorer</a></li>
+                <li><a href="/community" className="hover:text-white">Community</a></li>
+                <li><a href="#pris" className="hover:text-white">Priser</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-display font-semibold mb-3 text-sm uppercase tracking-wide">Kunskap</h4>
+              <ul className="space-y-2 text-navy-100 text-sm">
+                <li><a href="/guider" className="hover:text-white">Guider</a></li>
+                <li><a href="/guider/f-skatt-guide" className="hover:text-white">F-skatt guide</a></li>
+                <li><a href="/guider/timpris-guide" className="hover:text-white">Timpris guide</a></li>
+                <li><a href="/artiklar" className="hover:text-white">Artiklar</a></li>
+                <li><a href="/tema/strategi" className="hover:text-white">Strategi</a></li>
               </ul>
             </div>
             <div>
@@ -344,7 +448,7 @@ export default function Home() {
           </div>
           <div className="border-t border-navy-700 pt-6 text-navy-100 text-xs flex flex-wrap gap-4 justify-between">
             <span>© {new Date().getFullYear()} Searchboost AB · Affärsboost är ett varumärke som ägs och drivs av Searchboost AB.</span>
-            <span className="text-navy-400">Linnéa är en AI-assistent — alltid transparent om det.</span>
+            <span className="text-navy-400">Linnéa är en AI-rådgivare — alltid transparent om det.</span>
           </div>
         </div>
       </footer>

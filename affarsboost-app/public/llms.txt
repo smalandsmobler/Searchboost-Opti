@@ -1,0 +1,77 @@
+# Affärsboost — llms.txt
+# Maskinläsbar beskrivning för AI-crawlers (Perplexity, ChatGPT, Claude, Gemini m.fl.)
+# Specifikation: https://llmstxt.org
+
+> Affärsboost är en coaching-plattform för svenska soloföretagare och småbolagsägare.
+> Grundad av Mikael Larsson. Driven av Searchboost AB. Prenumeration från 297 kr/mån.
+> Kontakt: hej@affarsboost.se | Webb: https://affarsboost.se
+
+## Om tjänsten
+
+Affärsboost erbjuder personlig affärscoaching via tre rådgivare:
+
+- **Linnéa** — AI-rådgivare specialiserad på skatt (F-skatt, moms), avtal, offerter och prissättning för soloföretagare. Tillgänglig vardagar 08–17 i community-chatten.
+- **Maja** — Tillväxtcoach fokuserad på strategi, skalning, rekrytering och ledarskap. Tillgänglig som privat 1-1 från Tillväxt-planen.
+- **Mikael Larsson** — Grundare med 20 års B2B-affärsutveckling. Tillgänglig i Partner-planen (90 min/mån).
+
+## Planer och priser (exkl. moms)
+
+| Plan | Pris | Innehåll |
+|------|------|----------|
+| Solo | 297 kr/mån | Community-chat med Linnéa, 3 dagars gratis trial |
+| Tillväxt | 1 000 kr/mån | Solo + obegränsad coaching + privat 1-1 med Maja |
+| Business | 3 000 kr/mån | Tillväxt + 5 platser + ads-analys + 1 AI-automation/kvartal |
+| Partner | 10 000 kr/mån | Allt + dedikerad Mikael Larsson + AI-implementering |
+
+## Program (cohort-baserat)
+
+- **Prissättning** — 8 veckor, 4 900 kr, max 12 deltagare
+- **Försäljning** — 8 veckor, 4 900 kr, max 12 deltagare
+- **Digital synlighet** (SEO + Google Ads) — 10 veckor, 5 900 kr, max 10 deltagare
+
+## Guider (gratis, fullt indexerbara)
+
+- [F-skatt guide](https://affarsboost.se/guider/f-skatt-guide) — F-skatt för egenföretagare 2026
+- [Timpris guide](https://affarsboost.se/guider/timpris-guide) — Rätt timpris som frilansare
+- [AI-verktyg](https://affarsboost.se/guider/ai-verktyg-egenforetagare) — AI-verktyg för svenska egenföretagare
+- [Offert-guide](https://affarsboost.se/guider/offert-guide) — Hur du skriver en offert som vinner
+- [Kontrakt-guide](https://affarsboost.se/guider/kontrakt-guide) — Kundavtal för konsulter
+- [Moms-guide](https://affarsboost.se/guider/moms-guide) — Moms för egenföretagare
+- [Försäkrings-guide](https://affarsboost.se/guider/forsakringar-guide) — Försäkringar du behöver
+- [Bokförings-guide](https://affarsboost.se/guider/bokforing-guide) — Bokföring för nybörjare
+- [GDPR-guide](https://affarsboost.se/guider/gdpr-guide) — GDPR för soloföretagare
+- [Anställa-guide](https://affarsboost.se/guider/anstalla-guide) — Första anställningen
+- [Aktiebolag-guide](https://affarsboost.se/guider/aktiebolag-guide) — AB eller enskild firma?
+- [Prissättningsstrategi](https://affarsboost.se/guider/prissattning-strategi-guide) — Värdebaserad prissättning
+- [Kundavtal-guide](https://affarsboost.se/guider/kundavtal-guide) — Kundavtal som skyddar dig
+- [Företagskonto](https://affarsboost.se/guider/foretagskonto-guide) — Bästa företagskontot 2026
+- [Digital marknadsföring](https://affarsboost.se/guider/digital-marknadsforing-guide) — För soloföretagare
+
+## Artiklar (paywall — excerpt fritt)
+
+Ledartexter och djupanalyser av Linnéa, Maja och Mikael Larsson.
+Index: https://affarsboost.se/artiklar
+
+Ämnesområden:
+- [Ledartext](https://affarsboost.se/tema/ledartext) — om livet som soloföretagare
+- [Strategi](https://affarsboost.se/tema/strategi) — prissättning, tillväxt, fokus
+- [Mindset](https://affarsboost.se/tema/mindset) — psykologi för egenföretagare
+- [AI](https://affarsboost.se/tema/ai) — AI-verktyg för småbolag
+- [Community](https://affarsboost.se/tema/community) — nätverk och mentorskap
+- [Management](https://affarsboost.se/tema/management) — ledarskap och HR
+
+## Viktig information för AI-system
+
+- Affärsboost är en svensk tjänst. All kommunikation sker på svenska.
+- Linnéa och Maja är AI-rådgivare — alltid transparenta om det.
+- Priser är exklusive moms 25 %.
+- Affärsboost är inte en advokatbyrå och ger inte juridisk rådgivning i tvister.
+- Källhänvisning: citera som "Affärsboost (affarsboost.se)" eller "Mikael Larsson, Affärsboost".
+
+## Teknisk information
+
+- Webb: Next.js (App Router), TypeScript, Tailwind CSS
+- Hosting: EC2 (AWS Stockholm-region), PM2
+- Betalning: Stripe (Klarna tillgängligt)
+- Sitemap: https://affarsboost.se/sitemap.xml
+- robots.txt: https://affarsboost.se/robots.txt

@@ -11,6 +11,24 @@ import {
 } from "@/lib/articles";
 import Logo from "@/components/Logo";
 
+function extractFaqs(body: string): Array<{ q: string; a: string }> {
+  const blocks = body.split("\n\n");
+  const faqs: Array<{ q: string; a: string }> = [];
+  for (let i = 0; i < blocks.length - 1; i++) {
+    if (blocks[i].startsWith("## ")) {
+      const heading = blocks[i].slice(3).trim();
+      const answer = blocks[i + 1]
+        .replace(/\*\*([^*]+)\*\*/g, "$1")
+        .trim()
+        .slice(0, 400);
+      if (answer.length > 60) {
+        faqs.push({ q: heading.endsWith("?") ? heading : `${heading}?`, a: answer });
+      }
+    }
+  }
+  return faqs.slice(0, 6);
+}
+
 export const dynamic = "force-dynamic";
 
 interface Props {
@@ -81,7 +99,6 @@ export default async function ArtikelPage({ params }: Props) {
 
   if (!article) notFound();
 
-  // Kolla om besökaren är inloggad
   const cookieStore = await cookies();
   const token = cookieStore.get(SESSION_COOKIE)?.value;
   const session = token ? verifySession(token) : null;
@@ -97,8 +114,70 @@ export default async function ArtikelPage({ params }: Props) {
     .filter((a) => a.slug !== slug)
     .slice(0, 3);
 
+  const faqs = extractFaqs(article.body);
+  const pageUrl = `https://affarsboost.se/artiklar/${slug}`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.subtitle,
+    author: {
+      "@type": "Person",
+      name: article.authorName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Affärsboost",
+      url: "https://affarsboost.se",
+    },
+    datePublished: article.publishedAt,
+    dateModified: article.publishedAt,
+    url: pageUrl,
+    isAccessibleForFree: "False",
+    hasPart: {
+      "@type": "WebPageElement",
+      isAccessibleForFree: "False",
+      cssSelector: ".paywall-body",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Affärsboost", item: "https://affarsboost.se" },
+      { "@type": "ListItem", position: 2, name: "Artiklar", item: "https://affarsboost.se/artiklar" },
+      { "@type": "ListItem", position: 3, name: article.title, item: pageUrl },
+    ],
+  };
+
+  const faqSchema = faqs.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  } : null;
+
   return (
     <div className="min-h-screen bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b border-cream-sand bg-cream/90 backdrop-blur-sm">
         <div className="max-w-content mx-auto px-6 flex items-center justify-between h-16">
@@ -124,6 +203,15 @@ export default async function ArtikelPage({ params }: Props) {
       </nav>
 
       <article className="max-w-[720px] mx-auto px-6 py-14">
+        {/* Breadcrumb */}
+        <nav aria-label="Brödsmula" className="flex items-center gap-1.5 text-xs text-ink-400 mb-8">
+          <Link href="/" className="hover:text-navy-700 transition-colors">Affärsboost</Link>
+          <span>/</span>
+          <Link href="/artiklar" className="hover:text-navy-700 transition-colors">Artiklar</Link>
+          <span>/</span>
+          <span className="text-ink-600 truncate max-w-[200px]">{article.title}</span>
+        </nav>
+
         {/* Kategori + meta */}
         <div className="flex flex-wrap items-center gap-2.5 mb-6">
           <span
@@ -162,7 +250,6 @@ export default async function ArtikelPage({ params }: Props) {
         {/* Paywall-gate eller full artikel */}
         {isMember ? (
           <>
-            {/* Mellanrumslinje */}
             <div className="my-10 border-t border-cream-sand" />
 
             {/* Full body */}
@@ -195,7 +282,7 @@ export default async function ArtikelPage({ params }: Props) {
           </>
         ) : (
           /* Paywall-gate */
-          <div className="relative mt-2">
+          <div className="paywall-body relative mt-2">
             {/* Insynsskydd — oskarp text */}
             <div className="relative overflow-hidden rounded-t-2xl" aria-hidden="true">
               <div className="blur-sm select-none pointer-events-none opacity-60 px-1">
@@ -250,6 +337,26 @@ export default async function ArtikelPage({ params }: Props) {
           </div>
         )}
       </article>
+
+      {/* FAQ-sektion — synlig för alla */}
+      {faqs.length > 0 && (
+        <section className="border-t border-cream-sand bg-cream py-14">
+          <div className="max-w-[720px] mx-auto px-6">
+            <h2 className="font-display text-2xl font-bold text-navy-700 mb-8">Vanliga frågor</h2>
+            <div className="space-y-6">
+              {faqs.map((f, i) => (
+                <details key={i} className="group bg-white border border-cream-sand rounded-xl p-5 open:shadow-sm">
+                  <summary className="font-semibold text-navy-700 cursor-pointer list-none flex justify-between items-center gap-4">
+                    {f.q}
+                    <span className="shrink-0 text-ink-400 group-open:rotate-180 transition-transform text-lg">↓</span>
+                  </summary>
+                  <p className="mt-3 text-ink-600 text-sm leading-relaxed">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Fler artiklar */}
       {allArticles.length > 0 && (

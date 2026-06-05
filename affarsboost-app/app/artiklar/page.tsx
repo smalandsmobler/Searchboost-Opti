@@ -35,11 +35,42 @@ const CATEGORY_LABELS: Record<ArticleCategory, string> = {
 
 export default function ArtiklarPage() {
   const articles = getPublishedArticles();
-
   const categories = Array.from(new Set(articles.map((a) => a.category)));
+
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Artiklar — Affärsboost",
+    description: "Ledartexter och insikter för svenska företagare om prissättning, tillväxt, AI och ledarskap.",
+    url: "https://affarsboost.se/artiklar",
+    numberOfItems: articles.length,
+    itemListElement: articles.map((a, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: `https://affarsboost.se/artiklar/${a.slug}`,
+      name: a.title,
+    })),
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Affärsboost", item: "https://affarsboost.se" },
+      { "@type": "ListItem", position: 2, name: "Artiklar", item: "https://affarsboost.se/artiklar" },
+    ],
+  };
 
   return (
     <div className="min-h-screen bg-cream">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       {/* Nav */}
       <nav className="sticky top-0 z-50 border-b border-cream-sand bg-cream/90 backdrop-blur-sm">
         <div className="max-w-content mx-auto px-6 flex items-center justify-between h-16">
@@ -62,6 +93,13 @@ export default function ArtiklarPage() {
       </nav>
 
       <div className="max-w-[820px] mx-auto px-6 py-16">
+        {/* Breadcrumb */}
+        <nav aria-label="Brödsmula" className="flex items-center gap-1.5 text-xs text-ink-400 mb-8">
+          <Link href="/" className="hover:text-navy-700 transition-colors">Affärsboost</Link>
+          <span>/</span>
+          <span className="text-ink-600">Artiklar</span>
+        </nav>
+
         {/* Rubrik */}
         <div className="mb-12">
           <p className="text-sm font-semibold text-emerald-600 mb-3 tracking-wide uppercase">
