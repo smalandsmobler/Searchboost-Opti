@@ -72,6 +72,7 @@ _Arkiverad: se v22-sammanfattning ovan._
 
 - SEO-skola (https://searchboost.se/seo-skola/)
 - AI Overviews och GEO — hur det påverkar din SEO 2026 (⚠ ej deployad) — 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2
+- E-E-A-T: Så bygger du trovärdighet som litet företag (⚠ ej deployad) — 2026-06-05 | Kör scripts/publish-searchboost-eeat.js från EC2
 
 ## LinkedIn-inlägg
 
@@ -93,8 +94,8 @@ _Arkiverad: se v22-sammanfattning ovan._
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **14 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer kör AI-sökevent, Jajja täcker inte ämnet — vi äger nischen NU |
-| Skriv: "E-E-A-T: Så bygger du trovärdighet som litet företag" → SEO-skolan (~900 ord) | **HÖG** | Bonzer = enterprise, Sunbird = B2B, ingen täcker E-E-A-T för svenska SME |
+| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **23 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer kör AI-sökevent, Jajja täcker inte ämnet — vi äger nischen NU |
+| **DEPLOY**: "E-E-A-T trovärdighet" (skriven 2026-06-05): `node scripts/publish-searchboost-eeat.js` från EC2 | **BRÅDSKANDE** | Artikel klar — 960 ord, ÅÄÖ ok (71 tecken), 3 interna länkar, FAQ-schema |
 | FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | **HÖG** | Jajja/Sunbird/Bonzer saknar FAQ-schema på guider — direkt CTR-win |
 | Skriv: "Lokal SEO 2026 — komplett guide för svenska småföretag" | Medel | Sunbird har stadssidor men ingen praktisk lokal guide |
 
