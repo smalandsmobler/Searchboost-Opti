@@ -1,11 +1,23 @@
 # Jelmtech — Content & SEO Tasks
 
 > Kund sedan: 2026-02-18 | Deal: 24 000 SEK | Sajt: jelmtech.se
-> Senast uppdaterad: 2026-06-04
+> Senast uppdaterad: 2026-05-20
 
-## GSC & BQ
-GSC: OK — verifierad ägare, seo-mcp-bigquery inlagd (bekräftad 2026-06-04).
-BQ massdataexport: aktiv.
+## Regressionsvarningar
+
+_Ingen GSC-data: Ej kopplad (inte ägare / ej konfigurerad). Regressionscheck ej möjlig._
+
+Inga regressioner 2026-05-20 (GSC ej konfigurerad)
+Inga regressioner 2026-05-21 (GSC ej konfigurerad)
+Inga regressioner 2026-05-22 (GSC ej konfigurerad)
+Inga regressioner 2026-05-26 (GSC ej konfigurerad)
+Inga regressioner 2026-05-27 (GSC ej konfigurerad)
+Inga regressioner 2026-05-28 (GSC ej konfigurerad)
+Inga regressioner 2026-05-30 (GSC ej konfigurerad)
+Inga regressioner 2026-06-02 (GSC ej konfigurerad)
+Inga regressioner 2026-06-03 (GSC ej konfigurerad)
+Inga regressioner 2026-06-05 (GSC ej konfigurerad)
+Senaste check: 2026-06-05
 
 ## Publicerade artiklar
 

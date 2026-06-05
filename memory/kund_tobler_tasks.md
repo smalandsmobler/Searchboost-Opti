@@ -1,57 +1,56 @@
 # tobler — Tasks & Status
 
-> Kund: tobler.se | GSC: OK | Kontakt: jakob@tobler.se
-> Senast uppdaterad: 2026-06-04
+> Kund: tobler.se | GSC: Ej konfigurerad | WP-creds: OK
+> Senast uppdaterad: 2026-05-06
 
-## VIKTIGT — plattformsbyte 2026-06-04
-tobler.se är INTE längre WordPress/Elementor. Sajten är nu en **Next.js App Router-sajt**
-(statisk export, `output: 'export'`), kodbas `tobler-next-final`, byggd och hostad på
-**EC2 51.21.116.7** (samma server som nso/arbetsro). Gamla Elementor-tasks är inaktuella.
+## Regressionsvarningar
 
-- Apex `tobler.se`, `www.tobler.se` och `ny.tobler.se` serveras ALLA från EC2 nginx.
-- Deploy: rsync källkod till EC2, bygg på EC2 (kräver WP-API-åtkomst vid byggtid, se nextjs_deploy_skill.md).
-- Verifiera live med curl externt efter varje deploy.
+_Ingen GSC-data: GSC ej konfigurerad. Regressionscheck ej möjlig._
 
-## Migrering Beebyte — MISSLYCKADES (2026-06-04)
-Försök att flytta www → Beebyte Plesk via redirect-arkitektur (EC2 apex 301 → www på Beebyte).
-Let's Encrypt SSL på www.tobler.se via Plesk gav upprepad HTTPS-timeout trots korrekt DNS + HTTP 301.
-**Rollback: båda domänerna tillbaka på EC2.** Slutsats: EC2 nginx hanterar apex+www+SSL pålitligt.
-Lärdom: verifiera SSL-aktivering INNAN DNS-cutover vid split-host.
+Inga regressioner 2026-05-20 (GSC ej konfigurerad)
+Inga regressioner 2026-05-21 (GSC ej konfigurerad)
+Inga regressioner 2026-05-22 (GSC ej konfigurerad)
+Inga regressioner 2026-05-26 (GSC ej konfigurerad)
+Inga regressioner 2026-05-27 (GSC ej konfigurerad)
+Inga regressioner 2026-05-28 (GSC ej konfigurerad)
+Inga regressioner 2026-05-30 (GSC ej konfigurerad)
+Inga regressioner 2026-06-02 (GSC ej konfigurerad)
+Inga regressioner 2026-06-03 (GSC ej konfigurerad)
+Inga regressioner 2026-06-05 (GSC ej konfigurerad)
+Senaste check: 2026-06-05
 
-## SEO-lansering 2026-06-04 (Health Score 38/100 → fixat)
-Genomförda fixar (deployade + curl-verifierade live):
-- robots.txt: platshållarfil → produktionskonfiguration
-- canonical + og:image i ALLA page metadata (root layout.tsx + per-route generateMetadata):
-  butik, om-oss, kontakt, kunskapsbank, produkt/[slug], produkt-kategori/[slug]
-- robots: noindex på transaktionssidor: kassan, varukorg, mitt-konto
-- Organization JSON-LD: hårdkodad staging-logo-URL → prod-URL, sameAs fixat
-- BreadcrumbList (Hem → Sortiment → Kategori → Produkt) i ProductJsonLd.tsx
-- Villkorlig FAQPage JSON-LD på produktsidor (renderas bara om FAQ finns för kategorin)
-  - faq-data.ts: getCategoryFaq(slug) med fuzzy slug-matchning (ramstallning-aluminium → ramstallning)
-
-## Betalning — PÅGÅR
-- **Swedbank Pay valt** över Stripe (beslut 2026-06-04).
-- Väntar på Jakobs credentials: access token + Payee ID + miljöbekräftelse (prod/sandbox).
-- När mottaget: lagra i SSM, integrera kassan.
-
-## Publicerade artiklar (WP-era — kan behöva migreras till Next.js)
+## Publicerade artiklar
 
 | Datum | Titel | URL |
 |-------|-------|-----|
 | 2026-05-03 | Modulställning — vad du behöver veta | https://tobler.se/kopa-modulstallning-vad-du-behover-veta-om-system-pris-och-leverantorer/ |
-| 2026-05-11 | Ställningsnät — krav, typer och rätt användning (⚠ status oklar efter migrering) | — |
+| 2026-05-11 | Ställningsnät — krav, typer och rätt användning (⚠ ej deployad) | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
+| 2026-06-03 | Skyddsräcke på byggställning — regler, typer och rätt montering (⚠ ej deployad) | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
+
+## Deploy — väntande artiklar
+
+```bash
+cd /home/ubuntu/Searchboost-Opti
+node scripts/publish-tobler-stallningsnät.js   # artikel 2026-05-11
+node scripts/publish-tobler-skyddsracke.js     # artikel 2026-06-03
+```
+
+**Artikeldetaljer (2026-06-03):**
+- Fokuskeyword: `skyddsräcke byggställning`
+- Kategori: Branschkunskap (ID: 249)
+- Meta title: Skyddsräcke på byggställning — regler, typer och montering | Tobler
+- Intern länkning: AFS-säkerhetsregler, besiktning-byggstallning, stallningsnät-guide
+- Ordantal: 943 ord (HTML: content-pages/tobler-skyddsracke-byggstallning.html)
 
 ## Nästa artikelidéer
 
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
-| Hög | Skyddsräcke på byggställning | skyddsräcke byggställning |
 | Hög | Ställning för takrenovering | ställning takrenovering |
 | Medium | Ställningsarbete regler | ställningsarbete regler |
 | Medium | Transport av ställning | transport byggställning |
 
 ## Status
-- Plattform: Next.js statisk export på EC2 51.21.116.7
+- WP-creds: OK
 - GSC: EJ konfigurerad (—)
 - Kontakt: jakob@tobler.se
-- Betalning: Swedbank Pay (väntar creds)
