@@ -3,6 +3,42 @@
 > Uppdateras varje körning av content-fabriken.
 > Senast uppdaterad: 2026-06-05
 
+## Regressionscheck — 2026-06-06 (lördag)
+
+**Status: Blockerad — 16:e körningen i rad (4,5 veckor utan rankingdata)**
+
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS + Supermetrics ej auth |
+| mobelrondellen | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS + Supermetrics ej auth |
+| smalandskontorsmobler | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS + Supermetrics ej auth |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
+
+**Keywords upp/ner:** ❌ Ej tillgänglig — blockerare kvarstår
+
+**⚠️ ESKALERING — LÖSNING KRÄVS OMEDELBART (3 alternativ, snabbast först):**
+
+**Alternativ A — BigQuery-credentials i Claude Code Settings (5 min):**
+Gå till Claude Code Settings → Environment Variables, lägg till:
+```
+GOOGLE_APPLICATION_CREDENTIALS_JSON=<service account JSON från SSM /seo-mcp/bigquery/credentials>
+```
+→ Nästa regressionscheck kan direkt fråga BigQuery utan EC2.
+
+**Alternativ B — EC2 Let's Encrypt-cert (10 min):**
+SSH in via Instance Connect → `sudo certbot --nginx -d searchboost.se`
+→ EC2 API nåbar från remote environment.
+
+**Alternativ C — Kör regression-check manuellt på EC2 (2 min):**
+SSH in → `node /home/ubuntu/Searchboost-Opti/scripts/regression-check.js`
+
+---
+
 ## Regressionscheck — 2026-05-14 (MÅNDAG — Veckosammanfattning)
 
 **Status: Blockerad — EC2 503 + Supermetrics ej autentiserad.**

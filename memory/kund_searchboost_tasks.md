@@ -40,13 +40,13 @@ _Arkiveras — se v23-sammanfattning nedan._
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-06-05, **15 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5 jun):_
-- _EC2-API: Ej nåbar (self-signed TLS, `-k` flag fungerar ej i Envoy-miljön — bekräftad 2026-06-05)_
+_Ingen data — Blockerad (2026-06-06, **16 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5/6 jun):_
+- _EC2-API: Ej nåbar (self-signed TLS, `-k` flag fungerar ej i Envoy-miljön — bekräftad 2026-06-06)_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
 - _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED — kräver engångsinloggning_
 
-**⚠️ KRITISK BLOCKERARE — 15 MISSADE CHECKS (4,5 VECKOR UTAN RANKINGDATA)**
+**⚠️ KRITISK BLOCKERARE — 16 MISSADE CHECKS (4,5 VECKOR UTAN RANKINGDATA)**
 
 **🔓 LÖSNING 1 — BigQuery direkt (rekommenderas, 5 min):**
 Lägg service account JSON i Claude Code Settings → Environment Variables:
@@ -62,7 +62,7 @@ SSH till EC2, kör: `sudo certbot --nginx -d din-domän.se`
 **🔓 LÖSNING 3 — Supermetrics GSC (2 min, osäker):**
 Autentisera Supermetrics mot GSC via länk i föregående sessions-log.
 
-_Senaste check: 2026-06-05 — 0 kunder checkbara (**15 körningar i rad**)_
+_Senaste check: 2026-06-06 — 0 kunder checkbara (**16 körningar i rad**)_
 
 ### Veckosammanfattning 2026-05-18 (måndag v20) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår 3 körningar i rad**
