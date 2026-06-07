@@ -82,3 +82,30 @@
 - Mattias kan ändra lagerstatus + produkttexter själv (PDF-manual bifogad i tråden).
 - Ändrade texter skickas till Mikael → publiceras inom 5 min.
 - Deploy mot mobelrondellen.se sker via WooCommerce (REST API / WP-admin).
+
+---
+
+## Deploy-status (2026-06-07)
+
+> ⚠️ Remote-sandboxen når INTE mobelrondellen.se (nätverkspolicy: `403 Host not in allowlist`).
+> Deploy måste köras från laptop/EC2 där sajten är nåbar. Allt nedan är **förberett, ej kört**.
+
+### Körklara artefakter
+1. **Nya produkter (6 st, Bröderna Andersson)** → `scripts/mobelrondellen-nya-produkter-juni2026.csv`
+   - Importeras via WP-admin → WooCommerce → Produkter → Importera.
+   - Simple products m. pris + attribut (Material, Varumärke). 4 färger ej uppdelade i varianter (färgnamn saknas).
+2. **Pris + lagerstatus på befintliga produkter** → `scripts/mobelrondellen-pris-leverans-2026.js`
+   - Kör dry-run först: `node scripts/mobelrondellen-pris-leverans-2026.js`
+   - Sätt creds först: `export WP_USER=... WP_APP_PASSWORD=...`
+   - Genomför: `... --execute`
+   - Täcker: Havanna(6800), Chic(rea 19980→13986), instock-varor, beställningsvaror (onbackorder + leveransinfo), Rio/Hastings (outofstock men synliga).
+
+### GATED — kör EJ förrän kundsvar finns
+- **Borttag/utgående** (radera vs markera): Pan, Monza, Lotus, Dessie, Aspen, Roomers vitrinskåp, Ekeberg-gruppen, Ekeberg matbord → väntar på öppen punkt 4.
+- **Tuva X-Deep**: två priser (utan dun 14990 / med dun 15990) → kräver variant-uppsättning, sätt manuellt.
+- **Norris demoex**: "reducerat pris" men belopp saknas → fråga Mattias.
+- **Nya produkters färgvarianter**: 4 färgnamn saknas (fårskinn) för Patronen/Focus/Kapten/Cruze.
+- Övriga öppna punkter: söndagstider, Cathrine/Genova-pris, Skanör-spec.
+
+### Säkerhetsnotis
+- `scripts/mobelrondellen-seo-fix.js` har WP app-password **hårdkodat i klartext** (mot policy). Bör roteras. Nya scriptet läser från env istället.
