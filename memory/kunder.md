@@ -84,7 +84,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | tobler          | Skyddsräcke på byggställning (⚠ ej deployad)   | 2026-06-03 | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
 | mobelrondellen  | Utemöbler 2026 — guide till hållbara val (⚠ ej deployad) | 2026-05-29 | Kör scripts/publish-mobelrondellen-utemobler-2026.js från EC2 |
 | ilmonte         | Köpa scenpodium 2026 — storlekar, material och priser (⚠ ej deployad) | 2026-05-27 | Kör scripts/publish-ilmonte-kopa-scenpodium-2026.js från EC2 |
-| jelmtech        | PP-plast formsprutning (⚠ ej deployad) | 2026-05-15 | Kör scripts/publish-jelmtech-pp-plast.js från EC2 |
+| jelmtech        | POM/acetal formsprutning (⚠ ej deployad) | 2026-06-08 | Kör scripts/publish-jelmtech-pom-acetal.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
 | humanpower      | (ej registrerad)                      | —          | — |
@@ -126,6 +126,18 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-08
+
+- **Kund**: jelmtech (äldst med aktiva WP-creds sedan 2026-05-15, 24 dagar)
+- **Artikel**: "POM/acetal formsprutning — komplett guide till polyoximetyl​en"
+- **Fokuskeyword**: POM formsprutning
+- **Fil**: content-pages/jelmtech-pom-acetal-formsprutning.html
+- **Script**: scripts/publish-jelmtech-pom-acetal.js
+- **Ordantal**: ~1 050 ord, ÅÄÖ ok (506 tecken), 3 interna länkar, FAQ-schema (3 frågor)
+- **Struktur**: 6 H2:or + FAQ H2, lead-paragraf ~55 ord, 2 tabeller, jämförelsetabell POM/PA/PP
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-05
 

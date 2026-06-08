@@ -37,6 +37,7 @@ Senaste check: 2026-06-06
 | 2026-05-07 | ABS-plast — egenskaper, formsprutning och industriella tillämpningar | ✅ LIVE | ABS-plast formsprutning |
 | 2026-05-15 | PP-plast formsprutning — komplett guide till polypropylen | ⏳ VÄNTAR — kör scripts/publish-jelmtech-pp-plast.js från EC2 | PP plast formsprutning |
 | 2026-05-?? | Plastprototyp — komplett guide 2026 | ⚠️ Google-indexerad men 404! Kontrollera draft/scheduled i WP-admin | plastprototyp |
+| 2026-06-08 | POM/acetal formsprutning — komplett guide till polyoximetyl​en | ⏳ VÄNTAR — kör scripts/publish-jelmtech-pom-acetal.js från EC2 | POM formsprutning |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
 
@@ -54,7 +55,7 @@ Senaste check: 2026-06-06
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
 | Hög | Elmia Polymer 2026 — branschkommentar (timing!) | elmia polymer 2026 |
-| Hög | POM / acetal formsprutning | POM plast formsprutning |
+| ✅ KLAR | POM / acetal formsprutning | POM formsprutning — kör scripts/publish-jelmtech-pom-acetal.js |
 | Medium | Toleranser vid formsprutning | formsprutning toleranser |
 | Medium | Medicinteknisk produktutveckling | medicinteknisk produktutveckling |
 | Låg | PC-plast (polykarbonat) egenskaper | polykarbonat formsprutning |
