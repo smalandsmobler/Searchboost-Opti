@@ -3,9 +3,9 @@
 > Uppdateras varje körning av content-fabriken.
 > Senast uppdaterad: 2026-06-05
 
-## Regressionscheck — 2026-06-07 (söndag)
+## Regressionscheck — 2026-06-08 (söndag)
 
-**Status: Blockerad — 17:e körningen i rad (4,5+ veckor utan rankingdata)**
+**Status: Blockerad — 18:e körningen i rad (5 veckor utan rankingdata)**
 
 | Kund | GSC-status | Check-status | Orsak |
 |------|-----------|-------------|-------|
@@ -20,7 +20,7 @@
 | nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
 
 **Keywords upp/ner:** ❌ Ej tillgänglig — blockerare kvarstår
-_Bekräftade blockerare 2026-06-07: EC2→503 (TLS/Envoy), perispa_* ej tillgängliga, gcloud saknas, AWS CLI saknas_
+_Bekräftade blockerare 2026-06-08: EC2→TLS-fel (Envoy HTTPS-uppgradering), perispa_* ej tillgängliga, gcloud saknas, AWS CLI saknas, GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt_
 
 **⚠️ ESKALERING — LÖSNING KRÄVS OMEDELBART (3 alternativ, snabbast först):**
 

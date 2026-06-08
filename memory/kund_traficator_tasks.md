@@ -19,6 +19,8 @@ Inga regressioner 2026-06-03 (GSC ej konfigurerad)
 Inga regressioner 2026-06-05 (GSC ej konfigurerad)
 Inga regressioner 2026-06-06 (GSC ej konfigurerad)
 Inga regressioner 2026-06-07 (GSC ej konfigurerad)
+Inga regressioner 2026-06-08 (GSC ej konfigurerad)
+Inga regressioner 2026-06-07 (GSC ej konfigurerad)
 Senaste check: 2026-06-06
 
 ## Status
