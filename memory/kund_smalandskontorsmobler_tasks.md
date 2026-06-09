@@ -5,14 +5,14 @@
 
 ## Regressionsvarningar
 
-_Ingen data — Blockerad (2026-06-08, **18 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5/6/7/8 jun):_
-- _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy, `-k` fungerar ej — bekräftad 2026-06-08)_
+_Ingen data — Blockerad (2026-06-09, **19 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5/6/7/8/9 jun):_
+- _EC2-API: Ej nåbar från remote environment (self-signed TLS / Envoy-proxy, `-k` fungerar ej — bekräftad 2026-06-09)_
 - _Supermetrics GSC (ds\_id: GW): **FINNS** men NOT\_AUTHENTICATED — kräver engångsinloggning av Mikael_
 - _AWS CLI saknas → kan ej hämta BigQuery-credentials från SSM_
 
 **⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md — Supermetrics GSC-autentisering = snabbaste fix (2 min).
 
-Senaste check: 2026-06-08
+Senaste check: 2026-06-09
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
