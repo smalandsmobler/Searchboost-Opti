@@ -1,9 +1,10 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-06-02
+> Senast uppdaterad: 2026-06-09
 
 ## Prospektlista (Prospekt-scanner)
+- 2026-06-09: [Bygg / Linköping](../content-pages/prospects/2026-06-09-bygg-linkoping.md) — Top 3: Svenska Bygge (title=bara företagsnamn, 5 sociala kanaler), ByggOm Linköping (B2B/kommersiell, ren H1), Irebro Byggservice (bred portfölj, WordPress, 3×H1)
 - 2026-06-02: [Hotell / Uppsala](../content-pages/prospects/2026-06-02-hotell-uppsala.md) — Top 3: Grand Hotell Hörnan (title="Startsida"!), Villa Anna (premium, ingen lokal SEO), Akademihotellet (ny svitavdelning ej synlig)
 - 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
 - 2026-05-19: [Tandläkare / Stockholm](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md)
@@ -112,6 +113,7 @@ _Arkiverad: se v22-sammanfattning ovan._
 
 | Datum | Bransch | Stad | Fil |
 |-------|---------|------|-----|
+| 2026-06-09 | Bygg | Linköping | [content-pages/prospects/2026-06-09-bygg-linkoping.md](../content-pages/prospects/2026-06-09-bygg-linkoping.md) |
 | 2026-06-02 | Hotell | Uppsala | [content-pages/prospects/2026-06-02-hotell-uppsala.md](../content-pages/prospects/2026-06-02-hotell-uppsala.md) |
 | 2026-05-26 | Restaurang | Malmö | [content-pages/prospects/2026-05-26-restaurang-malmo.md](../content-pages/prospects/2026-05-26-restaurang-malmo.md) |
 | 2026-05-19 | Tandläkare | Stockholm | [content-pages/prospects/2026-05-19-tandläkare-stockholm.md](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md) |
