@@ -92,14 +92,24 @@ _Arkiverad: se v22-sammanfattning ovan._
 - GSC: OK (https://searchboost.se/)
 - Rank Math: OK
 
-## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **23 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer kör AI-sökevent, Jajja täcker inte ämnet — vi äger nischen NU |
-| **DEPLOY**: "E-E-A-T trovärdighet" (skriven 2026-06-05): `node scripts/publish-searchboost-eeat.js` från EC2 | **BRÅDSKANDE** | Artikel klar — 960 ord, ÅÄÖ ok (71 tecken), 3 interna länkar, FAQ-schema |
-| FAQ-schema på de 6 mest besökta SEO-skola-artiklarna | **HÖG** | Jajja/Sunbird/Bonzer saknar FAQ-schema på guider — direkt CTR-win |
-| Skriv: "Lokal SEO 2026 — komplett guide för svenska småföretag" | Medel | Sunbird har stadssidor men ingen praktisk lokal guide |
+| **DEPLOY**: "AI Overviews och GEO" (klar sedan 13/05 — **28 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Bonzer "Google AI Mode i Sverige" + Jajja "7 månader med AI-mode" täcker ämnet aktivt — vi är 4 veckor försenade |
+| **DEPLOY**: "E-E-A-T trovärdighet" (skriven 2026-06-05 — **5 dagar**): `node scripts/publish-searchboost-eeat.js` från EC2 | **BRÅDSKANDE** | Bonzer har "E-E-A-T: Det viktigaste begreppet inom SEO" — vi kan fortfarande vinna med SME-vinkel |
+| LinkedIn-inlägg: "Varför Google AI Mode ändrar allt för svenska småföretag" | **HÖG** | Bonzer + Jajja signalerar till samma publik — vi behöver LinkedIn-närvaro nu |
+| FAQ-schema på de 3 mest besökta SEO-skola-artiklarna | **HÖG** | Bonzer/Jajja saknar FAQ-schema på guider — direkt CTR-win |
+| Skriv: "Lokal SEO 2026 — komplett guide för svenska orter" | Medel | Bonzer = enterprise-fokus, Jajja = Google Ads, ingen äger lokal SME-guide |
+
+## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| ~~DEPLOY "AI Overviews och GEO"~~ | ~~BRÅDSKANDE~~ | Kvar — EC2-blockerare |
+| ~~DEPLOY "E-E-A-T trovärdighet"~~ | ~~BRÅDSKANDE~~ | Kvar — EC2-blockerare |
+| FAQ-schema på SEO-skola-artiklarna | **HÖG** | Kvar — uppgraderad till 3 artiklar |
+| Lokal SEO-guide | Medel | Kvar |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-13 (arkiverade)
 

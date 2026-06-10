@@ -1,7 +1,7 @@
 # ilmonte — Tasks & Status
 
 > Kund: ilmonte.se | GSC: Ej ägare | WP-creds: OK
-> Senast uppdaterad: 2026-05-20
+> Senast uppdaterad: 2026-06-10
 
 ## Regressionsvarningar
 
@@ -60,14 +60,24 @@ node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
 node scripts/publish-ilmonte-kopa-scenpodium-2026.js
 ```
 
-## Prioriterade uppgifter — uppdaterad 2026-05-27
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: Båda väntande artiklarna — kör scripts ovan från EC2 | **BRÅDSKANDE** | 21 dagar sedan artikel 1 skrevs |
-| Product schema på de 5 mest sålda produktsidorna | **HÖG** | Ingen konkurrent (Scenkonsult, Evivent, Eventkraft) har Product schema |
-| FAQ-schema på /produkt-kategori/podier/ | Medel | Ingen konkurrent har FAQ schema |
-| Geografisk guide: "Scenpodium för utomhusevenemang — vad ska du tänka på?" | Medel | Scenkonsult = Stockholm only, Evivent = Staffanstorp only |
+| **DEPLOY**: "Hyra eller köpa scenpodium?" (klar 2026-05-06 — **35 dagar!**): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent (Scenkonsult/Evivent/Eventkraft) har denna content — total möjlighet att äga sökorden okontestas |
+| **DEPLOY**: "Köpa scenpodium 2026" (klar 2026-05-27 — **14 dagar**): `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2 | **BRÅDSKANDE** | Eventkraft = "priser på förfrågan", inga guider — Ilmonte kan äga köp-keyword direkt |
+| Product schema på de 5 mest sålda scenpodium-produktsidorna | **HÖG** | Scenkonsult, Evivent, Eventkraft = NOLL Product schema — Google Shopping-synlighet fri |
+| FAQ-schema på /podier/-kategorisida | **HÖG** | Ingen konkurrent har FAQ schema — rich results i Google utan motstånd |
+| Skriv: "Scenpodium för utomhusevenemang — checklista inför sommaren" (~600 ord) | Medel | Eventkraft saknar säsongscontent, Scenkonsult = Stockholm only — säsongsrelevant nu |
+
+## Prioriterade uppgifter — uppdaterad 2026-05-27 (arkiverade)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| ~~DEPLOY: Båda väntande artiklarna~~ | ~~BRÅDSKANDE~~ | Kvar — EC2-blockerare (nu 35 resp. 14 dagar) |
+| Product schema på 5 produktsidor | **HÖG** | Kvar — bekräftad 10/06 |
+| FAQ-schema på /podier/ | **HÖG** | Uppgraderad från Medel — inga konkurrenter har det |
+| Geografisk guide | Medel | Kvar |
 
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-06 (arkiverade)
 
