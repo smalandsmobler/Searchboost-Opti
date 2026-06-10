@@ -26,7 +26,8 @@ Inga regressioner 2026-06-06 (ej ägare i GSC)
 Inga regressioner 2026-06-05 (ej ägare i GSC)
 Inga regressioner 2026-06-07 (ej ägare i GSC)
 Inga regressioner 2026-06-09 (ej ägare i GSC)
-Senaste check: 2026-06-09
+Inga regressioner 2026-06-10 (ej ägare i GSC)
+Senaste check: 2026-06-10
 
 ## Publicerade artiklar
 
