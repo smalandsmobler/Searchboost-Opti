@@ -85,7 +85,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | mobelrondellen  | Utemöbler 2026 — guide till hållbara val (⚠ ej deployad) | 2026-05-29 | Kör scripts/publish-mobelrondellen-utemobler-2026.js från EC2 |
 | ilmonte         | Köpa scenpodium 2026 — storlekar, material och priser (⚠ ej deployad) | 2026-05-27 | Kör scripts/publish-ilmonte-kopa-scenpodium-2026.js från EC2 |
 | jelmtech        | POM/acetal formsprutning (⚠ ej deployad) | 2026-06-08 | Kör scripts/publish-jelmtech-pom-acetal.js från EC2 |
-| traficator      | (okänt — REST 500)                    | —          | — |
+| traficator      | Sandgjutning komplett guide 2026 (⚠ ej deployad) | 2026-06-10 | Kör scripts/publish-traficator-sandgjutning.js från EC2 |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
 | humanpower      | (ej registrerad)                      | —          | — |
 | nordicsnusonline| (prospect, ej aktiv)                  | —          | — |
@@ -126,6 +126,18 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-10
+
+- **Kund**: traficator (äldst i rotationen — okänt datum, aldrig i systemet)
+- **Artikel**: "Sandgjutning — komplett guide 2026: metod, material och tillämpningar"
+- **Fokuskeyword**: sandgjutning
+- **Fil**: content-pages/traficator-sandgjutning-guide-2026.html
+- **Script**: scripts/publish-traficator-sandgjutning.js
+- **Ordantal**: ~1 050 ord, ÅÄÖ ok, 3 interna länkar, FAQ-schema (3 frågor), materialöversiktstabell
+- **Struktur**: 7 H2:or + 3 H3:or (FAQ), lead-paragraf ~55 ord, OL-lista (process), UL-listor (fördelar/nackdelar), tabell (material)
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — WP REST 500 tidigare (trolig orsak: placeholder-lösenord). Verifiera app-password i SSM innan deploy.
 
 ## Content-fabrik körning 2026-06-08
 
