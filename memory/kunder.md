@@ -83,7 +83,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | searchboost     | E-E-A-T: Så bygger du trovärdighet som litet företag (⚠ ej deployad) | 2026-06-05 | Kör scripts/publish-searchboost-eeat.js från EC2 |
 | tobler          | Skyddsräcke på byggställning (⚠ ej deployad)   | 2026-06-03 | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
 | mobelrondellen  | Utemöbler 2026 — guide till hållbara val (⚠ ej deployad) | 2026-05-29 | Kör scripts/publish-mobelrondellen-utemobler-2026.js från EC2 |
-| ilmonte         | Köpa scenpodium 2026 — storlekar, material och priser (⚠ ej deployad) | 2026-05-27 | Kör scripts/publish-ilmonte-kopa-scenpodium-2026.js från EC2 |
+| ilmonte         | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 (⚠ ej deployad) | 2026-06-12 | Kör scripts/publish-ilmonte-utomhusevenemang.js från EC2 |
 | jelmtech        | POM/acetal formsprutning (⚠ ej deployad) | 2026-06-08 | Kör scripts/publish-jelmtech-pom-acetal.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
@@ -126,6 +126,19 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-12
+
+- **Kund**: ilmonte (äldst med aktiva WP-creds sedan 2026-05-27, 16 dagar)
+- **Artikel**: "Scenpodium för utomhusevenemang — komplett checklista inför sommaren 2026"
+- **Fokuskeyword**: scenpodium utomhus
+- **Fil**: content-pages/ilmonte-scenpodium-utomhusevenemang-checklista.html
+- **Script**: scripts/publish-ilmonte-utomhusevenemang.js
+- **Ordantal**: 875 ord, ÅÄÖ ok (234 tecken), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 5 H2:or + FAQ H2, lead-paragraf 46 ord, ol-lista med säkerhetsregler, ul-checklistor
+- **Status**: Skriven — väntar på deploy från EC2
+- **Timing**: Midsommar 2026-06-20 — 8 dagar bort, maximal säsongsrelevans
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-08
 

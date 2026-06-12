@@ -36,6 +36,7 @@ Senaste check: 2026-06-10
 | 2026-04-25 | Scenpodium-guide höjd/storlek | https://ilmonte.se/scenpodium-guide-hojd-storlek-ratt-val/ |
 | 2026-05-06 | Hyra eller köpa scenpodium? — 5 faktorer | *Redo att deployas — kör `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2* |
 | 2026-05-27 | Köpa scenpodium 2026 — storlekar, material och priser | *Redo att deployas — kör `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2* |
+| 2026-06-12 | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 | *Redo att deployas — kör `node scripts/publish-ilmonte-utomhusevenemang.js` från EC2* |
 
 ## Deploy — väntande artiklar (2 st)
 
@@ -65,11 +66,12 @@ node scripts/publish-ilmonte-kopa-scenpodium-2026.js
 
 | Uppgift | Prioritet | Källa |
 |---------|-----------|-------|
-| **DEPLOY**: "Hyra eller köpa scenpodium?" (klar 2026-05-06 — **35 dagar!**): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent (Scenkonsult/Evivent/Eventkraft) har denna content — total möjlighet att äga sökorden okontestas |
-| **DEPLOY**: "Köpa scenpodium 2026" (klar 2026-05-27 — **14 dagar**): `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2 | **BRÅDSKANDE** | Eventkraft = "priser på förfrågan", inga guider — Ilmonte kan äga köp-keyword direkt |
+| **DEPLOY**: "Hyra eller köpa scenpodium?" (klar 2026-05-06 — **37 dagar!**): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent (Scenkonsult/Evivent/Eventkraft) har denna content — total möjlighet att äga sökorden okontestas |
+| **DEPLOY**: "Köpa scenpodium 2026" (klar 2026-05-27 — **16 dagar**): `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2 | **BRÅDSKANDE** | Eventkraft = "priser på förfrågan", inga guider — Ilmonte kan äga köp-keyword direkt |
+| **DEPLOY**: "Scenpodium utomhusevenemang" (klar 2026-06-12): `node scripts/publish-ilmonte-utomhusevenemang.js` från EC2 | **BRÅDSKANDE** | Midsommar 2026-06-20 — maximal säsongsrelevans, ingen konkurrent har utomhus-checklista |
 | Product schema på de 5 mest sålda scenpodium-produktsidorna | **HÖG** | Scenkonsult, Evivent, Eventkraft = NOLL Product schema — Google Shopping-synlighet fri |
 | FAQ-schema på /podier/-kategorisida | **HÖG** | Ingen konkurrent har FAQ schema — rich results i Google utan motstånd |
-| Skriv: "Scenpodium för utomhusevenemang — checklista inför sommaren" (~600 ord) | Medel | Eventkraft saknar säsongscontent, Scenkonsult = Stockholm only — säsongsrelevant nu |
+| ~~Skriv: "Scenpodium för utomhusevenemang — checklista inför sommaren"~~ | ~~Medel~~ | ✅ KLAR 2026-06-12 — kör publish-script från EC2 |
 
 ## Prioriterade uppgifter — uppdaterad 2026-05-27 (arkiverade)
 
