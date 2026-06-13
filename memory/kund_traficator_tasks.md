@@ -1,7 +1,7 @@
 # traficator — Tasks & Status
 
-> Kund: traficator.se | GSC: Ej konfigurerad | WP-creds: OK
-> Senast uppdaterad: 2026-05-06
+> Kund: traficator.se | GSC: OK | WP-creds: OK
+> Senast uppdaterad: 2026-06-04
 
 ## Regressionsvarningar
 

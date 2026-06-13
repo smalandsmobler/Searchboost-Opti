@@ -97,7 +97,10 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset };
 }
 
 /**
@@ -308,8 +311,8 @@ async function auditSite(site) {
       if (wordCount < 300) problems.push({ type: 'thin_content', severity: 'high', wordCount });
       if (wordCount >= 300 && wordCount < 500) problems.push({ type: 'thin_content', severity: 'medium', wordCount });
 
-      // H1
-      if (!content.match(/<h1/i)) problems.push({ type: 'missing_h1', severity: 'medium' });
+      // H1 — kritisk, hög prioritet
+      if (!content.match(/<h1/i)) problems.push({ type: 'missing_h1', severity: 'high' });
 
 
       // H2-rubriker — om sidan har innehåll men inga/få H2
@@ -326,8 +329,10 @@ async function auditSite(site) {
       const imgsNoAlt = (content.match(/<img(?![^>]*alt=["'][^"']+["'])[^>]*>/gi) || []).length;
       if (imgsNoAlt > 0) problems.push({ type: 'missing_alt_text', severity: 'medium', count: imgsNoAlt });
 
-      // Schema markup
-      if (!content.includes('application/ld+json')) problems.push({ type: 'no_schema', severity: 'medium' });
+      // Schema markup — kontrollera Rank Math meta-fält + content
+      const hasRankMathSchema = item.meta && (item.meta.rank_math_rich_snippet_type || item.meta.rank_math_schema_data);
+      const hasInlineSchema = content.includes('application/ld+json');
+      if (!hasRankMathSchema && !hasInlineSchema) problems.push({ type: 'no_schema', severity: 'medium' });
 
       if (problems.length > 0) {
         issues.push({
@@ -463,19 +468,41 @@ exports.handler = async (event) => {
       console.log(`  ${issues.length} sidor med WP-problem, ${boostedCount} boostade av GSC-signal, ${gscOnlyCount} GSC-only`);
       console.log(`  ${existingRows.length} redan hanterade (URL+task), ${queueItems.length} nya läggs till`);
 
-      // Batch INSERT — bara nya sidor
+      // Batch INSERT — streaming insert (DML ej tillgängligt i Lambda-kontexten)
       if (queueItems.length > 0) {
-        const valueRows = queueItems.map(item => {
-          const esc = (s) => (s || '').replace(/'/g, "\\'").replace(/\\/g, '\\\\');
-          return `('${esc(item.queue_id)}', '${esc(item.customer_id)}', '${esc(site.url)}', '${esc(item.task_type)}', '${esc(item.page_url)}', '${esc(item.context_data)}', ${item.priority || 5}, 'pending', CURRENT_TIMESTAMP())`;
-        });
-        await bq.query({
-          query: `INSERT INTO \`${dataset}.seo_work_queue\` (queue_id, customer_id, site_url, task_type, page_url, context_data, priority, status, created_at)
-                  VALUES ${valueRows.join(',\n')}`
-        });
+        const rows = queueItems.map(item => ({
+          queue_id: item.queue_id,
+          customer_id: item.customer_id,
+          site_url: site.url,
+          task_type: item.task_type,
+          page_url: item.page_url,
+          context_data: item.context_data,
+          priority: item.priority || 5,
+          status: 'pending',
+          created_at: { value: new Date().toISOString() }
+        }));
+        await bq.dataset(dataset).table('seo_work_queue').insert(rows);
         console.log(`  Inserted ${queueItems.length} items to work queue`);
       } else {
         console.log(`  Inga nya sidor att lägga till — allt redan hanterat`);
+      }
+
+      // ── Lägg till artikelgenerering (1 per kund per vecka) ──
+      const articleExists = existingRows.some(r => r.task_type === 'create_article');
+      if (!articleExists) {
+        const articleQueueId = `q-${Date.now()}-article-${Math.random().toString(36).slice(2, 8)}`;
+        await bq.dataset(dataset).table('seo_work_queue').insert([{
+          queue_id: articleQueueId,
+          customer_id: site.id,
+          site_url: site.url,
+          task_type: 'create_article',
+          page_url: site.url,
+          context_data: JSON.stringify({ type: 'auto_article', customer_id: site.id }),
+          priority: 3,
+          status: 'pending',
+          created_at: { value: new Date().toISOString() }
+        }]);
+        console.log(`  Artikelgenerering köad för ${site.id}`);
       }
 
       allResults.push({

@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gratis SEO-analys — Searchboost</title>
+  <meta name="description" content="Mata in din webbadress och se exakt vad som håller dig tillbaka på Google. Gratis SEO-analys på 60 sekunder.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & base ─────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:        #0d0d0d;
+      --surface:   #141414;
+      --card:      #1a1a1a;
+      --border:    rgba(255,255,255,0.07);
+      --pink:      #e91e8c;
+      --pink-glow: rgba(233,30,140,0.35);
+      --pink-soft: rgba(233,30,140,0.10);
+      --cyan:      #00d4ff;
+      --green:     #22c55e;
+      --green-bg:  rgba(34,197,94,0.10);
+      --amber:     #f59e0b;
+      --amber-bg:  rgba(245,158,11,0.10);
+      --red:       #ef4444;
+      --red-bg:    rgba(239,68,68,0.10);
+      --white:     #f5f5f5;
+      --muted:     #888;
+      --radius:    14px;
+      --radius-sm: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Logo bar ────────────────────────────────────────── */
+    .logo-bar {
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: var(--pink);
+      text-transform: uppercase;
+    }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--pink);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--pink);
+      animation: pulse-dot 2.4s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.7); }
+    }
+
+    /* ── Hero ───────────────────────────────────────────── */
+    .hero {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 80px 24px 56px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--pink-soft);
+      border: 1px solid rgba(233,30,140,0.3);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--pink);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: var(--pink);
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 44px;
+    }
+
+    /* ── Form card ──────────────────────────────────────── */
+    .form-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 16px;
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px 14px 44px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input::placeholder { color: #555; }
+
+    .form-input:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px var(--pink-soft);
+    }
+
+    .btn-analyze {
+      width: 100%;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 16px 24px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-analyze:hover {
+      background: #d4197f;
+      box-shadow: 0 4px 20px var(--pink-glow);
+    }
+
+    .btn-analyze:active { transform: scale(0.98); }
+
+    .btn-analyze:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-note {
+      text-align: center;
+      font-size: 12px;
+      color: #444;
+      margin-top: 12px;
+    }
+
+    /* ── Loading state ──────────────────────────────────── */
+    #loading {
+      display: none;
+      text-align: center;
+      padding: 56px 24px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .loading-ring {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--pink);
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .loading-sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .loading-steps {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .loading-step {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      animation: step-pulse 2s ease-in-out infinite;
+    }
+
+    .loading-step:nth-child(2) { animation-delay: 0.3s; }
+    .loading-step:nth-child(3) { animation-delay: 0.6s; }
+    .loading-step:nth-child(4) { animation-delay: 0.9s; }
+    .loading-step:nth-child(5) { animation-delay: 1.2s; }
+
+    @keyframes step-pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; color: var(--white); border-color: var(--pink); }
+    }
+
+    /* ── Results section ────────────────────────────────── */
+    #results {
+      display: none;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* Score gauge */
+    .score-section {
+      text-align: center;
+      padding: 48px 24px 36px;
+    }
+
+    .score-label-top {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .gauge-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px;
+    }
+
+    .gauge-svg {
+      width: 160px;
+      height: 160px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: var(--card);
+      stroke-width: 12;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--pink);
+      stroke-width: 12;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      filter: drop-shadow(0 0 8px var(--pink-glow));
+    }
+
+    .gauge-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gauge-value {
+      font-size: 40px;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--pink);
+    }
+
+    .gauge-max {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .score-verdict {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .score-domain {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .platform-chip {
+      display: inline-block;
+      background: var(--pink-soft);
+      border: 1px solid rgba(233,30,140,0.25);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-size: 12px;
+      color: var(--pink);
+      font-weight: 600;
+      margin-top: 14px;
+    }
+
+    /* Issue cards */
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title .badge {
+      background: var(--card);
+      border-radius: 100px;
+      padding: 2px 10px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .issue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .issue-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+
+    .issue-card.critical {
+      border-left: 3px solid var(--red);
+      background: var(--red-bg);
+    }
+
+    .issue-card.warning {
+      border-left: 3px solid var(--amber);
+      background: var(--amber-bg);
+    }
+
+    .issue-card.good {
+      border-left: 3px solid var(--green);
+      background: var(--green-bg);
+    }
+
+    .issue-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .issue-icon.critical { color: var(--red); }
+    .issue-icon.warning  { color: var(--amber); }
+    .issue-icon.good     { color: var(--green); }
+
+    .issue-text { color: var(--white); }
+
+    /* PageSpeed block */
+    .ps-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .ps-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .ps-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 16px;
+    }
+
+    .ps-metric {
+      text-align: center;
+    }
+
+    .ps-metric-value {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .ps-metric-value.good   { color: var(--green); }
+    .ps-metric-value.medium { color: var(--amber); }
+    .ps-metric-value.bad    { color: var(--red); }
+
+    .ps-metric-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* Pitch box */
+    .pitch-box {
+      background: linear-gradient(135deg, rgba(233,30,140,0.08) 0%, rgba(0,212,255,0.04) 100%);
+      border: 1px solid rgba(233,30,140,0.25);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .pitch-label {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--pink);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .pitch-text {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--white);
+    }
+
+    /* CTA */
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      text-align: center;
+    }
+
+    .cta-box h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cta-box p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 24px;
+    }
+
+    .btn-cta {
+      display: inline-block;
+      background: var(--pink);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      padding: 14px 32px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-cta:hover {
+      background: #d4197f;
+      box-shadow: 0 4px 20px var(--pink-glow);
+    }
+
+    .btn-scan-again {
+      display: block;
+      margin: 16px auto 0;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 24px;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-scan-again:hover {
+      border-color: var(--pink);
+      color: var(--white);
+    }
+
+    /* Error state */
+    #error-box {
+      display: none;
+      background: var(--red-bg);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 16px 0 0;
+      font-size: 14px;
+      color: var(--red);
+    }
+
+    /* Footer */
+    .site-footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: #444;
+    }
+
+    .site-footer a { color: var(--pink); text-decoration: none; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .logo-bar { padding: 16px 20px; }
+      .hero { padding: 48px 20px 36px; }
+      .form-card { padding: 24px 20px; }
+      .score-section { padding: 32px 20px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Logo bar -->
+  <header class="logo-bar">
+    <span class="logo-dot"></span>
+    <span class="logo-text">Searchboost</span>
+  </header>
+
+  <!-- Hero + Form -->
+  <section class="hero" id="hero-section">
+    <div class="hero-badge">
+      <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+        <circle cx="5" cy="5" r="5"/>
+      </svg>
+      Gratis &bull; 60 sekunder &bull; Ingen registrering
+    </div>
+    <h1>Gratis SEO-analys<br>på <span>60 sekunder</span></h1>
+    <p class="hero-sub">
+      Mata in din webbadress och se exakt vad som håller dig
+      tillbaka på Google — kritiska problem, varningar och
+      konkreta åtgärder.
+    </p>
+
+    <div class="form-card">
+      <form id="audit-form">
+        <div class="input-group">
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="url-input"
+              class="form-input"
+              placeholder="dindomän.se"
+              autocomplete="url"
+              spellcheck="false"
+            >
+          </div>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </span>
+            <input
+              type="email"
+              id="email-input"
+              class="form-input"
+              placeholder="Din e-post (valfritt — för att få rapporten)"
+              autocomplete="email"
+            >
+          </div>
+        </div>
+        <button type="submit" class="btn-analyze" id="analyze-btn">
+          Analysera nu &rarr;
+        </button>
+        <div id="error-box"></div>
+      </form>
+      <p class="form-note">Vi sparar inga personuppgifter utan ditt samtycke.</p>
+    </div>
+  </section>
+
+  <!-- Loading -->
+  <div id="loading">
+    <div class="loading-ring"></div>
+    <div class="loading-text">Analyserar <span id="loading-domain"></span>...</div>
+    <div class="loading-sub">Hämtar sida, kontrollerar SEO och mäter hastighet</div>
+    <div class="loading-steps">
+      <span class="loading-step">Hämtar sida</span>
+      <span class="loading-step">Kontrollerar title</span>
+      <span class="loading-step">Kontrollerar H1</span>
+      <span class="loading-step">Mäter hastighet</span>
+      <span class="loading-step">Beräknar poäng</span>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div id="results">
+    <!-- Score -->
+    <div class="score-section">
+      <div class="score-label-top">Ditt SEO-betyg</div>
+      <div class="gauge-wrap">
+        <svg class="gauge-svg" viewBox="0 0 160 160">
+          <circle class="gauge-bg" cx="80" cy="80" r="68"/>
+          <circle class="gauge-fill" id="gauge-circle" cx="80" cy="80" r="68"
+            stroke-dasharray="427" stroke-dashoffset="427"/>
+        </svg>
+        <div class="gauge-number">
+          <span class="gauge-value" id="score-value">0</span>
+          <span class="gauge-max">/10</span>
+        </div>
+      </div>
+      <div class="score-verdict" id="score-verdict"></div>
+      <div class="score-domain" id="score-domain"></div>
+      <div id="platform-chip"></div>
+    </div>
+
+    <!-- PageSpeed -->
+    <div class="ps-block" id="ps-block" style="display:none">
+      <div class="ps-title">Sidhastighet (mobil) — Google PageSpeed</div>
+      <div class="ps-metrics" id="ps-metrics"></div>
+    </div>
+
+    <!-- Critical issues -->
+    <div id="issues-section" style="display:none">
+      <div class="section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <span style="color:#ef4444">Kritiska problem</span>
+        <span class="badge" id="issues-count"></span>
+      </div>
+      <div class="issue-list" id="issues-list"></div>
+    </div>
+
+    <!-- Warnings -->
+    <div id="warnings-section" style="display:none">
+      <div class="section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        <span style="color:#f59e0b">Varningar</span>
+        <span class="badge" id="warnings-count"></span>
+      </div>
+      <div class="issue-list" id="warnings-list"></div>
+    </div>
+
+    <!-- Good things -->
+    <div id="good-section" style="display:none">
+      <div class="section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span style="color:#22c55e">Bra</span>
+        <span class="badge" id="good-count"></span>
+      </div>
+      <div class="issue-list" id="good-list"></div>
+    </div>
+
+    <!-- Pitch -->
+    <div class="pitch-box">
+      <div class="pitch-label">Vad vi kan göra för dig</div>
+      <div class="pitch-text" id="pitch-text"></div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <h3>Vill du ha dessa problem åtgärdade?</h3>
+      <p>Searchboost hanterar hela processen — audit, optimering och rapportering. Du fokuserar på din verksamhet, vi fixar Google.</p>
+      <a href="https://searchboost.se/kontakt" class="btn-cta">Boka gratis genomgång &rarr;</a>
+      <button class="btn-scan-again" id="scan-again-btn">Analysera en annan domän</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    &copy; 2026 <a href="https://searchboost.se">Searchboost.se</a> — Automatiserad SEO-optimering
+  </footer>
+
+  <script>
+    'use strict';
+
+    const API_URL = '/api/audit-url';
+
+    // ── Helpers ───────────────────────────────────────────
+    function show(el) { el.style.display = ''; }
+    function hide(el) { el.style.display = 'none'; }
+
+    function normalizeDomain(raw) {
+      raw = raw.trim();
+      if (!raw.startsWith('http://') && !raw.startsWith('https://')) {
+        raw = 'https://' + raw;
+      }
+      return raw;
+    }
+
+    function scoreColor(score) {
+      if (score >= 7) return '#ef4444';   // Hög = många problem = rött
+      if (score >= 4) return '#f59e0b';
+      return '#22c55e';
+    }
+
+    function psClass(score) {
+      if (score >= 70) return 'good';
+      if (score >= 50) return 'medium';
+      return 'bad';
+    }
+
+    // ── Gauge animation ───────────────────────────────────
+    function animateGauge(score) {
+      const circumference = 427; // 2 * PI * 68 ≈ 427.26
+      const fraction = score / 10;
+      const offset = circumference * (1 - fraction);
+      const circle = document.getElementById('gauge-circle');
+      const valueEl = document.getElementById('score-value');
+
+      circle.style.stroke = scoreColor(score);
+      circle.style.filter = `drop-shadow(0 0 10px ${scoreColor(score)}88)`;
+      circle.style.strokeDashoffset = circumference; // reset
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          circle.style.strokeDashoffset = offset;
+        });
+      });
+
+      // Count-up animation
+      let current = 0;
+      const step = score / 20;
+      const timer = setInterval(() => {
+        current = Math.min(current + step, score);
+        valueEl.textContent = Math.round(current);
+        if (current >= score) clearInterval(timer);
+      }, 60);
+
+      valueEl.style.color = scoreColor(score);
+    }
+
+    // ── Render results ────────────────────────────────────
+    function renderResults(data) {
+      // Score
+      animateGauge(data.score || 0);
+      document.getElementById('score-verdict').textContent = data.score_label || '';
+      document.getElementById('score-domain').textContent = data.domain || '';
+
+      const chipEl = document.getElementById('platform-chip');
+      if (data.platform_label) {
+        chipEl.innerHTML = `<span class="platform-chip">${escHtml(data.platform_label)}</span>`;
+      }
+
+      // PageSpeed
+      const psBlock = document.getElementById('ps-block');
+      if (data.pagespeed && data.pagespeed.score !== null) {
+        const ps = data.pagespeed;
+        const sc = ps.score;
+        document.getElementById('ps-metrics').innerHTML = `
+          <div class="ps-metric">
+            <div class="ps-metric-value ${psClass(sc)}">${sc}</div>
+            <div class="ps-metric-label">Poäng /100</div>
+          </div>
+          ${ps.lcp ? `<div class="ps-metric">
+            <div class="ps-metric-value ${ps.lcp > 4 ? 'bad' : ps.lcp > 2.5 ? 'medium' : 'good'}">${ps.lcp}s</div>
+            <div class="ps-metric-label">LCP</div>
+          </div>` : ''}
+          ${ps.tbt ? `<div class="ps-metric">
+            <div class="ps-metric-value ${parseInt(ps.tbt) > 300 ? 'bad' : parseInt(ps.tbt) > 100 ? 'medium' : 'good'}">${ps.tbt}ms</div>
+            <div class="ps-metric-label">TBT</div>
+          </div>` : ''}
+          ${ps.cls !== null && ps.cls !== undefined ? `<div class="ps-metric">
+            <div class="ps-metric-value ${parseFloat(ps.cls) > 0.25 ? 'bad' : parseFloat(ps.cls) > 0.1 ? 'medium' : 'good'}">${ps.cls}</div>
+            <div class="ps-metric-label">CLS</div>
+          </div>` : ''}
+        `;
+        show(psBlock);
+      } else {
+        hide(psBlock);
+      }
+
+      // Issues
+      renderIssueSection('issues', data.issues, 'critical');
+      renderIssueSection('warnings', data.warnings, 'warning');
+      renderIssueSection('good', data.good, 'good');
+
+      // Pitch
+      document.getElementById('pitch-text').textContent = data.pitch || '';
+
+      // Show results, hide form
+      hide(document.getElementById('hero-section'));
+      show(document.getElementById('results'));
+    }
+
+    function renderIssueSection(key, items, type) {
+      const section = document.getElementById(`${key}-section`);
+      const list    = document.getElementById(`${key}-list`);
+      const count   = document.getElementById(`${key}-count`);
+
+      if (!items || items.length === 0) {
+        hide(section);
+        return;
+      }
+
+      count.textContent = items.length;
+
+      const iconMap = {
+        critical: '&#10007;',
+        warning:  '&#9888;',
+        good:     '&#10003;',
+      };
+
+      list.innerHTML = items.map(item => `
+        <div class="issue-card ${type}">
+          <span class="issue-icon ${type}">${iconMap[type]}</span>
+          <span class="issue-text">${escHtml(item)}</span>
+        </div>
+      `).join('');
+
+      show(section);
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ── Form submit ───────────────────────────────────────
+    document.getElementById('audit-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const rawUrl  = document.getElementById('url-input').value.trim();
+      const email   = document.getElementById('email-input').value.trim();
+      const errorEl = document.getElementById('error-box');
+      const btn     = document.getElementById('analyze-btn');
+
+      if (!rawUrl) {
+        errorEl.textContent = 'Ange en webbadress.';
+        show(errorEl);
+        return;
+      }
+
+      hide(errorEl);
+
+      const url = normalizeDomain(rawUrl);
+      const domain = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+
+      // Show loading
+      document.getElementById('loading-domain').textContent = domain;
+      hide(document.getElementById('hero-section'));
+      show(document.getElementById('loading'));
+      btn.disabled = true;
+
+      try {
+        const resp = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url, email: email || undefined }),
+        });
+
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          throw new Error(data.error || 'Serverfel (' + resp.status + ')');
+        }
+
+        hide(document.getElementById('loading'));
+        renderResults(data);
+
+      } catch (err) {
+        hide(document.getElementById('loading'));
+        show(document.getElementById('hero-section'));
+        errorEl.textContent = 'Fel: ' + (err.message || 'Kunde inte analysera domänen.');
+        show(errorEl);
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    // ── Scan again ────────────────────────────────────────
+    document.getElementById('scan-again-btn').addEventListener('click', () => {
+      hide(document.getElementById('results'));
+      show(document.getElementById('hero-section'));
+      document.getElementById('url-input').value = '';
+      document.getElementById('email-input').value = '';
+      document.getElementById('url-input').focus();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>

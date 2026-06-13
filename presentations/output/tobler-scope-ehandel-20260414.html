@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <title>Uppdragsbeskrivning — Ny e-handel | Tobler × Searchboost</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f5f5f0;
+      color: #1a1a1a;
+      padding: 40px 20px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    }
+
+    .header {
+      background: #003087;
+      padding: 36px 48px 32px;
+      color: #fff;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .logo {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FFD600;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.8;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .header .subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .accent-line {
+      width: 48px;
+      height: 3px;
+      background: #FFD600;
+      margin-top: 16px;
+    }
+
+    .body {
+      padding: 40px 48px;
+    }
+
+    .section {
+      margin-bottom: 36px;
+    }
+
+    .section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #003087;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e8e8e4;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0 12px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+
+    .item-num {
+      width: 28px;
+      height: 28px;
+      background: #003087;
+      color: #FFD600;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .item-body strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+    }
+
+    .item-body p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    .excl-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .excl-list li {
+      font-size: 12px;
+      color: #666;
+      padding: 5px 0 5px 18px;
+      position: relative;
+      border-bottom: 1px solid #f0f0ee;
+    }
+
+    .excl-list li:last-child { border-bottom: none; }
+
+    .excl-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: #bbb;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .tl-item {
+      background: #f8f8f5;
+      border-left: 3px solid #003087;
+      padding: 10px 14px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .tl-item .week {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #003087;
+      margin-bottom: 3px;
+    }
+
+    .tl-item p {
+      font-size: 11px;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .pricing-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .price-box {
+      border: 2px solid #003087;
+      border-radius: 6px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .price-box.preferred {
+      background: #003087;
+      color: #fff;
+    }
+
+    .price-box .alt-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: #FFD600;
+    }
+
+    .price-box:not(.preferred) .alt-label {
+      color: #003087;
+    }
+
+    .price-box .amount {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFD600;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .price-box:not(.preferred) .amount {
+      color: #003087;
+    }
+
+    .price-box .unit {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .price-box:not(.preferred) .unit {
+      color: #999;
+    }
+
+    .price-box .note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .price-box:not(.preferred) .note {
+      color: #555;
+    }
+
+    .info-box {
+      background: #f8f8f5;
+      border: 1px solid #e0e0d8;
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .info-box strong { color: #1a1a1a; }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 8px;
+    }
+
+    .sig-block .sig-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 40px;
+    }
+
+    .sig-block .sig-line {
+      border-top: 1px solid #ccc;
+      padding-top: 8px;
+    }
+
+    .sig-block .sig-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #1a1a1a;
+    }
+
+    .sig-block .sig-title {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .footer {
+      background: #f0f0eb;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-left {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .footer-right {
+      font-size: 11px;
+      color: #888;
+      text-align: right;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-top">
+      <div class="logo">Searchboost</div>
+      <div class="doc-meta">
+        Datum: 2026-04-14<br>
+        Ref: Tobler Sverige AB<br>
+        Kontakt: Jakob
+      </div>
+    </div>
+    <h1>Uppdragsbeskrivning</h1>
+    <div class="subtitle">Ny e-handelslösning — Flatsome WooCommerce</div>
+    <div class="accent-line"></div>
+  </div>
+
+  <div class="body">
+
+    <!-- BAKGRUND -->
+    <div class="section">
+      <div class="section-title">Bakgrund</div>
+      <p style="font-size:13px;color:#444;line-height:1.7;">
+        Tobler Sverige AB har idag en WordPress/WooCommerce-sajt med Crocoblock som sidbyggare.
+        E-handeln genererar för närvarande inga externa order. Searchboost åtar sig att bygga
+        en ny e-handelslösning baserad på Flatsome UX Builder — ett WooCommerce-optimerat tema
+        där Tobler självständigt kan göra ändringar utan att anlita en webbutvecklare.
+        Projektet är fristående från löpande SEO-avtal.
+      </p>
+    </div>
+
+    <!-- LEVERANS -->
+    <div class="section">
+      <div class="section-title">Vad som levereras</div>
+
+      <div class="item">
+        <div class="item-num">1</div>
+        <div class="item-body">
+          <strong>Flatsome-installation och design</strong>
+          <p>Tema installerat och konfigurerat med Toblers grafiska profil — färger, typsnitt, logotyp. Befintligt innehåll migreras.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">2</div>
+        <div class="item-body">
+          <strong>Köpresa per produktkategori (upp till 5 kategorier)</strong>
+          <p>H1 med primärt sökord → produktlista med spec och pris → tydlig CTA → fri frakt-trigger → checkout. Målsättning: beställning klar på under 2 minuter.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">3</div>
+        <div class="item-body">
+          <strong>Mobil-optimering</strong>
+          <p>Produktkort, kategorisidor och checkout testade och godkända på mobil innan leverans. Byggproffs söker på plats — mobilen är primär.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">4</div>
+        <div class="item-body">
+          <strong>B2B-kassaflöde med grundläggande bedrägeriskydd</strong>
+          <p>Faktura som betalningsalternativ, org.nr-fält i kassan. Grundläggande kreditkontroll via Klarna B2B eller Svea Ekonomi. <em>Obs: avtal med betalleverantör tecknas av Tobler — ingår ej i Searchboosts avgift.</em></p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">5</div>
+        <div class="item-body">
+          <strong>LinkedIn och Facebook</strong>
+          <p>2 LinkedIn-inlägg + 1 Facebook-inlägg per månad riktade mot e-handelns produktsidor och kategorier.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">6</div>
+        <div class="item-body">
+          <strong>Rank Math PRO-konfiguration</strong>
+          <p>Schema för produkter och kategorier, 301-redirects från befintliga URL:er så att upparbetade positioner behålls.</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="item-num">7</div>
+        <div class="item-body">
+          <strong>Supermetrics-dashboard (grunduppsättning)</strong>
+          <p>Organisk sökning, social media och annonser samlade på ett ställe. Löpande licenskostnad ingår i Searchboosts verktygskostnad.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INGÅR INTE -->
+    <div class="section">
+      <div class="section-title">Ingår inte i uppdraget</div>
+      <ul class="excl-list">
+        <li>Fler än 5 produktkategorier — tillkommer à 1 500 kr per kategori</li>
+        <li>Produktfotografering eller bildproduktion</li>
+        <li>Produktbeskrivningar — Tobler ansvarar för att produktinfo är komplett vid projektstart</li>
+        <li>Google Ads-kampanjer — separat offert vid behov</li>
+        <li>Tredjepartsintegrationer mot ERP eller PIM-system</li>
+        <li>Avtal med betalleverantör (Klarna B2B / Svea Ekonomi — tecknas av Tobler)</li>
+      </ul>
+    </div>
+
+    <!-- TIDPLAN -->
+    <div class="section">
+      <div class="section-title">Tidplan — 4–5 veckor från bekräftelse</div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="week">Vecka 1–2</div>
+          <p>Flatsome-installation, design, B2B-kassaflöde och betalningslösning</p>
+        </div>
+        <div class="tl-item">
+          <div class="week">Vecka 3</div>
+          <p>Kategorisidor och köpresor byggs, produktkort mobilanpassas</p>
+        </div>
+        <div class="tl-item">
+          <div class="week">Vecka 4</div>
+          <p>Rank Math PRO, redirects, Supermetrics-dashboard, mobiltest</p>
+        </div>
+        <div class="tl-item">
+          <div class="week">Vecka 5</div>
+          <p>Lansering, LinkedIn/FB-inlägg live, genomgång med Jakob</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRIS -->
+    <div class="section">
+      <div class="section-title">Pris och betalning</div>
+      <div class="pricing-row">
+        <div class="price-box preferred">
+          <div class="alt-label">Alternativ A — Rekommenderat</div>
+          <div class="amount">18 000</div>
+          <div class="unit">kr exkl. moms — engång</div>
+          <div class="note">Faktura 20 dagar</div>
+        </div>
+        <div class="price-box">
+          <div class="alt-label">Alternativ B — Avbetalning</div>
+          <div class="amount">7 000</div>
+          <div class="unit">kr/mån × 3 månader = 21 000 kr</div>
+          <div class="note">Faktura per månad, 10 dagars förfallodag</div>
+        </div>
+      </div>
+      <div class="info-box">
+        Arbetet påbörjas efter mottagen betalning eller skriftlig bekräftelse av detta dokument.
+        <strong>Löpande SEO-avtal på 15 000 kr/mån fortsätter opåverkat parallellt</strong> och
+        faktureras separat. Eventuella tilläggsarbeten utöver specifikationen ovan offereras
+        och godkänns skriftligt innan utförande.
+      </div>
+    </div>
+
+    <!-- SIGNATUR -->
+    <div class="section">
+      <div class="section-title">Godkännande</div>
+      <p style="font-size:12px;color:#666;margin-bottom:24px;">
+        Undertecknade bekräftar att de tagit del av och godkänner uppdragsbeskrivningen ovan.
+      </p>
+      <div class="signature-grid">
+        <div class="sig-block">
+          <div class="sig-label">Tobler Sverige AB</div>
+          <div class="sig-line">
+            <div class="sig-name">Jakob ___________________________</div>
+            <div class="sig-title">Datum: ___________________________</div>
+          </div>
+        </div>
+        <div class="sig-block">
+          <div class="sig-label">Searchboost</div>
+          <div class="sig-line">
+            <div class="sig-name">Mikael Larsson</div>
+            <div class="sig-title">mikael@searchboost.se · searchboost.se</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body -->
+
+  <div class="footer">
+    <div class="footer-left">Searchboost · mikael@searchboost.se · searchboost.se</div>
+    <div class="footer-right">Tobler Sverige AB · E-handelsprojekt 2026</div>
+  </div>
+
+</div>
+</body>
+</html>

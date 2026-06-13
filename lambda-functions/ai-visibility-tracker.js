@@ -36,7 +36,10 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/bq-ai-creds.json', creds);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/bq-ai-creds.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset };
 }
 
 async function initTable(bq, dataset) {

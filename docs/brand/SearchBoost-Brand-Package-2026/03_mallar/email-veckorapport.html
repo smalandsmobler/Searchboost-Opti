@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veckorapport — {{kundnamn}}</title>
+<!--
+  Searchboost — Veckorapport email-template
+  Använd inline-styles (mail-klienter strippar <style> ofta).
+  Placeholders {{...}} ersätts av weekly-report.js Lambda.
+-->
+</head>
+<body style="margin:0;padding:0;background:#05050f;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#c8b8e0">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#05050f">
+<tr><td align="center" style="padding:40px 16px">
+
+<table width="640" cellpadding="0" cellspacing="0" border="0" style="background:#0e0c19;border-radius:16px;overflow:hidden;border:1px solid rgba(233,30,140,0.15)">
+
+  <!-- HEADER -->
+  <tr><td style="padding:32px 32px 24px;border-bottom:1px solid rgba(200,184,224,0.1)">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td>
+          <div style="font-size:11px;letter-spacing:0.18em;color:#7a6e90;text-transform:uppercase;font-weight:600;margin-bottom:8px">Searchboost · Veckorapport</div>
+          <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:26px;font-weight:700;color:#ffffff;letter-spacing:-0.02em;line-height:1.15">{{kundnamn}}</div>
+          <div style="font-size:14px;color:#7a6e90;margin-top:4px">{{period}}</div>
+        </td>
+        <td align="right" style="width:88px">
+          <img src="https://opti.searchboost.se/logo-white.png" alt="Searchboost" width="88" style="display:block;height:auto">
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- INTRO -->
+  <tr><td style="padding:24px 32px 8px">
+    <p style="margin:0;font-size:15px;line-height:1.55;color:#c8b8e0">Hej {{kontaktperson}},</p>
+    <p style="margin:14px 0 0;font-size:15px;line-height:1.55;color:#c8b8e0">Här är veckans rapport. Datan kommer direkt från Google Search Console — inga uppskattningar.</p>
+  </td></tr>
+
+  <!-- KPI GRID 2x2 -->
+  <tr><td style="padding:24px 32px 8px">
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tr>
+        <td width="50%" style="padding:0 8px 16px 0;vertical-align:top">
+          <div style="background:#080818;border:1px solid rgba(200,184,224,0.1);border-radius:12px;padding:18px 20px">
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Klick i Google</div>
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:30px;font-weight:700;color:#ffffff;margin-top:6px;line-height:1.15">{{klick}}</div>
+            <div style="font-size:13px;font-weight:600;margin-top:4px;color:{{klick_color}}">{{klick_delta}}</div>
+          </div>
+        </td>
+        <td width="50%" style="padding:0 0 16px 8px;vertical-align:top">
+          <div style="background:#080818;border:1px solid rgba(200,184,224,0.1);border-radius:12px;padding:18px 20px">
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Visningar</div>
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:30px;font-weight:700;color:#ffffff;margin-top:6px;line-height:1.15">{{visningar}}</div>
+            <div style="font-size:13px;font-weight:600;margin-top:4px;color:{{visningar_color}}">{{visningar_delta}}</div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td width="50%" style="padding:0 8px 0 0;vertical-align:top">
+          <div style="background:#080818;border:1px solid rgba(200,184,224,0.1);border-radius:12px;padding:18px 20px">
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Snittposition</div>
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:30px;font-weight:700;color:#ffffff;margin-top:6px;line-height:1.15">{{position}}</div>
+            <div style="font-size:13px;font-weight:600;margin-top:4px;color:{{position_color}}">{{position_delta}}</div>
+          </div>
+        </td>
+        <td width="50%" style="padding:0 0 0 8px;vertical-align:top">
+          <div style="background:#080818;border:1px solid rgba(200,184,224,0.1);border-radius:12px;padding:18px 20px">
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">SEO-åtgärder</div>
+            <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:30px;font-weight:700;color:#ffffff;margin-top:6px;line-height:1.15">{{atgarder}}</div>
+            <div style="font-size:12px;color:#7a6e90;margin-top:4px">utförda denna vecka</div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </td></tr>
+
+  <!-- TOP SÖKORD -->
+  <tr><td style="padding:24px 32px 0">
+    <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:14px;font-weight:600;color:#ffffff;margin-bottom:12px">Sökord som drev mest trafik</div>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#080818;border:1px solid rgba(200,184,224,0.1);border-radius:12px;overflow:hidden">
+      <tr style="background:#0e0c19">
+        <th style="padding:10px 14px;text-align:left;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Sökord</th>
+        <th style="padding:10px 14px;text-align:right;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Klick</th>
+        <th style="padding:10px 14px;text-align:right;font-size:11px;letter-spacing:0.1em;color:#7a6e90;text-transform:uppercase;font-weight:600">Pos</th>
+      </tr>
+      {{top_keywords_rows}}
+    </table>
+  </td></tr>
+
+  <!-- VAD VI GJORT -->
+  <tr><td style="padding:32px 32px 0">
+    <div style="font-family:'Inter Tight',Inter,sans-serif;font-size:14px;font-weight:600;color:#ffffff;margin-bottom:12px">Vad vi gjort denna vecka</div>
+    <div style="color:#c8b8e0;font-size:14px;line-height:1.6">{{atgarder_summary}}</div>
+  </td></tr>
+
+  <!-- CTA -->
+  <tr><td align="center" style="padding:40px 32px">
+    <a href="{{looker_studio_url}}" style="display:inline-block;background:linear-gradient(135deg,#e91e8c 0%,#c026d3 100%);color:#ffffff;padding:16px 36px;border-radius:8px;text-decoration:none;font-family:'Inter Tight',Inter,sans-serif;font-size:14px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;box-shadow:0 4px 16px rgba(233,30,140,0.35)">Öppna full dashboard</a>
+    <div style="margin-top:12px;font-size:12px;color:#7a6e90">Interaktiv Looker Studio · uppdateras dagligen</div>
+  </td></tr>
+
+  <!-- FOOTER -->
+  <tr><td style="padding:24px 32px;background:#080818;border-top:1px solid rgba(200,184,224,0.1)">
+    <div style="font-size:12px;color:#7a6e90;line-height:1.6">
+      Du får denna rapport eftersom du är SEO-kund hos Searchboost.<br>
+      Frågor? Svara på mailet eller mejla <a href="mailto:mikael@searchboost.se" style="color:#f23a9e;text-decoration:none">mikael@searchboost.se</a><br><br>
+      <span style="color:#c8b8e0;font-weight:600">Searchboost</span> · semi-autonom SEO för svenska företag · <a href="https://opti.searchboost.se" style="color:#7a6e90;text-decoration:none">opti.searchboost.se</a>
+    </div>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

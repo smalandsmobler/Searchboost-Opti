@@ -535,6 +535,36 @@
     }
     .internal-links a:hover { color: #00d4ff; }
 
+    /* ===== RANKING FACTORS ===== */
+    .ranking-factors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+    .ranking-factor { border-radius: 12px; padding: 28px; text-align: center; }
+    .ranking-factor:nth-child(1) { background: #eff6ff; border-top: 4px solid #3b82f6; }
+    .ranking-factor:nth-child(2) { background: #f0fdf4; border-top: 4px solid #22c55e; }
+    .ranking-factor:nth-child(3) { background: #fdf4ff; border-top: 4px solid #a855f7; }
+    .ranking-factor-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .ranking-factor h3 { font-size: 1.15rem; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
+    .ranking-factor p { font-size: 0.93rem; color: #475569; line-height: 1.65; }
+
+    /* ===== MISTAKE LIST ===== */
+    .mistake-list { display: grid; gap: 14px; margin-top: 32px; max-width: 820px; margin-left: auto; margin-right: auto; }
+    .mistake-item { background: #fff; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 8px; padding: 20px 24px; display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: start; }
+    .mistake-num { font-size: 1.5rem; font-weight: 700; color: #ef4444; line-height: 1; padding-top: 2px; }
+    .mistake-item h4 { font-size: 1rem; font-weight: 600; color: #0f172a; margin-bottom: 6px; }
+    .mistake-item p { font-size: 0.92rem; color: #475569; margin: 0; line-height: 1.65; }
+
+    /* ===== COMPARISON TABLE ===== */
+    .comparison-wrap { overflow-x: auto; margin-top: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .comparison-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+    .comparison-table th { padding: 14px 20px; background: #0f172a; color: #fff; font-weight: 600; text-align: left; }
+    .comparison-table th:first-child { border-radius: 12px 0 0 0; }
+    .comparison-table th:last-child { border-radius: 0 12px 0 0; }
+    .comparison-table td { padding: 12px 20px; border-bottom: 1px solid #e2e8f0; vertical-align: top; color: #475569; }
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table tr:nth-child(even) td { background: #f8fafc; }
+    .comparison-table .win-seo { color: #059669; font-weight: 600; }
+    .comparison-table .win-ads { color: #6366f1; font-weight: 600; }
+    .comparison-note { margin-top: 20px; font-size: 0.93rem; color: #475569; max-width: 780px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .nav-links { display: none; }
@@ -722,10 +752,228 @@
   <!-- INTERNAL LINKS -->
   <div class="section">
     <div class="internal-links">
-      <h3>Lär dig mer om lokal SEO</h3>
+      <h3>Fördjupa dig i lokal SEO</h3>
       <a href="https://searchboost.se/seo-skola/lokal-seo/">Guide: Lokal SEO</a>
       <a href="https://searchboost.se/seo-skola/google-business-profile/">Guide: Google Business Profile</a>
+      <a href="https://searchboost.se/seo-skola/lokala-citationer/">Guide: Lokala citationer</a>
+      <a href="https://searchboost.se/seo-skola/nyckelordsforskning/">Guide: Nyckelordsforskning</a>
+      <a href="https://searchboost.se/seo-skola/schema-markup/">Guide: Schema markup för lokala företag</a>
+      <a href="https://searchboost.se/case-studies/mobelforetag-smaland/">Case: Möbelföretag Småland</a>
+      <a href="https://searchboost.se/faq/">Vanliga frågor om SEO</a>
+      <a href="https://searchboost.se/tjanster/seo-audit-tjanst/">Tjänst: SEO Audit</a>
     </div>
+    <div class="internal-links" style="margin-top: 24px;">
+      <h3>Vi erbjuder lokal SEO i hela Sverige</h3>
+      <a href="https://searchboost.se/seo-byra-jonkoping/">SEO-byrå Jönköping</a>
+      <a href="https://searchboost.se/seo-byra-vaxjo/">SEO-byrå Växjö</a>
+      <a href="https://searchboost.se/seo-byra-kalmar/">SEO-byrå Kalmar</a>
+      <a href="https://searchboost.se/seo-byra-linkoping/">SEO-byrå Linköping</a>
+      <a href="https://searchboost.se/seo-byra-halmstad/">SEO-byrå Halmstad</a>
+      <a href="https://searchboost.se/seo-byra-norrkoping/">SEO-byrå Norrköping</a>
+      <a href="https://searchboost.se/seo-byra-varnamo/">SEO-byrå Värnamo</a>
+    </div>
+  </div>
+
+  <!-- RANKING FACTORS -->
+  <div class="section">
+    <h2 class="section-title">Hur Google bestämmer lokal ranking</h2>
+    <p class="section-subtitle">Google använder tre huvudfaktorer för att avgöra vilka företag som visas i det lokala 3-paketet och Google Maps. Att förstå dessa är grunden för all lokal SEO.</p>
+
+    <div class="ranking-factors">
+      <div class="ranking-factor">
+        <div class="ranking-factor-icon">&#x1F3AF;</div>
+        <h3>Relevans</h3>
+        <p>Hur väl matchar ditt Google Business Profile sökarens fråga? Google tittar på kategorierna du valt, din beskrivning, dina tjänster och innehållet på din webbplats. Ju bättre matchning, desto högre chans att synas. Felaktiga kategorier eller en tunn GBP-profil kostar rankning direkt.</p>
+      </div>
+      <div class="ranking-factor">
+        <div class="ranking-factor-icon">&#x1F4CD;</div>
+        <h3>Avstånd</h3>
+        <p>Hur nära är ditt företag sökarens plats? Google beräknar det geografiska avståndet automatiskt. Du kan inte flytta ditt kontor, men du kan utöka ditt serviceområde i GBP och skapa lokala landningssidor för varje stad du verkar i, vilket bygger relevans utan fysisk närvaro.</p>
+      </div>
+      <div class="ranking-factor">
+        <div class="ranking-factor-icon">&#x2B50;</div>
+        <h3>Framträdande</h3>
+        <p>Hur känt och trovärdigt är ditt företag online? Framträdande byggs av recensioner, omnämnanden i kataloger och lokala medier, backlänkar till din webbplats och aktivitet på GBP-profilen. Det är den svåraste faktorn att påverka snabbt, men den viktigaste på lång sikt.</p>
+      </div>
+    </div>
+    <p style="margin-top: 28px; font-size: 0.95rem; color: #475569; max-width: 780px; margin-left: auto; margin-right: auto; text-align: center;">Vår lokal SEO-strategi adresserar alla tre faktorerna systematiskt. Det är anledningen till att vi ser märkbara resultat inom 4 till 8 veckor, medan branschgenomsnittet ligger på 3 till 6 månader.</p>
+  </div>
+
+  <!-- MISSTAG -->
+  <div class="section-alt">
+    <div class="section">
+      <h2 class="section-title">6 vanliga misstag som kostar dig lokala kunder</h2>
+      <p class="section-subtitle">De flesta lokala företag gör minst ett av dessa misstag. Varje misstag läcker kunder till konkurrenter som gör det rätt.</p>
+
+      <div class="mistake-list">
+        <div class="mistake-item">
+          <div class="mistake-num">1</div>
+          <div>
+            <h4>Inkonsekvent NAP — namn, adress och telefonnummer</h4>
+            <p>Om ditt företag heter "Elin Städ AB" på din webbplats men "Elins Städ" på Eniro och "E. Städ" på Hitta.se tappar du rankning. Google kan inte avgöra vilket som är rätt och minskar din trovärdighet. Vi auditar alla omnämnanden och uppdaterar dem till exakt samma format överallt.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">2</div>
+          <div>
+            <h4>Fel primärkategori i Google Business Profile</h4>
+            <p>Primärkategorin är den enskilt viktigaste inställningen i GBP. Väljer du för bred kategori (t.ex. "Butik" istället för "Möbelbutik") tappar du specifik relevans. Väljer du för smal missar du breda sökningar. Vi analyserar vad dina topp-konkurrenter använder och väljer strategiskt.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">3</div>
+          <div>
+            <h4>Inga eller för få svar på recensioner</h4>
+            <p>Google värderar aktivitet på din GBP-profil. Företag som svarar på alla recensioner — positiva och negativa — signalerar engagemang och service, vilket påverkar rankingen positivt. Dessutom avgör hur du hanterar negativa recensioner ofta om en potentiell kund väljer dig eller din konkurrent.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">4</div>
+          <div>
+            <h4>Ingen lokal landningssida — bara en generisk kontaktsida</h4>
+            <p>Om du verkar i Jönköping men din webbplats aldrig nämner Jönköping i ett meningsfullt sammanhang har Google ingen anledning att visa dig för Jönköping-sökningar. En väloptimerad lokal landningssida med platsspecifikt innehåll, LocalBusiness-schema och lokal länkprofil är avgörande för ortsspecifika sökningar.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">5</div>
+          <div>
+            <h4>GBP-profil utan bilder, öppettider och inlägg</h4>
+            <p>Googles egna data visar att GBP-profiler med foton får 42 procent fler förfrågningar om vägbeskrivning och 35 procent fler klick till webbplatsen. Saknas aktuella öppettider visas profilen som opålitlig. Regelbundna GBP-inlägg med erbjudanden och nyheter håller profilen aktiv och ger signaler om en levande verksamhet.</p>
+          </div>
+        </div>
+        <div class="mistake-item">
+          <div class="mistake-num">6</div>
+          <div>
+            <h4>Ingen aktiv strategi för att samla fler recensioner</h4>
+            <p>Recensioner förfaller inte, men konkurrenter samlar fler. Om du hade 4,8 stjärnor på 12 recensioner förra året och nu har 4,7 på 18, medan konkurrenten har 4,9 på 67, har du tappat relativt sett. En aktiv strategi — via SMS, e-post, QR-koder vid kassan — är nödvändig för att hålla sig relevant.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JÄMFÖRELSE SEO VS ADS -->
+  <div class="section">
+    <h2 class="section-title">Lokal SEO vs Google Ads — en ärlig jämförelse</h2>
+    <p class="section-subtitle">Vi förespråkar inte lokal SEO blint. Båda kanalerna har sin plats. Men de flesta lokala företag bör bygga SEO som bas och använda annonsering taktiskt.</p>
+
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Faktor</th>
+            <th>Lokal SEO</th>
+            <th>Google Ads (lokalt)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Kostnad per klick</strong></td>
+            <td class="win-seo">0 kr — organisk trafik</td>
+            <td>5–80 kr per klick beroende på bransch</td>
+          </tr>
+          <tr>
+            <td><strong>Tid till synlighet</strong></td>
+            <td>4–12 veckor</td>
+            <td class="win-ads">Omedelbart</td>
+          </tr>
+          <tr>
+            <td><strong>Effekt när du slutar</strong></td>
+            <td class="win-seo">Rankning kvarstår — byggt kapital</td>
+            <td>Trafiken stoppas direkt</td>
+          </tr>
+          <tr>
+            <td><strong>Förtroende hos sökaren</strong></td>
+            <td class="win-seo">Hög — organiska resultat har mer trovärdighet</td>
+            <td>Lägre — märkt "Annons"</td>
+          </tr>
+          <tr>
+            <td><strong>Google Maps-synlighet</strong></td>
+            <td class="win-seo">Ja — via GBP och lokal SEO</td>
+            <td>Begränsad via Local Services Ads</td>
+          </tr>
+          <tr>
+            <td><strong>Skalbarhet med budget</strong></td>
+            <td>Begränsad direkt</td>
+            <td class="win-ads">Fler kronor ger fler visningar omedelbart</td>
+          </tr>
+          <tr>
+            <td><strong>Långsiktig ROI</strong></td>
+            <td class="win-seo">Hög — investeringen byggs upp med tid</td>
+            <td>Linjär — kostar lika mycket varje månad</td>
+          </tr>
+          <tr>
+            <td><strong>Passar bäst för</strong></td>
+            <td class="win-seo">Företag som vill äga sin lokala marknad</td>
+            <td>Kampanjer, säsong, snabb volym, produkttestning</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>Vår rekommendation:</strong> Bygg lokal SEO som din långsiktiga bas. Komplettera med Google Ads för specifika kampanjer, säsongspikar eller för att täcka sökord medan SEO-arbetet tar fart. Målet är att minska beroendet av betalda klick och öka den organiska marknadsandelen över tid.</p>
+  </div>
+
+  <!-- RANKINGFAKTORER -->
+  <div class="section">
+    <h2 class="section-title">Lokala SEO-signaler: vad Google v&auml;rderar mest</h2>
+    <p class="section-subtitle">Lokal SEO &auml;r ett samspel av m&aring;nga faktorer. H&auml;r &auml;r de viktigaste signalerna rangordnade efter deras p&aring;verkan p&aring; kartpaketspositionen.</p>
+    <div class="comparison-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Rankingfaktor</th>
+            <th>Uppskattad vikt</th>
+            <th>Vad det inneb&auml;r</th>
+            <th>&Aring;tg&auml;rd</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>GBP-signaler</strong></td>
+            <td><span class="win-seo">Mycket h&ouml;g (~32 %)</span></td>
+            <td>Kategori, beskrivning, bilder, inl&auml;gg och aktivitet</td>
+            <td>Optimera profilen noggrant och posta veckovis</td>
+          </tr>
+          <tr>
+            <td><strong>Recensioner</strong></td>
+            <td><span class="win-seo">H&ouml;g (~17 %)</span></td>
+            <td>Antal, snitt, frekvens och svar p&aring; Google-recensioner</td>
+            <td>Aktiv recensionsstrategi — be kunder betygs&auml;tta via l&auml;nk</td>
+          </tr>
+          <tr>
+            <td><strong>On-page SEO</strong></td>
+            <td><span class="win-seo">H&ouml;g (~16 %)</span></td>
+            <td>Lokal landningssida med NAP, LocalBusiness-schema, nyckelord</td>
+            <td>Skapa dedikerade lokala sidor med korrekt schema markup</td>
+          </tr>
+          <tr>
+            <td><strong>Citationer</strong></td>
+            <td><span class="win-seo">Medel (~11 %)</span></td>
+            <td>NAP-konsistens p&aring; Eniro, Hitta.se, Facebook m.fl.</td>
+            <td>Bygg och h&aring;ll citationer uppdaterade och konsekventa</td>
+          </tr>
+          <tr>
+            <td><strong>Bakl&auml;nkar</strong></td>
+            <td><span class="win-seo">Medel (~11 %)</span></td>
+            <td>L&auml;nkar fr&aring;n lokala sajter, press, branschorganisationer</td>
+            <td>Bygg lokala relationer via sponsring, events och lokala medier</td>
+          </tr>
+          <tr>
+            <td><strong>Beteendesignaler</strong></td>
+            <td><span class="win-ads">Medel (~9 %)</span></td>
+            <td>CTR i kartpaketet, telefonklick, v&auml;gbeskrivningsf&ouml;rfr&aring;gningar</td>
+            <td>Optimera bilder och titel i GBP f&ouml;r h&ouml;gre klickfrekvens</td>
+          </tr>
+          <tr>
+            <td><strong>Social media</strong></td>
+            <td><span class="win-ads">L&aring;g (~4 %)</span></td>
+            <td>Facebook-sida, Instagram, lokal n&auml;rvaro p&aring; sociala medier</td>
+            <td>Uppr&auml;tth&aring;ll aktiv n&auml;rvaro med geom&auml;rkt inneh&aring;ll</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="comparison-note"><strong>OBS:</strong> Procentsatserna &auml;r uppskattningar baserade p&aring; branschstudier (Whitespark, BrightLocal 2024). Google publicerar inte exakta vikter. Signalerna samverkar &mdash; starka GBP-signaler f&ouml;rst&auml;rker effekten av recensioner och citationer. Fokusera p&aring; helheten snarare &auml;n att optimera f&ouml;r en enskild faktor.</p>
   </div>
 
   <!-- FAQ -->

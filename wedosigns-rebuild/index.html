@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>We Do Signs – Skyltar som syns på vägen</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .bebas { font-family: 'Bebas Neue', sans-serif; }
+    @keyframes wds-zoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+    .wds-zoom{ animation:wds-zoom 9s ease-in-out infinite alternate; }
+    @keyframes wds-fadeup{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .wds-fadeup{ animation:wds-fadeup 1s ease forwards; }
+    .card-hover{ transition:border-color .3s,transform .3s; }
+    .card-hover:hover{ border-color:#FFEA00 !important; transform:translateY(-4px); }
+  </style>
+</head>
+<body class="bg-[#0A0A0A] text-[#FFEA00] overflow-x-hidden">
+
+  <!-- NAV -->
+  <nav style="position:fixed;top:0;width:100%;background:rgba(0,0,0,.96);border-bottom:2px solid rgba(255,234,0,.2);z-index:50">
+    <div style="max-width:1280px;margin:0 auto;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center">
+      <a href="index.html">
+        <img src="https://wedosigns.se/wp-content/uploads/2026/03/cropped-logo-1.png" alt="We Do Signs" style="height:52px;width:auto;filter:drop-shadow(0 0 10px #FFEA00) drop-shadow(0 0 22px rgba(255,234,0,.5))">
+      </a>
+      <div style="display:flex;gap:2rem;font-size:1rem">
+        <a href="skyltar-goteborg.html" style="color:#FFEA00;text-decoration:none">Skyltar</a>
+        <a href="bildekor-goteborg.html" style="color:#FFEA00;text-decoration:none">Bildekor</a>
+        <a href="banderoller-goteborg.html" style="color:#FFEA00;text-decoration:none">Banderoller</a>
+        <a href="insynsskydd-goteborg.html" style="color:#FFEA00;text-decoration:none">Insynsskydd</a>
+        <a href="portfolio.html" style="color:#FFEA00;text-decoration:none">Portfolio</a>
+        <a href="offerter-wedosigns.html" style="color:#FFEA00;text-decoration:none">Kontakt</a>
+      </div>
+      <a href="tel:0793020787" style="background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;padding:.7rem 1.8rem;border-radius:.75rem;text-decoration:none;letter-spacing:.05em">079-302 07 87</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section style="position:relative;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;padding-top:80px">
+    <div class="wds-zoom" style="position:absolute;inset:0;background:url(https://wedosigns.se/wp-content/uploads/2026/03/hero-1-1.jpeg) center/cover no-repeat"></div>
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,.40)"></div>
+    <div class="wds-fadeup" style="position:relative;z-index:2;padding:0 1.5rem">
+      <h1 class="bebas" style="font-size:clamp(80px,14vw,160px);line-height:1;letter-spacing:-3px;margin:0;color:#FFEA00">WE DO SIGNS</h1>
+      <p class="bebas" style="font-size:clamp(1.8rem,4vw,3.5rem);margin:.5rem 0 0;color:#FFEA00;opacity:.85">SKYLTAR SOM SYNS PÅ VÄGEN</p>
+      <p style="font-size:clamp(1rem,1.8vw,1.3rem);margin-top:1.5rem;color:#FFEA00;opacity:.7">Professionell skyltning • Bildekor • Storformat i Göteborg & Västra Götaland</p>
+      <a href="#offert" style="margin-top:2.5rem;display:inline-block;background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.08em;padding:1rem 3.5rem;border-radius:1rem;text-decoration:none;transition:transform .3s" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">FÅ OFFERT NU →</a>
+    </div>
+  </section>
+
+  <!-- TJÄNSTER -->
+  <section style="padding:5rem 1.5rem;background:#111">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,6vw,4.5rem);text-align:center;margin-bottom:3rem;color:#FFEA00">VAD VI GÖR</h2>
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem">
+      <a href="skyltar-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🪧</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Fasadskyltar & LED</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Proffsiga skyltar som syns — dag och natt.</p>
+      </a>
+      <a href="bildekor-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🚗</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Bildekor & Helfoliering</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Fordonreklam som rullar hela dagen.</p>
+      </a>
+      <a href="banderoller-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🏳️</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Banderoller & Flaggor</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Storformat för event, mässor och butiker.</p>
+      </a>
+      <a href="insynsskydd-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🪟</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Fönsterfolie & Insynsskydd</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Stil och integritet — samtidigt.</p>
+      </a>
+      <a href="event-exponering-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🎪</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Event & Exponering</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Maximal synlighet på mässor och event.</p>
+      </a>
+      <a href="print-goteborg.html" class="card-hover" style="background:#1a1a1a;padding:2.5rem;border-radius:1.5rem;border:2px solid rgba(255,234,0,.1);color:#FFEA00;text-decoration:none;display:block">
+        <div style="font-size:2.8rem;margin-bottom:1rem">🖨️</div>
+        <div class="bebas" style="font-size:1.6rem;margin-bottom:.5rem">Print & Storformat</div>
+        <p style="font-size:.95rem;opacity:.7;margin:0;color:#FFEA00">Skarpa tryck i alla format.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- SIFFROR -->
+  <section style="padding:5rem 1.5rem;background:#0a0a0a;text-align:center">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,5vw,4rem);margin-bottom:3rem;color:#FFEA00">VARFÖR WE DO SIGNS</h2>
+    <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem">
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">20+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">ÅR I BRANSCHEN</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">7500+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">SKYLTAR MONTERADE</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">100+</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">BILDEKORER PER ÅR</p></div>
+      <div><div class="bebas" style="font-size:5rem;color:#FFEA00">48H</div><p style="font-size:1.1rem;color:#FFEA00;opacity:.75">LEVERANS OFTA</p></div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="offert" style="padding:6rem 1.5rem;background:#111;text-align:center">
+    <h2 class="bebas" style="font-size:clamp(2.5rem,5vw,4rem);margin-bottom:1.5rem;color:#FFEA00">REDO ATT SYNAS BÄTTRE?</h2>
+    <p style="font-size:1.3rem;margin-bottom:2rem;color:#FFEA00;opacity:.8">Ring nu eller skicka förfrågan</p>
+    <a href="tel:0793020787" class="bebas" style="display:block;font-size:4rem;color:#FFEA00;text-decoration:none;margin-bottom:1rem">079-302 07 87</a>
+    <p style="font-size:1.1rem;margin-bottom:2.5rem;color:#FFEA00;opacity:.7">info@wedosigns.se</p>
+    <a href="offerter-wedosigns.html" style="background:#FFEA00;color:#000;font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.08em;padding:1rem 3.5rem;border-radius:1rem;text-decoration:none;display:inline-block">SKICKA OFFERTFÖRFRÅGAN</a>
+  </section>
+
+  <footer style="background:#000;padding:3rem 1.5rem;text-align:center;color:#FFEA00;opacity:.6;font-size:.9rem">
+    © We Do Signs 2026 • Göteborg & Västra Götaland • Skyltar som syns på vägen
+  </footer>
+
+</body>
+</html>

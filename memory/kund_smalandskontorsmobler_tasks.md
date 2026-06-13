@@ -1,7 +1,7 @@
 # smalandskontorsmobler — Tasks & Status
 
-> Kund: smalandskontorsmobler.se (ny: ny.smalandskontorsmobler.se) | GSC: OK | WP-creds: SAKNAS
-> Senast uppdaterad: 2026-05-07
+> Kund: smalandskontorsmobler.se | GSC: OK | BQ: OK | WP-creds: OK (minst 3 app-passwords)
+> Senast uppdaterad: 2026-06-04
 
 ## Regressionsvarningar
 

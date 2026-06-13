@@ -1,0 +1,422 @@
+/* ============================================
+   Wedosigns.se — Kadence/Elementor CSS Fix
+   Tema: Krossat glas — gult + svart
+   FIXAR: Meny svart-på-svart, animationer,
+          hero-zoom 25s, knapp-glow, box-effekter
+
+   KLISTRA IN I:
+   WP Admin → Utseende → Anpassa → Ytterligare CSS
+   Skapad: 2026-03-23
+   ============================================ */
+
+/* ================================================
+   1. BAKGRUND — Krossat glas, gult + svart
+   ================================================ */
+body,
+.site {
+  background-color: #0A0A0A !important;
+  background-image:
+    /* Skarpa splitter */
+    linear-gradient( 47deg, transparent 34%, rgba(255, 204, 0, 0.07) 34%, rgba(255, 204, 0, 0.07) 35%, transparent 35%),
+    linear-gradient(134deg, transparent 62%, rgba(255, 185, 0, 0.06) 62%, rgba(255, 185, 0, 0.06) 63%, transparent 63%),
+    linear-gradient( 89deg, transparent 48%, rgba(255, 215, 0, 0.05) 48%, rgba(255, 215, 0, 0.05) 49%, transparent 49%),
+    linear-gradient(162deg, transparent 71%, rgba(218, 165, 32, 0.08) 71%, rgba(218, 165, 32, 0.08) 72%, transparent 72%),
+    linear-gradient( 23deg, transparent 55%, rgba(255, 193, 7, 0.06) 55%, rgba(255, 193, 7, 0.06) 56%, transparent 56%),
+    linear-gradient(197deg, transparent 40%, rgba(255, 223, 0, 0.04) 40%, rgba(255, 223, 0, 0.04) 41%, transparent 41%),
+    /* Sprickor — tunna skarpa linjer */
+    linear-gradient( 73deg, transparent 49.5%, rgba(255, 204, 0, 0.12) 49.5%, rgba(255, 204, 0, 0.12) 50%, transparent 50%),
+    linear-gradient(141deg, transparent 49.5%, rgba(255, 185, 0, 0.10) 49.5%, rgba(255, 185, 0, 0.10) 50%, transparent 50%),
+    linear-gradient( 11deg, transparent 49.5%, rgba(218, 165, 32, 0.09) 49.5%, rgba(218, 165, 32, 0.09) 50%, transparent 50%),
+    linear-gradient(208deg, transparent 49.5%, rgba(255, 215, 0, 0.08) 49.5%, rgba(255, 215, 0, 0.08) 50%, transparent 50%),
+    linear-gradient(317deg, transparent 49.5%, rgba(255, 193, 7, 0.07) 49.5%, rgba(255, 193, 7, 0.07) 50%, transparent 50%),
+    /* Glansreflexer */
+    radial-gradient(ellipse 80px 40px at 15% 25%, rgba(255, 215, 0, 0.06) 0%, transparent 100%),
+    radial-gradient(ellipse 60px 90px at 72% 60%, rgba(255, 204, 0, 0.05) 0%, transparent 100%),
+    radial-gradient(ellipse 100px 50px at 45% 80%, rgba(255, 193, 7, 0.04) 0%, transparent 100%),
+    radial-gradient(ellipse 50px 70px at 88% 15%, rgba(218, 165, 32, 0.06) 0%, transparent 100%) !important;
+  background-size:
+    320px 280px, 410px 370px, 290px 430px,
+    370px 310px, 250px 380px, 450px 260px,
+    180px 160px, 220px 200px, 160px 240px,
+    270px 190px, 200px 280px,
+    500px 500px, 600px 600px, 550px 550px, 480px 480px !important;
+  color: #D4CBB8 !important;
+}
+
+/* ================================================
+   2. MENY — FIXAR SVART PÅ SVART
+   Kadence header + nav selektorer
+   ================================================ */
+
+/* Header bakgrund */
+.site-header,
+.kadence-sticky-header,
+#masthead,
+.site-header-wrap,
+.header-navigation,
+.header-menu-container {
+  background: rgba(10, 10, 10, 0.97) !important;
+}
+
+/* Alla menylänkar — VIT */
+.header-navigation a,
+.header-menu-container a,
+.header-navigation .menu-item > a,
+.header-menu-container .menu-item > a,
+#menu-primary li a,
+.primary-menu-container a,
+nav.navigation a,
+.site-header a:not(.custom-logo-link),
+.main-navigation a {
+  color: #FFFFFF !important;
+  transition: color 0.2s ease !important;
+  text-shadow: none !important;
+}
+
+/* Hover — GULD */
+.header-navigation a:hover,
+.header-menu-container a:hover,
+.header-navigation .menu-item > a:hover,
+#menu-primary li a:hover,
+.primary-menu-container a:hover,
+.site-header a:not(.custom-logo-link):hover,
+.main-navigation a:hover {
+  color: #FFCC00 !important;
+  text-shadow: none !important;
+}
+
+/* Aktiv sida */
+.header-navigation .current-menu-item > a,
+.header-menu-container .current-menu-item > a,
+.current_page_item > a,
+.main-navigation .current-menu-item > a {
+  color: #FFCC00 !important;
+}
+
+/* Dropdown/submenu */
+.header-navigation .sub-menu,
+.header-menu-container .sub-menu,
+.main-navigation .sub-menu,
+ul.sub-menu {
+  background: rgba(15, 15, 15, 0.98) !important;
+  border: 1px solid rgba(255, 204, 0, 0.15) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.header-navigation .sub-menu a,
+.header-menu-container .sub-menu a,
+ul.sub-menu li a {
+  color: #E0D8CC !important;
+}
+
+.header-navigation .sub-menu a:hover,
+.header-menu-container .sub-menu a:hover,
+ul.sub-menu li a:hover {
+  color: #FFCC00 !important;
+  background: rgba(255, 204, 0, 0.08) !important;
+}
+
+/* Mobil — drawer menu */
+#mobile-drawer,
+.mobile-navigation,
+.drawer-nav-drop-wrap {
+  background: rgba(10, 10, 10, 0.98) !important;
+}
+
+#mobile-drawer a,
+.mobile-navigation a,
+.drawer-nav-drop-wrap a {
+  color: #FFFFFF !important;
+}
+
+#mobile-drawer a:hover,
+.mobile-navigation a:hover {
+  color: #FFCC00 !important;
+}
+
+.menu-toggle-icon,
+.menu-toggle-open,
+.drawer-toggle {
+  color: #FFFFFF !important;
+}
+
+/* ================================================
+   3. KNAPPAR — INGEN GLOW
+   Kadence kb-button + WP block buttons + Elementor
+   ================================================ */
+.kb-button,
+.kb-btn-global-outline,
+.kb-btn-global-inherit,
+.wp-block-button__link,
+.elementor-button,
+button.button,
+input[type="submit"],
+a.button,
+.btn {
+  background: #FFCC00 !important;
+  color: #0A0A0A !important;
+  border: 2px solid #FFCC00 !important;
+  border-radius: 6px !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  transition: background 0.2s ease, transform 0.15s ease !important;
+}
+
+.kb-button:hover,
+.kb-btn-global-outline:hover,
+.wp-block-button__link:hover,
+.elementor-button:hover,
+button.button:hover,
+input[type="submit"]:hover,
+a.button:hover,
+.btn:hover {
+  background: #FFD700 !important;
+  border-color: #FFD700 !important;
+  color: #0A0A0A !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(255, 204, 0, 0.3) !important;
+}
+
+/* ================================================
+   4. HERO — DÖDA 25s KEN BURNS ZOOM
+   ================================================ */
+
+/* Override den specifika keyframe */
+@keyframes wds-header-zoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.03); }
+}
+
+@keyframes wds-header-ken-burns {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+/* Tvinga snabb duration istället för 25s */
+.entry-hero,
+.page-hero-section,
+.entry-hero *,
+.page-hero-section *,
+.hero-container,
+.wp-block-cover,
+.wp-block-cover__image-background,
+.wp-block-cover img {
+  animation-duration: 6s !important;
+  -webkit-animation-duration: 6s !important;
+}
+
+/* Eller helt av — avkommentera om du vill NOLL zoom:
+.entry-hero *,
+.page-hero-section *,
+.hero-container *,
+.wp-block-cover *,
+.wp-block-cover__image-background {
+  animation: none !important;
+  -webkit-animation: none !important;
+  transform: none !important;
+}
+*/
+
+/* ================================================
+   5. BOXAR/KORT — INGA ANIMATIONER
+   ================================================ */
+.entry-content-wrap,
+.loop-entry,
+.grw-review-inner,
+.grw-review,
+.wp-block-group,
+.wp-block-column,
+.wp-block-columns {
+  animation: none !important;
+  -webkit-animation: none !important;
+  transform: none !important;
+  transition: box-shadow 0.2s ease !important;
+}
+
+.grw-review-inner,
+.grw-review {
+  background: rgba(15, 15, 15, 0.85) !important;
+  border: 1px solid rgba(255, 204, 0, 0.12) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+.grw-review-inner:hover,
+.grw-review:hover {
+  box-shadow: 0 4px 16px rgba(255, 204, 0, 0.1) !important;
+  transform: none !important;
+}
+
+/* ================================================
+   6. DÖDA ALLA ANIMATIONER — Global override
+   ================================================ */
+
+/* Fade-in, slide, bounce — allt dött */
+.rpi-fade {
+  opacity: 1 !important;
+  animation: none !important;
+}
+
+/* Kadence animation classes */
+[class*="kadence-animation"],
+[class*="kb-animation"],
+.aos-animate,
+[data-aos] {
+  animation: none !important;
+  -webkit-animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* WordPress block animations */
+.wp-block-cover,
+.wp-block-group,
+.wp-block-image {
+  animation: none !important;
+}
+
+/* ================================================
+   7. TEXT — Ljus på svart
+   ================================================ */
+h1, h2, h3, h4, h5, h6 {
+  color: #FFD700 !important;
+  text-shadow: none !important;
+}
+
+p, li, span, td, th, label,
+.entry-content p,
+.entry-content li {
+  color: #D4CBB8 !important;
+  text-shadow: none !important;
+}
+
+a {
+  color: #FFCC00 !important;
+  text-shadow: none !important;
+}
+
+a:hover {
+  color: #FFE066 !important;
+}
+
+/* ================================================
+   8. CONTENT AREA
+   ================================================ */
+.content-wrap,
+.entry-content-wrap,
+.site-container,
+.site-inner {
+  background: transparent !important;
+}
+
+/* ================================================
+   9. FOOTER
+   ================================================ */
+.site-footer,
+#colophon,
+.footer-wrap,
+.site-footer-wrap {
+  background: #050505 !important;
+  color: #999 !important;
+  border-top: 1px solid rgba(255, 204, 0, 0.1) !important;
+}
+
+.site-footer h4,
+.site-footer .widget-title,
+#colophon h4 {
+  color: #FFD700 !important;
+}
+
+.site-footer a,
+#colophon a {
+  color: #CCAA44 !important;
+}
+
+.site-footer a:hover,
+#colophon a:hover {
+  color: #FFCC00 !important;
+}
+
+.site-footer p,
+#colophon p {
+  color: #888 !important;
+}
+
+.footer-bottom,
+.site-footer-bottom-wrap {
+  background: #020202 !important;
+}
+
+/* ================================================
+   10. FORMULÄR
+   ================================================ */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+  background: rgba(15, 15, 15, 0.8) !important;
+  border: 1px solid rgba(255, 204, 0, 0.2) !important;
+  border-radius: 6px !important;
+  color: #FFFFFF !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #FFCC00 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.15) !important;
+}
+
+::placeholder {
+  color: #666 !important;
+}
+
+/* ================================================
+   11. GOOGLE REVIEWS WIDGET
+   ================================================ */
+.grw-header-inner,
+.wp-gr {
+  background: rgba(15, 15, 15, 0.85) !important;
+  border: 1px solid rgba(255, 204, 0, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+/* ================================================
+   12. SCROLLBAR
+   ================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFCC00;
+  border-radius: 4px;
+}
+
+/* ================================================
+   13. RESPONSIVT
+   ================================================ */
+@media (max-width: 1024px) {
+  .kb-button,
+  .wp-block-button__link {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .kb-button,
+  .wp-block-button__link,
+  .elementor-button {
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
