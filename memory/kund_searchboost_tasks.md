@@ -26,9 +26,9 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Veckosammanfattning 2026-06-09 (måndag v24) — LIVE
-> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 21 körningar i rad (senaste: 2026-06-13)**
-> **ESKALERING NÖDVÄNDIG — 6+ VECKOR UTAN RANKINGDATA**
+### Veckosammanfattning 2026-06-15 (måndag v25) — LIVE
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 22 körningar i rad (senaste: 2026-06-15)**
+> **ESKALERING NÖDVÄNDIG — 7 VECKOR UTAN RANKINGDATA**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
 |------|-----------|-----------------|-------------|
@@ -42,14 +42,14 @@ _Arkiveras — se v23-sammanfattning nedan._
 | tobler | ⛔ Ej konfigurerad | — | N/A |
 | traficator | ⛔ Ej konfigurerad | — | N/A |
 
-_Ingen data — Blockerad (2026-06-13, **21 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5/6/7/8/9/10/13 jun):_
+_Ingen data — Blockerad (2026-06-15, **22 körningar i rad** — 14/16/18/19/20/21/22/23/26/27/28/30 maj + 2/3/5/6/7/8/9/10/13/15 jun):_
 - _EC2-API: Ej nåbar (self-signed TLS, `-k` flag fungerar ej i Envoy-miljön — bekräftad 2026-06-10, Node.js `rejectUnauthorized:false` ger HTTP 503)_
 - _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
 - _AWS CLI saknas → kan ej hämta SSM-credentials → kan ej nå BigQuery direkt_
 - _Supermetrics GSC (ds\_id: GW): NOT\_AUTHENTICATED — kräver engångsinloggning_
 - _GOOGLE\_APPLICATION\_CREDENTIALS\_JSON: Ej satt i environment_
 
-**⚠️ KRITISK BLOCKERARE — 21 MISSADE CHECKS (6+ VECKOR UTAN RANKINGDATA)**
+**⚠️ KRITISK BLOCKERARE — 22 MISSADE CHECKS (7 VECKOR UTAN RANKINGDATA)**
 
 **🔓 LÖSNING 1 — BigQuery direkt (rekommenderas, 5 min):**
 Lägg service account JSON i Claude Code Settings → Environment Variables:
@@ -65,7 +65,13 @@ SSH till EC2, kör: `sudo certbot --nginx -d din-domän.se`
 **🔓 LÖSNING 3 — Supermetrics GSC (2 min, osäker):**
 Autentisera Supermetrics mot GSC via länk i föregående sessions-log.
 
-_Senaste check: 2026-06-13 — 0 kunder checkbara (**21 körningar i rad**)_
+_Senaste check: 2026-06-15 — 0 kunder checkbara (**22 körningar i rad**)_
+
+---
+
+### Veckosammanfattning 2026-06-09 (måndag v24) — arkiverad
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår 21 körningar i rad**
+_Arkiveras — se v25-sammanfattning ovan._
 
 ---
 
