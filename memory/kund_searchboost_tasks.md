@@ -12,6 +12,7 @@
 - 2026-05-05: [Redovisning / Jönköping](../content-pages/prospects/2026-05-05-redovisning-jonkoping.md)
 
 ## Vecko-briefing-länk
+- 2026-06-15: [content-pages/weekly-briefing/2026-06-15.md](../content-pages/weekly-briefing/2026-06-15.md)
 - 2026-06-08: [content-pages/weekly-briefing/2026-06-08.md](../content-pages/weekly-briefing/2026-06-08.md)
 - 2026-05-25: [content-pages/weekly-briefing/2026-05-25.md](../content-pages/weekly-briefing/2026-05-25.md)
 - 2026-05-18: [content-pages/weekly-briefing/2026-05-18.md](../content-pages/weekly-briefing/2026-05-18.md)
