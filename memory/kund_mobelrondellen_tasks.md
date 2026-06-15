@@ -1,7 +1,7 @@
 # mobelrondellen — Tasks & Status
 
 > Kund: mobelrondellen.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-06-10
+> Senast uppdaterad: 2026-06-15
 
 ## Regressionsvarningar
 
@@ -53,6 +53,7 @@ Senaste check: 2026-06-13
 | 2026-04-29 | Fåtölj guide 2026 | https://mobelrondellen.se/blog/fatolj-guide-2026/ |
 | 2026-05-08 | Bästa soffan 2026 — guide för dig som vill ha kvalitet och hållbarhet | ⏳ Kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 |
 | 2026-05-29 | Utemöbler 2026 — guide till hållbara val för uteplats och altan | ⏳ Kör `node scripts/publish-mobelrondellen-utemobler-2026.js` från EC2 |
+| 2026-06-15 | Bokhylla guide 2026 — så väljer du rätt hyllsystem för ditt hem | ⏳ Kör `node scripts/publish-mobelrondellen-bokhylla-2026.js` från EC2 |
 
 ## Utfört arbete (historik)
 - Plugin-cleanup: 325 → 7 plugins

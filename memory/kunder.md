@@ -82,7 +82,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 |-----------------|---------------------------------------|------------|-----|
 | searchboost     | E-E-A-T: Så bygger du trovärdighet som litet företag (⚠ ej deployad) | 2026-06-05 | Kör scripts/publish-searchboost-eeat.js från EC2 |
 | tobler          | Skyddsräcke på byggställning (⚠ ej deployad)   | 2026-06-03 | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
-| mobelrondellen  | Utemöbler 2026 — guide till hållbara val (⚠ ej deployad) | 2026-05-29 | Kör scripts/publish-mobelrondellen-utemobler-2026.js från EC2 |
+| mobelrondellen  | Bokhylla guide 2026 — så väljer du rätt hyllsystem (⚠ ej deployad) | 2026-06-15 | Kör scripts/publish-mobelrondellen-bokhylla-2026.js från EC2 |
 | ilmonte         | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 (⚠ ej deployad) | 2026-06-12 | Kör scripts/publish-ilmonte-utomhusevenemang.js från EC2 |
 | jelmtech        | POM/acetal formsprutning (⚠ ej deployad) | 2026-06-08 | Kör scripts/publish-jelmtech-pom-acetal.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
@@ -126,6 +126,19 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-15
+
+- **Kund**: mobelrondellen (äldst i rotationen sedan 2026-05-29, 17 dagar)
+- **Artikel**: "Bokhylla guide 2026 — så väljer du rätt hyllsystem för ditt hem"
+- **Fokuskeyword**: bokhylla guide
+- **Fil**: content-pages/mobelrondellen-bokhylla-guide-2026.html
+- **Script**: scripts/publish-mobelrondellen-bokhylla-2026.js
+- **Ordantal**: ~1 000 ord, ÅÄÖ ok (42 träffar), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 5 H2:or + FAQ H2, lead-paragraf 47 ord, ul-listor, ol-lista med 5 tips
+- **Interna länkar**: fåtölj-guide-2026, inspiration, kopa-soffa-guide-2026-2
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-12
 
