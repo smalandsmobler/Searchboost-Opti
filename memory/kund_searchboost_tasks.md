@@ -4,6 +4,7 @@
 > Senast uppdaterad: 2026-06-09
 
 ## Prospektlista (Prospekt-scanner)
+- 2026-06-16: [Bygg / Linköping — Tillägg v25](../content-pages/prospects/2026-06-16-bygg-linkoping-tillagg.md) — Top 3: BC Bygg (1977, inget title/schema/email 🚨), Stångebro Bygg (H1 utan keywords, WordPress), Skruvfund (WIX-plattform = tekniskt hinder). Nästa: **hälsa + Västerås** (v26)
 - 2026-06-09: [Bygg / Linköping](../content-pages/prospects/2026-06-09-bygg-linkoping.md) — Top 3: Svenska Bygge (title=bara företagsnamn, 5 sociala kanaler), ByggOm Linköping (B2B/kommersiell, ren H1), Irebro Byggservice (bred portfölj, WordPress, 3×H1)
 - 2026-06-02: [Hotell / Uppsala](../content-pages/prospects/2026-06-02-hotell-uppsala.md) — Top 3: Grand Hotell Hörnan (title="Startsida"!), Villa Anna (premium, ingen lokal SEO), Akademihotellet (ny svitavdelning ej synlig)
 - 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
