@@ -110,6 +110,12 @@ _Arkiverad: se v22-sammanfattning ovan._
 | 2026-05-14 (onsdag) | E-E-A-T för småföretag — tre konkreta åtgärder för att bygga trovärdighet i Googles ögon | urn:li:share:7460616309081534464 | https://www.linkedin.com/feed/update/urn:li:share:7460616309081534464/ |
 | 2026-05-19 (tisdag) | Lokalt SEO — tre branscher, tre städer, ett mönster: vad som saknas på svenska SME-sajter | urn:li:share:7462428838594166784 | https://www.linkedin.com/feed/update/urn:li:share:7462428838594166784/ |
 | 2026-05-26 (måndag) | Schema markup — strukturerad data, rich results, +20-30% CTR, tre minimum-insatser per kund | urn:li:share:7464964904886751233 | https://www.linkedin.com/feed/update/urn:li:share:7464964904886751233/ |
+| 2026-06-16 (måndag) ⏳ | AI Overviews förändrar spelreglerna — GEO-anpassning, FAQ-schema, E-E-A-T-signaler | ⛔ EJ POSTAD — Zapier OAuth krävs | `content-pages/searchboost/linkedin/2026-06-04-ai-overviews-geo-seo.md` |
+
+### ⛔ BLOCKERARE LinkedIn-agent 2026-06-16
+Zapier MCP kräver OAuth-autentisering. Artikel redo men kan ej postas autonomt.
+**Åtgärd**: Mikael öppnar autentiserings-URL i webbläsaren och klistrar in callback-URL i chatten.
+Auth-URL: `https://api.anthropic.com/authorize?response_type=code&client_id=f45cf20a-aa23-4f9e-8b1e-7553508184a2&code_challenge=qJkrJrU82OSOxGcZmlZyP9GOC00tUT2P-fWWjINvZXA&code_challenge_method=S256&redirect_uri=http%3A%2F%2Flocalhost%3A3118%2Fcallback&state=f5WqxrjJ4OvEamkBCxVrKF6JD20HWfnf66Ba9-AH2bU`
 
 ## Status
 - WP-creds: OK
