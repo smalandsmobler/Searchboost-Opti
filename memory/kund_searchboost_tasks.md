@@ -27,7 +27,14 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Veckosammanfattning 2026-06-15 (måndag v25) — LIVE
+### Regressionscheck 2026-06-16 (tisdag) — LIVE
+> **Körning #23 i rad — fortfarande blockerad**
+
+_Ingen data — EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._
+
+---
+
+### Veckosammanfattning 2026-06-15 (måndag v25) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 22 körningar i rad (senaste: 2026-06-15)**
 > **ESKALERING NÖDVÄNDIG — 7 VECKOR UTAN RANKINGDATA**
 
@@ -51,6 +58,8 @@ _Ingen data — Blockerad (2026-06-15, **22 körningar i rad** — 14/16/18/19/2
 - _GOOGLE\_APPLICATION\_CREDENTIALS\_JSON: Ej satt i environment_
 
 **⚠️ KRITISK BLOCKERARE — 22 MISSADE CHECKS (7 VECKOR UTAN RANKINGDATA)**
+
+_Arkiveras — se check 2026-06-16 ovan._
 
 **🔓 LÖSNING 1 — BigQuery direkt (rekommenderas, 5 min):**
 Lägg service account JSON i Claude Code Settings → Environment Variables:

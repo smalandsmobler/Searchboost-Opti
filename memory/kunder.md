@@ -1,11 +1,11 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-05
+> Senast uppdaterad: 2026-06-16
 
-## Regressionscheck — 2026-06-08 (söndag)
+## Regressionscheck — 2026-06-16 (tisdag)
 
-**Status: Blockerad — 18:e körningen i rad (5 veckor utan rankingdata)**
+**Status: Blockerad — 23:e körningen i rad (7+ veckor utan rankingdata)**
 
 | Kund | GSC-status | Check-status | Orsak |
 |------|-----------|-------------|-------|
