@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-16
+> Senast uppdaterad: 2026-06-17
 
 ## Regressionscheck — 2026-06-16 (tisdag)
 
@@ -81,7 +81,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | Kund            | Senaste artikel                        | Datum      | URL |
 |-----------------|---------------------------------------|------------|-----|
 | searchboost     | E-E-A-T: Så bygger du trovärdighet som litet företag (⚠ ej deployad) | 2026-06-05 | Kör scripts/publish-searchboost-eeat.js från EC2 |
-| tobler          | Skyddsräcke på byggställning (⚠ ej deployad)   | 2026-06-03 | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
+| tobler          | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | 2026-06-17 | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
 | mobelrondellen  | Bokhylla guide 2026 — så väljer du rätt hyllsystem (⚠ ej deployad) | 2026-06-15 | Kör scripts/publish-mobelrondellen-bokhylla-2026.js från EC2 |
 | ilmonte         | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 (⚠ ej deployad) | 2026-06-12 | Kör scripts/publish-ilmonte-utomhusevenemang.js från EC2 |
 | jelmtech        | POM/acetal formsprutning (⚠ ej deployad) | 2026-06-08 | Kör scripts/publish-jelmtech-pom-acetal.js från EC2 |
@@ -126,6 +126,20 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-17
+
+- **Kund**: tobler (äldst i rotationen sedan 2026-06-03, 14 dagar)
+- **Artikel**: "Ställning för takrenovering — allt du behöver veta om krav, typer och priser 2026"
+- **Fokuskeyword**: ställning takrenovering
+- **Fil**: content-pages/tobler-stallning-takrenovering.html
+- **Script**: scripts/publish-tobler-stallning-takrenovering.js
+- **Ordantal**: ~1 050 ord, ÅÄÖ ok (616 tecken), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 6 H2:or + FAQ H2, lead-paragraf 55 ord, ul-listor, ol-lista med 5 steg
+- **Interna länkar**: modulstallning-guide, skyddsracke-byggstallning, stallningsnät-guide
+- **Rank Math**: focus_keyword: ställning takrenovering | meta_title: Ställning för takrenovering — krav, typer och priser 2026 | Tobler
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-15
 

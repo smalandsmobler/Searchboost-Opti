@@ -34,6 +34,7 @@ Senaste check: 2026-06-13
 | 2026-05-03 | Modulställning — vad du behöver veta | https://tobler.se/kopa-modulstallning-vad-du-behover-veta-om-system-pris-och-leverantorer/ |
 | 2026-05-11 | Ställningsnät — krav, typer och rätt användning (⚠ ej deployad) | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
 | 2026-06-03 | Skyddsräcke på byggställning — regler, typer och rätt montering (⚠ ej deployad) | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
+| 2026-06-17 | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
 
 ## Deploy — väntande artiklar
 
@@ -54,8 +55,8 @@ node scripts/publish-tobler-skyddsracke.js     # artikel 2026-06-03
 
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
-| Hög | Ställning för takrenovering | ställning takrenovering |
-| Medium | Ställningsarbete regler | ställningsarbete regler |
+| ✅ KLAR | Ställning för takrenovering — kör scripts/publish-tobler-stallning-takrenovering.js | ställning takrenovering |
+| Hög | Ställningsarbete regler | ställningsarbete regler |
 | Medium | Transport av ställning | transport byggställning |
 
 ## Status
