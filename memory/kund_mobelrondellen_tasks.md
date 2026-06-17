@@ -61,6 +61,17 @@ Senaste check: 2026-06-15
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-17 (MIDSOMMAR OM 2 DAGAR — SISTA CHANSEN)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY utemöbel-guide** (klar 2026-05-29 — **19 dagar, MIDSOMMAR IMORGON**): `node scripts/publish-mobelrondellen-utemobler-2026.js` från EC2 | **BRÅDSKANDE** | Royal Design kör Sommarrea t.o.m. 30 juli (+100-tals nya varor) — ingen konkurrent har lokal/rådgivande guide — sista chansen för midsommar-trafik |
+| **DEPLOY soffa-guide** (klar 2026-05-08 — **40 dagar!**): `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent har soffa-köpguide — 40 dagars fördröjning |
+| Mikael: Skriv 200-ords midsommar-highlight direkt i WP-admin (ingen EC2) på utemöbler-kategorisidan: "Utemöbler till midsommar — tips från Möbelrondellen" | **HÖG** | Royal Design har /sasong/midsommar men inget köpråd — lokal Dalarna-vinkel ägs ej av någon |
+| Viktor: Implementera 9 internlänkar via WP-admin (EC2 krävs EJ — guide finns nedan) | **HÖG** | Direkt SEO-win, 30 min insats |
+| FAQ-schema på soffa- + utemöbel-guide när de deployats | Medel | Ingen konkurrent har FAQ schema på köpguider |
+| **DEPLOY bokhylla-guide** (klar 2026-06-15 — 2 dagar): `node scripts/publish-mobelrondellen-bokhylla-2026.js` från EC2 | Medel | Ingen konkurrent har bokhylla-guide |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10 (MIDSOMMAR OM 12 DAGAR)
 
 | Uppgift | Prioritet | Källa |
