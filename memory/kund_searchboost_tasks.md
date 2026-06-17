@@ -28,10 +28,18 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-16 (tisdag) — LIVE
-> **Körning #23 i rad — fortfarande blockerad**
+### Regressionscheck 2026-06-17 (onsdag) — LIVE
+> **Körning #24 i rad — fortfarande blockerad**
 
-_Ingen data — EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._
+_Ingen data — EC2 returnerar HTTP 503 (PM2/Express ej igång?), EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._
+
+**Ny notering 2026-06-17:** EC2 `/health` ger 503 — inte bara TLS-problem utan servern svarar ej. PM2-processen kan ha kraschatt. Kontrollera EC2 + starta om PM2 (krever SSH-access).
+
+---
+
+### Regressionscheck 2026-06-16 (tisdag) — arkiverad
+> **Körning #23 i rad — fortfarande blockerad**
+_Arkiveras — se 2026-06-17 ovan._
 
 ---
 

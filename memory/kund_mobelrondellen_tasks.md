@@ -12,7 +12,9 @@ _Ingen data — Blockerad (2026-06-15, **22 körningar i rad** — 14/16/18/19/2
 
 **⚠️ KRITISK BLOCKERARE:** Se kund_searchboost_tasks.md — Supermetrics GSC-autentisering = snabbaste fix (2 min).
 
-Senaste check: 2026-06-15
+Inga regressioner 2026-06-16 (Blockerad — se searchboost_tasks.md)
+Inga regressioner 2026-06-17 (Blockerad — se searchboost_tasks.md)
+Senaste check: 2026-06-17
 
 ## Internlänk-optimering — 2026-05-22
 

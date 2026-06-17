@@ -25,6 +25,8 @@ Inga regressioner 2026-06-09 (ej aktiv kund)
 Inga regressioner 2026-06-10 (ej aktiv kund)
 Inga regressioner 2026-06-13 (ej aktiv kund)
 Inga regressioner 2026-06-15 (ej aktiv kund)
+Inga regressioner 2026-06-16 (ej aktiv kund)
+Inga regressioner 2026-06-17 (ej aktiv kund)
 Senaste check: 2026-06-13
 
 ## Status
