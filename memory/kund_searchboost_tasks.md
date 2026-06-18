@@ -28,7 +28,16 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-17 (onsdag) — LIVE
+### Regressionscheck 2026-06-18 (torsdag) — LIVE
+> **Körning #25 i rad — fortfarande blockerad**
+
+_Ingen data — EC2 returnerar HTTP 503, EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._
+
+**Bekräftad 2026-06-18:** EC2 `/health` ger 503 — PM2-processen verkar nere. Alla tre blockerare kvarstår (EC2 TLS + perispa saknas + GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt). 7+ veckor utan rankingdata. Se lösningsalternativ nedan.
+
+---
+
+### Regressionscheck 2026-06-17 (onsdag) — arkiverad
 > **Körning #24 i rad — fortfarande blockerad**
 
 _Ingen data — EC2 returnerar HTTP 503 (PM2/Express ej igång?), EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._
