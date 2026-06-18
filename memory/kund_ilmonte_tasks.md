@@ -67,6 +67,16 @@ node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
 node scripts/publish-ilmonte-kopa-scenpodium-2026.js
 ```
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-17 (MIDSOMMAR IMORGON)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY "Scenpodium utomhusevenemang"** (klar 2026-06-12 — **5 dagar, MIDSOMMAR IMORGON**): `node scripts/publish-ilmonte-utomhusevenemang.js` från EC2 | **BRÅDSKANDE** | Scenkonsult/Evivent/Eventkraft = NOLL utomhus-guide — säsongsrelevans toppar NU |
+| **DEPLOY "Hyra eller köpa scenpodium?"** (klar 2026-05-06 — **42 dagar!**): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent har denna content — ägs okontestas |
+| **DEPLOY "Köpa scenpodium 2026"** (klar 2026-05-27 — **21 dagar**): `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2 | **BRÅDSKANDE** | Eventkraft = inga guider, inga priser — Ilmonte kan äga köp-keyword |
+| Product schema på de 5 mest sålda scenpodium-produktsidorna | **HÖG** | Scenkonsult, Evivent, Eventkraft = NOLL Product schema — Google Shopping-synlighet fri |
+| FAQ-schema på /podier/-kategorisida | **HÖG** | Ingen konkurrent har FAQ schema — rich results utan motstånd |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10
 
 | Uppgift | Prioritet | Källa |
