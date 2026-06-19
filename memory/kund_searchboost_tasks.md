@@ -116,6 +116,7 @@ _Arkiverad: se v22-sammanfattning ovan._
 - SEO-skola (https://searchboost.se/seo-skola/)
 - AI Overviews och GEO — hur det påverkar din SEO 2026 (⚠ ej deployad) — 2026-05-13 | Kör scripts/publish-searchboost-ai-overviews.js från EC2
 - E-E-A-T: Så bygger du trovärdighet som litet företag (⚠ ej deployad) — 2026-06-05 | Kör scripts/publish-searchboost-eeat.js från EC2
+- Lokal SEO för svenska orter 2026 (⚠ ej deployad) — 2026-06-19 | Kör scripts/publish-searchboost-lokal-seo-orter.js från EC2
 
 ## LinkedIn-inlägg
 
