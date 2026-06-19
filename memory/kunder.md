@@ -1,7 +1,19 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-18
+> Senast uppdaterad: 2026-06-19
+
+## Internlänk-optimerare — 2026-06-19
+
+**Status: Blockerad — perispa_* MCP-verktyg saknas (körning #1 av schemalagd rutin)**
+
+Rutin försökte köra internlänk-optimering men blockerades av samma infrastrukturproblem som content-fabriken.
+Valdes att starta med: **mobelrondellen** (äldst i rotation, aktiva WP-creds).
+Inga ändringar utförda. Gmail-draft skickad till Mikael med åtgärdsförslag.
+
+**Kräver:** perispa MCP-server tillagd i Claude Code Settings → MCP Servers.
+
+---
 
 ## Regressionscheck — 2026-06-18 (torsdag)
 
