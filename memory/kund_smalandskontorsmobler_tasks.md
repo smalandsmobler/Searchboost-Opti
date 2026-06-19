@@ -15,7 +15,8 @@ _Ingen data — Blockerad (2026-06-15, **22 körningar i rad** — 14/16/18/19/2
 Inga regressioner 2026-06-16 (Blockerad — se searchboost_tasks.md)
 Inga regressioner 2026-06-17 (Blockerad — EC2 503 + perispa_* saknas)
 Inga regressioner 2026-06-18 (Blockerad — körning #25, EC2 503 + perispa saknas + BQ-creds saknas)
-Senaste check: 2026-06-18
+Inga regressioner 2026-06-19 (Blockerad — körning #26, EC2 503 + perispa_* saknas + BQ-creds saknas)
+Senaste check: 2026-06-19
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt

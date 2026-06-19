@@ -28,7 +28,16 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-18 (torsdag) — LIVE
+### Regressionscheck 2026-06-19 (fredag) — LIVE
+> **Körning #26 i rad — fortfarande blockerad**
+
+_Ingen data — EC2 returnerar HTTP 503/TLS-fel, `perispa_*`/BigQuery-credentials ej tillgängliga._
+
+**Bekräftad 2026-06-19:** Alla blockerare kvarstår (EC2 self-signed TLS + perispa_* saknas + GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt). Nu 26 körningar / 7+ veckor utan rankingdata.
+
+---
+
+### Regressionscheck 2026-06-18 (torsdag) — arkiverad
 > **Körning #25 i rad — fortfarande blockerad**
 
 _Ingen data — EC2 returnerar HTTP 503, EC2 TLS/`perispa_*`/BigQuery-credentials fortfarande ej tillgängliga._

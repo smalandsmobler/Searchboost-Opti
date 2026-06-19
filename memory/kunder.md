@@ -15,6 +15,27 @@ Inga ändringar utförda. Gmail-draft skickad till Mikael med åtgärdsförslag.
 
 ---
 
+## Regressionscheck — 2026-06-19 (fredag)
+
+**Status: Blockerad — 26:e körningen i rad (7+ veckor utan rankingdata)**
+
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | ✅ Konfigurerad | ❌ Blockerad | EC2 503 (PM2 nere?) + BQ-creds saknas |
+| mobelrondellen | ✅ Konfigurerad | ❌ Blockerad | EC2 503 (PM2 nere?) + BQ-creds saknas |
+| smalandskontorsmobler | ✅ Konfigurerad | ❌ Blockerad | EC2 503 (PM2 nere?) + BQ-creds saknas |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
+
+**Keywords upp/ner:** ❌ Ej tillgänglig — blockerare kvarstår (körning #26)
+_EC2-servern svarar med HTTP 503 — PM2-processen kan ha kraschatt. HTTPS TLS-fel vid direktåtkomst. GOOGLE\_APPLICATION\_CREDENTIALS\_JSON ej satt. perispa\_\* verktyg ej tillgängliga._
+
+---
+
 ## Regressionscheck — 2026-06-18 (torsdag)
 
 **Status: Blockerad — 25:e körningen i rad (7+ veckor utan rankingdata)**
