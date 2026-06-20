@@ -37,24 +37,42 @@ npm start
 # → http://localhost:3100
 ```
 
-## Deploy (subdomän coachning.searchboost.se)
+## Inloggning
 
-Samma mönster som resten av systemet (PM2 + Nginx på EC2):
+Sidan är skyddad med ett enda privat konto (login-skärm + JWT, token gäller 30
+dagar). Lösenordet lagras aldrig i klartext — bara en bcrypt-hash i `server.js`.
+
+Standardkonto: `fridalindgren0@gmail.com`. Byt vid behov via env vid deploy:
 
 ```bash
-# På servern:
-cd /home/ubuntu/Searchboost-Opti/coaching-site && npm install --omit=dev
-pm2 start server.js --name coachning
-pm2 save
+COACH_EMAIL=ny@epost.se
+COACH_PASS_HASH='$2b$12$...'   # generera: node -e "console.log(require('bcryptjs').hashSync('NyttLösen',12))"
+COACH_JWT_SECRET=valfri-lång-slumpsträng   # rekommenderas i produktion
 ```
 
-Nginx server-block: peka `coachning.searchboost.se` → `http://localhost:3100`,
-sätt upp DNS A-record mot `51.21.116.7` och certifikat (Let's Encrypt).
-API-nyckeln hämtas automatiskt från SSM `/seo-mcp/anthropic/api-key` precis som
-huvudservern, så ingen extra config behövs på EC2.
+## Datakälla — filformat
 
-> Tips: lägg gärna `auth_basic` i Nginx-blocket så sidan är lösenordsskyddad —
-> det är hennes privata hälsodata.
+Stödjer både **.zip** och **.tgz / .tar.gz** (de format Google Takeout erbjuder).
+Allt packas upp och parsas i webbläsaren (JSZip för zip, pako + tar-parser för tgz).
+
+## Deploy (Loopia, subdomän t.ex. coachning.searchboost.se)
+
+Det här är en vanlig Node-app — inga moln-specifika beroenden. På Loopias
+Node.js-hosting:
+
+```bash
+npm install --omit=dev
+# Sätt miljövariabler (Loopias kontrollpanel eller .env-motsvarighet):
+#   ANTHROPIC_API_KEY=sk-ant-...      (krävs)
+#   COACH_JWT_SECRET=...              (rekommenderas)
+#   COACH_EMAIL / COACH_PASS_HASH     (om kontot ska bytas)
+#   PORT=...                          (om Loopia kräver en viss port)
+npm start
+```
+
+Peka subdomänen mot appen enligt Loopias instruktioner och se till att HTTPS är
+på. API-nyckeln läses i första hand från `ANTHROPIC_API_KEY` (på AWS faller den
+tillbaka på SSM `/seo-mcp/anthropic/api-key`).
 
 ## Modell
 

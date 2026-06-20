@@ -15,10 +15,36 @@
 
 const path = require('path');
 const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const Anthropic = require('@anthropic-ai/sdk');
 
 const app = express();
 const PORT = process.env.PORT || 3100;
+
+// ---------------------------------------------------------------------------
+// Inloggning. Ett enda privat konto. Lösenordet lagras aldrig i klartext —
+// bara en bcrypt-hash. Kan överskrivas via env (COACH_EMAIL / COACH_PASS_HASH)
+// vid deploy. JWT-token gäller 30 dagar så hon slipper logga in jämt.
+// ---------------------------------------------------------------------------
+const AUTH = {
+  email: (process.env.COACH_EMAIL || 'fridalindgren0@gmail.com').toLowerCase(),
+  passHash: process.env.COACH_PASS_HASH || '$2b$12$8ijtdjQp0f/8TMdsUdY13uOND67zuSn2fabOxWkIk3ObnnS524nWi',
+};
+const JWT_SECRET = process.env.COACH_JWT_SECRET || AUTH.passHash; // stabil men icke-klartext
+const TOKEN_TTL = '30d';
+
+function authMiddleware(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (!token) return res.status(401).json({ error: 'Inte inloggad' });
+  try {
+    jwt.verify(token, JWT_SECRET);
+    next();
+  } catch {
+    res.status(401).json({ error: 'Sessionen har gått ut. Logga in igen.' });
+  }
+}
 
 // Coachen ska kännas personlig och resonera väl kring hälsodata — Sonnet 4.6
 // är en bra balans mellan kvalitet och kostnad.
@@ -106,7 +132,18 @@ ${checkin ? `\nDAGENS INCHECKNING:\n${checkin}` : ''}`;
 // ---------------------------------------------------------------------------
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
-app.post('/api/coach', async (req, res) => {
+app.post('/api/login', async (req, res) => {
+  const { email = '', password = '' } = req.body || {};
+  const okEmail = email.trim().toLowerCase() === AUTH.email;
+  const okPass = okEmail && await bcrypt.compare(password, AUTH.passHash);
+  if (!okEmail || !okPass) {
+    return res.status(401).json({ error: 'Fel e-post eller lösenord.' });
+  }
+  const token = jwt.sign({ sub: AUTH.email }, JWT_SECRET, { expiresIn: TOKEN_TTL });
+  res.json({ token });
+});
+
+app.post('/api/coach', authMiddleware, async (req, res) => {
   try {
     const {
       messages = [],

@@ -5,6 +5,7 @@ const STORE = {
   checkins: 'coach.checkins',
   tone: 'coach.tone',
   chat: 'coach.chat',
+  token: 'coach.token',
 };
 
 const TONE_WORDS = { 1: 'Bara vila', 2: 'Mjuk', 3: 'Balanserad', 4: 'Peppig', 5: 'Full fart' };
@@ -101,7 +102,10 @@ function todaysCheckin() {
 async function askCoach(messages) {
   const res = await fetch('/api/coach', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem(STORE.token) || ''}`,
+    },
     body: JSON.stringify({
       messages,
       dataSummary: buildDataSummary(),
@@ -109,6 +113,10 @@ async function askCoach(messages) {
       toneLevel: Number(toneSlider.value),
     }),
   });
+  if (res.status === 401) {
+    showLogin();
+    throw new Error('Du loggades ut. Logga in igen.');
+  }
   if (!res.ok) {
     const e = await res.json().catch(() => ({}));
     throw new Error(e.error || 'Något gick fel.');
@@ -180,7 +188,7 @@ function renderOverview() {
   if (act.length) cards.push(card('Aktiva min', round(avg(lastN(act, 7).map(p => p.v))), 'min', lastN(act, 30)));
 
   $('#metric-cards').innerHTML = cards.join('');
-  $('#gentle-note').textContent = gentleNote(health);
+  renderHero();
 }
 
 // --- Incheckning ----------------------------------------------------------
@@ -348,14 +356,109 @@ fileInput.addEventListener('change', async () => {
 
 $('#clear-data').addEventListener('click', () => {
   if (!confirm('Radera all sparad data (hälsodata, incheckningar och chatt) från den här enheten?')) return;
-  Object.values(STORE).forEach(k => localStorage.removeItem(k));
-  toneSlider.value = 2; syncTone();
+  [STORE.health, STORE.checkins, STORE.chat].forEach(k => localStorage.removeItem(k));
   renderChat(); renderOverview(); renderCheckinHistory();
   $('#parse-status').classList.add('hidden');
   alert('Allt raderat från enheten.');
 });
 
+// --- Greeting & dagens råd -------------------------------------------------
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 5) return 'God natt 🌙';
+  if (h < 10) return 'God morgon 🌅';
+  if (h < 13) return 'Hej på dagen 💛';
+  if (h < 18) return 'God eftermiddag 🌿';
+  return 'God kväll 🌙';
+}
+
+function heroNote() {
+  const health = load(STORE.health, null);
+  if (health && health.dayCount) return gentleNote(health);
+  return 'Ta det i din egen takt idag. Du behöver inte prestera något här.';
+}
+
+function renderHero() {
+  $('#greeting').textContent = greeting();
+  $('#hero-note').textContent = heroNote();
+}
+
+$('#daily-advice-btn').addEventListener('click', async (e) => {
+  const btn = e.target;
+  btn.disabled = true;
+  const out = $('#daily-advice');
+  out.classList.remove('hidden');
+  out.textContent = 'Coachen tänker efter...';
+  try {
+    out.textContent = await askCoach([{
+      role: 'user',
+      content: 'Ge mig en kort, varm hälsning och ETT enda mjukt, konkret förslag för idag utifrån hur jag mått och min data. Max 3-4 meningar.',
+    }]);
+  } catch (err) {
+    out.textContent = err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+// --- Inloggning ------------------------------------------------------------
+function showLogin() {
+  $('#login-overlay').classList.remove('hidden');
+  $('#app').classList.add('hidden');
+}
+function showApp() {
+  $('#login-overlay').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  initApp();
+}
+
+$('#login-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = $('#login-btn');
+  const err = $('#login-error');
+  err.classList.add('hidden');
+  btn.disabled = true; btn.textContent = 'Loggar in...';
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: $('#login-email').value,
+        password: $('#login-pass').value,
+      }),
+    });
+    if (!res.ok) {
+      const e2 = await res.json().catch(() => ({}));
+      throw new Error(e2.error || 'Inloggning misslyckades.');
+    }
+    const { token } = await res.json();
+    localStorage.setItem(STORE.token, token);
+    showApp();
+  } catch (e3) {
+    err.textContent = e3.message;
+    err.classList.remove('hidden');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Logga in';
+  }
+});
+
+$('#logout-btn').addEventListener('click', () => {
+  localStorage.removeItem(STORE.token);
+  showLogin();
+});
+
 // --- Init -----------------------------------------------------------------
-renderChat();
-renderOverview();
-renderCheckinHistory();
+let appInited = false;
+function initApp() {
+  renderHero();
+  renderChat();
+  renderOverview();
+  renderCheckinHistory();
+  appInited = true;
+}
+
+if (localStorage.getItem(STORE.token)) {
+  showApp();
+} else {
+  showLogin();
+}
