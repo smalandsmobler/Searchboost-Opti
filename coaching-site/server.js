@@ -14,10 +14,26 @@
  */
 
 const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Anthropic = require('@anthropic-ai/sdk');
+
+// Läs .env om den finns (dependency-fritt). Befintliga env-var vinner.
+(() => {
+  try {
+    const envPath = path.join(__dirname, '.env');
+    if (!fs.existsSync(envPath)) return;
+    for (const line of fs.readFileSync(envPath, 'utf8').split('\n')) {
+      const m = line.match(/^\s*([\w.]+)\s*=\s*(.*)\s*$/);
+      if (!m || line.trim().startsWith('#')) continue;
+      const key = m[1];
+      let val = m[2].replace(/^["']|["']$/g, '');
+      if (!(key in process.env)) process.env[key] = val;
+    }
+  } catch { /* ignorera trasig .env */ }
+})();
 
 const app = express();
 const PORT = process.env.PORT || 3100;
