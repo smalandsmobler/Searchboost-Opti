@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Din lugna coach</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🌿</span>
+      <div>
+        <h1>Din lugna coach</h1>
+        <p class="tagline">I din takt. Återhämtning först.</p>
+      </div>
+    </div>
+    <div class="tone-control" title="Hur mycket pepp vill du ha just nu?">
+      <label for="tone">Coachens ton</label>
+      <input type="range" id="tone" min="1" max="5" step="1" value="2" />
+      <span id="tone-label" class="tone-label">Mjuk</span>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">Översikt</button>
+    <button class="tab" data-tab="checkin">Incheckning</button>
+    <button class="tab" data-tab="food">Kost &amp; energi</button>
+    <button class="tab" data-tab="coach">Coachen</button>
+    <button class="tab" data-tab="data">Min data</button>
+  </nav>
+
+  <main>
+    <!-- ÖVERSIKT -->
+    <section id="overview" class="panel active">
+      <div id="no-data" class="empty-state">
+        <h2>Hej 💛</h2>
+        <p>Det här är en plats bara för dig. Ingen ska titta, inget ska presteras.
+           Ladda upp din hälsodata om du vill — eller hoppa direkt till <a href="#" data-goto="coach">coachen</a> och bara prata.</p>
+        <p class="hint">Din data stannar i den här webbläsaren. Den lämnar aldrig din enhet.</p>
+        <button class="btn-primary" data-goto="data">Ladda upp min data</button>
+      </div>
+
+      <div id="overview-content" class="hidden">
+        <p class="period" id="period"></p>
+        <div class="cards" id="metric-cards"></div>
+        <div class="gentle-note" id="gentle-note"></div>
+      </div>
+    </section>
+
+    <!-- INCHECKNING -->
+    <section id="checkin" class="panel">
+      <h2>Hur är det idag?</h2>
+      <p class="sub">Inga rätt eller fel. Bara en liten avstämning med dig själv.</p>
+
+      <div class="checkin-block">
+        <label>Hur känns energin?</label>
+        <div class="emoji-row" data-field="energy">
+          <button data-val="1">🪫</button>
+          <button data-val="2">😔</button>
+          <button data-val="3">😐</button>
+          <button data-val="4">🙂</button>
+          <button data-val="5">🔋</button>
+        </div>
+      </div>
+
+      <div class="checkin-block">
+        <label>Hur är humöret?</label>
+        <div class="emoji-row" data-field="mood">
+          <button data-val="1">😢</button>
+          <button data-val="2">😟</button>
+          <button data-val="3">😐</button>
+          <button data-val="4">🙂</button>
+          <button data-val="5">😊</button>
+        </div>
+      </div>
+
+      <div class="checkin-block">
+        <label>Hur vilad känner du dig?</label>
+        <div class="emoji-row" data-field="rested">
+          <button data-val="1">😴</button>
+          <button data-val="2">🥱</button>
+          <button data-val="3">😐</button>
+          <button data-val="4">🙂</button>
+          <button data-val="5">✨</button>
+        </div>
+      </div>
+
+      <div class="checkin-block">
+        <label for="note">Något du vill skriva av dig? (valfritt)</label>
+        <textarea id="note" rows="3" placeholder="Vad som helst som snurrar i huvudet..."></textarea>
+      </div>
+
+      <button class="btn-primary" id="save-checkin">Spara dagens incheckning</button>
+      <p id="checkin-saved" class="saved-msg hidden">Sparat 💛 Vill du att coachen säger något om det? <a href="#" data-goto="coach">Prata med coachen</a></p>
+
+      <div id="checkin-history" class="checkin-history"></div>
+    </section>
+
+    <!-- KOST & ENERGI -->
+    <section id="food" class="panel">
+      <h2>Kost &amp; energi</h2>
+      <p class="sub">Mat som ger energi och hjälper kroppen läka — aldrig om att hålla igen.</p>
+
+      <div class="food-tips" id="food-tips"></div>
+
+      <div class="ask-coach-box">
+        <p>Vill du ha en mjuk, enkel måltidsidé för idag?</p>
+        <button class="btn-secondary" id="meal-idea">Ge mig en idé</button>
+      </div>
+      <div id="meal-output" class="meal-output hidden"></div>
+    </section>
+
+    <!-- COACH -->
+    <section id="coach" class="panel">
+      <h2>Coachen</h2>
+      <p class="sub">PT, dietist, livscoach och peppare — i din takt.</p>
+      <div id="chat" class="chat"></div>
+      <div class="chat-input">
+        <textarea id="chat-text" rows="2" placeholder="Skriv vad som helst..."></textarea>
+        <button class="btn-primary" id="chat-send">Skicka</button>
+      </div>
+      <div class="quick-prompts" id="quick-prompts"></div>
+    </section>
+
+    <!-- DATA -->
+    <section id="data" class="panel">
+      <h2>Min data</h2>
+      <p class="sub">Allt parsas här i webbläsaren. Inget laddas upp till någon server.</p>
+
+      <ol class="how-to">
+        <li>Gå till <a href="https://takeout.google.com/" target="_blank" rel="noopener">takeout.google.com</a></li>
+        <li>Välj <strong>Fitbit</strong> och/eller <strong>Fit</strong> och exportera</li>
+        <li>Ladda ner zip-filen och välj den nedan</li>
+      </ol>
+
+      <label class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept=".zip" hidden />
+        <span id="upload-text">📦 Välj din Takeout-zip</span>
+      </label>
+      <div id="parse-status" class="parse-status hidden"></div>
+
+      <div class="data-actions">
+        <button class="btn-ghost" id="clear-data">Radera all data från den här enheten</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Det här är stöd och pepp — inte vård. Vid medicinska frågor, kontakta din vårdkontakt eller ring 1177. Vid akut fara, ring 112.</p>
+  </footer>
+
+  <script src="parser.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
