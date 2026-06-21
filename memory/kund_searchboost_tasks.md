@@ -28,7 +28,16 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-20 (fredag) — LIVE
+### Regressionscheck 2026-06-21 (söndag) — LIVE
+> **Körning #28 i rad — fortfarande blockerad**
+
+_Ingen data — EC2 returnerar TLS-fel (self-signed cert, Envoy-proxy avvisar `-k`), `perispa_*`/BigQuery-credentials ej tillgängliga._
+
+**Bekräftad 2026-06-21:** Alla tre blockerare kvarstår (EC2 self-signed TLS + perispa_* saknas + GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt). Nu 28 körningar / 8+ veckor utan rankingdata.
+
+---
+
+### Regressionscheck 2026-06-20 (fredag) — arkiverad
 > **Körning #27 i rad — fortfarande blockerad**
 
 _Ingen data — EC2 returnerar TLS-fel (self-signed cert, Envoy-proxy avvisar `-k`), `perispa_*`/BigQuery-credentials ej tillgängliga._
