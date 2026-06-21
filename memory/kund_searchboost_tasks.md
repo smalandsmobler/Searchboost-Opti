@@ -156,23 +156,22 @@ _Arkiverad: se v22-sammanfattning ovan._
 | 2026-05-19 (tisdag) | Lokalt SEO — tre branscher, tre städer, ett mönster: vad som saknas på svenska SME-sajter | urn:li:share:7462428838594166784 | https://www.linkedin.com/feed/update/urn:li:share:7462428838594166784/ |
 | 2026-05-26 (måndag) | Schema markup — strukturerad data, rich results, +20-30% CTR, tre minimum-insatser per kund | urn:li:share:7464964904886751233 | https://www.linkedin.com/feed/update/urn:li:share:7464964904886751233/ |
 | 2026-06-16 (måndag) ⏳ | AI Overviews förändrar spelreglerna — GEO-anpassning, FAQ-schema, E-E-A-T-signaler | ⛔ EJ POSTAD — Zapier OAuth krävs | `content-pages/searchboost/linkedin/2026-06-04-ai-overviews-geo-seo.md` |
+| 2026-06-21 (söndag) ⏳ | Vi granskade 30 svenska SME-sajter — prospekteringsinsikter, title/H1/schema/mobil/plattform | ⛔ EJ POSTAD — Zapier OAuth krävs | `content-pages/searchboost/linkedin/2026-06-21-prospektering-vad-vi-hittade.md` |
 
-### ⛔ BLOCKERARE LinkedIn-agent 2026-06-18 (körning #2)
-Zapier MCP kräver fortfarande OAuth-autentisering. Artikel redo men kan ej postas autonomt.
-**Åtgärd**: Mikael öppnar autentiserings-URL i webbläsaren och klistrar in callback-URL i chatten.
+### ⛔ BLOCKERARE LinkedIn-agent 2026-06-21 (körning #3)
+Zapier MCP kräver fortfarande OAuth-autentisering. Zapier-verktyg (`execute_zapier_write_action`) laddades inte — ej tillgängligt i sessionen.
+**Åtgärd**: Mikael behöver autentisera Zapier MCP i Claude Code-inställningarna.
 
-**Auth-URL (giltig 2026-06-18):**
-```
-https://api.anthropic.com/authorize?response_type=code&client_id=519891a7-ef7b-4610-9bce-fe952d6a869a&code_challenge=Cq8DbMqjSpqsAXNoDe6E9oR3pI2PIvfD-53Rh_vBU9U&code_challenge_method=S256&redirect_uri=http%3A%2F%2Flocalhost%3A3118%2Fcallback&state=yVV5A90ggsrQeopyz6O4MCWqimQ1k773fXMBH53Ov5I
-```
+_(Auth-URL från 2026-06-18 har löpt ut — ny URL genereras vid nästa autentiseringsförsök)_
 
-**Steg-för-steg:**
-1. Öppna URL:en ovan i webbläsaren
-2. Godkänn Zapier-åtkomst
-3. Webbläsaren försöker ladda `http://localhost:3118/callback?code=...` och visar fel — det är OK
-4. Kopiera hela URL:en från adressfältet och klistra in i chatten
+**Ny artikel skriven (2026-06-21):** `content-pages/searchboost/linkedin/2026-06-21-prospektering-vad-vi-hittade.md`
+- Baserad på prospekteringsscanningar v19–v25 (30 SME-sajter, 5 branscher)
+- ~450 ord, söndag-schemaläggning ✅
+- Redo att posta när OAuth lösts
 
-_(Föregående auth-URL 2026-06-16 har löpt ut)_
+**Väntande artiklar (2 st):**
+1. `2026-06-04-ai-overviews-geo-seo.md` — väntat sedan 2026-06-04 (47 dagar)
+2. `2026-06-21-prospektering-vad-vi-hittade.md` — skriven 2026-06-21
 
 ## Status
 - WP-creds: OK
