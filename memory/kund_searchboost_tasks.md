@@ -1,7 +1,7 @@
 # searchboost — Tasks & Status
 
 > Kund: searchboost.se | GSC: OK | WP-creds: OK
-> Senast uppdaterad: 2026-06-09
+> Senast uppdaterad: 2026-06-22
 
 ## Prospektlista (Prospekt-scanner)
 - 2026-06-16: [Bygg / Linköping — Tillägg v25](../content-pages/prospects/2026-06-16-bygg-linkoping-tillagg.md) — Top 3: BC Bygg (1977, inget title/schema/email 🚨), Stångebro Bygg (H1 utan keywords, WordPress), Skruvfund (WIX-plattform = tekniskt hinder). Nästa: **hälsa + Västerås** (v26)
@@ -28,7 +28,37 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-21 (söndag) — LIVE
+### Veckosammanfattning 2026-06-22 (måndag v26) — LIVE
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 29 körningar i rad (senaste: 2026-06-22)**
+> **ESKALERING KRITISK — 9 VECKOR UTAN RANKINGDATA**
+
+| Kund | GSC-status | Keywords topp 20 | Regressioner |
+|------|-----------|-----------------|-------------|
+| searchboost | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| mobelrondellen | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| smalandskontorsmobler | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| jelmtech | ⛔ Ej kopplad | — | N/A |
+| ilmonte | ⛔ Ej ägare | — | N/A |
+| humanpower | ⛔ Ej aktiv | — | N/A |
+| nordicsnusonline | ⛔ Ej aktiv | — | N/A |
+| tobler | ⛔ Ej konfigurerad | — | N/A |
+| traficator | ⛔ Ej konfigurerad | — | N/A |
+
+_Ingen data — Blockerad (2026-06-22, **29 körningar i rad**):_
+- _EC2-API: Ej nåbar (self-signed TLS, `-k` flag fungerar ej i Envoy-miljön)_
+- _`perispa_switch_site` / `perispa_gsc_top_queries`: Finns inte i sessions-verktygsuppsättningen_
+- _GOOGLE\_APPLICATION\_CREDENTIALS\_JSON: Ej satt i environment_
+
+**Löpande nyckelordsrörelse: Okänd (9 veckor utan data)**
+
+**⚠️ FIX KRÄVS NU (en av tre):**
+1. `GOOGLE_APPLICATION_CREDENTIALS_JSON` → Claude Code Settings (5 min, BigQuery direkt)
+2. Let's Encrypt på EC2: `sudo certbot --nginx` (10 min, löser EC2-API)
+3. Supermetrics GSC: autentisera en gång i Supermetrics-dashboarden (2 min)
+
+---
+
+### Regressionscheck 2026-06-21 (söndag) — arkiverad
 > **Körning #28 i rad — fortfarande blockerad**
 
 _Ingen data — EC2 returnerar TLS-fel (self-signed cert, Envoy-proxy avvisar `-k`), `perispa_*`/BigQuery-credentials ej tillgängliga._
