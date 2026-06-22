@@ -1,0 +1,99 @@
+<!--
+  ARTIKEL: Toleranser vid formsprutning — vad är uppnåeliga krav?
+  KUND: jelmtech.se
+  FOKUSKEYWORD: toleranser formsprutning
+  CATEGORY_ID: 48 (Produktutveckling)
+  SLUG: toleranser-formsprutning-guide
+  META TITLE: Toleranser vid formsprutning — vad är uppnåeliga krav? | Jelmtech
+  META DESC: Guide till toleranser vid formsprutning: typiska värden, ISO 16742 toleransklasser, materialets inverkan och konstruktionsregler för lägre kostnad. Från Jelm techs produktionsexperter.
+  INTERNAL LINKS:
+    - https://jelmtech.se/produktutveckling/konstruktionsplast-egenskaper-guide/
+    - https://jelmtech.se/produktutveckling/kostnad-formsprutningsverktyg/
+    - https://jelmtech.se/produktutveckling/formsprutad-detalj-fran-konstruktion-till-fardig-komponent/
+  DATUM: 2026-06-22
+-->
+
+<p>Toleranser vid formsprutning avgör om en plastdetalj passar i sin montering, fungerar utan justeringar och kan tillverkas till rätt kostnad. Ändå är det ett av de mest missförstådda områdena vid konstruktion för formsprutning — för snäva krav driver upp verktygs- och cykeltider, medan för generösa krav skapar monteringsproblem. Den här guiden ger dig ett praktiskt underlag för rätt toleranssättning.</p>
+
+<h2>Vad styr toleransen vid formsprutning?</h2>
+
+<p>Toleransen hos en formsprutad detalj är resultatet av flera samverkande faktorer snarare än en enskild parameter. En konstruktör som enbart tittar på nominalmåttet riskerar att missa det verkliga felmarginalerna i produktion.</p>
+
+<p>De viktigaste faktorerna är:</p>
+
+<ul>
+  <li><strong>Materialets svinn:</strong> Alla termoplaster krymper när de svalnar från smälta till fast form. Svinnet varierar typiskt 0,3–3 % beroende på material och är sällan helt symmetriskt i en komplex detalj.</li>
+  <li><strong>Verktygstillverkning:</strong> EDM- och CNC-bearbetning av stålverktyg ger en geometrisk noggrannhet på ±0,005–0,02 mm i kaviteten — detta är golvet för vad som är möjligt.</li>
+  <li><strong>Processvariationer:</strong> Smälttemperatur, injektionshastighet, hålltryck och formtemperatur varierar något från skott till skott och cykel till cykel, vilket ger upphov till dimensionell spridning.</li>
+  <li><strong>Antal kaviteter:</strong> I ett flerkavitetsverktyg är det nästan omöjligt att få identiska mått från alla kaviteter — fyllnadsbalans och temperaturgradienter skapar systematiska avvikelser.</li>
+  <li><strong>Restspänningar:</strong> Härdning under tryck ger inre spänningar som kan relaxera och förändra måtten över tid, särskilt i amorf plast som ABS och PC.</li>
+</ul>
+
+<p>Att förstå dessa mekanismer är grunden för att sätta rimliga toleranskrav. För en djupare genomgång av hur material​egenskaperna inverkar, se vår guide till <a href="https://jelmtech.se/produktutveckling/konstruktionsplast-egenskaper-guide/">konstruktionsplasters egenskaper</a>.</p>
+
+<h2>Typiska toleransvärden och ISO 16742</h2>
+
+<p>Den internationella standarden ISO 16742 delar in formsprutade plastdetaljer i fem toleransklasser (A till E) baserat på uppnåelig noggrannhet i produktion. I praktiken arbetar de flesta leverantörer med tre nivåer:</p>
+
+<table>
+  <thead>
+    <tr><th>Nivå</th><th>Tolerans vid 50 mm (±)</th><th>Typisk användning</th><th>Relativ kostnad</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Standard (ISO klass D–E)</td><td>±0,20–0,40 mm</td><td>Höljen, kåpor, icke-funktionella ytor</td><td>Låg</td></tr>
+    <tr><td>Precisionsformsprutning (ISO klass B–C)</td><td>±0,05–0,15 mm</td><td>Passningsytor, snäppförband, monteringshål</td><td>Medel–hög</td></tr>
+    <tr><td>Finklass (ISO klass A)</td><td>±0,02–0,05 mm</td><td>Optiska komponenter, medicinteknik, täta tätningssäten</td><td>Hög–mycket hög</td></tr>
+  </tbody>
+</table>
+
+<p>Som tumregel gäller att toleransen skalas med nominalmåttet: ett mått på 100 mm tillåter ungefär dubbelt så stor absolut avvikelse som ett mått på 50 mm, eftersom svinnet är proportionellt. Ritningskrav som inte tar hänsyn till detta leder till onödigt dyra processjusteringar.</p>
+
+<h2>Hur materialet påverkar uppnåeliga toleranser</h2>
+
+<p>Materialvalet är ofta den enskilt viktigaste faktorn för vad som är realistiskt att uppnå. Semikristallina plaster — polyamid (PA), POM och polypropylen (PP) — svinnar mer och mer ojämnt än amorf plast som ABS, PC och PMMA.</p>
+
+<ul>
+  <li><strong>ABS / PC-ABS:</strong> Svinn 0,3–0,8 %. Lämplig för precisionsformsprutning ned till ±0,05 mm på kritiska mått.</li>
+  <li><strong>Polyamid (PA6 / PA66):</strong> Svinn 0,8–2,0 % och fuktberoende sväll på 0,3–3 %. Tolerans­sättning måste inkludera fukttillståndet vid montering; torrt PA kan skilja sig 0,2–0,5 % från konditionerat PA på 100 mm.</li>
+  <li><strong>POM / acetal:</strong> Svinn 1,8–2,5 %, men förutsägbart och symmetriskt. Ger utmärkt dimensionsstabilitet efter verktygs­korrigering — en av anledningarna till att POM väljs för precisionsdetaljer som kugg​hjul och lager.</li>
+  <li><strong>PP (homo/kopo):</strong> Svinn 1,5–2,5 % med tydlig riktningsberoende (anisotropi) vid armerade eller fyllda typer. Standard PP är utmanande att hålla under ±0,15 mm utan extra processkontroll.</li>
+  <li><strong>Glasfiberarmerad plast (PA-GF, PP-GF):</strong> Armering minskar totalsvinnet men ökar anisotropin — dvs. svinnet i flödesriktningen skiljer sig markant från tvärriktningen. Toleranser i flödesriktning kan vara dubbelt sämre jämfört med ren plast.</li>
+</ul>
+
+<h2>Konstruktionsregler som förbättrar toleranser</h2>
+
+<p>Toleransen avgörs inte bara av verktyg och process — konstruktörens val av geometri, väggtjocklek och materialval spelar minst lika stor roll. Följande regler minskar spridningen utan att öka verktygs­kostnaden:</p>
+
+<ol>
+  <li><strong>Jämn väggtjocklek:</strong> Varierande vägg​tjocklekar ger olika svalnings­hastigheter och skapar inre spänningar som förvränger måtten. Håll variationen inom ±25 % av nominell väggtjocklek.</li>
+  <li><strong>Lägg mätytor nära inloppet:</strong> Flödesvägen påverkar packningsgrad och svinn — måttkritiska ytor bör placeras nära inloppet i flödesriktningen.</li>
+  <li><strong>Undvik tjocka sektioner:</strong> Sektioner tjockare än 4–5 mm ger ojämn svalning och risk för inre krympning (sink marks, void). Urholka tjocka väggar med ribbor istället.</li>
+  <li><strong>Specificera måttreferens tydligt:</strong> Ange om toleransen gäller verktygsdelad yta, kärna eller bakflödesyta — toleransen skiljer sig systematiskt beroende på var i verktyget mätytan finns.</li>
+  <li><strong>Räkna med monteringskondition:</strong> För PA och andra fuktabsorberande material: ange om toleransen gäller torrt material (as-molded) eller konditionerat (ISO 1110). Skillnaden kan vara avgörande för täta passningar.</li>
+</ol>
+
+<p>En genomarbetad DFM-genomgång (Design for Manufacturability) tidigt i projektet identifierar toleranskonflikter innan verktygs­stål bearbetas. Läs mer om hur Jelmtech arbetar med <a href="https://jelmtech.se/produktutveckling/formsprutad-detalj-fran-konstruktion-till-fardig-komponent/">konstruktion till färdig komponent</a> för att se hur DFM integreras i processen.</p>
+
+<h2>Toleranskrav och verktygs­kostnad — sambandet du behöver känna till</h2>
+
+<p>Snävare toleranskrav driver kostnaden i hela leverans­kedjan, inte bara i verktygstillverkningen. Kostnadskonsekvenserna är:</p>
+
+<ul>
+  <li><strong>Verktyg:</strong> Precisionsbearbetning (EDM, HSC-fräsning) i hårdare stål ökar verktygs­kostnaden 20–50 % jämfört med standardverktyg. Kräver exaktare temperatur­reglering i verktyget.</li>
+  <li><strong>Processtid:</strong> Längre hålltider, lägre injektionshastigheter och fler kontrollpunkter ökar cykel­tiden — direkt kopplat till styckkostnad.</li>
+  <li><strong>Kassation och kontroll:</strong> Snäva toleranser kräver 100 %-mätning eller statistisk processkontroll (SPC) med CMM, vilket adderar kostnad per detalj.</li>
+  <li><strong>Verktygs­korrigeringar:</strong> Första provskott är sällan inom tolerans vid precisionsformsprutning — räkna med 1–3 korrigeringscykler på verktyget.</li>
+</ul>
+
+<p>Den ekonomiskt rationella strategin är att applicera snäva toleranser selektivt: enbart på funktionskritiska mått och passningsytor. Övriga mått ges ISO klass D–E för att hålla nere verktygs- och styckkostnad. Se vår guide om <a href="https://jelmtech.se/produktutveckling/kostnad-formsprutningsverktyg/">kostnad för formsprutningsverktyg</a> för en samlad bild av hur toleranskrav påverkar investeringen.</p>
+
+<h2>Vanliga frågor om toleranser vid formsprutning</h2>
+
+<p><strong>Vilken är den snävaste tolerans som är möjlig att uppnå i serieproduktion?</strong><br>
+Med precisionsformsprutning i hårdade stålverktyg, tempererad form och amorf plast (t.ex. PC eller PMMA) är ±0,02–0,03 mm möjligt på korta mått under 20 mm. På längre mått (50–100 mm) är ±0,05–0,08 mm ett realistiskt golv i seriepro­duktion. Tänk på att verktygsdelningsplanet alltid ger en extra toleranskälla på ±0,05–0,10 mm som adderas till kavitets­toleransen.</p>
+
+<p><strong>Varför stämmer inte de formsprutade detaljernas mått med CAD-modellen trots korrekt verktyg?</strong><br>
+Det vanligaste skälet är att svinnet kompenserades felaktigt — antingen med fel svinnsats i verktyget eller att materialet i produktion beter sig annorlunda än testmaterialet. Andra orsaker är fukt­sväll i hygroskopisk plast, restspänningar som relaxerar under de första dagarna efter form­sprutning, eller att mätningen gjordes direkt efter form utan att detaljen stabiliserats till rumstemperatur. En 24-timmars konditionerings­tid (ISO 291) bör alltid tillämpas innan mätning mot ritnings­toleransen.</p>
+
+<p><strong>Kan man uppnå bättre toleranser med CNC-efterbearbetning av formsprutade detaljer?</strong><br>
+Ja — kombinationen formsprutad grundform och selektiv CNC-bearbetning på kritiska ytor är vanlig för precisionskomponenter, t.ex. lager­säten, gängor och tätnings­spår. Formsprutning ger netto­form på alla icke-kritiska ytor till låg kostnad, medan CNC-steget ger toleranser ned till ±0,01 mm på de ytor som kräver det. Metoden motiveras ekonomiskt när antalet detaljer är tillräckligt högt för att sprida CNC-kostnaden, eller när kavitets­kostnad för direkt precisionsformsprutning överstiger bearbetnings­kostnaden.</p>
