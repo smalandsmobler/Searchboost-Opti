@@ -18,7 +18,8 @@ Inga regressioner 2026-06-18 (Blockerad — körning #25, EC2 503 + perispa sakn
 Inga regressioner 2026-06-19 (Blockerad — körning #26, EC2 503 + perispa_* saknas + BQ-creds saknas)
 Inga regressioner 2026-06-20 (Blockerad — körning #27, EC2 TLS-fel + perispa_* saknas + BQ-creds saknas)
 Inga regressioner 2026-06-21 (Blockerad — körning #28, EC2 TLS-fel + perispa_* saknas + BQ-creds saknas)
-Senaste check: 2026-06-21
+Inga regressioner 2026-06-22 (Blockerad — körning #29, EC2 TLS-fel + perispa_* saknas + BQ-creds saknas)
+Senaste check: 2026-06-22
 
 ## Pågående arbete
 - 896 produkter importerade till ny WooCommerce-sajt
