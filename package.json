@@ -3,5 +3,9 @@
   "dependencies": {
     "playwright": "^1.58.2",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@aws-sdk/client-ssm": "^3.1075.0",
+    "@google-cloud/bigquery": "^8.3.1"
   }
 }
