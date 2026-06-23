@@ -29,7 +29,40 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-21 (söndag) — LIVE
+### Veckosammanfattning 2026-06-23 (måndag v26) — LIVE
+> **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 29 körningar i rad**
+> **ESKALERING KRITISK — 9 VECKOR UTAN RANKINGDATA**
+
+| Kund | GSC-status | Keywords topp 20 | Regressioner |
+|------|-----------|-----------------|-------------|
+| searchboost | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| mobelrondellen | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| smalandskontorsmobler | ✅ Konfigurerad | Ej hämtbar (blockad) | Okänd |
+| jelmtech | ⛔ Ej kopplad | — | N/A |
+| ilmonte | ⛔ Ej ägare | — | N/A |
+| humanpower | ⛔ Ej aktiv | — | N/A |
+| nordicsnusonline | ⛔ Ej aktiv | — | N/A |
+| tobler | ⛔ Ej konfigurerad | — | N/A |
+| traficator | ⛔ Ej konfigurerad | — | N/A |
+
+_Körning #29 (2026-06-23) — Nya blockerare testad: AWS_ACCESS_KEY_ID/AWS_SECRET_ACCESS_KEY finns i miljön men tillhör Claude Code:s egna AWS-konto (ej Searchboost 176823989073) — UnrecognizedClientException vid SSM-anrop mot eu-north-1._
+
+_Kvarstående blockerare:_
+- _EC2-API: TLS-fel (self-signed cert, Envoy-proxy avvisar)_
+- _`perispa_switch_site` / `perispa_gsc_top_queries`: Ej tillgängliga i sessionen_
+- _AWS SSM: Credentials i miljön = fel konto — kan ej hämta BigQuery-credentials_
+- _GOOGLE\_APPLICATION\_CREDENTIALS\_JSON: Ej satt i environment_
+
+**🔓 ENDA KVARVARANDE LÖSNING:**
+Lägg BigQuery service account JSON direkt i Claude Code Settings → Environment Variables:
+```
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account","project_id":"searchboost-485810",...}
+```
+→ BigQuery SDK installerat och fungerande — enda manglande bit är credentials-JSON.
+
+---
+
+### Regressionscheck 2026-06-21 (söndag) — arkiverad
 > **Körning #28 i rad — fortfarande blockerad**
 
 _Ingen data — EC2 returnerar TLS-fel (self-signed cert, Envoy-proxy avvisar `-k`), `perispa_*`/BigQuery-credentials ej tillgängliga._
