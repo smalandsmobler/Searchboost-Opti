@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nordic Snus Online — Buy Tobacco-Free Nicotine Pouches</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --forest: #1a3a2a;
+    --forest-mid: #2c5f2d;
+    --forest-light: #3d7a3f;
+    --sage: #8bab7f;
+    --mint: #e8f0e4;
+    --cream: #faf8f5;
+    --amber: #d4952b;
+    --amber-light: #f0c76e;
+    --white: #ffffff;
+    --charcoal: #1c1c1c;
+    --text: #2a2a2a;
+    --text-muted: #6b6b6b;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --shadow-soft: 0 4px 24px rgba(26,58,42,0.08);
+    --shadow-card: 0 2px 12px rgba(26,58,42,0.06);
+    --shadow-hover: 0 8px 32px rgba(26,58,42,0.12);
+    --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ============================================
+     ANNOUNCEMENT BAR
+     ============================================ */
+  .announcement {
+    background: var(--forest);
+    color: var(--mint);
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .announcement strong { color: var(--amber-light); }
+
+  /* ============================================
+     NAVIGATION
+     ============================================ */
+  .nav {
+    background: var(--white);
+    border-bottom: 1px solid rgba(26,58,42,0.06);
+    padding: 0 clamp(20px, 4vw, 60px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.95);
+  }
+  .nav-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.35rem;
+    color: var(--forest);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-logo .flag {
+    width: 24px;
+    height: 16px;
+    background: linear-gradient(180deg, #006aa7 40%, #006aa7 40%, #fecc00 40%, #fecc00 60%, #006aa7 60%);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 500;
+    position: relative;
+    transition: color var(--transition);
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--forest-mid);
+    transition: width var(--transition);
+  }
+  .nav-links a:hover { color: var(--forest-mid); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--forest);
+    color: var(--white);
+    padding: 10px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .nav-cta:hover {
+    background: var(--forest-mid);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ============================================
+     HERO
+     ============================================ */
+  .hero {
+    background: linear-gradient(165deg, var(--forest) 0%, #224832 55%, var(--forest-mid) 100%);
+    position: relative;
+    overflow: hidden;
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(139,171,127,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(212,149,43,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 60px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 6px 16px 6px 8px;
+    font-size: 0.8rem;
+    color: var(--mint);
+    margin-bottom: 24px;
+    backdrop-filter: blur(8px);
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    color: var(--white);
+    line-height: 1.12;
+    margin-bottom: 20px;
+    animation: fadeDown 0.8s 0.15s ease both;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber-light);
+  }
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    animation: fadeDown 0.8s 0.45s ease both;
+  }
+  .btn-primary {
+    background: var(--amber);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition);
+    cursor: pointer;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary:hover {
+    background: #c08520;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212,149,43,0.35);
+  }
+  .btn-secondary {
+    background: rgba(255,255,255,0.08);
+    color: var(--white);
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.35);
+  }
+
+  /* Hero right — product showcase */
+  .hero-visual {
+    position: relative;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+  .hero-product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .hero-product {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius);
+    padding: 24px 16px;
+    text-align: center;
+    backdrop-filter: blur(8px);
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .hero-product:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.18);
+  }
+  .hero-product:first-child { grid-row: span 2; display: flex; flex-direction: column; justify-content: center; }
+  .hero-product .product-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    margin: 0 auto 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+  }
+  .hero-product:first-child .product-img {
+    width: 120px;
+    height: 120px;
+    font-size: 3rem;
+  }
+  .hero-product .product-name {
+    font-weight: 600;
+    color: var(--white);
+    font-size: 0.9rem;
+    margin-bottom: 4px;
+  }
+  .hero-product .product-flavor {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.78rem;
+  }
+
+  /* ============================================
+     TRUST BAR
+     ============================================ */
+  .trust-bar {
+    background: var(--white);
+    border-bottom: 1px solid rgba(26,58,42,0.06);
+    padding: 28px clamp(20px, 4vw, 60px);
+  }
+  .trust-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: clamp(24px, 5vw, 64px);
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .trust-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--mint);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--forest-mid);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ============================================
+     CATEGORIES
+     ============================================ */
+  .categories {
+    padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 60px);
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--forest-mid);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.4rem);
+    color: var(--charcoal);
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    color: var(--text-muted);
+    font-size: 1rem;
+    max-width: 520px;
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .cat-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 40px 28px;
+    text-align: center;
+    border: 1px solid rgba(26,58,42,0.06);
+    transition: all var(--transition);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--forest-mid), var(--sage));
+    opacity: 0;
+    transition: opacity var(--transition);
+  }
+  .cat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--sage);
+  }
+  .cat-card:hover::before { opacity: 1; }
+  .cat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+  }
+  .cat-card:nth-child(1) .cat-icon { background: linear-gradient(135deg, #e8f0e4, #d0e4c8); }
+  .cat-card:nth-child(2) .cat-icon { background: linear-gradient(135deg, #fef3c7, #fde68a); }
+  .cat-card:nth-child(3) .cat-icon { background: linear-gradient(135deg, #e0e7ff, #c7d2fe); }
+  .cat-name {
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    margin-bottom: 6px;
+  }
+  .cat-count {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .cat-arrow {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest-mid);
+    transition: gap var(--transition);
+  }
+  .cat-card:hover .cat-arrow { gap: 10px; }
+
+  /* ============================================
+     BRANDS MARQUEE
+     ============================================ */
+  .brands-section {
+    background: var(--forest);
+    padding: clamp(50px, 6vw, 80px) clamp(20px, 4vw, 60px);
+    overflow: hidden;
+  }
+  .brands-section .section-label { color: var(--sage); text-align: center; }
+  .brands-section .section-title { color: var(--white); text-align: center; }
+  .brands-section .section-sub { color: rgba(255,255,255,0.5); text-align: center; margin: 0 auto 40px; }
+  .brand-track {
+    display: flex;
+    gap: 20px;
+    animation: marquee 30s linear infinite;
+    width: max-content;
+  }
+  .brand-chip {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 100px;
+    padding: 12px 28px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .brand-chip:hover {
+    background: rgba(255,255,255,0.12);
+    color: var(--white);
+  }
+
+  /* ============================================
+     WHY US
+     ============================================ */
+  .why-section {
+    padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 60px);
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .why-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    border: 1px solid rgba(26,58,42,0.06);
+    transition: all var(--transition);
+  }
+  .why-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+  }
+  .why-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--mint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+    color: var(--forest-mid);
+  }
+  .why-card h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+  .why-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  /* ============================================
+     GUIDES / ARTICLES
+     ============================================ */
+  .guides-section {
+    background: var(--mint);
+    padding: clamp(60px, 8vw, 100px) clamp(20px, 4vw, 60px);
+  }
+  .guides-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .guides-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .guide-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(26,58,42,0.06);
+    transition: all var(--transition);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .guide-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  .guide-thumb {
+    height: 160px;
+    background: linear-gradient(135deg, var(--forest), var(--forest-mid));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .guide-thumb::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.2) 100%);
+  }
+  .guide-body {
+    padding: 24px;
+  }
+  .guide-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--forest-mid);
+    margin-bottom: 8px;
+  }
+  .guide-body h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+  .guide-body p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .guide-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--forest-mid);
+    margin-top: 14px;
+    transition: gap var(--transition);
+  }
+  .guide-card:hover .guide-read { gap: 10px; }
+
+  /* ============================================
+     CTA BANNER
+     ============================================ */
+  .cta-banner {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 60px);
+  }
+  .cta-inner {
+    background: linear-gradient(135deg, var(--forest) 0%, #224832 50%, var(--forest-mid) 100%);
+    border-radius: var(--radius-lg);
+    padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 64px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-inner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(212,149,43,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta-inner h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    color: var(--white);
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-inner p {
+    color: rgba(255,255,255,0.65);
+    font-size: 1.05rem;
+    max-width: 500px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+  .cta-inner .btn-primary { position: relative; z-index: 1; font-size: 1.05rem; padding: 16px 36px; }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .footer {
+    background: var(--charcoal);
+    color: rgba(255,255,255,0.5);
+    padding: 60px clamp(20px, 4vw, 60px) 32px;
+  }
+  .footer-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+  .footer-desc {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    max-width: 280px;
+  }
+  .footer h4 {
+    color: var(--white);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+  }
+  .footer ul { list-style: none; }
+  .footer ul li { margin-bottom: 10px; }
+  .footer ul a {
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color var(--transition);
+  }
+  .footer ul a:hover { color: var(--white); }
+  .footer-bottom {
+    max-width: 1320px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+  }
+  .footer-payments {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .payment-icon {
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ============================================
+     ANIMATIONS
+     ============================================ */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 1024px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .cat-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); }
+    .guides-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="announcement">
+  <strong>FREE SHIPPING</strong> on orders over 500 SEK &mdash; Shipped from Lidkoping, Sweden
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <span class="flag"></span>
+      Nordic Snus Online
+    </a>
+    <ul class="nav-links">
+      <li><a href="/snus-shop/">Shop</a></li>
+      <li><a href="/product-category/all-white/">Nicotine Pouches</a></li>
+      <li><a href="/product-category/nicotine-free/">Nicotine Free</a></li>
+      <li><a href="/brands/">Brands</a></li>
+      <li><a href="/sv/nikotinpasar-guide-2026/">Guides</a></li>
+    </ul>
+    <a href="/snus-shop/" class="nav-cta">Shop Now</a>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Shipped fresh from Sweden
+      </div>
+      <h1>Premium Tobacco-Free <em>Nicotine&nbsp;Pouches</em></h1>
+      <p class="hero-sub">
+        Discover our curated selection of ZYN, VELO, SKRUF and more.
+        100% tobacco-free, shipped worldwide from Lidkoping, Sweden.
+      </p>
+      <div class="hero-actions">
+        <a href="/snus-shop/" class="btn-primary">
+          Shop All Products
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+        </a>
+        <a href="/brands/" class="btn-secondary">Browse Brands</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-product-grid">
+        <div class="hero-product">
+          <div class="product-img">Z</div>
+          <div class="product-name">ZYN</div>
+          <div class="product-flavor">Cool Mint &bull; 6mg</div>
+        </div>
+        <div class="hero-product">
+          <div class="product-img">V</div>
+          <div class="product-name">VELO</div>
+          <div class="product-flavor">Ice Cool</div>
+        </div>
+        <div class="hero-product">
+          <div class="product-img">S</div>
+          <div class="product-name">SKRUF</div>
+          <div class="product-flavor">Fresh White</div>
+        </div>
+        <div class="hero-product">
+          <div class="product-img">K</div>
+          <div class="product-name">Kelly White</div>
+          <div class="product-flavor">Tropical</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Bar -->
+<div class="trust-bar">
+  <div class="trust-inner">
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      100% Tobacco-Free
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      Trusted Since 2024
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      Shipped from Sweden
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      Worldwide Delivery
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      Secure Checkout
+    </div>
+  </div>
+</div>
+
+<!-- Categories -->
+<section class="categories">
+  <div class="section-label">Shop by Category</div>
+  <h2 class="section-title">Find Your Perfect Pouch</h2>
+  <p class="section-sub">From mild to extra strong, mint to tropical — we have over 100 products to match your preference.</p>
+
+  <div class="cat-grid">
+    <a href="/product-category/all-white/" class="cat-card">
+      <div class="cat-icon">
+        <svg width="28" height="28" fill="none" stroke="#2c5f2d" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
+      </div>
+      <div class="cat-name">All White Pouches</div>
+      <div class="cat-count">86 products</div>
+      <div class="cat-arrow">Browse <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+    </a>
+    <a href="/product-category/nicotine-free/" class="cat-card">
+      <div class="cat-icon">
+        <svg width="28" height="28" fill="none" stroke="#d4952b" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M15 9l-6 6m0-6l6 6"/></svg>
+      </div>
+      <div class="cat-name">Nicotine Free</div>
+      <div class="cat-count">13 products</div>
+      <div class="cat-arrow">Browse <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+    </a>
+    <a href="/brands/" class="cat-card">
+      <div class="cat-icon">
+        <svg width="28" height="28" fill="none" stroke="#4f46e5" stroke-width="2" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1" fill="#4f46e5"/></svg>
+      </div>
+      <div class="cat-name">All Brands</div>
+      <div class="cat-count">ZYN, VELO, SKRUF &amp; more</div>
+      <div class="cat-arrow">Browse <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+    </a>
+  </div>
+</section>
+
+<!-- Brands Marquee -->
+<section class="brands-section">
+  <div class="section-label">Our Brands</div>
+  <h2 class="section-title">Trusted Brands, Shipped Fresh</h2>
+  <p class="section-sub">We work directly with Scandinavia's best nicotine pouch manufacturers.</p>
+  <div style="overflow:hidden;">
+    <div class="brand-track">
+      <span class="brand-chip">ZYN</span>
+      <span class="brand-chip">VELO</span>
+      <span class="brand-chip">ZONE X</span>
+      <span class="brand-chip">SKRUF</span>
+      <span class="brand-chip">Kelly White</span>
+      <span class="brand-chip">LEWA</span>
+      <span class="brand-chip">Klint</span>
+      <span class="brand-chip">Helwit</span>
+      <span class="brand-chip">Iceberg</span>
+      <span class="brand-chip">Dope</span>
+      <span class="brand-chip">on!</span>
+      <span class="brand-chip">Qvitt</span>
+      <!-- duplicate for seamless loop -->
+      <span class="brand-chip">ZYN</span>
+      <span class="brand-chip">VELO</span>
+      <span class="brand-chip">ZONE X</span>
+      <span class="brand-chip">SKRUF</span>
+      <span class="brand-chip">Kelly White</span>
+      <span class="brand-chip">LEWA</span>
+      <span class="brand-chip">Klint</span>
+      <span class="brand-chip">Helwit</span>
+      <span class="brand-chip">Iceberg</span>
+      <span class="brand-chip">Dope</span>
+      <span class="brand-chip">on!</span>
+      <span class="brand-chip">Qvitt</span>
+    </div>
+  </div>
+</section>
+
+<!-- Why Us -->
+<section class="why-section">
+  <div class="section-label">Why Nordic Snus Online</div>
+  <h2 class="section-title">The Scandinavian Difference</h2>
+  <p class="section-sub">We're not just another online store. We're snus enthusiasts based in Sweden, shipping quality worldwide.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <h3>Based in Sweden</h3>
+      <p>Packed and shipped from Lidkoping by Lake Vanern. Genuine Scandinavian origin.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+      </div>
+      <h3>Fast Global Shipping</h3>
+      <p>We deliver worldwide with tracked shipping. Most EU orders arrive in 3-5 business days.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h3>Secure Payments</h3>
+      <p>Pay safely with Mollie, PayPal, Qliro, or WooPayments. All data encrypted.</p>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <h3>Personal Service</h3>
+      <p>Small team, big care. Questions? We respond personally, usually within hours.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Guides / Articles -->
+<section class="guides-section">
+  <div class="guides-inner">
+    <div class="section-label">Learn More</div>
+    <h2 class="section-title">Guides & Articles</h2>
+    <p class="section-sub">Everything you need to know about nicotine pouches, from beginner guides to brand comparisons.</p>
+
+    <div class="guides-grid">
+      <a href="/sv/nikotinpasar-guide-2026/" class="guide-card">
+        <div class="guide-thumb" style="background: linear-gradient(135deg, #1a3a2a, #3d7a3f);">
+          <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <div class="guide-body">
+          <div class="guide-tag">Beginner Guide</div>
+          <h3>Complete Guide to Nicotine Pouches</h3>
+          <p>Everything you need to know about tobacco-free nicotine pouches in 2026.</p>
+          <div class="guide-read">Read guide <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+        </div>
+      </a>
+      <a href="/sv/zyn-vs-velo-skillnader-2026/" class="guide-card">
+        <div class="guide-thumb" style="background: linear-gradient(135deg, #2c5f2d, #d4952b);">
+          <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/></svg>
+        </div>
+        <div class="guide-body">
+          <div class="guide-tag">Comparison</div>
+          <h3>ZYN vs VELO — Which One Should You Choose?</h3>
+          <p>Side-by-side comparison of the two most popular nicotine pouch brands.</p>
+          <div class="guide-read">Read guide <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+        </div>
+      </a>
+      <a href="/sv/starkast-snus-guide-2026/" class="guide-card">
+        <div class="guide-thumb" style="background: linear-gradient(135deg, #1c1c1c, #3d7a3f);">
+          <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div class="guide-body">
+          <div class="guide-tag">Expert</div>
+          <h3>Strongest Nicotine Pouches — Full Guide</h3>
+          <p>From mild to extreme — find the strength level that works for you.</p>
+          <div class="guide-read">Read guide <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Banner -->
+<section class="cta-banner">
+  <div class="cta-inner">
+    <h2>Ready to Try the Best Nicotine Pouches?</h2>
+    <p>Free shipping on orders over 500 SEK. Shipped fresh from Sweden to your doorstep.</p>
+    <a href="/snus-shop/" class="btn-primary">
+      Shop Now
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Nordic Snus Online</div>
+      <p class="footer-desc">Your trusted source for premium tobacco-free nicotine pouches, shipped fresh from Lidkoping, Sweden.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="/snus-shop/">All Products</a></li>
+        <li><a href="/product-category/all-white/">Nicotine Pouches</a></li>
+        <li><a href="/product-category/nicotine-free/">Nicotine Free</a></li>
+        <li><a href="/brands/">All Brands</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Guides</h4>
+      <ul>
+        <li><a href="/sv/nikotinpasar-guide-2026/">Nicotine Pouch Guide</a></li>
+        <li><a href="/sv/zyn-vs-velo-skillnader-2026/">ZYN vs VELO</a></li>
+        <li><a href="/sv/starkast-snus-guide-2026/">Strongest Pouches</a></li>
+        <li><a href="/sv/snus-utan-tobak-guide-2026/">Tobacco-Free Snus</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <ul>
+        <li><a href="/my-account/">My Account</a></li>
+        <li><a href="/cart/">Cart</a></li>
+        <li><a href="/checkout/">Checkout</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Nordic Snus Online. All rights reserved.</span>
+    <div class="footer-payments">
+      <span class="payment-icon">VISA</span>
+      <span class="payment-icon">MC</span>
+      <span class="payment-icon">PayPal</span>
+      <span class="payment-icon">Qliro</span>
+      <span class="payment-icon">Mollie</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

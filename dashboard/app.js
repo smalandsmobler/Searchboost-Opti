@@ -2,14 +2,65 @@
 // Connects to MCP server API on EC2
 
 const API_BASE = '';
-const VALID_USERS = ['-wum12h', 'cyt5oy', '-hjo1a']; // mikael.searchboost@gmail.com, web.searchboost@gmail.com, searchboost.web@gmail.com
-// Per-user password hashes (user hash → password hash)
+const VALID_USERS = ['-wum12h', '-hmaydw']; // mikael.searchboost@gmail.com, blackbox
 const USER_PW = {
-  '-wum12h': 'kljut5',  // mikael.searchboost@gmail.com → Alexander1982!
-  'cyt5oy':  'kljut5',  // web.searchboost@gmail.com → Alexander1982!
-  '-hjo1a':  '-9pkod'   // searchboost.web@gmail.com → Opti0195
+  '-wum12h': '5av6b9',  // mikael.searchboost@gmail.com
+  '-hmaydw': '5av6b9'
 };
 const API_KEY = 'sb-api-41bbf2ec7d8a17973d7b7ebcac07aafab9aa777feb08ce78';
+
+// ── Google OAuth ──────────────────────────────────────────────
+const GOOGLE_CLIENT_ID = '638920852931-p7k2l9n4qhvj8m3xr5d6f1t0e2s7w8ya.apps.googleusercontent.com'; // TODO: ersätt med riktigt Client ID
+
+// Alla som får logga in via Google → { role, name, defaultView }
+const ALLOWED_GOOGLE_EMAILS = {
+  'mikael.searchboost@gmail.com': { role: 'sales', name: 'Mikael',  defaultView: 'pipeline' },
+  'mikael@searchboost.se':        { role: 'sales', name: 'Mikael',  defaultView: 'pipeline' },
+  // Lägg till fler här: 'kund@foretag.se': { role: 'sales', name: 'Namn', defaultView: 'pipeline' }
+};
+
+function initGoogleLogin() {
+  if (typeof google === 'undefined' || !google.accounts) return;
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential,
+    auto_select: false,
+    cancel_on_tap_outside: false,
+  });
+  google.accounts.id.renderButton(
+    document.getElementById('googleSignInBtn'),
+    { theme: 'filled_black', size: 'large', width: 280, text: 'signin_with', shape: 'rectangular' }
+  );
+}
+
+function handleGoogleCredential(response) {
+  // Avkoda JWT payload (ingen signaturverifiering behövs för display — vi litar på Google)
+  try {
+    const payload = JSON.parse(atob(response.credential.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    const email = (payload.email || '').toLowerCase();
+    const profile = ALLOWED_GOOGLE_EMAILS[email];
+    if (!profile) {
+      document.getElementById('loginError').textContent = 'Inte behörig: ' + email;
+      document.getElementById('loginError').style.display = 'block';
+      return;
+    }
+    _loginSuccess(profile, payload.given_name || profile.name);
+  } catch (e) {
+    document.getElementById('loginError').textContent = 'Google-inloggning misslyckades';
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+function _loginSuccess(profile, displayName) {
+  sessionStorage.setItem('opti_auth', '1');
+  sessionStorage.setItem('opti_role', profile.role);
+  sessionStorage.setItem('opti_user', displayName || profile.name);
+  sessionStorage.setItem('opti_default_view', profile.defaultView);
+  document.getElementById('loginOverlay').style.display = 'none';
+  document.getElementById('appShell').style.display = 'block';
+  applyRoleUI();
+  navigateToView(profile.defaultView);
+}
 
 // ── Role mapping ─────────────────────────────────────────────
 const USER_ROLES = {
@@ -64,16 +115,8 @@ function doLogin() {
   const pwHash = simpleHash(pw);
   const expectedPw = USER_PW[userHash];
   if (VALID_USERS.includes(userHash) && expectedPw && pwHash === expectedPw) {
-    const profile = USER_ROLES[userHash] || { role: 'sales', name: user.split('@')[0], title: 'Anvandare', defaultView: 'overview' };
-    sessionStorage.setItem('opti_auth', '1');
-    sessionStorage.setItem('opti_role', profile.role);
-    sessionStorage.setItem('opti_user', profile.name);
-    sessionStorage.setItem('opti_default_view', profile.defaultView);
-    document.getElementById('loginOverlay').style.display = 'none';
-    document.getElementById('appShell').style.display = 'block';
-    applyRoleUI();
-    // Navigate to role's default view
-    navigateToView(profile.defaultView);
+    const profile = USER_ROLES[userHash] || { role: 'sales', name: user.split('@')[0], defaultView: 'overview' };
+    _loginSuccess(profile, profile.name);
   } else {
     document.getElementById('loginError').style.display = 'block';
   }
@@ -245,12 +288,19 @@ function navigateToView(viewName) {
   loadView(viewName);
 }
 
+// Google Identity Services — anropas när biblioteket är laddat
+window.onGoogleLibraryLoad = initGoogleLogin;
+
 // Auto-login if session exists
 (function() {
   if (sessionStorage.getItem('opti_auth') === '1') {
     document.getElementById('loginOverlay').style.display = 'none';
     document.getElementById('appShell').style.display = 'block';
     applyRoleUI();
+    navigateToView(sessionStorage.getItem('opti_default_view') || 'pipeline');
+  } else {
+    // Försök rendera Google-knappen om biblioteket redan hann ladda
+    initGoogleLogin();
   }
 })();
 
@@ -1071,6 +1121,11 @@ async function loadView(view) {
     case 'reports': return loadReports();
     case 'security': return loadSecurity();
     case 'content-blueprint': return loadContentBlueprint();
+    case 'linkedin': return loadLinkedInView();
+    case 'prospect-auto': return loadProspectAuto();
+    case 'programmatic-seo': return loadProgrammaticSEO();
+    case 'competitor-intel': return loadCompetitorIntel();
+    case 'ace': return loadACE();
   }
 }
 
@@ -4084,5 +4139,472 @@ function previewSavedSite(filename) {
     iframe.src = `/api/sites/${filename}`;
     $('#sitegen-preview').style.display = 'block';
     $('#sitegen-tweak').style.display = 'block';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROSPECT AUTO-PIPELINE VIEW
+// ═══════════════════════════════════════════════════════════════
+
+async function loadProspectAuto() {
+  const container = $('#view-prospect-auto');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h1>Automatisk Prospektering</h1>
+      <p class="page-sub">AI-driven prospektering: crawla, auditera, generera pitch, skicka outreach.</p>
+    </div>
+    <div class="prospect-auto-stats" id="prospect-auto-stats">Laddar...</div>
+    <div class="prospect-auto-actions" style="margin: 16px 0; display: flex; gap: 12px;">
+      <button class="btn-primary" onclick="showAddProspectModal()">+ Lägg till prospect</button>
+    </div>
+    <div class="prospect-auto-table" id="prospect-auto-table">Laddar...</div>
+  `;
+
+  try {
+    const [stats, prospects] = await Promise.all([
+      api('/api/prospects/stats'),
+      api('/api/prospects/pipeline?limit=50')
+    ]);
+
+    // Stats
+    const statsEl = $('#prospect-auto-stats');
+    const totalCount = stats.reduce((sum, s) => sum + (s.count || 0), 0);
+    const avgScore = stats.reduce((sum, s) => sum + (s.avg_score || 0) * (s.count || 0), 0) / (totalCount || 1);
+    const outreachSent = stats.reduce((sum, s) => sum + (s.outreach_sent || 0), 0);
+
+    statsEl.innerHTML = `
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-val">${totalCount}</div><div class="stat-lbl">Prospects</div></div>
+        <div class="stat-card"><div class="stat-val">${Math.round(avgScore)}</div><div class="stat-lbl">Snitt SEO-score</div></div>
+        <div class="stat-card"><div class="stat-val">${outreachSent}</div><div class="stat-lbl">Outreach skickat</div></div>
+        <div class="stat-card"><div class="stat-val">${stats.find(s => s.stage === 'meeting_booked')?.count || 0}</div><div class="stat-lbl">Möten bokade</div></div>
+      </div>
+    `;
+
+    // Table
+    const tableEl = $('#prospect-auto-table');
+    if (!prospects.length) {
+      tableEl.innerHTML = '<p class="empty-state">Inga prospects ännu. Lägg till manuellt eller kör prospect-crawler Lambda.</p>';
+      return;
+    }
+
+    const stageColors = {
+      new: '#888', audited: '#00d4ff', outreach_sent: '#e91e8c',
+      replied: '#7c4dff', meeting_booked: '#00e676', lost: '#ef4444'
+    };
+
+    tableEl.innerHTML = `
+      <table class="data-table">
+        <thead><tr>
+          <th>Företag</th><th>Sajt</th><th>SEO-score</th><th>Problem</th><th>Stage</th><th>Pitch</th><th>Datum</th>
+        </tr></thead>
+        <tbody>
+          ${prospects.map(p => `
+            <tr>
+              <td><strong>${p.company_name || '—'}</strong></td>
+              <td><a href="${p.website_url}" target="_blank" style="color:#58a6ff">${(p.website_url || '').replace(/https?:\/\//, '').slice(0, 30)}</a></td>
+              <td><span class="score-badge" style="background: ${(p.seo_score || 0) > 70 ? '#00e676' : (p.seo_score || 0) > 40 ? '#ff9800' : '#ef4444'}30; color: ${(p.seo_score || 0) > 70 ? '#00e676' : (p.seo_score || 0) > 40 ? '#ff9800' : '#ef4444'}">${p.seo_score ?? '—'}/100</span></td>
+              <td>${p.issues_found ?? '—'}</td>
+              <td><span class="stage-pill" style="color: ${stageColors[p.stage] || '#888'}">${p.stage || 'new'}</span></td>
+              <td class="pitch-cell">${p.pitch_subject ? `<span title="${(p.pitch_text || '').slice(0, 200)}">${p.pitch_subject}</span>` : '—'}</td>
+              <td>${p.created_at ? new Date(p.created_at).toLocaleDateString('sv-SE') : '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (err) {
+    container.innerHTML += `<p style="color:#ef4444">Fel: ${err.message}</p>`;
+  }
+}
+
+function showAddProspectModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-content" style="max-width: 500px;">
+      <h2>Lägg till prospect</h2>
+      <div class="form-group"><label>Företagsnamn</label><input type="text" id="pa-company"></div>
+      <div class="form-group"><label>Webbplats *</label><input type="url" id="pa-website" placeholder="https://"></div>
+      <div class="form-group"><label>Bransch</label><input type="text" id="pa-industry"></div>
+      <div class="form-group"><label>Stad</label><input type="text" id="pa-city"></div>
+      <div class="form-group"><label>E-post</label><input type="email" id="pa-email"></div>
+      <div class="form-group"><label>Telefon</label><input type="text" id="pa-phone"></div>
+      <div style="display:flex;gap:12px;margin-top:16px;">
+        <button class="btn-primary" onclick="submitProspect()">Spara</button>
+        <button class="btn-ghost" onclick="this.closest('.modal-overlay').remove()">Avbryt</button>
+      </div>
+      <div id="pa-status" style="margin-top:12px;"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+async function submitProspect() {
+  const data = {
+    company_name: $('#pa-company').value,
+    website_url: $('#pa-website').value,
+    industry: $('#pa-industry').value,
+    city: $('#pa-city').value,
+    contact_email: $('#pa-email').value,
+    contact_phone: $('#pa-phone').value
+  };
+
+  if (!data.website_url) { $('#pa-status').textContent = 'Webbplats krävs'; return; }
+
+  try {
+    await api('/api/prospects/add', { method: 'POST', body: JSON.stringify(data) });
+    document.querySelector('.modal-overlay')?.remove();
+    loadProspectAuto();
+  } catch (err) {
+    $('#pa-status').textContent = `Fel: ${err.message}`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PROGRAMMATIC SEO VIEW
+// ═══════════════════════════════════════════════════════════════
+
+async function loadProgrammaticSEO() {
+  const container = $('#view-programmatic-seo');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h1>Programmatisk SEO</h1>
+      <p class="page-sub">Mass-generera landningssidor: produkt x stad, produkt x användningsfall, tjänst x bransch.</p>
+    </div>
+    <div class="pseo-customer-select" style="margin-bottom: 16px;">
+      <label>Välj kund: </label>
+      <select id="pseo-customer" onchange="loadPSEOCustomer(this.value)">
+        <option value="">— Välj —</option>
+        <option value="smalandskontorsmobler">Smålands Kontorsmöbler</option>
+        <option value="ilmonte">Ilmonte</option>
+        <option value="tobler">Tobler</option>
+        <option value="searchboost">Searchboost</option>
+        <option value="traficator">Traficator</option>
+        <option value="humanpower-se">Humanpower</option>
+        <option value="jelmtech">Jelmtech</option>
+      </select>
+    </div>
+    <div id="pseo-content">
+      <p class="empty-state">Välj en kund för att se genererade sidor.</p>
+    </div>
+  `;
+}
+
+async function loadPSEOCustomer(customerId) {
+  if (!customerId) return;
+  const container = $('#pseo-content');
+  container.innerHTML = 'Laddar...';
+
+  try {
+    const [pages, stats] = await Promise.all([
+      api(`/api/programmatic-seo/${customerId}`),
+      api(`/api/programmatic-seo/${customerId}/stats`)
+    ]);
+
+    let statsHtml = '';
+    if (stats.length > 0) {
+      const totalPages = stats.reduce((sum, s) => sum + (s.count || 0), 0);
+      const totalWords = stats.reduce((sum, s) => sum + (s.total_words || 0), 0);
+      const published = stats.filter(s => s.status === 'published').reduce((sum, s) => sum + (s.count || 0), 0);
+
+      statsHtml = `
+        <div class="stats-row" style="margin-bottom: 16px;">
+          <div class="stat-card"><div class="stat-val">${totalPages}</div><div class="stat-lbl">Sidor genererade</div></div>
+          <div class="stat-card"><div class="stat-val">${published}</div><div class="stat-lbl">Publicerade</div></div>
+          <div class="stat-card"><div class="stat-val">${(totalWords / 1000).toFixed(0)}k</div><div class="stat-lbl">Ord totalt</div></div>
+        </div>
+      `;
+    }
+
+    if (!pages.length) {
+      container.innerHTML = statsHtml + '<p class="empty-state">Inga programmatiska sidor genererade ännu. Kör programmatic-seo Lambda.</p>';
+      return;
+    }
+
+    const statusIcons = { generated: '&#9679;', published: '&#10003;', failed: '&#10007;' };
+    const statusColors = { generated: '#ff9800', published: '#00e676', failed: '#ef4444' };
+
+    container.innerHTML = statsHtml + `
+      <table class="data-table">
+        <thead><tr>
+          <th>Sökord</th><th>Typ</th><th>Title</th><th>Ord</th><th>Status</th><th>Datum</th>
+        </tr></thead>
+        <tbody>
+          ${pages.map(p => `
+            <tr>
+              <td><strong>${p.primary_keyword || '—'}</strong></td>
+              <td>${(p.page_type || '').replace('_', ' ')}</td>
+              <td>${p.title || '—'}</td>
+              <td>${p.word_count || '—'}</td>
+              <td><span style="color: ${statusColors[p.status] || '#888'}">${statusIcons[p.status] || '?'} ${p.status}</span></td>
+              <td>${p.created_at ? new Date(p.created_at).toLocaleDateString('sv-SE') : '—'}</td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  } catch (err) {
+    container.innerHTML = `<p style="color:#ef4444">Fel: ${err.message}</p>`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMPETITOR INTELLIGENCE VIEW
+// ═══════════════════════════════════════════════════════════════
+
+async function loadCompetitorIntel() {
+  const container = $('#view-competitor-intel');
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="page-header">
+      <h1>Konkurrensintelligens</h1>
+      <p class="page-sub">Daglig bevakning av konkurrenters SEO, innehåll och tekniska förändringar.</p>
+    </div>
+    <div style="margin-bottom: 16px;">
+      <label>Välj kund: </label>
+      <select id="ci-customer" onchange="loadCICustomer(this.value)">
+        <option value="">— Välj —</option>
+        <option value="searchboost">Searchboost</option>
+        <option value="ilmonte">Ilmonte</option>
+        <option value="smalandskontorsmobler">SMK</option>
+        <option value="tobler">Tobler</option>
+      </select>
+    </div>
+    <div id="ci-content">
+      <p class="empty-state">Välj en kund för att se konkurrentdata.</p>
+    </div>
+  `;
+}
+
+async function loadCICustomer(customerId) {
+  if (!customerId) return;
+  const container = $('#ci-content');
+  container.innerHTML = 'Laddar...';
+
+  try {
+    const [competitors, intel, alerts] = await Promise.all([
+      api(`/api/competitors/${customerId}`),
+      api(`/api/competitors/${customerId}/intel?days=30`),
+      api(`/api/competitors/${customerId}/alerts`)
+    ]);
+
+    let html = '';
+
+    // Alerts
+    if (alerts.length > 0) {
+      html += `
+        <div class="ci-alerts" style="margin-bottom: 24px;">
+          <h3 style="color: #ef4444; margin-bottom: 8px;">Varningar</h3>
+          ${alerts.map(a => `
+            <div class="alert-card" style="background: #ef444410; border: 1px solid #ef444430; border-radius: 8px; padding: 12px; margin-bottom: 8px;">
+              <strong>${a.competitor_name}</strong> (${a.scan_date})
+              <p style="color: #ccc; margin: 4px 0;">${a.ai_analysis || ''}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // Intel table
+    if (intel.length > 0) {
+      const threatColors = { low: '#00e676', medium: '#ff9800', high: '#ef4444' };
+
+      html += `
+        <table class="data-table">
+          <thead><tr>
+            <th>Konkurrent</th><th>Datum</th><th>SEO-score</th><th>Sidor</th><th>Nya</th><th>Blogg</th><th>Laddtid</th><th>Hot</th><th>Analys</th>
+          </tr></thead>
+          <tbody>
+            ${intel.map(i => `
+              <tr>
+                <td><strong>${i.competitor_name}</strong><br><small style="color:#888">${(i.competitor_url || '').replace(/https?:\/\//, '')}</small></td>
+                <td>${i.scan_date || '—'}</td>
+                <td>${i.seo_score || '—'}</td>
+                <td>${i.total_pages || '—'}</td>
+                <td style="color: ${i.new_pages > 0 ? '#ff9800' : '#888'}">${i.new_pages || 0}</td>
+                <td>${i.has_blog ? `Ja (${i.blog_post_count})` : 'Nej'}</td>
+                <td>${i.load_time_ms ? (i.load_time_ms / 1000).toFixed(1) + 's' : '—'}</td>
+                <td><span style="color: ${threatColors[i.threat_level] || '#888'}; font-weight: 700;">${(i.threat_level || '').toUpperCase()}</span></td>
+                <td style="max-width: 300px; font-size: 12px; color: #aaa;">${(i.ai_analysis || '').slice(0, 150)}${(i.ai_analysis || '').length > 150 ? '...' : ''}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    } else {
+      html += '<p class="empty-state">Ingen konkurrentdata ännu. Kör competitor-intel Lambda.</p>';
+    }
+
+    // Add competitor form
+    html += `
+      <div style="margin-top: 24px; padding: 16px; background: #111128; border: 1px solid #1a1a3e; border-radius: 8px;">
+        <h3>Lägg till konkurrent</h3>
+        <div style="display: flex; gap: 8px; margin-top: 8px;">
+          <input type="text" id="ci-comp-name" placeholder="Företagsnamn" style="flex: 1; padding: 8px; background: #0a0a1a; border: 1px solid #1a1a3e; color: #fff; border-radius: 4px;">
+          <input type="url" id="ci-comp-url" placeholder="https://konkurrent.se" style="flex: 1; padding: 8px; background: #0a0a1a; border: 1px solid #1a1a3e; color: #fff; border-radius: 4px;">
+          <input type="text" id="ci-comp-kw" placeholder="Sökord (komma-sep)" style="flex: 1; padding: 8px; background: #0a0a1a; border: 1px solid #1a1a3e; color: #fff; border-radius: 4px;">
+          <button class="btn-primary" onclick="addCompetitor('${customerId}')">Lägg till</button>
+        </div>
+        <div id="ci-add-status" style="margin-top: 8px;"></div>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  } catch (err) {
+    container.innerHTML = `<p style="color:#ef4444">Fel: ${err.message}</p>`;
+  }
+}
+
+async function addCompetitor(customerId) {
+  const data = {
+    competitor_name: $('#ci-comp-name').value,
+    competitor_url: $('#ci-comp-url').value,
+    keywords_overlap: $('#ci-comp-kw').value
+  };
+
+  if (!data.competitor_url) { $('#ci-add-status').textContent = 'URL krävs'; return; }
+
+  try {
+    await api(`/api/competitors/${customerId}`, { method: 'POST', body: JSON.stringify(data) });
+    loadCICustomer(customerId);
+  } catch (err) {
+    $('#ci-add-status').textContent = `Fel: ${err.message}`;
+  }
+}
+
+// ────────────────────────────────────────────────────────────
+// ACE — Adaptive Content Engine
+// ────────────────────────────────────────────────────────────
+
+async function loadACE() {
+  // Populera kundfilter om tomt
+  const sel = $('#ace-customer-filter');
+  if (sel && sel.options.length <= 1) {
+    try {
+      const customers = await api('/api/customers');
+      if (Array.isArray(customers)) {
+        customers.forEach(c => {
+          const o = document.createElement('option');
+          o.value = c.customer_id || c.id;
+          o.textContent = c.customer_id || c.id;
+          sel.appendChild(o);
+        });
+      }
+    } catch (_) {}
+  }
+
+  const customerId = sel?.value;
+
+  // Oversikt om ingen kund vald
+  if (!customerId) {
+    try {
+      const data = await api('/api/ace/status');
+      const container = $('#ace-overview');
+      if (data && data.customers) {
+        container.innerHTML = `
+          <div class="card" style="padding:20px">
+            <h3 style="margin:0 0 12px 0">Översikt — alla kunder</h3>
+            <table class="data-table" style="width:100%">
+              <thead><tr><th>Kund</th><th>Senast körd</th><th style="color:#00e676">BOOM</th><th>NEUTRAL</th><th style="color:#ff5252">SLUMP</th></tr></thead>
+              <tbody>
+                ${data.customers.length === 0
+                  ? '<tr><td colspan="5" style="padding:20px;color:#888">Ingen data ännu — kör momentum-analysen först</td></tr>'
+                  : data.customers.map(c => `
+                    <tr>
+                      <td><a href="#" onclick="selectACECustomer('${c.customer_id}');return false">${c.customer_id}</a></td>
+                      <td>${c.run_date || '—'}</td>
+                      <td style="color:#00e676">${c.counts.BOOM || 0}</td>
+                      <td>${c.counts.NEUTRAL || 0}</td>
+                      <td style="color:#ff5252">${c.counts.SLUMP || 0}</td>
+                    </tr>`).join('')}
+              </tbody>
+            </table>
+            ${data.note ? `<p style="color:#888;margin-top:12px;font-size:13px">${data.note}</p>` : ''}
+          </div>
+        `;
+      }
+    } catch (_) {}
+    $('#ace-count-boom').textContent = '—';
+    $('#ace-count-neutral').textContent = '—';
+    $('#ace-count-slump').textContent = '—';
+    $('#ace-tbody').innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#888">Välj en kund för att se momentum-ranking</td></tr>';
+    return;
+  }
+
+  // Specifik kund
+  try {
+    const data = await api(`/api/ace/status?customer_id=${encodeURIComponent(customerId)}`);
+    if (!data) return;
+
+    $('#ace-overview').innerHTML = '';
+    $('#ace-last-run').textContent = data.run_date ? `Senast körd: ${data.run_date} · auto-applied: ${data.auto_applied ? 'JA' : 'NEJ'}` : 'Ingen körning ännu';
+    $('#ace-count-boom').textContent = data.counts?.BOOM || 0;
+    $('#ace-count-neutral').textContent = data.counts?.NEUTRAL || 0;
+    $('#ace-count-slump').textContent = data.counts?.SLUMP || 0;
+
+    const tbody = $('#ace-tbody');
+    if (!data.items || data.items.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:40px;color:#888">Ingen momentum-data — kör analysen först</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = data.items.map(it => {
+      const colorClass = it.classification === 'BOOM' ? '#00e676'
+        : it.classification === 'SLUMP' ? '#ff5252' : '#aaa';
+      const deltaS = it.delta_sessions_pct;
+      const deltaC = it.delta_clicks_pct;
+      const deltaSDisp = `<span style="color:${deltaS >= 0 ? '#00e676' : '#ff5252'}">${deltaS >= 0 ? '+' : ''}${deltaS?.toFixed(1) || 0}%</span>`;
+      const deltaCDisp = `<span style="color:${deltaC >= 0 ? '#00e676' : '#ff5252'}">${deltaC >= 0 ? '+' : ''}${deltaC?.toFixed(1) || 0}%</span>`;
+      const title = (it.page_title || it.page_path || '').replace(/\|.*$/, '').trim().slice(0, 60);
+      return `
+        <tr>
+          <td><span style="color:${colorClass};font-weight:600">${it.classification}</span></td>
+          <td title="${it.page_path}"><strong>${title || it.page_path}</strong><br><small style="color:#666">${it.page_path}</small></td>
+          <td><strong style="color:${colorClass}">${it.momentum_score?.toFixed(1) || 0}</strong></td>
+          <td>${it.sessions_last_7 || 0}</td>
+          <td>${deltaSDisp}</td>
+          <td>${it.clicks_last_7 || 0}</td>
+          <td>${deltaCDisp}</td>
+          <td>${((it.engagement_rate || 0) * 100).toFixed(0)}%</td>
+          <td>${it.conversions || 0}</td>
+        </tr>`;
+    }).join('');
+  } catch (err) {
+    console.error('ACE load error:', err);
+  }
+}
+
+function selectACECustomer(customerId) {
+  const sel = $('#ace-customer-filter');
+  if (sel) { sel.value = customerId; loadACE(); }
+}
+
+async function triggerACECollect() {
+  if (!confirm('Samla GA4-data nu? Lambdan körs asynkront, ta 2-5 min.')) return;
+  try {
+    const res = await api('/api/ace/collect-ga4', { method: 'POST', body: '{}' });
+    alert(res?.success ? 'GA4-collector triggad. Ta 2-5 min.' : 'Något gick fel');
+  } catch (err) {
+    alert(`Fel: ${err.message}`);
+  }
+}
+
+async function triggerACERun() {
+  const customerId = $('#ace-customer-filter')?.value || null;
+  if (!confirm(`Kör momentum-analys${customerId ? ' för ' + customerId : ' för alla kunder'}?`)) return;
+  try {
+    const res = await api('/api/ace/run', {
+      method: 'POST',
+      body: JSON.stringify({ customer_id: customerId, dry_run: true }),
+    });
+    alert(res?.success ? 'Momentum-analys triggad. Ta 1-3 min. Uppdatera sidan sen.' : 'Något gick fel');
+  } catch (err) {
+    alert(`Fel: ${err.message}`);
   }
 }

@@ -1,0 +1,1819 @@
+{
+  "_meta": {
+    "plugin": "respira-for-wordpress",
+    "version": "7.0.65",
+    "source": "perispa-7.0.65-reverskodad.zip",
+    "extracted_at": "2026-05-31",
+    "total_routes": 156,
+    "namespaces": [
+      "respira/browser/v1",
+      "respira/v1",
+      "respira/v2",
+      "webmcp/v1"
+    ]
+  },
+  "namespaces": {
+    "respira/v2": [
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/acss/detect",
+        "full_path": "/wp-json/respira/v2/bricks/acss/detect",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_acss_detect",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/acss/import",
+        "full_path": "/wp-json/respira/v2/bricks/acss/import",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_acss_import",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/components",
+        "full_path": "/wp-json/respira/v2/bricks/components",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_list_components",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/components/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v2/bricks/components/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_get_component",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/components/(?P<id>\\d+)/apply/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/bricks/components/(?P<id>\\d+)/apply/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_apply_component",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/design-system",
+        "full_path": "/wp-json/respira/v2/bricks/design-system",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_design_system",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/health-check/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/bricks/health-check/(?P<post_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_health_check",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/query-loops",
+        "full_path": "/wp-json/respira/v2/bricks/query-loops",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_query_loops",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/search-elements",
+        "full_path": "/wp-json/respira/v2/bricks/search-elements",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_search_elements",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/style-profile/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/bricks/style-profile/(?P<post_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_style_profile",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/templates",
+        "full_path": "/wp-json/respira/v2/bricks/templates",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_list_components",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/templates/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v2/bricks/templates/(?P<id>\\d+)",
+        "methods": [
+          "DELETE",
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::handle_get_component",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-bricks-tools.php",
+        "namespace": "respira/v2",
+        "route": "/bricks/templates/(?P<id>\\d+)/conditions",
+        "full_path": "/wp-json/respira/v2/bricks/templates/(?P<id>\\d+)/conditions",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::handle_get_template_conditions",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/patch/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/(?P<builder>[a-zA-Z0-9_-]+)/patch/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::apply_builder_patch_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/build",
+        "full_path": "/wp-json/respira/v2/builder/build",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::build_page",
+        "params": [
+          "title"
+        ]
+      },
+      {
+        "file": "includes/class-respira-bulk-operations.php",
+        "namespace": "respira/v2",
+        "route": "/builder/bulk",
+        "full_path": "/wp-json/respira/v2/builder/bulk",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_bulk_operation",
+        "params": [
+          "page_ids"
+        ]
+      },
+      {
+        "file": "includes/class-respira-html-converter.php",
+        "namespace": "respira/v2",
+        "route": "/builder/convert",
+        "full_path": "/wp-json/respira/v2/builder/convert",
+        "methods": [
+          "POST"
+        ],
+        "callback": null,
+        "params": [
+          "html"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/batch/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/batch/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::batch_update",
+        "params": [
+          "operations"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/duplicate/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/duplicate/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_element",
+        "params": [
+          "identifier_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/find/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/find/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::find_element",
+        "params": [
+          "enum",
+          "identifier_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/move/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/move/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::move_element",
+        "params": [
+          "identifier_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/remove/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/remove/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::remove_element",
+        "params": [
+          "identifier_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/reorder/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/reorder/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::reorder_elements",
+        "params": [
+          "container_path"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/elements/update/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/elements/update/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_element",
+        "params": [
+          "identifier_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/builder/legacy-shortcode/rewrite/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/legacy-shortcode/rewrite/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::rewrite_legacy_shortcode",
+        "params": [
+          "new_post_content"
+        ]
+      },
+      {
+        "file": "includes/class-respira-widget-shortcuts.php",
+        "namespace": "respira/v2",
+        "route": "/builder/widget-registry",
+        "full_path": "/wp-json/respira/v2/builder/widget-registry",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_registry_endpoint",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-widget-shortcuts.php",
+        "namespace": "respira/v2",
+        "route": "/builder/widget/(?P<shortcut_name>[a-z_]+)/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/builder/widget/(?P<shortcut_name>[a-z_]+)/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_shortcut",
+        "params": [
+          "shortcut_name"
+        ]
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/custom-js/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v2/elementor/custom-js/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_add_custom_js",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/design-system",
+        "full_path": "/wp-json/respira/v2/elementor/design-system",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_design_system",
+        "params": [
+          "sections"
+        ]
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/global-colors",
+        "full_path": "/wp-json/respira/v2/elementor/global-colors",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_update_global_colors",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/global-typography",
+        "full_path": "/wp-json/respira/v2/elementor/global-typography",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_update_global_typography",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/validate-conversion",
+        "full_path": "/wp-json/respira/v2/elementor/validate-conversion",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::handle_validate_conversion",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/widgets",
+        "full_path": "/wp-json/respira/v2/elementor/widgets",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_list_widgets",
+        "params": [
+          "category"
+        ]
+      },
+      {
+        "file": "includes/class-respira-elementor-tools.php",
+        "namespace": "respira/v2",
+        "route": "/elementor/widgets/(?P<widget_type>[a-zA-Z0-9_-]+)/schema",
+        "full_path": "/wp-json/respira/v2/elementor/widgets/(?P<widget_type>[a-zA-Z0-9_-]+)/schema",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::handle_get_widget_schema",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/pages",
+        "full_path": "/wp-json/respira/v2/pages",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_pages_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/pages/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v2/pages/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_page_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/pages/(?P<id>\\d+)/duplicate",
+        "full_path": "/wp-json/respira/v2/pages/(?P<id>\\d+)/duplicate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_page_v2",
+        "params": [
+          "suffix"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts",
+        "full_path": "/wp-json/respira/v2/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_custom_posts_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v2/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_custom_post_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts/(?P<id>\\d+)/duplicate",
+        "full_path": "/wp-json/respira/v2/post-types/(?P<type>[a-zA-Z0-9_-]+)/posts/(?P<id>\\d+)/duplicate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_custom_post_v2",
+        "params": [
+          "suffix"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/posts",
+        "full_path": "/wp-json/respira/v2/posts",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_posts_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/posts/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v2/posts/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_post_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/posts/(?P<id>\\d+)/duplicate",
+        "full_path": "/wp-json/respira/v2/posts/(?P<id>\\d+)/duplicate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_post_v2",
+        "params": [
+          "suffix"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/server/compatibility",
+        "full_path": "/wp-json/respira/v2/server/compatibility",
+        "methods": [],
+        "callback": null,
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/snapshots",
+        "full_path": "/wp-json/respira/v2/snapshots",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_snapshots_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/snapshots/(?P<snapshot_uuid>[a-f0-9\\\\-]+)",
+        "full_path": "/wp-json/respira/v2/snapshots/(?P<snapshot_uuid>[a-f0-9\\\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_snapshot_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/snapshots/diff",
+        "full_path": "/wp-json/respira/v2/snapshots/diff",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::diff_snapshots_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/snapshots/restore",
+        "full_path": "/wp-json/respira/v2/snapshots/restore",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::restore_snapshot_v2",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v2",
+        "route": "/status",
+        "full_path": "/wp-json/respira/v2/status",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_v2_status",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/stock-images/add",
+        "full_path": "/wp-json/respira/v2/stock-images/add",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::add_stock_image",
+        "params": [
+          "post_id"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/stock-images/search",
+        "full_path": "/wp-json/respira/v2/stock-images/search",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::search_stock_images",
+        "params": [
+          "query"
+        ]
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v2",
+        "route": "/stock-images/sideload",
+        "full_path": "/wp-json/respira/v2/stock-images/sideload",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::sideload_stock_image",
+        "params": [
+          "url"
+        ]
+      },
+      {
+        "file": "includes/class-respira-theme-files.php",
+        "namespace": "respira/v2",
+        "route": "/theme-files/(?P<encoded_path>[A-Za-z0-9_=\\-]+)",
+        "full_path": "/wp-json/respira/v2/theme-files/(?P<encoded_path>[A-Za-z0-9_=\\-]+)",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::read_file",
+        "params": [
+          "content"
+        ]
+      },
+      {
+        "file": "includes/class-respira-theme-files.php",
+        "namespace": "respira/v2",
+        "route": "/theme-files/(?P<encoded_path>[A-Za-z0-9_=\\-]+)/append",
+        "full_path": "/wp-json/respira/v2/theme-files/(?P<encoded_path>[A-Za-z0-9_=\\-]+)/append",
+        "methods": [
+          "PATCH"
+        ],
+        "callback": "$this::append_file",
+        "params": [
+          "content"
+        ]
+      }
+    ],
+    "respira/v1": [
+      {
+        "file": "includes/class-respira-accessibility.php",
+        "namespace": "respira/v1",
+        "route": "/accessibility/apply-fixes",
+        "full_path": "/wp-json/respira/v1/accessibility/apply-fixes",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::rest_apply_fixes",
+        "params": [
+          "scan_id"
+        ]
+      },
+      {
+        "file": "includes/class-respira-accessibility.php",
+        "namespace": "respira/v1",
+        "route": "/accessibility/prompts",
+        "full_path": "/wp-json/respira/v1/accessibility/prompts",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::rest_list_prompts",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-accessibility.php",
+        "namespace": "respira/v1",
+        "route": "/accessibility/scan-page",
+        "full_path": "/wp-json/respira/v1/accessibility/scan-page",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::rest_scan_page",
+        "params": [
+          "url"
+        ]
+      },
+      {
+        "file": "includes/class-respira-accessibility.php",
+        "namespace": "respira/v1",
+        "route": "/accessibility/scans",
+        "full_path": "/wp-json/respira/v1/accessibility/scans",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::rest_list_scans",
+        "params": [
+          "page"
+        ]
+      },
+      {
+        "file": "includes/class-respira-accessibility.php",
+        "namespace": "respira/v1",
+        "route": "/accessibility/scans/(?P<id>[\\w-]+)",
+        "full_path": "/wp-json/respira/v1/accessibility/scans/(?P<id>[\\w-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::rest_get_scan",
+        "params": [
+          "id"
+        ]
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups",
+        "full_path": "/wp-json/respira/v1/acf/field-groups",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_field_groups",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups",
+        "full_path": "/wp-json/respira/v1/acf/field-groups",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::create_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)/clone",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)/clone",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::clone_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)/export",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/(?P<group_key>[A-Za-z0-9_\\-]+)/export",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::export_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-groups/import",
+        "full_path": "/wp-json/respira/v1/acf/field-groups/import",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::import_field_group",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field-object/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field-object/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_field_object",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/field/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/fields/(?P<post_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/fields/(?P<post_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/bulk",
+        "full_path": "/wp-json/respira/v1/acf/fields/bulk",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::bulk_get_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/bulk-update",
+        "full_path": "/wp-json/respira/v1/acf/fields/bulk-update",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::bulk_update_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/clone",
+        "full_path": "/wp-json/respira/v1/acf/fields/clone",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::clone_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/fields/compare",
+        "full_path": "/wp-json/respira/v1/acf/fields/compare",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::compare_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_flexible_content",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::add_flexible_layout",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_flexible_layout",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_flexible_layout",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/layouts/(?P<layout_index>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_flexible_layout",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "full_path": "/wp-json/respira/v1/acf/flexible/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::reorder_flexible_layouts",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_gallery",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_gallery",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/add",
+        "full_path": "/wp-json/respira/v1/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/add",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::add_to_gallery",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/remove",
+        "full_path": "/wp-json/respira/v1/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/remove",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::remove_from_gallery",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "full_path": "/wp-json/respira/v1/acf/gallery/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::reorder_gallery",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options-pages",
+        "full_path": "/wp-json/respira/v1/acf/options-pages",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_options_pages",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options-pages",
+        "full_path": "/wp-json/respira/v1/acf/options-pages",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::create_options_page",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_options",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_options",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_option",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_option",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_option",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/export",
+        "full_path": "/wp-json/respira/v1/acf/options/(?P<page_id>[A-Za-z0-9_\\-]+)/export",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::export_options",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/post-object/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/post-object/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_post_object",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/relationship/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/relationship/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_relationship",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/relationship/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/relationship/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_relationship",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/relationships/reverse/(?P<post_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/relationships/reverse/(?P<post_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_reverse_relationships",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_repeater",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/count",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/count",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::count_repeater_rows",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/reorder",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::reorder_repeater",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::add_repeater_row",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_repeater_row",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_repeater_row",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "full_path": "/wp-json/respira/v1/acf/repeater/(?P<post_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)/rows/(?P<row_index>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_repeater_row",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/search",
+        "full_path": "/wp-json/respira/v1/acf/search",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::search_fields",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/term/(?P<term_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/term/(?P<term_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_term_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/term/(?P<term_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/term/(?P<term_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_term_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/user/(?P<user_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/user/(?P<user_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_user_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/user/(?P<user_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/v1/acf/user/(?P<user_id>\\d+)/(?P<field_key>[A-Za-z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_user_field",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-acf.php",
+        "namespace": "respira/v1",
+        "route": "/acf/validate",
+        "full_path": "/wp-json/respira/v1/acf/validate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::validate_field",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-keys-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/keys",
+        "full_path": "/wp-json/respira/v1/admin/keys",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "callback": "__CLASS__::list_keys",
+        "params": [
+          "token"
+        ]
+      },
+      {
+        "file": "includes/admin/class-respira-keys-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/keys/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/admin/keys/(?P<id>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "__CLASS__::revoke_key",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-keys-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/keys/backfill",
+        "full_path": "/wp-json/respira/v1/admin/keys/backfill",
+        "methods": [
+          "POST"
+        ],
+        "callback": "__CLASS__::backfill_from_dashboard",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-v71-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/v71/activity",
+        "full_path": "/wp-json/respira/v1/admin/v71/activity",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::activity",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-v71-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/v71/activity/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/admin/v71/activity/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::activity_diff",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-v71-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/v71/approvals",
+        "full_path": "/wp-json/respira/v1/admin/v71/approvals",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::approvals",
+        "params": []
+      },
+      {
+        "file": "includes/admin/class-respira-v71-rest.php",
+        "namespace": "respira/v1",
+        "route": "/admin/v71/mcp-clients",
+        "full_path": "/wp-json/respira/v1/admin/v71/mcp-clients",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::mcp_clients",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/auth/generate-key",
+        "full_path": "/wp-json/respira/v1/auth/generate-key",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::generate_api_key",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/auth/revoke-key/(?P<key_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/auth/revoke-key/(?P<key_id>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::revoke_api_key",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/auth/validate-key",
+        "full_path": "/wp-json/respira/v1/auth/validate-key",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::validate_api_key",
+        "params": [
+          "api_key"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/extract/(?P<page_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/extract/(?P<page_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::extract_builder_content",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/inject/(?P<page_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/inject/(?P<page_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::inject_builder_content",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/inline-schemas",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/inline-schemas",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_builder_inline_schemas",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/modules/(?P<page_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/modules/(?P<page_id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_builder_module",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/outline/(?P<page_id>\\d+)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/outline/(?P<page_id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_page_outline",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/variables/(?P<type>color|typography|spacing|breakpoints)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/variables/(?P<type>color|typography|spacing|breakpoints)",
+        "methods": [
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::list_builder_variables",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/builder/(?P<builder>[a-zA-Z0-9_-]+)/variables/(?P<type>color|typography|spacing|breakpoints)/(?P<id>[A-Za-z0-9_\\-\\.]+)",
+        "full_path": "/wp-json/respira/v1/builder/(?P<builder>[a-zA-Z0-9_-]+)/variables/(?P<type>color|typography|spacing|breakpoints)/(?P<id>[A-Za-z0-9_\\-\\.]+)",
+        "methods": [
+          "DELETE",
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::get_builder_variable",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/context/builder-info",
+        "full_path": "/wp-json/respira/v1/context/builder-info",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_builder_info",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/context/site-info",
+        "full_path": "/wp-json/respira/v1/context/site-info",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_site_info",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/context/theme-docs",
+        "full_path": "/wp-json/respira/v1/context/theme-docs",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_theme_docs",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-diagnostic.php",
+        "namespace": "respira/v1",
+        "route": "/diagnostic/report",
+        "full_path": "/wp-json/respira/v1/diagnostic/report",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::get_report",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/divi/modules/(?P<slug>[a-zA-Z0-9_\\-\\/]+)/schema",
+        "full_path": "/wp-json/respira/v1/divi/modules/(?P<slug>[a-zA-Z0-9_\\-\\/]+)/schema",
+        "methods": [
+          "DELETE",
+          "GET",
+          "POST"
+        ],
+        "callback": "$this::get_divi_module_schema",
+        "params": [
+          "fileKey"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/divi/presets",
+        "full_path": "/wp-json/respira/v1/divi/presets",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_divi_presets",
+        "params": [
+          "module_type"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/media",
+        "full_path": "/wp-json/respira/v1/media",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_media",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/media/upload",
+        "full_path": "/wp-json/respira/v1/media/upload",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::upload_media",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-multisite.php",
+        "namespace": "respira/v1",
+        "route": "/multisite/subsites",
+        "full_path": "/wp-json/respira/v1/multisite/subsites",
+        "methods": [
+          "GET"
+        ],
+        "callback": "__CLASS__::rest_list_subsites",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/pages",
+        "full_path": "/wp-json/respira/v1/pages",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_pages",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/pages/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/pages/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_page",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/pages/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/pages/(?P<id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_page",
+        "params": [
+          "title"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/pages/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/pages/(?P<id>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_page",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/pages/(?P<id>\\d+)/duplicate",
+        "full_path": "/wp-json/respira/v1/pages/(?P<id>\\d+)/duplicate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_page",
+        "params": [
+          "suffix"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/ping",
+        "full_path": "/wp-json/respira/v1/ping",
+        "methods": [
+          "GET"
+        ],
+        "callback": null,
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/posts",
+        "full_path": "/wp-json/respira/v1/posts",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::list_posts",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/posts/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/posts/(?P<id>\\d+)",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_post",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/posts/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/posts/(?P<id>\\d+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::update_post",
+        "params": [
+          "title"
+        ]
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/posts/(?P<id>\\d+)",
+        "full_path": "/wp-json/respira/v1/posts/(?P<id>\\d+)",
+        "methods": [
+          "DELETE"
+        ],
+        "callback": "$this::delete_post",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-api.php",
+        "namespace": "respira/v1",
+        "route": "/posts/(?P<id>\\d+)/duplicate",
+        "full_path": "/wp-json/respira/v1/posts/(?P<id>\\d+)/duplicate",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::duplicate_post",
+        "params": []
+      },
+      {
+        "file": "includes/class-respira-element-ops.php",
+        "namespace": "respira/v1",
+        "route": "/server/compatibility",
+        "full_path": "/wp-json/respira/v1/server/compatibility",
+        "methods": [],
+        "callback": null,
+        "params": []
+      }
+    ],
+    "respira/browser/v1": [
+      {
+        "file": "includes/class-respira-angie-integration.php",
+        "namespace": "respira/browser/v1",
+        "route": "/execute/(?P<tool>[a-zA-Z0-9_\\-]+)",
+        "full_path": "/wp-json/respira/browser/v1/execute/(?P<tool>[a-zA-Z0-9_\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::execute_tool",
+        "params": [
+          "tool"
+        ]
+      },
+      {
+        "file": "includes/class-respira-angie-integration.php",
+        "namespace": "respira/browser/v1",
+        "route": "/tools",
+        "full_path": "/wp-json/respira/browser/v1/tools",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_tools",
+        "params": []
+      }
+    ],
+    "webmcp/v1": [
+      {
+        "file": "includes/webmcp/class-rest-api.php",
+        "namespace": "webmcp/v1",
+        "route": "/execute/(?P<ability>[a-zA-Z0-9_%\\-]+)",
+        "full_path": "/wp-json/webmcp/v1/execute/(?P<ability>[a-zA-Z0-9_%\\-]+)",
+        "methods": [
+          "POST"
+        ],
+        "callback": "$this::execute_tool",
+        "params": [
+          "ability"
+        ]
+      },
+      {
+        "file": "includes/webmcp/class-rest-api.php",
+        "namespace": "webmcp/v1",
+        "route": "/nonce",
+        "full_path": "/wp-json/webmcp/v1/nonce",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_nonce",
+        "params": []
+      },
+      {
+        "file": "includes/webmcp/class-rest-api.php",
+        "namespace": "webmcp/v1",
+        "route": "/tools",
+        "full_path": "/wp-json/webmcp/v1/tools",
+        "methods": [
+          "GET"
+        ],
+        "callback": "$this::get_tools",
+        "params": []
+      }
+    ]
+  }
+}

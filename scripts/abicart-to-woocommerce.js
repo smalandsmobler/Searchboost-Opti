@@ -19,7 +19,7 @@ const { parse } = require('csv-parse/sync');
 const { stringify } = require('csv-stringify/sync');
 
 // --- Configuration ---
-const INPUT_FILE = '/Users/weerayootandersson/Downloads/webshop_articles_66230 (3).csv';
+const INPUT_FILE = '/Users/weerayootandersson/Downloads/webshop_articles_66230 (2).csv';
 const OUTPUT_DIR = path.resolve(__dirname, 'output');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'woocommerce-import.csv');
 

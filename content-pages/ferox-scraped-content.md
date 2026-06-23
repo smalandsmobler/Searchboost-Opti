@@ -61,7 +61,7 @@ www.feroxkonsult.se/
 - **Webb**: www.feroxkonsult.se
 - **Bankgiro**: 5394-0730
 - **Grundat**: Tidredovisningssystem sedan 1997, FeroxTid sedan 2007
-- **Copyright**: 2006-2025
+- **Copyright**: 2006-2026
 - **Öppettider**: Mån-Tor 08:00-17:00, Fre 08:00-16:00, Lunch 12:00-13:00
 - **Supporttider**: Mån-Tor 08:30-16:30, Fre 08:30-15:30, Lunch 12:00-13:00
 
@@ -806,4 +806,4 @@ Oppettider: Man-Tis 08:00-17:00, Fre 08:00-16:00.
 6. **Support-sidan** innehaller nedladdningsbara PDF-manualer och EXE-drivrutiner
 7. **Kontaktformularet** har filuppladdning (50 MB) — overväg om detta behovs i Shopify
 8. **Bankuppgifter** publicerade pa kontaktsidan (IBAN, bankgiro)
-9. **Copyright-intervall**: 2006-2025 — uppdatera till 2025+
+9. **Copyright-intervall**: 2006-2026 — uppdatera till 2025+

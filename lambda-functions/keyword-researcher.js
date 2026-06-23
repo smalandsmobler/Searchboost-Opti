@@ -42,7 +42,10 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  return { bq, dataset };
 }
 
 async function getGSCAuth() {
@@ -242,7 +245,7 @@ Svara i JSON:
 }`;
 
   const response = await claude.messages.create({
-    model: 'claude-sonnet-4-5-20250929',
+    model: AI_MODEL,
     max_tokens: 4000,
     messages: [{ role: 'user', content: prompt }]
   });
@@ -300,8 +303,8 @@ exports.handler = async (event) => {
     const { bq, dataset } = await getBigQuery();
     await ensureTable(bq, dataset);
 
-    const apiKey = await getParam('/seo-mcp/anthropic/api-key');
-    const claude = new Anthropic({ apiKey });
+    const claude = new Anthropic({ apiKey: await getParam('/seo-mcp/anthropic/api-key') });
+    const AI_MODEL = 'claude-haiku-4-5-20251001';
 
     // 1. Hämta kundinfo
     const customerInfo = await getCustomerInfo(customerId);

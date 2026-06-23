@@ -1,0 +1,2 @@
+{"role":"user","content":"Hämta credentials för mobelrondellen och lista antal publicerade sidor"}
+{"role":"assistant","content":"**Credentials för Möbelrondellen (site‑slug: mobelrondellen)**  \n- **WordPress‑URL:** https://mobelrondellen.se  \n- **Användarnamn:** Mickedanne  \n- **App‑lösenord:** Dpaf 3CkT Gyhx YUSJ bQt4 bpE4  \n\n**Antal publicerade sidor:** 29  \n\n(Alla hämtade sidor listas i svaret från `wp_list_pages` ovan.)"}

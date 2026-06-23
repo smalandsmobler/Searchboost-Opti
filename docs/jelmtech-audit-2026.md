@@ -240,7 +240,7 @@ Jelmtech är ett B2B-produktutvecklingsföretag på WordPress med Divi-tema. Saj
 ## 8. ONBOARDING-CHECKLISTA
 
 ### WordPress
-- [ ] Admin-access: searchboost.web@gmail.com
+- [ ] Admin-access: mikael.searchboost@gmail.com
 - [ ] Rank Math SEO PRO installerad
 - [ ] WP Application Password genererad
 

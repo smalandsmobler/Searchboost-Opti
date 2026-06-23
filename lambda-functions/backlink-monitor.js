@@ -75,7 +75,9 @@ async function getBigQuery() {
   const tmpPath = '/tmp/gcp-creds.json';
   fs.writeFileSync(tmpPath, credsJson);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tmpPath;
-  _bqClient = new BigQuery({ projectId: 'searchboost-485810', credentials: creds });
+  _bqClient = new BigQuery({ projectId: 'seo-aouto', credentials: creds });
+  const _origDsBl = _bqClient.dataset.bind(_bqClient);
+  _bqClient.dataset = (n, o = {}) => _origDsBl(n, { projectId: 'searchboost-485810', ...o });
   _dataset = 'seo_data';
   return { bq: _bqClient, dataset: _dataset };
 }

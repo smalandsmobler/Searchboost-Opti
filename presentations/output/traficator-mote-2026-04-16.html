@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Traficator — Statusmöte April 2026</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --steel:  #4a7fc1;
+      --light:  #7aaee8;
+      --orange: #e07b2a;
+      --green:  #00e676;
+      --dark:   #060c14;
+      --card:   #0c1624;
+      --border: #162236;
+      --text:   #ccd8e8;
+      --muted:  #4a6080;
+    }
+    .reveal { font-family: 'Inter', sans-serif; color: var(--text); }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { background: var(--dark); height: 100%; padding: 0; overflow: hidden; }
+    .reveal .slides section > * { position: relative; z-index: 1; }
+    .reveal .progress { height: 3px; color: var(--steel); }
+    .reveal .controls { color: var(--light); }
+    .reveal h2 { font-size: 1.55em; font-weight: 700; color: #fff; margin: 0 0 18px; }
+    .reveal h3 { font-size: .9em; font-weight: 600; color: #fff; margin: 0 0 5px; }
+
+    /* LAYOUT */
+    .slide { display: flex; flex-direction: column; height: 720px; padding: 32px 52px 28px; }
+    .hd { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; margin-bottom: 20px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .hd-name { font-size: 13px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+    .hd-name em { color: var(--light); font-style: normal; }
+    .hd-meta { font-size: 11px; color: var(--muted); text-align: right; line-height: 1.5; }
+    .hd-meta strong { color: var(--light); }
+    .body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    .ft { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--border); flex-shrink: 0; font-size: 11px; color: var(--muted); }
+    .ft strong { color: #fff; }
+
+    /* TAG */
+    .tag { display: inline-block; padding: 3px 12px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 10px; }
+    .tag-steel  { background: rgba(74,127,193,.15); color: var(--light); }
+    .tag-green  { background: rgba(0,230,118,.12); color: var(--green); }
+    .tag-orange { background: rgba(224,123,42,.14); color: var(--orange); }
+
+    /* LINES */
+    .lines { display: flex; gap: 6px; margin: 14px 0; flex-shrink: 0; }
+    .lines span { height: 3px; width: 32px; border-radius: 2px; display: block; }
+    .lines span:nth-child(1) { background: var(--steel); }
+    .lines span:nth-child(2) { background: var(--light); }
+    .lines span:nth-child(3) { background: var(--orange); }
+
+    /* GRIDS */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; min-height: 0; }
+    .two-col-wide { display: grid; grid-template-columns: 3fr 2fr; gap: 24px; flex: 1; min-height: 0; }
+    .col-inner { display: flex; flex-direction: column; gap: 9px; }
+
+    /* STAT */
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 14px; text-align: center; }
+    .stat-val { font-size: 2em; font-weight: 900; line-height: 1; margin-bottom: 5px; }
+    .stat-val.st { color: var(--light); }
+    .stat-val.gr { color: var(--green); }
+    .stat-val.or { color: var(--orange); }
+    .stat-lbl { font-weight: 600; font-size: 13px; color: #fff; }
+    .stat-sub { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.4; }
+
+    /* LOG */
+    .log { display: flex; align-items: flex-start; gap: 10px; padding: 8px 13px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .dot.st { background: var(--steel); }
+    .dot.gr { background: var(--green); }
+    .dot.or { background: var(--orange); }
+    .dot.li { background: var(--light); }
+    .log-text { font-size: 12.5px; color: #fff; line-height: 1.4; }
+    .log-text small { display: block; color: var(--muted); font-size: 11px; margin-top: 1px; }
+
+    /* HBOX */
+    .hbox { background: linear-gradient(135deg, rgba(74,127,193,.07), rgba(74,127,193,.03)); border: 1px solid rgba(74,127,193,.2); border-radius: 10px; padding: 14px 18px; }
+    .hbox.gr { background: linear-gradient(135deg, rgba(0,230,118,.07), transparent); border-color: rgba(0,230,118,.2); }
+    .hbox.or { background: linear-gradient(135deg, rgba(224,123,42,.08), transparent); border-color: rgba(224,123,42,.22); }
+    .hbox h3 { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--light); margin-bottom: 5px; }
+    .hbox.gr h3 { color: var(--green); }
+    .hbox.or h3 { color: var(--orange); }
+    .hbox p { font-size: 12.5px; color: var(--text); line-height: 1.6; margin: 0; }
+
+    /* PRICE CARDS */
+    .price-card { border-radius: 12px; padding: 22px 18px; text-align: center; }
+    .price-card.base { background: rgba(74,127,193,.1); border: 1px solid rgba(74,127,193,.3); }
+    .price-card.highlight { background: rgba(224,123,42,.09); border: 2px solid rgba(224,123,42,.4); position: relative; }
+    .price-badge { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--orange); color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 1.2px; padding: 3px 14px; border-radius: 20px; text-transform: uppercase; white-space: nowrap; }
+    .price-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .price-num { font-size: 2.6em; font-weight: 900; line-height: 1; }
+    .price-num.st { color: #fff; }
+    .price-num.or { color: var(--orange); }
+    .price-desc { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    /* BLIST */
+    .blist { list-style: none; margin: 0; padding: 0; }
+    .blist li { display: flex; align-items: flex-start; gap: 9px; padding: 7px 0; font-size: 12.5px; color: var(--text); border-bottom: 1px solid rgba(22,34,54,.5); line-height: 1.45; }
+    .blist li:last-child { border-bottom: none; }
+    .blist li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--light); flex-shrink: 0; margin-top: 5px; }
+
+    /* COVER */
+    .cover-slide { display: flex; flex-direction: column; height: 720px; padding: 0; position: relative; }
+    .cover-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 50%, rgba(74,127,193,.22) 0%, rgba(74,127,193,.08) 40%, transparent 70%), radial-gradient(ellipse at 20% 80%, rgba(224,123,42,.1) 0%, transparent 50%); }
+    .cover-content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; padding: 56px 68px; justify-content: flex-end; }
+    .cover-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--light); margin-bottom: 14px; }
+    .cover-title { font-size: 3.4em; font-weight: 900; color: #fff; line-height: 1.0; letter-spacing: -2px; margin-bottom: 16px; }
+    .cover-title .gr { color: var(--green); }
+    .cover-title .st { color: var(--light); }
+    .cover-sub { font-size: .95em; color: var(--muted); line-height: 1.6; max-width: 520px; margin-bottom: 32px; }
+    .cover-meta { display: flex; gap: 28px; align-items: center; padding-top: 22px; border-top: 1px solid var(--border); }
+    .cover-meta-item { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .cover-meta-item strong { display: block; color: #fff; font-size: 14px; font-weight: 700; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- SLIDE 1: COVER -->
+    <section>
+      <div class="cover-slide">
+        <div class="cover-bg"></div>
+        <div class="cover-content">
+          <div class="cover-eyebrow">Searchboost &times; Traficator AB</div>
+          <div class="cover-title">
+            Resultat,<br>
+            <span class="gr">siffror</span><br>
+            <span class="st">och nästa steg.</span>
+          </div>
+          <p class="cover-sub">
+            Statusmöte april 2026 — vad vi levererat,
+            vad det gett och vad vi gör härnäst.
+          </p>
+          <div class="cover-meta">
+            <div class="cover-meta-item"><strong>Traficator.se</strong>Gjutning &amp; metallbearbetning B2B</div>
+            <div class="cover-meta-item"><strong>16 april 2026</strong>Omsigneringsmöte</div>
+            <div class="cover-meta-item"><strong>Mikael Larsson</strong>Searchboost.se</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: ALLT VI FIXAT -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-name">Trafica<em>tor</em></div>
+          <div class="hd-meta">Searchboost statusmöte<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-steel">Levererat</div>
+          <h2>Vad vi byggt — på kort tid</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col">
+            <div class="col-inner">
+              <div class="log"><div class="dot gr"></div><div class="log-text">12 artiklar publicerade<small>Vecka 17–20 · pressgjutning, sandgjutning, centrifugalgjutning, prototyper...</small></div></div>
+              <div class="log"><div class="dot gr"></div><div class="log-text">4 pelarartiklar live<small>~8 400 ord total · hög köpavsikt, B2B-söktermer</small></div></div>
+              <div class="log"><div class="dot li"></div><div class="log-text">Engelsk sajt komplett<small>10 tjänstesidor + 10 artiklar översatta</small></div></div>
+              <div class="log"><div class="dot li"></div><div class="log-text">9 tjänstesidor återställda<small>Tidigare webbutvecklare hade raderat allt innehåll — fixat</small></div></div>
+              <div class="log"><div class="dot st"></div><div class="log-text">FAQ-sida med schema markup<small>FAQPage + Service + Organization — syns i Google</small></div></div>
+            </div>
+            <div class="col-inner">
+              <div class="log"><div class="dot st"></div><div class="log-text">Internlänkar på alla 7 tjänstesidor<small>Från 1 länk → 6 per sida</small></div></div>
+              <div class="log"><div class="dot st"></div><div class="log-text">86 sidor fick meta descriptions<small>Bulk-optimering — alla viktiga sidor täckta</small></div></div>
+              <div class="log"><div class="dot st"></div><div class="log-text">41 bilder fick alt-texter<small>Bildindexering i Google förbättrad</small></div></div>
+              <div class="log"><div class="dot or"></div><div class="log-text">Kanonisering + dubbletter städade<small>15 duplicerade sidor borttagna</small></div></div>
+              <div class="log"><div class="dot or"></div><div class="log-text">llms.txt publicerad<small>Traficator indexeras nu av AI-sökmotorer (ChatGPT, Perplexity)</small></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <span>12 artiklar &middot; Engelsk sajt &middot; Schema &middot; 86 meta &middot; AI-sökmotorer</span>
+          <strong>Mikael Larsson — searchboost.se</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: FRAMSTEG -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-name">Trafica<em>tor</em></div>
+          <div class="hd-meta">Searchboost statusmöte<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-green">Resultat</div>
+          <h2>Siffrorna talar — och kurvan pekar uppåt</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="grid-3" style="margin-bottom:18px;">
+            <div class="stat">
+              <div class="stat-val gr">+179%</div>
+              <div class="stat-lbl">Impressioner</div>
+              <div class="stat-sub">525 → 1 463 visningar/mån</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val gr">+70%</div>
+              <div class="stat-lbl">Klick</div>
+              <div class="stat-sub">10 → 17 besökare/mån</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val st">3 st</div>
+              <div class="stat-lbl">Top-10 sökord</div>
+              <div class="stat-sub">centrifugalgjutning, bearbetning gjutgods, gjutning aluminiumlegeringar</div>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="hbox gr">
+              <h3>Varför det händer</h3>
+              <p>Pelarartiklarna + meta-optimering + internlänkar börjar ge fullt genomslag. SEO tar tid att sätta sig — men när det väl sätter sig, <strong style="color:var(--green)">håller det och accelererar.</strong></p>
+            </div>
+            <div class="hbox">
+              <h3>Nästa brytpunkt</h3>
+              <p>"pressgjutning aluminium" och relaterade sökord rör sig in mot topp 10. <strong style="color:var(--light)">~500 impressioner/mån i position 14–57</strong> — stor potential att ta klick när de lyfter.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <span>GSC feb → mars 2026 &middot; Organisk söktrafik</span>
+          <strong>Mikael Larsson — searchboost.se</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: FRAMTID -->
+    <section>
+      <div class="slide">
+        <div class="hd">
+          <div class="hd-name">Trafica<em>tor</em></div>
+          <div class="hd-meta">Searchboost statusmöte<br><strong>April 2026</strong></div>
+        </div>
+        <div class="body">
+          <div class="tag tag-orange">Nästa steg</div>
+          <h2>Vad vi gör härnäst — och vad det kostar</h2>
+          <div class="lines"><span></span><span></span><span></span></div>
+          <div class="two-col-wide">
+            <div class="col-inner">
+              <div class="hbox" style="margin-bottom:10px;">
+                <h3>SEO fortsätter — accelererad takt</h3>
+                <p>Branschsidor, materialsidor och jämförelsesidor (pressgjutning vs sandgjutning etc). <strong style="color:var(--light)">B2B-köpare jämför innan de ringer</strong> — vi ser till att Traficator syns i varje steg.</p>
+              </div>
+              <div class="hbox or">
+                <h3>LinkedIn — er starkaste kanal</h3>
+                <p>Ni säljer till ingenjörer, inköpschefer och produktionsledare. <strong style="color:var(--orange)">De är på LinkedIn.</strong> Vi sköter 2 inlägg i veckan — fackmässigt innehåll som bygger förtroende långt innan ett samtal.</p>
+              </div>
+              <div class="hbox gr" style="margin-top:0;">
+                <h3>Mål innan sommaren</h3>
+                <p>Pressgjutning-familjen in i topp 10. Synlighet på engelska sökord etablerad. LinkedIn-närvaro igång.</p>
+              </div>
+            </div>
+            <div class="col-inner" style="gap:12px;">
+              <div class="price-card base">
+                <div class="price-eyebrow">SEO-avtal fortsätter</div>
+                <div class="price-num st">Samma</div>
+                <div class="price-desc">Befintlig takt + branschsidor</div>
+              </div>
+              <div class="price-card highlight">
+                <div class="price-badge">Nytt tillägg</div>
+                <div class="price-eyebrow">LinkedIn 2 inlägg/vecka</div>
+                <div class="price-num or">3 000 kr</div>
+                <div class="price-desc">för 3 månader — prova utan risk</div>
+              </div>
+              <div style="background:rgba(0,230,118,.06);border:1px solid rgba(0,230,118,.2);border-radius:10px;padding:14px 16px;text-align:center;">
+                <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Inga bindningstider</div>
+                <div style="font-size:13px;color:var(--green);font-weight:700;">Efter 3 månader — helt upp till er</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft">
+          <span>Branschsidor &middot; Materialsidor &middot; LinkedIn B2B</span>
+          <strong>Mikael Larsson — searchboost.se</strong>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({ hash: true, transition: 'fade', transitionSpeed: 'fast', controls: true, progress: true, slideNumber: true, width: 1280, height: 720 });
+</script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kundöversikt — Searchboost Opti</title>
+<link rel="icon" href="/favicon.ico">
+<style>
+  :root {
+    --bg-deep: #05050f;
+    --bg-surface: #080818;
+    --bg-elevated: #0e0c19;
+    --text-primary: #ffffff;
+    --text-secondary: #c8b8e0;
+    --text-muted: #7a6e90;
+    --primary: #e91e8c;
+    --accent: #c026d3;
+    --success: #4ade80;
+    --warning: #ffd075;
+    --error: #f87171;
+    --border-subtle: rgba(200, 184, 224, 0.1);
+    --border-strong: rgba(233, 30, 140, 0.3);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg-deep);
+    color: var(--text-secondary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    line-height: 1.55;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+
+  /* Header */
+  .page-header { margin-bottom: 32px; }
+  .eyebrow {
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .page-title {
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+  .page-subtitle { color: var(--text-muted); font-size: 15px; margin-top: 6px; }
+
+  /* Stats summary */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin: 32px 0;
+  }
+  .stat-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 18px 22px;
+  }
+  .stat-label {
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .stat-value {
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: 6px;
+    line-height: 1.1;
+  }
+
+  /* Overview table */
+  .overview-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  table { width: 100%; border-collapse: collapse; }
+  thead {
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  th {
+    padding: 16px 18px;
+    text-align: left;
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  td {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+    font-size: 14px;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(233, 30, 140, 0.04); }
+
+  .customer-name {
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 15px;
+  }
+  .customer-email { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Channel chips */
+  .channels { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 9999px;
+    border: 1px solid;
+  }
+  .chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .chip-active   { background: rgba(74, 222, 128, 0.12); color: var(--success); border-color: rgba(74, 222, 128, 0.3); }
+  .chip-active .chip-dot { background: var(--success); }
+  .chip-paused   { background: rgba(255, 208, 117, 0.12); color: var(--warning); border-color: rgba(255, 208, 117, 0.3); }
+  .chip-paused .chip-dot { background: var(--warning); }
+  .chip-planned  { background: rgba(233, 30, 140, 0.12); color: var(--primary); border-color: var(--border-strong); }
+  .chip-planned .chip-dot { background: var(--primary); }
+  .chip-inactive { background: rgba(122, 110, 144, 0.12); color: var(--text-muted); border-color: rgba(122, 110, 144, 0.3); }
+  .chip-inactive .chip-dot { background: var(--text-muted); }
+  .chip-creds-bad { background: rgba(248, 113, 113, 0.12); color: var(--error); border-color: rgba(248, 113, 113, 0.4); }
+  .chip-creds-bad .chip-dot { background: var(--error); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .nav-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  .nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'Inter Tight', Inter, sans-serif;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 150ms;
+  }
+  .nav-link:hover { color: var(--text-primary); background: var(--bg-surface); }
+  .nav-link.active { color: var(--primary); background: rgba(233, 30, 140, 0.1); }
+
+  .loading, .error {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+  .error { color: var(--error); }
+
+  @media (max-width: 768px) {
+    .page-title { font-size: 28px; }
+    th, td { padding: 12px; font-size: 13px; }
+    .chip { font-size: 10px; padding: 3px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="nav-bar">
+    <a href="/" class="nav-link">Dashboard</a>
+    <a href="/customers-overview.html" class="nav-link active">Kunder × kanaler</a>
+    <a href="/preview/" class="nav-link">Rapport-preview</a>
+  </div>
+
+  <header class="page-header">
+    <div class="eyebrow">Searchboost · översikt</div>
+    <h1 class="page-title">Kunder × kanaler</h1>
+    <p class="page-subtitle">Vad varje kund kör just nu. Ingen detalj — bara status.</p>
+  </header>
+
+  <div class="stats-grid" id="stats"></div>
+
+  <div class="overview-card">
+    <div id="content" class="loading">Laddar kunder…</div>
+  </div>
+</div>
+
+<script>
+const CHANNEL_LABELS = {
+  seo: 'SEO',
+  content: 'Content',
+  linkedin: 'LinkedIn',
+  google_ads: 'Google Ads',
+  meta_ads: 'Meta Ads',
+  fb_ads: 'FB Ads',
+  tiktok_ads: 'TikTok Ads',
+};
+const CHANNEL_ORDER = ['seo', 'content', 'linkedin', 'google_ads', 'meta_ads', 'fb_ads', 'tiktok_ads'];
+
+async function load() {
+  try {
+    const res = await fetch('/api/customers/channels-overview', { headers: { 'X-Api-Key': localStorage.getItem('opti_api_key') || '' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    renderStats(data.customers);
+    renderTable(data.customers);
+  } catch (err) {
+    document.getElementById('content').className = 'error';
+    document.getElementById('content').textContent = 'Fel: ' + err.message + ' — sätt X-Api-Key i localStorage: opti_api_key';
+  }
+}
+
+function renderStats(customers) {
+  const channelCounts = {};
+  for (const c of customers) {
+    for (const ch of (c.channels || [])) {
+      if (ch.status === 'active') channelCounts[ch.channel] = (channelCounts[ch.channel] || 0) + 1;
+    }
+  }
+  const stats = document.getElementById('stats');
+  stats.innerHTML = '';
+  const items = [
+    { label: 'Aktiva kunder', value: customers.length },
+    ...Object.entries(channelCounts)
+      .sort((a, b) => b[1] - a[1])
+      .map(([k, v]) => ({ label: CHANNEL_LABELS[k] || k, value: v })),
+  ];
+  for (const it of items) {
+    const div = document.createElement('div');
+    div.className = 'stat-card';
+    div.innerHTML = `<div class="stat-label">${it.label}</div><div class="stat-value">${it.value}</div>`;
+    stats.appendChild(div);
+  }
+}
+
+function renderTable(customers) {
+  const content = document.getElementById('content');
+  content.className = '';
+  if (!customers.length) { content.innerHTML = '<div class="loading">Inga aktiva kunder</div>'; return; }
+  content.innerHTML = '';
+  const table = document.createElement('table');
+  table.innerHTML = `
+    <thead><tr>
+      <th>Kund</th>
+      <th>Kontakt</th>
+      <th>Kanaler</th>
+      <th>Stage</th>
+    </tr></thead>
+    <tbody></tbody>`;
+  const tbody = table.querySelector('tbody');
+  for (const c of customers) {
+    const tr = document.createElement('tr');
+    const channels = (c.channels || []).slice().sort((a, b) =>
+      (CHANNEL_ORDER.indexOf(a.channel) - CHANNEL_ORDER.indexOf(b.channel)));
+    tr.innerHTML = `
+      <td>
+        <div class="customer-name">${c.company_name || c.customer_id}</div>
+        <div class="customer-email">${c.customer_id}</div>
+      </td>
+      <td style="color: var(--text-muted); font-size: 12px;">${c.contact_email || '—'}</td>
+      <td><div class="channels">${channels.map(ch => {
+        const credsBad = ch.creds_status && ch.creds_status !== 'ok' && ch.creds_status !== 'untested';
+        const credsLabel = credsBad ? ` · ${ch.creds_status}` : '';
+        const credsTitle = ch.reason ? ` (${ch.reason})` : '';
+        const cls = credsBad ? 'chip chip-creds-bad' : `chip chip-${ch.status}`;
+        const title = (ch.next_action || '') + (credsBad ? ` — creds: ${ch.creds_status}${credsTitle}` : '');
+        return `<span class="${cls}" title="${title.replace(/"/g, '&quot;')}"><span class="chip-dot"></span>${CHANNEL_LABELS[ch.channel] || ch.channel}${credsLabel}</span>`;
+      }).join('')}</div></td>
+      <td style="color: var(--text-secondary); font-size: 13px; text-transform: capitalize;">${c.stage}</td>`;
+    tbody.appendChild(tr);
+  }
+  content.appendChild(table);
+}
+
+load();
+</script>
+</body>
+</html>

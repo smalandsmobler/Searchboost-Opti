@@ -1,0 +1,55 @@
+<!--
+  Ferox Shopify — KONTAKT-SIDA
+  ----------------------------
+  Skapas så här i Shopify admin:
+  1. Content → Sidor → Lägg till sida
+  2. Titel: Kontakt
+  3. URL handle: kontakt
+  4. Theme template: välj "page.contact" (om temat har den)
+     Om page.contact inte finns: välj "page" och klistra in detta i content-fältet
+     (OBS — vi måste använda rich-text-editorns HTML-läge, annars visas koden literally)
+  5. Spara
+
+  Klistra in NEDAN i HTML-vyn (klicka "<>" i editorn):
+-->
+
+<div class="ferox-contact">
+  <div class="ferox-contact__intro">
+    <h2>Välkommen att kontakta oss</h2>
+    <p>Vi hjälper dig att välja rätt stämpelur eller tidredovisningssystem för ditt företag. Fyll i formuläret nedan så återkommer vi inom en arbetsdag.</p>
+  </div>
+
+  <div class="ferox-contact__grid">
+    <div class="ferox-contact__info">
+      <h3>Ferox Konsult AB</h3>
+      <p>
+        Solsa 419<br>
+        149 91 Nynäshamn<br>
+        Sverige
+      </p>
+      <p>
+        <strong>Org.nr:</strong> 556454-8294<br>
+        <strong>VAT:</strong> SE556454829401
+      </p>
+    </div>
+
+    <div class="ferox-contact__form">
+      <!-- Contact form — Shopify native {% form 'contact' %} renderas bara i theme Liquid templates,
+           INTE i page content. Därför använder vi en separat template-fil (templates/page.contact.liquid)
+           som har formuläret. Se filen: templates/page.contact.liquid -->
+      <p><em>Detta är ett kontaktformulär. Om du ser denna text i stället för formuläret — be Searchboost byta template till "page.contact" i sidans inställningar.</em></p>
+    </div>
+  </div>
+</div>
+
+<style>
+.ferox-contact { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.ferox-contact__intro { text-align: center; margin-bottom: 40px; }
+.ferox-contact__intro h2 { font-size: 2rem; margin-bottom: 12px; }
+.ferox-contact__grid { display: grid; grid-template-columns: 1fr 2fr; gap: 40px; }
+.ferox-contact__info h3 { margin-top: 0; }
+.ferox-contact__info p { line-height: 1.6; }
+@media (max-width: 768px) {
+  .ferox-contact__grid { grid-template-columns: 1fr; }
+}
+</style>

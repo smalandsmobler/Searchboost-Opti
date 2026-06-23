@@ -1,0 +1,17 @@
+{
+  "fortnox": {
+    "access_token": "KLISTRA_IN_FORTNOX_ACCESS_TOKEN_HÄR",
+    "client_id": "KLISTRA_IN_CLIENT_ID",
+    "client_secret": "KLISTRA_IN_CLIENT_SECRET",
+    "note": "Hämta från Fortnox: Inställningar → Integrationer → API-kopplingar → Skapa ny"
+  },
+  "sheets": {
+    "sheet_id": "1v1-3uXykfp4M4RNk9ag3NWpzQ0ZMyeXVgHCL9-HtaM4",
+    "service_account_path": "/Users/weerayootandersson/Downloads/Searchboost-Opti/perispa/bq-credentials.json",
+    "note": "Dela sheetet med SA-emailen från bq-credentials.json (client_email)"
+  },
+  "bq": {
+    "project": "searchboost-485810",
+    "dataset": "seo_data"
+  }
+}

@@ -1,0 +1,231 @@
+/* ===== ARBETSRO DESIGN PATCH v5 — 2026-05-04 ===== */
+/* Deploya via widget custom_html i sidebar-footer-1 */
+
+/* --- FIX #1: Hero brödtext kontrast --- */
+.arb-hero__sub{
+  text-shadow:0 2px 20px rgba(0,0,0,0.9),0 0 40px rgba(0,0,0,0.6)!important;
+  background:linear-gradient(135deg,rgba(10,20,16,0.55) 0%,rgba(10,20,16,0.35) 100%)!important;
+  padding:16px 20px!important;
+  border-radius:6px!important;
+  backdrop-filter:blur(6px)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+  color:rgba(240,235,225,0.88)!important;
+}
+
+/* --- FIX #2: CTA-knapp starkare --- */
+.arb-hero__cta--primary{
+  background:linear-gradient(135deg,#9B7858 0%,#8B6B4A 50%,#7a5c3a 100%)!important;
+  box-shadow:0 6px 24px rgba(139,107,74,0.45),inset 0 1px 0 rgba(255,255,255,0.15)!important;
+  padding:16px 36px!important;
+  font-size:12px!important;
+  font-weight:600!important;
+  letter-spacing:3px!important;
+  transition:all .3s cubic-bezier(.2,.8,.2,1)!important;
+}
+.arb-hero__cta--primary:hover{
+  box-shadow:0 14px 40px rgba(139,107,74,0.6),inset 0 1px 0 rgba(255,255,255,0.2)!important;
+  transform:translateY(-3px)!important;
+  filter:brightness(1.08)!important;
+}
+
+/* --- FIX #3: Filosofi-sektionens produktbild — mjuka kanter --- */
+.arb-mega__cell--feature .arb-mega__inner,
+.arb-mega .arb-mega__cell{
+  border-radius:0!important;
+}
+/* Produktbilder i mega-grid — mjukare övergång */
+body.home .arb-mega__grid a.arb-mega__cell{
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),filter .4s ease,box-shadow .5s ease!important;
+}
+
+/* --- FIX #5: Göm "0 KR" i varukorg när tom --- */
+.header-cart-link .cart-price{
+  opacity:0!important;
+  width:0!important;
+  overflow:hidden!important;
+  padding:0!important;
+  margin:0!important;
+}
+/* Visa pris bara när varukorg har items */
+.cart-has-items .header-cart-link .cart-price{
+  opacity:1!important;
+  width:auto!important;
+}
+
+/* --- FIX #6: Butik hero — kompaktare --- */
+body.post-type-archive-product .arb-shop-wrapper,
+body.post-type-archive-product .page-description{
+  max-height:320px!important;
+  overflow:hidden!important;
+}
+body.post-type-archive-product .arb-shop-wrapper section{
+  min-height:280px!important;
+}
+body.post-type-archive-product .arb-shop-wrapper section>div:first-child{
+  padding:32px 36px!important;
+}
+body.post-type-archive-product .arb-shop-wrapper section>div:first-child h1,
+body.post-type-archive-product .arb-shop-wrapper section>div:first-child .arb-shop-h1{
+  font-size:clamp(32px,5vw,48px)!important;
+  margin-bottom:8px!important;
+}
+body.post-type-archive-product .arb-shop-wrapper section>div:first-child p{
+  font-size:13px!important;
+  line-height:1.6!important;
+}
+
+/* --- FIX #7: Kategoriknappar ovanför produktgridet --- */
+.arb-cat-filter{
+  display:flex!important;
+  gap:8px!important;
+  padding:0 0 24px!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+}
+.arb-cat-filter a{
+  display:inline-block!important;
+  padding:8px 18px!important;
+  font-family:Inter,sans-serif!important;
+  font-size:11px!important;
+  letter-spacing:2px!important;
+  text-transform:uppercase!important;
+  color:rgba(245,240,228,0.6)!important;
+  border:1px solid rgba(245,240,228,0.12)!important;
+  border-radius:4px!important;
+  text-decoration:none!important;
+  transition:all .25s ease!important;
+  background:transparent!important;
+}
+.arb-cat-filter a:hover,
+.arb-cat-filter a.active{
+  color:#F5F0E4!important;
+  border-color:#C4956A!important;
+  background:rgba(196,149,106,0.1)!important;
+}
+
+/* --- FIX #8: Produktkort bildyta normalisering --- */
+body.archive .product-small .box-image,
+body.home .products .product-small .box-image{
+  aspect-ratio:1/1!important;
+  background:#F5F0E4!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+body.archive .product-small .box-image img,
+body.home .products .product-small .box-image img{
+  max-width:75%!important;
+  max-height:75%!important;
+  width:auto!important;
+  height:auto!important;
+  object-fit:contain!important;
+  mix-blend-mode:multiply!important;
+}
+
+/* --- FIX #11: Produktsida — bildbakgrund ljusare --- */
+.single-product .woocommerce-product-gallery,
+.single-product .woocommerce-product-gallery .woocommerce-product-gallery__wrapper,
+.single-product .woocommerce-product-gallery .flex-viewport{
+  background:linear-gradient(160deg,#FAF6EC 0%,#F0EBE1 100%)!important;
+  border-radius:8px!important;
+  overflow:hidden!important;
+}
+.single-product .woocommerce-product-gallery img{
+  mix-blend-mode:multiply!important;
+  object-fit:contain!important;
+  padding:8%!important;
+}
+
+/* --- FIX #12: Social share-knappar — dölj --- */
+.single-product .share-icons,
+.single-product .social-icons,
+.single-product .product_meta+div[class*="share"],
+.single-product .entry-summary .share-links,
+.single-product .woocommerce-product-details__share,
+div.share-icons{
+  display:none!important;
+}
+
+/* --- FIX #14: Galleripilarna — mer synliga --- */
+.single-product .flex-direction-nav a,
+.single-product .woocommerce-product-gallery .flex-prev,
+.single-product .woocommerce-product-gallery .flex-next{
+  width:44px!important;
+  height:44px!important;
+  background:rgba(44,62,45,0.85)!important;
+  border-radius:50%!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  opacity:0!important;
+  transition:opacity .3s ease!important;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2)!important;
+}
+.single-product .woocommerce-product-gallery:hover .flex-prev,
+.single-product .woocommerce-product-gallery:hover .flex-next{
+  opacity:1!important;
+}
+.single-product .flex-direction-nav a::before,
+.single-product .flex-direction-nav a::after{
+  color:#F0EBE1!important;
+  font-size:18px!important;
+}
+
+/* --- FIX #15: "X i lager" — göm, visa bara "I lager" --- */
+.single-product .stock.in-stock{
+  font-size:0!important;
+}
+.single-product .stock.in-stock::after{
+  content:'I lager'!important;
+  font-size:12px!important;
+  font-family:Inter,sans-serif!important;
+  letter-spacing:1.5px!important;
+  text-transform:uppercase!important;
+  color:rgba(168,212,184,0.8)!important;
+}
+
+/* --- BONUS: Produktsida — SKU/meta renare --- */
+.single-product .product_meta{
+  font-family:Inter,sans-serif!important;
+  font-size:12px!important;
+  color:rgba(240,235,225,0.4)!important;
+  border-top:1px solid rgba(245,240,228,0.06)!important;
+  padding-top:16px!important;
+  margin-top:20px!important;
+}
+.single-product .product_meta a{
+  color:rgba(196,149,106,0.7)!important;
+  text-decoration:none!important;
+}
+.single-product .product_meta a:hover{
+  color:#C4956A!important;
+}
+
+/* --- BONUS: Scroll-indikator i hero --- */
+@keyframes arbScrollHint{
+  0%,100%{transform:translateY(0);opacity:0.6}
+  50%{transform:translateY(8px);opacity:1}
+}
+.arb-scroll-hint{
+  position:absolute!important;
+  bottom:24px!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  width:24px!important;
+  height:40px!important;
+  border:2px solid rgba(245,240,228,0.3)!important;
+  border-radius:12px!important;
+  z-index:5!important;
+}
+.arb-scroll-hint::after{
+  content:''!important;
+  position:absolute!important;
+  top:6px!important;
+  left:50%!important;
+  transform:translateX(-50%)!important;
+  width:4px!important;
+  height:8px!important;
+  background:rgba(245,240,228,0.5)!important;
+  border-radius:2px!important;
+  animation:arbScrollHint 2s ease-in-out infinite!important;
+}

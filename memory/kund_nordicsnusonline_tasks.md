@@ -1,7 +1,49 @@
 # nordicsnusonline — Tasks & Status
 
-> Kund: nordicsnusonline.se (prospekt/okänd status) | GSC: Ej aktiv
-> Senast uppdaterad: 2026-05-06
+> Kund: nordicsnusonline.com (VÅTT AB) | GSC: OK | BQ: OK | Hosting: Loopia (vår server) | Status: LIVE på apex, kassa + bilder fixade 2026-06-03
+> Senast uppdaterad: 2026-06-03
+
+## Kassa + bilder fixat 2026-06-03 (köp fungerar desktop + mobil)
+
+### Arkitektur (verifierad, korrigerar tidigare "EC2"-notering)
+- **Frontend** = `nordicsnusonline.com` (apex) → `51.21.116.7` (vår server, nginx, statisk Next.js i `/var/www/nso/out/`). Även `nso.searchboost.nu` → samma.
+- **WooCommerce/kassa/bilder** = kundens **one.com**, `www.nordicsnusonline.com` → `46.30.215.176`. WP multisite, `/sv/` = blog 2, prefix `www_2_`. Tema Flatsome. Betalning = **Qliro One**. Kassa-permalink = `/sv/kassan/`.
+- one.com SSH: `nordicsnusonline.com@ssh.nordicsnusonline.com` (creds i nordicsnusonline-next/deploy.sh). wp-cli finns: `/usr/local/bin/wp`.
+- **WP-admin login**: `nordicsnusonline.com/snus-admin` (wps-hide-login slug, network-aktiv; `whl_redirect_admin=404` döljer wp-admin för oinloggade). Admins: christian, magnus@omnicom.se, mikael, thomas2. WooCommerce-produkter ligger på blog 2: `/sv/wp-admin/` → Produkter → Variationer. Login-vägar proxas → one.com via `nso-onecom-admin.conf` (/snus-admin, /wp-admin, /wp-login.php, /wp-includes/). Backup: `nordicsnusonline.bak-20260603-login`.
+- Frontend-server SSH: `ubuntu@51.21.116.7` (sudo utan lösen).
+
+### Vad som var trasigt + fix
+- nginx-cutover 09:07 la `location ^~ /sv/ { rewrite → / }` → ALLA WC-vägar dog. **Fix**: nginx proxar nu `/sv/kassa|varukorg|mitt-konto|wp-json/|wp-admin|wc-api` → one.com (https). Backup: `/etc/nginx/sites-available/nordicsnusonline.bak-20260603-1145`.
+- WC kör **cookieless** (Cart-Token) → Store API delar inte cart med klassiska kassan. **Fix**: `wc-cart-sync.ts` använder server-side `/sv/varukorg/?add-to-cart=VARIATION_ID&quantity=N` (credentials:include) som sätter delad `wp_woocommerce_session`-cookie. Rensar via Store API DELETE + nonce först.
+- WC REST-nyckel saknades i DB (raderad) → återskapad (user mikael=192, read). **Bör flyttas till SSM.**
+- Paket speglar nu WC: `lib/data/packages.ts` (237 prod, variations-id + WC-priser), genereras av `lib/scripts/gen-packages.mjs`. Frontend-paket 1/3/5/10 ERSATTA av WC:s 1-dosa/5/10/30.
+
+### Deploy frontend (VIKTIGT)
+- `rsync -az --delete --exclude=.well-known out/ ubuntu@51.21.116.7:/var/www/nso/out/` — INTE deploy.sh (den pekar fel, mot one.com).
+
+### Kvar / noteringar
+- [ ] `deploy.sh`: fel target (one.com) + SSH-lösen i klartext committat → fixa target, flytta till SSM, rotera.
+- [ ] **wp-json proxy trasig (2026-06-05)**: `https://nordicsnusonline.com/sv/wp-json/` returnerar nginx-404, även med Basic Auth. Hela `wp/v2/posts`, `wc/v3/products` ger 404. Autonomous-optimizer kan därför inte skriva till NSO via REST. **Åtgärd:** kolla nginx-config på 51.21.116.7 — proxy-blocket för `wp-json` saknas eller har felaktig location-precedence (`location ^~ /sv/ {}` matchar troligen före wp-json-blocket). Tills fixat är NSO:s action_plans markerade `blocked` och pending queue-tasks `skipped` i BQ (gjort 2026-06-05 00:55 CEST). Återaktivera när proxyn fungerar.
+- [ ] WC-pris: 30-pack ibland dyrare/st än 10-pack (ZYN: 32 vs 31 kr/st) — se över i WC om oavsiktligt.
+- [ ] WC read-nyckel → SSM.
+
+## Next.js-redesign — staging LIVE 2026-06-02
+
+- **Staging**: https://nso.searchboost.nu (EC2 51.21.116.7, statisk export i /var/www/nso/out/, nginx). 200 OK alla routes.
+- **Arkitektur**: Headless Next.js-frontend, kassa kvar i WooCommerce (/sv/kassa/). lib/wc-cart-sync.ts synkar cart → WC Store API v1 innan checkout-redirect.
+- **WC-mappning**: wcId tillagt på 237/257 produkter (zyn-cactus WC ID=23121, 400 prod i WC, 20 saknar WC-ID — KVAR ATT FIXA).
+- **GA4**: G-Z9R3KK4V5Y i app/layout.tsx. AnnouncementBar: VÄLKOMMEN10 borttagen → "Diskret förpackning — alltid".
+- **Juridiskt**: VÅTT AB, Strandgatan 28, 531 60 Lidköping.
+- **Lärdom**: One.com-deploy (Next.js + WP via .htaccess) bröt WP /sv/ → rollback. Använd EC2-staging, inte One.com-koexistens. Se memory/skills/nextjs_deploy_skill.md.
+
+### Kvar att göra
+- [ ] Mappa de 20 produkter som saknar wcId
+- [ ] WP-sajten har plugin code-snippets — BRYTER Perispa-regel, migrera vid tillfälle
+- [ ] Invänta Mikaels godkännande av staging → planera cutover till nordicsnusonline.com
+
+---
+
+### Tidigare (WordPress hero-arbete)
 
 ## Regressionsvarningar
 

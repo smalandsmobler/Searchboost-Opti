@@ -1,0 +1,16 @@
+{
+  "id": "11fbaf06-1ddf-452d-a099-55396d42d188",
+  "created": "2026-04-29T20:23:16.142Z",
+  "site": "arbetsro",
+  "page_id": 34,
+  "type": "page",
+  "label": "auto-fix 2026-04-29",
+  "title": "Blogg",
+  "content": "<!-- wp:html --><div style=\"max-width:800px;margin:0 auto;padding:80px 24px 48px;\"><p style=\"font-size:0.8rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#8a9e8a;margin:0 0 16px;\">Kunskapsbank</p><h1 style=\"font-family:Playfair Display,Georgia,serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;color:#2C3E2D;margin:0 0 24px;\">Tankar om hemmakontoret</h1><p style=\"font-size:1.1rem;color:#5a6b5a;line-height:1.8;max-width:560px;margin:0 0 64px;\">Praktiska råd, inspiration och ärliga genomgångar av vad som faktiskt gör skillnad på ett hemmakontor. Inga sponsrade listor. Ingen klickbeteshur.</p></div><!-- /wp:html -->",
+  "excerpt": "<p>Kunskapsbank Tankar om hemmakontoret Praktiska råd, inspiration och ärliga genomgångar av vad som faktiskt gör skillnad på ett hemmakontor. Inga sponsrade listor. Ingen klickbeteshur.</p>\n",
+  "meta": {
+    "footnotes": ""
+  },
+  "status": "publish",
+  "content_hash": "0314b95135cb7d58ce29dab85a60bcba"
+}

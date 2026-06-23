@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "web-to-mcp": {
+      "type": "http",
+      "url": "https://web-to-mcp.com/mcp/5dd66374-b95e-4f05-9a03-86e813d2cde7/"
+    },
+    "perispa": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/perispa/server.js"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "plausible": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/vendor/plausible-mcp/dist/index.js"],
+      "env": {
+        "PLAUSIBLE_BASE_URL": "https://analytics.searchboost.se",
+        "PLAUSIBLE_API_KEY": "PLACEHOLDER_REPLACE_WITH_SSM_VALUE"
+      }
+    },
+    "plausible-ch": {
+      "command": "/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/plausible-ch-mcp-launcher.sh"
+    },
+    "social-ads": {
+      "command": "node",
+      "args": ["/Users/weerayootandersson/Downloads/Searchboost-Opti/tools/social-ads-mcp/src/index.js"],
+      "env": {
+        "AWS_REGION": "eu-north-1",
+        "AWS_PROFILE": "mikael"
+      }
+    }
+  }
+}

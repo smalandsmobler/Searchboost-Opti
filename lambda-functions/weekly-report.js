@@ -14,12 +14,10 @@
  *   - BigQuery: ads_daily_metrics (spend, ROAS per plattform)
  *   - BigQuery: social_daily_metrics (followers, engagement)
  *   - SSM: kontaktuppgifter per kund
- *   - Trello: DONE-kort (senaste 7 dagar)
  */
 const { SSMClient, GetParameterCommand, GetParametersByPathCommand } = require('@aws-sdk/client-ssm');
 const { BigQuery } = require('@google-cloud/bigquery');
 const nodemailer = require('nodemailer');
-const axios = require('axios');
 const fs = require('fs');
 
 const REGION = process.env.AWS_REGION || 'eu-north-1';
@@ -71,7 +69,18 @@ async function getBigQuery() {
   const dataset = await getParam('/seo-mcp/bigquery/dataset');
   fs.writeFileSync('/tmp/wif-config.json', wifConfig);
   process.env.GOOGLE_APPLICATION_CREDENTIALS = '/tmp/wif-config.json';
-  return { bq: new BigQuery({ projectId }), dataset };
+  // Billing via seo-aouto, data i searchboost-485810. Patcha bq.dataset()
+  // och bq.query() att tvinga rätt projekt utan att bryta SQL-strängar.
+  const bq = new BigQuery({ projectId: 'seo-aouto' });
+  const _origDs = bq.dataset.bind(bq);
+  bq.dataset = (n, o = {}) => _origDs(n, { projectId, ...o });
+  const _origQuery = bq.query.bind(bq);
+  bq.query = (arg, ...rest) => {
+    const opts = typeof arg === 'string' ? { query: arg } : { ...arg };
+    if (!opts.defaultDataset) opts.defaultDataset = { datasetId: dataset, projectId };
+    return _origQuery(opts, ...rest);
+  };
+  return { bq, dataset };
 }
 
 /**
@@ -322,53 +331,17 @@ async function getActiveCustomers() {
   return customers;
 }
 
-async function getTrelloDoneCards() {
-  try {
-    const apiKey = await getParam('/seo-mcp/trello/api-key');
-    const token = await getParam('/seo-mcp/trello/token');
-    const boardId = await getParam('/seo-mcp/trello/board-id');
-
-    const listsRes = await axios.get(`https://api.trello.com/1/boards/${boardId}/lists`, {
-      params: { key: apiKey, token }
-    });
-    const doneList = listsRes.data.find(l => l.name.toLowerCase().includes('done'));
-    if (!doneList) {
-      console.log('No DONE list found on Trello board');
-      return [];
-    }
-
-    const cardsRes = await axios.get(`https://api.trello.com/1/lists/${doneList.id}/cards`, {
-      params: { key: apiKey, token, fields: 'name,desc,dateLastActivity' }
-    });
-
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    return cardsRes.data.filter(card => new Date(card.dateLastActivity) >= sevenDaysAgo);
-  } catch (err) {
-    console.error('Trello fetch error:', err.message);
-    return [];
-  }
-}
-
-function extractCustomerFromCard(card) {
-  const nameMatch = card.name.match(/SEO:\s*(\S+)/i);
-  if (nameMatch) return nameMatch[1];
-  const descMatch = (card.desc || '').match(/\*\*Kund:\*\*\s*(\S+)/);
-  if (descMatch) return descMatch[1];
-  return 'ospecificerad';
-}
-
 /**
  * Matcha optimeringar till kunder baserat på customer_id eller site_url
  */
-function groupByCustomer(optimizations, trelloCards, customers) {
+function groupByCustomer(optimizations, customers) {
   const groups = {};
 
   // Initiera grupper för alla kunder
   for (const customer of customers) {
     groups[customer.customer_id] = {
       customer,
-      optimizations: [],
-      trelloCards: []
+      optimizations: []
     };
   }
 
@@ -396,28 +369,9 @@ function groupByCustomer(optimizations, trelloCards, customers) {
     if (!matched) {
       // Ospecificerad kund
       if (!groups['_unmatched']) {
-        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [], trelloCards: [] };
+        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [] };
       }
       groups['_unmatched'].optimizations.push(opt);
-    }
-  }
-
-  // Gruppera Trello-kort
-  for (const card of trelloCards) {
-    const cardCustomer = extractCustomerFromCard(card);
-    let matched = false;
-    for (const customer of customers) {
-      if (cardCustomer.includes(customer.customer_id) || customer.customer_id.includes(cardCustomer)) {
-        groups[customer.customer_id].trelloCards.push(card);
-        matched = true;
-        break;
-      }
-    }
-    if (!matched) {
-      if (!groups['_unmatched']) {
-        groups['_unmatched'] = { customer: { customer_id: '_unmatched', company_name: 'Ospecificerad' }, optimizations: [], trelloCards: [] };
-      }
-      groups['_unmatched'].trelloCards.push(card);
     }
   }
 
@@ -425,20 +379,20 @@ function groupByCustomer(optimizations, trelloCards, customers) {
 }
 
 // ── Kundfacing veckologg — HTML med siffror och utfört arbete ──
-function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel, metrics) {
+function buildCustomerReportHTML(customer, optimizations, weekLabel, metrics, introMessage) {
   const name = customer.contact_person || 'där';
   const companyName = customer.company_name || customer.customer_id;
 
   // Utfört arbete-rader
   const optItems = optimizations.map(o => {
     const type = formatOptType(o.optimization_type);
-    const page = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '') || '/';
-    return `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(type)} <span style="color:#999;font-size:12px">(${escapeHtml(page)})</span></li>`;
+    const rawPath = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+    const page = rawPath || 'Hela sajten';
+    // Visa beskrivningen om den finns, annars fallback till typ-etikett
+    const mainText = o.description || o.after_state || type;
+    return `<li style="margin-bottom:8px;font-size:14px;line-height:1.4">${escapeHtml(mainText)} <span style="color:#bbb;font-size:11px;display:inline-block;margin-left:4px">${escapeHtml(page)}</span></li>`;
   });
-  const trelloItems = trelloCards.map(c =>
-    `<li style="margin-bottom:6px;font-size:14px">${escapeHtml(c.name)}</li>`
-  );
-  const allItems = [...optItems, ...trelloItems];
+  const allItems = optItems;
 
   // ── Veckans siffror (GSC-block) ──
   let gscBlock = '';
@@ -458,11 +412,16 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
       </tr>`
     ).join('');
 
+    const top10Count = (g.top_keywords || []).filter(k => parseFloat(k.position) <= 10).length;
+    const top10Badge = top10Count > 0
+      ? `<div style="display:inline-block;background:#e8f5e9;color:#2e7d32;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;margin-bottom:10px">🏆 ${top10Count} sökord i topp 10</div>`
+      : '';
+
     const risingBlock = (g.rising_keywords || []).length > 0 ? `
-      <div style="margin-top:12px;font-size:12px;color:#666;text-transform:uppercase;font-weight:600;margin-bottom:4px">Klättrat i Google</div>
+      <div style="margin-top:12px;font-size:12px;color:#666;text-transform:uppercase;font-weight:600;margin-bottom:6px">Klättrat i Google denna vecka</div>
       ${g.rising_keywords.map(k =>
-        `<div style="font-size:13px;margin-bottom:4px">
-          <span style="color:#00c853">▲ ${k.gain} platser</span>
+        `<div style="font-size:13px;margin-bottom:5px;padding:4px 8px;background:#f8fdf9;border-radius:4px">
+          <span style="color:#00c853;font-weight:700">▲ +${k.gain} platser</span>
           <span style="color:#333"> — ${escapeHtml(k.query)}</span>
           <span style="color:#999"> (nu pos ${k.position})</span>
         </div>`
@@ -474,6 +433,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
         Trafik från Google (organisk)
       </div>
       <div style="padding:14px">
+        ${top10Badge}
         <table style="width:100%;margin-bottom:8px" cellspacing="0" cellpadding="0">
           <tr>
             <td style="text-align:center;padding:8px">
@@ -584,6 +544,7 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
 
   <div style="padding:24px">
     <p style="font-size:15px;margin:0 0 16px">Hej ${escapeHtml(name)}!</p>
+    ${introMessage ? `<div style="margin:0 0 20px;padding:12px 16px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px;font-size:14px;color:#555">${escapeHtml(introMessage)}</div>` : ''}
     <p style="font-size:14px;color:#444;margin:0 0 20px">
       Här är en sammanfattning av vad vi gjort för ${escapeHtml(companyName)} den här veckan,
       samt hur er synlighet i Google ser ut.
@@ -618,6 +579,13 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
     </p>
   </div>
 
+  <div style="background:#f0f4ff;padding:14px 20px;border-top:1px solid #dce4f5;text-align:center">
+    <p style="margin:0;font-size:13px;color:#555">
+      Undrar du vad en åtgärd innebär?
+      <a href="https://searchboost.se/seo-optimeringar/" style="color:#db007f;text-decoration:none;font-weight:600">Läs vad vi gör varje vecka →</a>
+    </p>
+  </div>
+
   <div style="background:#f8f9fa;padding:16px;text-align:center;font-size:12px;color:#999;border-top:1px solid #e8e8e8">
     <p style="margin:0">Searchboost — SEO &amp; Digital marknadsföring</p>
     <p style="margin:4px 0 0">searchboost.se | mikael@searchboost.se</p>
@@ -627,30 +595,30 @@ function buildCustomerReportHTML(customer, optimizations, trelloCards, weekLabel
 }
 
 // ── Intern sammanfattning (Mikaels mail) ──
-function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics) {
+function buildInternalReportHTML(groups, optimizations, queueStats, weekLabel, allMetrics, introMessage) {
   const totalOpts = optimizations.length;
-  const totalCards = trelloCards.length;
 
   // Filtrera bort _unmatched och tomma grupper
   const activeGroups = Object.entries(groups)
-    .filter(([id, g]) => id !== '_unmatched' && (g.optimizations.length > 0 || g.trelloCards.length > 0 || (allMetrics && allMetrics[id])))
-    .sort((a, b) => (b[1].optimizations.length + b[1].trelloCards.length) - (a[1].optimizations.length + a[1].trelloCards.length));
+    .filter(([id, g]) => id !== '_unmatched' && (g.optimizations.length > 0 || (allMetrics && allMetrics[id])))
+    .sort((a, b) => b[1].optimizations.length - a[1].optimizations.length);
 
   const customerSections = activeGroups.map(([customerId, data]) => {
     const displayName = data.customer.company_name || customerId;
     const email = data.customer.contact_email || '—';
     const m = allMetrics && allMetrics[customerId];
 
-    const optRows = data.optimizations.map(o =>
-      `<tr><td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px">${formatOptType(o.optimization_type)}</td>` +
-      `<td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">${truncate(o.page_url || '', 45)}</td></tr>`
-    ).join('');
+    const optRows = data.optimizations.map(o => {
+      const rawPath = (o.page_url || '').replace(/^https?:\/\/[^/]+/, '').replace(/\/$/, '');
+      const displayUrl = rawPath || 'Hela sajten';
+      return `<tr><td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px">${formatOptType(o.optimization_type)}</td>` +
+        `<td style="padding:5px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">${truncate(displayUrl, 45)}</td></tr>`;
+    }).join('');
 
-    const trelloRows = data.trelloCards.map(c =>
-      `<li style="margin-bottom:4px;font-size:12px">${escapeHtml(c.name)}</li>`
-    ).join('');
-
-    const emailStatus = data.customer.contact_email ? 'Skickat' : 'Inget mail';
+    // Speglar tom-mail-gaten i handlern: mail går ut endast vid loggat arbete + e-post.
+    const emailStatus = data.optimizations.length === 0
+      ? 'Inget mail (inget arbete)'
+      : (data.customer.contact_email ? 'Skickat' : 'Inget mail (saknar e-post)');
 
     // GSC-sammanfattning för intern vy
     let gscSummary = '';
@@ -707,7 +675,7 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
     <div style="margin-bottom:16px;border:1px solid #e8e8e8;border-radius:8px;overflow:hidden">
       <div style="background:#f8f9fa;padding:10px 14px;border-bottom:1px solid #e8e8e8">
         <strong style="font-size:14px">${escapeHtml(displayName)}</strong>
-        <span style="float:right;font-size:12px;color:#666">${data.optimizations.length} opt. | ${data.trelloCards.length} kort | ${emailStatus}</span>
+        <span style="float:right;font-size:12px;color:#666">${data.optimizations.length} opt. | ${emailStatus}</span>
       </div>
       <div style="padding:12px 14px">
         <div style="font-size:11px;color:#999;margin-bottom:8px">Kontakt: ${escapeHtml(email)}</div>
@@ -725,11 +693,6 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
           </tr>
           ${optRows}
         </table>` : ''}
-        ${data.trelloCards.length > 0 ? `
-        <div style="margin-top:8px">
-          <div style="font-size:11px;color:#999;text-transform:uppercase;margin-bottom:4px">Trello (DONE)</div>
-          <ul style="margin:0;padding-left:18px">${trelloRows}</ul>
-        </div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -756,32 +719,31 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
   <div style="padding:24px">
     <table style="width:100%;margin-bottom:24px" cellspacing="0" cellpadding="0">
       <tr>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalOpts}</div>
           <div style="font-size:12px;color:#666">Opt.</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
-          <div style="font-size:28px;font-weight:700;color:#db007f">${totalCards}</div>
-          <div style="font-size:12px;color:#666">Trello</div>
-        </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${customersWithWork}</div>
           <div style="font-size:12px;color:#666">Kunder</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalClicks.toLocaleString('sv-SE')}</div>
           <div style="font-size:12px;color:#666">Klick GSC</div>
         </td>
-        <td style="width:3px"></td>
-        <td style="width:19%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
+        <td style="width:1%"></td>
+        <td style="width:24%;text-align:center;background:#f8f9fa;border-radius:8px;padding:14px 4px">
           <div style="font-size:28px;font-weight:700;color:#db007f">${totalSpend > 0 ? Math.round(totalSpend).toLocaleString('sv-SE') : '–'}</div>
           <div style="font-size:12px;color:#666">kr ads</div>
         </td>
       </tr>
     </table>
+
+    ${introMessage ? `<div style="margin:0 0 20px;padding:12px 16px;background:#fff8e1;border-left:3px solid #ffc107;border-radius:4px;font-size:13px;color:#555">${escapeHtml(introMessage)}</div>` : ''}
+
+    ${buildUpsellOpportunities(groups, allMetrics)}
 
     <h2 style="color:#0e0c19;font-size:16px;border-bottom:2px solid #db007f;padding-bottom:8px;margin-bottom:16px">Per kund</h2>
     ${customerSections || '<p style="color:#999;font-size:14px">Inget arbete loggat denna vecka.</p>'}
@@ -798,6 +760,145 @@ function buildInternalReportHTML(groups, optimizations, trelloCards, queueStats,
   </div>
 </body>
 </html>`;
+}
+
+/**
+ * Bygger "Uppförsäljningsmöjligheter"-sektionen för den interna veckorapporten.
+ * Visar kunder med god organisk trafik (>30 klick/vecka) men inga aktiva annonsplattformar.
+ * Inkluderar ROAS-trend för kunder som redan annonserar men har otestad potential.
+ */
+function buildUpsellOpportunities(groups, allMetrics) {
+  // Kunder med GSC-trafik men ingen ads-spend denna vecka
+  const noAdsOpportunities = [];
+  // Kunder med ads men låg ROAS (potential för optimering = upsell på management)
+  const lowRoasOpportunities = [];
+  // Kunder med aktiva annonser — visa för snabb överblick
+  const activeAds = [];
+
+  for (const [customerId, group] of Object.entries(groups)) {
+    if (customerId === '_unmatched') continue;
+    const m = allMetrics && allMetrics[customerId];
+    if (!m) continue;
+    const companyName = group.customer.company_name || customerId;
+
+    const hasAds = m.ads && Number(m.ads.total_spend) > 0;
+    const clicks = m.gsc?.clicks_this_week || 0;
+
+    if (!hasAds && clicks >= 30) {
+      // Uppskatta potentiell budget: ~10% av estimerad månadsintäkt
+      // Vi har inga intäktsdata, men vi kan visa klickvolym som signal
+      const priority = clicks >= 200 ? 'Hög' : clicks >= 80 ? 'Medium' : 'Låg';
+      const priorityColor = clicks >= 200 ? '#e53935' : clicks >= 80 ? '#ffa000' : '#888';
+      noAdsOpportunities.push({ customerId, companyName, clicks, priority, priorityColor });
+    } else if (hasAds) {
+      const roas = Number(m.ads.total_roas) || 0;
+      const spend = Number(m.ads.total_spend) || 0;
+      activeAds.push({ customerId, companyName, spend, roas });
+      if (roas > 0 && roas < 2) {
+        lowRoasOpportunities.push({ customerId, companyName, roas, spend });
+      }
+    }
+  }
+
+  if (noAdsOpportunities.length === 0 && lowRoasOpportunities.length === 0 && activeAds.length === 0) {
+    return '';
+  }
+
+  const noAdsRows = noAdsOpportunities
+    .sort((a, b) => b.clicks - a.clicks)
+    .map(o => `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${o.clicks.toLocaleString('sv-SE')}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center">
+        <span style="color:${o.priorityColor};font-weight:600">${o.priority}</span>
+      </td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#666">Ej kopplad</td>
+    </tr>`).join('');
+
+  const lowRoasRows = lowRoasOpportunities
+    .sort((a, b) => a.roas - b.roas)
+    .map(o => `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${Math.round(o.spend).toLocaleString('sv-SE')} kr</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center">
+        <span style="color:#e53935;font-weight:600">${o.roas}x ROAS</span>
+      </td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#ffa000">Optimera kampanjer</td>
+    </tr>`).join('');
+
+  const activeAdsRows = activeAds
+    .sort((a, b) => b.spend - a.spend)
+    .map(o => {
+      const roasColor = o.roas >= 4 ? '#00c853' : o.roas >= 2 ? '#ffa000' : '#e53935';
+      return `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;font-weight:600">${escapeHtml(o.companyName)}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:right">${Math.round(o.spend).toLocaleString('sv-SE')} kr</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:13px;text-align:center;color:${roasColor};font-weight:600">${o.roas > 0 ? o.roas + 'x' : '–'}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #f0f0f0;font-size:12px;color:#00c853">Aktiv</td>
+    </tr>`;
+    }).join('');
+
+  const noAdsSection = noAdsOpportunities.length > 0 ? `
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:#db007f;text-transform:uppercase;margin-bottom:6px">
+        ${noAdsOpportunities.length} kund(er) utan annonser — sälj in Google Ads
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#fef6fb">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Klick/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">Prioritet</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Status</th>
+        </tr>
+        ${noAdsRows}
+      </table>
+    </div>` : '';
+
+  const lowRoasSection = lowRoasOpportunities.length > 0 ? `
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:#ffa000;text-transform:uppercase;margin-bottom:6px">
+        ${lowRoasOpportunities.length} kund(er) med låg ROAS — kampanjoptimering
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#fffde7">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Spend/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">ROAS</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Åtgärd</th>
+        </tr>
+        ${lowRoasRows}
+      </table>
+    </div>` : '';
+
+  const activeAdsSection = activeAds.length > 0 ? `
+    <div>
+      <div style="font-size:12px;font-weight:600;color:#666;text-transform:uppercase;margin-bottom:6px">
+        Aktiva annonskonton (${activeAds.length} st)
+      </div>
+      <table style="width:100%;border-collapse:collapse">
+        <tr style="background:#f8f9fa">
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Kund</th>
+          <th style="padding:5px 8px;text-align:right;font-size:11px;color:#999;text-transform:uppercase">Spend/v</th>
+          <th style="padding:5px 8px;text-align:center;font-size:11px;color:#999;text-transform:uppercase">ROAS</th>
+          <th style="padding:5px 8px;text-align:left;font-size:11px;color:#999;text-transform:uppercase">Status</th>
+        </tr>
+        ${activeAdsRows}
+      </table>
+    </div>` : '';
+
+  return `
+  <div style="margin-bottom:24px;border:2px solid rgba(219,0,127,0.25);border-radius:8px;overflow:hidden">
+    <div style="background:linear-gradient(135deg,rgba(219,0,127,0.08),rgba(0,212,255,0.04));padding:10px 14px;border-bottom:1px solid rgba(219,0,127,0.15)">
+      <strong style="font-size:14px;color:#db007f">Annonsuppförsäljning</strong>
+      <span style="font-size:12px;color:#888;margin-left:8px">Veckans möjligheter</span>
+    </div>
+    <div style="padding:14px">
+      ${noAdsSection}${lowRoasSection}${activeAdsSection}
+    </div>
+  </div>`;
 }
 
 function formatPlatformName(platform) {
@@ -837,7 +938,10 @@ function formatOptType(type) {
     'content': 'Innehållsoptimering',
     'schema': 'La till schema markup',
     'technical': 'Teknisk SEO-fix',
+    'technical_fix': 'Teknisk SEO-fix',
     'manual': 'Manuell åtgärd',
+    'annat': 'Manuell åtgärd',
+    'Annat': 'Manuell åtgärd',
     'h1': 'La till H1-rubrik',
     'h2_optimization': 'Förbättrade underrubriker',
     'h3_optimization': 'Förbättrade underrubriker',
@@ -846,16 +950,47 @@ function formatOptType(type) {
     'keywords': 'Nyckelordsoptimering',
     'image': 'Optimerade bilder',
     'images': 'Optimerade bilder',
+    'alt_text': 'La till alt-text på bilder',
+    'bulk_alt_text': 'La till alt-text på bilder (bulk)',
     'speed': 'Förbättrade sidladdning',
     'canonical': 'Satte canonical-länk',
-    'redirect': 'Skapade omdirigering'
+    'redirect': 'Skapade omdirigering',
+    'ai_seo': 'AI-optimering av metadata',
+    'ai_metadata': 'AI-optimering av metadata',
+    'cleanup': 'Teknisk städning',
+    'diagnosis': 'SEO-diagnostik',
+    'audit': 'SEO-genomgång',
+    'presentation': 'Presentationsmaterial framtaget',
+    'article': 'Artikel publicerad',
+    'blog': 'Bloggpost publicerad',
+    'content_creation': 'Nytt innehåll skapat',
+    'onboarding': 'Onboarding & uppstart',
+    'link_building': 'Länkbygge',
+    'bulk_seo': 'Bulk-SEO-optimering',
+    'meta_title': 'Optimerade sidtiteln',
+    'meta_desc': 'Skrev meta-beskrivning',
+    'missing_description': 'Lade till meta-beskrivning',
+    'Mobiloptimering': 'Mobiloptimering & responsiv design',
+    'mobiloptimering': 'Mobiloptimering & responsiv design',
+    'mobile': 'Mobiloptimering & responsiv design',
+    'mobile_fix': 'Mobiloptimering & responsiv design',
+    'QA/Verifiering': 'QA & Verifiering',
+    'qa_verifiering': 'QA & Verifiering',
+    'qa': 'QA & Verifiering',
+    'verification': 'QA & Verifiering',
+    'design_fix': 'Design & layoutfix',
+    'layout_fix': 'Design & layoutfix',
+    'css_fix': 'CSS/designfix',
+    'react_deploy': 'Frontend-deploy',
+    'deployment': 'Deployment',
+    'wordpress_snippet': 'WordPress-anpassning',
+    'snippet_fix': 'WordPress-anpassning'
   };
 
   const mapped = types[type];
   if (mapped) return mapped;
 
-  // Fallback: aldrig visa råa typnamn (kan innehålla tekniska termer)
-  // Rensa bort prefix och returna ett läsbart alternativ
+  // Fallback: rensa råa typnamn till läsbart format
   const cleaned = (type || '')
     .replace(/^auto[_\s]?/i, '')
     .replace(/[_-]/g, ' ')
@@ -864,7 +999,8 @@ function formatOptType(type) {
   if (!cleaned) return 'SEO-optimering';
 
   // Slå upp den rensade varianten också
-  return types[cleaned.toLowerCase().replace(/\s/g, '_')] || 'SEO-optimering';
+  const lookupKey = cleaned.toLowerCase().replace(/\s/g, '_');
+  return types[lookupKey] || (cleaned.charAt(0).toUpperCase() + cleaned.slice(1));
 }
 
 function escapeHtml(str) {
@@ -887,42 +1023,54 @@ exports.handler = async (event) => {
 
   // Tillåt force=true för att köra om en redan skickad rapport (t.ex. vid test)
   const force = event && event.force === true;
+  // Denna vecka: extra introtext eftersom vi uppdaterat optimizern till 2026 års standard
+  // (Googles rich snippet-uppdatering 7 maj + AI Overviews/ChatGPT/Claude/Gemini-läsbarhet).
+  // Sätt event.intro_message='' för att stänga av, eller skicka egen text för att skriva över.
+  const DEFAULT_INTRO_2026 = 'Denna vecka blev det ovanligt många optimeringar — vi har uppdaterat vårt system till 2026 års senaste standard för att optimera mot både Google och AI-appar/LLMs (AI Overviews, ChatGPT, Claude, Gemini). Alla dina sidor har fått förbättrade titlar, beskrivningar och strukturerad data så att både Googles sökresultat och AI-tjänster kan läsa och citera din sajt korrekt. Detta är ett svar på Googles rich snippet-uppdatering 7 maj 2026 och den växande andelen sökningar som sker via AI istället för klassisk Google-sökning.';
+  const introMessage = (event && typeof event.intro_message === 'string')
+    ? (event.intro_message || null)
+    : DEFAULT_INTRO_2026;
 
   try {
     const { bq, dataset } = await getBigQuery();
     const emailFrom = await getParam('/seo-mcp/email/from');
     const mikaelEmail = (await getParam('/seo-mcp/email/recipients')).split(',').map(e => e.trim());
 
-    // ── Deduplicering: kolla om vi redan skickat intern rapport idag ──
-    // Kontrollerar IDAG (DATE-nivå) istället för vecka för att undvika
-    // race condition vid simultana Lambda-körningar — båda ser 0 rader
-    // om vecko-check används och ingen hunnit skriva till BQ ännu.
+    // ── Deduplicering: en rapport per ISO-vecka ──
+    // EventBridge triggar exakt en gång per fredag 13:00 UTC = 15:00 CEST.
+    // Dedup-fönstret är hela ISO-veckan (mån-sön) baserat på CEST/CET, så manuella
+    // re-runs, Lambda-retries och eventuella miss-triggers samma vecka avvisas alla.
+    // force=true skickar oavsett — använd bara vid medveten omsändning.
     if (!force) {
-      const [existingReports] = await bq.query({
-        query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
-                WHERE customer_id = 'internal'
-                AND DATE(email_sent_at) = CURRENT_DATE()`
-      });
-      if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
-        console.log('Rapport redan skickad idag — avbryter (använd force=true för att skicka om)');
-        return {
-          statusCode: 200,
-          body: JSON.stringify({ skipped: true, reason: 'already_sent_today' })
-        };
+      try {
+        const [existingReports] = await bq.query({
+          query: `SELECT COUNT(*) as cnt FROM \`${dataset}.weekly_reports\`
+                  WHERE customer_id = 'internal'
+                  AND EXTRACT(ISOWEEK FROM DATETIME(created_at, 'Europe/Stockholm'))
+                      = EXTRACT(ISOWEEK FROM DATETIME(CURRENT_TIMESTAMP(), 'Europe/Stockholm'))
+                  AND EXTRACT(ISOYEAR FROM DATETIME(created_at, 'Europe/Stockholm'))
+                      = EXTRACT(ISOYEAR FROM DATETIME(CURRENT_TIMESTAMP(), 'Europe/Stockholm'))`
+        });
+        if (existingReports[0] && Number(existingReports[0].cnt) > 0) {
+          console.log('Rapport redan skickad denna ISO-vecka — avbryter (force=true för att skicka om)');
+          return { statusCode: 200, body: JSON.stringify({ skipped: true, reason: 'already_sent_this_week' }) };
+        }
+      } catch (dedupErr) {
+        console.log('Dedup-check misslyckades (ignoreras):', dedupErr.message);
       }
+      console.log('Kör rapport nu');
     } else {
       console.log('force=true — skickar rapport oavsett deduplicering');
     }
 
     // Hämta data parallellt
-    const [optimizationsResult, queueResult, trelloCards, customers] = await Promise.all([
+    const [optimizationsResult, queueResult, customers] = await Promise.all([
       bq.query({
         query: `SELECT * FROM \`${dataset}.seo_optimization_log\` WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 7 DAY) ORDER BY timestamp DESC`
       }),
       bq.query({
         query: `SELECT status, COUNT(*) as count FROM \`${dataset}.seo_work_queue\` GROUP BY status`
       }),
-      getTrelloDoneCards(),
       getActiveCustomers()
     ]);
 
@@ -936,9 +1084,9 @@ exports.handler = async (event) => {
     const weekLabel = `Vecka ${getWeekNumber(now)}, ${now.getFullYear()}`;
 
     // Gruppera per kund
-    const groups = groupByCustomer(optimizations, trelloCards, customers);
+    const groups = groupByCustomer(optimizations, customers);
 
-    console.log(`Hittade ${optimizations.length} optimeringar, ${trelloCards.length} Trello-kort, ${customers.length} kunder`);
+    console.log(`Hittade ${optimizations.length} optimeringar, ${customers.length} kunder`);
 
     // ── Hämta GSC + Ads + Social-metrics per kund parallellt ──
     const allMetrics = {};
@@ -957,64 +1105,65 @@ exports.handler = async (event) => {
 
     // ── 1. Per-kund veckologgar ──
     const customerResults = [];
+    const reportsTable = bq.dataset(dataset).table('weekly_reports');
     for (const [customerId, group] of Object.entries(groups)) {
-      // Skippa unmatched och kunder utan arbete och utan metrics
       if (customerId === '_unmatched') continue;
+      // Skippa searchboost (intern)
+      if (customerId === 'searchboost') {
+        console.log(`Skipping searchboost (intern)`);
+        continue;
+      }
       const m = allMetrics[customerId] || { gsc: null, ads: null, social: null };
-      const hasWork = group.optimizations.length > 0 || group.trelloCards.length > 0;
-      const hasMetrics = (m.gsc && m.gsc.clicks_this_week > 0) || (m.ads && Number(m.ads.total_spend) > 0) || (m.social && m.social.length > 0);
-      if (!hasWork && !hasMetrics) continue;
+
+      // Tom-mail-gate: kundmail går ENDAST ut när det finns loggat arbete denna vecka.
+      // Inga "tomma" åtgärdsmail — metrics ensamt räcker inte. Kunder utan loggat
+      // arbete syns i den interna rapporten + fångas av pre-flight dagen innan.
+      const hasWork = group.optimizations.length > 0;
+      if (!hasWork) {
+        console.log(`Skippar kundmail ${customerId}: inget loggat arbete denna vecka`);
+        customerResults.push({ customer_id: customerId, sent: false, reason: 'no_work_logged' });
+        continue;
+      }
       // Skippa kunder utan e-post
       if (!group.customer.contact_email) {
         console.log(`Skipping ${customerId}: ingen contact_email`);
         customerResults.push({ customer_id: customerId, sent: false, reason: 'no_email' });
         continue;
       }
-      // Skippa searchboost (intern)
-      if (customerId === 'searchboost') {
-        console.log(`Skipping searchboost (intern)`);
-        continue;
-      }
 
       const customerHtml = buildCustomerReportHTML(
         group.customer,
         group.optimizations,
-        group.trelloCards,
         weekLabel,
-        m
+        m,
+        introMessage
       );
 
       try {
         await transporter.sendMail({
           from: `"Mikael på Searchboost" <${emailFrom}>`,
           to: group.customer.contact_email,
-          bcc: mikaelEmail.join(', '),
           replyTo: mikaelEmail[0],
           subject: `Veckologg SEO — ${group.customer.company_name} — ${weekLabel}`,
           html: customerHtml
-        });
+        ,
+      textEncoding: 'base64',
+      headers: { 'Content-Language': 'sv-SE' }
+    });
 
         console.log(`✅ Kundmail skickat till ${group.customer.contact_email} (${customerId})`);
         customerResults.push({ customer_id: customerId, sent: true, email: group.customer.contact_email });
 
-        // Spara per-kund rapport i BigQuery
-        await bq.query({
-          query: `INSERT INTO \`${dataset}.weekly_reports\` (email_sent_at, customer_id, report_html, metrics_json, recipient_list)
-                  VALUES (CURRENT_TIMESTAMP(), @customer_id, @report_html, @metrics_json, @recipient_list)`,
-          params: {
-            customer_id: customerId,
-            report_html: customerHtml,
-            metrics_json: JSON.stringify({
-              optimizations: group.optimizations.length,
-              trelloCards: group.trelloCards.length,
-              total: group.optimizations.length + group.trelloCards.length,
-              gsc: m.gsc,
-              ads: m.ads ? { total_spend: m.ads.total_spend, total_roas: m.ads.total_roas } : null,
-              social: m.social ? m.social.map(p => ({ platform: p.platform, followers: p.followers, followers_gain: p.followers_gain })) : null
-            }),
-            recipient_list: group.customer.contact_email
-          }
-        });
+        // Spara per-kund rapport i BigQuery (streaming insert — plain ISO-string för timestamp)
+        const nowIso = new Date().toISOString();
+        await reportsTable.insert([{
+          customer_id: customerId,
+          report_html: customerHtml,
+          optimizations_count: group.optimizations.length,
+          summary: `${group.optimizations.length} opt`,
+          created_at: nowIso,
+          sent_at: nowIso
+        }]);
       } catch (emailErr) {
         console.error(`❌ Kunde inte skicka till ${group.customer.contact_email}: ${emailErr.message}`);
         customerResults.push({ customer_id: customerId, sent: false, reason: emailErr.message, email: group.customer.contact_email });
@@ -1022,43 +1171,33 @@ exports.handler = async (event) => {
     }
 
     // ── 2. Intern sammanfattning till Mikael ──
-    const internalHtml = buildInternalReportHTML(groups, optimizations, trelloCards, queueStats, weekLabel, allMetrics);
+    const internalHtml = buildInternalReportHTML(groups, optimizations, queueStats, weekLabel, allMetrics, introMessage);
 
     await transporter.sendMail({
       from: `"Searchboost Opti" <${emailFrom}>`,
       to: mikaelEmail.join(', '),
-      subject: `Intern veckologg SEO — ${weekLabel} — ${optimizations.length} optimeringar, ${trelloCards.length} kort`,
+      subject: `Intern veckologg SEO — ${weekLabel} — ${optimizations.length} optimeringar`,
       html: internalHtml
+    ,
+      textEncoding: 'base64',
+      headers: { 'Content-Language': 'sv-SE' }
     });
 
-    // Spara intern rapport
-    await bq.query({
-      query: `INSERT INTO \`${dataset}.weekly_reports\` (email_sent_at, customer_id, report_html, metrics_json, recipient_list)
-              VALUES (CURRENT_TIMESTAMP(), @customer_id, @report_html, @metrics_json, @recipient_list)`,
-      params: {
-        customer_id: 'internal',
-        report_html: internalHtml,
-        metrics_json: JSON.stringify({
-          total: optimizations.length,
-          trelloCards: trelloCards.length,
-          queueStats,
-          customerResults,
-          metrics_summary: Object.entries(allMetrics).map(([cid, m]) => ({
-            customer_id: cid,
-            gsc_clicks: m.gsc ? m.gsc.clicks_this_week : null,
-            gsc_clicks_diff: m.gsc ? m.gsc.clicks_diff : null,
-            ads_spend: m.ads ? m.ads.total_spend : null,
-            ads_roas: m.ads ? m.ads.total_roas : null
-          }))
-        }),
-        recipient_list: mikaelEmail.join(', ')
-      }
-    });
+    // Spara intern rapport (streaming insert — plain ISO-string för timestamp)
+    const internalNowIso = new Date().toISOString();
+    await reportsTable.insert([{
+      customer_id: 'internal',
+      report_html: internalHtml,
+      optimizations_count: optimizations.length,
+      summary: `${optimizations.length} opt`,
+      created_at: internalNowIso,
+      sent_at: internalNowIso
+    }]);
 
     const sentCount = customerResults.filter(r => r.sent).length;
     const failedCount = customerResults.filter(r => !r.sent).length;
 
-    console.log(`=== Klart! ${sentCount} kundmail skickade, ${failedCount} misslyckade, intern rapport skickad till ${mikaelEmail.join(', ')} ===`);
+    console.log(`=== Klart! ${sentCount} kundmail skickade, ${failedCount} hoppade/misslyckade, intern rapport skickad till ${mikaelEmail.join(', ')} ===`);
 
     return {
       statusCode: 200,
@@ -1066,7 +1205,7 @@ exports.handler = async (event) => {
         sent: true,
         internalReport: { recipients: mikaelEmail },
         customerReports: customerResults,
-        summary: { optimizations: optimizations.length, trelloCards: trelloCards.length, customers: customers.length }
+        summary: { optimizations: optimizations.length, customers: customers.length }
       })
     };
   } catch (err) {

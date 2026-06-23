@@ -1,12 +1,13 @@
 <?php
 /**
  * Plugin Name: Searchboost Onboarding
- * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]
- * Version: 1.0.0
+ * Description: Onboarding-formulär för nya SEO-kunder. Shortcode: [searchboost_uppstart]. Serverar /llms.txt för AI-crawlare. Auto-injekterar Plausible-tracker mot analytics.searchboost.se.
+ * Version: 1.2.0
  * Author: Searchboost
  */
 
 if (!defined('ABSPATH')) exit;
+require_once __DIR__ . '/plausible-tracker.php';
 
 // Settings page
 add_action('admin_menu', function() {
@@ -27,7 +28,7 @@ function sb_onboarding_settings_page() {
             <table class="form-table">
                 <tr>
                     <th>API URL</th>
-                    <td><input type="url" name="sb_onboarding_api_url" value="<?php echo esc_attr(get_option('sb_onboarding_api_url', 'http://51.21.116.7:3000/api/onboard')); ?>" class="regular-text" /></td>
+                    <td><input type="url" name="sb_onboarding_api_url" value="<?php echo esc_attr(get_option('sb_onboarding_api_url', 'https://51.21.116.7/api/onboard')); ?>" class="regular-text" /></td>
                 </tr>
                 <tr>
                     <th>API-nyckel</th>
@@ -233,7 +234,7 @@ function sb_onboarding_form() {
                 <ol>
                     <li>Logga in på er WordPress-webbplats</li>
                     <li>Gå till <strong>Användare</strong> i adminpanelen och välj <strong>Lägg till ny</strong></li>
-                    <li>Ange vår e-postadress <strong>web@searchboost.se</strong> och ge kontot rollen <strong>Administratör</strong></li>
+                    <li>Ange vår e-postadress <strong>mikael@searchboost.se</strong> och ge kontot rollen <strong>Administratör</strong></li>
                     <li>Klicka på <strong>Lägg till användare</strong></li>
                 </ol>
                 <strong>Alternativ 2 — Skapa ett app-lösenord:</strong>
@@ -279,7 +280,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Inställningar</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Användare och behörigheter</strong></li>
                     <li>Klicka på <strong>Lägg till användare</strong></li>
-                    <li>Fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Fyll i <strong>mikael@searchboost.se</strong></li>
                     <li>Välj <strong>Fullständig</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -308,7 +309,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>kugghjulet</strong> längst ner till vänster</li>
                     <li>Klicka på <strong>Åtkomsthantering för konton</strong></li>
                     <li>Klicka på <strong>+</strong> längst upp till höger</li>
-                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Välj <strong>Lägg till användare</strong>, fyll i <strong>mikael@searchboost.se</strong></li>
                     <li>Välj <strong>Administratör</strong></li>
                     <li>Klicka <strong>Lägg till</strong></li>
                 </ol>
@@ -342,7 +343,7 @@ function sb_onboarding_form() {
                     <li>Klicka på <strong>Administratör</strong></li>
                     <li>Välj <strong>Användarhantering</strong> under Konto-kolumnen</li>
                     <li>Klicka på <strong>+</strong> och välj <strong>Lägg till nya användare</strong></li>
-                    <li>Ange: <strong>searchboost.web@gmail.com</strong></li>
+                    <li>Ange: <strong>mikael@searchboost.se</strong></li>
                     <li>Välj behörighet — <strong>Administratör</strong> ger full åtkomst</li>
                     <li>Klicka <strong>Bjud in</strong></li>
                 </ol>
@@ -384,6 +385,102 @@ function sb_onboarding_form() {
             </div>
         </div>
 
+        <!-- Strategi & mål -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">🎯</span> Strategi & mål</h3>
+            <p class="sb-desc">Hjälper oss skräddarsy SEO-arbetet — alla fält är valfria men ju mer desto bättre.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Bransch</label>
+                    <input type="text" name="industry" placeholder="t.ex. e-handel, B2B-tjänster, restaurang" />
+                </div>
+                <div class="sb-field">
+                    <label>Geografiskt fokus</label>
+                    <input type="text" name="geographic_focus" placeholder="t.ex. Stockholm, hela Sverige" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Viktigaste mål (3-6 månader)</label>
+                    <input type="text" name="primary_goal" placeholder="t.ex. öka organiska leads med 50%" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Konkurrenter (URL:er, kommaseparerat)</label>
+                    <input type="text" name="competitors" placeholder="https://konkurrent1.se, https://konkurrent2.se" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Tonalitet i copy</label>
+                    <input type="text" name="brand_tone" placeholder="t.ex. expert + vänlig, formell, talspråk" />
+                </div>
+                <div class="sb-field">
+                    <label>Målgrupp (kort)</label>
+                    <input type="text" name="target_audience" placeholder="t.ex. inköpschefer på medelstora företag" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Befintliga kanaler -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">📢</span> Kanaler som körs idag</h3>
+            <p class="sb-desc">Vi syr ihop allt — viktigt att veta var ni redan är aktiva.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>LinkedIn-företagssida (URL)</label>
+                    <input type="url" name="linkedin_url" placeholder="https://www.linkedin.com/company/foretaget" />
+                </div>
+                <div class="sb-field">
+                    <label>Facebook-sida (URL)</label>
+                    <input type="url" name="facebook_url" placeholder="https://www.facebook.com/foretaget" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Instagram</label>
+                    <input type="text" name="instagram_handle" placeholder="@foretaget" />
+                </div>
+                <div class="sb-field">
+                    <label>X / Twitter</label>
+                    <input type="text" name="twitter_handle" placeholder="@foretaget" />
+                </div>
+            </div>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Befintlig månadsbudget Google Ads (SEK)</label>
+                    <input type="number" name="budget_google_ads_sek" placeholder="t.ex. 25000" />
+                </div>
+                <div class="sb-field">
+                    <label>Befintlig månadsbudget Meta Ads (SEK)</label>
+                    <input type="number" name="budget_meta_ads_sek" placeholder="t.ex. 15000" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Kontaktpreferenser -->
+        <div class="sb-section">
+            <h3><span class="sb-icon">📬</span> Rapporter & uppföljning</h3>
+            <p class="sb-desc">Hur ni vill ha kommunikation med oss.</p>
+            <div class="sb-row">
+                <div class="sb-field">
+                    <label>Veckorapport-mottagare (utöver huvudkontakt)</label>
+                    <input type="text" name="weekly_recipients" placeholder="anna@x.se, johan@x.se" />
+                </div>
+                <div class="sb-field">
+                    <label>Föredragen kontaktkanal</label>
+                    <input type="text" name="preferred_channel" placeholder="t.ex. email, Slack, sms" />
+                </div>
+            </div>
+            <div class="sb-row sb-full">
+                <div class="sb-field">
+                    <label>Är det något vi BÖR veta eller undvika?</label>
+                    <input type="text" name="constraints" placeholder="t.ex. vi får inte nämna produkt X i marknadsföring" />
+                </div>
+            </div>
+        </div>
+
         <div class="sb-submit-wrap">
             <button type="button" class="sb-submit" id="sb-submit-btn" onclick="sbSubmitForm()">Skicka uppgifter</button>
         </div>
@@ -400,3 +497,46 @@ function sb_onboarding_form() {
     <?php
     return ob_get_clean();
 }
+
+// ── LLMs.txt — AI-crawler endpoint (v1.1.0) ──
+// Registrera optionen med show_in_rest:true så WP REST settings-API
+// accepterar skrivning från seo-llms-txt-generator Lambda.
+add_action('init', function () {
+    register_setting('general', 'searchboost_llms_txt', array(
+        'type'              => 'string',
+        'default'           => '',
+        'show_in_rest'      => true,
+        'sanitize_callback' => 'wp_kses_no_null',
+    ));
+    // Rewrite rule: /llms.txt -> intern WP-query
+    add_rewrite_rule('^llms\.txt$', 'index.php?sb_llms_txt=1', 'top');
+});
+
+// Registrera query var
+add_filter('query_vars', function ($vars) {
+    $vars[] = 'sb_llms_txt';
+    return $vars;
+});
+
+// Serva /llms.txt som text/plain
+add_action('template_redirect', function () {
+    if (!get_query_var('sb_llms_txt')) {
+        return;
+    }
+    $content = get_option('searchboost_llms_txt', '');
+    if (empty($content)) {
+        status_header(404);
+        exit('Not found');
+    }
+    header('Content-Type: text/plain; charset=utf-8');
+    header('Cache-Control: public, max-age=86400');
+    header('X-Robots-Tag: noindex');
+    echo $content;
+    exit;
+});
+
+// Spola rewrite rules vid pluginaktivering
+register_activation_hook(__FILE__, function () {
+    add_rewrite_rule('^llms\.txt$', 'index.php?sb_llms_txt=1', 'top');
+    flush_rewrite_rules();
+});

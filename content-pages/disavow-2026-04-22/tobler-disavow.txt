@@ -1,0 +1,8 @@
+# Disavow file för tobler.se
+# Genererad 2026-04-22 12:26:10
+# Källa: SE Ranking refdomain-rapport (totalt 28 refdomains, 33 backlinks)
+# Spam-domäner: 0
+# REGEL: Ladda upp till GSC https://search.google.com/search-console/disavow-links
+# Ingen disavow ska göras automatiskt — granska manuellt först!
+
+# Ingen spam hittad — sajten är ren av denna analys
