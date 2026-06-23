@@ -4,7 +4,8 @@
 > Senast uppdaterad: 2026-06-09
 
 ## Prospektlista (Prospekt-scanner)
-- 2026-06-16: [Bygg / Linköping — Tillägg v25](../content-pages/prospects/2026-06-16-bygg-linkoping-tillagg.md) — Top 3: BC Bygg (1977, inget title/schema/email 🚨), Stångebro Bygg (H1 utan keywords, WordPress), Skruvfund (WIX-plattform = tekniskt hinder). Nästa: **hälsa + Västerås** (v26)
+- 2026-06-23: [Hälsa / Västerås](../content-pages/prospects/2026-06-23-halsa-vasteras.md) — Top 3: Cattas Yoga (ingen meta/schema/viewport, titel utan sökord, soloägare Catarina 2/10 🚨), Jimmie Söderquist (personnamnstittel = osynlig för "massage Västerås", ingen meta/schema, WONDR-app = teknikvänlig 3/10), VNK vnk.nu (domän utan SEO-värde, ingen meta/schema, regionsavtal = god budget 3/10). Nästa: **e-handel + Örebro** (v27)
+- 2026-06-16: [Bygg / Linköping — Tillägg v25](../content-pages/prospects/2026-06-16-bygg-linkoping-tillagg.md) — Top 3: BC Bygg (1977, inget title/schema/email 🚨), Stångebro Bygg (H1 utan keywords, WordPress), Skruvfund (WIX-plattform = tekniskt hinder).
 - 2026-06-09: [Bygg / Linköping](../content-pages/prospects/2026-06-09-bygg-linkoping.md) — Top 3: Svenska Bygge (title=bara företagsnamn, 5 sociala kanaler), ByggOm Linköping (B2B/kommersiell, ren H1), Irebro Byggservice (bred portfölj, WordPress, 3×H1)
 - 2026-06-02: [Hotell / Uppsala](../content-pages/prospects/2026-06-02-hotell-uppsala.md) — Top 3: Grand Hotell Hörnan (title="Startsida"!), Villa Anna (premium, ingen lokal SEO), Akademihotellet (ny svitavdelning ej synlig)
 - 2026-05-26: [Restaurang / Malmö](../content-pages/prospects/2026-05-26-restaurang-malmo.md) — Top 3: Grand Malmö, Ruths Malmö, Malmborgen AB (Gränden+Sankt Markus)
@@ -243,7 +244,15 @@ _(Auth-URL från 2026-06-18 har löpt ut — ny URL genereras vid nästa autenti
 
 | Datum | Bransch | Stad | Fil |
 |-------|---------|------|-----|
+<<<<<<< HEAD
 | 2026-06-09 | Bygg | Linköping | [content-pages/prospects/2026-06-09-bygg-linkoping.md](../content-pages/prospects/2026-06-09-bygg-linkoping.md) |
+=======
+<<<<<<< Updated upstream
+=======
+| 2026-06-23 | Hälsa | Västerås | [content-pages/prospects/2026-06-23-halsa-vasteras.md](../content-pages/prospects/2026-06-23-halsa-vasteras.md) |
+| 2026-06-09 | Bygg | Linköping | [content-pages/prospects/2026-06-09-bygg-linkoping.md](../content-pages/prospects/2026-06-09-bygg-linkoping.md) |
+>>>>>>> Stashed changes
+>>>>>>> d6f3de9 (Prospekt-scan v26: hälsa / Västerås — 7 lokala prospects, top 3 Cattas Yoga + Jimmie Söderquist + VNK)
 | 2026-06-02 | Hotell | Uppsala | [content-pages/prospects/2026-06-02-hotell-uppsala.md](../content-pages/prospects/2026-06-02-hotell-uppsala.md) |
 | 2026-05-26 | Restaurang | Malmö | [content-pages/prospects/2026-05-26-restaurang-malmo.md](../content-pages/prospects/2026-05-26-restaurang-malmo.md) |
 | 2026-05-19 | Tandläkare | Stockholm | [content-pages/prospects/2026-05-19-tandläkare-stockholm.md](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md) |
