@@ -193,6 +193,16 @@ _Arkiverad: se v22-sammanfattning ovan._
 | 2026-06-16 (måndag) ⏳ | AI Overviews förändrar spelreglerna — GEO-anpassning, FAQ-schema, E-E-A-T-signaler | ⛔ EJ POSTAD — Zapier OAuth krävs | `content-pages/searchboost/linkedin/2026-06-04-ai-overviews-geo-seo.md` |
 | 2026-06-21 (söndag) ⏳ | Vi granskade 30 svenska SME-sajter — prospekteringsinsikter, title/H1/schema/mobil/plattform | ⛔ EJ POSTAD — Zapier OAuth krävs | `content-pages/searchboost/linkedin/2026-06-21-prospektering-vad-vi-hittade.md` |
 
+### ⛔ BLOCKERARE LinkedIn-agent 2026-06-23 (körning #4)
+Zapier MCP kräver fortfarande OAuth-autentisering. Zapier-verktyg (`execute_zapier_write_action`) laddades inte — ej tillgängligt i sessionen. (Idag är måndag — nästa schemadag är tisdag 2026-06-24.)
+**Åtgärd**: Mikael behöver autentisera Zapier MCP i Claude Code-inställningarna.
+
+**Väntande artiklar (2 st):**
+1. `2026-06-04-ai-overviews-geo-seo.md` — väntat sedan 2026-06-04 (**49 dagar!**)
+2. `2026-06-21-prospektering-vad-vi-hittade.md` — skriven 2026-06-21 (2 dagar)
+
+---
+
 ### ⛔ BLOCKERARE LinkedIn-agent 2026-06-21 (körning #3)
 Zapier MCP kräver fortfarande OAuth-autentisering. Zapier-verktyg (`execute_zapier_write_action`) laddades inte — ej tillgängligt i sessionen.
 **Åtgärd**: Mikael behöver autentisera Zapier MCP i Claude Code-inställningarna.
@@ -244,15 +254,8 @@ _(Auth-URL från 2026-06-18 har löpt ut — ny URL genereras vid nästa autenti
 
 | Datum | Bransch | Stad | Fil |
 |-------|---------|------|-----|
-<<<<<<< HEAD
-| 2026-06-09 | Bygg | Linköping | [content-pages/prospects/2026-06-09-bygg-linkoping.md](../content-pages/prospects/2026-06-09-bygg-linkoping.md) |
-=======
-<<<<<<< Updated upstream
-=======
 | 2026-06-23 | Hälsa | Västerås | [content-pages/prospects/2026-06-23-halsa-vasteras.md](../content-pages/prospects/2026-06-23-halsa-vasteras.md) |
 | 2026-06-09 | Bygg | Linköping | [content-pages/prospects/2026-06-09-bygg-linkoping.md](../content-pages/prospects/2026-06-09-bygg-linkoping.md) |
->>>>>>> Stashed changes
->>>>>>> d6f3de9 (Prospekt-scan v26: hälsa / Västerås — 7 lokala prospects, top 3 Cattas Yoga + Jimmie Söderquist + VNK)
 | 2026-06-02 | Hotell | Uppsala | [content-pages/prospects/2026-06-02-hotell-uppsala.md](../content-pages/prospects/2026-06-02-hotell-uppsala.md) |
 | 2026-05-26 | Restaurang | Malmö | [content-pages/prospects/2026-05-26-restaurang-malmo.md](../content-pages/prospects/2026-05-26-restaurang-malmo.md) |
 | 2026-05-19 | Tandläkare | Stockholm | [content-pages/prospects/2026-05-19-tandläkare-stockholm.md](../content-pages/prospects/2026-05-19-tandläkare-stockholm.md) |
