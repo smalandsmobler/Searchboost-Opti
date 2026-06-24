@@ -1,0 +1,18 @@
+{
+  "name": "coachning",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personlig, varsam tränings-, kost- och livscoach. Hälsodata parsas i webbläsaren — bara en sammanfattning skickas till AI-coachen.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.0",
+    "@aws-sdk/client-ssm": "^3.709.0",
+    "bcryptjs": "^3.0.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3"
+  }
+}
