@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-22 (content-fabrik körning #jelmtech-toleranser-formsprutning)
+> Senast uppdaterad: 2026-06-24 (content-fabrik körning #ilmonte-scenpodium-konferens)
 
 ## Internlänk-optimerare — 2026-06-19
 
@@ -140,7 +140,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | searchboost     | Lokal SEO för svenska orter 2026 (⚠ ej deployad) | 2026-06-19 | Kör scripts/publish-searchboost-lokal-seo-orter.js från EC2 |
 | tobler          | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | 2026-06-17 | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
 | mobelrondellen  | Bokhylla guide 2026 — så väljer du rätt hyllsystem (⚠ ej deployad) | 2026-06-15 | Kör scripts/publish-mobelrondellen-bokhylla-2026.js från EC2 |
-| ilmonte         | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 (⚠ ej deployad) | 2026-06-12 | Kör scripts/publish-ilmonte-utomhusevenemang.js från EC2 |
+| ilmonte         | Scenpodium för konferenser och företagsevent — 5 saker att tänka på (⚠ ej deployad) | 2026-06-24 | Kör scripts/publish-ilmonte-scenpodium-konferens.js från EC2 |
 | jelmtech        | Toleranser vid formsprutning (⚠ ej deployad) | 2026-06-22 | Kör scripts/publish-jelmtech-toleranser.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
 | smalandskontorsmobler | Ergonomi-tips                   | 2026-02-11 | (lokal fil) |
@@ -183,6 +183,22 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-24
+
+- **Kund**: ilmonte (äldst med aktiva WP-creds sedan 2026-06-12, 12 dagar)
+- **Artikel**: "Scenpodium för konferenser och företagsevent — 5 saker att tänka på"
+- **Fokuskeyword**: scenpodium konferens
+- **Fil**: content-pages/ilmonte-scenpodium-konferens-foretagsevent.html
+- **Script**: scripts/publish-ilmonte-scenpodium-konferens.js
+- **URL-slug**: scenpodium-konferens-foretagsevent-guide
+- **Ordantal**: 964 ord, ÅÄÖ ok (513 tecken), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 5 H2:or + FAQ H2, lead-paragraf 53 ord, ul/ol-listor, 12 checklistpunkter
+- **Interna länkar**: scenpodium-guide-hojd-storlek-ratt-val, produkt-kategori/podier, hyra-eller-kopa-scenpodium-5-faktorer
+- **Rank Math**: focus_keyword: scenpodium konferens | meta_title: Scenpodium för konferenser och företagsevent — guide 2026 | Ilmonte
+- **Strategisk vinkel**: Q3/Q4 är konferenssäsong i Sverige — inga konkurrenter (Scenkonsult/Evivent/Eventkraft) har konferens-specifikt innehåll
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-22
 

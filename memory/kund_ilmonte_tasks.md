@@ -48,8 +48,19 @@ Senaste check: 2026-06-13
 | 2026-05-06 | Hyra eller köpa scenpodium? — 5 faktorer | *Redo att deployas — kör `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2* |
 | 2026-05-27 | Köpa scenpodium 2026 — storlekar, material och priser | *Redo att deployas — kör `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2* |
 | 2026-06-12 | Scenpodium för utomhusevenemang — checklista inför sommaren 2026 | *Redo att deployas — kör `node scripts/publish-ilmonte-utomhusevenemang.js` från EC2* |
+| 2026-06-24 | Scenpodium för konferenser och företagsevent — 5 saker att tänka på | *Redo att deployas — kör `node scripts/publish-ilmonte-scenpodium-konferens.js` från EC2* |
 
-## Deploy — väntande artiklar (2 st)
+## Deploy — väntande artiklar (3 st)
+
+**Artikel 0 (2026-06-24 — NYAST):**
+- Fil: `content-pages/ilmonte-scenpodium-konferens-foretagsevent.html`
+- Script: `scripts/publish-ilmonte-scenpodium-konferens.js`
+- Titel: "Scenpodium för konferenser och företagsevent — 5 saker att tänka på"
+- Slug: `scenpodium-konferens-foretagsevent-guide`
+- Focus keyword: `scenpodium konferens`
+- 964 ord, 5 H2:or + FAQ H2, lead-paragraf 53 ord, 3 interna länkar, ÅÄÖ verifierade (513 tecken)
+- Interna länkar: /scenpodium-guide-hojd-storlek-ratt-val/, /produkt-kategori/podier/, /hyra-eller-kopa-scenpodium-5-faktorer/
+- Rank Math: focus_keyword: scenpodium konferens | meta_title: Scenpodium för konferenser och företagsevent — guide 2026 | Ilmonte
 
 **Artikel 1 (sedan 2026-05-06):**
 - Fil: `content-pages/ilmonte-hyra-eller-kopa-scenpodium.html`
