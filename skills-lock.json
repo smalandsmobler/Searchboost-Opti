@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "bitrefill": {
+      "source": "bitrefill/agents",
+      "sourceType": "github",
+      "skillPath": "skills/bitrefill/SKILL.md",
+      "computedHash": "149b97d988969234166d361eefff18cf1c34bf456ee33f3ef5f4caa4a5abe8ab"
+    }
+  }
+}
