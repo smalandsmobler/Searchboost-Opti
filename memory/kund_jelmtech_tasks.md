@@ -56,6 +56,17 @@ Senaste check: 2026-06-21
 | 2026-06-08 | POM/acetal formsprutning — komplett guide till polyoximetyl​en | ⏳ VÄNTAR — kör scripts/publish-jelmtech-pom-acetal.js från EC2 | POM formsprutning |
 | 2026-06-22 | Toleranser vid formsprutning — vad är uppnåeliga krav? | ⏳ VÄNTAR — kör scripts/publish-jelmtech-toleranser.js från EC2 | toleranser formsprutning |
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-24
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **FIXA plastprototyp-artikel**: Google indexerat men URL ger 404 — öppna WP-admin → Posts, sök "plastprototyp". Om draft: publicera. Om raderad: återskapa. | **BRÅDSKANDE** | Plasthuset expanderat med ny prototyp-tjänst (3D-printing i seriens material) — de fångar upp "plastprototyp"-sökorden aktivt medan Jelm's URL är 404 |
+| **DEPLOY PP-plast guide** (~40 dagar): `node scripts/publish-jelmtech-pp-plast.js` från EC2 | **HÖG** | Ingen konkurrent (Holmgrens, AMB, Plasthuset) har PP-plast-specifik guide — Jelmtech kan äga sökorden omediterat |
+| **DEPLOY POM/acetal guide** (16 dagar): `node scripts/publish-jelmtech-pom-acetal.js` från EC2 | **HÖG** | Ingen konkurrent har POM/acetal-guide — noll konkurrens |
+| **DEPLOY toleranser guide** (2 dagar): `node scripts/publish-jelmtech-toleranser.js` från EC2 | **HÖG** | Ingen konkurrent har toleransguide — fritt fält |
+| FAQ-schema på formsprutningssidor via Rank Math | Medel | Plasthuset har FAQ-sektion (oklart om schema), Holmgrens saknar FAQ helt — Jelmtech kan ta rich snippets |
+| Skriv: "Plastprototyp 2026 — metoder, material och kostnad" (ersätt/komplettera 404-artikeln) | Medel | Plasthuset expanderar till prototyper — Jelmtech behöver en stark guide på detta sökord |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-20
 
 | Uppgift | Prioritet | Källa |

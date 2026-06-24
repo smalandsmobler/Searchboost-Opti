@@ -33,6 +33,17 @@ Senaste check: 2026-06-23 (v26 — veckosammanfattning: se kund_searchboost_task
 - Schema-markup: kör när Rank Math PRO är aktivt
 - WP app-password: SAKNAS — kunden måste generera ett
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-24
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **Mikael: Generera WP app-password** — blockerar ALL automation, inga scripts kör, noll schema-deploy | **BRÅDSKANDE** | AJ Produkter publicerar aktivt (4+ artiklar sedan april), SMK är helt inaktiv utan WP-creds |
+| Skriv lokal landningssida `/kontorsmobler-jonkoping/` (~500 ord) — direkt i WP-admin (kräver ej WP app-password via API, Mikael kan publicera manuellt) | **HÖG** | Varken AJ (nationell) eller Morekontor (Halmstad/storstad) äger Jönköping-sökorden — fritt fält |
+| Skriv lokal landningssida `/kontorsmobler-vaxjo/` (~500 ord) — direkt i WP-admin | **HÖG** | Morekontor täcker Stockholm/Göteborg/Malmö/Halmstad men EJ Småland |
+| Skriv: "Ergonomisk arbetsplats hemma 2026 — 7 tips från Smålands Kontorsmöbler" — direkt i WP-admin | **HÖG** | AJ Produkter kör industriell ergonomi (vagnar, verkstad) — hemmakontor-nischen fri |
+| FAQ-schema på kategorisidor (när Rank Math PRO aktivt) | Medel | AJ Produkter har FAQ-schema och tar rich snippets — SMK bör matcha |
+| Skriv: "Höj-sänkbart skrivbord — vad kostar det? Guide 2026" | Medel | Ingen konkurrent har djup prisguide för privatpersoner/SME |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-05-27
 
 | Uppgift | Prioritet | Källa |

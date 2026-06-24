@@ -68,6 +68,16 @@ Senaste check: 2026-06-23 (v26 — veckosammanfattning: se kund_searchboost_task
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-06-24 (POST-MIDSOMMAR, SOMMAR PÅGÅR)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY bokhylla-guide** (klar 2026-06-15 — **9 dagar**): `node scripts/publish-mobelrondellen-bokhylla-2026.js` från EC2 | **HÖG** | Ingen konkurrent har bokhylla-guide 2026 — Trademax inaktiv sedan februari |
+| **DEPLOY utemöbler-guide** (klar 2026-05-29 — **26 dagar, midsommar passerat**): `node scripts/publish-mobelrondellen-utemobler-2026.js` från EC2 | **HÖG** | Royal Design kör sommarrea till 30 juli — rådgivande content svarar på priskrig, sommaren pågår |
+| **DEPLOY soffa-guide** (klar sedan 08/05 — **47 dagar!**): `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **HÖG** | Ingen konkurrent har soffa-köpguide — 47 dagars fördröjning är oförsvarbart |
+| Viktor: Implementera 9 internlänkar via WP-admin (EC2 behövs EJ — guide finns nedan) | **HÖG** | Trademax inaktiv, direkt SEO-win på 30 min |
+| FAQ-schema på soffa- + utemöbel- + bokhylla-guiden | Medel | Ingen konkurrent har FAQ schema på köpguider |
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10 (MIDSOMMAR OM 12 DAGAR)
 
 | Uppgift | Prioritet | Källa |
