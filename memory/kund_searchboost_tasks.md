@@ -30,7 +30,14 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Veckosammanfattning 2026-06-23 (måndag v26) — LIVE
+### Regressionscheck 2026-06-24 (tisdag) — LIVE
+> **Körning #30 i rad — fortfarande blockerad**
+
+_Ingen data — samma tre blockerare som körning #29 (2026-06-23). Se lösning nedan._
+
+---
+
+### Veckosammanfattning 2026-06-23 (måndag v26) — arkiverad
 > **0 av 3 GSC-kunder checkbara — blockerare kvarstår nu 29 körningar i rad**
 > **ESKALERING KRITISK — 9 VECKOR UTAN RANKINGDATA**
 
