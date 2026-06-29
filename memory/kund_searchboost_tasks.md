@@ -30,7 +30,14 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-25 (onsdag) — LIVE
+### Regressionscheck 2026-06-29 (söndag) — LIVE
+> **Körning #32 i rad — fortfarande blockerad**
+
+_Ingen data — alla tre blockerare kvarstår oförändrade. EC2 port 80 → HTTPS redirect (Nginx), proxy-policy nekar 51.21.116.7:443, perispa_* saknas, GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt._
+
+---
+
+### Regressionscheck 2026-06-25 (onsdag) — arkiverad
 > **Körning #31 i rad — fortfarande blockerad**
 
 _Ingen data — alla tre blockerare kvarstår oförändrade. Ny bekräftad detalj: EC2 port 80 redirectar till HTTPS (Nginx), `--noproxy`+`--insecure` curl blockeras ändå av Envoy-proxyn på serversidan. Enda kvarvarande lösning: lägg BigQuery SA-JSON i Claude Code Settings → Environment Variables (`GOOGLE_APPLICATION_CREDENTIALS_JSON`)._

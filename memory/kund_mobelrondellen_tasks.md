@@ -19,7 +19,9 @@ Inga regressioner 2026-06-19 (Blockerad — körning #26, EC2 503 + perispa_* sa
 Inga regressioner 2026-06-20 (Blockerad — körning #27, EC2 TLS-fel + perispa_* saknas + BQ-creds saknas)
 Inga regressioner 2026-06-21 (Blockerad — körning #28, EC2 TLS-fel + perispa_* saknas + BQ-creds saknas)
 Inga regressioner 2026-06-23 (Blockerad — körning #29, AWS-creds fel konto + EC2 TLS + perispa_* saknas)
-Senaste check: 2026-06-23 (v26 — veckosammanfattning: se kund_searchboost_tasks.md)
+Inga regressioner 2026-06-25 (Blockerad — körning #31, EC2 TLS + perispa_* saknas + BQ-creds saknas)
+Inga regressioner 2026-06-29 (Blockerad — körning #32, EC2 TLS + perispa_* saknas + BQ-creds saknas)
+Senaste check: 2026-06-29 (v26 — veckosammanfattning: se kund_searchboost_tasks.md)
 
 ## Internlänk-optimering — 2026-05-22
 

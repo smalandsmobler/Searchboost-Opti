@@ -32,10 +32,8 @@ Inga regressioner 2026-06-19 (GSC ej konfigurerad)
 Inga regressioner 2026-06-20 (GSC ej konfigurerad)
 Inga regressioner 2026-06-21 (GSC ej konfigurerad)
 Inga regressioner 2026-06-23 (GSC ej konfigurerad)
-Inga regressioner 2026-06-19 (GSC ej konfigurerad)
-Inga regressioner 2026-06-20 (GSC ej konfigurerad)
-Inga regressioner 2026-06-21 (GSC ej konfigurerad)
-Senaste check: 2026-06-21
+Inga regressioner 2026-06-29 (GSC ej konfigurerad)
+Senaste check: 2026-06-29
 
 ## Status
 - WP-creds: OK
