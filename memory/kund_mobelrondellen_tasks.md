@@ -61,6 +61,7 @@ Senaste check: 2026-06-23 (v26 — veckosammanfattning: se kund_searchboost_task
 | 2026-05-08 | Bästa soffan 2026 — guide för dig som vill ha kvalitet och hållbarhet | ⏳ Kör `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 |
 | 2026-05-29 | Utemöbler 2026 — guide till hållbara val för uteplats och altan | ⏳ Kör `node scripts/publish-mobelrondellen-utemobler-2026.js` från EC2 |
 | 2026-06-15 | Bokhylla guide 2026 — så väljer du rätt hyllsystem för ditt hem | ⏳ Kör `node scripts/publish-mobelrondellen-bokhylla-2026.js` från EC2 |
+| 2026-06-29 | Soffbord guide 2026 — så väljer du rätt modell till ditt vardagsrum | ⏳ Kör `node scripts/publish-mobelrondellen-soffbord-2026.js` från EC2 |
 
 ## Utfört arbete (historik)
 - Plugin-cleanup: 325 → 7 plugins

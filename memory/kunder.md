@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-24 (content-fabrik körning #ilmonte-scenpodium-konferens)
+> Senast uppdaterad: 2026-06-29 (content-fabrik körning #mobelrondellen-soffbord-2026)
 
 ## Internlänk-optimerare — 2026-06-19
 
@@ -166,7 +166,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 |-----------------|---------------------------------------|------------|-----|
 | searchboost     | Lokal SEO för svenska orter 2026 (⚠ ej deployad) | 2026-06-19 | Kör scripts/publish-searchboost-lokal-seo-orter.js från EC2 |
 | tobler          | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | 2026-06-17 | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
-| mobelrondellen  | Bokhylla guide 2026 — så väljer du rätt hyllsystem (⚠ ej deployad) | 2026-06-15 | Kör scripts/publish-mobelrondellen-bokhylla-2026.js från EC2 |
+| mobelrondellen  | Soffbord guide 2026 — så väljer du rätt modell till ditt vardagsrum (⚠ ej deployad) | 2026-06-29 | Kör scripts/publish-mobelrondellen-soffbord-2026.js från EC2 |
 | ilmonte         | Scenpodium för konferenser och företagsevent — 5 saker att tänka på (⚠ ej deployad) | 2026-06-24 | Kör scripts/publish-ilmonte-scenpodium-konferens.js från EC2 |
 | jelmtech        | Toleranser vid formsprutning (⚠ ej deployad) | 2026-06-22 | Kör scripts/publish-jelmtech-toleranser.js från EC2 |
 | traficator      | (okänt — REST 500)                    | —          | — |
@@ -210,6 +210,22 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-06-29
+
+- **Kund**: mobelrondellen (äldst i rotationen sedan 2026-06-15, 14 dagar)
+- **Artikel**: "Soffbord guide 2026 — så väljer du rätt modell till ditt vardagsrum"
+- **Fokuskeyword**: soffbord guide
+- **Fil**: content-pages/mobelrondellen-soffbord-guide-2026.html
+- **Script**: scripts/publish-mobelrondellen-soffbord-2026.js
+- **URL-slug**: soffbord-guide-2026
+- **Ordantal**: ~1 150 ord, ÅÄÖ ok (väljer/höjd/köpa/fåtölj/ömtålig), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 5 H2:or + FAQ H2, lead-paragraf 57 ord, ul/ol-listor, 5 punkter i materail-sektionen
+- **Interna länkar**: kopa-soffa-guide-2026-2, inspiration, fatolj-guide-2026
+- **Rank Math**: focus_keyword: soffbord guide | meta_title: Soffbord guide 2026 — välj rätt storlek, höjd och material | Möbelrondellen | meta_description: Funderar du på att köpa soffbord? Vår guide 2026 hjälper dig välja rätt storlek, höjd, material och form — för ett snyggt och funktionellt vardagsrum.
+- **Strategisk vinkel**: Naturlig komplettering till befintlig soffa-guide — stärker möbelguide-klustret. Inga konkurrenter (Trademax/Royal Design) har djup soffbordsguide 2026.
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-24
 
