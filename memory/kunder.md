@@ -15,6 +15,29 @@ Inga ändringar utförda. Gmail-draft skickad till Mikael med åtgärdsförslag.
 
 ---
 
+## Regressionscheck — 2026-06-30 (måndag v27 — VECKOSAMMANFATTNING)
+
+**Status: Blockerad — körning #32+ i rad (10+ veckor utan rankingdata)**
+
+| Kund | GSC-status | Check-status | Orsak |
+|------|-----------|-------------|-------|
+| searchboost | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS-fel + BQ-creds saknas |
+| mobelrondellen | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS-fel + BQ-creds saknas |
+| smalandskontorsmobler | ✅ Konfigurerad | ❌ Blockerad | EC2 TLS-fel + BQ-creds saknas |
+| ilmonte | Ej ägare | ⚪ N/A | SA ej tillagd i GSC |
+| jelmtech | Ej kopplad | ⚪ N/A | Ingen GSC-åtkomst |
+| tobler | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| traficator | Ej konfigurerad | ⚪ N/A | Ingen GSC-åtkomst |
+| humanpower | Ej aktiv | ⚪ N/A | Ej onboardad |
+| nordicsnusonline | Ej aktiv | ⚪ N/A | Ej onboardad |
+
+**Keywords upp/ner:** ❌ Ej tillgänglig — körning #32+
+
+**ENDA KVARVARANDE LÖSNING:**
+`Claude Code Settings → Environment Variables → GOOGLE_APPLICATION_CREDENTIALS_JSON=<JSON från SSM /seo-mcp/bigquery/credentials>`
+
+---
+
 ## Regressionscheck — 2026-06-24 (tisdag)
 
 **Status: Blockerad — 30:e körningen i rad (10 veckor utan rankingdata)**

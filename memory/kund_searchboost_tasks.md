@@ -31,10 +31,40 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Regressionscheck 2026-06-25 (onsdag) — LIVE
+### Veckosammanfattning 2026-06-30 (måndag v27) — LIVE
+> **Körning #32+ i rad — fortfarande blockerad (10+ veckor utan rankingdata)**
+
+| Kund | GSC-status | Keywords topp 20 | Regressioner |
+|------|-----------|-----------------|-------------|
+| searchboost | ✅ Konfigurerad | ❌ Ej hämtbar | Okänd |
+| mobelrondellen | ✅ Konfigurerad | ❌ Ej hämtbar | Okänd |
+| smalandskontorsmobler | ✅ Konfigurerad | ❌ Ej hämtbar | Okänd |
+| jelmtech | ⛔ Ej kopplad | — | N/A |
+| ilmonte | ⛔ Ej ägare | — | N/A |
+| humanpower | ⛔ Ej aktiv | — | N/A |
+| nordicsnusonline | ⛔ Ej aktiv | — | N/A |
+| tobler | ⛔ Ej konfigurerad | — | N/A |
+| traficator | ⛔ Ej konfigurerad | — | N/A |
+
+**Bekräftade blockerare 2026-06-30:**
+- EC2 HTTPS: exit 35 (SSL-handshake misslyckad), HTTP 80 → 301 → HTTPS
+- `perispa_switch_site` / `perispa_gsc_top_queries`: Ej tillgängliga (MCP ej autentiserade)
+- `GOOGLE_APPLICATION_CREDENTIALS_JSON`: Ej satt i env
+- AWS CLI: Ej installerat
+
+**🔓 ENDA KVARVARANDE LÖSNING:**
+```
+Claude Code → Settings → Environment Variables:
+GOOGLE_APPLICATION_CREDENTIALS_JSON={"type":"service_account","project_id":"searchboost-485810",...}
+(JSON från AWS SSM: /seo-mcp/bigquery/credentials)
+```
+
+---
+
+### Regressionscheck 2026-06-25 (onsdag) — arkiverad
 > **Körning #31 i rad — fortfarande blockerad**
 
-_Ingen data — alla tre blockerare kvarstår oförändrade. Ny bekräftad detalj: EC2 port 80 redirectar till HTTPS (Nginx), `--noproxy`+`--insecure` curl blockeras ändå av Envoy-proxyn på serversidan. Enda kvarvarande lösning: lägg BigQuery SA-JSON i Claude Code Settings → Environment Variables (`GOOGLE_APPLICATION_CREDENTIALS_JSON`)._
+_Ingen data — alla tre blockerare kvarstår oförändrade._
 
 ---
 
