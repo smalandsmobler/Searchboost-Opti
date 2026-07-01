@@ -32,8 +32,15 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
-### Veckosammanfattning 2026-06-30 (måndag v27) — LIVE
-> **Körning #32+ i rad — fortfarande blockerad (10+ veckor utan rankingdata)**
+### Regressionscheck 2026-07-01 (tisdag) — arkiverad
+> **Körning #33 i rad — fortfarande blockerad (11 veckor utan rankingdata)**
+
+_Ingen data — alla tre blockerare kvarstår oförändrade. Se lösning i v27-sammanfattningen nedan._
+
+---
+
+### Veckosammanfattning 2026-06-30 (måndag v27) — arkiverad
+> **Körning #32 i rad — fortfarande blockerad (10+ veckor utan rankingdata)**
 
 | Kund | GSC-status | Keywords topp 20 | Regressioner |
 |------|-----------|-----------------|-------------|
