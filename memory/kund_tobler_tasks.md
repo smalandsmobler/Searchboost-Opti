@@ -45,6 +45,7 @@ Senaste check: 2026-06-21
 | 2026-05-11 | Ställningsnät — krav, typer och rätt användning (⚠ ej deployad) | Kör scripts/publish-tobler-stallningsnät.js från EC2 |
 | 2026-06-03 | Skyddsräcke på byggställning — regler, typer och rätt montering (⚠ ej deployad) | Kör scripts/publish-tobler-skyddsracke.js från EC2 |
 | 2026-06-17 | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
+| 2026-07-01 | Ställningsarbete regler — vad lagen kräver av dig och ditt företag 2026 (⚠ ej deployad) | Kör scripts/publish-tobler-stallningsarbete-regler.js från EC2 |
 
 ## Deploy — väntande artiklar
 
@@ -66,8 +67,9 @@ node scripts/publish-tobler-skyddsracke.js     # artikel 2026-06-03
 | Prioritet | Ämne | Fokuskeyword |
 |-----------|------|-------------|
 | ✅ KLAR | Ställning för takrenovering — kör scripts/publish-tobler-stallning-takrenovering.js | ställning takrenovering |
-| Hög | Ställningsarbete regler | ställningsarbete regler |
-| Medium | Transport av ställning | transport byggställning |
+| ✅ KLAR | Ställningsarbete regler — kör scripts/publish-tobler-stallningsarbete-regler.js | ställningsarbete regler |
+| Hög | Transport av ställning | transport byggställning |
+| Medium | Ställningshöjd och belastning — vad styr valet? | ställningshöjd belastning |
 
 ## Status
 - WP-creds: OK

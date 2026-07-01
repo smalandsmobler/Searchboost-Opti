@@ -1,7 +1,7 @@
 # Kunder — Content-rotation
 
 > Uppdateras varje körning av content-fabriken.
-> Senast uppdaterad: 2026-06-29 (content-fabrik körning #mobelrondellen-soffbord-2026)
+> Senast uppdaterad: 2026-07-01 (content-fabrik körning #tobler-stallningsarbete-regler)
 
 ## Internlänk-optimerare — 2026-06-19
 
@@ -188,7 +188,7 @@ https://gcp1-api-default.supermetrics.com/v2/datasource/login/renew/9rz1skKYA2wT
 | Kund            | Senaste artikel                        | Datum      | URL |
 |-----------------|---------------------------------------|------------|-----|
 | searchboost     | Lokal SEO för svenska orter 2026 (⚠ ej deployad) | 2026-06-19 | Kör scripts/publish-searchboost-lokal-seo-orter.js från EC2 |
-| tobler          | Ställning för takrenovering — krav, typer och priser 2026 (⚠ ej deployad) | 2026-06-17 | Kör scripts/publish-tobler-stallning-takrenovering.js från EC2 |
+| tobler          | Ställningsarbete regler — vad lagen kräver av dig och ditt företag 2026 (⚠ ej deployad) | 2026-07-01 | Kör scripts/publish-tobler-stallningsarbete-regler.js från EC2 |
 | mobelrondellen  | Soffbord guide 2026 — så väljer du rätt modell till ditt vardagsrum (⚠ ej deployad) | 2026-06-29 | Kör scripts/publish-mobelrondellen-soffbord-2026.js från EC2 |
 | ilmonte         | Scenpodium för konferenser och företagsevent — 5 saker att tänka på (⚠ ej deployad) | 2026-06-24 | Kör scripts/publish-ilmonte-scenpodium-konferens.js från EC2 |
 | jelmtech        | Toleranser vid formsprutning (⚠ ej deployad) | 2026-06-22 | Kör scripts/publish-jelmtech-toleranser.js från EC2 |
@@ -233,6 +233,22 @@ Mikael loggar in Supermetrics GSC med denna länk (ny, 2026-05-13):
 5. **tobler** — "Ställningsnät"-artikel skriven 2026-05-11, väntar på deploy
 6. **searchboost** — AI Overviews-artikel skriven 2026-05-13, väntar på deploy
 7. **smalandskontorsmobler** — WP-creds saknas, men ny WooCommerce-sajt byggs
+
+## Content-fabrik körning 2026-07-01
+
+- **Kund**: tobler (äldst i rotationen sedan 2026-06-17, 14 dagar)
+- **Artikel**: "Ställningsarbete regler — vad lagen kräver av dig och ditt företag 2026"
+- **Fokuskeyword**: ställningsarbete regler
+- **Fil**: content-pages/tobler-stallningsarbete-regler.html
+- **Script**: scripts/publish-tobler-stallningsarbete-regler.js
+- **URL-slug**: stallningsarbete-regler-krav-utbildning-besiktning
+- **Ordantal**: ~1 060 ord, ÅÄÖ ok (föreskrift/ställning/förändring/förlängs/besiktning/montör/uthyrning/beställarens), 3 interna länkar, FAQ-sektion (3 frågor)
+- **Struktur**: 5 H2:or + FAQ H2, lead-paragraf 59 ord, ul/ol-listor, 4-punktslista + 5-stegs ol
+- **Interna länkar**: skyddsracke-byggstallning-regler-typer-montering, kopa-modulstallning-vad-du-behover-veta-om-system-pris-och-leverantorer, stallningsnät-krav-typer-montering
+- **Rank Math**: focus_keyword: ställningsarbete regler | meta_title: Ställningsarbete regler — vad lagen kräver av dig och ditt företag | Tobler | meta_description: Vilka regler gäller för ställningsarbete i Sverige 2026? Lär dig kraven i AFS 2013:4 om montering, besiktning, utbildning och dokumentation — guide från Tobler.
+- **Strategisk vinkel**: AFS 2013:4-innehåll med betonat beställaransvar — ingen konkurrent täcker regelverkets hela kedja (montör + beställare + dokumentation). Naturlig komplettering till befintliga ställningsguider.
+- **Status**: Skriven — väntar på deploy från EC2
+- **OBS**: perispa_* MCP-verktyg ej tillgängliga — använder WP REST API via Node-script
 
 ## Content-fabrik körning 2026-06-29
 
