@@ -269,6 +269,22 @@ _(Auth-URL från 2026-06-18 har löpt ut — ny URL genereras vid nästa autenti
 - GSC: OK (https://searchboost.se/)
 - Rank Math: OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-07-01 (JAJJA PUBLICERADE NOLLKLICKS-ARTIKEL IGÅR)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY "AI Overviews och GEO"** (klar sedan 13/05 — **49 dagar!**): `node scripts/publish-searchboost-ai-overviews.js` från EC2 | **BRÅDSKANDE** | Jajja har "7 månader med AI-mode" (27/5) + nollklicks-artikel (29/6) — vi tappar topicägarskap varje vecka |
+| **Skriv: "Nollklicks-sökningar 2026 — vad betyder det för ditt företag?"** (~600 ord, SME-vinkel) | **HÖG** | Jajja publicerade detta IGÅR (2026-06-29) — ta parallell position med lokal SEO-vinkel och SME-konkretisering |
+| **DEPLOY "E-E-A-T trovärdighet"** (klar 2026-06-05 — **26 dagar**): `node scripts/publish-searchboost-eeat.js` från EC2 | **HÖG** | Jajja täcker E-E-A-T kortfattat i Core Update-artikel — Searchboost kan äga den djupa SME-guiden |
+| **DEPLOY "Lokal SEO för svenska orter 2026"** (klar 2026-06-19 — **12 dagar**): `node scripts/publish-searchboost-lokal-seo-orter.js` från EC2 | **HÖG** | Varken Bonzer (enterprise) eller Jajja (Google Ads-fokus) äger lokal SME-SEO-sökorden |
+| FAQ-schema på SEO-skola-artiklarna (Rank Math via WP-admin) | **HÖG** | Jajja och Bonzer har NOLL FAQ-schema — direkt CTR-win för Searchboost |
+| LinkedIn: 2 väntande inlägg (AI Overviews 29/5 + prospektering 21/6) | Medel | Zapier OAuth blockerar — Mikael autentiserar i Claude Code-inställningarna |
+
+**Ny konkurrensinsikt (2026-07-01)**:
+- **Jajja**: "Nollklicks-sökningar under 2026" (29/6) + "Sommarfällan i Google Ads" (26/6) — Jajja publicerar ~2 artiklar/vecka. Inga FAQ-schema synliga.
+- **Bonzer**: Evergreen AI-innehåll identifierat ("Syns du i AI-svaren?" uppdaterad okt 2025, "Google AI Mode i Sverige"). Ingen nyhetsbevakningssida sedan sep 2023. Inga FAQ-schema.
+- **Gap**: Nollklicks-sökningar = ny vinkel Searchboost saknar. Jajja har Google Ads-vinkel, Searchboost bör ta SEO/lokal-vinkel för att flanka.
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10
 
 | Uppgift | Prioritet | Källa |

@@ -84,6 +84,20 @@ node scripts/publish-ilmonte-hyra-kopa-scenpodium.js
 node scripts/publish-ilmonte-kopa-scenpodium-2026.js
 ```
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-07-01 (FESTIVAL/KONFERENSHÖST BÖRJAR)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY "Hyra eller köpa scenpodium?"** (klar 2026-05-06 — **56 dagar!**): `node scripts/publish-ilmonte-hyra-kopa-scenpodium.js` från EC2 | **BRÅDSKANDE** | Scenkonsult, Evivent, Eventkraft = NOLL köpguider — Ilmonte äger sökorden helt utan motstånd |
+| **DEPLOY "Köpa scenpodium 2026"** (klar 2026-05-27 — **35 dagar**): `node scripts/publish-ilmonte-kopa-scenpodium-2026.js` från EC2 | **BRÅDSKANDE** | Ingen konkurrent har material- eller prisguide — sökorden är fria |
+| **DEPLOY "Scenpodium utomhusevenemang"** (klar 2026-06-12 — **19 dagar**): `node scripts/publish-ilmonte-utomhusevenemang.js` från EC2 | **HÖG** | Midsommar passerad men festival-/utomhussäsong pågår t.o.m. september |
+| **DEPLOY "Scenpodium konferenser"** (klar 2026-06-24 — **7 dagar**): `node scripts/publish-ilmonte-scenpodium-konferens.js` från EC2 | **HÖG** | Eventkraft = full-service B2B men skriver EJ rådgivande om konferensbehov — fritt fält |
+| Product schema på 5 mest sålda scenpodium-produktsidor | **HÖG** | Scenkonsult, Evivent, Eventkraft = NOLL Product schema — Google Shopping fri |
+| FAQ-schema på /podier/-kategorisida | **HÖG** | Ingen konkurrent har FAQ schema — rich results utan motstånd |
+| Mikael: Påminn Ilmonte-ägaren om GSC SA-access | Medel | Vi är blinda utan GSC-data — service account: seo-mcp-bigquery@searchboost-485810.iam.gserviceaccount.com |
+
+**Ny konkurrensinsikt (2026-07-01)**: Scenkonsult expanderar med LED-vägg-uthyrning och karaoke (båda markerade "Nytt"). Evivent har ny TrailerSeater 100-produkt och är aktiv i sommarsäsongen (golfturnering, Borgeby Field Days, studentfester). **INGEN av konkurrenterna skriver om scenpodier/köp/guider** — Ilmonte har total content-hegemoni på köp-relaterade sökord om de deployas.
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-10
 
 | Uppgift | Prioritet | Källa |

@@ -69,6 +69,19 @@ Senaste check: 2026-06-23 (v26 — veckosammanfattning: se kund_searchboost_task
 - Varumärken-sida: HTML-grid med 18 varumärken
 - Slider Revolution: verifierad OK
 
+## Prioriterade uppgifter — Konkurrentbevakning 2026-07-01 (SOMMAR PÅGÅR, TRADEMAX TILLBAKA)
+
+| Uppgift | Prioritet | Källa |
+|---------|-----------|-------|
+| **DEPLOY soffbord-guide** (klar 2026-06-29 — **2 dagar**, NYAST): `node scripts/publish-mobelrondellen-soffbord-2026.js` från EC2 | **HÖG** | Ingen konkurrent har soffbord-köpguide — deploy NU medan innehållet är färskt |
+| **DEPLOY soffa-guide** (klar 2026-05-08 — **54 dagar!**): `node scripts/publish-mobelrondellen-soffa-2026.js` från EC2 | **HÖG** | Ingen konkurrent har soffa-köpguide — extrem fördröjning |
+| **DEPLOY utemöbler-guide** (klar 2026-05-29 — **33 dagar**): `node scripts/publish-mobelrondellen-utemobler-2026.js` från EC2 | **HÖG** | Royal Design kör Outdoor Sale t.o.m. 30 juli — 4 veckor kvar av kampanjperioden |
+| **DEPLOY bokhylla-guide** (klar 2026-06-15 — **16 dagar**): `node scripts/publish-mobelrondellen-bokhylla-2026.js` från EC2 | **HÖG** | Trademax tillbaka med "bäst i test"-guider (parasoll 30/6) men har INGEN bokhylla-guide |
+| Viktor: Implementera 9 internlänkar via WP-admin (EC2 krävs EJ) | **HÖG** | Trademax aktiv igen — Möbelrondellen behöver alla SEO-vinsterna vi kan ta utan EC2 |
+| FAQ-schema på guider (Rank Math) | Medel | Royal Design, Trademax, Furniturebox = noll FAQ-schema |
+
+**Ny konkurrensinsikt (2026-07-01)**: Trademax publicerade "Parasoll bäst i test 2026" den 30 juni — tillbaka från 4 månaders inaktivitet. Dock ENBART produktjämförelser ("bäst i test"), inte rådgivande köpguider. Möbelrondellens content-nisch är fortfarande fri. Royal Design kör Outdoor Sale till 30 juli — prispress pågår, rådgivande content är svar.
+
 ## Prioriterade uppgifter — Konkurrentbevakning 2026-06-24 (POST-MIDSOMMAR, SOMMAR PÅGÅR)
 
 | Uppgift | Prioritet | Källa |
