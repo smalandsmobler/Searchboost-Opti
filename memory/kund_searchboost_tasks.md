@@ -32,6 +32,13 @@ _Arkiveras — se v23-sammanfattning nedan._
 
 ---
 
+### Regressionscheck 2026-07-02 (onsdag) — blockerad
+> **Körning #34 i rad — fortfarande blockerad (11 veckor utan rankingdata)**
+
+_Ingen data — EC2 TLS-fel bekräftad live (HTTP→HTTPS, self-signed cert utan IP SAN), perispa_* ej auth, GOOGLE_APPLICATION_CREDENTIALS_JSON ej satt. Se lösning i v27-sammanfattningen nedan._
+
+---
+
 ### Regressionscheck 2026-07-01 (tisdag) — arkiverad
 > **Körning #33 i rad — fortfarande blockerad (11 veckor utan rankingdata)**
 
